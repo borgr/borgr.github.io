@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Label-Efficient Model Selection for Text Generation — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/">
+  <meta name="citation_title" content="Label-Efficient Model Selection for Text Generation">
+  <meta name="citation_author" content="Shir Ashury-Tahan">
+  <meta name="citation_author" content="Ariel Gera">
+  <meta name="citation_author" content="Benjamin Sznajder">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Liat Ein-Dor">
+  <meta name="citation_author" content="Eyal Shnarch">
+  <meta name="citation_publication_date" content="2024">
+  <meta name="citation_conference_title" content="Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), {ACL} 2024, Bangkok, Thailand, August 11-16, 2024">
+  <meta name="citation_doi" content="10.48550/ARXIV.2402.07891">
+  <meta name="citation_arxiv_id" content="2402.07891">
+  <meta name="citation_abstract" content="Model selection for a given target task can be costly, as it may entail extensive annotation of the quality of outputs of different models. We introduce DiffUse, an efficient method to make an informed decision between candidate text generation models based on preference annotations. DiffUse reduces the required amount of annotations, thus saving valuable time and resources in performing evaluation. DiffUse intelligently selects instances by clustering embeddings that represent the semantic differences between model outputs. Thus, it is able to identify a subset of examples that are more informative for preference decisions. Our method is model-agnostic, and can be applied to any text generation model for selecting between models, prompts and configurations. Moreover, we propose a practical iterative approach for dynamically determining how many instances to annotate. In a series of experiments over hundreds of model pairs, we demonstrate that DiffUse can dramatically reduce the required number of annotations -- by up to 75% -- while maintaining high evaluation reliability.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/#article",
+  "name": "Label-Efficient Model Selection for Text Generation",
+  "headline": "Label-Efficient Model Selection for Text Generation",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Shir Ashury-Tahan"
+    },
+    {
+      "@type": "Person",
+      "name": "Ariel Gera"
+    },
+    {
+      "@type": "Person",
+      "name": "Benjamin Sznajder"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Liat Ein-Dor"
+    },
+    {
+      "@type": "Person",
+      "name": "Eyal Shnarch"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2024",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), {ACL} 2024, Bangkok, Thailand, August 11-16, 2024"
+  },
+  "identifier": "https://doi.org/10.48550/ARXIV.2402.07891",
+  "abstract": "Model selection for a given target task can be costly, as it may entail extensive annotation of the quality of outputs of different models. We introduce DiffUse, an efficient method to make an informed decision between candidate text generation models based on preference annotations. DiffUse reduces the required amount of annotations, thus saving valuable time and resources in performing evaluation. DiffUse intelligently selects instances by clustering embeddings that represent the semantic differences between model outputs. Thus, it is able to identify a subset of examples that are more informative for preference decisions. Our method is model-agnostic, and can be applied to any text generation model for selecting between models, prompts and configurations. Moreover, we propose a practical iterative approach for dynamically determining how many instances to annotate. In a series of experiments over hundreds of model pairs, we demonstrate that DiffUse can dramatically reduce the required number of annotations -- by up to 75% -- while maintaining high evaluation reliability.",
+  "sameAs": [
+    "https://aclanthology.org/2024.acl-long.456",
+    "https://arxiv.org/abs/2402.07891",
+    "https://arxiv.org/html/2402.07891",
+    "https://arxiv.org/pdf/2402.07891",
+    "https://doi.org/10.48550/ARXIV.2402.07891",
+    "https://huggingface.co/papers/2402.07891",
+    "https://www.alphaxiv.org/abs/2402.07891",
+    "https://www.semanticscholar.org/paper/267627835"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>Label-Efficient Model Selection for Text Generation</h1>
+<p class="meta">Shir Ashury-Tahan, Ariel Gera, Benjamin Sznajder, Leshem Choshen, Liat Ein-Dor, Eyal Shnarch · Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), {ACL} 2024, Bangkok, Thailand, August 11-16, 2024 · 2024</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2402.07891">arXiv</a></li><li><a href="https://arxiv.org/pdf/2402.07891">PDF</a></li><li><a href="https://arxiv.org/html/2402.07891">HTML</a></li><li><a href="https://huggingface.co/papers/2402.07891">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2402.07891">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2402.07891">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/267627835">Semantic Scholar</a></li><li><a href="https://aclanthology.org/2024.acl-long.456">Publisher</a></li></ul>
+<h2>Abstract</h2>
+<p>Model selection for a given target task can be costly, as it may entail extensive annotation of the quality of outputs of different models. We introduce DiffUse, an efficient method to make an informed decision between candidate text generation models based on preference annotations. DiffUse reduces the required amount of annotations, thus saving valuable time and resources in performing evaluation. DiffUse intelligently selects instances by clustering embeddings that represent the semantic differences between model outputs. Thus, it is able to identify a subset of examples that are more informative for preference decisions. Our method is model-agnostic, and can be applied to any text generation model for selecting between models, prompts and configurations. Moreover, we propose a practical iterative approach for dynamically determining how many instances to annotate. In a series of experiments over hundreds of model pairs, we demonstrate that DiffUse can dramatically reduce the required number of annotations -- by up to 75% -- while maintaining high evaluation reliability.</p>
+<h2>How to cite</h2>
+<pre>@inproceedings{DBLP:conf/acl/Ashury-TahanGSC24,
+    pretitle={\COL\META\UND},author       = {Shir Ashury{-}Tahan and
+                  Ariel Gera and
+                  Benjamin Sznajder and
+                  Leshem Choshen and
+                  Liat Ein{-}Dor and
+                  Eyal Shnarch},
+  editor       = {Lun{-}Wei Ku and
+                  Andre Martins and
+                  Vivek Srikumar},
+  title        = {Label-Efficient Model Selection for Text Generation},
+  booktitle    = {Proceedings of the 62nd Annual Meeting of the Association for Computational
+                  Linguistics (Volume 1: Long Papers), {ACL} 2024, Bangkok, Thailand,
+                  August 11-16, 2024},
+  pages        = {8384--8402},
+  publisher    = {Association for Computational Linguistics},
+  year         = {2024},
+  url          = {https://aclanthology.org/2024.acl-long.456},
+  timestamp    = {Mon, 26 Aug 2024 16:40:51 +0200},
+  biburl       = {https://dblp.org/rec/conf/acl/Ashury-TahanGSC24.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2402.07891">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

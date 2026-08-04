@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cluster {\&amp;} Tune: Boost Cold Start Performance in Text Classification — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/">
+  <meta name="citation_title" content="Cluster {\&amp;} Tune: Boost Cold Start Performance in Text Classification">
+  <meta name="citation_author" content="Eyal Shnarch">
+  <meta name="citation_author" content="Ariel Gera">
+  <meta name="citation_author" content="Alon Halfon">
+  <meta name="citation_author" content="Lena Dankin">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Ranit Aharonov">
+  <meta name="citation_author" content="Noam Slonim">
+  <meta name="citation_publication_date" content="2022">
+  <meta name="citation_conference_title" content="Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), {ACL} 2022, Dublin, Ireland, May 22-27, 2022">
+  <meta name="citation_doi" content="10.18653/V1/2022.ACL-LONG.526">
+  <meta name="citation_arxiv_id" content="2203.10581">
+  <meta name="citation_abstract" content="In real-world scenarios, a text classification task often begins with a cold start, when labeled data is scarce. In such cases, the common practice of fine-tuning pre-trained models, such as BERT, for a target classification task, is prone to produce poor performance. We suggest a method to boost the performance of such models by adding an intermediate unsupervised classification task, between the pre-training and fine-tuning phases. As such an intermediate task, we perform clustering and train the pre-trained model on predicting the cluster labels.We test this hypothesis on various data sets, and show that this additional classification phase can significantly improve performance, mainly for topical classification tasks, when the number of labeled instances available for fine-tuning is only a couple of dozen to a few hundred.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/#article",
+  "name": "Cluster {\\&} Tune: Boost Cold Start Performance in Text Classification",
+  "headline": "Cluster {\\&} Tune: Boost Cold Start Performance in Text Classification",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Eyal Shnarch"
+    },
+    {
+      "@type": "Person",
+      "name": "Ariel Gera"
+    },
+    {
+      "@type": "Person",
+      "name": "Alon Halfon"
+    },
+    {
+      "@type": "Person",
+      "name": "Lena Dankin"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Ranit Aharonov"
+    },
+    {
+      "@type": "Person",
+      "name": "Noam Slonim"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2022",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), {ACL} 2022, Dublin, Ireland, May 22-27, 2022"
+  },
+  "identifier": "https://doi.org/10.18653/V1/2022.ACL-LONG.526",
+  "abstract": "In real-world scenarios, a text classification task often begins with a cold start, when labeled data is scarce. In such cases, the common practice of fine-tuning pre-trained models, such as BERT, for a target classification task, is prone to produce poor performance. We suggest a method to boost the performance of such models by adding an intermediate unsupervised classification task, between the pre-training and fine-tuning phases. As such an intermediate task, we perform clustering and train the pre-trained model on predicting the cluster labels.We test this hypothesis on various data sets, and show that this additional classification phase can significantly improve performance, mainly for topical classification tasks, when the number of labeled instances available for fine-tuning is only a couple of dozen to a few hundred.",
+  "sameAs": [
+    "https://aclanthology.org/2022.acl-long.526/",
+    "https://ar5iv.labs.arxiv.org/html/2203.10581",
+    "https://arxiv.org/abs/2203.10581",
+    "https://arxiv.org/pdf/2203.10581",
+    "https://doi.org/10.18653/V1/2022.ACL-LONG.526",
+    "https://doi.org/10.18653/v1/2022.acl-long.526",
+    "https://huggingface.co/papers/2203.10581",
+    "https://www.alphaxiv.org/abs/2203.10581",
+    "https://www.semanticscholar.org/paper/247594392"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>Cluster {\&amp;} Tune: Boost Cold Start Performance in Text Classification</h1>
+<p class="meta">Eyal Shnarch, Ariel Gera, Alon Halfon, Lena Dankin, Leshem Choshen, Ranit Aharonov, Noam Slonim · Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), {ACL} 2022, Dublin, Ireland, May 22-27, 2022 · 2022</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2203.10581">arXiv</a></li><li><a href="https://arxiv.org/pdf/2203.10581">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2203.10581">HTML</a></li><li><a href="https://huggingface.co/papers/2203.10581">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2203.10581">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2022.ACL-LONG.526">DOI</a></li><li><a href="https://aclanthology.org/2022.acl-long.526/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/247594392">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2022.acl-long.526">Publisher</a></li></ul>
+<h2>Abstract</h2>
+<p>In real-world scenarios, a text classification task often begins with a cold start, when labeled data is scarce. In such cases, the common practice of fine-tuning pre-trained models, such as BERT, for a target classification task, is prone to produce poor performance. We suggest a method to boost the performance of such models by adding an intermediate unsupervised classification task, between the pre-training and fine-tuning phases. As such an intermediate task, we perform clustering and train the pre-trained model on predicting the cluster labels.We test this hypothesis on various data sets, and show that this additional classification phase can significantly improve performance, mainly for topical classification tasks, when the number of labeled instances available for fine-tuning is only a couple of dozen to a few hundred.</p>
+<h2>How to cite</h2>
+<pre>@inproceedings{DBLP:conf/acl/ShnarchGHDCAS22,
+    pretitle={},author       = {Eyal Shnarch and
+                  Ariel Gera and
+                  Alon Halfon and
+                  Lena Dankin and
+                  Leshem Choshen and
+                  Ranit Aharonov and
+                  Noam Slonim},
+  editor       = {Smaranda Muresan and
+                  Preslav Nakov and
+                  Aline Villavicencio},
+  title        = {Cluster {\&amp;} Tune: Boost Cold Start Performance in Text Classification},
+  booktitle    = {Proceedings of the 60th Annual Meeting of the Association for Computational
+                  Linguistics (Volume 1: Long Papers), {ACL} 2022, Dublin, Ireland,
+                  May 22-27, 2022},
+  pages        = {7639--7653},
+  publisher    = {Association for Computational Linguistics},
+  year         = {2022},
+  url          = {https://doi.org/10.18653/v1/2022.acl-long.526},
+  doi          = {10.18653/V1/2022.ACL-LONG.526},
+  timestamp    = {Mon, 01 Aug 2022 01:00:00 +0200},
+  biburl       = {https://dblp.org/rec/conf/acl/ShnarchGHDCAS22.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://ar5iv.labs.arxiv.org/html/2203.10581">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

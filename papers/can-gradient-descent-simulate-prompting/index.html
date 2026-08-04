@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Can Gradient Descent Simulate Prompting? — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/can-gradient-descent-simulate-prompting/">
+  <meta name="citation_title" content="Can Gradient Descent Simulate Prompting?">
+  <meta name="citation_author" content="Eric Zhang">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Jacob Andreas">
+  <meta name="citation_publication_date" content="2025">
+  <meta name="citation_journal_title" content="arXiv preprint arXiv:2506.20989">
+  <meta name="citation_doi" content="10.48550/arXiv.2506.20989">
+  <meta name="citation_arxiv_id" content="2506.20989">
+  <meta name="citation_abstract" content="There are two primary ways of incorporating new information into a language model (LM): changing its prompt or changing its parameters, e.g. via fine-tuning. Parameter updates incur no long-term storage cost for model changes. However, for many model updates, prompting is significantly more effective: prompted models can generalize robustly from single examples and draw logical inferences that do not occur under standard fine-tuning. Can models be modified so that fine-tuning does emulate prompting? This paper describes a method for meta-training LMs such that gradient updates emulate the effects of conditioning on new information. Our approach uses tools from gradient-based meta-learning but uses an LM&#x27;s own prompted predictions as targets, eliminating the need for ground-truth labels. Subsequent gradient descent training recovers some (and occasionally all) of prompted model performance -- showing improvement on the ``reversal curse&#x27;&#x27;tasks, and answering questions about text passages after a single gradient update. These results suggest that, with appropriate initialization, gradient descent can be surprisingly expressive. Our results suggest new avenues for long-context modeling and offer insight into the generalization capabilities of gradient-based learning.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/can-gradient-descent-simulate-prompting/#article",
+  "name": "Can Gradient Descent Simulate Prompting?",
+  "headline": "Can Gradient Descent Simulate Prompting?",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Eric Zhang"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Jacob Andreas"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2025",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "arXiv preprint arXiv:2506.20989"
+  },
+  "identifier": "https://doi.org/10.48550/arXiv.2506.20989",
+  "abstract": "There are two primary ways of incorporating new information into a language model (LM): changing its prompt or changing its parameters, e.g. via fine-tuning. Parameter updates incur no long-term storage cost for model changes. However, for many model updates, prompting is significantly more effective: prompted models can generalize robustly from single examples and draw logical inferences that do not occur under standard fine-tuning. Can models be modified so that fine-tuning does emulate prompting? This paper describes a method for meta-training LMs such that gradient updates emulate the effects of conditioning on new information. Our approach uses tools from gradient-based meta-learning but uses an LM's own prompted predictions as targets, eliminating the need for ground-truth labels. Subsequent gradient descent training recovers some (and occasionally all) of prompted model performance -- showing improvement on the ``reversal curse''tasks, and answering questions about text passages after a single gradient update. These results suggest that, with appropriate initialization, gradient descent can be surprisingly expressive. Our results suggest new avenues for long-context modeling and offer insight into the generalization capabilities of gradient-based learning.",
+  "sameAs": [
+    "https://arxiv.org/abs/2506.20989",
+    "https://arxiv.org/html/2506.20989",
+    "https://arxiv.org/pdf/2506.20989",
+    "https://doi.org/10.48550/arXiv.2506.20989",
+    "https://huggingface.co/papers/2506.20989",
+    "https://www.alphaxiv.org/abs/2506.20989",
+    "https://www.semanticscholar.org/paper/280012277"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>Can Gradient Descent Simulate Prompting?</h1>
+<p class="meta">Eric Zhang, Leshem Choshen, Jacob Andreas · arXiv preprint arXiv:2506.20989 · 2025</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2506.20989">arXiv</a></li><li><a href="https://arxiv.org/pdf/2506.20989">PDF</a></li><li><a href="https://arxiv.org/html/2506.20989">HTML</a></li><li><a href="https://huggingface.co/papers/2506.20989">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2506.20989">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2506.20989">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/280012277">Semantic Scholar</a></li></ul>
+<h2>Abstract</h2>
+<p>There are two primary ways of incorporating new information into a language model (LM): changing its prompt or changing its parameters, e.g. via fine-tuning. Parameter updates incur no long-term storage cost for model changes. However, for many model updates, prompting is significantly more effective: prompted models can generalize robustly from single examples and draw logical inferences that do not occur under standard fine-tuning. Can models be modified so that fine-tuning does emulate prompting? This paper describes a method for meta-training LMs such that gradient updates emulate the effects of conditioning on new information. Our approach uses tools from gradient-based meta-learning but uses an LM&#x27;s own prompted predictions as targets, eliminating the need for ground-truth labels. Subsequent gradient descent training recovers some (and occasionally all) of prompted model performance -- showing improvement on the ``reversal curse&#x27;&#x27;tasks, and answering questions about text passages after a single gradient update. These results suggest that, with appropriate initialization, gradient descent can be surprisingly expressive. Our results suggest new avenues for long-context modeling and offer insight into the generalization capabilities of gradient-based learning.</p>
+<h2>How to cite</h2>
+<pre>@article{zhang2025can,
+    pretitle={\UND},
+  title={Can Gradient Descent Simulate Prompting?},
+  author={Zhang, Eric and Choshen, Leshem and Andreas, Jacob},
+  journal={arXiv preprint arXiv:2506.20989},
+  year={2025}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2506.20989">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

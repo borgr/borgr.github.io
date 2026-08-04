@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Efficient multi-prompt evaluation of LLMs — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/efficient-multi-prompt-evaluation-of-llms/">
+  <meta name="citation_title" content="Efficient multi-prompt evaluation of LLMs">
+  <meta name="citation_author" content="Felipe Maia Polo">
+  <meta name="citation_author" content="Ronald Xu">
+  <meta name="citation_author" content="Lucas Weber">
+  <meta name="citation_author" content="M\&#x27;\irian Silva">
+  <meta name="citation_author" content="Onkar Bhardwaj">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Allysson Flavio Melo de Oliveira">
+  <meta name="citation_author" content="Yuekai Sun">
+  <meta name="citation_author" content="Mikhail Yurochkin">
+  <meta name="citation_publication_date" content="2024">
+  <meta name="citation_conference_title" content="The Thirty-eighth Annual Conference on Neural Information Processing Systems">
+  <meta name="citation_doi" content="10.48550/ARXIV.2405.17202">
+  <meta name="citation_arxiv_id" content="2405.17202">
+  <meta name="citation_abstract" content="Most popular benchmarks for comparing LLMs rely on a limited set of prompt templates, which may not fully capture the LLMs&#x27; abilities and can affect the reproducibility of results on leaderboards. Many recent works empirically verify prompt sensitivity and advocate for changes in LLM evaluation. In this paper, we consider the problem of estimating the performance distribution across many prompt variants instead of finding a single prompt to evaluate with. We introduce PromptEval, a method for estimating performance across a large set of prompts borrowing strength across prompts and examples to produce accurate estimates under practical evaluation budgets. The resulting distribution can be used to obtain performance quantiles to construct various robust performance metrics (e.g., top 95% quantile or median). We prove that PromptEval consistently estimates the performance distribution and demonstrate its efficacy empirically on three prominent LLM benchmarks: MMLU, BIG-bench Hard, and LMentry; for example, PromptEval can accurately estimate performance quantiles across 100 prompt templates on MMLU with a budget equivalent to two single-prompt evaluations. Moreover, we show how PromptEval can be useful in LLM-as-a-judge and best prompt identification applications.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/efficient-multi-prompt-evaluation-of-llms/#article",
+  "name": "Efficient multi-prompt evaluation of LLMs",
+  "headline": "Efficient multi-prompt evaluation of LLMs",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Felipe Maia Polo"
+    },
+    {
+      "@type": "Person",
+      "name": "Ronald Xu"
+    },
+    {
+      "@type": "Person",
+      "name": "Lucas Weber"
+    },
+    {
+      "@type": "Person",
+      "name": "M\\'\\irian Silva"
+    },
+    {
+      "@type": "Person",
+      "name": "Onkar Bhardwaj"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Allysson Flavio Melo de Oliveira"
+    },
+    {
+      "@type": "Person",
+      "name": "Yuekai Sun"
+    },
+    {
+      "@type": "Person",
+      "name": "Mikhail Yurochkin"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2024",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "The Thirty-eighth Annual Conference on Neural Information Processing Systems"
+  },
+  "identifier": "https://doi.org/10.48550/ARXIV.2405.17202",
+  "abstract": "Most popular benchmarks for comparing LLMs rely on a limited set of prompt templates, which may not fully capture the LLMs' abilities and can affect the reproducibility of results on leaderboards. Many recent works empirically verify prompt sensitivity and advocate for changes in LLM evaluation. In this paper, we consider the problem of estimating the performance distribution across many prompt variants instead of finding a single prompt to evaluate with. We introduce PromptEval, a method for estimating performance across a large set of prompts borrowing strength across prompts and examples to produce accurate estimates under practical evaluation budgets. The resulting distribution can be used to obtain performance quantiles to construct various robust performance metrics (e.g., top 95% quantile or median). We prove that PromptEval consistently estimates the performance distribution and demonstrate its efficacy empirically on three prominent LLM benchmarks: MMLU, BIG-bench Hard, and LMentry; for example, PromptEval can accurately estimate performance quantiles across 100 prompt templates on MMLU with a budget equivalent to two single-prompt evaluations. Moreover, we show how PromptEval can be useful in LLM-as-a-judge and best prompt identification applications.",
+  "sameAs": [
+    "https://arxiv.org/abs/2405.17202",
+    "https://arxiv.org/html/2405.17202",
+    "https://arxiv.org/pdf/2405.17202",
+    "https://doi.org/10.48550/ARXIV.2405.17202",
+    "https://doi.org/10.48550/arXiv.2405.17202",
+    "https://huggingface.co/papers/2405.17202",
+    "https://www.alphaxiv.org/abs/2405.17202",
+    "https://www.semanticscholar.org/paper/270062938"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>Efficient multi-prompt evaluation of LLMs</h1>
+<p class="meta">Felipe Maia Polo, Ronald Xu, Lucas Weber, M\&#x27;\irian Silva, Onkar Bhardwaj, Leshem Choshen, Allysson Flavio Melo de Oliveira, Yuekai Sun, Mikhail Yurochkin · The Thirty-eighth Annual Conference on Neural Information Processing Systems · 2024</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2405.17202">arXiv</a></li><li><a href="https://arxiv.org/pdf/2405.17202">PDF</a></li><li><a href="https://arxiv.org/html/2405.17202">HTML</a></li><li><a href="https://huggingface.co/papers/2405.17202">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2405.17202">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2405.17202">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/270062938">Semantic Scholar</a></li><li><a href="https://doi.org/10.48550/arXiv.2405.17202">Publisher</a></li></ul>
+<h2>Abstract</h2>
+<p>Most popular benchmarks for comparing LLMs rely on a limited set of prompt templates, which may not fully capture the LLMs&#x27; abilities and can affect the reproducibility of results on leaderboards. Many recent works empirically verify prompt sensitivity and advocate for changes in LLM evaluation. In this paper, we consider the problem of estimating the performance distribution across many prompt variants instead of finding a single prompt to evaluate with. We introduce PromptEval, a method for estimating performance across a large set of prompts borrowing strength across prompts and examples to produce accurate estimates under practical evaluation budgets. The resulting distribution can be used to obtain performance quantiles to construct various robust performance metrics (e.g., top 95% quantile or median). We prove that PromptEval consistently estimates the performance distribution and demonstrate its efficacy empirically on three prominent LLM benchmarks: MMLU, BIG-bench Hard, and LMentry; for example, PromptEval can accurately estimate performance quantiles across 100 prompt templates on MMLU with a budget equivalent to two single-prompt evaluations. Moreover, we show how PromptEval can be useful in LLM-as-a-judge and best prompt identification applications.</p>
+<h2>How to cite</h2>
+<pre>@inproceedings{poloefficient,
+    pretitle={\META\UND},
+  title={Efficient multi-prompt evaluation of LLMs},
+  author={Polo, Felipe Maia and Xu, Ronald and Weber, Lucas and Silva, M{\&#x27;\i}rian and Bhardwaj, Onkar and Choshen, Leshem and de Oliveira, Allysson Flavio Melo and Sun, Yuekai and Yurochkin, Mikhail},
+  booktitle={The Thirty-eighth Annual Conference on Neural Information Processing Systems},
+  year={2024},
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2405.17202">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

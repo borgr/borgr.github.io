@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Heuristic Core: Understanding Subnetwork Generalization in Pretrained Language Models — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/the-heuristic-core-understanding-subnetwork-generalization-i/">
+  <meta name="citation_title" content="The Heuristic Core: Understanding Subnetwork Generalization in Pretrained Language Models">
+  <meta name="citation_author" content="Adithya Bhaskar">
+  <meta name="citation_author" content="Dan Friedman">
+  <meta name="citation_author" content="Danqi Chen">
+  <meta name="citation_publication_date" content="2024">
+  <meta name="citation_conference_title" content="Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)">
+  <meta name="citation_doi" content="10.18653/v1/2024.acl-long.774">
+  <meta name="citation_abstract" content="Prior work has found that pretrained language models (LMs) fine-tuned with different random seeds can achieve similar in-domain performance but generalize differently on tests of syntactic generalization. In this work, we show that, even within a single model, we can find multiple subnetworks that perform similarly in-domain, but generalize vastly differently. To better understand these phenomena, we investigate if they can be understood in terms of {``}competing subnetworks{\&#x27;&#x27;}: the model initially represents a variety of distinct algorithms, corresponding to different subnetworks, and generalization occurs when it ultimately converges to one. This explanation has been used to account for generalization in simple algorithmic tasks ({``}grokking{\&#x27;&#x27;}). Instead of finding competing subnetworks, we find that all subnetworks{---}whether they generalize or not{---}share a set of attention heads, which we refer to as the {\_}heuristic core{\_}. Further analysis suggests that these attention heads emerge early in training and compute shallow, non-generalizing features. The model learns to generalize by incorporating additional attention heads, which depend on the outputs of the {``}heuristic{\&#x27;&#x27;} heads to compute higher-level features. Overall, our results offer a more detailed picture of the mechanisms for syntactic generalization in pre-trained LMs.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/the-heuristic-core-understanding-subnetwork-generalization-i/#article",
+  "name": "The Heuristic Core: Understanding Subnetwork Generalization in Pretrained Language Models",
+  "headline": "The Heuristic Core: Understanding Subnetwork Generalization in Pretrained Language Models",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Adithya Bhaskar"
+    },
+    {
+      "@type": "Person",
+      "name": "Dan Friedman"
+    },
+    {
+      "@type": "Person",
+      "name": "Danqi Chen"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2024",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)"
+  },
+  "identifier": "https://doi.org/10.18653/v1/2024.acl-long.774",
+  "abstract": "Prior work has found that pretrained language models (LMs) fine-tuned with different random seeds can achieve similar in-domain performance but generalize differently on tests of syntactic generalization. In this work, we show that, even within a single model, we can find multiple subnetworks that perform similarly in-domain, but generalize vastly differently. To better understand these phenomena, we investigate if they can be understood in terms of {``}competing subnetworks{\\''}: the model initially represents a variety of distinct algorithms, corresponding to different subnetworks, and generalization occurs when it ultimately converges to one. This explanation has been used to account for generalization in simple algorithmic tasks ({``}grokking{\\''}). Instead of finding competing subnetworks, we find that all subnetworks{---}whether they generalize or not{---}share a set of attention heads, which we refer to as the {\\_}heuristic core{\\_}. Further analysis suggests that these attention heads emerge early in training and compute shallow, non-generalizing features. The model learns to generalize by incorporating additional attention heads, which depend on the outputs of the {``}heuristic{\\''} heads to compute higher-level features. Overall, our results offer a more detailed picture of the mechanisms for syntactic generalization in pre-trained LMs.",
+  "sameAs": [
+    "https://aclanthology.org/2024.acl-long.774",
+    "https://doi.org/10.18653/v1/2024.acl-long.774"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>The Heuristic Core: Understanding Subnetwork Generalization in Pretrained Language Models</h1>
+<p class="meta">Adithya Bhaskar, Dan Friedman, Danqi Chen · Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) · 2024</p>
+<ul class="links"><li><a href="https://doi.org/10.18653/v1/2024.acl-long.774">DOI</a></li><li><a href="https://aclanthology.org/2024.acl-long.774">Publisher</a></li></ul>
+<h2>Abstract</h2>
+<p>Prior work has found that pretrained language models (LMs) fine-tuned with different random seeds can achieve similar in-domain performance but generalize differently on tests of syntactic generalization. In this work, we show that, even within a single model, we can find multiple subnetworks that perform similarly in-domain, but generalize vastly differently. To better understand these phenomena, we investigate if they can be understood in terms of {``}competing subnetworks{\&#x27;&#x27;}: the model initially represents a variety of distinct algorithms, corresponding to different subnetworks, and generalization occurs when it ultimately converges to one. This explanation has been used to account for generalization in simple algorithmic tasks ({``}grokking{\&#x27;&#x27;}). Instead of finding competing subnetworks, we find that all subnetworks{---}whether they generalize or not{---}share a set of attention heads, which we refer to as the {\_}heuristic core{\_}. Further analysis suggests that these attention heads emerge early in training and compute shallow, non-generalizing features. The model learns to generalize by incorporating additional attention heads, which depend on the outputs of the {``}heuristic{\&#x27;&#x27;} heads to compute higher-level features. Overall, our results offer a more detailed picture of the mechanisms for syntactic generalization in pre-trained LMs.</p>
+<h2>How to cite</h2>
+<pre>@inproceedings{bhaskar-etal-2024-heuristic,
+    title = &quot;The Heuristic Core: Understanding Subnetwork Generalization in Pretrained Language Models&quot;,
+    author = &quot;Bhaskar, Adithya  and
+      Friedman, Dan  and
+      Chen, Danqi&quot;,
+    editor = &quot;Ku, Lun-Wei  and
+      Martins, Andre  and
+      Srikumar, Vivek&quot;,
+    booktitle = &quot;Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)&quot;,
+    month = aug,
+    year = &quot;2024&quot;,
+    address = &quot;Bangkok, Thailand&quot;,
+    publisher = &quot;Association for Computational Linguistics&quot;,
+    url = &quot;https://aclanthology.org/2024.acl-long.774&quot;,
+    doi = &quot;10.18653/v1/2024.acl-long.774&quot;,
+    pages = &quot;14351--14368&quot;,
+    abstract = &quot;Prior work has found that pretrained language models (LMs) fine-tuned with different random seeds can achieve similar in-domain performance but generalize differently on tests of syntactic generalization. In this work, we show that, even within a single model, we can find multiple subnetworks that perform similarly in-domain, but generalize vastly differently. To better understand these phenomena, we investigate if they can be understood in terms of {``}competing subnetworks{\&#x27;&#x27;}: the model initially represents a variety of distinct algorithms, corresponding to different subnetworks, and generalization occurs when it ultimately converges to one. This explanation has been used to account for generalization in simple algorithmic tasks ({``}grokking{\&#x27;&#x27;}). Instead of finding competing subnetworks, we find that all subnetworks{---}whether they generalize or not{---}share a set of attention heads, which we refer to as the {\_}heuristic core{\_}. Further analysis suggests that these attention heads emerge early in training and compute shallow, non-generalizing features. The model learns to generalize by incorporating additional attention heads, which depend on the outputs of the {``}heuristic{\&#x27;&#x27;} heads to compute higher-level features. Overall, our results offer a more detailed picture of the mechanisms for syntactic generalization in pre-trained LMs.&quot;,
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://borgr.github.io/papers/the-heuristic-core-understanding-subnetwork-generalization-i/">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

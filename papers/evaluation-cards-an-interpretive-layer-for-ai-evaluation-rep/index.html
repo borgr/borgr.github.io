@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/evaluation-cards-an-interpretive-layer-for-ai-evaluation-rep/">
+  <meta name="citation_title" content="Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting">
+  <meta name="citation_author" content="Avijit Ghosh">
+  <meta name="citation_author" content="Anka Reuel">
+  <meta name="citation_author" content="Jenny Chim">
+  <meta name="citation_author" content="Wm. Matthew Kennedy">
+  <meta name="citation_author" content="Srishti Yadav">
+  <meta name="citation_author" content="Jennifer Mickel">
+  <meta name="citation_author" content="Yanan Long">
+  <meta name="citation_author" content="Andrew Tran">
+  <meta name="citation_author" content="A. Kornilova">
+  <meta name="citation_author" content="Damian Stachura">
+  <meta name="citation_author" content="Kevin Klyman">
+  <meta name="citation_author" content="F. Friedrich">
+  <meta name="citation_author" content="Jeba Sania">
+  <meta name="citation_author" content="Max Lamparth">
+  <meta name="citation_author" content="Jan Batzner">
+  <meta name="citation_author" content="Anoop Mishra">
+  <meta name="citation_author" content="Eliya Habba">
+  <meta name="citation_author" content="Yixiong Hao">
+  <meta name="citation_author" content="N. Heath">
+  <meta name="citation_author" content="Shalaleh Rismani">
+  <meta name="citation_author" content="Usman Gohar">
+  <meta name="citation_author" content="Andreas Loehr">
+  <meta name="citation_author" content="David Manheim">
+  <meta name="citation_author" content="Ruchira Dhar">
+  <meta name="citation_author" content="Sree Harsha Nelaturu">
+  <meta name="citation_author" content="Aarush Sinha">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Drishti Sharma">
+  <meta name="citation_author" content="I. Khire">
+  <meta name="citation_author" content="Amit Saha">
+  <meta name="citation_author" content="Subramanyam Sahoo">
+  <meta name="citation_author" content="Michael Hardy">
+  <meta name="citation_author" content="Michael A. Riegler">
+  <meta name="citation_author" content="Kabir Manghnani">
+  <meta name="citation_author" content="M. Lin">
+  <meta name="citation_author" content="Yanan Jiang">
+  <meta name="citation_author" content="Yilin Huang">
+  <meta name="citation_author" content="Asaf Yehudai">
+  <meta name="citation_author" content="Jessica Ji">
+  <meta name="citation_author" content="A. Hofmann">
+  <meta name="citation_author" content="Mubashara Akhtar">
+  <meta name="citation_author" content="Nuno Moniz">
+  <meta name="citation_author" content="Yacine Jernite">
+  <meta name="citation_author" content="Stella Biderman">
+  <meta name="citation_author" content="Zeerak Ta-lat">
+  <meta name="citation_author" content="Sanmi Koyejo">
+  <meta name="citation_author" content="M. Kochenderfer">
+  <meta name="citation_author" content="Irene Solaiman">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_arxiv_id" content="2606.09809">
+  <meta name="citation_abstract" content="AI evaluation results are produced at scale but reported inconsistently across leaderboards, model cards, benchmark papers, and company blogs. The cost is interpretive: readers cannot reliably compare results across sources, identify what a report omits, or trace an aggregate claim to its underlying evidence. Recent efforts address isolated components but leave three gaps: they cover only narrow slices of the evaluation lifecycle and do not compose into a single interpretable record; they specify static representations that do not differentiate the questions different stakeholders bring to the same evidence; and they remain proposals on paper, lacking the extraction infrastructure required for adoption at scale. We present \EvalCards{}, an operational reporting layer that composes benchmark metadata, evaluation run data, and model metadata into a unified record. We (1) derive a reporting schema from a structured review of 52 papers and 10 stakeholder interviews, (2) implement four interpretive signals (reproducibility, documentation completeness, provenance and risk, and score comparability), rendered through reader modes calibrated to research and non-research audiences, and (3) deploy a monitoring tool that applies \EvalCards{} across 5,816 models, 635 benchmarks, and 101,843 results, surfacing systematic gaps in current reporting practice.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/evaluation-cards-an-interpretive-layer-for-ai-evaluation-rep/#article",
+  "name": "Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting",
+  "headline": "Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Avijit Ghosh"
+    },
+    {
+      "@type": "Person",
+      "name": "Anka Reuel"
+    },
+    {
+      "@type": "Person",
+      "name": "Jenny Chim"
+    },
+    {
+      "@type": "Person",
+      "name": "Wm. Matthew Kennedy"
+    },
+    {
+      "@type": "Person",
+      "name": "Srishti Yadav"
+    },
+    {
+      "@type": "Person",
+      "name": "Jennifer Mickel"
+    },
+    {
+      "@type": "Person",
+      "name": "Yanan Long"
+    },
+    {
+      "@type": "Person",
+      "name": "Andrew Tran"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Kornilova"
+    },
+    {
+      "@type": "Person",
+      "name": "Damian Stachura"
+    },
+    {
+      "@type": "Person",
+      "name": "Kevin Klyman"
+    },
+    {
+      "@type": "Person",
+      "name": "F. Friedrich"
+    },
+    {
+      "@type": "Person",
+      "name": "Jeba Sania"
+    },
+    {
+      "@type": "Person",
+      "name": "Max Lamparth"
+    },
+    {
+      "@type": "Person",
+      "name": "Jan Batzner"
+    },
+    {
+      "@type": "Person",
+      "name": "Anoop Mishra"
+    },
+    {
+      "@type": "Person",
+      "name": "Eliya Habba"
+    },
+    {
+      "@type": "Person",
+      "name": "Yixiong Hao"
+    },
+    {
+      "@type": "Person",
+      "name": "N. Heath"
+    },
+    {
+      "@type": "Person",
+      "name": "Shalaleh Rismani"
+    },
+    {
+      "@type": "Person",
+      "name": "Usman Gohar"
+    },
+    {
+      "@type": "Person",
+      "name": "Andreas Loehr"
+    },
+    {
+      "@type": "Person",
+      "name": "David Manheim"
+    },
+    {
+      "@type": "Person",
+      "name": "Ruchira Dhar"
+    },
+    {
+      "@type": "Person",
+      "name": "Sree Harsha Nelaturu"
+    },
+    {
+      "@type": "Person",
+      "name": "Aarush Sinha"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Drishti Sharma"
+    },
+    {
+      "@type": "Person",
+      "name": "I. Khire"
+    },
+    {
+      "@type": "Person",
+      "name": "Amit Saha"
+    },
+    {
+      "@type": "Person",
+      "name": "Subramanyam Sahoo"
+    },
+    {
+      "@type": "Person",
+      "name": "Michael Hardy"
+    },
+    {
+      "@type": "Person",
+      "name": "Michael A. Riegler"
+    },
+    {
+      "@type": "Person",
+      "name": "Kabir Manghnani"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Lin"
+    },
+    {
+      "@type": "Person",
+      "name": "Yanan Jiang"
+    },
+    {
+      "@type": "Person",
+      "name": "Yilin Huang"
+    },
+    {
+      "@type": "Person",
+      "name": "Asaf Yehudai"
+    },
+    {
+      "@type": "Person",
+      "name": "Jessica Ji"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Hofmann"
+    },
+    {
+      "@type": "Person",
+      "name": "Mubashara Akhtar"
+    },
+    {
+      "@type": "Person",
+      "name": "Nuno Moniz"
+    },
+    {
+      "@type": "Person",
+      "name": "Yacine Jernite"
+    },
+    {
+      "@type": "Person",
+      "name": "Stella Biderman"
+    },
+    {
+      "@type": "Person",
+      "name": "Zeerak Ta-lat"
+    },
+    {
+      "@type": "Person",
+      "name": "Sanmi Koyejo"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Kochenderfer"
+    },
+    {
+      "@type": "Person",
+      "name": "Irene Solaiman"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2026",
+  "abstract": "AI evaluation results are produced at scale but reported inconsistently across leaderboards, model cards, benchmark papers, and company blogs. The cost is interpretive: readers cannot reliably compare results across sources, identify what a report omits, or trace an aggregate claim to its underlying evidence. Recent efforts address isolated components but leave three gaps: they cover only narrow slices of the evaluation lifecycle and do not compose into a single interpretable record; they specify static representations that do not differentiate the questions different stakeholders bring to the same evidence; and they remain proposals on paper, lacking the extraction infrastructure required for adoption at scale. We present \\EvalCards{}, an operational reporting layer that composes benchmark metadata, evaluation run data, and model metadata into a unified record. We (1) derive a reporting schema from a structured review of 52 papers and 10 stakeholder interviews, (2) implement four interpretive signals (reproducibility, documentation completeness, provenance and risk, and score comparability), rendered through reader modes calibrated to research and non-research audiences, and (3) deploy a monitoring tool that applies \\EvalCards{} across 5,816 models, 635 benchmarks, and 101,843 results, surfacing systematic gaps in current reporting practice.",
+  "sameAs": [
+    "https://arxiv.org/abs/2606.09809",
+    "https://arxiv.org/html/2606.09809",
+    "https://arxiv.org/pdf/2606.09809",
+    "https://huggingface.co/papers/2606.09809",
+    "https://www.alphaxiv.org/abs/2606.09809",
+    "https://www.semanticscholar.org/paper/289098621"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting</h1>
+<p class="meta">Avijit Ghosh, Anka Reuel, Jenny Chim, Wm. Matthew Kennedy, Srishti Yadav, Jennifer Mickel, Yanan Long, Andrew Tran, A. Kornilova, Damian Stachura, Kevin Klyman, F. Friedrich, Jeba Sania, Max Lamparth, Jan Batzner, Anoop Mishra, Eliya Habba, Yixiong Hao, N. Heath, Shalaleh Rismani, Usman Gohar, Andreas Loehr, David Manheim, Ruchira Dhar, Sree Harsha Nelaturu, Aarush Sinha, Leshem Choshen, Drishti Sharma, I. Khire, Amit Saha, Subramanyam Sahoo, Michael Hardy, Michael A. Riegler, Kabir Manghnani, M. Lin, Yanan Jiang, Yilin Huang, Asaf Yehudai, Jessica Ji, A. Hofmann, Mubashara Akhtar, Nuno Moniz, Yacine Jernite, Stella Biderman, Zeerak Ta-lat, Sanmi Koyejo, M. Kochenderfer, Irene Solaiman · 2026</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2606.09809">arXiv</a></li><li><a href="https://arxiv.org/pdf/2606.09809">PDF</a></li><li><a href="https://arxiv.org/html/2606.09809">HTML</a></li><li><a href="https://huggingface.co/papers/2606.09809">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2606.09809">alphaXiv</a></li><li><a href="https://www.semanticscholar.org/paper/289098621">Semantic Scholar</a></li></ul>
+<h2>Abstract</h2>
+<p>AI evaluation results are produced at scale but reported inconsistently across leaderboards, model cards, benchmark papers, and company blogs. The cost is interpretive: readers cannot reliably compare results across sources, identify what a report omits, or trace an aggregate claim to its underlying evidence. Recent efforts address isolated components but leave three gaps: they cover only narrow slices of the evaluation lifecycle and do not compose into a single interpretable record; they specify static representations that do not differentiate the questions different stakeholders bring to the same evidence; and they remain proposals on paper, lacking the extraction infrastructure required for adoption at scale. We present \EvalCards{}, an operational reporting layer that composes benchmark metadata, evaluation run data, and model metadata into a unified record. We (1) derive a reporting schema from a structured review of 52 papers and 10 stakeholder interviews, (2) implement four interpretive signals (reproducibility, documentation completeness, provenance and risk, and score comparability), rendered through reader modes calibrated to research and non-research audiences, and (3) deploy a monitoring tool that applies \EvalCards{} across 5,816 models, 635 benchmarks, and 101,843 results, surfacing systematic gaps in current reporting practice.</p>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2606.09809">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

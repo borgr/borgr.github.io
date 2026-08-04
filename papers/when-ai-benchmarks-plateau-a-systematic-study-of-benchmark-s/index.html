@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>When AI Benchmarks Plateau: A Systematic Study of Benchmark Saturation — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/when-ai-benchmarks-plateau-a-systematic-study-of-benchmark-s/">
+  <meta name="citation_title" content="When AI Benchmarks Plateau: A Systematic Study of Benchmark Saturation">
+  <meta name="citation_author" content="Mubashara Akhtar">
+  <meta name="citation_author" content="Anka Reuel">
+  <meta name="citation_author" content="Prajna Soni">
+  <meta name="citation_author" content="Sanchit Ahuja">
+  <meta name="citation_author" content="Pawan Sasanka Ammanamanchi">
+  <meta name="citation_author" content="Ruchit Rawal">
+  <meta name="citation_author" content="Vilém Zouhar">
+  <meta name="citation_author" content="Srishti Yadav">
+  <meta name="citation_author" content="Chenxi Whitehouse">
+  <meta name="citation_author" content="Dayeon Ki">
+  <meta name="citation_author" content="Jennifer Mickel">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Marek Šuppa">
+  <meta name="citation_author" content="Jan Batzner">
+  <meta name="citation_author" content="Jenny Chim">
+  <meta name="citation_author" content="Jeba Sania">
+  <meta name="citation_author" content="Yanan Long">
+  <meta name="citation_author" content="Hossein A. Rahmani">
+  <meta name="citation_author" content="Christina Knight">
+  <meta name="citation_author" content="Yiyang Nan">
+  <meta name="citation_author" content="Jyoutir Raj">
+  <meta name="citation_author" content="Yu Fan">
+  <meta name="citation_author" content="Shubham Singh">
+  <meta name="citation_author" content="Subramanyam Sahoo">
+  <meta name="citation_author" content="Eliya Habba">
+  <meta name="citation_author" content="Usman Gohar">
+  <meta name="citation_author" content="Siddhesh Pawar">
+  <meta name="citation_author" content="Robert Scholz">
+  <meta name="citation_author" content="Arjun Subramonian">
+  <meta name="citation_author" content="Jingwei Ni">
+  <meta name="citation_author" content="Mykel Kochenderfer">
+  <meta name="citation_author" content="Sanmi Koyejo">
+  <meta name="citation_author" content="Mrinmaya Sachan">
+  <meta name="citation_author" content="Stella Biderman">
+  <meta name="citation_author" content="Zeerak Talat">
+  <meta name="citation_author" content="Avijit Ghosh">
+  <meta name="citation_author" content="Irene Solaiman">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_doi" content="10.48550/arXiv.2602.16763">
+  <meta name="citation_arxiv_id" content="2602.16763">
+  <meta name="citation_abstract" content="Artificial intelligence benchmarks are an important mechanism for measuring model progress and guiding deployment decisions. However, benchmarks quickly&quot;saturate&quot;, making it difficult to differentiate models and diminishing their long-term value. In this study, we define benchmark saturation and analyze it across 60 language model benchmarks using 14 properties that relate to saturation. We find that nearly half of the our benchmarks exhibit saturation, with rates increasing with age. Further, we find that resilience to saturation is impacted by expert-curation, not by public test data. Our results suggest that design choices can extend benchmark longevity and inform more durable evaluation approaches.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/when-ai-benchmarks-plateau-a-systematic-study-of-benchmark-s/#article",
+  "name": "When AI Benchmarks Plateau: A Systematic Study of Benchmark Saturation",
+  "headline": "When AI Benchmarks Plateau: A Systematic Study of Benchmark Saturation",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Mubashara Akhtar"
+    },
+    {
+      "@type": "Person",
+      "name": "Anka Reuel"
+    },
+    {
+      "@type": "Person",
+      "name": "Prajna Soni"
+    },
+    {
+      "@type": "Person",
+      "name": "Sanchit Ahuja"
+    },
+    {
+      "@type": "Person",
+      "name": "Pawan Sasanka Ammanamanchi"
+    },
+    {
+      "@type": "Person",
+      "name": "Ruchit Rawal"
+    },
+    {
+      "@type": "Person",
+      "name": "Vilém Zouhar"
+    },
+    {
+      "@type": "Person",
+      "name": "Srishti Yadav"
+    },
+    {
+      "@type": "Person",
+      "name": "Chenxi Whitehouse"
+    },
+    {
+      "@type": "Person",
+      "name": "Dayeon Ki"
+    },
+    {
+      "@type": "Person",
+      "name": "Jennifer Mickel"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Marek Šuppa"
+    },
+    {
+      "@type": "Person",
+      "name": "Jan Batzner"
+    },
+    {
+      "@type": "Person",
+      "name": "Jenny Chim"
+    },
+    {
+      "@type": "Person",
+      "name": "Jeba Sania"
+    },
+    {
+      "@type": "Person",
+      "name": "Yanan Long"
+    },
+    {
+      "@type": "Person",
+      "name": "Hossein A. Rahmani"
+    },
+    {
+      "@type": "Person",
+      "name": "Christina Knight"
+    },
+    {
+      "@type": "Person",
+      "name": "Yiyang Nan"
+    },
+    {
+      "@type": "Person",
+      "name": "Jyoutir Raj"
+    },
+    {
+      "@type": "Person",
+      "name": "Yu Fan"
+    },
+    {
+      "@type": "Person",
+      "name": "Shubham Singh"
+    },
+    {
+      "@type": "Person",
+      "name": "Subramanyam Sahoo"
+    },
+    {
+      "@type": "Person",
+      "name": "Eliya Habba"
+    },
+    {
+      "@type": "Person",
+      "name": "Usman Gohar"
+    },
+    {
+      "@type": "Person",
+      "name": "Siddhesh Pawar"
+    },
+    {
+      "@type": "Person",
+      "name": "Robert Scholz"
+    },
+    {
+      "@type": "Person",
+      "name": "Arjun Subramonian"
+    },
+    {
+      "@type": "Person",
+      "name": "Jingwei Ni"
+    },
+    {
+      "@type": "Person",
+      "name": "Mykel Kochenderfer"
+    },
+    {
+      "@type": "Person",
+      "name": "Sanmi Koyejo"
+    },
+    {
+      "@type": "Person",
+      "name": "Mrinmaya Sachan"
+    },
+    {
+      "@type": "Person",
+      "name": "Stella Biderman"
+    },
+    {
+      "@type": "Person",
+      "name": "Zeerak Talat"
+    },
+    {
+      "@type": "Person",
+      "name": "Avijit Ghosh"
+    },
+    {
+      "@type": "Person",
+      "name": "Irene Solaiman"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2026",
+  "identifier": "https://doi.org/10.48550/arXiv.2602.16763",
+  "abstract": "Artificial intelligence benchmarks are an important mechanism for measuring model progress and guiding deployment decisions. However, benchmarks quickly\"saturate\", making it difficult to differentiate models and diminishing their long-term value. In this study, we define benchmark saturation and analyze it across 60 language model benchmarks using 14 properties that relate to saturation. We find that nearly half of the our benchmarks exhibit saturation, with rates increasing with age. Further, we find that resilience to saturation is impacted by expert-curation, not by public test data. Our results suggest that design choices can extend benchmark longevity and inform more durable evaluation approaches.",
+  "sameAs": [
+    "https://arxiv.org/abs/2602.16763",
+    "https://arxiv.org/html/2602.16763",
+    "https://arxiv.org/pdf/2602.16763",
+    "https://doi.org/10.48550/arXiv.2602.16763",
+    "https://huggingface.co/papers/2602.16763",
+    "https://www.alphaxiv.org/abs/2602.16763",
+    "https://www.semanticscholar.org/paper/285787943"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>When AI Benchmarks Plateau: A Systematic Study of Benchmark Saturation</h1>
+<p class="meta">Mubashara Akhtar, Anka Reuel, Prajna Soni, Sanchit Ahuja, Pawan Sasanka Ammanamanchi, Ruchit Rawal, Vilém Zouhar, Srishti Yadav, Chenxi Whitehouse, Dayeon Ki, Jennifer Mickel, Leshem Choshen, Marek Šuppa, Jan Batzner, Jenny Chim, Jeba Sania, Yanan Long, Hossein A. Rahmani, Christina Knight, Yiyang Nan, Jyoutir Raj, Yu Fan, Shubham Singh, Subramanyam Sahoo, Eliya Habba, Usman Gohar, Siddhesh Pawar, Robert Scholz, Arjun Subramonian, Jingwei Ni, Mykel Kochenderfer, Sanmi Koyejo, Mrinmaya Sachan, Stella Biderman, Zeerak Talat, Avijit Ghosh, Irene Solaiman · 2026</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2602.16763">arXiv</a></li><li><a href="https://arxiv.org/pdf/2602.16763">PDF</a></li><li><a href="https://arxiv.org/html/2602.16763">HTML</a></li><li><a href="https://huggingface.co/papers/2602.16763">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2602.16763">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2602.16763">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/285787943">Semantic Scholar</a></li></ul>
+<h2>Abstract</h2>
+<p>Artificial intelligence benchmarks are an important mechanism for measuring model progress and guiding deployment decisions. However, benchmarks quickly&quot;saturate&quot;, making it difficult to differentiate models and diminishing their long-term value. In this study, we define benchmark saturation and analyze it across 60 language model benchmarks using 14 properties that relate to saturation. We find that nearly half of the our benchmarks exhibit saturation, with rates increasing with age. Further, we find that resilience to saturation is impacted by expert-curation, not by public test data. Our results suggest that design choices can extend benchmark longevity and inform more durable evaluation approaches.</p>
+<h2>How to cite</h2>
+<pre>@misc{akhtar2026aibenchmarksplateausystematic,
+    pretitle={\COL\UND},
+      title={When AI Benchmarks Plateau: A Systematic Study of Benchmark Saturation}, 
+      author={Mubashara Akhtar and Anka Reuel and Prajna Soni and Sanchit Ahuja and Pawan Sasanka Ammanamanchi and Ruchit Rawal and Vilém Zouhar and Srishti Yadav and Chenxi Whitehouse and Dayeon Ki and Jennifer Mickel and Leshem Choshen and Marek Šuppa and Jan Batzner and Jenny Chim and Jeba Sania and Yanan Long and Hossein A. Rahmani and Christina Knight and Yiyang Nan and Jyoutir Raj and Yu Fan and Shubham Singh and Subramanyam Sahoo and Eliya Habba and Usman Gohar and Siddhesh Pawar and Robert Scholz and Arjun Subramonian and Jingwei Ni and Mykel Kochenderfer and Sanmi Koyejo and Mrinmaya Sachan and Stella Biderman and Zeerak Talat and Avijit Ghosh and Irene Solaiman},
+      year={2026},
+      eprint={2602.16763},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2602.16763}, 
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2602.16763">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

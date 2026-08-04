@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Will it Merge? On The Causes of Model Mergeability — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/will-it-merge-on-the-causes-of-model-mergeability/">
+  <meta name="citation_title" content="Will it Merge? On The Causes of Model Mergeability">
+  <meta name="citation_author" content="Adir Rahamim">
+  <meta name="citation_author" content="Asaf Yehudai">
+  <meta name="citation_author" content="Boaz Carmeli">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Yosi Mass">
+  <meta name="citation_author" content="Yonatan Belinkov">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_journal_title" content="arXiv preprint arXiv:2601.06672">
+  <meta name="citation_doi" content="10.48550/arXiv.2601.06672">
+  <meta name="citation_arxiv_id" content="2601.06672">
+  <meta name="citation_abstract" content="Model merging has emerged as a promising technique for combining multiple fine-tuned models into a single multitask model without retraining. However, the factors that determine whether merging will succeed or fail remain poorly understood. In this work, we investigate why specific models are merged better than others. To do so, we propose a concrete, measurable definition of mergeability. We investigate several potential causes for high or low mergeability, highlighting the base model knowledge as a dominant factor: Models fine-tuned on instances that the base model knows better are more mergeable than models fine-tuned on instances that the base model struggles with. Based on our mergeability definition, we explore a simple weighted merging technique that better preserves weak knowledge in the base model.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/will-it-merge-on-the-causes-of-model-mergeability/#article",
+  "name": "Will it Merge? On The Causes of Model Mergeability",
+  "headline": "Will it Merge? On The Causes of Model Mergeability",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Adir Rahamim"
+    },
+    {
+      "@type": "Person",
+      "name": "Asaf Yehudai"
+    },
+    {
+      "@type": "Person",
+      "name": "Boaz Carmeli"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Yosi Mass"
+    },
+    {
+      "@type": "Person",
+      "name": "Yonatan Belinkov"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2026",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "arXiv preprint arXiv:2601.06672"
+  },
+  "identifier": "https://doi.org/10.48550/arXiv.2601.06672",
+  "abstract": "Model merging has emerged as a promising technique for combining multiple fine-tuned models into a single multitask model without retraining. However, the factors that determine whether merging will succeed or fail remain poorly understood. In this work, we investigate why specific models are merged better than others. To do so, we propose a concrete, measurable definition of mergeability. We investigate several potential causes for high or low mergeability, highlighting the base model knowledge as a dominant factor: Models fine-tuned on instances that the base model knows better are more mergeable than models fine-tuned on instances that the base model struggles with. Based on our mergeability definition, we explore a simple weighted merging technique that better preserves weak knowledge in the base model.",
+  "sameAs": [
+    "https://arxiv.org/abs/2601.06672",
+    "https://arxiv.org/html/2601.06672",
+    "https://arxiv.org/pdf/2601.06672",
+    "https://doi.org/10.48550/arXiv.2601.06672",
+    "https://huggingface.co/papers/2601.06672",
+    "https://www.alphaxiv.org/abs/2601.06672",
+    "https://www.semanticscholar.org/paper/284648390"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>Will it Merge? On The Causes of Model Mergeability</h1>
+<p class="meta">Adir Rahamim, Asaf Yehudai, Boaz Carmeli, Leshem Choshen, Yosi Mass, Yonatan Belinkov · arXiv preprint arXiv:2601.06672 · 2026</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2601.06672">arXiv</a></li><li><a href="https://arxiv.org/pdf/2601.06672">PDF</a></li><li><a href="https://arxiv.org/html/2601.06672">HTML</a></li><li><a href="https://huggingface.co/papers/2601.06672">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2601.06672">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2601.06672">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/284648390">Semantic Scholar</a></li></ul>
+<h2>Abstract</h2>
+<p>Model merging has emerged as a promising technique for combining multiple fine-tuned models into a single multitask model without retraining. However, the factors that determine whether merging will succeed or fail remain poorly understood. In this work, we investigate why specific models are merged better than others. To do so, we propose a concrete, measurable definition of mergeability. We investigate several potential causes for high or low mergeability, highlighting the base model knowledge as a dominant factor: Models fine-tuned on instances that the base model knows better are more mergeable than models fine-tuned on instances that the base model struggles with. Based on our mergeability definition, we explore a simple weighted merging technique that better preserves weak knowledge in the base model.</p>
+<h2>How to cite</h2>
+<pre>@article{rahamim2026will,
+    pretitle={\COL\META\UND},
+  title={Will it Merge? On The Causes of Model Mergeability},
+  author={Rahamim, Adir and Yehudai, Asaf and Carmeli, Boaz and Choshen, Leshem and Mass, Yosi and Belinkov, Yonatan},
+  journal={arXiv preprint arXiv:2601.06672},
+  year={2026}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2601.06672">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

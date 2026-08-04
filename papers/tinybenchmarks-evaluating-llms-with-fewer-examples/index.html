@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>tinyBenchmarks: evaluating LLMs with fewer examples — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/tinybenchmarks-evaluating-llms-with-fewer-examples/">
+  <meta name="citation_title" content="tinyBenchmarks: evaluating LLMs with fewer examples">
+  <meta name="citation_author" content="Felipe Maia Polo">
+  <meta name="citation_author" content="Lucas Weber">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Yuekai Sun">
+  <meta name="citation_author" content="Gongjun Xu">
+  <meta name="citation_author" content="Mikhail Yurochkin">
+  <meta name="citation_publication_date" content="2024">
+  <meta name="citation_conference_title" content="Forty-first International Conference on Machine Learning, {ICML} 2024, Vienna, Austria, July 21-27, 2024">
+  <meta name="citation_doi" content="10.48550/ARXIV.2402.14992">
+  <meta name="citation_arxiv_id" content="2402.14992">
+  <meta name="citation_abstract" content="The versatility of large language models (LLMs) led to the creation of diverse benchmarks that thoroughly test a variety of language models&#x27; abilities. These benchmarks consist of tens of thousands of examples making evaluation of LLMs very expensive. In this paper, we investigate strategies to reduce the number of evaluations needed to assess the performance of an LLM on several key benchmarks. For example, we show that to accurately estimate the performance of an LLM on MMLU, a popular multiple-choice QA benchmark consisting of 14K examples, it is sufficient to evaluate this LLM on 100 curated examples. We release evaluation tools and tiny versions of popular benchmarks: Open LLM Leaderboard, MMLU, HELM, and AlpacaEval 2.0. Our empirical analysis demonstrates that these tools and tiny benchmarks are sufficient to reliably and efficiently reproduce the original evaluation results.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/tinybenchmarks-evaluating-llms-with-fewer-examples/#article",
+  "name": "tinyBenchmarks: evaluating LLMs with fewer examples",
+  "headline": "tinyBenchmarks: evaluating LLMs with fewer examples",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Felipe Maia Polo"
+    },
+    {
+      "@type": "Person",
+      "name": "Lucas Weber"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Yuekai Sun"
+    },
+    {
+      "@type": "Person",
+      "name": "Gongjun Xu"
+    },
+    {
+      "@type": "Person",
+      "name": "Mikhail Yurochkin"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2024",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "Forty-first International Conference on Machine Learning, {ICML} 2024, Vienna, Austria, July 21-27, 2024"
+  },
+  "identifier": "https://doi.org/10.48550/ARXIV.2402.14992",
+  "abstract": "The versatility of large language models (LLMs) led to the creation of diverse benchmarks that thoroughly test a variety of language models' abilities. These benchmarks consist of tens of thousands of examples making evaluation of LLMs very expensive. In this paper, we investigate strategies to reduce the number of evaluations needed to assess the performance of an LLM on several key benchmarks. For example, we show that to accurately estimate the performance of an LLM on MMLU, a popular multiple-choice QA benchmark consisting of 14K examples, it is sufficient to evaluate this LLM on 100 curated examples. We release evaluation tools and tiny versions of popular benchmarks: Open LLM Leaderboard, MMLU, HELM, and AlpacaEval 2.0. Our empirical analysis demonstrates that these tools and tiny benchmarks are sufficient to reliably and efficiently reproduce the original evaluation results.",
+  "sameAs": [
+    "https://arxiv.org/abs/2402.14992",
+    "https://arxiv.org/html/2402.14992",
+    "https://arxiv.org/pdf/2402.14992",
+    "https://doi.org/10.48550/ARXIV.2402.14992",
+    "https://huggingface.co/papers/2402.14992",
+    "https://openreview.net/forum?id=qAml3FpfhG",
+    "https://www.alphaxiv.org/abs/2402.14992",
+    "https://www.semanticscholar.org/paper/267897919"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>tinyBenchmarks: evaluating LLMs with fewer examples</h1>
+<p class="meta">Felipe Maia Polo, Lucas Weber, Leshem Choshen, Yuekai Sun, Gongjun Xu, Mikhail Yurochkin · Forty-first International Conference on Machine Learning, {ICML} 2024, Vienna, Austria, July 21-27, 2024 · 2024</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2402.14992">arXiv</a></li><li><a href="https://arxiv.org/pdf/2402.14992">PDF</a></li><li><a href="https://arxiv.org/html/2402.14992">HTML</a></li><li><a href="https://huggingface.co/papers/2402.14992">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2402.14992">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2402.14992">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/267897919">Semantic Scholar</a></li><li><a href="https://openreview.net/forum?id=qAml3FpfhG">Publisher</a></li></ul>
+<h2>Abstract</h2>
+<p>The versatility of large language models (LLMs) led to the creation of diverse benchmarks that thoroughly test a variety of language models&#x27; abilities. These benchmarks consist of tens of thousands of examples making evaluation of LLMs very expensive. In this paper, we investigate strategies to reduce the number of evaluations needed to assess the performance of an LLM on several key benchmarks. For example, we show that to accurately estimate the performance of an LLM on MMLU, a popular multiple-choice QA benchmark consisting of 14K examples, it is sufficient to evaluate this LLM on 100 curated examples. We release evaluation tools and tiny versions of popular benchmarks: Open LLM Leaderboard, MMLU, HELM, and AlpacaEval 2.0. Our empirical analysis demonstrates that these tools and tiny benchmarks are sufficient to reliably and efficiently reproduce the original evaluation results.</p>
+<h2>How to cite</h2>
+<pre>@inproceedings{DBLP:conf/icml/PoloWCSXY24,
+    pretitle={\COL\META\UND},author       = {Felipe Maia Polo and
+                  Lucas Weber and
+                  Leshem Choshen and
+                  Yuekai Sun and
+                  Gongjun Xu and
+                  Mikhail Yurochkin},
+  title        = {tinyBenchmarks: evaluating LLMs with fewer examples},
+  booktitle    = {Forty-first International Conference on Machine Learning, {ICML} 2024,
+                  Vienna, Austria, July 21-27, 2024},
+  publisher    = {OpenReview.net},
+  year         = {2024},
+  url          = {https://openreview.net/forum?id=qAml3FpfhG},
+  timestamp    = {Mon, 02 Sep 2024 16:45:29 +0200},
+  biburl       = {https://dblp.org/rec/conf/icml/PoloWCSXY24.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2402.14992">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

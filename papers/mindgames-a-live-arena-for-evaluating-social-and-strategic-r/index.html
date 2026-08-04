@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MINDGAMES: A Live Arena for Evaluating Social and Strategic Reasoning in Multi-Agent LLMs — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/mindgames-a-live-arena-for-evaluating-social-and-strategic-r/">
+  <meta name="citation_title" content="MINDGAMES: A Live Arena for Evaluating Social and Strategic Reasoning in Multi-Agent LLMs">
+  <meta name="citation_author" content="K. Wang">
+  <meta name="citation_author" content="A. Thoni">
+  <meta name="citation_author" content="Benjamin Kempinski">
+  <meta name="citation_author" content="Bobby Cheng">
+  <meta name="citation_author" content="Jianzhu Yao">
+  <meta name="citation_author" content="Ben Finch">
+  <meta name="citation_author" content="Leon Guertler">
+  <meta name="citation_author" content="Viraj Nadkarni">
+  <meta name="citation_author" content="Yihang Jiang">
+  <meta name="citation_author" content="Aliaksei Korshuk">
+  <meta name="citation_author" content="Alexander Buyantuev">
+  <meta name="citation_author" content="Ilya Makarov">
+  <meta name="citation_author" content="Siyuan Wu">
+  <meta name="citation_author" content="Yu Cheng">
+  <meta name="citation_author" content="Yan-Ru Ju">
+  <meta name="citation_author" content="Tiru Wu">
+  <meta name="citation_author" content="I-Hsuan Chu">
+  <meta name="citation_author" content="Yu-Yu Yang">
+  <meta name="citation_author" content="I-Chen Wu">
+  <meta name="citation_author" content="Yitian Huang">
+  <meta name="citation_author" content="Qi Cao">
+  <meta name="citation_author" content="Yiheng Sun">
+  <meta name="citation_author" content="Yuhong Dai">
+  <meta name="citation_author" content="Hongkun Yao">
+  <meta name="citation_author" content="Jingxuan Fu">
+  <meta name="citation_author" content="Jiwei Zhang">
+  <meta name="citation_author" content="Hao Liao">
+  <meta name="citation_author" content="Mossimo Ebeling">
+  <meta name="citation_author" content="Govind Arun">
+  <meta name="citation_author" content="Sadhvik Bathini">
+  <meta name="citation_author" content="M. S. Arya">
+  <meta name="citation_author" content="A. Anish">
+  <meta name="citation_author" content="Aditya Ranjan">
+  <meta name="citation_author" content="K. Phatnani">
+  <meta name="citation_author" content="Ks Paval">
+  <meta name="citation_author" content="V. Mehta">
+  <meta name="citation_author" content="S. Aravind">
+  <meta name="citation_author" content="Nikhil Arora">
+  <meta name="citation_author" content="Tanya Upadhyay">
+  <meta name="citation_author" content="Amol Bandagale">
+  <meta name="citation_author" content="Yuan Lu">
+  <meta name="citation_author" content="Chun-Pao Hsiao">
+  <meta name="citation_author" content="Yuting Lin">
+  <meta name="citation_author" content="A. Chung">
+  <meta name="citation_author" content="Jeremiah Thomas">
+  <meta name="citation_author" content="Mathieu Laurière">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Yoram Bachrach">
+  <meta name="citation_author" content="P. Viswanath">
+  <meta name="citation_author" content="Maria Polukarov">
+  <meta name="citation_author" content="Cheston Tan">
+  <meta name="citation_author" content="T. Kachman">
+  <meta name="citation_author" content="Atlas Wang">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_doi" content="10.48550/arXiv.2605.29512">
+  <meta name="citation_arxiv_id" content="2605.29512">
+  <meta name="citation_abstract" content="Large language models (LLMs) are increasingly deployed as interactive agents, yet their capacity for social and strategic reasoning over extended interaction remains poorly understood. Existing evaluations rely on static vignettes or single-game benchmarks that cannot capture the sustained, multi-faceted reasoning that real-world multi-agent settings demand. We introduce Mindgames, a multi-game arena and evaluation platform for LLM agents that operationalizes complementary reasoning demands relevant to ``theory of mind&#x27;&#x27;: belief attribution under hidden information, opponent modeling through repeated strategic interaction, cooperative inference under knowledge asymmetries, and sustained deception in social deduction. Built on TextArena, Mindgames provides a unified interaction interface, TrueSkill-based rating, and full trajectory logging across four game environments. We instantiate Mindgames through a 2025 competition cycle hosted at a major AI conference, which assessed 944 submitted agents from 76 teams across four games: Colonel Blotto, Iterated Prisoner&#x27;s Dilemma, Codenames, and Secret Mafia. Our analysis surfaces both agent-level and evaluation-level limitations: brittle rule adherence remains a major bottleneck, top-performing systems repeatedly rely on explicit structural scaffolding, and leaderboard validity differs sharply across environments. In particular, failure-heavy environments can reward robustness to opponent errors as much as strategic ability, with Secret Mafia exhibiting a pronounced error-survival confound in this cycle. We release a dataset of 29,571 multi-agent games with turn-level observations, actions, and rewards, together with MG-Ref, a deterministic offline tournament protocol that scores new agents against a frozen reference pool of top-ranked, low-error Stage~II submissions under the same error-attribution lens used in this analysis.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/mindgames-a-live-arena-for-evaluating-social-and-strategic-r/#article",
+  "name": "MINDGAMES: A Live Arena for Evaluating Social and Strategic Reasoning in Multi-Agent LLMs",
+  "headline": "MINDGAMES: A Live Arena for Evaluating Social and Strategic Reasoning in Multi-Agent LLMs",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "K. Wang"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Thoni"
+    },
+    {
+      "@type": "Person",
+      "name": "Benjamin Kempinski"
+    },
+    {
+      "@type": "Person",
+      "name": "Bobby Cheng"
+    },
+    {
+      "@type": "Person",
+      "name": "Jianzhu Yao"
+    },
+    {
+      "@type": "Person",
+      "name": "Ben Finch"
+    },
+    {
+      "@type": "Person",
+      "name": "Leon Guertler"
+    },
+    {
+      "@type": "Person",
+      "name": "Viraj Nadkarni"
+    },
+    {
+      "@type": "Person",
+      "name": "Yihang Jiang"
+    },
+    {
+      "@type": "Person",
+      "name": "Aliaksei Korshuk"
+    },
+    {
+      "@type": "Person",
+      "name": "Alexander Buyantuev"
+    },
+    {
+      "@type": "Person",
+      "name": "Ilya Makarov"
+    },
+    {
+      "@type": "Person",
+      "name": "Siyuan Wu"
+    },
+    {
+      "@type": "Person",
+      "name": "Yu Cheng"
+    },
+    {
+      "@type": "Person",
+      "name": "Yan-Ru Ju"
+    },
+    {
+      "@type": "Person",
+      "name": "Tiru Wu"
+    },
+    {
+      "@type": "Person",
+      "name": "I-Hsuan Chu"
+    },
+    {
+      "@type": "Person",
+      "name": "Yu-Yu Yang"
+    },
+    {
+      "@type": "Person",
+      "name": "I-Chen Wu"
+    },
+    {
+      "@type": "Person",
+      "name": "Yitian Huang"
+    },
+    {
+      "@type": "Person",
+      "name": "Qi Cao"
+    },
+    {
+      "@type": "Person",
+      "name": "Yiheng Sun"
+    },
+    {
+      "@type": "Person",
+      "name": "Yuhong Dai"
+    },
+    {
+      "@type": "Person",
+      "name": "Hongkun Yao"
+    },
+    {
+      "@type": "Person",
+      "name": "Jingxuan Fu"
+    },
+    {
+      "@type": "Person",
+      "name": "Jiwei Zhang"
+    },
+    {
+      "@type": "Person",
+      "name": "Hao Liao"
+    },
+    {
+      "@type": "Person",
+      "name": "Mossimo Ebeling"
+    },
+    {
+      "@type": "Person",
+      "name": "Govind Arun"
+    },
+    {
+      "@type": "Person",
+      "name": "Sadhvik Bathini"
+    },
+    {
+      "@type": "Person",
+      "name": "M. S. Arya"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Anish"
+    },
+    {
+      "@type": "Person",
+      "name": "Aditya Ranjan"
+    },
+    {
+      "@type": "Person",
+      "name": "K. Phatnani"
+    },
+    {
+      "@type": "Person",
+      "name": "Ks Paval"
+    },
+    {
+      "@type": "Person",
+      "name": "V. Mehta"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Aravind"
+    },
+    {
+      "@type": "Person",
+      "name": "Nikhil Arora"
+    },
+    {
+      "@type": "Person",
+      "name": "Tanya Upadhyay"
+    },
+    {
+      "@type": "Person",
+      "name": "Amol Bandagale"
+    },
+    {
+      "@type": "Person",
+      "name": "Yuan Lu"
+    },
+    {
+      "@type": "Person",
+      "name": "Chun-Pao Hsiao"
+    },
+    {
+      "@type": "Person",
+      "name": "Yuting Lin"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Chung"
+    },
+    {
+      "@type": "Person",
+      "name": "Jeremiah Thomas"
+    },
+    {
+      "@type": "Person",
+      "name": "Mathieu Laurière"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Yoram Bachrach"
+    },
+    {
+      "@type": "Person",
+      "name": "P. Viswanath"
+    },
+    {
+      "@type": "Person",
+      "name": "Maria Polukarov"
+    },
+    {
+      "@type": "Person",
+      "name": "Cheston Tan"
+    },
+    {
+      "@type": "Person",
+      "name": "T. Kachman"
+    },
+    {
+      "@type": "Person",
+      "name": "Atlas Wang"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2026",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "arXiv.org"
+  },
+  "identifier": "https://doi.org/10.48550/arXiv.2605.29512",
+  "abstract": "Large language models (LLMs) are increasingly deployed as interactive agents, yet their capacity for social and strategic reasoning over extended interaction remains poorly understood. Existing evaluations rely on static vignettes or single-game benchmarks that cannot capture the sustained, multi-faceted reasoning that real-world multi-agent settings demand. We introduce Mindgames, a multi-game arena and evaluation platform for LLM agents that operationalizes complementary reasoning demands relevant to ``theory of mind'': belief attribution under hidden information, opponent modeling through repeated strategic interaction, cooperative inference under knowledge asymmetries, and sustained deception in social deduction. Built on TextArena, Mindgames provides a unified interaction interface, TrueSkill-based rating, and full trajectory logging across four game environments. We instantiate Mindgames through a 2025 competition cycle hosted at a major AI conference, which assessed 944 submitted agents from 76 teams across four games: Colonel Blotto, Iterated Prisoner's Dilemma, Codenames, and Secret Mafia. Our analysis surfaces both agent-level and evaluation-level limitations: brittle rule adherence remains a major bottleneck, top-performing systems repeatedly rely on explicit structural scaffolding, and leaderboard validity differs sharply across environments. In particular, failure-heavy environments can reward robustness to opponent errors as much as strategic ability, with Secret Mafia exhibiting a pronounced error-survival confound in this cycle. We release a dataset of 29,571 multi-agent games with turn-level observations, actions, and rewards, together with MG-Ref, a deterministic offline tournament protocol that scores new agents against a frozen reference pool of top-ranked, low-error Stage~II submissions under the same error-attribution lens used in this analysis.",
+  "sameAs": [
+    "https://arxiv.org/abs/2605.29512",
+    "https://arxiv.org/html/2605.29512",
+    "https://arxiv.org/pdf/2605.29512",
+    "https://doi.org/10.48550/arXiv.2605.29512",
+    "https://huggingface.co/papers/2605.29512",
+    "https://www.alphaxiv.org/abs/2605.29512",
+    "https://www.semanticscholar.org/paper/288742058"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>MINDGAMES: A Live Arena for Evaluating Social and Strategic Reasoning in Multi-Agent LLMs</h1>
+<p class="meta">K. Wang, A. Thoni, Benjamin Kempinski, Bobby Cheng, Jianzhu Yao, Ben Finch, Leon Guertler, Viraj Nadkarni, Yihang Jiang, Aliaksei Korshuk, Alexander Buyantuev, Ilya Makarov, Siyuan Wu, Yu Cheng, Yan-Ru Ju, Tiru Wu, I-Hsuan Chu, Yu-Yu Yang, I-Chen Wu, Yitian Huang, Qi Cao, Yiheng Sun, Yuhong Dai, Hongkun Yao, Jingxuan Fu, Jiwei Zhang, Hao Liao, Mossimo Ebeling, Govind Arun, Sadhvik Bathini, M. S. Arya, A. Anish, Aditya Ranjan, K. Phatnani, Ks Paval, V. Mehta, S. Aravind, Nikhil Arora, Tanya Upadhyay, Amol Bandagale, Yuan Lu, Chun-Pao Hsiao, Yuting Lin, A. Chung, Jeremiah Thomas, Mathieu Laurière, Leshem Choshen, Yoram Bachrach, P. Viswanath, Maria Polukarov, Cheston Tan, T. Kachman, Atlas Wang · arXiv.org · 2026</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2605.29512">arXiv</a></li><li><a href="https://arxiv.org/pdf/2605.29512">PDF</a></li><li><a href="https://arxiv.org/html/2605.29512">HTML</a></li><li><a href="https://huggingface.co/papers/2605.29512">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2605.29512">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2605.29512">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/288742058">Semantic Scholar</a></li></ul>
+<h2>Abstract</h2>
+<p>Large language models (LLMs) are increasingly deployed as interactive agents, yet their capacity for social and strategic reasoning over extended interaction remains poorly understood. Existing evaluations rely on static vignettes or single-game benchmarks that cannot capture the sustained, multi-faceted reasoning that real-world multi-agent settings demand. We introduce Mindgames, a multi-game arena and evaluation platform for LLM agents that operationalizes complementary reasoning demands relevant to ``theory of mind&#x27;&#x27;: belief attribution under hidden information, opponent modeling through repeated strategic interaction, cooperative inference under knowledge asymmetries, and sustained deception in social deduction. Built on TextArena, Mindgames provides a unified interaction interface, TrueSkill-based rating, and full trajectory logging across four game environments. We instantiate Mindgames through a 2025 competition cycle hosted at a major AI conference, which assessed 944 submitted agents from 76 teams across four games: Colonel Blotto, Iterated Prisoner&#x27;s Dilemma, Codenames, and Secret Mafia. Our analysis surfaces both agent-level and evaluation-level limitations: brittle rule adherence remains a major bottleneck, top-performing systems repeatedly rely on explicit structural scaffolding, and leaderboard validity differs sharply across environments. In particular, failure-heavy environments can reward robustness to opponent errors as much as strategic ability, with Secret Mafia exhibiting a pronounced error-survival confound in this cycle. We release a dataset of 29,571 multi-agent games with turn-level observations, actions, and rewards, together with MG-Ref, a deterministic offline tournament protocol that scores new agents against a frozen reference pool of top-ranked, low-error Stage~II submissions under the same error-attribution lens used in this analysis.</p>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2605.29512">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

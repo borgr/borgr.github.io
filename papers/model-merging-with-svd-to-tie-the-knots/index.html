@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Model merging with SVD to tie the Knots — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/model-merging-with-svd-to-tie-the-knots/">
+  <meta name="citation_title" content="Model merging with SVD to tie the Knots">
+  <meta name="citation_author" content="George Stoica">
+  <meta name="citation_author" content="Pratik Ramesh">
+  <meta name="citation_author" content="B. Ecsedi">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="J. Hoffman">
+  <meta name="citation_publication_date" content="2024">
+  <meta name="citation_journal_title" content="International Conference on Learning Representations">
+  <meta name="citation_doi" content="10.48550/arXiv.2410.19735">
+  <meta name="citation_arxiv_id" content="2410.19735">
+  <meta name="citation_abstract" content="Recent model merging methods demonstrate that the parameters of fully-finetuned models specializing in distinct tasks can be combined into one model capable of solving all tasks without retraining. Yet, this success does not transfer well when merging LoRA finetuned models. We study this phenomenon and observe that the weights of LoRA finetuned models showcase a lower degree of alignment compared to their fully-finetuned counterparts. We hypothesize that improving this alignment is key to obtaining better LoRA model merges, and propose KnOTS to address this problem. KnOTS uses the SVD to jointly transform the weights of different LoRA models into an aligned space, where existing merging methods can be applied. In addition, we introduce a new benchmark that explicitly evaluates whether merged models are general models. Notably, KnOTS consistently improves LoRA merging by up to 4.3% across several vision and language benchmarks, including our new setting. We release our code at: https://github.com/gstoica27/KnOTS.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/model-merging-with-svd-to-tie-the-knots/#article",
+  "name": "Model merging with SVD to tie the Knots",
+  "headline": "Model merging with SVD to tie the Knots",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "George Stoica"
+    },
+    {
+      "@type": "Person",
+      "name": "Pratik Ramesh"
+    },
+    {
+      "@type": "Person",
+      "name": "B. Ecsedi"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Hoffman"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2024",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "International Conference on Learning Representations"
+  },
+  "identifier": "https://doi.org/10.48550/arXiv.2410.19735",
+  "abstract": "Recent model merging methods demonstrate that the parameters of fully-finetuned models specializing in distinct tasks can be combined into one model capable of solving all tasks without retraining. Yet, this success does not transfer well when merging LoRA finetuned models. We study this phenomenon and observe that the weights of LoRA finetuned models showcase a lower degree of alignment compared to their fully-finetuned counterparts. We hypothesize that improving this alignment is key to obtaining better LoRA model merges, and propose KnOTS to address this problem. KnOTS uses the SVD to jointly transform the weights of different LoRA models into an aligned space, where existing merging methods can be applied. In addition, we introduce a new benchmark that explicitly evaluates whether merged models are general models. Notably, KnOTS consistently improves LoRA merging by up to 4.3% across several vision and language benchmarks, including our new setting. We release our code at: https://github.com/gstoica27/KnOTS.",
+  "sameAs": [
+    "https://arxiv.org/abs/2410.19735",
+    "https://arxiv.org/html/2410.19735",
+    "https://arxiv.org/pdf/2410.19735",
+    "https://doi.org/10.48550/arXiv.2410.19735",
+    "https://huggingface.co/papers/2410.19735",
+    "https://www.alphaxiv.org/abs/2410.19735",
+    "https://www.semanticscholar.org/paper/273638541"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>Model merging with SVD to tie the Knots</h1>
+<p class="meta">George Stoica, Pratik Ramesh, B. Ecsedi, Leshem Choshen, J. Hoffman · International Conference on Learning Representations · 2024</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2410.19735">arXiv</a></li><li><a href="https://arxiv.org/pdf/2410.19735">PDF</a></li><li><a href="https://arxiv.org/html/2410.19735">HTML</a></li><li><a href="https://huggingface.co/papers/2410.19735">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2410.19735">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2410.19735">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/273638541">Semantic Scholar</a></li></ul>
+<h2>Abstract</h2>
+<p>Recent model merging methods demonstrate that the parameters of fully-finetuned models specializing in distinct tasks can be combined into one model capable of solving all tasks without retraining. Yet, this success does not transfer well when merging LoRA finetuned models. We study this phenomenon and observe that the weights of LoRA finetuned models showcase a lower degree of alignment compared to their fully-finetuned counterparts. We hypothesize that improving this alignment is key to obtaining better LoRA model merges, and propose KnOTS to address this problem. KnOTS uses the SVD to jointly transform the weights of different LoRA models into an aligned space, where existing merging methods can be applied. In addition, we introduce a new benchmark that explicitly evaluates whether merged models are general models. Notably, KnOTS consistently improves LoRA merging by up to 4.3% across several vision and language benchmarks, including our new setting. We release our code at: https://github.com/gstoica27/KnOTS.</p>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2410.19735">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

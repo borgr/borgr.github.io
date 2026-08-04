@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reinforcement Learning with Large Action Spaces for Neural Machine Translation — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/reinforcement-learning-with-large-action-spaces-for-neural-m/">
+  <meta name="citation_title" content="Reinforcement Learning with Large Action Spaces for Neural Machine Translation">
+  <meta name="citation_author" content="Asaf Yehudai">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Lior Fox">
+  <meta name="citation_author" content="Omri Abend">
+  <meta name="citation_publication_date" content="2022">
+  <meta name="citation_conference_title" content="Proceedings of the 29th International Conference on Computational Linguistics, {COLING} 2022, Gyeongju, Republic of Korea, October 12-17, 2022">
+  <meta name="citation_doi" content="10.48550/ARXIV.2210.03053">
+  <meta name="citation_arxiv_id" content="2210.03053">
+  <meta name="citation_abstract" content="Applying Reinforcement learning (RL) following maximum likelihood estimation (MLE) pre-training is a versatile method for enhancing neural machine translation (NMT) performance. However, recent work has argued that the gains produced by RL for NMT are mostly due to promoting tokens that have already received a fairly high probability in pre-training. We hypothesize that the large action space is a main obstacle to RL’s effectiveness in MT, and conduct two sets of experiments that lend support to our hypothesis. First, we find that reducing the size of the vocabulary improves RL’s effectiveness. Second, we find that effectively reducing the dimension of the action space without changing the vocabulary also yields notable improvement as evaluated by BLEU, semantic similarity, and human evaluation. Indeed, by initializing the network’s final fully connected layer (that maps the network’s internal dimension to the vocabulary dimension), with a layer that generalizes over similar actions, we obtain a substantial improvement in RL performance: 1.5 BLEU points on average.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/reinforcement-learning-with-large-action-spaces-for-neural-m/#article",
+  "name": "Reinforcement Learning with Large Action Spaces for Neural Machine Translation",
+  "headline": "Reinforcement Learning with Large Action Spaces for Neural Machine Translation",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Asaf Yehudai"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Lior Fox"
+    },
+    {
+      "@type": "Person",
+      "name": "Omri Abend"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2022",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "Proceedings of the 29th International Conference on Computational Linguistics, {COLING} 2022, Gyeongju, Republic of Korea, October 12-17, 2022"
+  },
+  "identifier": "https://doi.org/10.48550/ARXIV.2210.03053",
+  "abstract": "Applying Reinforcement learning (RL) following maximum likelihood estimation (MLE) pre-training is a versatile method for enhancing neural machine translation (NMT) performance. However, recent work has argued that the gains produced by RL for NMT are mostly due to promoting tokens that have already received a fairly high probability in pre-training. We hypothesize that the large action space is a main obstacle to RL’s effectiveness in MT, and conduct two sets of experiments that lend support to our hypothesis. First, we find that reducing the size of the vocabulary improves RL’s effectiveness. Second, we find that effectively reducing the dimension of the action space without changing the vocabulary also yields notable improvement as evaluated by BLEU, semantic similarity, and human evaluation. Indeed, by initializing the network’s final fully connected layer (that maps the network’s internal dimension to the vocabulary dimension), with a layer that generalizes over similar actions, we obtain a substantial improvement in RL performance: 1.5 BLEU points on average.",
+  "sameAs": [
+    "https://aclanthology.org/2022.coling-1.401",
+    "https://aclanthology.org/2022.coling-1.401/",
+    "https://ar5iv.labs.arxiv.org/html/2210.03053",
+    "https://arxiv.org/abs/2210.03053",
+    "https://arxiv.org/pdf/2210.03053",
+    "https://doi.org/10.48550/ARXIV.2210.03053",
+    "https://huggingface.co/papers/2210.03053",
+    "https://www.alphaxiv.org/abs/2210.03053",
+    "https://www.semanticscholar.org/paper/252578532"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>Reinforcement Learning with Large Action Spaces for Neural Machine Translation</h1>
+<p class="meta">Asaf Yehudai, Leshem Choshen, Lior Fox, Omri Abend · Proceedings of the 29th International Conference on Computational Linguistics, {COLING} 2022, Gyeongju, Republic of Korea, October 12-17, 2022 · 2022</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2210.03053">arXiv</a></li><li><a href="https://arxiv.org/pdf/2210.03053">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2210.03053">HTML</a></li><li><a href="https://huggingface.co/papers/2210.03053">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2210.03053">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2210.03053">DOI</a></li><li><a href="https://aclanthology.org/2022.coling-1.401/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/252578532">Semantic Scholar</a></li><li><a href="https://aclanthology.org/2022.coling-1.401">Publisher</a></li></ul>
+<h2>Abstract</h2>
+<p>Applying Reinforcement learning (RL) following maximum likelihood estimation (MLE) pre-training is a versatile method for enhancing neural machine translation (NMT) performance. However, recent work has argued that the gains produced by RL for NMT are mostly due to promoting tokens that have already received a fairly high probability in pre-training. We hypothesize that the large action space is a main obstacle to RL’s effectiveness in MT, and conduct two sets of experiments that lend support to our hypothesis. First, we find that reducing the size of the vocabulary improves RL’s effectiveness. Second, we find that effectively reducing the dimension of the action space without changing the vocabulary also yields notable improvement as evaluated by BLEU, semantic similarity, and human evaluation. Indeed, by initializing the network’s final fully connected layer (that maps the network’s internal dimension to the vocabulary dimension), with a layer that generalizes over similar actions, we obtain a substantial improvement in RL performance: 1.5 BLEU points on average.</p>
+<h2>How to cite</h2>
+<pre>@inproceedings{DBLP:conf/coling/YehudaiCFA22,
+    pretitle={\UND},author       = {Asaf Yehudai and
+                  Leshem Choshen and
+                  Lior Fox and
+                  Omri Abend},
+  editor       = {Nicoletta Calzolari and
+                  Chu{-}Ren Huang and
+                  Hansaem Kim and
+                  James Pustejovsky and
+                  Leo Wanner and
+                  Key{-}Sun Choi and
+                  Pum{-}Mo Ryu and
+                  Hsin{-}Hsi Chen and
+                  Lucia Donatelli and
+                  Heng Ji and
+                  Sadao Kurohashi and
+                  Patrizia Paggio and
+                  Nianwen Xue and
+                  Seokhwan Kim and
+                  Younggyun Hahm and
+                  Zhong He and
+                  Tony Kyungil Lee and
+                  Enrico Santus and
+                  Francis Bond and
+                  Seung{-}Hoon Na},
+  title        = {Reinforcement Learning with Large Action Spaces for Neural Machine
+                  Translation},
+  booktitle    = {Proceedings of the 29th International Conference on Computational
+                  Linguistics, {COLING} 2022, Gyeongju, Republic of Korea, October 12-17,
+                  2022},
+  pages        = {4544--4556},
+  publisher    = {International Committee on Computational Linguistics},
+  year         = {2022},
+  url          = {https://aclanthology.org/2022.coling-1.401},
+  timestamp    = {Thu, 13 Oct 2022 17:29:38 +0200},
+  biburl       = {https://dblp.org/rec/conf/coling/YehudaiCFA22.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://ar5iv.labs.arxiv.org/html/2210.03053">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

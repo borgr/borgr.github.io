@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enhancing the Transformer Decoder with Transition-based Syntax — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/">
+  <meta name="citation_title" content="Enhancing the Transformer Decoder with Transition-based Syntax">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Omri Abend">
+  <meta name="citation_publication_date" content="2022">
+  <meta name="citation_conference_title" content="Proceedings of the 26th Conference on Computational Natural Language Learning, CoNLL 2022, Abu Dhabi, United Arab Emirates (Hybrid Event), December 7-8, 2022">
+  <meta name="citation_doi" content="10.18653/V1/2022.CONLL-1.27">
+  <meta name="citation_arxiv_id" content="2101.12640">
+  <meta name="citation_abstract" content="Notwithstanding recent advances, syntactic generalization remains a challenge for text decoders. While some studies showed gains from incorporating source-side symbolic syntactic and semantic structure into text generation Transformers, very little work addressed the decoding of such structure. We propose a general approach for tree decoding using a transition-based approach. Examining the challenging test case of incorporating Universal Dependencies syntax into machine translation, we present substantial improvements on test sets that focus on syntactic generalization, while presenting improved or comparable performance on standard MT benchmarks. Further qualitative analysis addresses cases where syntactic generalization in the vanilla Transformer decoder is inadequate and demonstrates the advantages afforded by integrating syntactic information.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/#article",
+  "name": "Enhancing the Transformer Decoder with Transition-based Syntax",
+  "headline": "Enhancing the Transformer Decoder with Transition-based Syntax",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Omri Abend"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2022",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "Proceedings of the 26th Conference on Computational Natural Language Learning, CoNLL 2022, Abu Dhabi, United Arab Emirates (Hybrid Event), December 7-8, 2022"
+  },
+  "identifier": "https://doi.org/10.18653/V1/2022.CONLL-1.27",
+  "abstract": "Notwithstanding recent advances, syntactic generalization remains a challenge for text decoders. While some studies showed gains from incorporating source-side symbolic syntactic and semantic structure into text generation Transformers, very little work addressed the decoding of such structure. We propose a general approach for tree decoding using a transition-based approach. Examining the challenging test case of incorporating Universal Dependencies syntax into machine translation, we present substantial improvements on test sets that focus on syntactic generalization, while presenting improved or comparable performance on standard MT benchmarks. Further qualitative analysis addresses cases where syntactic generalization in the vanilla Transformer decoder is inadequate and demonstrates the advantages afforded by integrating syntactic information.",
+  "sameAs": [
+    "https://aclanthology.org/2022.conll-1.27/",
+    "https://ar5iv.labs.arxiv.org/html/2101.12640",
+    "https://arxiv.org/abs/2101.12640",
+    "https://arxiv.org/pdf/2101.12640",
+    "https://doi.org/10.18653/V1/2022.CONLL-1.27",
+    "https://doi.org/10.18653/v1/2022.conll-1.27",
+    "https://huggingface.co/papers/2101.12640",
+    "https://www.alphaxiv.org/abs/2101.12640",
+    "https://www.semanticscholar.org/paper/248810900"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>Enhancing the Transformer Decoder with Transition-based Syntax</h1>
+<p class="meta">Leshem Choshen, Omri Abend · Proceedings of the 26th Conference on Computational Natural Language Learning, CoNLL 2022, Abu Dhabi, United Arab Emirates (Hybrid Event), December 7-8, 2022 · 2022</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2101.12640">arXiv</a></li><li><a href="https://arxiv.org/pdf/2101.12640">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2101.12640">HTML</a></li><li><a href="https://huggingface.co/papers/2101.12640">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2101.12640">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2022.CONLL-1.27">DOI</a></li><li><a href="https://aclanthology.org/2022.conll-1.27/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/248810900">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2022.conll-1.27">Publisher</a></li></ul>
+<h2>Abstract</h2>
+<p>Notwithstanding recent advances, syntactic generalization remains a challenge for text decoders. While some studies showed gains from incorporating source-side symbolic syntactic and semantic structure into text generation Transformers, very little work addressed the decoding of such structure. We propose a general approach for tree decoding using a transition-based approach. Examining the challenging test case of incorporating Universal Dependencies syntax into machine translation, we present substantial improvements on test sets that focus on syntactic generalization, while presenting improved or comparable performance on standard MT benchmarks. Further qualitative analysis addresses cases where syntactic generalization in the vanilla Transformer decoder is inadequate and demonstrates the advantages afforded by integrating syntactic information.</p>
+<h2>How to cite</h2>
+<pre>@inproceedings{DBLP:conf/conll/ChoshenA22,
+    pretitle={\LANG\UND},author       = {Leshem Choshen and
+                  Omri Abend},
+  editor       = {Antske Fokkens and
+                  Vivek Srikumar},
+  title        = {Enhancing the Transformer Decoder with Transition-based Syntax},
+  booktitle    = {Proceedings of the 26th Conference on Computational Natural Language
+                  Learning, CoNLL 2022, Abu Dhabi, United Arab Emirates (Hybrid Event),
+                  December 7-8, 2022},
+  pages        = {384--404},
+  publisher    = {Association for Computational Linguistics},
+  year         = {2022},
+  url          = {https://doi.org/10.18653/v1/2022.conll-1.27},
+  doi          = {10.18653/V1/2022.CONLL-1.27},
+  timestamp    = {Fri, 12 Apr 2024 01:00:00 +0200},
+  biburl       = {https://dblp.org/rec/conf/conll/ChoshenA22.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://ar5iv.labs.arxiv.org/html/2101.12640">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

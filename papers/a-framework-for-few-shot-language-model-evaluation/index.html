@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A framework for few-shot language model evaluation — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/a-framework-for-few-shot-language-model-evaluation/">
+  <meta name="citation_title" content="A framework for few-shot language model evaluation">
+  <meta name="citation_author" content="Leo Gao">
+  <meta name="citation_author" content="Jonathan Tow">
+  <meta name="citation_author" content="Baber Abbasi">
+  <meta name="citation_author" content="Stella Biderman">
+  <meta name="citation_author" content="Sid Black">
+  <meta name="citation_author" content="Anthony DiPofi">
+  <meta name="citation_author" content="Charles Foster">
+  <meta name="citation_author" content="Laurence Golding">
+  <meta name="citation_author" content="Jeffrey Hsu">
+  <meta name="citation_author" content="Alain Le Noac&#x27;h">
+  <meta name="citation_author" content="Haonan Li">
+  <meta name="citation_author" content="Kyle McDonell">
+  <meta name="citation_author" content="Niklas Muennighoff">
+  <meta name="citation_author" content="Chris Ociepa">
+  <meta name="citation_author" content="Jason Phang">
+  <meta name="citation_author" content="Laria Reynolds">
+  <meta name="citation_author" content="Hailey Schoelkopf">
+  <meta name="citation_author" content="Aviya Skowron">
+  <meta name="citation_author" content="Lintang Sutawika">
+  <meta name="citation_author" content="Eric Tang">
+  <meta name="citation_author" content="Anish Thite">
+  <meta name="citation_author" content="Ben Wang">
+  <meta name="citation_author" content="Kevin Wang">
+  <meta name="citation_author" content="Andy Zou">
+  <meta name="citation_publication_date" content="2024">
+  <meta name="citation_journal_title" content="Zenodo">
+  <meta name="citation_doi" content="10.5281/zenodo.12608602">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/a-framework-for-few-shot-language-model-evaluation/#article",
+  "name": "A framework for few-shot language model evaluation",
+  "headline": "A framework for few-shot language model evaluation",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Leo Gao"
+    },
+    {
+      "@type": "Person",
+      "name": "Jonathan Tow"
+    },
+    {
+      "@type": "Person",
+      "name": "Baber Abbasi"
+    },
+    {
+      "@type": "Person",
+      "name": "Stella Biderman"
+    },
+    {
+      "@type": "Person",
+      "name": "Sid Black"
+    },
+    {
+      "@type": "Person",
+      "name": "Anthony DiPofi"
+    },
+    {
+      "@type": "Person",
+      "name": "Charles Foster"
+    },
+    {
+      "@type": "Person",
+      "name": "Laurence Golding"
+    },
+    {
+      "@type": "Person",
+      "name": "Jeffrey Hsu"
+    },
+    {
+      "@type": "Person",
+      "name": "Alain Le Noac'h"
+    },
+    {
+      "@type": "Person",
+      "name": "Haonan Li"
+    },
+    {
+      "@type": "Person",
+      "name": "Kyle McDonell"
+    },
+    {
+      "@type": "Person",
+      "name": "Niklas Muennighoff"
+    },
+    {
+      "@type": "Person",
+      "name": "Chris Ociepa"
+    },
+    {
+      "@type": "Person",
+      "name": "Jason Phang"
+    },
+    {
+      "@type": "Person",
+      "name": "Laria Reynolds"
+    },
+    {
+      "@type": "Person",
+      "name": "Hailey Schoelkopf"
+    },
+    {
+      "@type": "Person",
+      "name": "Aviya Skowron"
+    },
+    {
+      "@type": "Person",
+      "name": "Lintang Sutawika"
+    },
+    {
+      "@type": "Person",
+      "name": "Eric Tang"
+    },
+    {
+      "@type": "Person",
+      "name": "Anish Thite"
+    },
+    {
+      "@type": "Person",
+      "name": "Ben Wang"
+    },
+    {
+      "@type": "Person",
+      "name": "Kevin Wang"
+    },
+    {
+      "@type": "Person",
+      "name": "Andy Zou"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2024",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "Zenodo"
+  },
+  "identifier": "https://doi.org/10.5281/zenodo.12608602",
+  "sameAs": [
+    "https://doi.org/10.5281/zenodo.12608602",
+    "https://zenodo.org/records/12608602"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>A framework for few-shot language model evaluation</h1>
+<p class="meta">Leo Gao, Jonathan Tow, Baber Abbasi, Stella Biderman, Sid Black, Anthony DiPofi, Charles Foster, Laurence Golding, Jeffrey Hsu, Alain Le Noac&#x27;h, Haonan Li, Kyle McDonell, Niklas Muennighoff, Chris Ociepa, Jason Phang, Laria Reynolds, Hailey Schoelkopf, Aviya Skowron, Lintang Sutawika, Eric Tang, Anish Thite, Ben Wang, Kevin Wang, Andy Zou · Zenodo · 2024</p>
+<ul class="links"><li><a href="https://doi.org/10.5281/zenodo.12608602">DOI</a></li><li><a href="https://zenodo.org/records/12608602">Publisher</a></li></ul>
+<h2>How to cite</h2>
+<pre>@misc{lmeval,
+  author       = {Gao, Leo and Tow, Jonathan and Abbasi, Baber and Biderman, Stella and Black, Sid and DiPofi, Anthony and Foster, Charles and Golding, Laurence and Hsu, Jeffrey and Le Noac&#x27;h, Alain and Li, Haonan and McDonell, Kyle and Muennighoff, Niklas and Ociepa, Chris and Phang, Jason and Reynolds, Laria and Schoelkopf, Hailey and Skowron, Aviya and Sutawika, Lintang and Tang, Eric and Thite, Anish and Wang, Ben and Wang, Kevin and Zou, Andy},
+  title        = {A framework for few-shot language model evaluation},
+  month        = 07,
+  year         = 2024,
+  publisher    = {Zenodo},
+  version      = {v0.4.3},
+  doi          = {10.5281/zenodo.12608602},
+  url          = {https://zenodo.org/records/12608602}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://borgr.github.io/papers/a-framework-for-few-shot-language-model-evaluation/">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

@@ -12,7 +12,7 @@
   <meta name="citation_author" content="Michal Shmueli-Scheuer">
   <meta name="citation_author" content="Gabriel Stanovsky">
   <meta name="citation_publication_date" content="2024">
-  <meta name="citation_conference_title" content="Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and…">
+  <meta name="citation_conference_title" content="LREC-COLING 2024 (Tutorials)">
   <meta name="citation_doi" content="10.63317/2bh2m233ea9r">
   <meta name="citation_abstract" content="General-Purpose Language Models have changed the world of Natural Language Processing, if not the world itself. The evaluation of such versatile models, while supposedly similar to evaluation of generation models before them, in fact presents a host of new evaluation challenges and opportunities. In this Tutorial, we will start from the building blocks of evaluation. The tutorial welcomes people from diverse backgrounds and assumes little familiarity with metrics, datasets, prompts and benchmarks. It will lay the foundations and explain the basics and their importance, while touching on the major points and breakthroughs of the recent era of evaluation. It will also compare traditional evaluation methods – which are still widely used – to newly developed methods. We will contrast new to old approaches, from evaluating on many-task benchmarks rather than on dedicated datasets to efficiency constraints, and from testing stability and prompts on in-context learning to using the models themselves as evaluation metrics. Finally, the tutorial will cover practical issues, ranging from reviewing widely-used benchmarks and prompt banks to efficient evaluation.">
   <script type="application/ld+json">
@@ -49,14 +49,245 @@
   "datePublished": "2024",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and…"
+    "name": "LREC-COLING 2024 (Tutorials)"
   },
   "identifier": "https://doi.org/10.63317/2bh2m233ea9r",
   "abstract": "General-Purpose Language Models have changed the world of Natural Language Processing, if not the world itself. The evaluation of such versatile models, while supposedly similar to evaluation of generation models before them, in fact presents a host of new evaluation challenges and opportunities. In this Tutorial, we will start from the building blocks of evaluation. The tutorial welcomes people from diverse backgrounds and assumes little familiarity with metrics, datasets, prompts and benchmarks. It will lay the foundations and explain the basics and their importance, while touching on the major points and breakthroughs of the recent era of evaluation. It will also compare traditional evaluation methods – which are still widely used – to newly developed methods. We will contrast new to old approaches, from evaluating on many-task benchmarks rather than on dedicated datasets to efficiency constraints, and from testing stability and prompts on in-context learning to using the models themselves as evaluation metrics. Finally, the tutorial will cover practical issues, ranging from reviewing widely-used benchmarks and prompt banks to efficient evaluation.",
+  "description": "A cutting-edge LREC-COLING 2024 tutorial that lays out the whole LLM benchmarking pipeline -- benchmarks, frameworks, metrics, prompts, compute budgets and human evaluation -- and contrasts traditional single-task evaluation with the LLM era's multi-task, prompt-based, model-as-judge practice.",
   "sameAs": [
+    "https://aclanthology.org/2024.lrec-tutorials.4/",
     "https://aclanthology.org/2024.lrec-tutorials.4/",
     "https://doi.org/10.63317/2bh2m233ea9r",
     "https://www.semanticscholar.org/paper/269804253"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "The LREC-COLING 2024 tutorial \"Navigating the Modern Evaluation Landscape\" presents LLM benchmarking as a single end-to-end pipeline rather than as isolated problems. The taught pipeline runs from benchmark and framework choice through metrics, prompts, compute budget and human evaluation.",
+      "description": "Holds for: A tutorial abstract and outline, not an experimental paper; content as taught in May 2024, aimed at entry-level audiences with little prior familiarity with metrics, datasets, prompts or benchmarks."
+    },
+    {
+      "@type": "Thing",
+      "name": "The tutorial \"Navigating the Modern Evaluation Landscape\" argues that a structured, organized view of LLM benchmarking is largely missing from the academic literature. Papers there typically address one benchmarking problem in isolation and ad-hoc, and industry decisions are taken without proper explanation.",
+      "description": "Holds for: A positional argument stated in the tutorial's background and goals, not a systematic survey or bibliometric measurement of the literature."
+    },
+    {
+      "@type": "Thing",
+      "name": "The LLM evaluation tutorial by Choshen, Gera, Perlitz, Shmueli-Scheuer and Stanovsky contrasts traditional single-task evaluation with LLM-era practice on four axes. The axes are multi-task benchmarks instead of dedicated datasets, zero-shot or in-context learning instead of per-task fine-tuning, test-only benchmarks with no train split, and models used as evaluators.",
+      "description": "Holds for: Framed for general-purpose generative language models; the tutorial notes traditional methods such as N-gram reference metrics remain widely used and still relevant."
+    },
+    {
+      "@type": "Thing",
+      "name": "Evaluating language models over broad dataset ranges, more models and long complex tasks can cost more compute than the model's own pretraining. That cost is why the tutorial gives efficient benchmark design a dedicated 45-minute part.",
+      "description": "Holds for: The cost comparison is cited from Biderman et al. (2023) rather than measured by the tutorial, and the size of the excess is not quantified."
+    },
+    {
+      "@type": "Thing",
+      "name": "Using language models to evaluate other models rests on the assumption that error detection is easier than generation, which opens automatic testing of answers in areas where it was previously hardly possible.",
+      "description": "Holds for: Stated as the premise motivating the LLM-as-evaluator paradigm, which the tutorial teaches alongside classic N-gram, reference-less and fine-grained metrics rather than as a replacement."
+    },
+    {
+      "@type": "Thing",
+      "name": "The LLM evaluation tutorial gives prompts a 45-minute part of its own, treating prompt choice as a first-class benchmarking decision and noting that evaluation protocols typically use a single prompt across models. It covers prompt banks and how prompt desiderata differ for LLM developers, targeted downstream-application developers and open-ended user-facing applications.",
+      "description": "Holds for: Zero-shot and in-context-learning evaluation of generative models; the part points to published work on paraphrase creation and paraphrase robustness rather than presenting new experiments."
+    },
+    {
+      "@type": "Thing",
+      "name": "The tutorial \"Navigating the Modern Evaluation Landscape\" runs six parts on a stated schedule. Introduction takes 35 minutes, Framework for Benchmarking 10, Metrics 45, Prompts 45, Efficient Benchmark Design 45, and Manual Evaluation Efforts 30.",
+      "description": "Holds for: The outline as submitted for the LREC-COLING 2024 tutorial session; actual delivery may differ."
+    },
+    {
+      "@type": "Thing",
+      "name": "The LLM evaluation tutorial dedicates 30 minutes to manual evaluation, asking whether human evaluation is being abandoned and covering the alignment paradigm and LLM-human feedback loops.",
+      "description": "Holds for: Human evaluation as one component of the benchmarking pipeline; the reading list covers a human-evaluation best-practices framework and reproducibility in NLP."
+    },
+    {
+      "@type": "Thing",
+      "name": "The LLM evaluation tutorial reviews open-source evaluation frameworks including HELM, OpenAI Evals and LM-evaluation-harness alongside business frameworks, starting from what requirements a benchmarking framework must satisfy.",
+      "description": "Holds for: Framework coverage is the shortest part of the tutorial at 10 minutes and is descriptive; no head-to-head comparison or ranking of the frameworks is reported."
+    },
+    {
+      "@type": "Thing",
+      "name": "The LLM evaluation tutorial frames what makes a good benchmark in terms of validity and reliability, and surveys common ways practitioners reduce benchmarking compute together with best practices for compute reduction.",
+      "description": "Holds for: Covered in the 45-minute efficient benchmark design part, drawing on efficient-benchmarking and anchor-points literature; presented as best practices rather than a new reduction algorithm."
+    },
+    {
+      "@type": "Thing",
+      "name": "\"Navigating the Modern Evaluation Landscape\" is an entry-point reading for LLM evaluation, assuming little to no prior knowledge of evaluation. It pairs the taught pipeline with a curated reading list on evaluation surveys, current benchmarks, prompts, metrics, efficient benchmarking and manual evaluation.",
+      "description": "Holds for: Best fit for readers who worked on one aspect of evaluation but lack the big picture, and for researchers new to LLM-specific challenges; the reading list reflects work available as of early 2024."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/#faq",
+  "url": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/",
+  "name": "Questions answered by Navigating the Modern Evaluation Landscape: Considerations in Benchmarks and Frameworks for Large Language Models (LLMs)",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What should I read first to understand how large language models are evaluated?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "\"Navigating the Modern Evaluation Landscape\" is an entry-point reading for LLM evaluation, assuming little to no prior knowledge of evaluation. It pairs the taught pipeline with a curated reading list on evaluation surveys, current benchmarks, prompts, metrics, efficient benchmarking and manual evaluation. Holds for: Best fit for readers who worked on one aspect of evaluation but lack the big picture, and for researchers new to LLM-specific challenges; the reading list reflects work available as of early 2024.\n\nThe LREC-COLING 2024 tutorial \"Navigating the Modern Evaluation Landscape\" presents LLM benchmarking as a single end-to-end pipeline rather than as isolated problems. The taught pipeline runs from benchmark and framework choice through metrics, prompts, compute budget and human evaluation. Holds for: A tutorial abstract and outline, not an experimental paper; content as taught in May 2024, aimed at entry-level audiences with little prior familiarity with metrics, datasets, prompts or benchmarks.",
+        "url": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/"
+      },
+      "alternateName": [
+        "Is there a good introductory overview of LLM benchmarking?",
+        "Where can a newcomer start learning about language model evaluation and benchmarks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why is evaluating LLMs harder than evaluating older NLP models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The LLM evaluation tutorial by Choshen, Gera, Perlitz, Shmueli-Scheuer and Stanovsky contrasts traditional single-task evaluation with LLM-era practice on four axes. The axes are multi-task benchmarks instead of dedicated datasets, zero-shot or in-context learning instead of per-task fine-tuning, test-only benchmarks with no train split, and models used as evaluators. Holds for: Framed for general-purpose generative language models; the tutorial notes traditional methods such as N-gram reference metrics remain widely used and still relevant.\n\nThe tutorial \"Navigating the Modern Evaluation Landscape\" argues that a structured, organized view of LLM benchmarking is largely missing from the academic literature. Papers there typically address one benchmarking problem in isolation and ad-hoc, and industry decisions are taken without proper explanation. Holds for: A positional argument stated in the tutorial's background and goals, not a systematic survey or bibliometric measurement of the literature.",
+        "url": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/"
+      },
+      "alternateName": [
+        "What changed about benchmarking when pretrained general-purpose language models arrived?",
+        "How does modern LLM evaluation differ from traditional single-task dataset evaluation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How expensive is it to benchmark a large language model?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Evaluating language models over broad dataset ranges, more models and long complex tasks can cost more compute than the model's own pretraining. That cost is why the tutorial gives efficient benchmark design a dedicated 45-minute part. Holds for: The cost comparison is cited from Biderman et al. (2023) rather than measured by the tutorial, and the size of the excess is not quantified.\n\nThe LLM evaluation tutorial frames what makes a good benchmark in terms of validity and reliability, and surveys common ways practitioners reduce benchmarking compute together with best practices for compute reduction. Holds for: Covered in the 45-minute efficient benchmark design part, drawing on efficient-benchmarking and anchor-points literature; presented as best practices rather than a new reduction algorithm.",
+        "url": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/"
+      },
+      "alternateName": [
+        "Can evaluation cost more compute than pretraining a model?",
+        "Why do people care about efficient benchmarking of language models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why would you use a language model as an evaluation metric for another model?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Using language models to evaluate other models rests on the assumption that error detection is easier than generation, which opens automatic testing of answers in areas where it was previously hardly possible. Holds for: Stated as the premise motivating the LLM-as-evaluator paradigm, which the tutorial teaches alongside classic N-gram, reference-less and fine-grained metrics rather than as a replacement.",
+        "url": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/"
+      },
+      "alternateName": [
+        "What is the justification for LLM-as-a-judge evaluation?",
+        "Is model-based evaluation of generated text defensible?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much do prompts matter when benchmarking language models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The LLM evaluation tutorial gives prompts a 45-minute part of its own, treating prompt choice as a first-class benchmarking decision and noting that evaluation protocols typically use a single prompt across models. It covers prompt banks and how prompt desiderata differ for LLM developers, targeted downstream-application developers and open-ended user-facing applications. Holds for: Zero-shot and in-context-learning evaluation of generative models; the part points to published work on paraphrase creation and paraphrase robustness rather than presenting new experiments.",
+        "url": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/"
+      },
+      "alternateName": [
+        "Do evaluation protocols use more than one prompt per model?",
+        "What are prompt banks and why do different users need different prompts?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which LLM evaluation frameworks are worth knowing about?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The LLM evaluation tutorial reviews open-source evaluation frameworks including HELM, OpenAI Evals and LM-evaluation-harness alongside business frameworks, starting from what requirements a benchmarking framework must satisfy. Holds for: Framework coverage is the shortest part of the tutorial at 10 minutes and is descriptive; no head-to-head comparison or ranking of the frameworks is reported.",
+        "url": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/"
+      },
+      "alternateName": [
+        "Where do HELM, OpenAI Evals and LM-evaluation-harness fit in the evaluation landscape?",
+        "What open-source tooling exists for running language model benchmarks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is human evaluation still needed now that models can judge models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The LLM evaluation tutorial dedicates 30 minutes to manual evaluation, asking whether human evaluation is being abandoned and covering the alignment paradigm and LLM-human feedback loops. Holds for: Human evaluation as one component of the benchmarking pipeline; the reading list covers a human-evaluation best-practices framework and reproducibility in NLP.",
+        "url": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/"
+      },
+      "alternateName": [
+        "Has manual evaluation of NLP systems been abandoned?",
+        "How does human feedback fit into modern LLM evaluation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What makes a benchmark for language models a good one?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The LLM evaluation tutorial frames what makes a good benchmark in terms of validity and reliability, and surveys common ways practitioners reduce benchmarking compute together with best practices for compute reduction. Holds for: Covered in the 45-minute efficient benchmark design part, drawing on efficient-benchmarking and anchor-points literature; presented as best practices rather than a new reduction algorithm.\n\nEvaluating language models over broad dataset ranges, more models and long complex tasks can cost more compute than the model's own pretraining. That cost is why the tutorial gives efficient benchmark design a dedicated 45-minute part. Holds for: The cost comparison is cited from Biderman et al. (2023) rather than measured by the tutorial, and the size of the excess is not quantified.",
+        "url": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/"
+      },
+      "alternateName": [
+        "How do validity and reliability apply to LLM benchmarks?",
+        "What are best practices for cutting the compute cost of a benchmark?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What topics does the Navigating the Modern Evaluation Landscape tutorial cover, and for how long?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The tutorial \"Navigating the Modern Evaluation Landscape\" runs six parts on a stated schedule. Introduction takes 35 minutes, Framework for Benchmarking 10, Metrics 45, Prompts 45, Efficient Benchmark Design 45, and Manual Evaluation Efforts 30. Holds for: The outline as submitted for the LREC-COLING 2024 tutorial session; actual delivery may differ.\n\nThe LREC-COLING 2024 tutorial \"Navigating the Modern Evaluation Landscape\" presents LLM benchmarking as a single end-to-end pipeline rather than as isolated problems. The taught pipeline runs from benchmark and framework choice through metrics, prompts, compute budget and human evaluation. Holds for: A tutorial abstract and outline, not an experimental paper; content as taught in May 2024, aimed at entry-level audiences with little prior familiarity with metrics, datasets, prompts or benchmarks.",
+        "url": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/"
+      },
+      "alternateName": [
+        "How is the LREC-COLING 2024 LLM evaluation tutorial structured?",
+        "What is the outline of the LLM benchmarking tutorial by Choshen, Gera, Perlitz, Shmueli-Scheuer and Stanovsky?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/#terms",
+  "url": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/",
+  "name": "Terminology in Navigating the Modern Evaluation Landscape: Considerations in Benchmarks and Frameworks for Large Language Models (LLMs)",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "efficient benchmarking",
+      "description": "Reducing the compute cost of evaluating language models by decisions such as using fewer examples, fewer prompts or fewer models, while preserving the benchmark's validity and reliability.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "reference-less metric",
+      "description": "An evaluation metric that scores a model's output without comparing it against a human-written reference answer.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "prompt bank",
+      "description": "A curated collection of alternative prompts for the same task, used so that a model is evaluated over several phrasings instead of a single hand-picked prompt.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "evaluation of evaluation",
+      "description": "Assessing whether an evaluation metric or protocol itself is valid, for instance by checking how well a metric's scores agree with the quality judgements it is supposed to reflect.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/navigating-the-modern-evaluation-landscape-considerations-in/#terms"
+    }
   ]
 }
   </script>
@@ -67,6 +298,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -80,13 +312,83 @@
 </head>
 <body>
 <h1>Navigating the Modern Evaluation Landscape: Considerations in Benchmarks and Frameworks for Large Language Models (LLMs)</h1>
-<p class="meta">Leshem Choshen, Ariel Gera, Yotam Perlitz, Michal Shmueli-Scheuer, Gabriel Stanovsky · Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and… · 2024</p>
-<ul class="links"><li><a href="https://doi.org/10.63317/2bh2m233ea9r">DOI</a></li><li><a href="https://aclanthology.org/2024.lrec-tutorials.4/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/269804253">Semantic Scholar</a></li></ul>
+<p class="meta">Leshem Choshen, Ariel Gera, Yotam Perlitz, Michal Shmueli-Scheuer, Gabriel Stanovsky · LREC-COLING 2024 (Tutorials) · 2024</p>
+<ul class="links"><li><a href="https://doi.org/10.63317/2bh2m233ea9r">DOI</a></li><li><a href="https://aclanthology.org/2024.lrec-tutorials.4/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/269804253">Semantic Scholar</a></li><li><a href="https://aclanthology.org/2024.lrec-tutorials.4/">anthology</a></li></ul>
+<h2>In one sentence</h2>
+<p>A cutting-edge LREC-COLING 2024 tutorial that lays out the whole LLM benchmarking pipeline -- benchmarks, frameworks, metrics, prompts, compute budgets and human evaluation -- and contrasts traditional single-task evaluation with the LLM era&#x27;s multi-task, prompt-based, model-as-judge practice.</p>
 <h2>Abstract</h2>
 <p>General-Purpose Language Models have changed the world of Natural Language Processing, if not the world itself. The evaluation of such versatile models, while supposedly similar to evaluation of generation models before them, in fact presents a host of new evaluation challenges and opportunities. In this Tutorial, we will start from the building blocks of evaluation. The tutorial welcomes people from diverse backgrounds and assumes little familiarity with metrics, datasets, prompts and benchmarks. It will lay the foundations and explain the basics and their importance, while touching on the major points and breakthroughs of the recent era of evaluation. It will also compare traditional evaluation methods – which are still widely used – to newly developed methods. We will contrast new to old approaches, from evaluating on many-task benchmarks rather than on dedicated datasets to efficiency constraints, and from testing stability and prompts on in-context learning to using the models themselves as evaluation metrics. Finally, the tutorial will cover practical issues, ranging from reviewing widely-used benchmarks and prompt banks to efficient evaluation.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What should I read first to understand how large language models are evaluated?</dt>
+<dt>Is there a good introductory overview of LLM benchmarking?</dt>
+<dt>Where can a newcomer start learning about language model evaluation and benchmarks?</dt>
+<dd>&quot;Navigating the Modern Evaluation Landscape&quot; is an entry-point reading for LLM evaluation, assuming little to no prior knowledge of evaluation. It pairs the taught pipeline with a curated reading list on evaluation surveys, current benchmarks, prompts, metrics, efficient benchmarking and manual evaluation.<br><span class="scope">Holds for: Best fit for readers who worked on one aspect of evaluation but lack the big picture, and for researchers new to LLM-specific challenges; the reading list reflects work available as of early 2024.</span></dd>
+<dd>The LREC-COLING 2024 tutorial &quot;Navigating the Modern Evaluation Landscape&quot; presents LLM benchmarking as a single end-to-end pipeline rather than as isolated problems. The taught pipeline runs from benchmark and framework choice through metrics, prompts, compute budget and human evaluation.<br><span class="scope">Holds for: A tutorial abstract and outline, not an experimental paper; content as taught in May 2024, aimed at entry-level audiences with little prior familiarity with metrics, datasets, prompts or benchmarks.</span></dd>
+<dt>Why is evaluating LLMs harder than evaluating older NLP models?</dt>
+<dt>What changed about benchmarking when pretrained general-purpose language models arrived?</dt>
+<dt>How does modern LLM evaluation differ from traditional single-task dataset evaluation?</dt>
+<dd>The LLM evaluation tutorial by Choshen, Gera, Perlitz, Shmueli-Scheuer and Stanovsky contrasts traditional single-task evaluation with LLM-era practice on four axes. The axes are multi-task benchmarks instead of dedicated datasets, zero-shot or in-context learning instead of per-task fine-tuning, test-only benchmarks with no train split, and models used as evaluators.<br><span class="scope">Holds for: Framed for general-purpose generative language models; the tutorial notes traditional methods such as N-gram reference metrics remain widely used and still relevant.</span></dd>
+<dd>The tutorial &quot;Navigating the Modern Evaluation Landscape&quot; argues that a structured, organized view of LLM benchmarking is largely missing from the academic literature. Papers there typically address one benchmarking problem in isolation and ad-hoc, and industry decisions are taken without proper explanation.<br><span class="scope">Holds for: A positional argument stated in the tutorial&#x27;s background and goals, not a systematic survey or bibliometric measurement of the literature.</span></dd>
+<dt>How expensive is it to benchmark a large language model?</dt>
+<dt>Can evaluation cost more compute than pretraining a model?</dt>
+<dt>Why do people care about efficient benchmarking of language models?</dt>
+<dd>Evaluating language models over broad dataset ranges, more models and long complex tasks can cost more compute than the model&#x27;s own pretraining. That cost is why the tutorial gives efficient benchmark design a dedicated 45-minute part.<br><span class="scope">Holds for: The cost comparison is cited from Biderman et al. (2023) rather than measured by the tutorial, and the size of the excess is not quantified.</span></dd>
+<dd>The LLM evaluation tutorial frames what makes a good benchmark in terms of validity and reliability, and surveys common ways practitioners reduce benchmarking compute together with best practices for compute reduction.<br><span class="scope">Holds for: Covered in the 45-minute efficient benchmark design part, drawing on efficient-benchmarking and anchor-points literature; presented as best practices rather than a new reduction algorithm.</span></dd>
+<dt>Why would you use a language model as an evaluation metric for another model?</dt>
+<dt>What is the justification for LLM-as-a-judge evaluation?</dt>
+<dt>Is model-based evaluation of generated text defensible?</dt>
+<dd>Using language models to evaluate other models rests on the assumption that error detection is easier than generation, which opens automatic testing of answers in areas where it was previously hardly possible.<br><span class="scope">Holds for: Stated as the premise motivating the LLM-as-evaluator paradigm, which the tutorial teaches alongside classic N-gram, reference-less and fine-grained metrics rather than as a replacement.</span></dd>
+<dt>How much do prompts matter when benchmarking language models?</dt>
+<dt>Do evaluation protocols use more than one prompt per model?</dt>
+<dt>What are prompt banks and why do different users need different prompts?</dt>
+<dd>The LLM evaluation tutorial gives prompts a 45-minute part of its own, treating prompt choice as a first-class benchmarking decision and noting that evaluation protocols typically use a single prompt across models. It covers prompt banks and how prompt desiderata differ for LLM developers, targeted downstream-application developers and open-ended user-facing applications.<br><span class="scope">Holds for: Zero-shot and in-context-learning evaluation of generative models; the part points to published work on paraphrase creation and paraphrase robustness rather than presenting new experiments.</span></dd>
+<dt>Which LLM evaluation frameworks are worth knowing about?</dt>
+<dt>Where do HELM, OpenAI Evals and LM-evaluation-harness fit in the evaluation landscape?</dt>
+<dt>What open-source tooling exists for running language model benchmarks?</dt>
+<dd>The LLM evaluation tutorial reviews open-source evaluation frameworks including HELM, OpenAI Evals and LM-evaluation-harness alongside business frameworks, starting from what requirements a benchmarking framework must satisfy.<br><span class="scope">Holds for: Framework coverage is the shortest part of the tutorial at 10 minutes and is descriptive; no head-to-head comparison or ranking of the frameworks is reported.</span></dd>
+<dt>Is human evaluation still needed now that models can judge models?</dt>
+<dt>Has manual evaluation of NLP systems been abandoned?</dt>
+<dt>How does human feedback fit into modern LLM evaluation?</dt>
+<dd>The LLM evaluation tutorial dedicates 30 minutes to manual evaluation, asking whether human evaluation is being abandoned and covering the alignment paradigm and LLM-human feedback loops.<br><span class="scope">Holds for: Human evaluation as one component of the benchmarking pipeline; the reading list covers a human-evaluation best-practices framework and reproducibility in NLP.</span></dd>
+<dt>What makes a benchmark for language models a good one?</dt>
+<dt>How do validity and reliability apply to LLM benchmarks?</dt>
+<dt>What are best practices for cutting the compute cost of a benchmark?</dt>
+<dd>The LLM evaluation tutorial frames what makes a good benchmark in terms of validity and reliability, and surveys common ways practitioners reduce benchmarking compute together with best practices for compute reduction.<br><span class="scope">Holds for: Covered in the 45-minute efficient benchmark design part, drawing on efficient-benchmarking and anchor-points literature; presented as best practices rather than a new reduction algorithm.</span></dd>
+<dd>Evaluating language models over broad dataset ranges, more models and long complex tasks can cost more compute than the model&#x27;s own pretraining. That cost is why the tutorial gives efficient benchmark design a dedicated 45-minute part.<br><span class="scope">Holds for: The cost comparison is cited from Biderman et al. (2023) rather than measured by the tutorial, and the size of the excess is not quantified.</span></dd>
+<dt>What topics does the Navigating the Modern Evaluation Landscape tutorial cover, and for how long?</dt>
+<dt>How is the LREC-COLING 2024 LLM evaluation tutorial structured?</dt>
+<dt>What is the outline of the LLM benchmarking tutorial by Choshen, Gera, Perlitz, Shmueli-Scheuer and Stanovsky?</dt>
+<dd>The tutorial &quot;Navigating the Modern Evaluation Landscape&quot; runs six parts on a stated schedule. Introduction takes 35 minutes, Framework for Benchmarking 10, Metrics 45, Prompts 45, Efficient Benchmark Design 45, and Manual Evaluation Efforts 30.<br><span class="scope">Holds for: The outline as submitted for the LREC-COLING 2024 tutorial session; actual delivery may differ.</span></dd>
+<dd>The LREC-COLING 2024 tutorial &quot;Navigating the Modern Evaluation Landscape&quot; presents LLM benchmarking as a single end-to-end pipeline rather than as isolated problems. The taught pipeline runs from benchmark and framework choice through metrics, prompts, compute budget and human evaluation.<br><span class="scope">Holds for: A tutorial abstract and outline, not an experimental paper; content as taught in May 2024, aimed at entry-level audiences with little prior familiarity with metrics, datasets, prompts or benchmarks.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>The LREC-COLING 2024 tutorial &quot;Navigating the Modern Evaluation Landscape&quot; presents LLM benchmarking as a single end-to-end pipeline rather than as isolated problems. The taught pipeline runs from benchmark and framework choice through metrics, prompts, compute budget and human evaluation.<br><span class="scope">Scope: A tutorial abstract and outline, not an experimental paper; content as taught in May 2024, aimed at entry-level audiences with little prior familiarity with metrics, datasets, prompts or benchmarks.</span></li>
+<li>The tutorial &quot;Navigating the Modern Evaluation Landscape&quot; argues that a structured, organized view of LLM benchmarking is largely missing from the academic literature. Papers there typically address one benchmarking problem in isolation and ad-hoc, and industry decisions are taken without proper explanation.<br><span class="scope">Scope: A positional argument stated in the tutorial&#x27;s background and goals, not a systematic survey or bibliometric measurement of the literature.</span></li>
+<li>The LLM evaluation tutorial by Choshen, Gera, Perlitz, Shmueli-Scheuer and Stanovsky contrasts traditional single-task evaluation with LLM-era practice on four axes. The axes are multi-task benchmarks instead of dedicated datasets, zero-shot or in-context learning instead of per-task fine-tuning, test-only benchmarks with no train split, and models used as evaluators. <span class="meta">(Tutorial Description - Introduction (Background and Goals))</span><br><span class="scope">Scope: Framed for general-purpose generative language models; the tutorial notes traditional methods such as N-gram reference metrics remain widely used and still relevant.</span></li>
+<li>Evaluating language models over broad dataset ranges, more models and long complex tasks can cost more compute than the model&#x27;s own pretraining. That cost is why the tutorial gives efficient benchmark design a dedicated 45-minute part. <span class="meta">(Tutorial Description - Introduction (Background and Goals); Outline, Part 5)</span><br><span class="scope">Scope: The cost comparison is cited from Biderman et al. (2023) rather than measured by the tutorial, and the size of the excess is not quantified.</span></li>
+<li>Using language models to evaluate other models rests on the assumption that error detection is easier than generation, which opens automatic testing of answers in areas where it was previously hardly possible. <span class="meta">(Tutorial Description - Introduction (Background and Goals))</span><br><span class="scope">Scope: Stated as the premise motivating the LLM-as-evaluator paradigm, which the tutorial teaches alongside classic N-gram, reference-less and fine-grained metrics rather than as a replacement.</span></li>
+<li>The LLM evaluation tutorial gives prompts a 45-minute part of its own, treating prompt choice as a first-class benchmarking decision and noting that evaluation protocols typically use a single prompt across models. It covers prompt banks and how prompt desiderata differ for LLM developers, targeted downstream-application developers and open-ended user-facing applications. <span class="meta">(Outline, Part 4)</span><br><span class="scope">Scope: Zero-shot and in-context-learning evaluation of generative models; the part points to published work on paraphrase creation and paraphrase robustness rather than presenting new experiments.</span></li>
+<li>The tutorial &quot;Navigating the Modern Evaluation Landscape&quot; runs six parts on a stated schedule. Introduction takes 35 minutes, Framework for Benchmarking 10, Metrics 45, Prompts 45, Efficient Benchmark Design 45, and Manual Evaluation Efforts 30. <span class="meta">(Outline)</span><br><span class="scope">Scope: The outline as submitted for the LREC-COLING 2024 tutorial session; actual delivery may differ.</span></li>
+<li>The LLM evaluation tutorial dedicates 30 minutes to manual evaluation, asking whether human evaluation is being abandoned and covering the alignment paradigm and LLM-human feedback loops. <span class="meta">(Outline, Part 6)</span><br><span class="scope">Scope: Human evaluation as one component of the benchmarking pipeline; the reading list covers a human-evaluation best-practices framework and reproducibility in NLP.</span></li>
+<li>The LLM evaluation tutorial reviews open-source evaluation frameworks including HELM, OpenAI Evals and LM-evaluation-harness alongside business frameworks, starting from what requirements a benchmarking framework must satisfy. <span class="meta">(Outline, Part 2)</span><br><span class="scope">Scope: Framework coverage is the shortest part of the tutorial at 10 minutes and is descriptive; no head-to-head comparison or ranking of the frameworks is reported.</span></li>
+<li>The LLM evaluation tutorial frames what makes a good benchmark in terms of validity and reliability, and surveys common ways practitioners reduce benchmarking compute together with best practices for compute reduction. <span class="meta">(Outline, Part 5)</span><br><span class="scope">Scope: Covered in the 45-minute efficient benchmark design part, drawing on efficient-benchmarking and anchor-points literature; presented as best practices rather than a new reduction algorithm.</span></li>
+<li>&quot;Navigating the Modern Evaluation Landscape&quot; is an entry-point reading for LLM evaluation, assuming little to no prior knowledge of evaluation. It pairs the taught pipeline with a curated reading list on evaluation surveys, current benchmarks, prompts, metrics, efficient benchmarking and manual evaluation.<br><span class="scope">Scope: Best fit for readers who worked on one aspect of evaluation but lack the big picture, and for researchers new to LLM-specific challenges; the reading list reflects work available as of early 2024.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The tutorial does not claim that traditional evaluation methods are obsolete: N-gram reference metrics and other classic concepts are taught as still relevant and still widely used, and are contrasted with, not replaced by, newer approaches.</li>
+<li>The claim that evaluation can cost more compute than pretraining is cited from prior work on emergent and predictable memorization, not measured in the tutorial itself.</li>
+<li>&quot;Navigating the Modern Evaluation Landscape&quot; is a taught overview with a reading list, not a benchmark, a leaderboard, or an empirical study; it reports no new experimental results, tables or figures.</li>
+<li>Assuming little prior knowledge of evaluation does not make the content elementary: the tutorial is billed as cutting-edge and targets researchers who know one aspect of evaluation but lack the pipeline-level view.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>efficient benchmarking</em></dt><dd>Reducing the compute cost of evaluating language models by decisions such as using fewer examples, fewer prompts or fewer models, while preserving the benchmark&#x27;s validity and reliability.</dd>
+<dt><em>reference-less metric</em></dt><dd>An evaluation metric that scores a model&#x27;s output without comparing it against a human-written reference answer.</dd>
+<dt><em>prompt bank</em></dt><dd>A curated collection of alternative prompts for the same task, used so that a model is evaluated over several phrasings instead of a single hand-picked prompt.</dd>
+<dt><em>evaluation of evaluation</em></dt><dd>Assessing whether an evaluation metric or protocol itself is valid, for instance by checking how well a metric&#x27;s scores agree with the quality judgements it is supposed to reflect.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{choshen2024navigating,
-title={Navigating the Modern Evaluation Landscape: Considerations in Benchmarks and Frameworks for Large Language Models (LLMs)},
+<pre>@inproceedings{choshen2024navigating,title={Navigating the Modern Evaluation Landscape: Considerations in Benchmarks and Frameworks for Large Language Models (LLMs)},
   author={Choshen, Leshem and Gera, Ariel and Perlitz, Yotam and Shmueli-Scheuer, Michal and Stanovsky, Gabriel},
   booktitle={Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation (LREC-COLING 2024): Tutorial Summaries},
   pages={19--25},

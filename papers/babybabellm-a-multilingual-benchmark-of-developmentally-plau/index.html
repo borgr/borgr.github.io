@@ -11,7 +11,7 @@
   <meta name="citation_author" content="Akari Haga">
   <meta name="citation_author" content="Bastian Bunzeck">
   <meta name="citation_author" content="Bhargav Shandilya">
-  <meta name="citation_author" content="Diana Galv\&#x27;an-Sosa">
+  <meta name="citation_author" content="Diana Galván-Sosa">
   <meta name="citation_author" content="Faiz Ghifari Haznitrama">
   <meta name="citation_author" content="Francesca Padovani">
   <meta name="citation_author" content="Francois Meyer">
@@ -19,7 +19,7 @@
   <meta name="citation_author" content="Julen Etxaniz">
   <meta name="citation_author" content="Laurent Pr&#x27;evot">
   <meta name="citation_author" content="Linyang He">
-  <meta name="citation_author" content="Mar\&#x27;ia Grandury">
+  <meta name="citation_author" content="María Grandury">
   <meta name="citation_author" content="Mila Marcheva">
   <meta name="citation_author" content="Negar Foroutan">
   <meta name="citation_author" content="Nikitas Theodoropoulos">
@@ -33,7 +33,7 @@
   <meta name="citation_author" content="Alexander Scott Warstadt">
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_publication_date" content="2026">
-  <meta name="citation_journal_title" content="EACL">
+  <meta name="citation_conference_title" content="EACL">
   <meta name="citation_doi" content="10.48550/arXiv.2510.10159">
   <meta name="citation_arxiv_id" content="2510.10159">
   <meta name="citation_abstract" content="We present BabyBabelLM, a multilingual collection of datasets modeling the language a person observes from birth until they acquire a native language. We curate developmentally plausible pretraining data aiming to cover the equivalent of 100M English words of content in each of 45 languages. We compile evaluation suites and train baseline models in each language. BabyBabelLM aims to facilitate multilingual pretraining and cognitive modeling.">
@@ -67,7 +67,7 @@
     },
     {
       "@type": "Person",
-      "name": "Diana Galv\\'an-Sosa"
+      "name": "Diana Galván-Sosa"
     },
     {
       "@type": "Person",
@@ -99,7 +99,7 @@
     },
     {
       "@type": "Person",
-      "name": "Mar\\'ia Grandury"
+      "name": "María Grandury"
     },
     {
       "@type": "Person",
@@ -159,17 +159,299 @@
   },
   "identifier": "https://doi.org/10.48550/arXiv.2510.10159",
   "abstract": "We present BabyBabelLM, a multilingual collection of datasets modeling the language a person observes from birth until they acquire a native language. We curate developmentally plausible pretraining data aiming to cover the equivalent of 100M English words of content in each of 45 languages. We compile evaluation suites and train baseline models in each language. BabyBabelLM aims to facilitate multilingual pretraining and cognitive modeling.",
+  "description": "BabyBabelLM curates developmentally plausible pretraining corpora for 45 languages, sized into 100M/10M/1M English-equivalent-token tiers via byte premiums, and adds an evaluation suite plus monolingual, bilingual and multilingual baseline models.",
   "codeRepository": "https://github.com/babylm-org/multilingual-babylm",
   "sameAs": [
     "https://api.semanticscholar.org/CorpusID:282058670",
     "https://arxiv.org/abs/2510.10159",
     "https://arxiv.org/html/2510.10159",
     "https://arxiv.org/pdf/2510.10159",
+    "https://babylm.github.io/babybabellm",
     "https://doi.org/10.48550/arXiv.2510.10159",
     "https://github.com/babylm-org/multilingual-babylm",
     "https://huggingface.co/papers/2510.10159",
     "https://www.alphaxiv.org/abs/2510.10159",
     "https://www.semanticscholar.org/paper/282058670"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "BabyBabelLM is a coordinated multilingual collection of developmentally plausible pretraining corpora covering 45 languages, released together with an evaluation suite and baseline models for each language.",
+      "description": "Holds for: 45 languages spanning families primarily rooted in Europe, Asia and Africa, 22 of them Indo-European; as of the 2025 initial release."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 45 BabyBabelLM languages split into 9 Tier 1 languages at roughly 100M English-equivalent tokens, 15 Tier 2 languages at 10M and 21 Tier 3 languages at 1M.",
+      "description": "Holds for: Thresholds calibrated with the byte premium approach of Arnett et al. (2024); tier size reached by padding when plausible data runs out."
+    },
+    {
+      "@type": "Thing",
+      "name": "Most BabyBabelLM languages reach their tier size largely through padding rather than child-oriented data. Bulgarian's corpus contains 90,563,381 padding tokens and Indonesian's 96,044,750, while English needs only 20,706,303.",
+      "description": "Holds for: Per-language token counts in the initial release; padding is child-appropriate OpenSubtitles where available, with FineWeb-C and Wikipedia as fallback. Some languages, such as Persian and Spanish, rely on padding far less."
+    },
+    {
+      "@type": "Thing",
+      "name": "16 of the 45 BabyBabelLM languages, including Basque, Czech, Hebrew, Korean, Russian, Turkish and Welsh, are populated only from general-purpose multilingual sources (CHILDES, GlotStoryBooks, Ririro and child wikis) with no language-specific collection.",
+      "description": "Holds for: Initial release; the authors describe these entries as starting points and provide a pipeline for community expansion."
+    },
+    {
+      "@type": "Thing",
+      "name": "Monolingual 17.1M-parameter GPT-2 models trained on BabyBabelLM typically score above 80% on MultiBLiMP subject-verb agreement minimal pairs for Tier 1 languages. French reaches 94.1% and Bulgarian 90.8%, against a 50% chance baseline.",
+      "description": "Holds for: GPT-2 with 4 layers, 8 heads, hidden size 512 and an 8,192-token BPE vocabulary, 10 epochs per language; MultiBLiMP zero-shot. Tier 2 and 3 languages score lower, down to 58.5% for Russian."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyBabelLM monolingual baselines stay close to random chance on functional-competence benchmarks including XCOPA, ARC, XCOMPS and HellaSwag, with HellaSwag accuracies clustered around 25–27% against 25% chance.",
+      "description": "Holds for: 17.1M-parameter GPT-2 models; ARC, TruthfulQA, BMLAMA, Belebele, INCLUDE, SIB-200, Global-MMLU, MultiNLI, XNLI and XCOPA scores are after finetuning on up to 8,000 items for 10 epochs, other tasks zero-shot."
+    },
+    {
+      "@type": "Thing",
+      "name": "Zero-shot prompting on classification and question-answering benchmarks failed for the BabyBabelLM models, because corpora of 1M–100M tokens are too small for in-context learning to emerge. Those tasks are reported after finetuning instead.",
+      "description": "Holds for: ARC, TruthfulQA, BMLAMA, Belebele, INCLUDE, SIB-200, Global-MMLU, MultiNLI, XNLI and XCOPA with the 17.1M-parameter GPT-2 baselines; cited evidence puts induction heads at 2.5–5B tokens of exposure."
+    },
+    {
+      "@type": "Thing",
+      "name": "On MultiBLiMP the monolingual BabyBabelLM models generally beat the 111M-parameter multilingual BabyBabelLM model, which improves only modestly on 4 Tier 3 languages.",
+      "description": "Holds for: Multilingual model: 12 layers, hidden size 768, 32,768-token vocabulary, 1 epoch on roughly 1B tokens; only languages with MultiBLiMP coverage."
+    },
+    {
+      "@type": "Thing",
+      "name": "Qwen3-0.6B outperforms the multilingual BabyBabelLM model on MultiBLiMP in most languages, while BabyBabelLM remains stronger in 8 languages with no clear trend by tier; on Belebele both BabyBabelLM models sit near chance while Qwen3-0.6B is substantially higher in every language.",
+      "description": "Holds for: Multilingual BabyBabelLM has 111M parameters trained on roughly 1B tokens for 1 epoch, against Qwen3-0.6B trained on ordinary web-scale data; Belebele scores for BabyBabelLM are post-finetuning."
+    },
+    {
+      "@type": "Thing",
+      "name": "Adding English as a second training language raises zero-shot accuracy across most Tier 1 languages on SIB-200, BMLAMA, XCOMPS and INCLUDE, with Dutch SIB-200 gaining 24.8 points. MultiBLiMP performance is largely unchanged.",
+      "description": "Holds for: Each Tier 1 language paired with the English BabyLM corpus, 200M tokens total, same GPT-2 configuration but 5 epochs; Dutch on INCLUDE slightly decreases."
+    },
+    {
+      "@type": "Thing",
+      "name": "GPT-BERT, the architecture that won the 2024 BabyLM Challenge, did not outperform the 17.1M-parameter GPT-2 baselines on BabyBabelLM data, scoring consistently lower on SIB-200 and MultiBLiMP.",
+      "description": "Holds for: Tier 1 and Tier 2 languages only, 500 steps for Tier 1 and 250 for Tier 2, 12 layers, hidden size 768, 16,384-token vocabulary; no configuration search."
+    },
+    {
+      "@type": "Thing",
+      "name": "MultiBLiMP is the only benchmark in the BabyBabelLM evaluation suite that approaches coverage of all included languages, and many languages are evaluated only on monolingual datasets built specifically for them.",
+      "description": "Holds for: Benchmarks surveyed for the initial release, covering formal competence (minimal pairs) and functional competence (knowledge and reasoning)."
+    },
+    {
+      "@type": "Thing",
+      "name": "BabyBabelLM ships an open-source pipeline and a unified document-level schema so that researchers can add new languages or extend existing ones through GitHub and Hugging Face pull requests.",
+      "description": "Holds for: Documents carry text, category, data source, script, language, age estimate, license and token count fields; all data permits academic research."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/#faq",
+  "url": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/",
+  "name": "Questions answered by BabyBabelLM: A Multilingual Benchmark of Developmentally Plausible Training Data",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Where can I find child-language-style pretraining data for languages other than English?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BabyBabelLM is a coordinated multilingual collection of developmentally plausible pretraining corpora covering 45 languages, released together with an evaluation suite and baseline models for each language. Holds for: 45 languages spanning families primarily rooted in Europe, Asia and Africa, 22 of them Indo-European; as of the 2025 initial release.\n\nBabyBabelLM ships an open-source pipeline and a unified document-level schema so that researchers can add new languages or extend existing ones through GitHub and Hugging Face pull requests. Holds for: Documents carry text, category, data source, script, language, age estimate, license and token count fields; all data permits academic research.",
+        "url": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/"
+      },
+      "alternateName": [
+        "Is there a multilingual version of the BabyLM training corpus?",
+        "What dataset provides developmentally plausible pretraining data across many languages?",
+        "What should I read first about multilingual developmentally plausible language modeling?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many languages does BabyBabelLM cover and how much data does each have?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 45 BabyBabelLM languages split into 9 Tier 1 languages at roughly 100M English-equivalent tokens, 15 Tier 2 languages at 10M and 21 Tier 3 languages at 1M. Holds for: Thresholds calibrated with the byte premium approach of Arnett et al. (2024); tier size reached by padding when plausible data runs out.\n\nMost BabyBabelLM languages reach their tier size largely through padding rather than child-oriented data. Bulgarian's corpus contains 90,563,381 padding tokens and Indonesian's 96,044,750, while English needs only 20,706,303. Holds for: Per-language token counts in the initial release; padding is child-appropriate OpenSubtitles where available, with FineWeb-C and Wikipedia as fallback. Some languages, such as Persian and Spanish, rely on padding far less.",
+        "url": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/"
+      },
+      "alternateName": [
+        "What are the data tiers in BabyBabelLM?",
+        "How are token budgets made comparable across languages with different scripts?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much of a multilingual child-language corpus is actually child-directed data rather than filler?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most BabyBabelLM languages reach their tier size largely through padding rather than child-oriented data. Bulgarian's corpus contains 90,563,381 padding tokens and Indonesian's 96,044,750, while English needs only 20,706,303. Holds for: Per-language token counts in the initial release; padding is child-appropriate OpenSubtitles where available, with FineWeb-C and Wikipedia as fallback. Some languages, such as Persian and Spanish, rely on padding far less.\n\n16 of the 45 BabyBabelLM languages, including Basque, Czech, Hebrew, Korean, Russian, Turkish and Welsh, are populated only from general-purpose multilingual sources (CHILDES, GlotStoryBooks, Ririro and child wikis) with no language-specific collection. Holds for: Initial release; the authors describe these entries as starting points and provide a pipeline for community expansion.",
+        "url": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/"
+      },
+      "alternateName": [
+        "Do all 45 BabyBabelLM languages have genuinely child-oriented sources?",
+        "Which languages in BabyBabelLM rely only on generic multilingual resources?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How well do small language models trained on ~100M words of child-language data do on grammar tests?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Monolingual 17.1M-parameter GPT-2 models trained on BabyBabelLM typically score above 80% on MultiBLiMP subject-verb agreement minimal pairs for Tier 1 languages. French reaches 94.1% and Bulgarian 90.8%, against a 50% chance baseline. Holds for: GPT-2 with 4 layers, 8 heads, hidden size 512 and an 8,192-token BPE vocabulary, 10 epochs per language; MultiBLiMP zero-shot. Tier 2 and 3 languages score lower, down to 58.5% for Russian.",
+        "url": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/"
+      },
+      "alternateName": [
+        "What accuracy do BabyBabelLM baselines reach on MultiBLiMP?",
+        "Does data size affect subject-verb agreement performance in tiny multilingual LMs?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can models trained on 1M-100M tokens do reasoning or knowledge benchmarks?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyBabelLM monolingual baselines stay close to random chance on functional-competence benchmarks including XCOPA, ARC, XCOMPS and HellaSwag, with HellaSwag accuracies clustered around 25–27% against 25% chance. Holds for: 17.1M-parameter GPT-2 models; ARC, TruthfulQA, BMLAMA, Belebele, INCLUDE, SIB-200, Global-MMLU, MultiNLI, XNLI and XCOPA scores are after finetuning on up to 8,000 items for 10 epochs, other tasks zero-shot.\n\nZero-shot prompting on classification and question-answering benchmarks failed for the BabyBabelLM models, because corpora of 1M–100M tokens are too small for in-context learning to emerge. Those tasks are reported after finetuning instead. Holds for: ARC, TruthfulQA, BMLAMA, Belebele, INCLUDE, SIB-200, Global-MMLU, MultiNLI, XNLI and XCOPA with the 17.1M-parameter GPT-2 baselines; cited evidence puts induction heads at 2.5–5B tokens of exposure.",
+        "url": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/"
+      },
+      "alternateName": [
+        "Why are the BabyBabelLM baselines near chance on commonsense and knowledge tasks?",
+        "Do tiny developmentally plausible language models learn in-context learning?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is one multilingual model better than separate per-language models at this data scale?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On MultiBLiMP the monolingual BabyBabelLM models generally beat the 111M-parameter multilingual BabyBabelLM model, which improves only modestly on 4 Tier 3 languages. Holds for: Multilingual model: 12 layers, hidden size 768, 32,768-token vocabulary, 1 epoch on roughly 1B tokens; only languages with MultiBLiMP coverage.",
+        "url": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/"
+      },
+      "alternateName": [
+        "Does a multilingual BabyLM beat monolingual BabyLMs on grammar minimal pairs?",
+        "How does BabyBabelLM's multilingual model compare to the monolingual ones?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How do tiny developmentally plausible models compare to an off-the-shelf small multilingual LLM?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Qwen3-0.6B outperforms the multilingual BabyBabelLM model on MultiBLiMP in most languages, while BabyBabelLM remains stronger in 8 languages with no clear trend by tier; on Belebele both BabyBabelLM models sit near chance while Qwen3-0.6B is substantially higher in every language. Holds for: Multilingual BabyBabelLM has 111M parameters trained on roughly 1B tokens for 1 epoch, against Qwen3-0.6B trained on ordinary web-scale data; Belebele scores for BabyBabelLM are post-finetuning.",
+        "url": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/"
+      },
+      "alternateName": [
+        "Does Qwen3-0.6B beat BabyBabelLM models?",
+        "Are BabyBabelLM baselines competitive with web-scale-trained small models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does adding English to a low-resource pretraining corpus help downstream performance?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Adding English as a second training language raises zero-shot accuracy across most Tier 1 languages on SIB-200, BMLAMA, XCOMPS and INCLUDE, with Dutch SIB-200 gaining 24.8 points. MultiBLiMP performance is largely unchanged. Holds for: Each Tier 1 language paired with the English BabyLM corpus, 200M tokens total, same GPT-2 configuration but 5 epochs; Dutch on INCLUDE slightly decreases.",
+        "url": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/"
+      },
+      "alternateName": [
+        "What happens when a BabyLM is trained bilingually with English?",
+        "Does bilingual training change syntactic competence in small language models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does the BabyLM 2024 winning architecture transfer to other languages?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GPT-BERT, the architecture that won the 2024 BabyLM Challenge, did not outperform the 17.1M-parameter GPT-2 baselines on BabyBabelLM data, scoring consistently lower on SIB-200 and MultiBLiMP. Holds for: Tier 1 and Tier 2 languages only, 500 steps for Tier 1 and 250 for Tier 2, 12 layers, hidden size 768, 16,384-token vocabulary; no configuration search.",
+        "url": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/"
+      },
+      "alternateName": [
+        "How does GPT-BERT compare to GPT-2 on multilingual developmentally plausible data?",
+        "Which architecture works best on BabyBabelLM corpora?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What evaluation benchmarks exist for developmentally plausible models across many languages?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MultiBLiMP is the only benchmark in the BabyBabelLM evaluation suite that approaches coverage of all included languages, and many languages are evaluated only on monolingual datasets built specifically for them. Holds for: Benchmarks surveyed for the initial release, covering formal competence (minimal pairs) and functional competence (knowledge and reasoning).",
+        "url": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/"
+      },
+      "alternateName": [
+        "Which benchmark covers the most languages in the BabyBabelLM suite?",
+        "What are the limits of multilingual evaluation for small child-language models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How can I contribute a new language to BabyBabelLM?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BabyBabelLM ships an open-source pipeline and a unified document-level schema so that researchers can add new languages or extend existing ones through GitHub and Hugging Face pull requests. Holds for: Documents carry text, category, data source, script, language, age estimate, license and token count fields; all data permits academic research.",
+        "url": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/"
+      },
+      "alternateName": [
+        "Is the multilingual BabyLM dataset extensible by the community?",
+        "What metadata do BabyBabelLM documents carry?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/#terms",
+  "url": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/",
+  "name": "Terminology in BabyBabelLM: A Multilingual Benchmark of Developmentally Plausible Training Data",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Developmental plausibility",
+      "description": "The criterion that pretraining data should approximate the linguistic input a child actually encounters, prioritising child-directed speech, educational material and child-oriented books, wikis and subtitles, and excluding synthetic corpora such as TinyStories.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Byte premium",
+      "description": "A per-language multiplier on UTF-8 encoded size that makes token budgets comparable across orthographies and morphologies, so that '100M English-equivalent tokens' means the same amount of content in each language.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Language tier",
+      "description": "A size class of a BabyBabelLM language dataset, where Tier 1 targets the equivalent of 100M English tokens, Tier 2 10M and Tier 3 1M.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Padding",
+      "description": "Filler data added to a language dataset to reach its target tier size, drawn mainly from child-appropriate OpenSubtitles and, where insufficient, FineWeb-C and Wikipedia.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "MonoBLiMP",
+      "description": "The collection of language-specific minimal pair benchmarks used together in the BabyBabelLM evaluation suite, including Basque, Chinese, Japanese, German and Turkish resources plus CLAMS for English, French, German, Russian and Hebrew.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Child-available speech",
+      "description": "Speech children are exposed to without being the intended recipient, such as overheard adult-adult conversation, included alongside child-directed speech.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babybabellm-a-multilingual-benchmark-of-developmentally-plau/#terms"
+    }
   ]
 }
   </script>
@@ -180,6 +462,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -193,17 +476,104 @@
 </head>
 <body>
 <h1>BabyBabelLM: A Multilingual Benchmark of Developmentally Plausible Training Data</h1>
-<p class="meta">Jaap Jumelet, Abdellah Fourtassi, Akari Haga, Bastian Bunzeck, Bhargav Shandilya, Diana Galv\&#x27;an-Sosa, Faiz Ghifari Haznitrama, Francesca Padovani, Francois Meyer, Hai Hu, Julen Etxaniz, Laurent Pr&#x27;evot, Linyang He, Mar\&#x27;ia Grandury, Mila Marcheva, Negar Foroutan, Nikitas Theodoropoulos, Pouya Mir Mohammad Sadeghi, Siyuan Song, Suchir Salhan, Susana Zhou, Yurii Paniv, Ziyin Zhang, Arianna Bisazza, Alexander Scott Warstadt, Leshem Choshen · EACL · 2026</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2510.10159">arXiv</a></li><li><a href="https://arxiv.org/pdf/2510.10159">PDF</a></li><li><a href="https://arxiv.org/html/2510.10159">HTML</a></li><li><a href="https://huggingface.co/papers/2510.10159">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2510.10159">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2510.10159">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/282058670">Semantic Scholar</a></li><li><a href="https://api.semanticscholar.org/CorpusID:282058670">Publisher</a></li><li><a href="https://github.com/babylm-org/multilingual-babylm">Code</a></li></ul>
+<p class="sub">multilingual child-language-style pretraining corpora, evaluations and baseline models for 45 languages</p>
+<p class="meta">Jaap Jumelet, Abdellah Fourtassi, Akari Haga, Bastian Bunzeck, Bhargav Shandilya, Diana Galván-Sosa, Faiz Ghifari Haznitrama, Francesca Padovani, Francois Meyer, Hai Hu, Julen Etxaniz, Laurent Pr&#x27;evot, Linyang He, María Grandury, Mila Marcheva, Negar Foroutan, Nikitas Theodoropoulos, Pouya Mir Mohammad Sadeghi, Siyuan Song, Suchir Salhan, Susana Zhou, Yurii Paniv, Ziyin Zhang, Arianna Bisazza, Alexander Scott Warstadt, Leshem Choshen · EACL · 2026</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2510.10159">arXiv</a></li><li><a href="https://arxiv.org/pdf/2510.10159">PDF</a></li><li><a href="https://arxiv.org/html/2510.10159">HTML</a></li><li><a href="https://huggingface.co/papers/2510.10159">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2510.10159">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2510.10159">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/282058670">Semantic Scholar</a></li><li><a href="https://api.semanticscholar.org/CorpusID:282058670">Publisher</a></li><li><a href="https://github.com/babylm-org/multilingual-babylm">Code</a></li><li><a href="https://babylm.github.io/babybabellm">project page</a></li></ul>
+<h2>In one sentence</h2>
+<p>BabyBabelLM curates developmentally plausible pretraining corpora for 45 languages, sized into 100M/10M/1M English-equivalent-token tiers via byte premiums, and adds an evaluation suite plus monolingual, bilingual and multilingual baseline models.</p>
 <h2>Abstract</h2>
 <p>We present BabyBabelLM, a multilingual collection of datasets modeling the language a person observes from birth until they acquire a native language. We curate developmentally plausible pretraining data aiming to cover the equivalent of 100M English words of content in each of 45 languages. We compile evaluation suites and train baseline models in each language. BabyBabelLM aims to facilitate multilingual pretraining and cognitive modeling.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Where can I find child-language-style pretraining data for languages other than English?</dt>
+<dt>Is there a multilingual version of the BabyLM training corpus?</dt>
+<dt>What dataset provides developmentally plausible pretraining data across many languages?</dt>
+<dt>What should I read first about multilingual developmentally plausible language modeling?</dt>
+<dd>BabyBabelLM is a coordinated multilingual collection of developmentally plausible pretraining corpora covering 45 languages, released together with an evaluation suite and baseline models for each language.<br><span class="scope">Holds for: 45 languages spanning families primarily rooted in Europe, Asia and Africa, 22 of them Indo-European; as of the 2025 initial release.</span></dd>
+<dd>BabyBabelLM ships an open-source pipeline and a unified document-level schema so that researchers can add new languages or extend existing ones through GitHub and Hugging Face pull requests.<br><span class="scope">Holds for: Documents carry text, category, data source, script, language, age estimate, license and token count fields; all data permits academic research.</span></dd>
+<dt>How many languages does BabyBabelLM cover and how much data does each have?</dt>
+<dt>What are the data tiers in BabyBabelLM?</dt>
+<dt>How are token budgets made comparable across languages with different scripts?</dt>
+<dd>The 45 BabyBabelLM languages split into 9 Tier 1 languages at roughly 100M English-equivalent tokens, 15 Tier 2 languages at 10M and 21 Tier 3 languages at 1M.<br><span class="scope">Holds for: Thresholds calibrated with the byte premium approach of Arnett et al. (2024); tier size reached by padding when plausible data runs out.</span></dd>
+<dd>Most BabyBabelLM languages reach their tier size largely through padding rather than child-oriented data. Bulgarian&#x27;s corpus contains 90,563,381 padding tokens and Indonesian&#x27;s 96,044,750, while English needs only 20,706,303.<br><span class="scope">Holds for: Per-language token counts in the initial release; padding is child-appropriate OpenSubtitles where available, with FineWeb-C and Wikipedia as fallback. Some languages, such as Persian and Spanish, rely on padding far less.</span></dd>
+<dt>How much of a multilingual child-language corpus is actually child-directed data rather than filler?</dt>
+<dt>Do all 45 BabyBabelLM languages have genuinely child-oriented sources?</dt>
+<dt>Which languages in BabyBabelLM rely only on generic multilingual resources?</dt>
+<dd>Most BabyBabelLM languages reach their tier size largely through padding rather than child-oriented data. Bulgarian&#x27;s corpus contains 90,563,381 padding tokens and Indonesian&#x27;s 96,044,750, while English needs only 20,706,303.<br><span class="scope">Holds for: Per-language token counts in the initial release; padding is child-appropriate OpenSubtitles where available, with FineWeb-C and Wikipedia as fallback. Some languages, such as Persian and Spanish, rely on padding far less.</span></dd>
+<dd>16 of the 45 BabyBabelLM languages, including Basque, Czech, Hebrew, Korean, Russian, Turkish and Welsh, are populated only from general-purpose multilingual sources (CHILDES, GlotStoryBooks, Ririro and child wikis) with no language-specific collection.<br><span class="scope">Holds for: Initial release; the authors describe these entries as starting points and provide a pipeline for community expansion.</span></dd>
+<dt>How well do small language models trained on ~100M words of child-language data do on grammar tests?</dt>
+<dt>What accuracy do BabyBabelLM baselines reach on MultiBLiMP?</dt>
+<dt>Does data size affect subject-verb agreement performance in tiny multilingual LMs?</dt>
+<dd>Monolingual 17.1M-parameter GPT-2 models trained on BabyBabelLM typically score above 80% on MultiBLiMP subject-verb agreement minimal pairs for Tier 1 languages. French reaches 94.1% and Bulgarian 90.8%, against a 50% chance baseline.<br><span class="scope">Holds for: GPT-2 with 4 layers, 8 heads, hidden size 512 and an 8,192-token BPE vocabulary, 10 epochs per language; MultiBLiMP zero-shot. Tier 2 and 3 languages score lower, down to 58.5% for Russian.</span></dd>
+<dt>Can models trained on 1M-100M tokens do reasoning or knowledge benchmarks?</dt>
+<dt>Why are the BabyBabelLM baselines near chance on commonsense and knowledge tasks?</dt>
+<dt>Do tiny developmentally plausible language models learn in-context learning?</dt>
+<dd>The BabyBabelLM monolingual baselines stay close to random chance on functional-competence benchmarks including XCOPA, ARC, XCOMPS and HellaSwag, with HellaSwag accuracies clustered around 25–27% against 25% chance.<br><span class="scope">Holds for: 17.1M-parameter GPT-2 models; ARC, TruthfulQA, BMLAMA, Belebele, INCLUDE, SIB-200, Global-MMLU, MultiNLI, XNLI and XCOPA scores are after finetuning on up to 8,000 items for 10 epochs, other tasks zero-shot.</span></dd>
+<dd>Zero-shot prompting on classification and question-answering benchmarks failed for the BabyBabelLM models, because corpora of 1M–100M tokens are too small for in-context learning to emerge. Those tasks are reported after finetuning instead.<br><span class="scope">Holds for: ARC, TruthfulQA, BMLAMA, Belebele, INCLUDE, SIB-200, Global-MMLU, MultiNLI, XNLI and XCOPA with the 17.1M-parameter GPT-2 baselines; cited evidence puts induction heads at 2.5–5B tokens of exposure.</span></dd>
+<dt>Is one multilingual model better than separate per-language models at this data scale?</dt>
+<dt>Does a multilingual BabyLM beat monolingual BabyLMs on grammar minimal pairs?</dt>
+<dt>How does BabyBabelLM&#x27;s multilingual model compare to the monolingual ones?</dt>
+<dd>On MultiBLiMP the monolingual BabyBabelLM models generally beat the 111M-parameter multilingual BabyBabelLM model, which improves only modestly on 4 Tier 3 languages.<br><span class="scope">Holds for: Multilingual model: 12 layers, hidden size 768, 32,768-token vocabulary, 1 epoch on roughly 1B tokens; only languages with MultiBLiMP coverage.</span></dd>
+<dt>How do tiny developmentally plausible models compare to an off-the-shelf small multilingual LLM?</dt>
+<dt>Does Qwen3-0.6B beat BabyBabelLM models?</dt>
+<dt>Are BabyBabelLM baselines competitive with web-scale-trained small models?</dt>
+<dd>Qwen3-0.6B outperforms the multilingual BabyBabelLM model on MultiBLiMP in most languages, while BabyBabelLM remains stronger in 8 languages with no clear trend by tier; on Belebele both BabyBabelLM models sit near chance while Qwen3-0.6B is substantially higher in every language.<br><span class="scope">Holds for: Multilingual BabyBabelLM has 111M parameters trained on roughly 1B tokens for 1 epoch, against Qwen3-0.6B trained on ordinary web-scale data; Belebele scores for BabyBabelLM are post-finetuning.</span></dd>
+<dt>Does adding English to a low-resource pretraining corpus help downstream performance?</dt>
+<dt>What happens when a BabyLM is trained bilingually with English?</dt>
+<dt>Does bilingual training change syntactic competence in small language models?</dt>
+<dd>Adding English as a second training language raises zero-shot accuracy across most Tier 1 languages on SIB-200, BMLAMA, XCOMPS and INCLUDE, with Dutch SIB-200 gaining 24.8 points. MultiBLiMP performance is largely unchanged.<br><span class="scope">Holds for: Each Tier 1 language paired with the English BabyLM corpus, 200M tokens total, same GPT-2 configuration but 5 epochs; Dutch on INCLUDE slightly decreases.</span></dd>
+<dt>Does the BabyLM 2024 winning architecture transfer to other languages?</dt>
+<dt>How does GPT-BERT compare to GPT-2 on multilingual developmentally plausible data?</dt>
+<dt>Which architecture works best on BabyBabelLM corpora?</dt>
+<dd>GPT-BERT, the architecture that won the 2024 BabyLM Challenge, did not outperform the 17.1M-parameter GPT-2 baselines on BabyBabelLM data, scoring consistently lower on SIB-200 and MultiBLiMP.<br><span class="scope">Holds for: Tier 1 and Tier 2 languages only, 500 steps for Tier 1 and 250 for Tier 2, 12 layers, hidden size 768, 16,384-token vocabulary; no configuration search.</span></dd>
+<dt>What evaluation benchmarks exist for developmentally plausible models across many languages?</dt>
+<dt>Which benchmark covers the most languages in the BabyBabelLM suite?</dt>
+<dt>What are the limits of multilingual evaluation for small child-language models?</dt>
+<dd>MultiBLiMP is the only benchmark in the BabyBabelLM evaluation suite that approaches coverage of all included languages, and many languages are evaluated only on monolingual datasets built specifically for them.<br><span class="scope">Holds for: Benchmarks surveyed for the initial release, covering formal competence (minimal pairs) and functional competence (knowledge and reasoning).</span></dd>
+<dt>How can I contribute a new language to BabyBabelLM?</dt>
+<dt>Is the multilingual BabyLM dataset extensible by the community?</dt>
+<dt>What metadata do BabyBabelLM documents carry?</dt>
+<dd>BabyBabelLM ships an open-source pipeline and a unified document-level schema so that researchers can add new languages or extend existing ones through GitHub and Hugging Face pull requests.<br><span class="scope">Holds for: Documents carry text, category, data source, script, language, age estimate, license and token count fields; all data permits academic research.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>BabyBabelLM is a coordinated multilingual collection of developmentally plausible pretraining corpora covering 45 languages, released together with an evaluation suite and baseline models for each language.<br><span class="scope">Scope: 45 languages spanning families primarily rooted in Europe, Asia and Africa, 22 of them Indo-European; as of the 2025 initial release.</span></li>
+<li>The 45 BabyBabelLM languages split into 9 Tier 1 languages at roughly 100M English-equivalent tokens, 15 Tier 2 languages at 10M and 21 Tier 3 languages at 1M. <span class="meta">(Section 3.2.2, Table 3)</span><br><span class="scope">Scope: Thresholds calibrated with the byte premium approach of Arnett et al. (2024); tier size reached by padding when plausible data runs out.</span></li>
+<li>Most BabyBabelLM languages reach their tier size largely through padding rather than child-oriented data. Bulgarian&#x27;s corpus contains 90,563,381 padding tokens and Indonesian&#x27;s 96,044,750, while English needs only 20,706,303. <span class="meta">(Table 3)</span><br><span class="scope">Scope: Per-language token counts in the initial release; padding is child-appropriate OpenSubtitles where available, with FineWeb-C and Wikipedia as fallback. Some languages, such as Persian and Spanish, rely on padding far less.</span></li>
+<li>16 of the 45 BabyBabelLM languages, including Basque, Czech, Hebrew, Korean, Russian, Turkish and Welsh, are populated only from general-purpose multilingual sources (CHILDES, GlotStoryBooks, Ririro and child wikis) with no language-specific collection. <span class="meta">(Section 3.1.2, Appendix C.19)</span><br><span class="scope">Scope: Initial release; the authors describe these entries as starting points and provide a pipeline for community expansion.</span></li>
+<li>Monolingual 17.1M-parameter GPT-2 models trained on BabyBabelLM typically score above 80% on MultiBLiMP subject-verb agreement minimal pairs for Tier 1 languages. French reaches 94.1% and Bulgarian 90.8%, against a 50% chance baseline. <span class="meta">(Table 1, Section 5)</span><br><span class="scope">Scope: GPT-2 with 4 layers, 8 heads, hidden size 512 and an 8,192-token BPE vocabulary, 10 epochs per language; MultiBLiMP zero-shot. Tier 2 and 3 languages score lower, down to 58.5% for Russian.</span></li>
+<li>The BabyBabelLM monolingual baselines stay close to random chance on functional-competence benchmarks including XCOPA, ARC, XCOMPS and HellaSwag, with HellaSwag accuracies clustered around 25–27% against 25% chance. <span class="meta">(Table 1)</span><br><span class="scope">Scope: 17.1M-parameter GPT-2 models; ARC, TruthfulQA, BMLAMA, Belebele, INCLUDE, SIB-200, Global-MMLU, MultiNLI, XNLI and XCOPA scores are after finetuning on up to 8,000 items for 10 epochs, other tasks zero-shot.</span></li>
+<li>Zero-shot prompting on classification and question-answering benchmarks failed for the BabyBabelLM models, because corpora of 1M–100M tokens are too small for in-context learning to emerge. Those tasks are reported after finetuning instead. <span class="meta">(Section 4)</span><br><span class="scope">Scope: ARC, TruthfulQA, BMLAMA, Belebele, INCLUDE, SIB-200, Global-MMLU, MultiNLI, XNLI and XCOPA with the 17.1M-parameter GPT-2 baselines; cited evidence puts induction heads at 2.5–5B tokens of exposure.</span></li>
+<li>On MultiBLiMP the monolingual BabyBabelLM models generally beat the 111M-parameter multilingual BabyBabelLM model, which improves only modestly on 4 Tier 3 languages. <span class="meta">(Figure 2)</span><br><span class="scope">Scope: Multilingual model: 12 layers, hidden size 768, 32,768-token vocabulary, 1 epoch on roughly 1B tokens; only languages with MultiBLiMP coverage.</span></li>
+<li>Qwen3-0.6B outperforms the multilingual BabyBabelLM model on MultiBLiMP in most languages, while BabyBabelLM remains stronger in 8 languages with no clear trend by tier; on Belebele both BabyBabelLM models sit near chance while Qwen3-0.6B is substantially higher in every language. <span class="meta">(Figure 2, Table 5)</span><br><span class="scope">Scope: Multilingual BabyBabelLM has 111M parameters trained on roughly 1B tokens for 1 epoch, against Qwen3-0.6B trained on ordinary web-scale data; Belebele scores for BabyBabelLM are post-finetuning.</span></li>
+<li>Adding English as a second training language raises zero-shot accuracy across most Tier 1 languages on SIB-200, BMLAMA, XCOMPS and INCLUDE, with Dutch SIB-200 gaining 24.8 points. MultiBLiMP performance is largely unchanged. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: Each Tier 1 language paired with the English BabyLM corpus, 200M tokens total, same GPT-2 configuration but 5 epochs; Dutch on INCLUDE slightly decreases.</span></li>
+<li>GPT-BERT, the architecture that won the 2024 BabyLM Challenge, did not outperform the 17.1M-parameter GPT-2 baselines on BabyBabelLM data, scoring consistently lower on SIB-200 and MultiBLiMP. <span class="meta">(Figure 4, Appendix D)</span><br><span class="scope">Scope: Tier 1 and Tier 2 languages only, 500 steps for Tier 1 and 250 for Tier 2, 12 layers, hidden size 768, 16,384-token vocabulary; no configuration search.</span></li>
+<li>MultiBLiMP is the only benchmark in the BabyBabelLM evaluation suite that approaches coverage of all included languages, and many languages are evaluated only on monolingual datasets built specifically for them. <span class="meta">(Table 1, Limitations)</span><br><span class="scope">Scope: Benchmarks surveyed for the initial release, covering formal competence (minimal pairs) and functional competence (knowledge and reasoning).</span></li>
+<li>BabyBabelLM ships an open-source pipeline and a unified document-level schema so that researchers can add new languages or extend existing ones through GitHub and Hugging Face pull requests.<br><span class="scope">Scope: Documents carry text, category, data source, script, language, age estimate, license and token count fields; all data permits academic research.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>BabyBabelLM does not give every language 100M English-equivalent tokens: only 9 languages reach Tier 1, while 21 languages sit at roughly 1M tokens.</li>
+<li>The BabyBabelLM per-language token totals are not all developmentally plausible content — several languages, such as Bulgarian and Indonesian, are padded to their tier size with subtitles, FineWeb-C or Wikipedia, so cross-linguistic comparisons must account for differing corpus composition.</li>
+<li>The 45 BabyBabelLM baseline models are not usable general-purpose LMs: at 17.1M parameters they sit near random chance on reasoning and knowledge benchmarks and are offered as starting points for further experimentation.</li>
+<li>That GPT-BERT underperformed GPT-2 on BabyBabelLM is not evidence that GPT-BERT is a worse architecture in general; only a single configuration with 500 or 250 training steps was tried and no configuration search was carried out.</li>
+<li>BabyBabelLM does not claim to reproduce the actual input any individual native speaker receives; the distribution of topics and formats is a coarse approximation of a child&#x27;s linguistic environment, better than Wikipedia dumps but not equivalent to real acquisition input.</li>
+<li>Excluding synthetic corpora such as TinyStories from BabyBabelLM was a deliberate design choice motivated by reduced linguistic long tails and more uniform syntax in synthetic text, not an oversight.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Developmental plausibility</em></dt><dd>The criterion that pretraining data should approximate the linguistic input a child actually encounters, prioritising child-directed speech, educational material and child-oriented books, wikis and subtitles, and excluding synthetic corpora such as TinyStories.</dd>
+<dt><em>Byte premium</em></dt><dd>A per-language multiplier on UTF-8 encoded size that makes token budgets comparable across orthographies and morphologies, so that &#x27;100M English-equivalent tokens&#x27; means the same amount of content in each language.</dd>
+<dt><em>Language tier</em></dt><dd>A size class of a BabyBabelLM language dataset, where Tier 1 targets the equivalent of 100M English tokens, Tier 2 10M and Tier 3 1M.</dd>
+<dt><em>Padding</em></dt><dd>Filler data added to a language dataset to reach its target tier size, drawn mainly from child-appropriate OpenSubtitles and, where insufficient, FineWeb-C and Wikipedia.</dd>
+<dt><em>MonoBLiMP</em></dt><dd>The collection of language-specific minimal pair benchmarks used together in the BabyBabelLM evaluation suite, including Basque, Chinese, Japanese, German and Turkish resources plus CLAMS for English, French, German, Russian and Hebrew.</dd>
+<dt><em>Child-available speech</em></dt><dd>Speech children are exposed to without being the intended recipient, such as overheard adult-adult conversation, included alongside child-directed speech.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@article{jumelet2025babybabellm,
-title={BabyBabelLM: A Multilingual Benchmark of Developmentally Plausible Training Data},
+<pre>@inproceedings{jumelet2025babybabellm,
+  title={BabyBabelLM: A Multilingual Benchmark of Developmentally Plausible Training Data},
   author={Jaap Jumelet and Abdellah Fourtassi and Akari Haga and Bastian Bunzeck and Bhargav Shandilya and Diana Galv{\&#x27;a}n-Sosa and Faiz Ghifari Haznitrama and Francesca Padovani and Francois Meyer and Hai Hu and Julen Etxaniz and Laurent Pr&#x27;evot and Linyang He and Mar{\&#x27;i}a Grandury and Mila Marcheva and Negar Foroutan and Nikitas Theodoropoulos and Pouya Mir Mohammad Sadeghi and Siyuan Song and Suchir Salhan and Susana Zhou and Yurii Paniv and Ziyin Zhang and Arianna Bisazza and Alexander Scott Warstadt and Leshem Choshen},
-  journal={EACL},
+  booktitle={EACL},
   year={2026},
-  volume={abs/2510.10159},
+  eprint={2510.10159},
+  archivePrefix={arXiv},
   url={https://api.semanticscholar.org/CorpusID:282058670}
 }</pre>
 <h2>References</h2>

@@ -11,7 +11,7 @@
   <meta name="citation_author" content="Eyal Shnarch">
   <meta name="citation_author" content="Francesca Toni">
   <meta name="citation_publication_date" content="2022">
-  <meta name="citation_conference_title" content="Proceedings of the Thirteenth Language Resources and Evaluation Conference, LREC 2022, Marseille, France…">
+  <meta name="citation_conference_title" content="LREC 2022">
   <meta name="citation_doi" content="10.63317/3n2tjf9emh64">
   <meta name="citation_arxiv_id" content="2104.03958">
   <meta name="citation_abstract" content="Data exploration is an important step of every data science and machine learning project, including those involving textual data. We provide a novel language tool, in the form of a publicly available Python library for extracting patterns from textual data. The library integrates a first public implementation of the existing GrASP algorithm. It allows users to extract patterns using a number of general-purpose built-in linguistic attributes (such as hypernyms, part-of-speech tags, and syntactic dependency tags), as envisaged for the original algorithm, as well as domain-specific custom attributes which can be incorporated into the library by implementing two functions. The library is equipped with a web-based interface empowering human users to conveniently explore data via the extracted patterns, using complementary pattern-centric and example-centric views: the former includes a reading in natural language and statistics of each extracted pattern; the latter shows applications of each extracted pattern to training examples. We demonstrate the usefulness of the library in classification (spam detection and argument mining), model analysis (machine translation), and artifact discovery in datasets (SNLI and 20Newsgroups).">
@@ -45,10 +45,12 @@
   "datePublished": "2022",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the Thirteenth Language Resources and Evaluation Conference, LREC 2022, Marseille, France…"
+    "name": "LREC 2022"
   },
   "identifier": "https://doi.org/10.63317/3n2tjf9emh64",
   "abstract": "Data exploration is an important step of every data science and machine learning project, including those involving textual data. We provide a novel language tool, in the form of a publicly available Python library for extracting patterns from textual data. The library integrates a first public implementation of the existing GrASP algorithm. It allows users to extract patterns using a number of general-purpose built-in linguistic attributes (such as hypernyms, part-of-speech tags, and syntactic dependency tags), as envisaged for the original algorithm, as well as domain-specific custom attributes which can be incorporated into the library by implementing two functions. The library is equipped with a web-based interface empowering human users to conveniently explore data via the extracted patterns, using complementary pattern-centric and example-centric views: the former includes a reading in natural language and statistics of each extracted pattern; the latter shows applications of each extracted pattern to training examples. We demonstrate the usefulness of the library in classification (spam detection and argument mining), model analysis (machine translation), and artifact discovery in datasets (SNLI and 20Newsgroups).",
+  "description": "GrASP is an open-source Python library and web exploration tool that learns human-interpretable textual patterns — sequences of conjoined linguistic attributes such as part-of-speech, hypernym and sentiment tags — distinguishing a positive from a negative set of texts.",
+  "codeRepository": "https://github.com/plkumjorn/GrASP",
   "sameAs": [
     "https://aclanthology.org/2022.lrec-1.655",
     "https://aclanthology.org/2022.lrec-1.655/",
@@ -56,9 +58,288 @@
     "https://arxiv.org/abs/2104.03958",
     "https://arxiv.org/pdf/2104.03958",
     "https://doi.org/10.63317/3n2tjf9emh64",
+    "https://github.com/plkumjorn/GrASP",
     "https://huggingface.co/papers/2104.03958",
+    "https://plkumjorn.github.io/GrASP",
+    "https://plkumjorn.github.io/GrASP",
     "https://www.alphaxiv.org/abs/2104.03958",
     "https://www.semanticscholar.org/paper/233181806"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "The GrASP library is the first publicly released implementation of the GrASP pattern-extraction algorithm, which was proposed by Shnarch et al. in 2017 without a public implementation.",
+      "description": "Holds for: As of the 2022 LREC publication, and about implementations of that specific algorithm; the authors report finding no public tools for other pattern-learning algorithms either."
+    },
+    {
+      "@type": "Thing",
+      "name": "GrASP fills a gap in textual data exploration tooling, where most tools for text analyze data only at the word or n-gram level. GrASP instead learns and displays recurring generalizable patterns that match tokens by linguistic attributes rather than surface form.",
+      "description": "Holds for: Positioning as of 2022, per the authors' survey of exploration tools, pattern-based search engines (which require an expert to write the patterns) and rule-based extraction systems; built-in attributes are English-only."
+    },
+    {
+      "@type": "Thing",
+      "name": "Removing 20Newsgroups training examples matched by GrASP-flagged artifact patterns raised out-of-distribution accuracy on the Religion test set from 0.674 to 0.725. Macro F1 rose from 0.682 to 0.739, versus a size-matched sample of the original data.",
+      "description": "Holds for: Christianity vs. Atheism+Religion(misc) with a 1D CNN over 300-dimensional GloVe embeddings, average of 5 runs with SD up to 0.06. The larger class was downsampled and patterns kept at precision ≥75% before a human flagged artifacts."
+    },
+    {
+      "@type": "Thing",
+      "name": "Filtering out examples matched by GrASP artifact patterns left in-domain 20Newsgroups performance essentially unchanged, at 0.800 accuracy and 0.804 macro F1 versus 0.810 and 0.818 for the size-matched unfiltered sample.",
+      "description": "Holds for: Christianity vs. Atheism+Religion(misc) with a 1D CNN and GloVe embeddings, average of 5 repetitions with SD 0.01–0.03; the in-domain gap is within one SD."
+    },
+    {
+      "@type": "Thing",
+      "name": "In the 20Newsgroups artifact use case, GrASP produced 133 patterns at precision ≥75%. A human annotator using the web exploration tool flagged 40 of the 133 as semantically irrelevant to the task and therefore likely artifacts.",
+      "description": "Holds for: One annotator, Christianity vs. Atheism+Religion(misc), after downsampling the majority class; no inter-annotator agreement or annotation-time measurement is reported."
+    },
+    {
+      "@type": "Thing",
+      "name": "Applied to 10K SNLI entailment and 10K contradiction hypotheses, GrASP recovered known annotation artifacts with added structure. Examples include an entailment pattern of noun + 'be' + a hypernym of 'outside' at 97% precision, and negative-sentiment verbs correlating with contradiction at 75.7% precision.",
+      "description": "Holds for: Hypothesis-only subsets of SNLI entailment vs. contradiction, 200 patterns and alphabet size 200, information gain as selection criterion, patterns kept only at precision ≥75%; precisions are on the training subset, not a held-out split."
+    },
+    {
+      "@type": "Thing",
+      "name": "Using the top and bottom 25% of WMT19 English-German quality-estimation sentences as positive and negative sets, GrASP found 60 patterns with precision ≥80% for easy-to-translate inputs. Only 16 patterns above 60% precision were found for hard inputs, indicating challenging inputs are more diverse.",
+      "description": "Holds for: 13K automatically translated sentences from one MT model judged by human quality scores, default GrASP hyperparameters, 100 patterns output; recall of the high-precision positive patterns ranges from 5% to 35%, and the data mixes Reviews and IT domains."
+    },
+    {
+      "@type": "Thing",
+      "name": "GrASP patterns over WMT19 English-German quality-estimation data independently surfaced translation difficulties already documented in the literature. GrASP dedicated a pattern to the lemma 'be' and found an adjective-noun-noun pattern capturing structural ambiguity such as 'new blog entry'.",
+      "description": "Holds for: Qualitative agreement with prior MT analysis for a single MT model on WMT19 en-de quality-estimation data; the patterns were selected by the authors as illustrative, with no systematic recall over the set of known hurdles."
+    },
+    {
+      "@type": "Thing",
+      "name": "On the topic-dependent argument mining corpus of 4,065 training and 1,720 test topic-sentence pairs, GrASP's most indicative pattern was the word 'that' in its preposition sense. That matches the known expert indicator of argumentative content.",
+      "description": "Holds for: Information gain as selection criterion, 100 patterns, up to 2 gaps allowed, built-in attributes plus a custom binary attribute for lexicon membership of argumentative words; no downstream classification accuracy is reported."
+    },
+    {
+      "@type": "Thing",
+      "name": "A single GrASP pattern groups 3 SMS spam messages that share almost no words, such as \"awarded a SiPix Digital Camera\" and \"WIN a FREE Bluetooth Headset\". That pattern is a positive-sentiment word followed closely by a determiner and then a proper noun.",
+      "description": "Holds for: Illustrative examples from the SMS spam dataset used throughout the paper; no coverage or precision figure is measured for this pattern."
+    },
+    {
+      "@type": "Thing",
+      "name": "The GrASP library translates each extracted pattern into an English sentence via templates, so readers without linguistic training can interpret patterns. It renders [[HYPERNYM:communication.n.02], [POS:NUM]] as \"A type of communication (n), closely followed by a number\".",
+      "description": "Holds for: Template-based translation of the built-in English attributes; custom attributes require the user to implement their own explanation function, and no user study of comprehension is reported."
+    },
+    {
+      "@type": "Thing",
+      "name": "The GrASP library extends the original 2017 algorithm with user-pluggable pattern-selection criteria and domain-specific custom attributes added by implementing 2 functions. It also adds a limit on gaps between matched tokens that overrides the window size, and a minimum-coverage threshold.",
+      "description": "Holds for: The released library's API and hyperparameters; the original algorithm ranked patterns by information gain only, and no experiment isolates the benefit of each added parameter."
+    },
+    {
+      "@type": "Thing",
+      "name": "The GrASP web tool renders 4 linked report views, 2 pattern-centric and 2 example-centric. The pattern-centric views give a sortable table of all patterns with coverage, precision, recall and F1 plus the examples each pattern matches, while the example-centric views highlight matched words per example.",
+      "description": "Holds for: Flask-based tool consuming the JSON exported by the GrASP library; it can also display output from other pattern-extraction algorithms if formatted into the required JSON schema."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/#faq",
+  "url": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/",
+  "name": "Questions answered by GrASP: A Library for Extracting and Exploring Human-Interpretable Textual Patterns",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What tools exist for exploring a text dataset beyond word clouds and n-gram counts?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GrASP fills a gap in textual data exploration tooling, where most tools for text analyze data only at the word or n-gram level. GrASP instead learns and displays recurring generalizable patterns that match tokens by linguistic attributes rather than surface form. Holds for: Positioning as of 2022, per the authors' survey of exploration tools, pattern-based search engines (which require an expert to write the patterns) and rule-based extraction systems; built-in attributes are English-only.\n\nThe GrASP library is the first publicly released implementation of the GrASP pattern-extraction algorithm, which was proposed by Shnarch et al. in 2017 without a public implementation. Holds for: As of the 2022 LREC publication, and about implementations of that specific algorithm; the authors report finding no public tools for other pattern-learning algorithms either.",
+        "url": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/"
+      },
+      "alternateName": [
+        "Where should I start reading about learning interpretable patterns from text?",
+        "Is there a library that extracts human-readable linguistic patterns from labelled text?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does removing dataset artifacts actually improve out-of-distribution accuracy?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Removing 20Newsgroups training examples matched by GrASP-flagged artifact patterns raised out-of-distribution accuracy on the Religion test set from 0.674 to 0.725. Macro F1 rose from 0.682 to 0.739, versus a size-matched sample of the original data. Holds for: Christianity vs. Atheism+Religion(misc) with a 1D CNN over 300-dimensional GloVe embeddings, average of 5 runs with SD up to 0.06. The larger class was downsampled and patterns kept at precision ≥75% before a human flagged artifacts.\n\nFiltering out examples matched by GrASP artifact patterns left in-domain 20Newsgroups performance essentially unchanged, at 0.800 accuracy and 0.804 macro F1 versus 0.810 and 0.818 for the size-matched unfiltered sample. Holds for: Christianity vs. Atheism+Religion(misc) with a 1D CNN and GloVe embeddings, average of 5 repetitions with SD 0.01–0.03; the in-domain gap is within one SD.",
+        "url": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/"
+      },
+      "alternateName": [
+        "How much does filtering artifact-matching training examples help generalization on 20Newsgroups?",
+        "What was the out-of-distribution gain from GrASP-based artifact removal?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does deleting artifact-matched training examples hurt in-domain accuracy?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Filtering out examples matched by GrASP artifact patterns left in-domain 20Newsgroups performance essentially unchanged, at 0.800 accuracy and 0.804 macro F1 versus 0.810 and 0.818 for the size-matched unfiltered sample. Holds for: Christianity vs. Atheism+Religion(misc) with a 1D CNN and GloVe embeddings, average of 5 repetitions with SD 0.01–0.03; the in-domain gap is within one SD.",
+        "url": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/"
+      },
+      "alternateName": [
+        "What is the in-domain cost of filtering a training set with GrASP patterns?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much human effort does it take to label patterns as dataset artifacts?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In the 20Newsgroups artifact use case, GrASP produced 133 patterns at precision ≥75%. A human annotator using the web exploration tool flagged 40 of the 133 as semantically irrelevant to the task and therefore likely artifacts. Holds for: One annotator, Christianity vs. Atheism+Religion(misc), after downsampling the majority class; no inter-annotator agreement or annotation-time measurement is reported.",
+        "url": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/"
+      },
+      "alternateName": [
+        "How many GrASP patterns did an annotator flag as artifacts in 20Newsgroups?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can pattern mining find annotation artifacts in SNLI?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Applied to 10K SNLI entailment and 10K contradiction hypotheses, GrASP recovered known annotation artifacts with added structure. Examples include an entailment pattern of noun + 'be' + a hypernym of 'outside' at 97% precision, and negative-sentiment verbs correlating with contradiction at 75.7% precision. Holds for: Hypothesis-only subsets of SNLI entailment vs. contradiction, 200 patterns and alphabet size 200, information gain as selection criterion, patterns kept only at precision ≥75%; precisions are on the training subset, not a held-out split.",
+        "url": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/"
+      },
+      "alternateName": [
+        "What artifacts does GrASP find in SNLI hypotheses, and with what precision?",
+        "Do hypothesis-only artifacts in natural language inference show up as linguistic patterns?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can pattern extraction tell me which inputs a machine translation model handles well?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Using the top and bottom 25% of WMT19 English-German quality-estimation sentences as positive and negative sets, GrASP found 60 patterns with precision ≥80% for easy-to-translate inputs. Only 16 patterns above 60% precision were found for hard inputs, indicating challenging inputs are more diverse. Holds for: 13K automatically translated sentences from one MT model judged by human quality scores, default GrASP hyperparameters, 100 patterns output; recall of the high-precision positive patterns ranges from 5% to 35%, and the data mixes Reviews and IT domains.\n\nGrASP patterns over WMT19 English-German quality-estimation data independently surfaced translation difficulties already documented in the literature. GrASP dedicated a pattern to the lemma 'be' and found an adjective-noun-noun pattern capturing structural ambiguity such as 'new blog entry'. Holds for: Qualitative agreement with prior MT analysis for a single MT model on WMT19 en-de quality-estimation data; the patterns were selected by the authors as illustrative, with no systematic recall over the set of known hurdles.",
+        "url": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/"
+      },
+      "alternateName": [
+        "How were easy and hard MT inputs characterized with GrASP on WMT19 English-German?",
+        "Are hard-to-translate sentences harder to characterize with patterns than easy ones?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does GrASP rediscover things experts already know about argumentative text?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On the topic-dependent argument mining corpus of 4,065 training and 1,720 test topic-sentence pairs, GrASP's most indicative pattern was the word 'that' in its preposition sense. That matches the known expert indicator of argumentative content. Holds for: Information gain as selection criterion, 100 patterns, up to 2 gaps allowed, built-in attributes plus a custom binary attribute for lexicon membership of argumentative words; no downstream classification accuracy is reported.",
+        "url": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/"
+      },
+      "alternateName": [
+        "What did pattern mining reveal on the topic-dependent argument mining corpus?",
+        "Which single feature was most indicative of evidence sentences in argument mining?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What does a GrASP pattern actually look like?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A single GrASP pattern groups 3 SMS spam messages that share almost no words, such as \"awarded a SiPix Digital Camera\" and \"WIN a FREE Bluetooth Headset\". That pattern is a positive-sentiment word followed closely by a determiner and then a proper noun. Holds for: Illustrative examples from the SMS spam dataset used throughout the paper; no coverage or precision figure is measured for this pattern.",
+        "url": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/"
+      },
+      "alternateName": [
+        "How can one pattern match spam messages that share no words?",
+        "What is an example of an attribute-sequence pattern for SMS spam?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How are extracted linguistic patterns made readable for non-experts?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The GrASP library translates each extracted pattern into an English sentence via templates, so readers without linguistic training can interpret patterns. It renders [[HYPERNYM:communication.n.02], [POS:NUM]] as \"A type of communication (n), closely followed by a number\". Holds for: Template-based translation of the built-in English attributes; custom attributes require the user to implement their own explanation function, and no user study of comprehension is reported.",
+        "url": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/"
+      },
+      "alternateName": [
+        "Can attribute patterns be translated into plain English?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How do I add my own domain-specific attributes to GrASP pattern extraction?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The GrASP library extends the original 2017 algorithm with user-pluggable pattern-selection criteria and domain-specific custom attributes added by implementing 2 functions. It also adds a limit on gaps between matched tokens that overrides the window size, and a minimum-coverage threshold. Holds for: The released library's API and hyperparameters; the original algorithm ranked patterns by information gain only, and no experiment isolates the benefit of each added parameter.",
+        "url": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/"
+      },
+      "alternateName": [
+        "What does the GrASP library add over the original 2017 algorithm?",
+        "Can I change the criterion used to rank extracted patterns?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What does the GrASP web interface show?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The GrASP web tool renders 4 linked report views, 2 pattern-centric and 2 example-centric. The pattern-centric views give a sortable table of all patterns with coverage, precision, recall and F1 plus the examples each pattern matches, while the example-centric views highlight matched words per example. Holds for: Flask-based tool consuming the JSON exported by the GrASP library; it can also display output from other pattern-extraction algorithms if formatted into the required JSON schema.",
+        "url": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/"
+      },
+      "alternateName": [
+        "Can I browse extracted patterns and their matches in a dataset visually?",
+        "Can the web viewer display patterns from a different pattern-extraction algorithm?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/#terms",
+  "url": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/",
+  "name": "Terminology in GrASP: A Library for Extracting and Exploring Human-Interpretable Textual Patterns",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "GrASP pattern",
+      "description": "A sequence of slots, each a conjunction of linguistic attributes (e.g. [[SENTIMENT:pos], [POS:det], [POS:propn]]), matching tokens that appear in that order within a window and optionally with a bounded number of gaps between them.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Alphabet (in GrASP)",
+      "description": "The set of token-level attributes retained after scoring, from which multi-slot patterns are greedily composed; its size is a hyperparameter of the GrASP library.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Pattern-centric report",
+      "description": "A view of extracted patterns organised by pattern: level 1 lists every pattern with its coverage, metric score, precision, recall and F1, and level 2 lists the positive and negative training examples one pattern matches.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Example-centric report",
+      "description": "A view of extracted patterns organised by training example: level 1 lists all examples with words matched by positive, negative or both kinds of patterns highlighted, and level 2 lists all patterns matching one example.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Dataset artifact",
+      "description": "A token or phrase that is irrelevant to a classification task but frequently appears in examples of some classes, letting a trained model exploit a spurious correlation that does not generalise out of distribution.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Custom attribute",
+      "description": "A user-defined token annotation added to GrASP by subclassing CustomAttribute and implementing 2 functions, one extracting the attribute from an input text and one producing its natural-language explanation.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/grasp-a-library-for-extracting-and-exploring-human-interpret/#terms"
+    }
   ]
 }
   </script>
@@ -69,6 +350,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -82,13 +364,93 @@
 </head>
 <body>
 <h1>GrASP: A Library for Extracting and Exploring Human-Interpretable Textual Patterns</h1>
-<p class="meta">Piyawat Lertvittayakumjorn, Leshem Choshen, Eyal Shnarch, Francesca Toni · Proceedings of the Thirteenth Language Resources and Evaluation Conference, LREC 2022, Marseille, France… · 2022</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2104.03958">arXiv</a></li><li><a href="https://arxiv.org/pdf/2104.03958">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2104.03958">HTML</a></li><li><a href="https://huggingface.co/papers/2104.03958">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2104.03958">alphaXiv</a></li><li><a href="https://doi.org/10.63317/3n2tjf9emh64">DOI</a></li><li><a href="https://aclanthology.org/2022.lrec-1.655/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/233181806">Semantic Scholar</a></li><li><a href="https://aclanthology.org/2022.lrec-1.655">Publisher</a></li></ul>
+<p class="sub">an open-source Python tool that learns human-readable text patterns (sequences of linguistic attributes) separating two sets of texts, plus a web viewer for them</p>
+<p class="meta">Piyawat Lertvittayakumjorn, Leshem Choshen, Eyal Shnarch, Francesca Toni · LREC 2022 · 2022</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2104.03958">arXiv</a></li><li><a href="https://arxiv.org/pdf/2104.03958">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2104.03958">HTML</a></li><li><a href="https://huggingface.co/papers/2104.03958">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2104.03958">alphaXiv</a></li><li><a href="https://doi.org/10.63317/3n2tjf9emh64">DOI</a></li><li><a href="https://aclanthology.org/2022.lrec-1.655/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/233181806">Semantic Scholar</a></li><li><a href="https://aclanthology.org/2022.lrec-1.655">Publisher</a></li><li><a href="https://plkumjorn.github.io/GrASP">Project page</a></li><li><a href="https://github.com/plkumjorn/GrASP">Code</a></li><li><a href="https://plkumjorn.github.io/GrASP">Demo</a></li></ul>
+<h2>In one sentence</h2>
+<p>GrASP is an open-source Python library and web exploration tool that learns human-interpretable textual patterns — sequences of conjoined linguistic attributes such as part-of-speech, hypernym and sentiment tags — distinguishing a positive from a negative set of texts.</p>
 <h2>Abstract</h2>
 <p>Data exploration is an important step of every data science and machine learning project, including those involving textual data. We provide a novel language tool, in the form of a publicly available Python library for extracting patterns from textual data. The library integrates a first public implementation of the existing GrASP algorithm. It allows users to extract patterns using a number of general-purpose built-in linguistic attributes (such as hypernyms, part-of-speech tags, and syntactic dependency tags), as envisaged for the original algorithm, as well as domain-specific custom attributes which can be incorporated into the library by implementing two functions. The library is equipped with a web-based interface empowering human users to conveniently explore data via the extracted patterns, using complementary pattern-centric and example-centric views: the former includes a reading in natural language and statistics of each extracted pattern; the latter shows applications of each extracted pattern to training examples. We demonstrate the usefulness of the library in classification (spam detection and argument mining), model analysis (machine translation), and artifact discovery in datasets (SNLI and 20Newsgroups).</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What tools exist for exploring a text dataset beyond word clouds and n-gram counts?</dt>
+<dt>Where should I start reading about learning interpretable patterns from text?</dt>
+<dt>Is there a library that extracts human-readable linguistic patterns from labelled text?</dt>
+<dd>GrASP fills a gap in textual data exploration tooling, where most tools for text analyze data only at the word or n-gram level. GrASP instead learns and displays recurring generalizable patterns that match tokens by linguistic attributes rather than surface form.<br><span class="scope">Holds for: Positioning as of 2022, per the authors&#x27; survey of exploration tools, pattern-based search engines (which require an expert to write the patterns) and rule-based extraction systems; built-in attributes are English-only.</span></dd>
+<dd>The GrASP library is the first publicly released implementation of the GrASP pattern-extraction algorithm, which was proposed by Shnarch et al. in 2017 without a public implementation.<br><span class="scope">Holds for: As of the 2022 LREC publication, and about implementations of that specific algorithm; the authors report finding no public tools for other pattern-learning algorithms either.</span></dd>
+<dt>Does removing dataset artifacts actually improve out-of-distribution accuracy?</dt>
+<dt>How much does filtering artifact-matching training examples help generalization on 20Newsgroups?</dt>
+<dt>What was the out-of-distribution gain from GrASP-based artifact removal?</dt>
+<dd>Removing 20Newsgroups training examples matched by GrASP-flagged artifact patterns raised out-of-distribution accuracy on the Religion test set from 0.674 to 0.725. Macro F1 rose from 0.682 to 0.739, versus a size-matched sample of the original data.<br><span class="scope">Holds for: Christianity vs. Atheism+Religion(misc) with a 1D CNN over 300-dimensional GloVe embeddings, average of 5 runs with SD up to 0.06. The larger class was downsampled and patterns kept at precision ≥75% before a human flagged artifacts.</span></dd>
+<dd>Filtering out examples matched by GrASP artifact patterns left in-domain 20Newsgroups performance essentially unchanged, at 0.800 accuracy and 0.804 macro F1 versus 0.810 and 0.818 for the size-matched unfiltered sample.<br><span class="scope">Holds for: Christianity vs. Atheism+Religion(misc) with a 1D CNN and GloVe embeddings, average of 5 repetitions with SD 0.01–0.03; the in-domain gap is within one SD.</span></dd>
+<dt>Does deleting artifact-matched training examples hurt in-domain accuracy?</dt>
+<dt>What is the in-domain cost of filtering a training set with GrASP patterns?</dt>
+<dd>Filtering out examples matched by GrASP artifact patterns left in-domain 20Newsgroups performance essentially unchanged, at 0.800 accuracy and 0.804 macro F1 versus 0.810 and 0.818 for the size-matched unfiltered sample.<br><span class="scope">Holds for: Christianity vs. Atheism+Religion(misc) with a 1D CNN and GloVe embeddings, average of 5 repetitions with SD 0.01–0.03; the in-domain gap is within one SD.</span></dd>
+<dt>How much human effort does it take to label patterns as dataset artifacts?</dt>
+<dt>How many GrASP patterns did an annotator flag as artifacts in 20Newsgroups?</dt>
+<dd>In the 20Newsgroups artifact use case, GrASP produced 133 patterns at precision ≥75%. A human annotator using the web exploration tool flagged 40 of the 133 as semantically irrelevant to the task and therefore likely artifacts.<br><span class="scope">Holds for: One annotator, Christianity vs. Atheism+Religion(misc), after downsampling the majority class; no inter-annotator agreement or annotation-time measurement is reported.</span></dd>
+<dt>Can pattern mining find annotation artifacts in SNLI?</dt>
+<dt>What artifacts does GrASP find in SNLI hypotheses, and with what precision?</dt>
+<dt>Do hypothesis-only artifacts in natural language inference show up as linguistic patterns?</dt>
+<dd>Applied to 10K SNLI entailment and 10K contradiction hypotheses, GrASP recovered known annotation artifacts with added structure. Examples include an entailment pattern of noun + &#x27;be&#x27; + a hypernym of &#x27;outside&#x27; at 97% precision, and negative-sentiment verbs correlating with contradiction at 75.7% precision.<br><span class="scope">Holds for: Hypothesis-only subsets of SNLI entailment vs. contradiction, 200 patterns and alphabet size 200, information gain as selection criterion, patterns kept only at precision ≥75%; precisions are on the training subset, not a held-out split.</span></dd>
+<dt>Can pattern extraction tell me which inputs a machine translation model handles well?</dt>
+<dt>How were easy and hard MT inputs characterized with GrASP on WMT19 English-German?</dt>
+<dt>Are hard-to-translate sentences harder to characterize with patterns than easy ones?</dt>
+<dd>Using the top and bottom 25% of WMT19 English-German quality-estimation sentences as positive and negative sets, GrASP found 60 patterns with precision ≥80% for easy-to-translate inputs. Only 16 patterns above 60% precision were found for hard inputs, indicating challenging inputs are more diverse.<br><span class="scope">Holds for: 13K automatically translated sentences from one MT model judged by human quality scores, default GrASP hyperparameters, 100 patterns output; recall of the high-precision positive patterns ranges from 5% to 35%, and the data mixes Reviews and IT domains.</span></dd>
+<dd>GrASP patterns over WMT19 English-German quality-estimation data independently surfaced translation difficulties already documented in the literature. GrASP dedicated a pattern to the lemma &#x27;be&#x27; and found an adjective-noun-noun pattern capturing structural ambiguity such as &#x27;new blog entry&#x27;.<br><span class="scope">Holds for: Qualitative agreement with prior MT analysis for a single MT model on WMT19 en-de quality-estimation data; the patterns were selected by the authors as illustrative, with no systematic recall over the set of known hurdles.</span></dd>
+<dt>Does GrASP rediscover things experts already know about argumentative text?</dt>
+<dt>What did pattern mining reveal on the topic-dependent argument mining corpus?</dt>
+<dt>Which single feature was most indicative of evidence sentences in argument mining?</dt>
+<dd>On the topic-dependent argument mining corpus of 4,065 training and 1,720 test topic-sentence pairs, GrASP&#x27;s most indicative pattern was the word &#x27;that&#x27; in its preposition sense. That matches the known expert indicator of argumentative content.<br><span class="scope">Holds for: Information gain as selection criterion, 100 patterns, up to 2 gaps allowed, built-in attributes plus a custom binary attribute for lexicon membership of argumentative words; no downstream classification accuracy is reported.</span></dd>
+<dt>What does a GrASP pattern actually look like?</dt>
+<dt>How can one pattern match spam messages that share no words?</dt>
+<dt>What is an example of an attribute-sequence pattern for SMS spam?</dt>
+<dd>A single GrASP pattern groups 3 SMS spam messages that share almost no words, such as &quot;awarded a SiPix Digital Camera&quot; and &quot;WIN a FREE Bluetooth Headset&quot;. That pattern is a positive-sentiment word followed closely by a determiner and then a proper noun.<br><span class="scope">Holds for: Illustrative examples from the SMS spam dataset used throughout the paper; no coverage or precision figure is measured for this pattern.</span></dd>
+<dt>How are extracted linguistic patterns made readable for non-experts?</dt>
+<dt>Can attribute patterns be translated into plain English?</dt>
+<dd>The GrASP library translates each extracted pattern into an English sentence via templates, so readers without linguistic training can interpret patterns. It renders [[HYPERNYM:communication.n.02], [POS:NUM]] as &quot;A type of communication (n), closely followed by a number&quot;.<br><span class="scope">Holds for: Template-based translation of the built-in English attributes; custom attributes require the user to implement their own explanation function, and no user study of comprehension is reported.</span></dd>
+<dt>How do I add my own domain-specific attributes to GrASP pattern extraction?</dt>
+<dt>What does the GrASP library add over the original 2017 algorithm?</dt>
+<dt>Can I change the criterion used to rank extracted patterns?</dt>
+<dd>The GrASP library extends the original 2017 algorithm with user-pluggable pattern-selection criteria and domain-specific custom attributes added by implementing 2 functions. It also adds a limit on gaps between matched tokens that overrides the window size, and a minimum-coverage threshold.<br><span class="scope">Holds for: The released library&#x27;s API and hyperparameters; the original algorithm ranked patterns by information gain only, and no experiment isolates the benefit of each added parameter.</span></dd>
+<dt>What does the GrASP web interface show?</dt>
+<dt>Can I browse extracted patterns and their matches in a dataset visually?</dt>
+<dt>Can the web viewer display patterns from a different pattern-extraction algorithm?</dt>
+<dd>The GrASP web tool renders 4 linked report views, 2 pattern-centric and 2 example-centric. The pattern-centric views give a sortable table of all patterns with coverage, precision, recall and F1 plus the examples each pattern matches, while the example-centric views highlight matched words per example.<br><span class="scope">Holds for: Flask-based tool consuming the JSON exported by the GrASP library; it can also display output from other pattern-extraction algorithms if formatted into the required JSON schema.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>The GrASP library is the first publicly released implementation of the GrASP pattern-extraction algorithm, which was proposed by Shnarch et al. in 2017 without a public implementation.<br><span class="scope">Scope: As of the 2022 LREC publication, and about implementations of that specific algorithm; the authors report finding no public tools for other pattern-learning algorithms either.</span></li>
+<li>GrASP fills a gap in textual data exploration tooling, where most tools for text analyze data only at the word or n-gram level. GrASP instead learns and displays recurring generalizable patterns that match tokens by linguistic attributes rather than surface form.<br><span class="scope">Scope: Positioning as of 2022, per the authors&#x27; survey of exploration tools, pattern-based search engines (which require an expert to write the patterns) and rule-based extraction systems; built-in attributes are English-only.</span></li>
+<li>Removing 20Newsgroups training examples matched by GrASP-flagged artifact patterns raised out-of-distribution accuracy on the Religion test set from 0.674 to 0.725. Macro F1 rose from 0.682 to 0.739, versus a size-matched sample of the original data. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Christianity vs. Atheism+Religion(misc) with a 1D CNN over 300-dimensional GloVe embeddings, average of 5 runs with SD up to 0.06. The larger class was downsampled and patterns kept at precision ≥75% before a human flagged artifacts.</span></li>
+<li>Filtering out examples matched by GrASP artifact patterns left in-domain 20Newsgroups performance essentially unchanged, at 0.800 accuracy and 0.804 macro F1 versus 0.810 and 0.818 for the size-matched unfiltered sample. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Christianity vs. Atheism+Religion(misc) with a 1D CNN and GloVe embeddings, average of 5 repetitions with SD 0.01–0.03; the in-domain gap is within one SD.</span></li>
+<li>In the 20Newsgroups artifact use case, GrASP produced 133 patterns at precision ≥75%. A human annotator using the web exploration tool flagged 40 of the 133 as semantically irrelevant to the task and therefore likely artifacts. <span class="meta">(Section 6)</span><br><span class="scope">Scope: One annotator, Christianity vs. Atheism+Religion(misc), after downsampling the majority class; no inter-annotator agreement or annotation-time measurement is reported.</span></li>
+<li>Applied to 10K SNLI entailment and 10K contradiction hypotheses, GrASP recovered known annotation artifacts with added structure. Examples include an entailment pattern of noun + &#x27;be&#x27; + a hypernym of &#x27;outside&#x27; at 97% precision, and negative-sentiment verbs correlating with contradiction at 75.7% precision. <span class="meta">(Section 6)</span><br><span class="scope">Scope: Hypothesis-only subsets of SNLI entailment vs. contradiction, 200 patterns and alphabet size 200, information gain as selection criterion, patterns kept only at precision ≥75%; precisions are on the training subset, not a held-out split.</span></li>
+<li>Using the top and bottom 25% of WMT19 English-German quality-estimation sentences as positive and negative sets, GrASP found 60 patterns with precision ≥80% for easy-to-translate inputs. Only 16 patterns above 60% precision were found for hard inputs, indicating challenging inputs are more diverse. <span class="meta">(Section 5)</span><br><span class="scope">Scope: 13K automatically translated sentences from one MT model judged by human quality scores, default GrASP hyperparameters, 100 patterns output; recall of the high-precision positive patterns ranges from 5% to 35%, and the data mixes Reviews and IT domains.</span></li>
+<li>GrASP patterns over WMT19 English-German quality-estimation data independently surfaced translation difficulties already documented in the literature. GrASP dedicated a pattern to the lemma &#x27;be&#x27; and found an adjective-noun-noun pattern capturing structural ambiguity such as &#x27;new blog entry&#x27;. <span class="meta">(Section 5)</span><br><span class="scope">Scope: Qualitative agreement with prior MT analysis for a single MT model on WMT19 en-de quality-estimation data; the patterns were selected by the authors as illustrative, with no systematic recall over the set of known hurdles.</span></li>
+<li>On the topic-dependent argument mining corpus of 4,065 training and 1,720 test topic-sentence pairs, GrASP&#x27;s most indicative pattern was the word &#x27;that&#x27; in its preposition sense. That matches the known expert indicator of argumentative content. <span class="meta">(Section 4)</span><br><span class="scope">Scope: Information gain as selection criterion, 100 patterns, up to 2 gaps allowed, built-in attributes plus a custom binary attribute for lexicon membership of argumentative words; no downstream classification accuracy is reported.</span></li>
+<li>A single GrASP pattern groups 3 SMS spam messages that share almost no words, such as &quot;awarded a SiPix Digital Camera&quot; and &quot;WIN a FREE Bluetooth Headset&quot;. That pattern is a positive-sentiment word followed closely by a determiner and then a proper noun. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Illustrative examples from the SMS spam dataset used throughout the paper; no coverage or precision figure is measured for this pattern.</span></li>
+<li>The GrASP library translates each extracted pattern into an English sentence via templates, so readers without linguistic training can interpret patterns. It renders [[HYPERNYM:communication.n.02], [POS:NUM]] as &quot;A type of communication (n), closely followed by a number&quot;. <span class="meta">(Section 2)</span><br><span class="scope">Scope: Template-based translation of the built-in English attributes; custom attributes require the user to implement their own explanation function, and no user study of comprehension is reported.</span></li>
+<li>The GrASP library extends the original 2017 algorithm with user-pluggable pattern-selection criteria and domain-specific custom attributes added by implementing 2 functions. It also adds a limit on gaps between matched tokens that overrides the window size, and a minimum-coverage threshold. <span class="meta">(Section 2)</span><br><span class="scope">Scope: The released library&#x27;s API and hyperparameters; the original algorithm ranked patterns by information gain only, and no experiment isolates the benefit of each added parameter.</span></li>
+<li>The GrASP web tool renders 4 linked report views, 2 pattern-centric and 2 example-centric. The pattern-centric views give a sortable table of all patterns with coverage, precision, recall and F1 plus the examples each pattern matches, while the example-centric views highlight matched words per example. <span class="meta">(Figures 1-4)</span><br><span class="scope">Scope: Flask-based tool consuming the JSON exported by the GrASP library; it can also display output from other pattern-extraction algorithms if formatted into the required JSON schema.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>GrASP is not a new pattern-learning algorithm: the algorithm dates from Shnarch et al. 2017, and the LREC 2022 contribution is the first public implementation, its extensions and a web exploration tool.</li>
+<li>The 20Newsgroups filtering experiment shows that GrASP helps a human find artifacts, not that automatic pattern-based deletion is the best debiasing method; the authors chose to delete all matched examples for simplicity.</li>
+<li>GrASP patterns are not regular expressions over surface strings: tokens are matched by conjunctions of linguistic attributes such as part-of-speech, hypernym, dependency and sentiment tags, which is what lets one pattern cover very different word sequences.</li>
+<li>The out-of-distribution improvement on the Religion test set is an average of 5 runs with standard deviations up to 0.06, so it should not be read as a tight or guaranteed 5-point gain.</li>
+<li>GrASP requires two labelled sets of texts, a positive and a negative one; the unsupervised single-list setting of GrASP lite is listed as future work, not implemented in the released library.</li>
+<li>The built-in attributes are English-specific even though the algorithm and viewer are language-agnostic; applying GrASP to another language requires the user to write custom attributes.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>GrASP pattern</em></dt><dd>A sequence of slots, each a conjunction of linguistic attributes (e.g. [[SENTIMENT:pos], [POS:det], [POS:propn]]), matching tokens that appear in that order within a window and optionally with a bounded number of gaps between them.</dd>
+<dt><em>Alphabet (in GrASP)</em></dt><dd>The set of token-level attributes retained after scoring, from which multi-slot patterns are greedily composed; its size is a hyperparameter of the GrASP library.</dd>
+<dt><em>Pattern-centric report</em></dt><dd>A view of extracted patterns organised by pattern: level 1 lists every pattern with its coverage, metric score, precision, recall and F1, and level 2 lists the positive and negative training examples one pattern matches.</dd>
+<dt><em>Example-centric report</em></dt><dd>A view of extracted patterns organised by training example: level 1 lists all examples with words matched by positive, negative or both kinds of patterns highlighted, and level 2 lists all patterns matching one example.</dd>
+<dt><em>Dataset artifact</em></dt><dd>A token or phrase that is irrelevant to a classification task but frequently appears in examples of some classes, letting a trained model exploit a spurious correlation that does not generalise out of distribution.</dd>
+<dt><em>Custom attribute</em></dt><dd>A user-defined token annotation added to GrASP by subclassing CustomAttribute and implementing 2 functions, one extracting the attribute from an input text and one producing its natural-language explanation.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/lrec/Lertvittayakumjorn22,
-author       = {Piyawat Lertvittayakumjorn and
+<pre>@inproceedings{DBLP:conf/lrec/Lertvittayakumjorn22,author       = {Piyawat Lertvittayakumjorn and
                   Leshem Choshen and
                   Eyal Shnarch and
                   Francesca Toni},

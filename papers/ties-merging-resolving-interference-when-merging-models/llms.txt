@@ -1,32 +1,59 @@
 # TIES-Merging: Resolving Interference When Merging Models
 
-merging fine-tuned models by trimming small changes, electing a sign, and averaging
-
 Authors: Prateek Yadav, Derek Tam, Leshem Choshen, Colin A. Raffel, Mohit Bansal
 Venue: Advances in Neural Information Processing Systems 36: Annual Conference on Neural Information Processing Systems 2023, NeurIPS 2023, New Orleans, LA, USA, December 10 - 16, 2023 (2023)
 
 ## What this paper shows
-TIES-Merging combines several independently fine-tuned models into one without retraining, by discarding small parameter changes and resolving sign conflicts before averaging.
+TIES-Merging resolves the two kinds of interference between task vectors -- redundant values and sign disagreement -- by trimming, electing a sign, and merging only the parameters that agree.
 
 ## Claims, with scope
-- TIES-Merging produces a single multitask model from several task-specific fine-tuned checkpoints with no additional training and no access to the original training data.
-  Scope: Checkpoints must share the same architecture and the same pre-trained initialisation. Evaluated on T5-base, T5-large, ViT and IA3 adapters.
-  Evidence: Section 4
-- Two sources of interference degrade model merging: redundant parameter changes, and disagreement on a parameter's sign across the models being merged.
-  Scope: Demonstrated for parameter-space merging of models fine-tuned from a shared initialisation; not a claim about models trained from scratch.
-  Evidence: Section 3
-- Trimming low-magnitude parameter changes, electing a single sign per parameter, and averaging only the agreeing values outperforms plain weight averaging and task arithmetic, with the gap widening as more models are merged.
-  Scope: Up to 7 models in the reported experiments; same architecture and initialisation throughout.
-  Evidence: Table 2, Figure 3
-
-## Common misreadings
-- It is not a training method. No gradient steps and no training data are required.
-- It does not merge models with different architectures or different pre-trained initialisations.
-- The gain is not from trimming alone; resolving sign disagreement is the component that matters most as the number of models grows.
+- TIES-Merging consists of three steps: trimming redundant parameters, resolving sign conflicts, and merging only the parameters that align with the final agreed-upon sign.
+  Scope: the algorithm as published, where trimming keeps the top 20% of parameters by magnitude and the elected sign is whichever carries the larger total magnitude
+  Evidence: Section 4.2, Figure 1
+- TIES-Merging outperforms several existing methods in diverse settings, improving performance by 2.3% and 1.7% absolute in NLP and vision settings, respectively.
+  Scope: in-domain evaluation with a validation set available to tune the trimming threshold and the scaling coefficient, over the NLP and vision settings of Table 1
+  Evidence: Table 1
+- Interference in model merging can stem from redundant parameter values and sign disagreement between models.
+  Scope: task vectors from checkpoints that share one pre-trained initialization, with sign conflicts counted after trimming each vector to its top 20% of parameters
+  Evidence: Section 3, Figure 2
+- Resolving sign conflicts is crucial for maintaining parameter magnitudes and avoiding performance drops in merged models.
+  Scope: (IA)3 models on eleven tasks, comparing merged parameter magnitudes when signs are elected against a plain mean over the same trimmed task vectors
+  Evidence: Figure 9, Figure 10
+- Trimming redundant parameters prevents interference and maintains the performance of merged models.
+  Scope: eleven (IA)3 task vectors trimmed to the top 20% of parameters by magnitude, with the rest reset to zero
+  Evidence: Figure 3, Figure 9
+- TIES-Merging outperforms the strongest baseline by 1.0% and 4.4% absolute for T5-Base and T5-Large models, respectively, in out-of-domain generalization.
+  Scope: six tasks held out of the merge, for T5-base and T5-large checkpoints merged with a validation set available
+  Evidence: Table 8, Table 9, Figure 5
+- TIES-Merging degrades more slowly than task arithmetic as the number of merged tasks grows. At two tasks simple averaging already loses 10% normalized accuracy, where both of the others lose almost none.
+  Scope: T5-Large checkpoints merged over the seven in-domain tasks of Table 1, sampling at most 10 subsets for each task count, with accuracy normalized by each task's own fine-tuned model
+  Evidence: Figure 6, Figure 18
+- When the merged checkpoints are ten fine-tunings of the same task, TIES-Merging beats averaging, Fisher merging and ensembling on all three tasks, and beats task vectors on two of the three.
+  Scope: ten BERT-base checkpoints per task taken from the Hugging Face hub for RTE, MRPC and WNLI, each evaluated on the one task it was trained on
+  Evidence: Figure 7
+- A TIES-merged model is a better initialization for fine-tuning than the models other merging methods produce, on two of the three downstream tasks tried; averaging wins on the third.
+  Scope: BERT-base checkpoints for the seven GLUE tasks other than the target, merged before fine-tuning, with RTE, MRPC and WNLI each taken as the target in turn
+  Evidence: Figure 8
+- The direction of the highest-magnitude parameters is what carries task performance: flipping the signs of the top 20% degrades it monotonically, while flipping the bottom 80% barely moves it.
+  Scope: (IA)3 models on eleven tasks, flipping each selected parameter with probability from 0 to 1 and averaging over three independent runs
+  Evidence: Figure 10, Figure 11
+- TIES-Merging is less sensitive to its scaling coefficient than task arithmetic, holding accuracy in a 68-75% band across the values swept against 55-75% for task arithmetic.
+  Scope: T5-base and T5-large models merged on GLUE, sweeping the scaling coefficient over 0.8-1.8 and incrementing the trimming threshold in steps of 10
+  Evidence: Figure 13
+- TIES-Merging outperforms other methods when merging PEFT models, achieving an average enhancement of 2.5% across 11 tasks.
+  Scope: (IA)3 modules on T0-3B merged over eleven tasks, with a validation set available to pick the trimming threshold and the scaling coefficient
+  Evidence: Table 3
+- TIES-Merging outperforms other methods when merging fully fine-tuned vision models, improving performance by 1.8% and 1.5% for ViT-B/32 and ViT-L/14, respectively.
+  Scope: ViT-B/32 and ViT-L/14 image encoders fully fine-tuned on eight tasks, merged with a validation set available for tuning
+  Evidence: Table 6, Table 7
+- TIES-Merging outperforms other methods when merging fully fine-tuned NLP models, achieving an improvement of 0.7% and 3.6% for T5-Base and T5-Large, respectively.
+  Scope: T5-base and T5-large models fully fine-tuned on seven tasks, merged with a validation set available for tuning
+  Evidence: Table 4, Table 5
+- TIES-Merging introduced interference between task vectors as the thing model merging has to resolve, and named trimming, sign election and disjoint merging as the way to resolve it.
+  Scope: as of its 2023 publication, and before the later merging work that decomposes task vectors into subspaces rather than trimming them by magnitude
 
 ## Terminology
-- interference: Used narrowly here for two specific effects during parameter merging -- redundant parameter values, and sign disagreement across models -- not for task interference during multitask training.
-- trim: Resetting the parameters that changed least during fine-tuning back to their pre-trained values, before any averaging.
+- TIES-Merging: A method for merging models by addressing interference between parameters, consisting of three steps: trimming redundant parameters, resolving sign conflicts, and merging only the parameters that align with the final agreed-upon sign.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2306.01708
@@ -40,8 +67,7 @@ TIES-Merging combines several independently fine-tuned models into one without r
 - Code: https://github.com/prateeky2806/ties-merging
 
 ## How to cite
-@inproceedings{DBLP:conf/nips/YadavTCRB23,
-author       = {Prateek Yadav and
+@inproceedings{DBLP:conf/nips/YadavTCRB23,author       = {Prateek Yadav and
                   Derek Tam and
                   Leshem Choshen and
                   Colin A. Raffel and

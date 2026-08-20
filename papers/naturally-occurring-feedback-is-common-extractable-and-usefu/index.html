@@ -10,6 +10,7 @@
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2025">
+  <meta name="citation_doi" content="10.48550/arXiv.2407.10944">
   <meta name="citation_arxiv_id" content="2407.10944">
   <meta name="citation_abstract" content="Human feedback data is a critical component in developing language models. However, collecting this feedback is costly and ultimately not scalable. Inspired by the way human interlocutors provide spontaneous unsolicited feedback to each other, we propose to extract feedback that users naturally include when interacting with chat models. We manually annotated conversations to confirm the presence of naturally occurring feedback in a standard corpus, finding that as much as 30% of the chats include explicit feedback. Comparing to older datasets, we find that naturally occurring feedback is more prevalent in recent conversation datasets, suggesting that more than ever, naturally occurring feedback can serve as a valuable resource for feedback data. We propose a method for automatically extracting this feedback, and apply it to over 1M conversations to obtain hundreds of thousands of feedback samples. The extracted feedback shows promise: training with it improves over baseline models and enhances model alignment to human preferences.">
   <script type="application/ld+json">
@@ -36,16 +37,317 @@
   ],
   "isAccessibleForFree": true,
   "datePublished": "2025",
+  "identifier": "https://doi.org/10.48550/arXiv.2407.10944",
   "abstract": "Human feedback data is a critical component in developing language models. However, collecting this feedback is costly and ultimately not scalable. Inspired by the way human interlocutors provide spontaneous unsolicited feedback to each other, we propose to extract feedback that users naturally include when interacting with chat models. We manually annotated conversations to confirm the presence of naturally occurring feedback in a standard corpus, finding that as much as 30% of the chats include explicit feedback. Comparing to older datasets, we find that naturally occurring feedback is more prevalent in recent conversation datasets, suggesting that more than ever, naturally occurring feedback can serve as a valuable resource for feedback data. We propose a method for automatically extracting this feedback, and apply it to over 1M conversations to obtain hundreds of thousands of feedback samples. The extracted feedback shows promise: training with it improves over baseline models and enhances model alignment to human preferences.",
+  "description": "Users spontaneously leave explicit feedback in about 30% of real chatbot conversations, an open LLM can extract it at 0.43 span precision and 0.58 recall, and finetuning on 173,859 such extracted samples beats the pretrained model in up to 79% of pairwise comparisons.",
   "codeRepository": "https://github.com/shachardon/naturally_occurring_feedback",
   "sameAs": [
     "https://arxiv.org/abs/2407.10944",
     "https://arxiv.org/html/2407.10944",
     "https://arxiv.org/pdf/2407.10944",
     "https://github.com/shachardon/naturally_occurring_feedback",
+    "https://huggingface.co/datasets/shachardon/naturally_occurring_feedback",
     "https://huggingface.co/papers/2407.10944",
     "https://www.alphaxiv.org/abs/2407.10944",
     "https://www.semanticscholar.org/paper/271212637"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Manual annotation of 223 English multi-turn conversations from LMSYS-Chat-1M found 101 explicit feedback cases in 77 conversations, meaning roughly 30% of chats carry naturally occurring user feedback.",
+      "description": "Holds for: First 300 multi-turn LMSYS-Chat-1M conversations annotated by one author, 223 left after filtering non-English and offensive content; explicit text-anchored feedback only."
+    },
+    {
+      "@type": "Thing",
+      "name": "Two annotators reach a Cohen's kappa of 0.65 on the binary question of whether a user response contains naturally occurring feedback. On the cases both marked as feedback, they agree on the category in 0.79 of them.",
+      "description": "Holds for: 68 English LMSYS-Chat-1M conversations, out of the first 100, re-annotated by one in-house annotator; 5-category taxonomy."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2019 Self-Feeding Chatbot corpus yields only 11 feedback instances per 100 human-model conversations, less than half the rate found in the newer LMSYS-Chat-1M data. 48 model errors were annotated in that same 100-conversation sample, so a lack of errors does not explain the gap.",
+      "description": "Holds for: One 2019 open-domain human-model dataset compared against LMSYS-Chat-1M, omitting the Positive Feedback category added by this taxonomy; annotation sources differ (Petrak et al. 2023 versus this work's annotator)."
+    },
+    {
+      "@type": "Thing",
+      "name": "Prompting Mixtral-8x7B-Instruct to mark feedback spans recovers naturally occurring feedback with 0.43±0.05 span precision and 0.58±0.06 span recall. Requiring the feedback category to be correct too drops this to 0.28±0.04 precision and 0.38±0.06 recall.",
+      "description": "Holds for: 300 manually annotated LMSYS-Chat-1M conversations; 4-bit quantized Mixtral-8x7B-Instruct-v0.1, zero-shot JSON prompt, bootstrap with 1000 repetitions; a span counts as correct if it is a substring of the annotated span and at least half as long."
+    },
+    {
+      "@type": "Thing",
+      "name": "Running the extraction method over all 1M LMSYS-Chat-1M conversations yields 173,859 feedback examples from 115,312 distinct conversations, with about 15 times more negative than positive examples.",
+      "description": "Holds for: 334,319 multi-turn conversations remain after filtering; 4-bit Mixtral-8x7B-Instruct-v0.1 at roughly 1 conversation per 10 seconds on an NVIDIA A40 GPU."
+    },
+    {
+      "@type": "Thing",
+      "name": "Finetuning on 8,448 automatically extracted positive-feedback examples wins 69% / 81.5% / 77% of blind human pairwise comparisons against the corresponding pretrained Pythia-1.4B, Pythia-2.8B and Mistral-7B models.",
+      "description": "Holds for: 100 response pairs per model rated by one in-house annotator on the OpenAssistant validation split, order not consistent and model identity hidden; GPT-4 as a judge gives 65% / 74% / 78% on the same comparison."
+    },
+    {
+      "@type": "Thing",
+      "name": "Finetuning Mistral-7B on extracted positive feedback beats finetuning it on an equally sized random sample of LMSYS-Chat-1M chats. Win rates over the pretrained model are 70% versus 64% under Eurus-RM-7b, 72% versus 68% under FsfairX-LLaMA3-RM-v0.1 and 78% versus 75% under GPT-4.",
+      "description": "Holds for: 7B model only; both settings compared against the same pretrained Mistral-7B reference on the OpenAssistant validation split; win rates from reward models and GPT-4, not human raters."
+    },
+    {
+      "@type": "Thing",
+      "name": "KTO preference training on the extracted negative feedback, applied on top of finetuning, raises Mistral-7B win rates over the pretrained model to 74% (Eurus-RM-7b), 75% (FsfairX-LLaMA3-RM-v0.1) and 79% (GPT-4). That is 1 to 3 points above finetuning alone.",
+      "description": "Holds for: 7B model only, started from the already finetuned checkpoint; negatives restricted to Make Aware with Correction and Make Aware without Correction and down-sampled to balance positives; no human evaluation."
+    },
+    {
+      "@type": "Thing",
+      "name": "Dropping the feedback taxonomy from the extraction prompt and asking only for spans informative about user satisfaction produced 693 spans, none of which matched any manually annotated feedback case. The general prompt often marked the user's original request as a satisfaction signal.",
+      "description": "Holds for: 4-bit Mixtral-8x7B-Instruct-v0.1 on the 300 manually annotated LMSYS-Chat-1M conversations, with spans rated 1-5 instead of categorised."
+    },
+    {
+      "@type": "Thing",
+      "name": "Restricting extraction to just Repeat or Rephrase and Positive Feedback does not improve accuracy. Positive Feedback reaches 0.5 span and category precision, while Repeat or Rephrase reaches 0.43 span precision but only 0.17 category precision.",
+      "description": "Holds for: 4-bit Mixtral-8x7B-Instruct-v0.1 on the 300 manually annotated LMSYS-Chat-1M conversations; the model invented categories outside the 2 it was given, such as \"Asking for Assistance\"."
+    },
+    {
+      "@type": "Thing",
+      "name": "A self-reported 1-5 confidence level is useless for filtering automatically extracted feedback, because over 96% of extracted cases receive the top score of 5. The remaining 4% are mostly non-feedback or hallucinations that parsing already discards.",
+      "description": "Holds for: 4-bit Mixtral-8x7B-Instruct-v0.1 on LMSYS-Chat-1M with the confidence-level variant of the extraction prompt; no other confidence-elicitation format tried."
+    },
+    {
+      "@type": "Thing",
+      "name": "Top RewardBench reward models misjudge small models: Eurus-RM-7b and FsfairX-LLaMA3-RM-v0.1 report only 31%/48% and 38%/60% wins for finetuned Pythia-1.4B and Pythia-2.8B, while human raters report 69% and 81.5% for the same pairs.",
+      "description": "Holds for: Open reward models judging OpenAssistant validation responses; the same reward models agree with human and GPT-4 evaluation at 7B, so the gap is attributed to their training distribution."
+    },
+    {
+      "@type": "Thing",
+      "name": "Naturally occurring feedback, meaning spontaneous unsolicited user reactions already present in chat logs, is proposed as a scalable alternative to solicited preference annotation. An extraction method and a released dataset of 173,859 samples accompany the proposal.",
+      "description": "Holds for: Positioned against elicited free-text feedback and model-as-judge labelling as of 2025; covers explicit English-language textual cues in human-model chat only, not implicit signals such as a user silently moving on."
+    },
+    {
+      "@type": "Thing",
+      "name": "The naturally occurring feedback taxonomy adapts Petrak et al. (2023)'s user-response patterns into 4 negative categories plus a new Positive Feedback category. The negative categories are Repeat or Rephrase, Make Aware with Correction, Make Aware without Correction and Ask for Clarification, and \"Ignore and Continue\" is dropped.",
+      "description": "Holds for: Designed for simplicity and text-anchoredness in human-model open-domain chat; \"Ignore and Continue\" is excluded because it requires annotated errors in the preceding model response, which this setting lacks."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/#faq",
+  "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/",
+  "name": "Questions answered by Naturally Occurring Feedback is Common, Extractable and Useful",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much feedback do users spontaneously give in chatbot conversations?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Manual annotation of 223 English multi-turn conversations from LMSYS-Chat-1M found 101 explicit feedback cases in 77 conversations, meaning roughly 30% of chats carry naturally occurring user feedback. Holds for: First 300 multi-turn LMSYS-Chat-1M conversations annotated by one author, 223 left after filtering non-English and offensive content; explicit text-anchored feedback only.\n\nTwo annotators reach a Cohen's kappa of 0.65 on the binary question of whether a user response contains naturally occurring feedback. On the cases both marked as feedback, they agree on the category in 0.79 of them. Holds for: 68 English LMSYS-Chat-1M conversations, out of the first 100, re-annotated by one in-house annotator; 5-category taxonomy.",
+        "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/"
+      },
+      "alternateName": [
+        "What fraction of chat logs contain explicit user feedback?",
+        "Do real chat users actually correct or praise a chatbot without being asked?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is feedback more common in newer chat datasets than older ones?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2019 Self-Feeding Chatbot corpus yields only 11 feedback instances per 100 human-model conversations, less than half the rate found in the newer LMSYS-Chat-1M data. 48 model errors were annotated in that same 100-conversation sample, so a lack of errors does not explain the gap. Holds for: One 2019 open-domain human-model dataset compared against LMSYS-Chat-1M, omitting the Positive Feedback category added by this taxonomy; annotation sources differ (Petrak et al. 2023 versus this work's annotator).",
+        "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/"
+      },
+      "alternateName": [
+        "Has spontaneous user feedback in human-model conversations increased over time?",
+        "How does 2019 chatbot conversation data compare to LMSYS-Chat-1M in feedback rate?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How accurately can an open LLM extract user feedback spans from chat logs?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Prompting Mixtral-8x7B-Instruct to mark feedback spans recovers naturally occurring feedback with 0.43±0.05 span precision and 0.58±0.06 span recall. Requiring the feedback category to be correct too drops this to 0.28±0.04 precision and 0.38±0.06 recall. Holds for: 300 manually annotated LMSYS-Chat-1M conversations; 4-bit quantized Mixtral-8x7B-Instruct-v0.1, zero-shot JSON prompt, bootstrap with 1000 repetitions; a span counts as correct if it is a substring of the annotated span and at least half as long.",
+        "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/"
+      },
+      "alternateName": [
+        "What precision and recall does automatic naturally occurring feedback extraction achieve?",
+        "Can Mixtral find spontaneous feedback in conversations reliably?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How large is the released naturally occurring feedback dataset?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Running the extraction method over all 1M LMSYS-Chat-1M conversations yields 173,859 feedback examples from 115,312 distinct conversations, with about 15 times more negative than positive examples. Holds for: 334,319 multi-turn conversations remain after filtering; 4-bit Mixtral-8x7B-Instruct-v0.1 at roughly 1 conversation per 10 seconds on an NVIDIA A40 GPU.",
+        "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/"
+      },
+      "alternateName": [
+        "How many feedback samples were extracted from LMSYS-Chat-1M?",
+        "What is the ratio of negative to positive samples in the extracted natural feedback data?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does training on automatically extracted user feedback actually improve a language model?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Finetuning on 8,448 automatically extracted positive-feedback examples wins 69% / 81.5% / 77% of blind human pairwise comparisons against the corresponding pretrained Pythia-1.4B, Pythia-2.8B and Mistral-7B models. Holds for: 100 response pairs per model rated by one in-house annotator on the OpenAssistant validation split, order not consistent and model identity hidden; GPT-4 as a judge gives 65% / 74% / 78% on the same comparison.\n\nKTO preference training on the extracted negative feedback, applied on top of finetuning, raises Mistral-7B win rates over the pretrained model to 74% (Eurus-RM-7b), 75% (FsfairX-LLaMA3-RM-v0.1) and 79% (GPT-4). That is 1 to 3 points above finetuning alone. Holds for: 7B model only, started from the already finetuned checkpoint; negatives restricted to Make Aware with Correction and Make Aware without Correction and down-sampled to balance positives; no human evaluation.",
+        "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/"
+      },
+      "alternateName": [
+        "What win rates does finetuning on extracted positive feedback achieve over the pretrained model?",
+        "Is spontaneous chat feedback useful as training data for alignment?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is extracted feedback better training data than just random chat transcripts?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Finetuning Mistral-7B on extracted positive feedback beats finetuning it on an equally sized random sample of LMSYS-Chat-1M chats. Win rates over the pretrained model are 70% versus 64% under Eurus-RM-7b, 72% versus 68% under FsfairX-LLaMA3-RM-v0.1 and 78% versus 75% under GPT-4. Holds for: 7B model only; both settings compared against the same pretrained Mistral-7B reference on the OpenAssistant validation split; win rates from reward models and GPT-4, not human raters.",
+        "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/"
+      },
+      "alternateName": [
+        "Does the improvement come from the feedback signal or merely from finetuning on chat-formatted data?",
+        "What baseline rules out distillation as the explanation for the gains of training on extracted chat feedback?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do the negative feedback examples help, or only the positive ones?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "KTO preference training on the extracted negative feedback, applied on top of finetuning, raises Mistral-7B win rates over the pretrained model to 74% (Eurus-RM-7b), 75% (FsfairX-LLaMA3-RM-v0.1) and 79% (GPT-4). That is 1 to 3 points above finetuning alone. Holds for: 7B model only, started from the already finetuned checkpoint; negatives restricted to Make Aware with Correction and Make Aware without Correction and down-sampled to balance positives; no human evaluation.",
+        "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/"
+      },
+      "alternateName": [
+        "Does KTO preference training on extracted corrections beat plain finetuning?",
+        "How were unpaired positive and negative feedback samples used for preference training?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is a detailed feedback taxonomy necessary for prompting an LLM to find feedback?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dropping the feedback taxonomy from the extraction prompt and asking only for spans informative about user satisfaction produced 693 spans, none of which matched any manually annotated feedback case. The general prompt often marked the user's original request as a satisfaction signal. Holds for: 4-bit Mixtral-8x7B-Instruct-v0.1 on the 300 manually annotated LMSYS-Chat-1M conversations, with spans rated 1-5 instead of categorised.\n\nRestricting extraction to just Repeat or Rephrase and Positive Feedback does not improve accuracy. Positive Feedback reaches 0.5 span and category precision, while Repeat or Rephrase reaches 0.43 span precision but only 0.17 category precision. Holds for: 4-bit Mixtral-8x7B-Instruct-v0.1 on the 300 manually annotated LMSYS-Chat-1M conversations; the model invented categories outside the 2 it was given, such as \"Asking for Assistance\".",
+        "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/"
+      },
+      "alternateName": [
+        "What happens if a feedback extraction prompt asks for user satisfaction cues without categories?",
+        "Would fewer feedback categories make extraction more precise?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does asking an LLM for a confidence score help filter extracted feedback?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A self-reported 1-5 confidence level is useless for filtering automatically extracted feedback, because over 96% of extracted cases receive the top score of 5. The remaining 4% are mostly non-feedback or hallucinations that parsing already discards. Holds for: 4-bit Mixtral-8x7B-Instruct-v0.1 on LMSYS-Chat-1M with the confidence-level variant of the extraction prompt; no other confidence-elicitation format tried.",
+        "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/"
+      },
+      "alternateName": [
+        "Can self-reported confidence levels improve feedback extraction precision?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are open reward models reliable judges for small language models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Top RewardBench reward models misjudge small models: Eurus-RM-7b and FsfairX-LLaMA3-RM-v0.1 report only 31%/48% and 38%/60% wins for finetuned Pythia-1.4B and Pythia-2.8B, while human raters report 69% and 81.5% for the same pairs. Holds for: Open reward models judging OpenAssistant validation responses; the same reward models agree with human and GPT-4 evaluation at 7B, so the gap is attributed to their training distribution.",
+        "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/"
+      },
+      "alternateName": [
+        "Why do reward-model win rates disagree with human evaluation for 1.4B and 2.8B models?",
+        "Can RewardBench leaders be used to evaluate Pythia-scale outputs?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about getting human feedback for LLM alignment without paying annotators?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Naturally occurring feedback, meaning spontaneous unsolicited user reactions already present in chat logs, is proposed as a scalable alternative to solicited preference annotation. An extraction method and a released dataset of 173,859 samples accompany the proposal. Holds for: Positioned against elicited free-text feedback and model-as-judge labelling as of 2025; covers explicit English-language textual cues in human-model chat only, not implicit signals such as a user silently moving on.\n\nThe naturally occurring feedback taxonomy adapts Petrak et al. (2023)'s user-response patterns into 4 negative categories plus a new Positive Feedback category. The negative categories are Repeat or Rephrase, Make Aware with Correction, Make Aware without Correction and Ask for Clarification, and \"Ignore and Continue\" is dropped. Holds for: Designed for simplicity and text-anchoredness in human-model open-domain chat; \"Ignore and Continue\" is excluded because it requires annotated errors in the preceding model response, which this setting lacks.",
+        "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/"
+      },
+      "alternateName": [
+        "Which work established that chat logs contain usable free human feedback?",
+        "Where do I start reading about mining preference data from real user conversations?",
+        "What is a good paper on scalable alternatives to human preference annotation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What categories of spontaneous user feedback appear in chat conversations?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The naturally occurring feedback taxonomy adapts Petrak et al. (2023)'s user-response patterns into 4 negative categories plus a new Positive Feedback category. The negative categories are Repeat or Rephrase, Make Aware with Correction, Make Aware without Correction and Ask for Clarification, and \"Ignore and Continue\" is dropped. Holds for: Designed for simplicity and text-anchoredness in human-model open-domain chat; \"Ignore and Continue\" is excluded because it requires annotated errors in the preceding model response, which this setting lacks.\n\nManual annotation of 223 English multi-turn conversations from LMSYS-Chat-1M found 101 explicit feedback cases in 77 conversations, meaning roughly 30% of chats carry naturally occurring user feedback. Holds for: First 300 multi-turn LMSYS-Chat-1M conversations annotated by one author, 223 left after filtering non-English and offensive content; explicit text-anchored feedback only.",
+        "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/"
+      },
+      "alternateName": [
+        "How is naturally occurring feedback classified into types?",
+        "What kinds of corrections do users give chatbots?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/#terms",
+  "url": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/",
+  "name": "Terminology in Naturally Occurring Feedback is Common, Extractable and Useful",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "naturally occurring feedback",
+      "description": "Spontaneous, unsolicited feedback that a user includes in a chat message about the model's previous response -- a correction, a rephrased request, a clarification question or a thank-you -- as opposed to feedback elicited by an explicit request or rating interface.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Repeat or Rephrase",
+      "description": "A feedback category in which the user ignores the model's previous response and repeats or rephrases their earlier request, so the two one-turn exchanges can be used as a preference pair.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Make Aware with Correction",
+      "description": "A feedback category in which the user tells the model it was wrong and supplies the information needed to fix the error, e.g. \"No, I wanted...\".",
+      "inDefinedTermSet": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Make Aware without Correction",
+      "description": "A feedback category in which the user tells the model it was wrong without supplying any corrective information, e.g. \"That's incorrect\", usable only as a strictly negative example.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Ask for Clarification",
+      "description": "A feedback category in which the user requests resolution that was expected in the previous model response but missing, indicating the response was partially but not entirely wrong.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "span precision",
+      "description": "The percentage of automatically identified feedback spans that are correct, where correct means being a substring of a manually annotated feedback span and at least half as long as it.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/naturally-occurring-feedback-is-common-extractable-and-usefu/#terms"
+    }
   ]
 }
   </script>
@@ -56,6 +358,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -70,12 +373,101 @@
 <body>
 <h1>Naturally Occurring Feedback is Common, Extractable and Useful</h1>
 <p class="meta">Shachar Don-Yehiya, Leshem Choshen, Omri Abend · 2025</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2407.10944">arXiv</a></li><li><a href="https://arxiv.org/pdf/2407.10944">PDF</a></li><li><a href="https://arxiv.org/html/2407.10944">HTML</a></li><li><a href="https://huggingface.co/papers/2407.10944">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2407.10944">alphaXiv</a></li><li><a href="https://www.semanticscholar.org/paper/271212637">Semantic Scholar</a></li><li><a href="https://github.com/shachardon/naturally_occurring_feedback">Code</a></li></ul>
+<ul class="links"><li><a href="https://arxiv.org/abs/2407.10944">arXiv</a></li><li><a href="https://arxiv.org/pdf/2407.10944">PDF</a></li><li><a href="https://arxiv.org/html/2407.10944">HTML</a></li><li><a href="https://huggingface.co/papers/2407.10944">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2407.10944">alphaXiv</a></li><li><a href="https://www.semanticscholar.org/paper/271212637">Semantic Scholar</a></li><li><a href="https://github.com/shachardon/naturally_occurring_feedback">Code</a></li><li><a href="https://huggingface.co/datasets/shachardon/naturally_occurring_feedback">dataset</a></li></ul>
+<h2>In one sentence</h2>
+<p>Users spontaneously leave explicit feedback in about 30% of real chatbot conversations, an open LLM can extract it at 0.43 span precision and 0.58 recall, and finetuning on 173,859 such extracted samples beats the pretrained model in up to 79% of pairwise comparisons.</p>
 <h2>Abstract</h2>
 <p>Human feedback data is a critical component in developing language models. However, collecting this feedback is costly and ultimately not scalable. Inspired by the way human interlocutors provide spontaneous unsolicited feedback to each other, we propose to extract feedback that users naturally include when interacting with chat models. We manually annotated conversations to confirm the presence of naturally occurring feedback in a standard corpus, finding that as much as 30% of the chats include explicit feedback. Comparing to older datasets, we find that naturally occurring feedback is more prevalent in recent conversation datasets, suggesting that more than ever, naturally occurring feedback can serve as a valuable resource for feedback data. We propose a method for automatically extracting this feedback, and apply it to over 1M conversations to obtain hundreds of thousands of feedback samples. The extracted feedback shows promise: training with it improves over baseline models and enhances model alignment to human preferences.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How much feedback do users spontaneously give in chatbot conversations?</dt>
+<dt>What fraction of chat logs contain explicit user feedback?</dt>
+<dt>Do real chat users actually correct or praise a chatbot without being asked?</dt>
+<dd>Manual annotation of 223 English multi-turn conversations from LMSYS-Chat-1M found 101 explicit feedback cases in 77 conversations, meaning roughly 30% of chats carry naturally occurring user feedback.<br><span class="scope">Holds for: First 300 multi-turn LMSYS-Chat-1M conversations annotated by one author, 223 left after filtering non-English and offensive content; explicit text-anchored feedback only.</span></dd>
+<dd>Two annotators reach a Cohen&#x27;s kappa of 0.65 on the binary question of whether a user response contains naturally occurring feedback. On the cases both marked as feedback, they agree on the category in 0.79 of them.<br><span class="scope">Holds for: 68 English LMSYS-Chat-1M conversations, out of the first 100, re-annotated by one in-house annotator; 5-category taxonomy.</span></dd>
+<dt>Is feedback more common in newer chat datasets than older ones?</dt>
+<dt>Has spontaneous user feedback in human-model conversations increased over time?</dt>
+<dt>How does 2019 chatbot conversation data compare to LMSYS-Chat-1M in feedback rate?</dt>
+<dd>The 2019 Self-Feeding Chatbot corpus yields only 11 feedback instances per 100 human-model conversations, less than half the rate found in the newer LMSYS-Chat-1M data. 48 model errors were annotated in that same 100-conversation sample, so a lack of errors does not explain the gap.<br><span class="scope">Holds for: One 2019 open-domain human-model dataset compared against LMSYS-Chat-1M, omitting the Positive Feedback category added by this taxonomy; annotation sources differ (Petrak et al. 2023 versus this work&#x27;s annotator).</span></dd>
+<dt>How accurately can an open LLM extract user feedback spans from chat logs?</dt>
+<dt>What precision and recall does automatic naturally occurring feedback extraction achieve?</dt>
+<dt>Can Mixtral find spontaneous feedback in conversations reliably?</dt>
+<dd>Prompting Mixtral-8x7B-Instruct to mark feedback spans recovers naturally occurring feedback with 0.43±0.05 span precision and 0.58±0.06 span recall. Requiring the feedback category to be correct too drops this to 0.28±0.04 precision and 0.38±0.06 recall.<br><span class="scope">Holds for: 300 manually annotated LMSYS-Chat-1M conversations; 4-bit quantized Mixtral-8x7B-Instruct-v0.1, zero-shot JSON prompt, bootstrap with 1000 repetitions; a span counts as correct if it is a substring of the annotated span and at least half as long.</span></dd>
+<dt>How large is the released naturally occurring feedback dataset?</dt>
+<dt>How many feedback samples were extracted from LMSYS-Chat-1M?</dt>
+<dt>What is the ratio of negative to positive samples in the extracted natural feedback data?</dt>
+<dd>Running the extraction method over all 1M LMSYS-Chat-1M conversations yields 173,859 feedback examples from 115,312 distinct conversations, with about 15 times more negative than positive examples.<br><span class="scope">Holds for: 334,319 multi-turn conversations remain after filtering; 4-bit Mixtral-8x7B-Instruct-v0.1 at roughly 1 conversation per 10 seconds on an NVIDIA A40 GPU.</span></dd>
+<dt>Does training on automatically extracted user feedback actually improve a language model?</dt>
+<dt>What win rates does finetuning on extracted positive feedback achieve over the pretrained model?</dt>
+<dt>Is spontaneous chat feedback useful as training data for alignment?</dt>
+<dd>Finetuning on 8,448 automatically extracted positive-feedback examples wins 69% / 81.5% / 77% of blind human pairwise comparisons against the corresponding pretrained Pythia-1.4B, Pythia-2.8B and Mistral-7B models.<br><span class="scope">Holds for: 100 response pairs per model rated by one in-house annotator on the OpenAssistant validation split, order not consistent and model identity hidden; GPT-4 as a judge gives 65% / 74% / 78% on the same comparison.</span></dd>
+<dd>KTO preference training on the extracted negative feedback, applied on top of finetuning, raises Mistral-7B win rates over the pretrained model to 74% (Eurus-RM-7b), 75% (FsfairX-LLaMA3-RM-v0.1) and 79% (GPT-4). That is 1 to 3 points above finetuning alone.<br><span class="scope">Holds for: 7B model only, started from the already finetuned checkpoint; negatives restricted to Make Aware with Correction and Make Aware without Correction and down-sampled to balance positives; no human evaluation.</span></dd>
+<dt>Is extracted feedback better training data than just random chat transcripts?</dt>
+<dt>Does the improvement come from the feedback signal or merely from finetuning on chat-formatted data?</dt>
+<dt>What baseline rules out distillation as the explanation for the gains of training on extracted chat feedback?</dt>
+<dd>Finetuning Mistral-7B on extracted positive feedback beats finetuning it on an equally sized random sample of LMSYS-Chat-1M chats. Win rates over the pretrained model are 70% versus 64% under Eurus-RM-7b, 72% versus 68% under FsfairX-LLaMA3-RM-v0.1 and 78% versus 75% under GPT-4.<br><span class="scope">Holds for: 7B model only; both settings compared against the same pretrained Mistral-7B reference on the OpenAssistant validation split; win rates from reward models and GPT-4, not human raters.</span></dd>
+<dt>Do the negative feedback examples help, or only the positive ones?</dt>
+<dt>Does KTO preference training on extracted corrections beat plain finetuning?</dt>
+<dt>How were unpaired positive and negative feedback samples used for preference training?</dt>
+<dd>KTO preference training on the extracted negative feedback, applied on top of finetuning, raises Mistral-7B win rates over the pretrained model to 74% (Eurus-RM-7b), 75% (FsfairX-LLaMA3-RM-v0.1) and 79% (GPT-4). That is 1 to 3 points above finetuning alone.<br><span class="scope">Holds for: 7B model only, started from the already finetuned checkpoint; negatives restricted to Make Aware with Correction and Make Aware without Correction and down-sampled to balance positives; no human evaluation.</span></dd>
+<dt>Is a detailed feedback taxonomy necessary for prompting an LLM to find feedback?</dt>
+<dt>What happens if a feedback extraction prompt asks for user satisfaction cues without categories?</dt>
+<dt>Would fewer feedback categories make extraction more precise?</dt>
+<dd>Dropping the feedback taxonomy from the extraction prompt and asking only for spans informative about user satisfaction produced 693 spans, none of which matched any manually annotated feedback case. The general prompt often marked the user&#x27;s original request as a satisfaction signal.<br><span class="scope">Holds for: 4-bit Mixtral-8x7B-Instruct-v0.1 on the 300 manually annotated LMSYS-Chat-1M conversations, with spans rated 1-5 instead of categorised.</span></dd>
+<dd>Restricting extraction to just Repeat or Rephrase and Positive Feedback does not improve accuracy. Positive Feedback reaches 0.5 span and category precision, while Repeat or Rephrase reaches 0.43 span precision but only 0.17 category precision.<br><span class="scope">Holds for: 4-bit Mixtral-8x7B-Instruct-v0.1 on the 300 manually annotated LMSYS-Chat-1M conversations; the model invented categories outside the 2 it was given, such as &quot;Asking for Assistance&quot;.</span></dd>
+<dt>Does asking an LLM for a confidence score help filter extracted feedback?</dt>
+<dt>Can self-reported confidence levels improve feedback extraction precision?</dt>
+<dd>A self-reported 1-5 confidence level is useless for filtering automatically extracted feedback, because over 96% of extracted cases receive the top score of 5. The remaining 4% are mostly non-feedback or hallucinations that parsing already discards.<br><span class="scope">Holds for: 4-bit Mixtral-8x7B-Instruct-v0.1 on LMSYS-Chat-1M with the confidence-level variant of the extraction prompt; no other confidence-elicitation format tried.</span></dd>
+<dt>Are open reward models reliable judges for small language models?</dt>
+<dt>Why do reward-model win rates disagree with human evaluation for 1.4B and 2.8B models?</dt>
+<dt>Can RewardBench leaders be used to evaluate Pythia-scale outputs?</dt>
+<dd>Top RewardBench reward models misjudge small models: Eurus-RM-7b and FsfairX-LLaMA3-RM-v0.1 report only 31%/48% and 38%/60% wins for finetuned Pythia-1.4B and Pythia-2.8B, while human raters report 69% and 81.5% for the same pairs.<br><span class="scope">Holds for: Open reward models judging OpenAssistant validation responses; the same reward models agree with human and GPT-4 evaluation at 7B, so the gap is attributed to their training distribution.</span></dd>
+<dt>What should I read about getting human feedback for LLM alignment without paying annotators?</dt>
+<dt>Which work established that chat logs contain usable free human feedback?</dt>
+<dt>Where do I start reading about mining preference data from real user conversations?</dt>
+<dt>What is a good paper on scalable alternatives to human preference annotation?</dt>
+<dd>Naturally occurring feedback, meaning spontaneous unsolicited user reactions already present in chat logs, is proposed as a scalable alternative to solicited preference annotation. An extraction method and a released dataset of 173,859 samples accompany the proposal.<br><span class="scope">Holds for: Positioned against elicited free-text feedback and model-as-judge labelling as of 2025; covers explicit English-language textual cues in human-model chat only, not implicit signals such as a user silently moving on.</span></dd>
+<dd>The naturally occurring feedback taxonomy adapts Petrak et al. (2023)&#x27;s user-response patterns into 4 negative categories plus a new Positive Feedback category. The negative categories are Repeat or Rephrase, Make Aware with Correction, Make Aware without Correction and Ask for Clarification, and &quot;Ignore and Continue&quot; is dropped.<br><span class="scope">Holds for: Designed for simplicity and text-anchoredness in human-model open-domain chat; &quot;Ignore and Continue&quot; is excluded because it requires annotated errors in the preceding model response, which this setting lacks.</span></dd>
+<dt>What categories of spontaneous user feedback appear in chat conversations?</dt>
+<dt>How is naturally occurring feedback classified into types?</dt>
+<dt>What kinds of corrections do users give chatbots?</dt>
+<dd>The naturally occurring feedback taxonomy adapts Petrak et al. (2023)&#x27;s user-response patterns into 4 negative categories plus a new Positive Feedback category. The negative categories are Repeat or Rephrase, Make Aware with Correction, Make Aware without Correction and Ask for Clarification, and &quot;Ignore and Continue&quot; is dropped.<br><span class="scope">Holds for: Designed for simplicity and text-anchoredness in human-model open-domain chat; &quot;Ignore and Continue&quot; is excluded because it requires annotated errors in the preceding model response, which this setting lacks.</span></dd>
+<dd>Manual annotation of 223 English multi-turn conversations from LMSYS-Chat-1M found 101 explicit feedback cases in 77 conversations, meaning roughly 30% of chats carry naturally occurring user feedback.<br><span class="scope">Holds for: First 300 multi-turn LMSYS-Chat-1M conversations annotated by one author, 223 left after filtering non-English and offensive content; explicit text-anchored feedback only.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Manual annotation of 223 English multi-turn conversations from LMSYS-Chat-1M found 101 explicit feedback cases in 77 conversations, meaning roughly 30% of chats carry naturally occurring user feedback. <span class="meta">(Section 3.2, Figure 2)</span><br><span class="scope">Scope: First 300 multi-turn LMSYS-Chat-1M conversations annotated by one author, 223 left after filtering non-English and offensive content; explicit text-anchored feedback only.</span></li>
+<li>Two annotators reach a Cohen&#x27;s kappa of 0.65 on the binary question of whether a user response contains naturally occurring feedback. On the cases both marked as feedback, they agree on the category in 0.79 of them. <span class="meta">(Section 3.2)</span><br><span class="scope">Scope: 68 English LMSYS-Chat-1M conversations, out of the first 100, re-annotated by one in-house annotator; 5-category taxonomy.</span></li>
+<li>The 2019 Self-Feeding Chatbot corpus yields only 11 feedback instances per 100 human-model conversations, less than half the rate found in the newer LMSYS-Chat-1M data. 48 model errors were annotated in that same 100-conversation sample, so a lack of errors does not explain the gap. <span class="meta">(Section 3.3)</span><br><span class="scope">Scope: One 2019 open-domain human-model dataset compared against LMSYS-Chat-1M, omitting the Positive Feedback category added by this taxonomy; annotation sources differ (Petrak et al. 2023 versus this work&#x27;s annotator).</span></li>
+<li>Prompting Mixtral-8x7B-Instruct to mark feedback spans recovers naturally occurring feedback with 0.43±0.05 span precision and 0.58±0.06 span recall. Requiring the feedback category to be correct too drops this to 0.28±0.04 precision and 0.38±0.06 recall. <span class="meta">(Section 4.2, Figure 4)</span><br><span class="scope">Scope: 300 manually annotated LMSYS-Chat-1M conversations; 4-bit quantized Mixtral-8x7B-Instruct-v0.1, zero-shot JSON prompt, bootstrap with 1000 repetitions; a span counts as correct if it is a substring of the annotated span and at least half as long.</span></li>
+<li>Running the extraction method over all 1M LMSYS-Chat-1M conversations yields 173,859 feedback examples from 115,312 distinct conversations, with about 15 times more negative than positive examples. <span class="meta">(Section 4.3)</span><br><span class="scope">Scope: 334,319 multi-turn conversations remain after filtering; 4-bit Mixtral-8x7B-Instruct-v0.1 at roughly 1 conversation per 10 seconds on an NVIDIA A40 GPU.</span></li>
+<li>Finetuning on 8,448 automatically extracted positive-feedback examples wins 69% / 81.5% / 77% of blind human pairwise comparisons against the corresponding pretrained Pythia-1.4B, Pythia-2.8B and Mistral-7B models. <span class="meta">(Table 1, Section 5.2)</span><br><span class="scope">Scope: 100 response pairs per model rated by one in-house annotator on the OpenAssistant validation split, order not consistent and model identity hidden; GPT-4 as a judge gives 65% / 74% / 78% on the same comparison.</span></li>
+<li>Finetuning Mistral-7B on extracted positive feedback beats finetuning it on an equally sized random sample of LMSYS-Chat-1M chats. Win rates over the pretrained model are 70% versus 64% under Eurus-RM-7b, 72% versus 68% under FsfairX-LLaMA3-RM-v0.1 and 78% versus 75% under GPT-4. <span class="meta">(Table 1, Section 5.3)</span><br><span class="scope">Scope: 7B model only; both settings compared against the same pretrained Mistral-7B reference on the OpenAssistant validation split; win rates from reward models and GPT-4, not human raters.</span></li>
+<li>KTO preference training on the extracted negative feedback, applied on top of finetuning, raises Mistral-7B win rates over the pretrained model to 74% (Eurus-RM-7b), 75% (FsfairX-LLaMA3-RM-v0.1) and 79% (GPT-4). That is 1 to 3 points above finetuning alone. <span class="meta">(Table 1, Section 5.4)</span><br><span class="scope">Scope: 7B model only, started from the already finetuned checkpoint; negatives restricted to Make Aware with Correction and Make Aware without Correction and down-sampled to balance positives; no human evaluation.</span></li>
+<li>Dropping the feedback taxonomy from the extraction prompt and asking only for spans informative about user satisfaction produced 693 spans, none of which matched any manually annotated feedback case. The general prompt often marked the user&#x27;s original request as a satisfaction signal. <span class="meta">(Section 6.1.1, Figure 6)</span><br><span class="scope">Scope: 4-bit Mixtral-8x7B-Instruct-v0.1 on the 300 manually annotated LMSYS-Chat-1M conversations, with spans rated 1-5 instead of categorised.</span></li>
+<li>Restricting extraction to just Repeat or Rephrase and Positive Feedback does not improve accuracy. Positive Feedback reaches 0.5 span and category precision, while Repeat or Rephrase reaches 0.43 span precision but only 0.17 category precision. <span class="meta">(Section 6.1.2, Figure 7)</span><br><span class="scope">Scope: 4-bit Mixtral-8x7B-Instruct-v0.1 on the 300 manually annotated LMSYS-Chat-1M conversations; the model invented categories outside the 2 it was given, such as &quot;Asking for Assistance&quot;.</span></li>
+<li>A self-reported 1-5 confidence level is useless for filtering automatically extracted feedback, because over 96% of extracted cases receive the top score of 5. The remaining 4% are mostly non-feedback or hallucinations that parsing already discards. <span class="meta">(Section 6.2, Figure 8)</span><br><span class="scope">Scope: 4-bit Mixtral-8x7B-Instruct-v0.1 on LMSYS-Chat-1M with the confidence-level variant of the extraction prompt; no other confidence-elicitation format tried.</span></li>
+<li>Top RewardBench reward models misjudge small models: Eurus-RM-7b and FsfairX-LLaMA3-RM-v0.1 report only 31%/48% and 38%/60% wins for finetuned Pythia-1.4B and Pythia-2.8B, while human raters report 69% and 81.5% for the same pairs. <span class="meta">(Table 1, Section 5.2)</span><br><span class="scope">Scope: Open reward models judging OpenAssistant validation responses; the same reward models agree with human and GPT-4 evaluation at 7B, so the gap is attributed to their training distribution.</span></li>
+<li>Naturally occurring feedback, meaning spontaneous unsolicited user reactions already present in chat logs, is proposed as a scalable alternative to solicited preference annotation. An extraction method and a released dataset of 173,859 samples accompany the proposal. <span class="meta">(Section 1, Section 7)</span><br><span class="scope">Scope: Positioned against elicited free-text feedback and model-as-judge labelling as of 2025; covers explicit English-language textual cues in human-model chat only, not implicit signals such as a user silently moving on.</span></li>
+<li>The naturally occurring feedback taxonomy adapts Petrak et al. (2023)&#x27;s user-response patterns into 4 negative categories plus a new Positive Feedback category. The negative categories are Repeat or Rephrase, Make Aware with Correction, Make Aware without Correction and Ask for Clarification, and &quot;Ignore and Continue&quot; is dropped. <span class="meta">(Section 3.1)</span><br><span class="scope">Scope: Designed for simplicity and text-anchoredness in human-model open-domain chat; &quot;Ignore and Continue&quot; is excluded because it requires annotated errors in the preceding model response, which this setting lacks.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The reported ~30% prevalence is the share of multi-turn English LMSYS-Chat-1M conversations containing explicit feedback, not the share of all chat conversations or of individual user turns.</li>
+<li>The extraction method&#x27;s 0.43 span precision means most extracted samples are not verified feedback; the training results show such noisy data is still useful, not that the extraction is accurate.</li>
+<li>Naturally occurring feedback as defined covers only explicit textual cues; a user silently moving on to another question is an implicit signal that the method does not attempt to capture.</li>
+<li>The 31%-60% win rates reported by Eurus-RM-7b and FsfairX-LLaMA3-RM-v0.1 for the 1.4B and 2.8B models are evidence that those reward models judge small models poorly, not that finetuning on extracted feedback failed at those sizes.</li>
+<li>Asking the extraction model for a confidence level was tested and found ineffective, so confidence filtering is not part of the released extraction pipeline.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>naturally occurring feedback</em></dt><dd>Spontaneous, unsolicited feedback that a user includes in a chat message about the model&#x27;s previous response -- a correction, a rephrased request, a clarification question or a thank-you -- as opposed to feedback elicited by an explicit request or rating interface.</dd>
+<dt><em>Repeat or Rephrase</em></dt><dd>A feedback category in which the user ignores the model&#x27;s previous response and repeats or rephrases their earlier request, so the two one-turn exchanges can be used as a preference pair.</dd>
+<dt><em>Make Aware with Correction</em></dt><dd>A feedback category in which the user tells the model it was wrong and supplies the information needed to fix the error, e.g. &quot;No, I wanted...&quot;.</dd>
+<dt><em>Make Aware without Correction</em></dt><dd>A feedback category in which the user tells the model it was wrong without supplying any corrective information, e.g. &quot;That&#x27;s incorrect&quot;, usable only as a strictly negative example.</dd>
+<dt><em>Ask for Clarification</em></dt><dd>A feedback category in which the user requests resolution that was expected in the previous model response but missing, indicating the response was partially but not entirely wrong.</dd>
+<dt><em>span precision</em></dt><dd>The percentage of automatically identified feedback spans that are correct, where correct means being a substring of a manually annotated feedback span and at least half as long as it.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@article{DBLP:journals/corr/abs-2407-10944,
-title={Naturally Occurring Feedback is Common, Extractable and Useful}, 
+<pre>@misc{DBLP:journals/corr/abs-2407-10944,
+      title={Naturally Occurring Feedback is Common, Extractable and Useful}, 
       author={Shachar Don-Yehiya and Leshem Choshen and Omri Abend},
       year={2025},
       eprint={2407.10944},

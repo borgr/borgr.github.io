@@ -10,7 +10,7 @@
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2022">
-  <meta name="citation_conference_title" content="Proceedings of the 26th Conference on Computational Natural Language Learning, CoNLL 2022, Abu Dhabi, United…">
+  <meta name="citation_conference_title" content="CoNLL 2022">
   <meta name="citation_doi" content="10.18653/V1/2022.CONLL-1.14">
   <meta name="citation_arxiv_id" content="2110.03067">
   <meta name="citation_abstract" content="We present a methodology that explores how sentence structure is reflected in neural representations of machine translation systems. We demonstrate our model-agnostic approach with the Transformer English-German translation model. We analyze neuron-level correlation of activations between paraphrases while discussing the methodology challenges and the need for confound analysis to isolate the effects of shallow cues. We find that similarity between activation patterns can be mostly accounted for by similarity in word choice and sentence length. Following that, we manipulate neuron activations to control the syntactic form of the output. We show this intervention to be somewhat successful, indicating that deep models capture sentence-structure distinctions, despite finding no such indication at the neuron level. To conduct our experiments, we develop a semi-automatic method to generate meaning-preserving minimal pair paraphrases (active-passive voice and adverbial clause-noun phrase) and compile a corpus of such pairs.">
@@ -40,10 +40,12 @@
   "datePublished": "2022",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 26th Conference on Computational Natural Language Learning, CoNLL 2022, Abu Dhabi, United…"
+    "name": "CoNLL 2022"
   },
   "identifier": "https://doi.org/10.18653/V1/2022.CONLL-1.14",
   "abstract": "We present a methodology that explores how sentence structure is reflected in neural representations of machine translation systems. We demonstrate our model-agnostic approach with the Transformer English-German translation model. We analyze neuron-level correlation of activations between paraphrases while discussing the methodology challenges and the need for confound analysis to isolate the effects of shallow cues. We find that similarity between activation patterns can be mostly accounted for by similarity in word choice and sentence length. Following that, we manipulate neuron activations to control the syntactic form of the output. We show this intervention to be somewhat successful, indicating that deep models capture sentence-structure distinctions, despite finding no such indication at the neuron level. To conduct our experiments, we develop a semi-automatic method to generate meaning-preserving minimal pair paraphrases (active-passive voice and adverbial clause-noun phrase) and compile a corpus of such pairs.",
+  "description": "Correlating individual neuron activations between minimal-pair paraphrases in a Transformer English-German translation model shows the similarity is mostly explained by shared tokens and positional encodings, yet shifting a large fraction of encoder neurons still flips the output's voice.",
+  "codeRepository": "https://github.com/galpatel/minimal-paraphrases",
   "sameAs": [
     "https://aclanthology.org/2022.conll-1.14/",
     "https://ar5iv.labs.arxiv.org/html/2110.03067",
@@ -51,9 +53,315 @@
     "https://arxiv.org/pdf/2110.03067",
     "https://doi.org/10.18653/V1/2022.CONLL-1.14",
     "https://doi.org/10.18653/v1/2022.conll-1.14",
+    "https://github.com/galpatel/minimal-paraphrases",
     "https://huggingface.co/papers/2110.03067",
     "https://www.alphaxiv.org/abs/2110.03067",
     "https://www.semanticscholar.org/paper/238419587"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Strong neuron-level activation correlation between paraphrases in a Transformer en-de encoder is largely reproduced by two shallow controls: correlating a sentence with a random token sequence of the same length, or with the same sentence stripped of positional encoding. Active-to-passive paraphrasing changes sentence length by only 2.0±0.4 tokens, so positional encodings stay similar.",
+      "description": "Holds for: fairseq Transformer trained on WMT19 en-de, embedding dimension 1024, sinusoidal positional encoding; neurons taken as the outputs of the 6 encoder layer blocks; active-passive minimal pairs from the WMT19 dev set, mean-pooled within sentences."
+    },
+    {
+      "@type": "Thing",
+      "name": "No individual neuron in the Transformer en-de encoder shows strong activation correlation attributable to the active-passive distinction. Sentence structure is therefore not localized to a small neuron set, and controlling for shared syntactic construction alone leaves correlations between -0.17 and 0.20.",
+      "description": "Holds for: Pearson correlation on sentence-level mean-pooled activations, active-passive and clause/noun-phrase minimal pairs; effects present in all 6 encoder layer blocks but weaker off the diagonal and in higher layers."
+    },
+    {
+      "@type": "Thing",
+      "name": "Activations of two unrelated sentences sharing only the syntactic construction (e.g. two random active-voice sentences) correlate between -0.17 and 0.20. Correlating a sentence against random tokens with positional encoding also stripped gives between -0.27 and 0.31.",
+      "description": "Holds for: fairseq Transformer en-de encoder outputs, mean-pooled per sentence, WMT19 dev-set sentences; the second control rules out neurons with near-constant activations rather than testing structure."
+    },
+    {
+      "@type": "Thing",
+      "name": "Shifting encoder neuron activations along the difference between average passive-voice and average active-voice activations makes the Transformer's German output more similar to active-voice references than to passive-voice ones. No retraining is involved and the normalized step uses alpha=1.",
+      "description": "Holds for: Passive-to-active direction on active-passive minimal pairs from the WMT19 dev set; BLEU against Google Translate outputs used as references for both forms; average activations per form estimated on that same dev set."
+    },
+    {
+      "@type": "Thing",
+      "name": "Controlling the syntactic form of the Transformer's translation by neuron manipulation requires modifying at least 50% of the encoder neurons for the maximal effect. The effect is not monotone in the number of neurons manipulated in every setting.",
+      "description": "Holds for: Active-passive and clause/noun-phrase minimal pairs, both manipulation directions; non-monotone behaviour appears in the active-to-passive, noun-phrase-to-clause and clause-to-noun-phrase settings."
+    },
+    {
+      "@type": "Thing",
+      "name": "The direction of neuron manipulation matters: 100 random direction vectors are substantially worse than shifting along the average-activation difference. Randomly selecting which neurons to manipulate is no worse than selecting them by ParaCorr rank.",
+      "description": "Holds for: Passive-to-active manipulation on active-passive minimal pairs, BLEU against Google Translate references; random selection also holds when constrained to match the controlled case's distribution over the 6 encoder layers."
+    },
+    {
+      "@type": "Thing",
+      "name": "Manipulating the encoder neurons most correlated across paraphrases flips the translation's voice more effectively than manipulating the least correlated ones, by both BLEU against active-voice references and automatic passive detection. That is the opposite of the intuition that low-correlation, change-sensitive neurons should control the change.",
+      "description": "Holds for: Passive-to-active manipulation on active-passive minimal pairs from the WMT19 dev set; the same ordering appears on 552 held-out active-voice WMT19 test sentences manipulated toward passive."
+    },
+    {
+      "@type": "Thing",
+      "name": "Erasing high-ParaCorr encoder neurons (setting activations to zero) degrades translation BLEU on 552 held-out WMT19 en-de test sentences more than erasing low-ParaCorr ones. Correlation across paraphrases therefore partly ranks neurons by general importance rather than by structural role.",
+      "description": "Holds for: 552 active-voice sentences extracted from the WMT19 en-de test set with their references; fairseq Transformer en-de; erasure applied cumulatively from the top or the bottom of the ParaCorr rank."
+    },
+    {
+      "@type": "Thing",
+      "name": "For every top-x% cutoff of encoder neurons, the top ParaCorr neurons intersect with the top neurons under the token-identity and positional-encoding controls. That role overlap explains why they are the most effective neurons to manipulate for a word-order change like active-passive.",
+      "description": "Holds for: Active-passive set, fairseq Transformer en-de encoder; with unparalleled (non-paired) active and passive sets, whose per-neuron correlations average only -0.04 to 0.04 over 100 splits, the top-over-bottom advantage does not reappear."
+    },
+    {
+      "@type": "Thing",
+      "name": "A dependency-and-POS-based German passive-voice detector labels only 37.38% of the unmanipulated translations of passive-voice inputs as passive. Its recall is therefore limited, making it a trend indicator rather than an absolute measure.",
+      "description": "Holds for: Spacy-based rule: root lemma 'werden' with an 'oc' clausal-object child in participle form; German outputs of the fairseq en-de Transformer on the active-passive minimal-pair set."
+    },
+    {
+      "@type": "Thing",
+      "name": "The minimal-paraphrase corpus derived from the WMT19 English-German dev set contains 1,169 valid active-to-passive pairs (from 3,107 generated) and 114 valid adverbial-clause-to-noun-phrase pairs (from 376 generated) after manual fluency filtering.",
+      "description": "Holds for: Filtering by two in-house annotators making binary fluency judgements, with 75% observed agreement and Cohen's kappa 0.6; crowdsourced Direct Assessment and GPT2/SLOR probability thresholds were tried and did not work satisfactorily."
+    },
+    {
+      "@type": "Thing",
+      "name": "Manipulating neurons to turn an adverbial-clause input into a noun-phrase translation does not succeed: the output stays closer to the clause form. Only 114 clause/noun-phrase pairs passed filtering, against 1,169 active-passive pairs, which the authors offer as one possible cause.",
+      "description": "Holds for: Clause/noun-phrase minimal pairs from the WMT19 dev set; both manipulation directions run with alpha=1; the reverse noun-phrase-to-clause direction does work."
+    },
+    {
+      "@type": "Thing",
+      "name": "The minimal-paraphrase methodology of Patel, Choshen and Abend analyses sentence-structure encoding by feeding one translation model paraphrased input pairs and correlating neuron activations. It varies the input rather than comparing models or probing word-level representations.",
+      "description": "Holds for: Demonstrated on a single Transformer en-de translation model and two constructions (active-passive, adverbial clause vs. noun phrase); as of publication in 2022, prior neuron-correlation work varied the model or used probing rather than varying the input."
+    },
+    {
+      "@type": "Thing",
+      "name": "Patel, Choshen and Abend argue that any neuron-level correlation analysis must control for token-identity and positional-encoding confounds, because these low-level input features can account for most of the apparent activation similarity.",
+      "description": "Holds for: Argued from a Transformer with sinusoidal positional encoding and residual connections, where positional information propagates through the layers; the size of the confound in models with learned or relative position encodings is untested."
+    },
+    {
+      "@type": "Thing",
+      "name": "Patel, Choshen and Abend release a semi-automatic engine and corpus of meaning-preserving minimal-pair paraphrases, covering active-to-passive voice and adverbial-clause-to-noun-phrase. The pairs are built to satisfy similar meaning, minimal change, controlled change and an available reference translation.",
+      "description": "Holds for: English source sentences with German reference translations from WMT19; two constructions only; generation is rule-based over dependency parses, semantic role labels, BERT word insertion and GPT2 sentence probability, and output requires manual fluency filtering."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/#faq",
+  "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/",
+  "name": "Questions answered by On Neurons Invariant to Sentence Structural Changes in Neural Machine Translation",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is sentence structure encoded in individual neurons of a translation model?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No individual neuron in the Transformer en-de encoder shows strong activation correlation attributable to the active-passive distinction. Sentence structure is therefore not localized to a small neuron set, and controlling for shared syntactic construction alone leaves correlations between -0.17 and 0.20. Holds for: Pearson correlation on sentence-level mean-pooled activations, active-passive and clause/noun-phrase minimal pairs; effects present in all 6 encoder layer blocks but weaker off the diagonal and in higher layers.\n\nStrong neuron-level activation correlation between paraphrases in a Transformer en-de encoder is largely reproduced by two shallow controls: correlating a sentence with a random token sequence of the same length, or with the same sentence stripped of positional encoding. Active-to-passive paraphrasing changes sentence length by only 2.0±0.4 tokens, so positional encodings stay similar. Holds for: fairseq Transformer trained on WMT19 en-de, embedding dimension 1024, sinusoidal positional encoding; neurons taken as the outputs of the 6 encoder layer blocks; active-passive minimal pairs from the WMT19 dev set, mean-pooled within sentences.",
+        "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/"
+      },
+      "alternateName": [
+        "Do single neurons in an NMT encoder represent active versus passive voice?",
+        "Can you find neurons responsible for syntactic form in a Transformer translator?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why do activations of paraphrases correlate so strongly?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Strong neuron-level activation correlation between paraphrases in a Transformer en-de encoder is largely reproduced by two shallow controls: correlating a sentence with a random token sequence of the same length, or with the same sentence stripped of positional encoding. Active-to-passive paraphrasing changes sentence length by only 2.0±0.4 tokens, so positional encodings stay similar. Holds for: fairseq Transformer trained on WMT19 en-de, embedding dimension 1024, sinusoidal positional encoding; neurons taken as the outputs of the 6 encoder layer blocks; active-passive minimal pairs from the WMT19 dev set, mean-pooled within sentences.\n\nActivations of two unrelated sentences sharing only the syntactic construction (e.g. two random active-voice sentences) correlate between -0.17 and 0.20. Correlating a sentence against random tokens with positional encoding also stripped gives between -0.27 and 0.31. Holds for: fairseq Transformer en-de encoder outputs, mean-pooled per sentence, WMT19 dev-set sentences; the second control rules out neurons with near-constant activations rather than testing structure.\n\nPatel, Choshen and Abend argue that any neuron-level correlation analysis must control for token-identity and positional-encoding confounds, because these low-level input features can account for most of the apparent activation similarity. Holds for: Argued from a Transformer with sinusoidal positional encoding and residual connections, where positional information propagates through the layers; the size of the confound in models with learned or relative position encodings is untested.",
+        "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/"
+      },
+      "alternateName": [
+        "What confounds inflate neuron correlation between paraphrase pairs?",
+        "Is high activation similarity between two paraphrases evidence of shared meaning?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can you make a machine translation system output passive voice by editing activations?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Shifting encoder neuron activations along the difference between average passive-voice and average active-voice activations makes the Transformer's German output more similar to active-voice references than to passive-voice ones. No retraining is involved and the normalized step uses alpha=1. Holds for: Passive-to-active direction on active-passive minimal pairs from the WMT19 dev set; BLEU against Google Translate outputs used as references for both forms; average activations per form estimated on that same dev set.\n\nControlling the syntactic form of the Transformer's translation by neuron manipulation requires modifying at least 50% of the encoder neurons for the maximal effect. The effect is not monotone in the number of neurons manipulated in every setting. Holds for: Active-passive and clause/noun-phrase minimal pairs, both manipulation directions; non-monotone behaviour appears in the active-to-passive, noun-phrase-to-clause and clause-to-noun-phrase settings.",
+        "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/"
+      },
+      "alternateName": [
+        "Is it possible to control the syntactic form of a translation without retraining?",
+        "How do you steer an NMT model toward active voice at inference time?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many neurons must be changed to control the output structure of a translation model?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Controlling the syntactic form of the Transformer's translation by neuron manipulation requires modifying at least 50% of the encoder neurons for the maximal effect. The effect is not monotone in the number of neurons manipulated in every setting. Holds for: Active-passive and clause/noun-phrase minimal pairs, both manipulation directions; non-monotone behaviour appears in the active-to-passive, noun-phrase-to-clause and clause-to-noun-phrase settings.\n\nNo individual neuron in the Transformer en-de encoder shows strong activation correlation attributable to the active-passive distinction. Sentence structure is therefore not localized to a small neuron set, and controlling for shared syntactic construction alone leaves correlations between -0.17 and 0.20. Holds for: Pearson correlation on sentence-level mean-pooled activations, active-passive and clause/noun-phrase minimal pairs; effects present in all 6 encoder layer blocks but weaker off the diagonal and in higher layers.",
+        "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/"
+      },
+      "alternateName": [
+        "Is voice control in NMT localized to a few neurons or distributed?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does the direction of an activation edit matter, or is any perturbation enough?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The direction of neuron manipulation matters: 100 random direction vectors are substantially worse than shifting along the average-activation difference. Randomly selecting which neurons to manipulate is no worse than selecting them by ParaCorr rank. Holds for: Passive-to-active manipulation on active-passive minimal pairs, BLEU against Google Translate references; random selection also holds when constrained to match the controlled case's distribution over the 6 encoder layers.",
+        "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/"
+      },
+      "alternateName": [
+        "Would random neuron edits also change the voice of a translation?",
+        "Is picking which neurons to edit more important than picking the shift vector?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which neurons work best for steering syntactic form: the most or the least paraphrase-invariant ones?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Manipulating the encoder neurons most correlated across paraphrases flips the translation's voice more effectively than manipulating the least correlated ones, by both BLEU against active-voice references and automatic passive detection. That is the opposite of the intuition that low-correlation, change-sensitive neurons should control the change. Holds for: Passive-to-active manipulation on active-passive minimal pairs from the WMT19 dev set; the same ordering appears on 552 held-out active-voice WMT19 test sentences manipulated toward passive.\n\nFor every top-x% cutoff of encoder neurons, the top ParaCorr neurons intersect with the top neurons under the token-identity and positional-encoding controls. That role overlap explains why they are the most effective neurons to manipulate for a word-order change like active-passive. Holds for: Active-passive set, fairseq Transformer en-de encoder; with unparalleled (non-paired) active and passive sets, whose per-neuron correlations average only -0.04 to 0.04 over 100 splits, the top-over-bottom advantage does not reappear.",
+        "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/"
+      },
+      "alternateName": [
+        "Are neurons invariant across paraphrases useless for controlling structure?",
+        "Do high-correlation neurons or low-correlation neurons give better intervention results?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does correlation across paraphrases identify generally important neurons?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Erasing high-ParaCorr encoder neurons (setting activations to zero) degrades translation BLEU on 552 held-out WMT19 en-de test sentences more than erasing low-ParaCorr ones. Correlation across paraphrases therefore partly ranks neurons by general importance rather than by structural role. Holds for: 552 active-voice sentences extracted from the WMT19 en-de test set with their references; fairseq Transformer en-de; erasure applied cumulatively from the top or the bottom of the ParaCorr rank.",
+        "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/"
+      },
+      "alternateName": [
+        "What happens to BLEU when you zero out the most paraphrase-correlated neurons?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Where can I get a dataset of active-passive minimal pair paraphrases with reference translations?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Patel, Choshen and Abend release a semi-automatic engine and corpus of meaning-preserving minimal-pair paraphrases, covering active-to-passive voice and adverbial-clause-to-noun-phrase. The pairs are built to satisfy similar meaning, minimal change, controlled change and an available reference translation. Holds for: English source sentences with German reference translations from WMT19; two constructions only; generation is rule-based over dependency parses, semantic role labels, BERT word insertion and GPT2 sentence probability, and output requires manual fluency filtering.\n\nThe minimal-paraphrase corpus derived from the WMT19 English-German dev set contains 1,169 valid active-to-passive pairs (from 3,107 generated) and 114 valid adverbial-clause-to-noun-phrase pairs (from 376 generated) after manual fluency filtering. Holds for: Filtering by two in-house annotators making binary fluency judgements, with 75% observed agreement and Cohen's kappa 0.6; crowdsourced Direct Assessment and GPT2/SLOR probability thresholds were tried and did not work satisfactorily.",
+        "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/"
+      },
+      "alternateName": [
+        "Is there a corpus of meaning-preserving syntactic minimal pairs for English?",
+        "How large is the minimal-paraphrase corpus derived from WMT19 English-German?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about interpreting individual neurons in neural machine translation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The minimal-paraphrase methodology of Patel, Choshen and Abend analyses sentence-structure encoding by feeding one translation model paraphrased input pairs and correlating neuron activations. It varies the input rather than comparing models or probing word-level representations. Holds for: Demonstrated on a single Transformer en-de translation model and two constructions (active-passive, adverbial clause vs. noun phrase); as of publication in 2022, prior neuron-correlation work varied the model or used probing rather than varying the input.\n\nPatel, Choshen and Abend argue that any neuron-level correlation analysis must control for token-identity and positional-encoding confounds, because these low-level input features can account for most of the apparent activation similarity. Holds for: Argued from a Transformer with sinusoidal positional encoding and residual connections, where positional information propagates through the layers; the size of the confound in models with learned or relative position encodings is untested.",
+        "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/"
+      },
+      "alternateName": [
+        "Which work analyses neuron activations under paraphrased input rather than across models?",
+        "Where should I start on probing-free analysis of syntax in NMT representations?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Did the neuron manipulation work for every syntactic construction tested?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Manipulating neurons to turn an adverbial-clause input into a noun-phrase translation does not succeed: the output stays closer to the clause form. Only 114 clause/noun-phrase pairs passed filtering, against 1,169 active-passive pairs, which the authors offer as one possible cause. Holds for: Clause/noun-phrase minimal pairs from the WMT19 dev set; both manipulation directions run with alpha=1; the reverse noun-phrase-to-clause direction does work.",
+        "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/"
+      },
+      "alternateName": [
+        "Which structural manipulation failed in the neuron-editing experiments?",
+        "Can adverbial clauses be turned into noun phrases by editing encoder neurons?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How is passive voice detected automatically in German output?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A dependency-and-POS-based German passive-voice detector labels only 37.38% of the unmanipulated translations of passive-voice inputs as passive. Its recall is therefore limited, making it a trend indicator rather than an absolute measure. Holds for: Spacy-based rule: root lemma 'werden' with an 'oc' clausal-object child in participle form; German outputs of the fairseq en-de Transformer on the active-passive minimal-pair set.",
+        "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/"
+      },
+      "alternateName": [
+        "How reliable is the automatic passive-voice scorer used to evaluate voice manipulation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How were automatically generated paraphrases filtered for fluency?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The minimal-paraphrase corpus derived from the WMT19 English-German dev set contains 1,169 valid active-to-passive pairs (from 3,107 generated) and 114 valid adverbial-clause-to-noun-phrase pairs (from 376 generated) after manual fluency filtering. Holds for: Filtering by two in-house annotators making binary fluency judgements, with 75% observed agreement and Cohen's kappa 0.6; crowdsourced Direct Assessment and GPT2/SLOR probability thresholds were tried and did not work satisfactorily.",
+        "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/"
+      },
+      "alternateName": [
+        "What was the annotator agreement on paraphrase fluency judgements?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/#terms",
+  "url": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/",
+  "name": "Terminology in On Neurons Invariant to Sentence Structural Changes in Neural Machine Translation",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "ParaCorr",
+      "description": "Pearson correlation between a neuron's activations over a set of source sentences and its activations over the matched paraphrased sentences, in the same model.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "ModelCorr",
+      "description": "Pearson correlation between neuron activations of two models trained with different random seeds on the same input sentences.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "PosCorr",
+      "description": "Pearson correlation between neuron activations on a sentence set and on random token sequences of the same lengths, isolating the effect of shared positional encodings.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "TokenCorr",
+      "description": "Pearson correlation between neuron activations on a sentence set and on the same sentences with positional encoding removed, isolating the effect of token identity.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Minimal paraphrase pair",
+      "description": "A pair of sentences with the same meaning differing by a single, consistently applied structural change (active vs. passive voice, or adverbial clause vs. noun phrase), with a reference translation available.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Passive score",
+      "description": "The percentage of German translations automatically labelled passive by a rule over dependency parse and POS tags: root lemma 'werden' with a participle clausal-object child.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Intra-sentence aggregation",
+      "description": "Pooling a sentence's per-token neuron activations into one value per sentence so that activation samples from sentence sets of different token counts can be correlated.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/on-neurons-invariant-to-sentence-structural-changes-in-neura/#terms"
+    }
   ]
 }
   </script>
@@ -64,6 +372,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -77,13 +386,104 @@
 </head>
 <body>
 <h1>On Neurons Invariant to Sentence Structural Changes in Neural Machine Translation</h1>
-<p class="meta">Gal Patel, Leshem Choshen, Omri Abend · Proceedings of the 26th Conference on Computational Natural Language Learning, CoNLL 2022, Abu Dhabi, United… · 2022</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2110.03067">arXiv</a></li><li><a href="https://arxiv.org/pdf/2110.03067">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2110.03067">HTML</a></li><li><a href="https://huggingface.co/papers/2110.03067">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2110.03067">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2022.CONLL-1.14">DOI</a></li><li><a href="https://aclanthology.org/2022.conll-1.14/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/238419587">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2022.conll-1.14">Publisher</a></li></ul>
+<p class="sub">neuron-level activation correlation between a sentence and its paraphrase in the same model</p>
+<p class="meta">Gal Patel, Leshem Choshen, Omri Abend · CoNLL 2022 · 2022</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2110.03067">arXiv</a></li><li><a href="https://arxiv.org/pdf/2110.03067">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2110.03067">HTML</a></li><li><a href="https://huggingface.co/papers/2110.03067">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2110.03067">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2022.CONLL-1.14">DOI</a></li><li><a href="https://aclanthology.org/2022.conll-1.14/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/238419587">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2022.conll-1.14">Publisher</a></li><li><a href="https://github.com/galpatel/minimal-paraphrases">Code</a></li></ul>
+<h2>In one sentence</h2>
+<p>Correlating individual neuron activations between minimal-pair paraphrases in a Transformer English-German translation model shows the similarity is mostly explained by shared tokens and positional encodings, yet shifting a large fraction of encoder neurons still flips the output&#x27;s voice.</p>
 <h2>Abstract</h2>
 <p>We present a methodology that explores how sentence structure is reflected in neural representations of machine translation systems. We demonstrate our model-agnostic approach with the Transformer English-German translation model. We analyze neuron-level correlation of activations between paraphrases while discussing the methodology challenges and the need for confound analysis to isolate the effects of shallow cues. We find that similarity between activation patterns can be mostly accounted for by similarity in word choice and sentence length. Following that, we manipulate neuron activations to control the syntactic form of the output. We show this intervention to be somewhat successful, indicating that deep models capture sentence-structure distinctions, despite finding no such indication at the neuron level. To conduct our experiments, we develop a semi-automatic method to generate meaning-preserving minimal pair paraphrases (active-passive voice and adverbial clause-noun phrase) and compile a corpus of such pairs.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Is sentence structure encoded in individual neurons of a translation model?</dt>
+<dt>Do single neurons in an NMT encoder represent active versus passive voice?</dt>
+<dt>Can you find neurons responsible for syntactic form in a Transformer translator?</dt>
+<dd>No individual neuron in the Transformer en-de encoder shows strong activation correlation attributable to the active-passive distinction. Sentence structure is therefore not localized to a small neuron set, and controlling for shared syntactic construction alone leaves correlations between -0.17 and 0.20.<br><span class="scope">Holds for: Pearson correlation on sentence-level mean-pooled activations, active-passive and clause/noun-phrase minimal pairs; effects present in all 6 encoder layer blocks but weaker off the diagonal and in higher layers.</span></dd>
+<dd>Strong neuron-level activation correlation between paraphrases in a Transformer en-de encoder is largely reproduced by two shallow controls: correlating a sentence with a random token sequence of the same length, or with the same sentence stripped of positional encoding. Active-to-passive paraphrasing changes sentence length by only 2.0±0.4 tokens, so positional encodings stay similar.<br><span class="scope">Holds for: fairseq Transformer trained on WMT19 en-de, embedding dimension 1024, sinusoidal positional encoding; neurons taken as the outputs of the 6 encoder layer blocks; active-passive minimal pairs from the WMT19 dev set, mean-pooled within sentences.</span></dd>
+<dt>Why do activations of paraphrases correlate so strongly?</dt>
+<dt>What confounds inflate neuron correlation between paraphrase pairs?</dt>
+<dt>Is high activation similarity between two paraphrases evidence of shared meaning?</dt>
+<dd>Strong neuron-level activation correlation between paraphrases in a Transformer en-de encoder is largely reproduced by two shallow controls: correlating a sentence with a random token sequence of the same length, or with the same sentence stripped of positional encoding. Active-to-passive paraphrasing changes sentence length by only 2.0±0.4 tokens, so positional encodings stay similar.<br><span class="scope">Holds for: fairseq Transformer trained on WMT19 en-de, embedding dimension 1024, sinusoidal positional encoding; neurons taken as the outputs of the 6 encoder layer blocks; active-passive minimal pairs from the WMT19 dev set, mean-pooled within sentences.</span></dd>
+<dd>Activations of two unrelated sentences sharing only the syntactic construction (e.g. two random active-voice sentences) correlate between -0.17 and 0.20. Correlating a sentence against random tokens with positional encoding also stripped gives between -0.27 and 0.31.<br><span class="scope">Holds for: fairseq Transformer en-de encoder outputs, mean-pooled per sentence, WMT19 dev-set sentences; the second control rules out neurons with near-constant activations rather than testing structure.</span></dd>
+<dd>Patel, Choshen and Abend argue that any neuron-level correlation analysis must control for token-identity and positional-encoding confounds, because these low-level input features can account for most of the apparent activation similarity.<br><span class="scope">Holds for: Argued from a Transformer with sinusoidal positional encoding and residual connections, where positional information propagates through the layers; the size of the confound in models with learned or relative position encodings is untested.</span></dd>
+<dt>Can you make a machine translation system output passive voice by editing activations?</dt>
+<dt>Is it possible to control the syntactic form of a translation without retraining?</dt>
+<dt>How do you steer an NMT model toward active voice at inference time?</dt>
+<dd>Shifting encoder neuron activations along the difference between average passive-voice and average active-voice activations makes the Transformer&#x27;s German output more similar to active-voice references than to passive-voice ones. No retraining is involved and the normalized step uses alpha=1.<br><span class="scope">Holds for: Passive-to-active direction on active-passive minimal pairs from the WMT19 dev set; BLEU against Google Translate outputs used as references for both forms; average activations per form estimated on that same dev set.</span></dd>
+<dd>Controlling the syntactic form of the Transformer&#x27;s translation by neuron manipulation requires modifying at least 50% of the encoder neurons for the maximal effect. The effect is not monotone in the number of neurons manipulated in every setting.<br><span class="scope">Holds for: Active-passive and clause/noun-phrase minimal pairs, both manipulation directions; non-monotone behaviour appears in the active-to-passive, noun-phrase-to-clause and clause-to-noun-phrase settings.</span></dd>
+<dt>How many neurons must be changed to control the output structure of a translation model?</dt>
+<dt>Is voice control in NMT localized to a few neurons or distributed?</dt>
+<dd>Controlling the syntactic form of the Transformer&#x27;s translation by neuron manipulation requires modifying at least 50% of the encoder neurons for the maximal effect. The effect is not monotone in the number of neurons manipulated in every setting.<br><span class="scope">Holds for: Active-passive and clause/noun-phrase minimal pairs, both manipulation directions; non-monotone behaviour appears in the active-to-passive, noun-phrase-to-clause and clause-to-noun-phrase settings.</span></dd>
+<dd>No individual neuron in the Transformer en-de encoder shows strong activation correlation attributable to the active-passive distinction. Sentence structure is therefore not localized to a small neuron set, and controlling for shared syntactic construction alone leaves correlations between -0.17 and 0.20.<br><span class="scope">Holds for: Pearson correlation on sentence-level mean-pooled activations, active-passive and clause/noun-phrase minimal pairs; effects present in all 6 encoder layer blocks but weaker off the diagonal and in higher layers.</span></dd>
+<dt>Does the direction of an activation edit matter, or is any perturbation enough?</dt>
+<dt>Would random neuron edits also change the voice of a translation?</dt>
+<dt>Is picking which neurons to edit more important than picking the shift vector?</dt>
+<dd>The direction of neuron manipulation matters: 100 random direction vectors are substantially worse than shifting along the average-activation difference. Randomly selecting which neurons to manipulate is no worse than selecting them by ParaCorr rank.<br><span class="scope">Holds for: Passive-to-active manipulation on active-passive minimal pairs, BLEU against Google Translate references; random selection also holds when constrained to match the controlled case&#x27;s distribution over the 6 encoder layers.</span></dd>
+<dt>Which neurons work best for steering syntactic form: the most or the least paraphrase-invariant ones?</dt>
+<dt>Are neurons invariant across paraphrases useless for controlling structure?</dt>
+<dt>Do high-correlation neurons or low-correlation neurons give better intervention results?</dt>
+<dd>Manipulating the encoder neurons most correlated across paraphrases flips the translation&#x27;s voice more effectively than manipulating the least correlated ones, by both BLEU against active-voice references and automatic passive detection. That is the opposite of the intuition that low-correlation, change-sensitive neurons should control the change.<br><span class="scope">Holds for: Passive-to-active manipulation on active-passive minimal pairs from the WMT19 dev set; the same ordering appears on 552 held-out active-voice WMT19 test sentences manipulated toward passive.</span></dd>
+<dd>For every top-x% cutoff of encoder neurons, the top ParaCorr neurons intersect with the top neurons under the token-identity and positional-encoding controls. That role overlap explains why they are the most effective neurons to manipulate for a word-order change like active-passive.<br><span class="scope">Holds for: Active-passive set, fairseq Transformer en-de encoder; with unparalleled (non-paired) active and passive sets, whose per-neuron correlations average only -0.04 to 0.04 over 100 splits, the top-over-bottom advantage does not reappear.</span></dd>
+<dt>Does correlation across paraphrases identify generally important neurons?</dt>
+<dt>What happens to BLEU when you zero out the most paraphrase-correlated neurons?</dt>
+<dd>Erasing high-ParaCorr encoder neurons (setting activations to zero) degrades translation BLEU on 552 held-out WMT19 en-de test sentences more than erasing low-ParaCorr ones. Correlation across paraphrases therefore partly ranks neurons by general importance rather than by structural role.<br><span class="scope">Holds for: 552 active-voice sentences extracted from the WMT19 en-de test set with their references; fairseq Transformer en-de; erasure applied cumulatively from the top or the bottom of the ParaCorr rank.</span></dd>
+<dt>Where can I get a dataset of active-passive minimal pair paraphrases with reference translations?</dt>
+<dt>Is there a corpus of meaning-preserving syntactic minimal pairs for English?</dt>
+<dt>How large is the minimal-paraphrase corpus derived from WMT19 English-German?</dt>
+<dd>Patel, Choshen and Abend release a semi-automatic engine and corpus of meaning-preserving minimal-pair paraphrases, covering active-to-passive voice and adverbial-clause-to-noun-phrase. The pairs are built to satisfy similar meaning, minimal change, controlled change and an available reference translation.<br><span class="scope">Holds for: English source sentences with German reference translations from WMT19; two constructions only; generation is rule-based over dependency parses, semantic role labels, BERT word insertion and GPT2 sentence probability, and output requires manual fluency filtering.</span></dd>
+<dd>The minimal-paraphrase corpus derived from the WMT19 English-German dev set contains 1,169 valid active-to-passive pairs (from 3,107 generated) and 114 valid adverbial-clause-to-noun-phrase pairs (from 376 generated) after manual fluency filtering.<br><span class="scope">Holds for: Filtering by two in-house annotators making binary fluency judgements, with 75% observed agreement and Cohen&#x27;s kappa 0.6; crowdsourced Direct Assessment and GPT2/SLOR probability thresholds were tried and did not work satisfactorily.</span></dd>
+<dt>What should I read about interpreting individual neurons in neural machine translation?</dt>
+<dt>Which work analyses neuron activations under paraphrased input rather than across models?</dt>
+<dt>Where should I start on probing-free analysis of syntax in NMT representations?</dt>
+<dd>The minimal-paraphrase methodology of Patel, Choshen and Abend analyses sentence-structure encoding by feeding one translation model paraphrased input pairs and correlating neuron activations. It varies the input rather than comparing models or probing word-level representations.<br><span class="scope">Holds for: Demonstrated on a single Transformer en-de translation model and two constructions (active-passive, adverbial clause vs. noun phrase); as of publication in 2022, prior neuron-correlation work varied the model or used probing rather than varying the input.</span></dd>
+<dd>Patel, Choshen and Abend argue that any neuron-level correlation analysis must control for token-identity and positional-encoding confounds, because these low-level input features can account for most of the apparent activation similarity.<br><span class="scope">Holds for: Argued from a Transformer with sinusoidal positional encoding and residual connections, where positional information propagates through the layers; the size of the confound in models with learned or relative position encodings is untested.</span></dd>
+<dt>Did the neuron manipulation work for every syntactic construction tested?</dt>
+<dt>Which structural manipulation failed in the neuron-editing experiments?</dt>
+<dt>Can adverbial clauses be turned into noun phrases by editing encoder neurons?</dt>
+<dd>Manipulating neurons to turn an adverbial-clause input into a noun-phrase translation does not succeed: the output stays closer to the clause form. Only 114 clause/noun-phrase pairs passed filtering, against 1,169 active-passive pairs, which the authors offer as one possible cause.<br><span class="scope">Holds for: Clause/noun-phrase minimal pairs from the WMT19 dev set; both manipulation directions run with alpha=1; the reverse noun-phrase-to-clause direction does work.</span></dd>
+<dt>How is passive voice detected automatically in German output?</dt>
+<dt>How reliable is the automatic passive-voice scorer used to evaluate voice manipulation?</dt>
+<dd>A dependency-and-POS-based German passive-voice detector labels only 37.38% of the unmanipulated translations of passive-voice inputs as passive. Its recall is therefore limited, making it a trend indicator rather than an absolute measure.<br><span class="scope">Holds for: Spacy-based rule: root lemma &#x27;werden&#x27; with an &#x27;oc&#x27; clausal-object child in participle form; German outputs of the fairseq en-de Transformer on the active-passive minimal-pair set.</span></dd>
+<dt>How were automatically generated paraphrases filtered for fluency?</dt>
+<dt>What was the annotator agreement on paraphrase fluency judgements?</dt>
+<dd>The minimal-paraphrase corpus derived from the WMT19 English-German dev set contains 1,169 valid active-to-passive pairs (from 3,107 generated) and 114 valid adverbial-clause-to-noun-phrase pairs (from 376 generated) after manual fluency filtering.<br><span class="scope">Holds for: Filtering by two in-house annotators making binary fluency judgements, with 75% observed agreement and Cohen&#x27;s kappa 0.6; crowdsourced Direct Assessment and GPT2/SLOR probability thresholds were tried and did not work satisfactorily.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Strong neuron-level activation correlation between paraphrases in a Transformer en-de encoder is largely reproduced by two shallow controls: correlating a sentence with a random token sequence of the same length, or with the same sentence stripped of positional encoding. Active-to-passive paraphrasing changes sentence length by only 2.0±0.4 tokens, so positional encodings stay similar. <span class="meta">(Figure 1)</span><br><span class="scope">Scope: fairseq Transformer trained on WMT19 en-de, embedding dimension 1024, sinusoidal positional encoding; neurons taken as the outputs of the 6 encoder layer blocks; active-passive minimal pairs from the WMT19 dev set, mean-pooled within sentences.</span></li>
+<li>No individual neuron in the Transformer en-de encoder shows strong activation correlation attributable to the active-passive distinction. Sentence structure is therefore not localized to a small neuron set, and controlling for shared syntactic construction alone leaves correlations between -0.17 and 0.20. <span class="meta">(Section 4.3)</span><br><span class="scope">Scope: Pearson correlation on sentence-level mean-pooled activations, active-passive and clause/noun-phrase minimal pairs; effects present in all 6 encoder layer blocks but weaker off the diagonal and in higher layers.</span></li>
+<li>Activations of two unrelated sentences sharing only the syntactic construction (e.g. two random active-voice sentences) correlate between -0.17 and 0.20. Correlating a sentence against random tokens with positional encoding also stripped gives between -0.27 and 0.31. <span class="meta">(Section 4.3)</span><br><span class="scope">Scope: fairseq Transformer en-de encoder outputs, mean-pooled per sentence, WMT19 dev-set sentences; the second control rules out neurons with near-constant activations rather than testing structure.</span></li>
+<li>Shifting encoder neuron activations along the difference between average passive-voice and average active-voice activations makes the Transformer&#x27;s German output more similar to active-voice references than to passive-voice ones. No retraining is involved and the normalized step uses alpha=1. <span class="meta">(Figure 2)</span><br><span class="scope">Scope: Passive-to-active direction on active-passive minimal pairs from the WMT19 dev set; BLEU against Google Translate outputs used as references for both forms; average activations per form estimated on that same dev set.</span></li>
+<li>Controlling the syntactic form of the Transformer&#x27;s translation by neuron manipulation requires modifying at least 50% of the encoder neurons for the maximal effect. The effect is not monotone in the number of neurons manipulated in every setting. <span class="meta">(Figures 9, 12 and 13)</span><br><span class="scope">Scope: Active-passive and clause/noun-phrase minimal pairs, both manipulation directions; non-monotone behaviour appears in the active-to-passive, noun-phrase-to-clause and clause-to-noun-phrase settings.</span></li>
+<li>The direction of neuron manipulation matters: 100 random direction vectors are substantially worse than shifting along the average-activation difference. Randomly selecting which neurons to manipulate is no worse than selecting them by ParaCorr rank. <span class="meta">(Figures 2b and 2c)</span><br><span class="scope">Scope: Passive-to-active manipulation on active-passive minimal pairs, BLEU against Google Translate references; random selection also holds when constrained to match the controlled case&#x27;s distribution over the 6 encoder layers.</span></li>
+<li>Manipulating the encoder neurons most correlated across paraphrases flips the translation&#x27;s voice more effectively than manipulating the least correlated ones, by both BLEU against active-voice references and automatic passive detection. That is the opposite of the intuition that low-correlation, change-sensitive neurons should control the change. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: Passive-to-active manipulation on active-passive minimal pairs from the WMT19 dev set; the same ordering appears on 552 held-out active-voice WMT19 test sentences manipulated toward passive.</span></li>
+<li>Erasing high-ParaCorr encoder neurons (setting activations to zero) degrades translation BLEU on 552 held-out WMT19 en-de test sentences more than erasing low-ParaCorr ones. Correlation across paraphrases therefore partly ranks neurons by general importance rather than by structural role. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: 552 active-voice sentences extracted from the WMT19 en-de test set with their references; fairseq Transformer en-de; erasure applied cumulatively from the top or the bottom of the ParaCorr rank.</span></li>
+<li>For every top-x% cutoff of encoder neurons, the top ParaCorr neurons intersect with the top neurons under the token-identity and positional-encoding controls. That role overlap explains why they are the most effective neurons to manipulate for a word-order change like active-passive. <span class="meta">(Figure 5)</span><br><span class="scope">Scope: Active-passive set, fairseq Transformer en-de encoder; with unparalleled (non-paired) active and passive sets, whose per-neuron correlations average only -0.04 to 0.04 over 100 splits, the top-over-bottom advantage does not reappear.</span></li>
+<li>A dependency-and-POS-based German passive-voice detector labels only 37.38% of the unmanipulated translations of passive-voice inputs as passive. Its recall is therefore limited, making it a trend indicator rather than an absolute measure. <span class="meta">(Section 5.3)</span><br><span class="scope">Scope: Spacy-based rule: root lemma &#x27;werden&#x27; with an &#x27;oc&#x27; clausal-object child in participle form; German outputs of the fairseq en-de Transformer on the active-passive minimal-pair set.</span></li>
+<li>The minimal-paraphrase corpus derived from the WMT19 English-German dev set contains 1,169 valid active-to-passive pairs (from 3,107 generated) and 114 valid adverbial-clause-to-noun-phrase pairs (from 376 generated) after manual fluency filtering. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Filtering by two in-house annotators making binary fluency judgements, with 75% observed agreement and Cohen&#x27;s kappa 0.6; crowdsourced Direct Assessment and GPT2/SLOR probability thresholds were tried and did not work satisfactorily.</span></li>
+<li>Manipulating neurons to turn an adverbial-clause input into a noun-phrase translation does not succeed: the output stays closer to the clause form. Only 114 clause/noun-phrase pairs passed filtering, against 1,169 active-passive pairs, which the authors offer as one possible cause. <span class="meta">(Figure 13)</span><br><span class="scope">Scope: Clause/noun-phrase minimal pairs from the WMT19 dev set; both manipulation directions run with alpha=1; the reverse noun-phrase-to-clause direction does work.</span></li>
+<li>The minimal-paraphrase methodology of Patel, Choshen and Abend analyses sentence-structure encoding by feeding one translation model paraphrased input pairs and correlating neuron activations. It varies the input rather than comparing models or probing word-level representations. <span class="meta">(Section 7)</span><br><span class="scope">Scope: Demonstrated on a single Transformer en-de translation model and two constructions (active-passive, adverbial clause vs. noun phrase); as of publication in 2022, prior neuron-correlation work varied the model or used probing rather than varying the input.</span></li>
+<li>Patel, Choshen and Abend argue that any neuron-level correlation analysis must control for token-identity and positional-encoding confounds, because these low-level input features can account for most of the apparent activation similarity. <span class="meta">(Section 4.3)</span><br><span class="scope">Scope: Argued from a Transformer with sinusoidal positional encoding and residual connections, where positional information propagates through the layers; the size of the confound in models with learned or relative position encodings is untested.</span></li>
+<li>Patel, Choshen and Abend release a semi-automatic engine and corpus of meaning-preserving minimal-pair paraphrases, covering active-to-passive voice and adverbial-clause-to-noun-phrase. The pairs are built to satisfy similar meaning, minimal change, controlled change and an available reference translation. <span class="meta">(Section 2)</span><br><span class="scope">Scope: English source sentences with German reference translations from WMT19; two constructions only; generation is rule-based over dependency parses, semantic role labels, BERT word insertion and GPT2 sentence probability, and output requires manual fluency filtering.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>Finding no neuron-level signal for the active-passive distinction is not evidence that the Transformer fails to encode voice: the manipulation experiments show the distinction is encoded and used, apparently in a distributed manner.</li>
+<li>Successful voice manipulation does not mean a small set of interpretable voice neurons was found: at least 50% of encoder neurons had to be shifted, and random neuron subsets worked as well as ParaCorr-selected ones.</li>
+<li>ParaCorr is not a measure of a neuron&#x27;s structural role; erasure experiments show high-ParaCorr neurons are the ones most important for overall translation quality, so the ranking partly tracks general importance.</li>
+<li>The negative correlation results should not be read as proof of absence: the manipulation is linear in a non-linear model, so positive results indicate a causal effect while negative ones are weaker evidence.</li>
+<li>BLEU against Google Translate outputs is a proxy reference, not a gold measure of syntactic form, which is why an automatic passive-voice detector and a native-speaker qualitative analysis are added.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>ParaCorr</em></dt><dd>Pearson correlation between a neuron&#x27;s activations over a set of source sentences and its activations over the matched paraphrased sentences, in the same model.</dd>
+<dt><em>ModelCorr</em></dt><dd>Pearson correlation between neuron activations of two models trained with different random seeds on the same input sentences.</dd>
+<dt><em>PosCorr</em></dt><dd>Pearson correlation between neuron activations on a sentence set and on random token sequences of the same lengths, isolating the effect of shared positional encodings.</dd>
+<dt><em>TokenCorr</em></dt><dd>Pearson correlation between neuron activations on a sentence set and on the same sentences with positional encoding removed, isolating the effect of token identity.</dd>
+<dt><em>Minimal paraphrase pair</em></dt><dd>A pair of sentences with the same meaning differing by a single, consistently applied structural change (active vs. passive voice, or adverbial clause vs. noun phrase), with a reference translation available.</dd>
+<dt><em>Passive score</em></dt><dd>The percentage of German translations automatically labelled passive by a rule over dependency parse and POS tags: root lemma &#x27;werden&#x27; with a participle clausal-object child.</dd>
+<dt><em>Intra-sentence aggregation</em></dt><dd>Pooling a sentence&#x27;s per-token neuron activations into one value per sentence so that activation samples from sentence sets of different token counts can be correlated.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/conll/PatelCA22,
-author       = {Gal Patel and
+<pre>@inproceedings{patel2022neurons,
+  author       = {Gal Patel and
                   Leshem Choshen and
                   Omri Abend},
   editor       = {Antske Fokkens and

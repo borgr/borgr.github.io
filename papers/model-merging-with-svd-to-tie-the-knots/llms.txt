@@ -1,10 +1,41 @@
 # Model merging with SVD to tie the Knots
 
 Authors: George Stoica, Pratik Ramesh, B. Ecsedi, Leshem Choshen, J. Hoffman
-Venue: International Conference on Learning Representations (2024)
+Venue: International Conference on Learning Representations (2025)
 
-## Abstract
-Recent model merging methods demonstrate that the parameters of fully-finetuned models specializing in distinct tasks can be combined into one model capable of solving all tasks without retraining. Yet, this success does not transfer well when merging LoRA finetuned models. We study this phenomenon and observe that the weights of LoRA finetuned models showcase a lower degree of alignment compared to their fully-finetuned counterparts. We hypothesize that improving this alignment is key to obtaining better LoRA model merges, and propose KnOTS to address this problem. KnOTS uses the SVD to jointly transform the weights of different LoRA models into an aligned space, where existing merging methods can be applied. In addition, we introduce a new benchmark that explicitly evaluates whether merged models are general models. Notably, KnOTS consistently improves LoRA merging by up to 4.3% across several vision and language benchmarks, including our new setting. We release our code at: https://github.com/gstoica27/KnOTS.
+## What this paper shows
+KnOTS takes a joint SVD over the LoRA updates of separately finetuned models so that existing mergers work in one shared basis, and tests the result on a joint-task benchmark that asks whether the merge is general.
+
+## Claims, with scope
+- KnOTS uses SVD to align LoRA model updates, improving merging performance by up to 4.3% across vision and language benchmarks.
+  Scope: LoRA-finetuned models merged with TIES or DARE-TIES, where the 4.3% is KnOTS-TIES against TIES on the eight-task ViT-B/32 vision benchmark
+  Evidence: Table 1, Table 2, Table 3, Table 4
+- KnOTS introduces a new benchmark that evaluates the generality of merged models by merging models on the union of all inputs and labels across multiple datasets.
+  Scope: the eight vision datasets pooled into one label space, so the merged model has to pick a label across all of them rather than within one
+  Evidence: Table 4, Figure 3
+- KnOTS scales to larger vision models, improving TIES by 3% when the models being merged are eight ViT-L/14 LoRA finetunes rather than ViT-B/32.
+  Scope: eight ViT-L/14 CLIP models LoRA-finetuned on the same vision datasets as the ViT-B/32 setting, scored as normalized per-task accuracy
+  Evidence: Table 2
+- KnOTS-TIES outperforms task arithmetic, TIES and DARE-TIES by up to 2.9% normalized accuracy when merging six Llama3-8B models LoRA-finetuned on different NLI datasets.
+  Scope: normalized against the 92.9% average per-task accuracy of the six individual finetuned models, with the merge itself tuned on no held-out data
+  Evidence: Table 3
+- KnOTS-TIES holds a gap of more than 4% over TIES and task arithmetic once more than two tasks are merged, and the gap does not close as the count grows.
+  Scope: ViT-B/32 models on the eight-task vision benchmark, sweeping the number of merged tasks and scoring average normalized accuracy
+  Evidence: Figure 3
+- KnOTS-TIES outperforms TIES at every LoRA rank tried, from rank 4 up to the full-rank 768 setting where rank equals the model's feature dimension.
+  Scope: ViT-B/32 models LoRA-finetuned at ranks 4, 16, 64, 256 and 768, merged on the eight-task per-task vision benchmark
+  Evidence: Figure 4
+- Concatenating the task updates column-wise before the SVD is what makes KnOTS work: the row-wise variant performs 2.6% worse.
+  Scope: ViT-B/32 models on the eight-task vision benchmark, with the concatenation order the only thing varied between the two runs
+  Evidence: Section 5.4.0.3
+- KnOTS-TIES beats task arithmetic, TIES and DARE-TIES at every Hits@k level on the joint-task Union evaluation, by up to 3.2% on Hits@1.
+  Scope: eight ViT-B/32 LoRA models evaluated over the pooled label space of all eight datasets, which is the harder of the paper's two evaluations
+  Evidence: Table 4
+- KnOTS is the reference point for merging LoRA adapters. It showed that different adapters' updates sit in different bases, and that one joint SVD is enough to bring them into a shared one.
+  Scope: as of its 2025 publication, and for LoRA adapters specifically rather than the fully finetuned models earlier merging work addressed
+
+## Terminology
+- KnOTS: A method that uses SVD to align task updates from different LoRA models into a shared space, enabling effective merging.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2410.19735
@@ -14,3 +45,11 @@ Recent model merging methods demonstrate that the parameters of fully-finetuned 
 - alphaXiv: https://www.alphaxiv.org/abs/2410.19735
 - DOI: https://doi.org/10.48550/arXiv.2410.19735
 - Semantic Scholar: https://www.semanticscholar.org/paper/273638541
+- Code: https://github.com/gstoica27/KnOTS
+
+## How to cite
+@inproceedings{knots,title={Tie the KnOTS: Model Merging with SVD},
+  author={Pratik, Ramesh and George, Stoica and Boglarka, Ecsedi and Choshen, Leshem and Judy, Hoffman},
+  booktitle={ICLR},
+  year={2025}
+}

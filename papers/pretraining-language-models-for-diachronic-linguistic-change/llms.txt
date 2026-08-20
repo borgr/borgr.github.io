@@ -1,10 +1,63 @@
 # Pretraining Language Models for Diachronic Linguistic Change Discovery
 
+small language models pretrained separately on each slice of a corpus, so each one only knows its own period or genre
+
 Authors: Elisabeth Fittschen, Sabrina Li, Tom Lippincott, Leshem Choshen, Craig Messner
 Venue: EACL (2026)
 
-## Abstract
-Large language models (LLMs) have shown potential as tools for scientific discovery. This has engendered growing interest in their use in humanistic disciplines, such as historical linguistics and literary studies. These fields often construct arguments on the basis of delineations like genre, or more inflexibly, time period. Although efforts have been made to restrict inference to specific domains via fine-tuning or model editing, we posit that the only true guarantee is domain-restricted pretraining -- typically, a data- and compute-expensive proposition. We show that efficient pretraining techniques can produce useful models over corpora too large for easy manual inspection but too small for"typical"LLM approaches. We employ a novel date-attribution pipeline in order to obtain a temporally-segmented dataset of five 10-million-word slices. We train two corresponding five-model batteries over these corpus segments, efficient pretraining and Llama3-8B parameter efficiently finetuned. We find that the pretrained models are faster to train than the finetuned baselines and that they better respect the historical divisions of our corpus. Emphasizing speed and precision over a-historical comprehensiveness enables a number of novel approaches to hypothesis discovery and testing in our target fields. Taking up diachronic linguistics as a testbed, we show that our method enables the detection of a diverse set of phenomena, including en masse lexical change, non-lexical (grammatical and morphological) change, and word sense introduction/obsolescence. We provide a ready-to-use pipeline that allows extension of our approach to other target fields with only minimal adaptation.
+## What this paper shows
+Pretraining a battery of small BabyLlama-2 models on 10-million-word time slices of Project Gutenberg gives historically airtight language models that finetuned Llama3-8B adapters cannot match, because finetuned models leak future word senses across period boundaries.
+
+## Claims, with scope
+- BabyLlama-2 models pretrained on individual 1750-1940 time slices each reach their lowest perplexity on the test set from their own slice, with perplexity rising roughly linearly on both older and newer text. Llama3-8B DoRA models finetuned on the same slices show this preference only for the earlier slices.
+  Scope: 5 slices (1750-1820, 1820-1850, 1850-1880, 1880-1910, 1910-1940) of 10M training tokens each drawn from Project Gutenberg English prose, with 5M reserved test and 1M validation tokens.
+  Evidence: Figure 1
+- Llama3-8B DoRA models finetuned on early time slices recall word senses coined after their slice at consistently higher rates than the period-pretrained BabyLlama-2 models. The gap persists after correcting for each model's overall recall, and the cloze task is built from Oxford English Dictionary sense-first-attestation dates.
+  Scope: 14.6 thousand cloze examples remaining after filtering out words with fewer than 2 occurrences in any training set, scored as success if the target appears in the top 100 single-word completions.
+  Evidence: Figure 3 and Figure 7
+- For the 1837 hog-disease sense of "cholera", only the 1750-1820 pretrained model ranks the word inside the top-k completions, at rank 41. The DoRA-finetuned models rank it 11 to 19 in every slice, and off-the-shelf Llama3-8B ranks it 8.
+  Scope: A single manually inspected cloze context; illustrative of the leakage pattern rather than an aggregate measurement.
+  Evidence: Table 7
+- On maximally filtered BLiMP the period-pretrained BabyLlama-2 models score 0.67 to 0.72 aggregate accuracy across the 5 slices. The DoRA-finetuned models reach 0.80 to 0.84, off-the-shelf BabyLlama-2 scores 0.74 and Llama3-8B scores 0.82.
+  Scope: "Maximally filtered" BLiMP: only minimal pairs whose every word occurs at least twice in all 5 training sets, evaluated through the BabyLM 2024 evaluation pipeline.
+  Evidence: Table 3
+- On the BLiMP "only NPI licenser present" task the period-pretrained models rise monotonically from 0.00 accuracy in the 1750-1820 and 1820-1850 slices to 0.33, 0.82 and 0.91 in the later slices. The DoRA-finetuned models score 0.92 to 1.00 in every slice and register no diachronic change.
+  Scope: Maximally filtered BLiMP subset testing preference for "only...ever" over "even...ever"; baseline BabyLlama-2 scores 0.76 and Llama3-8B 0.90. The corpus is Gutenberg English prose, so the trend may be corpus-specific rather than a fact about English.
+  Evidence: Table 4
+- Training one period model with the BabyLlama-2 recipe takes about 32 minutes per teacher plus 3 hours 20 minutes for the distilled 345M-parameter student on a single A100. DoRA finetuning of Llama3-8B for 3 epochs on the same 10M-token slice takes around 8 hours.
+  Scope: Single A100 GPU; DoRA rank 16 on Q, K, V, Up and Down projections; BabyLlama-2 uses 2 same-size teachers and 8 epochs with distillation alpha 0.5.
+  Evidence: Appendix A, Tables 8-10
+- Zero-shot work-date attribution by 4-bit quantized Llama3.3-70B matches hand-annotated dates at 0.63 within 1 year and 0.81 within 10 years. GPT-4o reaches 0.82 and 0.84 on the same set, which the authors judge close enough to justify the open-weight model for segmenting the corpus.
+  Scope: 1054 manually annotated known-author works published 1550-1850, dated by prompting for a single year; the +/-1 tolerance accommodates copyright-year publication dates.
+  Evidence: Table 11
+- Filtering words by a monotonic fall in normalized per-word perplexity across the 5 period models separates two synchronically distinct senses of "station". The railway sense becomes sharply more acceptable in the 1820-1850 slice, while the camp/stopover sense rises smoothly from an already acceptable start.
+  Scope: Natural occurrences of "station" in the corpus, filtered for descending probability trajectory and then hand-labelled for sense; a demonstration of the discovery procedure, not a quantified detection rate.
+  Evidence: Figure 4
+- The 1750-1820 pretrained model ranks "line" 14th as the completion of "the end of the line", a sense first attested in 1948. A collocation search shows the construction never appears in that model's training data, and hereditary and military uses of "line" appear to prefigure it.
+  Scope: One hand-inspected cloze item; the finetuned model ranks the same completion 1st, which leakage from Llama3-8B pretraining can equally explain.
+  Evidence: Table 6
+- "Pretraining Language Models for Diachronic Linguistic Change Discovery" argues that domain-restricted pretraining, not finetuning or model editing, is the only way to guarantee a language model's weights contain no out-of-domain information. The paper shows that argument is affordable at 10M tokens per model using BabyLM-community recipes.
+  Scope: Argued and demonstrated for temporal division of an English literary corpus at academic compute scale; the paper does not test synchronic divisions such as genre, and lists that as future work.
+  Evidence: Section 1
+- Time-sliced perspectival pretraining extends computational study of language change beyond lexical semantic change to grammatical and morphological phenomena. Its authors report knowing of no prior work using language models to automate discovery of such non-lexical change.
+  Scope: As of publication in 2026; prior lexical semantic change work is surveyed as relying on non-causal embedding models and embedding alignment. The grammatical evidence is a single BLiMP phenomenon on one corpus.
+  Evidence: Section 2
+- The historical-perspectival-lm codebase releases the full date-attribution, slicing, pretraining, finetuning and evaluation pipeline for time-sliced language models. It also releases a word-sense cloze evaluation set of 50.4 thousand OED-derived examples.
+  Scope: Reuse on new corpora requires supplying train/dev/test text per category; the released historical data covers English Project Gutenberg works dated 1750-1940. Cloze set filtering to 14.6 thousand examples is specific to the paper's vocabulary overlap.
+  Evidence: Appendix C
+
+## Common misreadings
+- The period-pretrained models are not better language models than the finetuned baselines: they score lower on aggregate filtered BLiMP and complete fewer cloze tasks correctly. Their advantage is that their knowledge is bounded by their slice.
+- The monotonic rise in "only NPI licenser present" accuracy is evidence about the 1750-1940 Project Gutenberg slices, not an established claim about the history of English NPI licensing; the authors note that extending it to the whole language would be fraught.
+- The "end of the line" and "cholera" results are single hand-inspected cloze items offered as illustrations of hypothesis discovery, not aggregate detection scores for sense change.
+- Higher cloze success by the finetuned models is not better diachronic performance, since part of it comes from recalling senses coined after the model's training slice.
+- The 10-million-token slice size is a consequence of wanting 5 equal subcorpora from dated Project Gutenberg text, not a claim that 10M tokens is sufficient for knowledge-level historical inquiry; the paper suggests larger corpora for that.
+
+## Terminology
+- leakage: Recall by a period-restricted language model of word senses first attested after the end of its training period, measured as top-100 cloze completion success on post-cutoff senses.
+- maximally filtered BLiMP: The subset of BLiMP minimal pairs in which every word occurs at least twice in each of the training corpora being compared, so that all models under comparison have in-vocabulary coverage.
+- perspectival language model: A language model pretrained only on one delineated slice of a corpus, such as a single time period or genre, so that its weights are guaranteed to contain no information from outside that slice.
+- sense trajectory: The sequence of a word sense's acceptability, measured as normalized per-word perplexity, across a battery of models each pretrained on a consecutive period of the same corpus.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2504.05523
@@ -15,11 +68,12 @@ Large language models (LLMs) have shown potential as tools for scientific discov
 - DOI: https://doi.org/10.18653/v1/2026.findings-eacl.241
 - Semantic Scholar: https://www.semanticscholar.org/paper/277626991
 - Code: https://github.com/comp-int-hum/historical-perspectival-lm
+- evaluation_harness: https://github.com/sabrinaxinli/evaluation-pipeline-2024
 
 ## How to cite
-@article{fittschen2025pretraining,
-title={Pretraining Language Models for Diachronic Linguistic Change Discovery},
+@inproceedings{fittschen2025pretraining,
+  title={Pretraining Language Models for Diachronic Linguistic Change Discovery},
   author={Fittschen, Elisabeth and Li, Sabrina and Lippincott, Tom and Choshen, Leshem and Messner, Craig},
-  journal={EACL},
+  booktitle={EACL},
   year={2026}
 }

@@ -9,7 +9,7 @@
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2018">
-  <meta name="citation_conference_title" content="Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational…">
+  <meta name="citation_conference_title" content="NAACL 2018">
   <meta name="citation_doi" content="10.18653/V1/N18-2020">
   <meta name="citation_arxiv_id" content="1804.03824">
   <meta name="citation_abstract" content="We propose USim, a semantic measure for Grammatical Error Correction (that measures the semantic faithfulness of the output to the source, thereby complementing existing reference-less measures (RLMs) for measuring the output’s grammaticality. USim operates by comparing the semantic symbolic structure of the source and the correction, without relying on manually-curated references. Our experiments establish the validity of USim, by showing that the semantic structures can be consistently applied to ungrammatical text, that valid corrections obtain a high USim similarity score to the source, and that invalid corrections obtain a lower score.">
@@ -35,20 +35,281 @@
   "datePublished": "2018",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational…"
+    "name": "NAACL 2018"
   },
   "identifier": "https://doi.org/10.18653/V1/N18-2020",
   "abstract": "We propose USim, a semantic measure for Grammatical Error Correction (that measures the semantic faithfulness of the output to the source, thereby complementing existing reference-less measures (RLMs) for measuring the output’s grammaticality. USim operates by comparing the semantic symbolic structure of the source and the correction, without relying on manually-curated references. Our experiments establish the validity of USim, by showing that the semantic structures can be consistently applied to ungrammatical text, that valid corrections obtain a high USim similarity score to the source, and that invalid corrections obtain a lower score.",
+  "description": "USim scores a grammatical error correction system without references by aligning the UCCA semantic graphs of the source sentence and the output and taking the F-score over matched labelled edges, giving a measure of semantic faithfulness that complements grammaticality-based reference-less measures.",
+  "codeRepository": "https://github.com/borgr/USim",
   "sameAs": [
+    "http://www.cs.huji.ac.il/~oabend/ucca.html",
+    "https://aclanthology.org/N18-2020/",
     "https://aclanthology.org/N18-2020/",
     "https://ar5iv.labs.arxiv.org/html/1804.03824",
     "https://arxiv.org/abs/1804.03824",
     "https://arxiv.org/pdf/1804.03824",
     "https://doi.org/10.18653/V1/N18-2020",
     "https://doi.org/10.18653/v1/n18-2020",
+    "https://github.com/borgr/USim",
     "https://huggingface.co/papers/1804.03824",
     "https://www.alphaxiv.org/abs/1804.03824",
     "https://www.semanticscholar.org/paper/4888341"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "UCCA semantic annotation of learner-language essays reaches an inter-annotator DAG F-score of 0.845 (precision 0.834, recall 0.857), comparable to the agreement previously reported for standard English Wikipedia text.",
+      "description": "Holds for: 2 trained annotators after 6 training hours, on 4 doubly annotated essays of about 500 tokens each plus 3 corrected NUCLE passages; English only, UCCA guidelines unmodified."
+    },
+    {
+      "@type": "Thing",
+      "name": "Manually corrected NUCLE sentences score 0.84 average USim against their source when source and correction are annotated by different annotators, and 0.92 when annotated by the same annotator. The USim inter-annotator ceiling is 0.83.",
+      "description": "Holds for: Manual UCCA annotation of 6 essays, 3 of them doubly annotated, with NUCLE references treated as the valid correction; both alignment directions reported."
+    },
+    {
+      "@type": "Thing",
+      "name": "Source and corrected sentences differ by DistSim 0.96 for Participants and Adverbials together and 0.93 for Scenes, close to the 0.95 and 0.96 Sulem et al. report for English-French translation pairs.",
+      "description": "Holds for: Different-annotator setting on the manually annotated essays; DistSim compares only per-label edge counts, not structure, so it is a weaker test than USim."
+    },
+    {
+      "@type": "Thing",
+      "name": "Replacing human UCCA annotation with the TUPA parser yields a USim of 0.7 between the parses of a NUCLE reference correction and its source. TUPA's own reported parsing accuracy is 0.73 in-domain and 0.68 out-of-domain.",
+      "description": "Holds for: TUPA biLSTM model trained on the UCCA English Wikipedia corpus with no domain adaptation to learner language; the source-correction similarity is therefore about as high as either parse's similarity to gold."
+    },
+    {
+      "@type": "Thing",
+      "name": "Automatic USim separates poor corrections from valid ones on JFLEG: 5 partially trained correctors score 0.32-0.39, and 0.19 for the system with the lowest GLEU, while the 4 human references score 0.72-0.78.",
+      "description": "Holds for: 754 JFLEG source sentences, correctors trained and evaluated on JFLEG by Sakaguchi et al. (2017); the weak correctors delete phrases or change many words."
+    },
+    {
+      "@type": "Thing",
+      "name": "USim rewards meaning preservation rather than conservatism. On one JFLEG sentence the reference scores 0.71 and a partially trained corrector only 0.33, even though the reference changes more words.",
+      "description": "Holds for: A single illustrative sentence pair from the JFLEG experiment with automatic (TUPA-parsed) USim."
+    },
+    {
+      "@type": "Thing",
+      "name": "Automatic USim is least neutral on edits that restructure the lower levels of the UCCA graph. Dangling modifier, pronoun reference, word tone, word-order, acronym, mechanical and missing-verb corrections produce the largest average USim changes.",
+      "description": "Holds for: MAEGE-based analysis over NUCLE sentences and edit sets with automatic TUPA parsing; several deviations are attributed to parser limitations (no character-level encoding, no implicit units) rather than to the measure."
+    },
+    {
+      "@type": "Thing",
+      "name": "USim fills the meaning-preservation gap in reference-less evaluation of grammatical error correction. Earlier reference-less measures scored the output's grammaticality, and Asano et al. (2017) noted that a faithfulness measure for the task was lacking.",
+      "description": "Holds for: As of publication in 2018, for English grammatical error correction; USim is intended to be used alongside grammaticality-based reference-less measures and reference-based measures, not to replace them."
+    },
+    {
+      "@type": "Thing",
+      "name": "The USim paper of Choshen and Abend reports the first attempt its authors are aware of to annotate learner language with a semantic scheme. Semantic structure is argued to sidestep the inconsistency of syntactic annotation of ungrammatical text.",
+      "description": "Holds for: Novelty claim is the authors' own as of 2018 and concerns semantic annotation of English learner language; prior learner-language schemes cited annotate syntax, either as used by or as intended by the learner."
+    },
+    {
+      "@type": "Thing",
+      "name": "USim is defined over aligned semantic graphs rather than over UCCA specifically, so it can be adapted to other semantic schemes such as AMR. UCCA is the test case, chosen for its broad predicate coverage and stability across translation.",
+      "description": "Holds for: Only the UCCA instantiation is implemented and evaluated in the paper; portability to AMR or other schemes is a design argument, not a measured result."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/#faq",
+  "url": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/",
+  "name": "Questions answered by Reference-less Measure of Faithfulness for Grammatical Error Correction",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can I evaluate a grammatical error correction system without reference corrections?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "USim fills the meaning-preservation gap in reference-less evaluation of grammatical error correction. Earlier reference-less measures scored the output's grammaticality, and Asano et al. (2017) noted that a faithfulness measure for the task was lacking. Holds for: As of publication in 2018, for English grammatical error correction; USim is intended to be used alongside grammaticality-based reference-less measures and reference-based measures, not to replace them.\n\nUSim is defined over aligned semantic graphs rather than over UCCA specifically, so it can be adapted to other semantic schemes such as AMR. UCCA is the test case, chosen for its broad predicate coverage and stability across translation. Holds for: Only the UCCA instantiation is implemented and evaluated in the paper; portability to AMR or other schemes is a design argument, not a measured result.",
+        "url": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/"
+      },
+      "alternateName": [
+        "Is there a reference-less metric for GEC?",
+        "What metric measures whether a correction preserved the original meaning?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is USim?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "USim is defined over aligned semantic graphs rather than over UCCA specifically, so it can be adapted to other semantic schemes such as AMR. UCCA is the test case, chosen for its broad predicate coverage and stability across translation. Holds for: Only the UCCA instantiation is implemented and evaluated in the paper; portability to AMR or other schemes is a design argument, not a measured result.\n\nUSim fills the meaning-preservation gap in reference-less evaluation of grammatical error correction. Earlier reference-less measures scored the output's grammaticality, and Asano et al. (2017) noted that a faithfulness measure for the task was lacking. Holds for: As of publication in 2018, for English grammatical error correction; USim is intended to be used alongside grammaticality-based reference-less measures and reference-based measures, not to replace them.",
+        "url": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/"
+      },
+      "alternateName": [
+        "How does a semantic faithfulness score compare a correction with its source sentence?",
+        "What does the USim measure for grammatical error correction compute?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does a valid human correction get a high semantic similarity score to the ungrammatical source?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Manually corrected NUCLE sentences score 0.84 average USim against their source when source and correction are annotated by different annotators, and 0.92 when annotated by the same annotator. The USim inter-annotator ceiling is 0.83. Holds for: Manual UCCA annotation of 6 essays, 3 of them doubly annotated, with NUCLE references treated as the valid correction; both alignment directions reported.\n\nUSim rewards meaning preservation rather than conservatism. On one JFLEG sentence the reference scores 0.71 and a partially trained corrector only 0.33, even though the reference changes more words. Holds for: A single illustrative sentence pair from the JFLEG experiment with automatic (TUPA-parsed) USim.",
+        "url": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/"
+      },
+      "alternateName": [
+        "What USim score do NUCLE reference corrections get against their sources?",
+        "Does a meaning-preservation metric unfairly penalise correct edits?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can semantic annotation be applied consistently to ungrammatical learner text?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "UCCA semantic annotation of learner-language essays reaches an inter-annotator DAG F-score of 0.845 (precision 0.834, recall 0.857), comparable to the agreement previously reported for standard English Wikipedia text. Holds for: 2 trained annotators after 6 training hours, on 4 doubly annotated essays of about 500 tokens each plus 3 corrected NUCLE passages; English only, UCCA guidelines unmodified.\n\nThe USim paper of Choshen and Abend reports the first attempt its authors are aware of to annotate learner language with a semantic scheme. Semantic structure is argued to sidestep the inconsistency of syntactic annotation of ungrammatical text. Holds for: Novelty claim is the authors' own as of 2018 and concerns semantic annotation of English learner language; prior learner-language schemes cited annotate syntax, either as used by or as intended by the learner.",
+        "url": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/"
+      },
+      "alternateName": [
+        "What is inter-annotator agreement for UCCA on learner language?",
+        "Is UCCA annotation reliable on text written by language learners?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does a semantic faithfulness metric for GEC need human annotation, or can a parser do it?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Replacing human UCCA annotation with the TUPA parser yields a USim of 0.7 between the parses of a NUCLE reference correction and its source. TUPA's own reported parsing accuracy is 0.73 in-domain and 0.68 out-of-domain. Holds for: TUPA biLSTM model trained on the UCCA English Wikipedia corpus with no domain adaptation to learner language; the source-correction similarity is therefore about as high as either parse's similarity to gold.\n\nAutomatic USim is least neutral on edits that restructure the lower levels of the UCCA graph. Dangling modifier, pronoun reference, word tone, word-order, acronym, mechanical and missing-verb corrections produce the largest average USim changes. Holds for: MAEGE-based analysis over NUCLE sentences and edit sets with automatic TUPA parsing; several deviations are attributed to parser limitations (no character-level encoding, no implicit units) rather than to the measure.",
+        "url": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/"
+      },
+      "alternateName": [
+        "How well does automatic UCCA parsing work inside USim?",
+        "Is a fully automatic version of USim reliable?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does USim actually give low scores to bad corrections?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Automatic USim separates poor corrections from valid ones on JFLEG: 5 partially trained correctors score 0.32-0.39, and 0.19 for the system with the lowest GLEU, while the 4 human references score 0.72-0.78. Holds for: 754 JFLEG source sentences, correctors trained and evaluated on JFLEG by Sakaguchi et al. (2017); the weak correctors delete phrases or change many words.\n\nUSim rewards meaning preservation rather than conservatism. On one JFLEG sentence the reference scores 0.71 and a partially trained corrector only 0.33, even though the reference changes more words. Holds for: A single illustrative sentence pair from the JFLEG experiment with automatic (TUPA-parsed) USim.",
+        "url": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/"
+      },
+      "alternateName": [
+        "How were low-quality GEC outputs scored by USim on JFLEG?",
+        "Can a faithfulness metric distinguish unfaithful corrections from references?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which grammatical error types does an automatic UCCA-based faithfulness score handle badly?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Automatic USim is least neutral on edits that restructure the lower levels of the UCCA graph. Dangling modifier, pronoun reference, word tone, word-order, acronym, mechanical and missing-verb corrections produce the largest average USim changes. Holds for: MAEGE-based analysis over NUCLE sentences and edit sets with automatic TUPA parsing; several deviations are attributed to parser limitations (no character-level encoding, no implicit units) rather than to the measure.",
+        "url": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/"
+      },
+      "alternateName": [
+        "Where does the USim faithfulness measure fail?",
+        "What are the known failure modes of parser-based USim?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are UCCA structures stable under grammatical error correction?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Source and corrected sentences differ by DistSim 0.96 for Participants and Adverbials together and 0.93 for Scenes, close to the 0.95 and 0.96 Sulem et al. report for English-French translation pairs. Holds for: Different-annotator setting on the manually annotated essays; DistSim compares only per-label edge counts, not structure, so it is a weaker test than USim.\n\nUCCA semantic annotation of learner-language essays reaches an inter-annotator DAG F-score of 0.845 (precision 0.834, recall 0.857), comparable to the agreement previously reported for standard English Wikipedia text. Holds for: 2 trained annotators after 6 training hours, on 4 doubly annotated essays of about 500 tokens each plus 3 corrected NUCLE passages; English only, UCCA guidelines unmodified.",
+        "url": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/"
+      },
+      "alternateName": [
+        "How much do UCCA category counts change between a source sentence and its correction?",
+        "Is semantic structure as robust to error correction as it is to translation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can USim replace GLEU or M2 for ranking GEC systems?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "USim fills the meaning-preservation gap in reference-less evaluation of grammatical error correction. Earlier reference-less measures scored the output's grammaticality, and Asano et al. (2017) noted that a faithfulness measure for the task was lacking. Holds for: As of publication in 2018, for English grammatical error correction; USim is intended to be used alongside grammaticality-based reference-less measures and reference-based measures, not to replace them.\n\nAutomatic USim separates poor corrections from valid ones on JFLEG: 5 partially trained correctors score 0.32-0.39, and 0.19 for the system with the lowest GLEU, while the 4 human references score 0.72-0.78. Holds for: 754 JFLEG source sentences, correctors trained and evaluated on JFLEG by Sakaguchi et al. (2017); the weak correctors delete phrases or change many words.",
+        "url": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/"
+      },
+      "alternateName": [
+        "Does USim discriminate between current state-of-the-art GEC systems?",
+        "Should a faithfulness measure be used on its own to evaluate correction quality?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does USim only work with UCCA?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "USim is defined over aligned semantic graphs rather than over UCCA specifically, so it can be adapted to other semantic schemes such as AMR. UCCA is the test case, chosen for its broad predicate coverage and stability across translation. Holds for: Only the UCCA instantiation is implemented and evaluated in the paper; portability to AMR or other schemes is a design argument, not a measured result.",
+        "url": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/"
+      },
+      "alternateName": [
+        "Could a faithfulness measure like USim be built on AMR instead?",
+        "Why was UCCA chosen as the semantic scheme for measuring faithfulness?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/#terms",
+  "url": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/",
+  "name": "Terminology in Reference-less Measure of Faithfulness for Grammatical Error Correction",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "DAG F-score",
+      "description": "A similarity measure between two UCCA annotations over the same tokens, in which two edges match if their lower nodes have identical leaf yields and identical labels, and precision and recall are their harmonic mean; it reduces to standard parsing F-score when both graphs are trees.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "DistSim",
+      "description": "A coarse-grained comparison of two sets of UCCA annotations that averages, over sentence pairs, the absolute difference in the number of edges bearing a given UCCA label, ignoring structure.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Faithfulness",
+      "description": "The degree to which a system output preserves the meaning of its input sentence, as opposed to grammaticality or fluency, which concern only the well-formedness of the output.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Learner language (LL)",
+      "description": "Text written by learners of a language, whose syntax may conform neither to the target language nor to any other known language, making syntactic annotation of it inconsistent across learners.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "RLM (reference-less measure)",
+      "description": "An evaluation measure for monolingual translation tasks such as grammatical error correction that compares system output to the source sentence alone, using no manually curated reference corrections.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "UCCA unit",
+      "description": "A node in a UCCA graph: either a single word or several elements viewed jointly as one entity on semantic or cognitive grounds, with incoming edges labelled by the role the sub-unit plays in its parent relation.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "USim",
+      "description": "A reference-less similarity score between a source sentence and a proposed correction, computed as the F-score over labelled UCCA edges that match under an alignment induced from token-level edit-distance matching.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/reference-less-measure-of-faithfulness-for-grammatical-error/#terms"
+    }
   ]
 }
   </script>
@@ -59,6 +320,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -72,13 +334,94 @@
 </head>
 <body>
 <h1>Reference-less Measure of Faithfulness for Grammatical Error Correction</h1>
-<p class="meta">Leshem Choshen, Omri Abend · Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational… · 2018</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/1804.03824">arXiv</a></li><li><a href="https://arxiv.org/pdf/1804.03824">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/1804.03824">HTML</a></li><li><a href="https://huggingface.co/papers/1804.03824">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/1804.03824">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/N18-2020">DOI</a></li><li><a href="https://aclanthology.org/N18-2020/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/4888341">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/n18-2020">Publisher</a></li></ul>
+<p class="sub">reference-less semantic similarity score between a source sentence and its correction</p>
+<p class="meta">Leshem Choshen, Omri Abend · NAACL 2018 · 2018</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/1804.03824">arXiv</a></li><li><a href="https://arxiv.org/pdf/1804.03824">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/1804.03824">HTML</a></li><li><a href="https://huggingface.co/papers/1804.03824">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/1804.03824">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/N18-2020">DOI</a></li><li><a href="https://aclanthology.org/N18-2020/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/4888341">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/n18-2020">Publisher</a></li><li><a href="https://github.com/borgr/USim">Code</a></li><li><a href="https://aclanthology.org/N18-2020/">anthology</a></li><li><a href="http://www.cs.huji.ac.il/~oabend/ucca.html">ucca_guidelines</a></li></ul>
+<h2>In one sentence</h2>
+<p>USim scores a grammatical error correction system without references by aligning the UCCA semantic graphs of the source sentence and the output and taking the F-score over matched labelled edges, giving a measure of semantic faithfulness that complements grammaticality-based reference-less measures.</p>
 <h2>Abstract</h2>
 <p>We propose USim, a semantic measure for Grammatical Error Correction (that measures the semantic faithfulness of the output to the source, thereby complementing existing reference-less measures (RLMs) for measuring the output’s grammaticality. USim operates by comparing the semantic symbolic structure of the source and the correction, without relying on manually-curated references. Our experiments establish the validity of USim, by showing that the semantic structures can be consistently applied to ungrammatical text, that valid corrections obtain a high USim similarity score to the source, and that invalid corrections obtain a lower score.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How can I evaluate a grammatical error correction system without reference corrections?</dt>
+<dt>Is there a reference-less metric for GEC?</dt>
+<dt>What metric measures whether a correction preserved the original meaning?</dt>
+<dd>USim fills the meaning-preservation gap in reference-less evaluation of grammatical error correction. Earlier reference-less measures scored the output&#x27;s grammaticality, and Asano et al. (2017) noted that a faithfulness measure for the task was lacking.<br><span class="scope">Holds for: As of publication in 2018, for English grammatical error correction; USim is intended to be used alongside grammaticality-based reference-less measures and reference-based measures, not to replace them.</span></dd>
+<dd>USim is defined over aligned semantic graphs rather than over UCCA specifically, so it can be adapted to other semantic schemes such as AMR. UCCA is the test case, chosen for its broad predicate coverage and stability across translation.<br><span class="scope">Holds for: Only the UCCA instantiation is implemented and evaluated in the paper; portability to AMR or other schemes is a design argument, not a measured result.</span></dd>
+<dt>What is USim?</dt>
+<dt>How does a semantic faithfulness score compare a correction with its source sentence?</dt>
+<dt>What does the USim measure for grammatical error correction compute?</dt>
+<dd>USim is defined over aligned semantic graphs rather than over UCCA specifically, so it can be adapted to other semantic schemes such as AMR. UCCA is the test case, chosen for its broad predicate coverage and stability across translation.<br><span class="scope">Holds for: Only the UCCA instantiation is implemented and evaluated in the paper; portability to AMR or other schemes is a design argument, not a measured result.</span></dd>
+<dd>USim fills the meaning-preservation gap in reference-less evaluation of grammatical error correction. Earlier reference-less measures scored the output&#x27;s grammaticality, and Asano et al. (2017) noted that a faithfulness measure for the task was lacking.<br><span class="scope">Holds for: As of publication in 2018, for English grammatical error correction; USim is intended to be used alongside grammaticality-based reference-less measures and reference-based measures, not to replace them.</span></dd>
+<dt>Does a valid human correction get a high semantic similarity score to the ungrammatical source?</dt>
+<dt>What USim score do NUCLE reference corrections get against their sources?</dt>
+<dt>Does a meaning-preservation metric unfairly penalise correct edits?</dt>
+<dd>Manually corrected NUCLE sentences score 0.84 average USim against their source when source and correction are annotated by different annotators, and 0.92 when annotated by the same annotator. The USim inter-annotator ceiling is 0.83.<br><span class="scope">Holds for: Manual UCCA annotation of 6 essays, 3 of them doubly annotated, with NUCLE references treated as the valid correction; both alignment directions reported.</span></dd>
+<dd>USim rewards meaning preservation rather than conservatism. On one JFLEG sentence the reference scores 0.71 and a partially trained corrector only 0.33, even though the reference changes more words.<br><span class="scope">Holds for: A single illustrative sentence pair from the JFLEG experiment with automatic (TUPA-parsed) USim.</span></dd>
+<dt>Can semantic annotation be applied consistently to ungrammatical learner text?</dt>
+<dt>What is inter-annotator agreement for UCCA on learner language?</dt>
+<dt>Is UCCA annotation reliable on text written by language learners?</dt>
+<dd>UCCA semantic annotation of learner-language essays reaches an inter-annotator DAG F-score of 0.845 (precision 0.834, recall 0.857), comparable to the agreement previously reported for standard English Wikipedia text.<br><span class="scope">Holds for: 2 trained annotators after 6 training hours, on 4 doubly annotated essays of about 500 tokens each plus 3 corrected NUCLE passages; English only, UCCA guidelines unmodified.</span></dd>
+<dd>The USim paper of Choshen and Abend reports the first attempt its authors are aware of to annotate learner language with a semantic scheme. Semantic structure is argued to sidestep the inconsistency of syntactic annotation of ungrammatical text.<br><span class="scope">Holds for: Novelty claim is the authors&#x27; own as of 2018 and concerns semantic annotation of English learner language; prior learner-language schemes cited annotate syntax, either as used by or as intended by the learner.</span></dd>
+<dt>Does a semantic faithfulness metric for GEC need human annotation, or can a parser do it?</dt>
+<dt>How well does automatic UCCA parsing work inside USim?</dt>
+<dt>Is a fully automatic version of USim reliable?</dt>
+<dd>Replacing human UCCA annotation with the TUPA parser yields a USim of 0.7 between the parses of a NUCLE reference correction and its source. TUPA&#x27;s own reported parsing accuracy is 0.73 in-domain and 0.68 out-of-domain.<br><span class="scope">Holds for: TUPA biLSTM model trained on the UCCA English Wikipedia corpus with no domain adaptation to learner language; the source-correction similarity is therefore about as high as either parse&#x27;s similarity to gold.</span></dd>
+<dd>Automatic USim is least neutral on edits that restructure the lower levels of the UCCA graph. Dangling modifier, pronoun reference, word tone, word-order, acronym, mechanical and missing-verb corrections produce the largest average USim changes.<br><span class="scope">Holds for: MAEGE-based analysis over NUCLE sentences and edit sets with automatic TUPA parsing; several deviations are attributed to parser limitations (no character-level encoding, no implicit units) rather than to the measure.</span></dd>
+<dt>Does USim actually give low scores to bad corrections?</dt>
+<dt>How were low-quality GEC outputs scored by USim on JFLEG?</dt>
+<dt>Can a faithfulness metric distinguish unfaithful corrections from references?</dt>
+<dd>Automatic USim separates poor corrections from valid ones on JFLEG: 5 partially trained correctors score 0.32-0.39, and 0.19 for the system with the lowest GLEU, while the 4 human references score 0.72-0.78.<br><span class="scope">Holds for: 754 JFLEG source sentences, correctors trained and evaluated on JFLEG by Sakaguchi et al. (2017); the weak correctors delete phrases or change many words.</span></dd>
+<dd>USim rewards meaning preservation rather than conservatism. On one JFLEG sentence the reference scores 0.71 and a partially trained corrector only 0.33, even though the reference changes more words.<br><span class="scope">Holds for: A single illustrative sentence pair from the JFLEG experiment with automatic (TUPA-parsed) USim.</span></dd>
+<dt>Which grammatical error types does an automatic UCCA-based faithfulness score handle badly?</dt>
+<dt>Where does the USim faithfulness measure fail?</dt>
+<dt>What are the known failure modes of parser-based USim?</dt>
+<dd>Automatic USim is least neutral on edits that restructure the lower levels of the UCCA graph. Dangling modifier, pronoun reference, word tone, word-order, acronym, mechanical and missing-verb corrections produce the largest average USim changes.<br><span class="scope">Holds for: MAEGE-based analysis over NUCLE sentences and edit sets with automatic TUPA parsing; several deviations are attributed to parser limitations (no character-level encoding, no implicit units) rather than to the measure.</span></dd>
+<dt>Are UCCA structures stable under grammatical error correction?</dt>
+<dt>How much do UCCA category counts change between a source sentence and its correction?</dt>
+<dt>Is semantic structure as robust to error correction as it is to translation?</dt>
+<dd>Source and corrected sentences differ by DistSim 0.96 for Participants and Adverbials together and 0.93 for Scenes, close to the 0.95 and 0.96 Sulem et al. report for English-French translation pairs.<br><span class="scope">Holds for: Different-annotator setting on the manually annotated essays; DistSim compares only per-label edge counts, not structure, so it is a weaker test than USim.</span></dd>
+<dd>UCCA semantic annotation of learner-language essays reaches an inter-annotator DAG F-score of 0.845 (precision 0.834, recall 0.857), comparable to the agreement previously reported for standard English Wikipedia text.<br><span class="scope">Holds for: 2 trained annotators after 6 training hours, on 4 doubly annotated essays of about 500 tokens each plus 3 corrected NUCLE passages; English only, UCCA guidelines unmodified.</span></dd>
+<dt>Can USim replace GLEU or M2 for ranking GEC systems?</dt>
+<dt>Does USim discriminate between current state-of-the-art GEC systems?</dt>
+<dt>Should a faithfulness measure be used on its own to evaluate correction quality?</dt>
+<dd>USim fills the meaning-preservation gap in reference-less evaluation of grammatical error correction. Earlier reference-less measures scored the output&#x27;s grammaticality, and Asano et al. (2017) noted that a faithfulness measure for the task was lacking.<br><span class="scope">Holds for: As of publication in 2018, for English grammatical error correction; USim is intended to be used alongside grammaticality-based reference-less measures and reference-based measures, not to replace them.</span></dd>
+<dd>Automatic USim separates poor corrections from valid ones on JFLEG: 5 partially trained correctors score 0.32-0.39, and 0.19 for the system with the lowest GLEU, while the 4 human references score 0.72-0.78.<br><span class="scope">Holds for: 754 JFLEG source sentences, correctors trained and evaluated on JFLEG by Sakaguchi et al. (2017); the weak correctors delete phrases or change many words.</span></dd>
+<dt>Does USim only work with UCCA?</dt>
+<dt>Could a faithfulness measure like USim be built on AMR instead?</dt>
+<dt>Why was UCCA chosen as the semantic scheme for measuring faithfulness?</dt>
+<dd>USim is defined over aligned semantic graphs rather than over UCCA specifically, so it can be adapted to other semantic schemes such as AMR. UCCA is the test case, chosen for its broad predicate coverage and stability across translation.<br><span class="scope">Holds for: Only the UCCA instantiation is implemented and evaluated in the paper; portability to AMR or other schemes is a design argument, not a measured result.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>UCCA semantic annotation of learner-language essays reaches an inter-annotator DAG F-score of 0.845 (precision 0.834, recall 0.857), comparable to the agreement previously reported for standard English Wikipedia text. <span class="meta">(Section 4.2)</span><br><span class="scope">Scope: 2 trained annotators after 6 training hours, on 4 doubly annotated essays of about 500 tokens each plus 3 corrected NUCLE passages; English only, UCCA guidelines unmodified.</span></li>
+<li>Manually corrected NUCLE sentences score 0.84 average USim against their source when source and correction are annotated by different annotators, and 0.92 when annotated by the same annotator. The USim inter-annotator ceiling is 0.83. <span class="meta">(Table 1 (left-hand side))</span><br><span class="scope">Scope: Manual UCCA annotation of 6 essays, 3 of them doubly annotated, with NUCLE references treated as the valid correction; both alignment directions reported.</span></li>
+<li>Source and corrected sentences differ by DistSim 0.96 for Participants and Adverbials together and 0.93 for Scenes, close to the 0.95 and 0.96 Sulem et al. report for English-French translation pairs. <span class="meta">(Table 1 (right-hand side))</span><br><span class="scope">Scope: Different-annotator setting on the manually annotated essays; DistSim compares only per-label edge counts, not structure, so it is a weaker test than USim.</span></li>
+<li>Replacing human UCCA annotation with the TUPA parser yields a USim of 0.7 between the parses of a NUCLE reference correction and its source. TUPA&#x27;s own reported parsing accuracy is 0.73 in-domain and 0.68 out-of-domain. <span class="meta">(Section 4.3)</span><br><span class="scope">Scope: TUPA biLSTM model trained on the UCCA English Wikipedia corpus with no domain adaptation to learner language; the source-correction similarity is therefore about as high as either parse&#x27;s similarity to gold.</span></li>
+<li>Automatic USim separates poor corrections from valid ones on JFLEG: 5 partially trained correctors score 0.32-0.39, and 0.19 for the system with the lowest GLEU, while the 4 human references score 0.72-0.78. <span class="meta">(Section 4.5)</span><br><span class="scope">Scope: 754 JFLEG source sentences, correctors trained and evaluated on JFLEG by Sakaguchi et al. (2017); the weak correctors delete phrases or change many words.</span></li>
+<li>USim rewards meaning preservation rather than conservatism. On one JFLEG sentence the reference scores 0.71 and a partially trained corrector only 0.33, even though the reference changes more words. <span class="meta">(Section 4.5)</span><br><span class="scope">Scope: A single illustrative sentence pair from the JFLEG experiment with automatic (TUPA-parsed) USim.</span></li>
+<li>Automatic USim is least neutral on edits that restructure the lower levels of the UCCA graph. Dangling modifier, pronoun reference, word tone, word-order, acronym, mechanical and missing-verb corrections produce the largest average USim changes. <span class="meta">(Section 4.4)</span><br><span class="scope">Scope: MAEGE-based analysis over NUCLE sentences and edit sets with automatic TUPA parsing; several deviations are attributed to parser limitations (no character-level encoding, no implicit units) rather than to the measure.</span></li>
+<li>USim fills the meaning-preservation gap in reference-less evaluation of grammatical error correction. Earlier reference-less measures scored the output&#x27;s grammaticality, and Asano et al. (2017) noted that a faithfulness measure for the task was lacking.<br><span class="scope">Scope: As of publication in 2018, for English grammatical error correction; USim is intended to be used alongside grammaticality-based reference-less measures and reference-based measures, not to replace them.</span></li>
+<li>The USim paper of Choshen and Abend reports the first attempt its authors are aware of to annotate learner language with a semantic scheme. Semantic structure is argued to sidestep the inconsistency of syntactic annotation of ungrammatical text.<br><span class="scope">Scope: Novelty claim is the authors&#x27; own as of 2018 and concerns semantic annotation of English learner language; prior learner-language schemes cited annotate syntax, either as used by or as intended by the learner.</span></li>
+<li>USim is defined over aligned semantic graphs rather than over UCCA specifically, so it can be adapted to other semantic schemes such as AMR. UCCA is the test case, chosen for its broad predicate coverage and stability across translation.<br><span class="scope">Scope: Only the UCCA instantiation is implemented and evaluated in the paper; portability to AMR or other schemes is a design argument, not a measured result.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>USim measures faithfulness to the source, not grammaticality or overall correction quality; a system that copies the source unchanged scores perfectly on USim, which is why the paper advocates using it alongside a grammaticality measure and reference-based measures.</li>
+<li>The JFLEG experiment does not show that USim can rank current state-of-the-art GEC systems; the paper deliberately uses 5 partially trained correctors precisely because state-of-the-art systems rarely change the source enough to be semantically unfaithful.</li>
+<li>A high USim score is not a reward for conservative editing: the reference in the paper&#x27;s example makes more word changes than the system output and still scores higher (0.71 versus 0.33).</li>
+<li>The automatic USim score of 0.7 between a reference correction and its source is not a measurement of the source and correction being 30% different in meaning; it is in the range of the TUPA parser&#x27;s own accuracy, so parser error accounts for much of the gap.</li>
+<li>The error-type analysis showing large USim shifts for word order, acronym and missing-verb corrections reflects TUPA parser limitations rather than a property of UCCA structures, which are themselves unaffected by word order.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>DAG F-score</em></dt><dd>A similarity measure between two UCCA annotations over the same tokens, in which two edges match if their lower nodes have identical leaf yields and identical labels, and precision and recall are their harmonic mean; it reduces to standard parsing F-score when both graphs are trees.</dd>
+<dt><em>DistSim</em></dt><dd>A coarse-grained comparison of two sets of UCCA annotations that averages, over sentence pairs, the absolute difference in the number of edges bearing a given UCCA label, ignoring structure.</dd>
+<dt><em>Faithfulness</em></dt><dd>The degree to which a system output preserves the meaning of its input sentence, as opposed to grammaticality or fluency, which concern only the well-formedness of the output.</dd>
+<dt><em>Learner language (LL)</em></dt><dd>Text written by learners of a language, whose syntax may conform neither to the target language nor to any other known language, making syntactic annotation of it inconsistent across learners.</dd>
+<dt><em>RLM (reference-less measure)</em></dt><dd>An evaluation measure for monolingual translation tasks such as grammatical error correction that compares system output to the source sentence alone, using no manually curated reference corrections.</dd>
+<dt><em>UCCA unit</em></dt><dd>A node in a UCCA graph: either a single word or several elements viewed jointly as one entity on semantic or cognitive grounds, with incoming edges labelled by the role the sub-unit plays in its parent relation.</dd>
+<dt><em>USim</em></dt><dd>A reference-less similarity score between a source sentence and a proposed correction, computed as the F-score over labelled UCCA edges that match under an alignment induced from token-level edit-distance matching.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/naacl/ChoshenA18,
-author       = {Leshem Choshen and
+<pre>@inproceedings{DBLP:conf/naacl/ChoshenA18,author       = {Leshem Choshen and
                   Omri Abend},
   editor       = {Marilyn A. Walker and
                   Heng Ji and

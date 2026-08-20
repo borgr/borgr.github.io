@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Com{PEFT}: Compression for Communicating Parameter Efficient Updates via Sparsification and Quantization — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/">
+  <meta name="citation_title" content="ComPEFT: Compression for Communicating Parameter Efficient Updates via Sparsification and Quantization">
+  <meta name="citation_author" content="Prateek Yadav">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Colin Raffel">
+  <meta name="citation_author" content="Mohit Bansal">
+  <meta name="citation_publication_date" content="2025">
+  <meta name="citation_journal_title" content="TMLR">
+  <meta name="citation_doi" content="10.48550/arXiv.2311.13171">
+  <meta name="citation_arxiv_id" content="2311.13171">
+  <meta name="citation_abstract" content="Parameter-efficient fine-tuning (PEFT) techniques make it possible to efficiently adapt a language model to create&quot;expert&quot;models that specialize to new tasks or domains. Recent techniques in model merging and compositional generalization leverage these expert models by dynamically composing modules to improve zero/few-shot generalization. Despite the efficiency of PEFT methods, the size of expert models can make it onerous to retrieve expert models per query over high-latency networks like the Internet or serve multiple experts on a single GPU. To address these issues, we present ComPEFT, a novel method for compressing fine-tuning residuals (task vectors) of PEFT based models. ComPEFT employs sparsification and ternary quantization to reduce the size of the PEFT module without performing any additional retraining while preserving or enhancing model performance. In extensive evaluation across T5, T0, and LLaMA-based models with 200M - 65B parameters, ComPEFT achieves compression ratios of 8x - 50x. In particular, we show that ComPEFT improves with scale - stronger models exhibit higher compressibility and better performance. For example, we show that ComPEFT applied to LLaMA outperforms QLoRA by 4.16% on MMLU with a storage size reduction of up to 26x. In addition, we show that the compressed experts produced by ComPEFT maintain few-shot compositional generalization capabilities, facilitate efficient communication and computation, and exhibit enhanced performance when merged. Lastly, we provide an analysis of different method components, compare it with other PEFT methods, and test ComPEFT&#x27;s efficacy for compressing the residual of full-finetuning. Our code is available at https://github.com/prateeky2806/compeft.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/#article",
+  "name": "ComPEFT: Compression for Communicating Parameter Efficient Updates via Sparsification and Quantization",
+  "headline": "ComPEFT: Compression for Communicating Parameter Efficient Updates via Sparsification and Quantization",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Prateek Yadav"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Colin Raffel"
+    },
+    {
+      "@type": "Person",
+      "name": "Mohit Bansal"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2025",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "TMLR"
+  },
+  "identifier": "https://doi.org/10.48550/arXiv.2311.13171",
+  "abstract": "Parameter-efficient fine-tuning (PEFT) techniques make it possible to efficiently adapt a language model to create\"expert\"models that specialize to new tasks or domains. Recent techniques in model merging and compositional generalization leverage these expert models by dynamically composing modules to improve zero/few-shot generalization. Despite the efficiency of PEFT methods, the size of expert models can make it onerous to retrieve expert models per query over high-latency networks like the Internet or serve multiple experts on a single GPU. To address these issues, we present ComPEFT, a novel method for compressing fine-tuning residuals (task vectors) of PEFT based models. ComPEFT employs sparsification and ternary quantization to reduce the size of the PEFT module without performing any additional retraining while preserving or enhancing model performance. In extensive evaluation across T5, T0, and LLaMA-based models with 200M - 65B parameters, ComPEFT achieves compression ratios of 8x - 50x. In particular, we show that ComPEFT improves with scale - stronger models exhibit higher compressibility and better performance. For example, we show that ComPEFT applied to LLaMA outperforms QLoRA by 4.16% on MMLU with a storage size reduction of up to 26x. In addition, we show that the compressed experts produced by ComPEFT maintain few-shot compositional generalization capabilities, facilitate efficient communication and computation, and exhibit enhanced performance when merged. Lastly, we provide an analysis of different method components, compare it with other PEFT methods, and test ComPEFT's efficacy for compressing the residual of full-finetuning. Our code is available at https://github.com/prateeky2806/compeft.",
+  "description": "ComPEFT compresses a PEFT module's fine-tuning residual by keeping only the signs of its top-k% largest-magnitude entries and replacing all magnitudes with one tuned multiple of the task vector's standard deviation, giving 8x-50x smaller experts with no retraining.",
+  "codeRepository": "https://github.com/prateeky2806/compeft",
+  "sameAs": [
+    "https://arxiv.org/abs/2311.13171",
+    "https://arxiv.org/html/2311.13171",
+    "https://arxiv.org/pdf/2311.13171",
+    "https://doi.org/10.48550/arXiv.2311.13171",
+    "https://github.com/prateeky2806/compeft",
+    "https://huggingface.co/papers/2311.13171",
+    "https://openreview.net/forum?id=CovLQwu611",
+    "https://www.alphaxiv.org/abs/2311.13171",
+    "https://www.semanticscholar.org/paper/265351803"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "ComPEFT-compressed QLoRA adapters on LLaMA-65B average 63.45% on the MMLU test set versus 59.29% for the original QLoRA adapters, a 4.16-point gain while shrinking storage 26x from 1.49 GB to about 0.058 GB.",
+      "description": "Holds for: 5-shot MMLU with QLoRA checkpoints released by the QLoRA authors for 8 instruction-tuning datasets; density k and scaling alpha selected on a small held-out MMLU subset; storage assumes Golomb coding against 16-bit uncompressed checkpoints."
+    },
+    {
+      "@type": "Thing",
+      "name": "The gain from ComPEFT over uncompressed QLoRA grows with base-model size: +0.54 points on LLaMA-7B, +1.06 on 13B, +3.44 on 33B and +4.16 on 65B MMLU, with compression factors of 16x, 20x, 16x and 26x respectively.",
+      "description": "Holds for: LLaMA 7B/13B/33B/65B with QLoRA adapters averaged over 8 instruction-tuning datasets, 5-shot MMLU; alpha and k tuned per configuration on a small held-out MMLU subset."
+    },
+    {
+      "@type": "Thing",
+      "name": "ComPEFT improves on the original QLoRA checkpoint in 28 of 32 dataset-by-model-size configurations while compressing the LoRA module 10x-50x in storage.",
+      "description": "Holds for: 8 instruction-tuning datasets crossed with LLaMA 7B/13B/33B/65B, 5-shot MMLU test; the 4 losses are concentrated at 7B and 13B on Unnatural Instructions, Alpaca, HH-RLHF and Guanaco."
+    },
+    {
+      "@type": "Thing",
+      "name": "On T5-Base, T5-Large and T0-3B, ComPEFT compresses (IA)^3 and LoRA modules 12x-25x while changing average performance over 7 GLUE tasks by at most 1.3 points, from -1.3 for (IA)^3 on T5-Base to +0.1 for LoRA on T5-Large.",
+      "description": "Holds for: 7 GLUE classification tasks (MNLI, RTE, QNLI, WNLI, SST2, MRPC, QQP), test set; alpha and k chosen on a validation set per task."
+    },
+    {
+      "@type": "Thing",
+      "name": "ComPEFT also compresses full fine-tuning residuals, achieving 12x-19x compression on BERT, RoBERTa, T5-v1.1 and T5 with changes from +1.7 points (T5v1.1-Base) to -4.7 points (T5-Base) on 7 GLUE tasks.",
+      "description": "Holds for: Base and Large sizes of 4 architectures, average test performance over 7 GLUE tasks; the largest drops are T5-Base (-4.7) and RoBERTa-Base (-2.2), so full-finetuning compression is not uniformly near-lossless."
+    },
+    {
+      "@type": "Thing",
+      "name": "Downloading a ComPEFT-compressed LLaMA-65B QLoRA checkpoint from a simulated internet server takes 2.59 s versus 83.17 s uncompressed (about 32x faster), and CPU-to-GPU loading takes 18.60 ms versus 475.26 ms (about 25x faster).",
+      "description": "Holds for: Wall-clock means over 10 repetitions per configuration, LLaMA 7B-65B QLoRA checkpoints, simulated internet server and a single 48GB A6000 host; ternary-vector compute speedups would need custom kernels not implemented in the paper."
+    },
+    {
+      "@type": "Thing",
+      "name": "ComPEFT applied to (IA)^3 and LoRA is Pareto-optimal in performance versus storage size against 10 PEFT methods including BitFit, Adapters, Compacter, Prompt Tuning, Prefix Tuning and Intrinsic SAID, with Com(IA)^3 matching methods that use 1000x more storage.",
+      "description": "Holds for: T0-3B base model, 11 held-out datasets from the T0 evaluation suite, first PromptSource template, 200 training examples used as validation per task."
+    },
+    {
+      "@type": "Thing",
+      "name": "Merging ComPEFT-compressed checkpoints beats merging the uncompressed ones in 9 of 12 settings, and on T0-3B improves merged-model performance by 2.4% on average while being about 15x smaller; (IA)^3 on T5 models is the exception.",
+      "description": "Holds for: Task Arithmetic and TIES-Merging applied to (IA)^3 and LoRA modules for 7 GLUE tasks on T5-Base, T5-Large and T0-3B; average test performance of the merged multitask model."
+    },
+    {
+      "@type": "Thing",
+      "name": "ComPEFT-compressed LoRA experts retain compositional generalization under LoraHub, averaging 30.6 exact match across 27 Big-Bench-Hard tasks versus 30.5 for uncompressed experts.",
+      "description": "Holds for: Flan-T5-Large with ~200 LoRA experts, N=20 modules composed per unseen task with the gradient-free Shiwa optimizer, averaged over 5 seeds; best-seed results favour uncompressed LoraHub (37.3 vs 36.4)."
+    },
+    {
+      "@type": "Thing",
+      "name": "ComPEFT beats Sparse Ternary Compression and a prune-only ablation at nearly all density levels from 3B to 65B base models, and STC is far worse than the uncompressed model at 3B and 7B, showing the tuned scalar alpha is what recovers the performance lost to sparsification and ternarization.",
+      "description": "Holds for: Average validation performance versus density k for LoRA modules on T0-3B and LLaMA 7B/13B/33B/65B; at base sizes of 13B and above all variants match or beat the original checkpoint at all densities tested."
+    },
+    {
+      "@type": "Thing",
+      "name": "For base models with 13B or more parameters and density k of 20% or less, performance varies little with the scaling factor alpha, and the paper recommends simply setting alpha=1 rather than tuning it.",
+      "description": "Holds for: Sweeps over k in {5,10,20,30,50} and alpha in {0.5,1,2,3,4,5,6,8,10} on T0-3B and LLaMA 7B-65B; at 3B and 7B the optimal alpha still matters and shifts with k (about 5-8 at k=5 versus 2-3 at k=50 for T0-3B)."
+    },
+    {
+      "@type": "Thing",
+      "name": "On LLaMA2-70B, ComPEFT averages 67.53% MMLU at 56 MB, above STC (65.24%, 56 MB), BitDelta without training (64.73%, 99 MB) and DAREx-q at 95% sparsity (64.68%, 395 MB), and matches BitDelta with trained scale (67.46%) which requires backward passes.",
+      "description": "Holds for: Rank-64 QLoRA on LLaMA2-70B over 5 instruction-tuning datasets; storage uses Golomb coding for ComPEFT and STC, bitmask for BitDelta and COO sparse matrices for DAREx; DAREx at 99% sparsity collapses to 45.86%."
+    },
+    {
+      "@type": "Thing",
+      "name": "At 95% sparsity the ternary ComPEFT update has entropy of about 0.34 bits per parameter plus a 16-bit scalar, down from 16 bits per parameter for a bfloat16 task vector, a 47x reduction in communication and storage cost under a perfect coding scheme.",
+      "description": "Holds for: Analytical entropy assuming signs of nonzero entries are uniformly distributed; realised sizes in the experiments use Golomb coding, and a two-binary-mask alternative costs 2 bits per parameter but is cheaper to compute with."
+    },
+    {
+      "@type": "Thing",
+      "name": "ComPEFT frames expert-adapter size as a communication and memory bottleneck for multi-expert serving rather than as a training-cost problem, noting that a QLoRA adapter for LLaMA-65B is 3.2 GB and must be swapped between disk, CPU and GPU per query.",
+      "description": "Holds for: Framing as of the paper's 2023 arXiv release and 2025 TMLR version, aimed at PEFT-based expert serving, model merging and MoErging pipelines; the paper measures download and CPU-to-GPU transfer latency but does not build a full serving system."
+    },
+    {
+      "@type": "Thing",
+      "name": "ComPEFT adapts the sparsification-plus-ternary-quantization idea from federated-learning gradient compression (STC, TernGrad) to post-hoc compression of fine-tuning task vectors, removing the retraining that pruning methods usually need to recover accuracy.",
+      "description": "Holds for: Compression of the residual between a released fine-tuned checkpoint and its initialization; assumes access to both, and to a small validation set for choosing the single scaling hyperparameter alpha."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/#faq",
+  "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/",
+  "name": "Questions answered by ComPEFT: Compression for Communicating Parameter Efficient Updates via Sparsification and Quantization",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much can a LoRA or QLoRA adapter be shrunk without losing accuracy?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ComPEFT-compressed QLoRA adapters on LLaMA-65B average 63.45% on the MMLU test set versus 59.29% for the original QLoRA adapters, a 4.16-point gain while shrinking storage 26x from 1.49 GB to about 0.058 GB. Holds for: 5-shot MMLU with QLoRA checkpoints released by the QLoRA authors for 8 instruction-tuning datasets; density k and scaling alpha selected on a small held-out MMLU subset; storage assumes Golomb coding against 16-bit uncompressed checkpoints.\n\nOn T5-Base, T5-Large and T0-3B, ComPEFT compresses (IA)^3 and LoRA modules 12x-25x while changing average performance over 7 GLUE tasks by at most 1.3 points, from -1.3 for (IA)^3 on T5-Base to +0.1 for LoRA on T5-Large. Holds for: 7 GLUE classification tasks (MNLI, RTE, QNLI, WNLI, SST2, MRPC, QQP), test set; alpha and k chosen on a validation set per task.\n\nAt 95% sparsity the ternary ComPEFT update has entropy of about 0.34 bits per parameter plus a 16-bit scalar, down from 16 bits per parameter for a bfloat16 task vector, a 47x reduction in communication and storage cost under a perfect coding scheme. Holds for: Analytical entropy assuming signs of nonzero entries are uniformly distributed; realised sizes in the experiments use Golomb coding, and a two-binary-mask alternative costs 2 bits per parameter but is cheaper to compute with.",
+        "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/"
+      },
+      "alternateName": [
+        "Can fine-tuned adapters be compressed without retraining?",
+        "What compression ratio does ComPEFT get on QLoRA adapters?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does compressing an adapter ever make it perform better?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ComPEFT improves on the original QLoRA checkpoint in 28 of 32 dataset-by-model-size configurations while compressing the LoRA module 10x-50x in storage. Holds for: 8 instruction-tuning datasets crossed with LLaMA 7B/13B/33B/65B, 5-shot MMLU test; the 4 losses are concentrated at 7B and 13B on Unnatural Instructions, Alpaca, HH-RLHF and Guanaco.\n\nThe gain from ComPEFT over uncompressed QLoRA grows with base-model size: +0.54 points on LLaMA-7B, +1.06 on 13B, +3.44 on 33B and +4.16 on 65B MMLU, with compression factors of 16x, 20x, 16x and 26x respectively. Holds for: LLaMA 7B/13B/33B/65B with QLoRA adapters averaged over 8 instruction-tuning datasets, 5-shot MMLU; alpha and k tuned per configuration on a small held-out MMLU subset.\n\nOn LLaMA2-70B, ComPEFT averages 67.53% MMLU at 56 MB, above STC (65.24%, 56 MB), BitDelta without training (64.73%, 99 MB) and DAREx-q at 95% sparsity (64.68%, 395 MB), and matches BitDelta with trained scale (67.46%) which requires backward passes. Holds for: Rank-64 QLoRA on LLaMA2-70B over 5 instruction-tuning datasets; storage uses Golomb coding for ComPEFT and STC, bitmask for BitDelta and COO sparse matrices for DAREx; DAREx at 99% sparsity collapses to 45.86%.",
+        "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/"
+      },
+      "alternateName": [
+        "Why would sparsifying a task vector improve accuracy instead of hurting it?",
+        "Does ComPEFT beat the uncompressed QLoRA checkpoint?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does adapter compression work better on bigger base models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The gain from ComPEFT over uncompressed QLoRA grows with base-model size: +0.54 points on LLaMA-7B, +1.06 on 13B, +3.44 on 33B and +4.16 on 65B MMLU, with compression factors of 16x, 20x, 16x and 26x respectively. Holds for: LLaMA 7B/13B/33B/65B with QLoRA adapters averaged over 8 instruction-tuning datasets, 5-shot MMLU; alpha and k tuned per configuration on a small held-out MMLU subset.\n\nComPEFT-compressed QLoRA adapters on LLaMA-65B average 63.45% on the MMLU test set versus 59.29% for the original QLoRA adapters, a 4.16-point gain while shrinking storage 26x from 1.49 GB to about 0.058 GB. Holds for: 5-shot MMLU with QLoRA checkpoints released by the QLoRA authors for 8 instruction-tuning datasets; density k and scaling alpha selected on a small held-out MMLU subset; storage assumes Golomb coding against 16-bit uncompressed checkpoints.",
+        "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/"
+      },
+      "alternateName": [
+        "Are task vectors from larger language models more compressible?",
+        "How does ComPEFT scale from 7B to 65B parameters?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much faster is it to download and load a compressed adapter?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Downloading a ComPEFT-compressed LLaMA-65B QLoRA checkpoint from a simulated internet server takes 2.59 s versus 83.17 s uncompressed (about 32x faster), and CPU-to-GPU loading takes 18.60 ms versus 475.26 ms (about 25x faster). Holds for: Wall-clock means over 10 repetitions per configuration, LLaMA 7B-65B QLoRA checkpoints, simulated internet server and a single 48GB A6000 host; ternary-vector compute speedups would need custom kernels not implemented in the paper.",
+        "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/"
+      },
+      "alternateName": [
+        "What are the real wall-clock savings from compressing expert modules?",
+        "Does adapter compression reduce CPU-to-GPU transfer time?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can full fine-tuning residuals be compressed the same way as LoRA modules?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ComPEFT also compresses full fine-tuning residuals, achieving 12x-19x compression on BERT, RoBERTa, T5-v1.1 and T5 with changes from +1.7 points (T5v1.1-Base) to -4.7 points (T5-Base) on 7 GLUE tasks. Holds for: Base and Large sizes of 4 architectures, average test performance over 7 GLUE tasks; the largest drops are T5-Base (-4.7) and RoBERTa-Base (-2.2), so full-finetuning compression is not uniformly near-lossless.",
+        "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/"
+      },
+      "alternateName": [
+        "Does ComPEFT work on fully fine-tuned models, not just PEFT?",
+        "Is sign-plus-scalar compression lossless for full fine-tuning?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does compressing checkpoints before merging hurt model merging?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Merging ComPEFT-compressed checkpoints beats merging the uncompressed ones in 9 of 12 settings, and on T0-3B improves merged-model performance by 2.4% on average while being about 15x smaller; (IA)^3 on T5 models is the exception. Holds for: Task Arithmetic and TIES-Merging applied to (IA)^3 and LoRA modules for 7 GLUE tasks on T5-Base, T5-Large and T0-3B; average test performance of the merged multitask model.",
+        "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/"
+      },
+      "alternateName": [
+        "Do compressed task vectors merge better or worse with task arithmetic and TIES-Merging?",
+        "What happens if I merge ComPEFT checkpoints instead of the originals?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do compressed LoRA experts still work for few-shot composition on unseen tasks?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ComPEFT-compressed LoRA experts retain compositional generalization under LoraHub, averaging 30.6 exact match across 27 Big-Bench-Hard tasks versus 30.5 for uncompressed experts. Holds for: Flan-T5-Large with ~200 LoRA experts, N=20 modules composed per unseen task with the gradient-free Shiwa optimizer, averaged over 5 seeds; best-seed results favour uncompressed LoraHub (37.3 vs 36.4).",
+        "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/"
+      },
+      "alternateName": [
+        "Does LoraHub still work if the expert modules are compressed?",
+        "Is compositional generalization preserved after adapter compression?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How does ComPEFT compare with BitDelta and DAREx for delta compression?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On LLaMA2-70B, ComPEFT averages 67.53% MMLU at 56 MB, above STC (65.24%, 56 MB), BitDelta without training (64.73%, 99 MB) and DAREx-q at 95% sparsity (64.68%, 395 MB), and matches BitDelta with trained scale (67.46%) which requires backward passes. Holds for: Rank-64 QLoRA on LLaMA2-70B over 5 instruction-tuning datasets; storage uses Golomb coding for ComPEFT and STC, bitmask for BitDelta and COO sparse matrices for DAREx; DAREx at 99% sparsity collapses to 45.86%.\n\nComPEFT beats Sparse Ternary Compression and a prune-only ablation at nearly all density levels from 3B to 65B base models, and STC is far worse than the uncompressed model at 3B and 7B, showing the tuned scalar alpha is what recovers the performance lost to sparsification and ternarization. Holds for: Average validation performance versus density k for LoRA modules on T0-3B and LLaMA 7B/13B/33B/65B; at base sizes of 13B and above all variants match or beat the original checkpoint at all densities tested.",
+        "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/"
+      },
+      "alternateName": [
+        "Is there a delta-compression method that beats STC without extra training?",
+        "What baselines did ComPEFT beat on LLaMA2-70B?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which part of ComPEFT matters most: sparsification, ternarization or the scaling factor?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ComPEFT beats Sparse Ternary Compression and a prune-only ablation at nearly all density levels from 3B to 65B base models, and STC is far worse than the uncompressed model at 3B and 7B, showing the tuned scalar alpha is what recovers the performance lost to sparsification and ternarization. Holds for: Average validation performance versus density k for LoRA modules on T0-3B and LLaMA 7B/13B/33B/65B; at base sizes of 13B and above all variants match or beat the original checkpoint at all densities tested.",
+        "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/"
+      },
+      "alternateName": [
+        "Why does Sparse Ternary Compression fail on task vectors where ComPEFT works?",
+        "Does sparsifying and ternarizing a task vector need a tuned scaling factor?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do I have to tune the scaling hyperparameter alpha for ComPEFT?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For base models with 13B or more parameters and density k of 20% or less, performance varies little with the scaling factor alpha, and the paper recommends simply setting alpha=1 rather than tuning it. Holds for: Sweeps over k in {5,10,20,30,50} and alpha in {0.5,1,2,3,4,5,6,8,10} on T0-3B and LLaMA 7B-65B; at 3B and 7B the optimal alpha still matters and shifts with k (about 5-8 at k=5 versus 2-3 at k=50 for T0-3B).",
+        "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/"
+      },
+      "alternateName": [
+        "What value of alpha should I use for a 65B model?",
+        "How sensitive is sparse ternary adapter compression to its scaling factor?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is ComPEFT competitive with other parameter-efficient fine-tuning methods on storage versus performance?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ComPEFT applied to (IA)^3 and LoRA is Pareto-optimal in performance versus storage size against 10 PEFT methods including BitFit, Adapters, Compacter, Prompt Tuning, Prefix Tuning and Intrinsic SAID, with Com(IA)^3 matching methods that use 1000x more storage. Holds for: T0-3B base model, 11 held-out datasets from the T0 evaluation suite, first PromptSource template, 200 training examples used as validation per task.",
+        "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/"
+      },
+      "alternateName": [
+        "Which PEFT method gives the best accuracy per megabyte?",
+        "How does compressed (IA)^3 compare to BitFit, Adapters and Prompt Tuning?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about the cost of serving many LoRA experts?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ComPEFT frames expert-adapter size as a communication and memory bottleneck for multi-expert serving rather than as a training-cost problem, noting that a QLoRA adapter for LLaMA-65B is 3.2 GB and must be swapped between disk, CPU and GPU per query. Holds for: Framing as of the paper's 2023 arXiv release and 2025 TMLR version, aimed at PEFT-based expert serving, model merging and MoErging pipelines; the paper measures download and CPU-to-GPU transfer latency but does not build a full serving system.\n\nComPEFT adapts the sparsification-plus-ternary-quantization idea from federated-learning gradient compression (STC, TernGrad) to post-hoc compression of fine-tuning task vectors, removing the retraining that pruning methods usually need to recover accuracy. Holds for: Compression of the residual between a released fine-tuned checkpoint and its initialization; assumes access to both, and to a small validation set for choosing the single scaling hyperparameter alpha.",
+        "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/"
+      },
+      "alternateName": [
+        "Which paper argues that expert adapter size is a communication bottleneck?",
+        "Where does work on compressing fine-tuning task vectors come from?",
+        "What is a good starting paper on compressing PEFT modules for multi-expert serving?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many bits per parameter does a ternary task vector need?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "At 95% sparsity the ternary ComPEFT update has entropy of about 0.34 bits per parameter plus a 16-bit scalar, down from 16 bits per parameter for a bfloat16 task vector, a 47x reduction in communication and storage cost under a perfect coding scheme. Holds for: Analytical entropy assuming signs of nonzero entries are uniformly distributed; realised sizes in the experiments use Golomb coding, and a two-binary-mask alternative costs 2 bits per parameter but is cheaper to compute with.",
+        "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/"
+      },
+      "alternateName": [
+        "What is the theoretical storage limit for a 95%-sparse ternary adapter update?",
+        "How is the compressed ComPEFT checkpoint actually encoded on disk?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/#terms",
+  "url": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/",
+  "name": "Terminology in ComPEFT: Compression for Communicating Parameter Efficient Updates via Sparsification and Quantization",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "task vector",
+      "description": "The difference between a fine-tuned model's parameters and the initialization they were fine-tuned from, treated as the object to be stored and communicated.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "density (k)",
+      "description": "The fraction of task-vector entries whose signs are kept after sparsification; the remaining 1-k fraction is set to zero, so sparsity equals 1-k.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "ternary quantization",
+      "description": "Replacing every retained entry of a task vector by its sign in {-1, 0, +1} and one shared 16-bit scalar, so no per-parameter magnitudes are stored.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Com(IA)^3 / ComLoRA",
+      "description": "The names for (IA)^3 and LoRA modules after ComPEFT compression, treated as PEFT methods in their own right on the storage-versus-performance frontier.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "alpha",
+      "description": "The single tuned hyperparameter of ComPEFT, a multiplier on the original task vector's standard deviation that sets the magnitude of every retained ternary entry.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/compeft-compression-for-communicating-parameter-efficient-up/#terms"
+    }
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>ComPEFT: Compression for Communicating Parameter Efficient Updates via Sparsification and Quantization</h1>
+<p class="sub">compressing a fine-tuned adapter&#x27;s weight update into sparse signs plus one shared scalar, with no retraining</p>
+<p class="meta">Prateek Yadav, Leshem Choshen, Colin Raffel, Mohit Bansal · TMLR · 2025</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2311.13171">arXiv</a></li><li><a href="https://arxiv.org/pdf/2311.13171">PDF</a></li><li><a href="https://arxiv.org/html/2311.13171">HTML</a></li><li><a href="https://huggingface.co/papers/2311.13171">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2311.13171">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2311.13171">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/265351803">Semantic Scholar</a></li><li><a href="https://openreview.net/forum?id=CovLQwu611">Publisher</a></li><li><a href="https://github.com/prateeky2806/compeft">Code</a></li></ul>
+<h2>In one sentence</h2>
+<p>ComPEFT compresses a PEFT module&#x27;s fine-tuning residual by keeping only the signs of its top-k% largest-magnitude entries and replacing all magnitudes with one tuned multiple of the task vector&#x27;s standard deviation, giving 8x-50x smaller experts with no retraining.</p>
+<h2>Abstract</h2>
+<p>Parameter-efficient fine-tuning (PEFT) techniques make it possible to efficiently adapt a language model to create&quot;expert&quot;models that specialize to new tasks or domains. Recent techniques in model merging and compositional generalization leverage these expert models by dynamically composing modules to improve zero/few-shot generalization. Despite the efficiency of PEFT methods, the size of expert models can make it onerous to retrieve expert models per query over high-latency networks like the Internet or serve multiple experts on a single GPU. To address these issues, we present ComPEFT, a novel method for compressing fine-tuning residuals (task vectors) of PEFT based models. ComPEFT employs sparsification and ternary quantization to reduce the size of the PEFT module without performing any additional retraining while preserving or enhancing model performance. In extensive evaluation across T5, T0, and LLaMA-based models with 200M - 65B parameters, ComPEFT achieves compression ratios of 8x - 50x. In particular, we show that ComPEFT improves with scale - stronger models exhibit higher compressibility and better performance. For example, we show that ComPEFT applied to LLaMA outperforms QLoRA by 4.16% on MMLU with a storage size reduction of up to 26x. In addition, we show that the compressed experts produced by ComPEFT maintain few-shot compositional generalization capabilities, facilitate efficient communication and computation, and exhibit enhanced performance when merged. Lastly, we provide an analysis of different method components, compare it with other PEFT methods, and test ComPEFT&#x27;s efficacy for compressing the residual of full-finetuning. Our code is available at https://github.com/prateeky2806/compeft.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How much can a LoRA or QLoRA adapter be shrunk without losing accuracy?</dt>
+<dt>Can fine-tuned adapters be compressed without retraining?</dt>
+<dt>What compression ratio does ComPEFT get on QLoRA adapters?</dt>
+<dd>ComPEFT-compressed QLoRA adapters on LLaMA-65B average 63.45% on the MMLU test set versus 59.29% for the original QLoRA adapters, a 4.16-point gain while shrinking storage 26x from 1.49 GB to about 0.058 GB.<br><span class="scope">Holds for: 5-shot MMLU with QLoRA checkpoints released by the QLoRA authors for 8 instruction-tuning datasets; density k and scaling alpha selected on a small held-out MMLU subset; storage assumes Golomb coding against 16-bit uncompressed checkpoints.</span></dd>
+<dd>On T5-Base, T5-Large and T0-3B, ComPEFT compresses (IA)^3 and LoRA modules 12x-25x while changing average performance over 7 GLUE tasks by at most 1.3 points, from -1.3 for (IA)^3 on T5-Base to +0.1 for LoRA on T5-Large.<br><span class="scope">Holds for: 7 GLUE classification tasks (MNLI, RTE, QNLI, WNLI, SST2, MRPC, QQP), test set; alpha and k chosen on a validation set per task.</span></dd>
+<dd>At 95% sparsity the ternary ComPEFT update has entropy of about 0.34 bits per parameter plus a 16-bit scalar, down from 16 bits per parameter for a bfloat16 task vector, a 47x reduction in communication and storage cost under a perfect coding scheme.<br><span class="scope">Holds for: Analytical entropy assuming signs of nonzero entries are uniformly distributed; realised sizes in the experiments use Golomb coding, and a two-binary-mask alternative costs 2 bits per parameter but is cheaper to compute with.</span></dd>
+<dt>Does compressing an adapter ever make it perform better?</dt>
+<dt>Why would sparsifying a task vector improve accuracy instead of hurting it?</dt>
+<dt>Does ComPEFT beat the uncompressed QLoRA checkpoint?</dt>
+<dd>ComPEFT improves on the original QLoRA checkpoint in 28 of 32 dataset-by-model-size configurations while compressing the LoRA module 10x-50x in storage.<br><span class="scope">Holds for: 8 instruction-tuning datasets crossed with LLaMA 7B/13B/33B/65B, 5-shot MMLU test; the 4 losses are concentrated at 7B and 13B on Unnatural Instructions, Alpaca, HH-RLHF and Guanaco.</span></dd>
+<dd>The gain from ComPEFT over uncompressed QLoRA grows with base-model size: +0.54 points on LLaMA-7B, +1.06 on 13B, +3.44 on 33B and +4.16 on 65B MMLU, with compression factors of 16x, 20x, 16x and 26x respectively.<br><span class="scope">Holds for: LLaMA 7B/13B/33B/65B with QLoRA adapters averaged over 8 instruction-tuning datasets, 5-shot MMLU; alpha and k tuned per configuration on a small held-out MMLU subset.</span></dd>
+<dd>On LLaMA2-70B, ComPEFT averages 67.53% MMLU at 56 MB, above STC (65.24%, 56 MB), BitDelta without training (64.73%, 99 MB) and DAREx-q at 95% sparsity (64.68%, 395 MB), and matches BitDelta with trained scale (67.46%) which requires backward passes.<br><span class="scope">Holds for: Rank-64 QLoRA on LLaMA2-70B over 5 instruction-tuning datasets; storage uses Golomb coding for ComPEFT and STC, bitmask for BitDelta and COO sparse matrices for DAREx; DAREx at 99% sparsity collapses to 45.86%.</span></dd>
+<dt>Does adapter compression work better on bigger base models?</dt>
+<dt>Are task vectors from larger language models more compressible?</dt>
+<dt>How does ComPEFT scale from 7B to 65B parameters?</dt>
+<dd>The gain from ComPEFT over uncompressed QLoRA grows with base-model size: +0.54 points on LLaMA-7B, +1.06 on 13B, +3.44 on 33B and +4.16 on 65B MMLU, with compression factors of 16x, 20x, 16x and 26x respectively.<br><span class="scope">Holds for: LLaMA 7B/13B/33B/65B with QLoRA adapters averaged over 8 instruction-tuning datasets, 5-shot MMLU; alpha and k tuned per configuration on a small held-out MMLU subset.</span></dd>
+<dd>ComPEFT-compressed QLoRA adapters on LLaMA-65B average 63.45% on the MMLU test set versus 59.29% for the original QLoRA adapters, a 4.16-point gain while shrinking storage 26x from 1.49 GB to about 0.058 GB.<br><span class="scope">Holds for: 5-shot MMLU with QLoRA checkpoints released by the QLoRA authors for 8 instruction-tuning datasets; density k and scaling alpha selected on a small held-out MMLU subset; storage assumes Golomb coding against 16-bit uncompressed checkpoints.</span></dd>
+<dt>How much faster is it to download and load a compressed adapter?</dt>
+<dt>What are the real wall-clock savings from compressing expert modules?</dt>
+<dt>Does adapter compression reduce CPU-to-GPU transfer time?</dt>
+<dd>Downloading a ComPEFT-compressed LLaMA-65B QLoRA checkpoint from a simulated internet server takes 2.59 s versus 83.17 s uncompressed (about 32x faster), and CPU-to-GPU loading takes 18.60 ms versus 475.26 ms (about 25x faster).<br><span class="scope">Holds for: Wall-clock means over 10 repetitions per configuration, LLaMA 7B-65B QLoRA checkpoints, simulated internet server and a single 48GB A6000 host; ternary-vector compute speedups would need custom kernels not implemented in the paper.</span></dd>
+<dt>Can full fine-tuning residuals be compressed the same way as LoRA modules?</dt>
+<dt>Does ComPEFT work on fully fine-tuned models, not just PEFT?</dt>
+<dt>Is sign-plus-scalar compression lossless for full fine-tuning?</dt>
+<dd>ComPEFT also compresses full fine-tuning residuals, achieving 12x-19x compression on BERT, RoBERTa, T5-v1.1 and T5 with changes from +1.7 points (T5v1.1-Base) to -4.7 points (T5-Base) on 7 GLUE tasks.<br><span class="scope">Holds for: Base and Large sizes of 4 architectures, average test performance over 7 GLUE tasks; the largest drops are T5-Base (-4.7) and RoBERTa-Base (-2.2), so full-finetuning compression is not uniformly near-lossless.</span></dd>
+<dt>Does compressing checkpoints before merging hurt model merging?</dt>
+<dt>Do compressed task vectors merge better or worse with task arithmetic and TIES-Merging?</dt>
+<dt>What happens if I merge ComPEFT checkpoints instead of the originals?</dt>
+<dd>Merging ComPEFT-compressed checkpoints beats merging the uncompressed ones in 9 of 12 settings, and on T0-3B improves merged-model performance by 2.4% on average while being about 15x smaller; (IA)^3 on T5 models is the exception.<br><span class="scope">Holds for: Task Arithmetic and TIES-Merging applied to (IA)^3 and LoRA modules for 7 GLUE tasks on T5-Base, T5-Large and T0-3B; average test performance of the merged multitask model.</span></dd>
+<dt>Do compressed LoRA experts still work for few-shot composition on unseen tasks?</dt>
+<dt>Does LoraHub still work if the expert modules are compressed?</dt>
+<dt>Is compositional generalization preserved after adapter compression?</dt>
+<dd>ComPEFT-compressed LoRA experts retain compositional generalization under LoraHub, averaging 30.6 exact match across 27 Big-Bench-Hard tasks versus 30.5 for uncompressed experts.<br><span class="scope">Holds for: Flan-T5-Large with ~200 LoRA experts, N=20 modules composed per unseen task with the gradient-free Shiwa optimizer, averaged over 5 seeds; best-seed results favour uncompressed LoraHub (37.3 vs 36.4).</span></dd>
+<dt>How does ComPEFT compare with BitDelta and DAREx for delta compression?</dt>
+<dt>Is there a delta-compression method that beats STC without extra training?</dt>
+<dt>What baselines did ComPEFT beat on LLaMA2-70B?</dt>
+<dd>On LLaMA2-70B, ComPEFT averages 67.53% MMLU at 56 MB, above STC (65.24%, 56 MB), BitDelta without training (64.73%, 99 MB) and DAREx-q at 95% sparsity (64.68%, 395 MB), and matches BitDelta with trained scale (67.46%) which requires backward passes.<br><span class="scope">Holds for: Rank-64 QLoRA on LLaMA2-70B over 5 instruction-tuning datasets; storage uses Golomb coding for ComPEFT and STC, bitmask for BitDelta and COO sparse matrices for DAREx; DAREx at 99% sparsity collapses to 45.86%.</span></dd>
+<dd>ComPEFT beats Sparse Ternary Compression and a prune-only ablation at nearly all density levels from 3B to 65B base models, and STC is far worse than the uncompressed model at 3B and 7B, showing the tuned scalar alpha is what recovers the performance lost to sparsification and ternarization.<br><span class="scope">Holds for: Average validation performance versus density k for LoRA modules on T0-3B and LLaMA 7B/13B/33B/65B; at base sizes of 13B and above all variants match or beat the original checkpoint at all densities tested.</span></dd>
+<dt>Which part of ComPEFT matters most: sparsification, ternarization or the scaling factor?</dt>
+<dt>Why does Sparse Ternary Compression fail on task vectors where ComPEFT works?</dt>
+<dt>Does sparsifying and ternarizing a task vector need a tuned scaling factor?</dt>
+<dd>ComPEFT beats Sparse Ternary Compression and a prune-only ablation at nearly all density levels from 3B to 65B base models, and STC is far worse than the uncompressed model at 3B and 7B, showing the tuned scalar alpha is what recovers the performance lost to sparsification and ternarization.<br><span class="scope">Holds for: Average validation performance versus density k for LoRA modules on T0-3B and LLaMA 7B/13B/33B/65B; at base sizes of 13B and above all variants match or beat the original checkpoint at all densities tested.</span></dd>
+<dt>Do I have to tune the scaling hyperparameter alpha for ComPEFT?</dt>
+<dt>What value of alpha should I use for a 65B model?</dt>
+<dt>How sensitive is sparse ternary adapter compression to its scaling factor?</dt>
+<dd>For base models with 13B or more parameters and density k of 20% or less, performance varies little with the scaling factor alpha, and the paper recommends simply setting alpha=1 rather than tuning it.<br><span class="scope">Holds for: Sweeps over k in {5,10,20,30,50} and alpha in {0.5,1,2,3,4,5,6,8,10} on T0-3B and LLaMA 7B-65B; at 3B and 7B the optimal alpha still matters and shifts with k (about 5-8 at k=5 versus 2-3 at k=50 for T0-3B).</span></dd>
+<dt>Is ComPEFT competitive with other parameter-efficient fine-tuning methods on storage versus performance?</dt>
+<dt>Which PEFT method gives the best accuracy per megabyte?</dt>
+<dt>How does compressed (IA)^3 compare to BitFit, Adapters and Prompt Tuning?</dt>
+<dd>ComPEFT applied to (IA)^3 and LoRA is Pareto-optimal in performance versus storage size against 10 PEFT methods including BitFit, Adapters, Compacter, Prompt Tuning, Prefix Tuning and Intrinsic SAID, with Com(IA)^3 matching methods that use 1000x more storage.<br><span class="scope">Holds for: T0-3B base model, 11 held-out datasets from the T0 evaluation suite, first PromptSource template, 200 training examples used as validation per task.</span></dd>
+<dt>What should I read about the cost of serving many LoRA experts?</dt>
+<dt>Which paper argues that expert adapter size is a communication bottleneck?</dt>
+<dt>Where does work on compressing fine-tuning task vectors come from?</dt>
+<dt>What is a good starting paper on compressing PEFT modules for multi-expert serving?</dt>
+<dd>ComPEFT frames expert-adapter size as a communication and memory bottleneck for multi-expert serving rather than as a training-cost problem, noting that a QLoRA adapter for LLaMA-65B is 3.2 GB and must be swapped between disk, CPU and GPU per query.<br><span class="scope">Holds for: Framing as of the paper&#x27;s 2023 arXiv release and 2025 TMLR version, aimed at PEFT-based expert serving, model merging and MoErging pipelines; the paper measures download and CPU-to-GPU transfer latency but does not build a full serving system.</span></dd>
+<dd>ComPEFT adapts the sparsification-plus-ternary-quantization idea from federated-learning gradient compression (STC, TernGrad) to post-hoc compression of fine-tuning task vectors, removing the retraining that pruning methods usually need to recover accuracy.<br><span class="scope">Holds for: Compression of the residual between a released fine-tuned checkpoint and its initialization; assumes access to both, and to a small validation set for choosing the single scaling hyperparameter alpha.</span></dd>
+<dt>How many bits per parameter does a ternary task vector need?</dt>
+<dt>What is the theoretical storage limit for a 95%-sparse ternary adapter update?</dt>
+<dt>How is the compressed ComPEFT checkpoint actually encoded on disk?</dt>
+<dd>At 95% sparsity the ternary ComPEFT update has entropy of about 0.34 bits per parameter plus a 16-bit scalar, down from 16 bits per parameter for a bfloat16 task vector, a 47x reduction in communication and storage cost under a perfect coding scheme.<br><span class="scope">Holds for: Analytical entropy assuming signs of nonzero entries are uniformly distributed; realised sizes in the experiments use Golomb coding, and a two-binary-mask alternative costs 2 bits per parameter but is cheaper to compute with.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>ComPEFT-compressed QLoRA adapters on LLaMA-65B average 63.45% on the MMLU test set versus 59.29% for the original QLoRA adapters, a 4.16-point gain while shrinking storage 26x from 1.49 GB to about 0.058 GB. <span class="meta">(Table 1)</span><br><span class="scope">Scope: 5-shot MMLU with QLoRA checkpoints released by the QLoRA authors for 8 instruction-tuning datasets; density k and scaling alpha selected on a small held-out MMLU subset; storage assumes Golomb coding against 16-bit uncompressed checkpoints.</span></li>
+<li>The gain from ComPEFT over uncompressed QLoRA grows with base-model size: +0.54 points on LLaMA-7B, +1.06 on 13B, +3.44 on 33B and +4.16 on 65B MMLU, with compression factors of 16x, 20x, 16x and 26x respectively. <span class="meta">(Table 1)</span><br><span class="scope">Scope: LLaMA 7B/13B/33B/65B with QLoRA adapters averaged over 8 instruction-tuning datasets, 5-shot MMLU; alpha and k tuned per configuration on a small held-out MMLU subset.</span></li>
+<li>ComPEFT improves on the original QLoRA checkpoint in 28 of 32 dataset-by-model-size configurations while compressing the LoRA module 10x-50x in storage. <span class="meta">(Table 1)</span><br><span class="scope">Scope: 8 instruction-tuning datasets crossed with LLaMA 7B/13B/33B/65B, 5-shot MMLU test; the 4 losses are concentrated at 7B and 13B on Unnatural Instructions, Alpaca, HH-RLHF and Guanaco.</span></li>
+<li>On T5-Base, T5-Large and T0-3B, ComPEFT compresses (IA)^3 and LoRA modules 12x-25x while changing average performance over 7 GLUE tasks by at most 1.3 points, from -1.3 for (IA)^3 on T5-Base to +0.1 for LoRA on T5-Large. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: 7 GLUE classification tasks (MNLI, RTE, QNLI, WNLI, SST2, MRPC, QQP), test set; alpha and k chosen on a validation set per task.</span></li>
+<li>ComPEFT also compresses full fine-tuning residuals, achieving 12x-19x compression on BERT, RoBERTa, T5-v1.1 and T5 with changes from +1.7 points (T5v1.1-Base) to -4.7 points (T5-Base) on 7 GLUE tasks. <span class="meta">(Figure 5)</span><br><span class="scope">Scope: Base and Large sizes of 4 architectures, average test performance over 7 GLUE tasks; the largest drops are T5-Base (-4.7) and RoBERTa-Base (-2.2), so full-finetuning compression is not uniformly near-lossless.</span></li>
+<li>Downloading a ComPEFT-compressed LLaMA-65B QLoRA checkpoint from a simulated internet server takes 2.59 s versus 83.17 s uncompressed (about 32x faster), and CPU-to-GPU loading takes 18.60 ms versus 475.26 ms (about 25x faster). <span class="meta">(Figure 6)</span><br><span class="scope">Scope: Wall-clock means over 10 repetitions per configuration, LLaMA 7B-65B QLoRA checkpoints, simulated internet server and a single 48GB A6000 host; ternary-vector compute speedups would need custom kernels not implemented in the paper.</span></li>
+<li>ComPEFT applied to (IA)^3 and LoRA is Pareto-optimal in performance versus storage size against 10 PEFT methods including BitFit, Adapters, Compacter, Prompt Tuning, Prefix Tuning and Intrinsic SAID, with Com(IA)^3 matching methods that use 1000x more storage. <span class="meta">(Figure 7)</span><br><span class="scope">Scope: T0-3B base model, 11 held-out datasets from the T0 evaluation suite, first PromptSource template, 200 training examples used as validation per task.</span></li>
+<li>Merging ComPEFT-compressed checkpoints beats merging the uncompressed ones in 9 of 12 settings, and on T0-3B improves merged-model performance by 2.4% on average while being about 15x smaller; (IA)^3 on T5 models is the exception. <span class="meta">(Figure 9)</span><br><span class="scope">Scope: Task Arithmetic and TIES-Merging applied to (IA)^3 and LoRA modules for 7 GLUE tasks on T5-Base, T5-Large and T0-3B; average test performance of the merged multitask model.</span></li>
+<li>ComPEFT-compressed LoRA experts retain compositional generalization under LoraHub, averaging 30.6 exact match across 27 Big-Bench-Hard tasks versus 30.5 for uncompressed experts. <span class="meta">(Table 8)</span><br><span class="scope">Scope: Flan-T5-Large with ~200 LoRA experts, N=20 modules composed per unseen task with the gradient-free Shiwa optimizer, averaged over 5 seeds; best-seed results favour uncompressed LoraHub (37.3 vs 36.4).</span></li>
+<li>ComPEFT beats Sparse Ternary Compression and a prune-only ablation at nearly all density levels from 3B to 65B base models, and STC is far worse than the uncompressed model at 3B and 7B, showing the tuned scalar alpha is what recovers the performance lost to sparsification and ternarization. <span class="meta">(Figure 10)</span><br><span class="scope">Scope: Average validation performance versus density k for LoRA modules on T0-3B and LLaMA 7B/13B/33B/65B; at base sizes of 13B and above all variants match or beat the original checkpoint at all densities tested.</span></li>
+<li>For base models with 13B or more parameters and density k of 20% or less, performance varies little with the scaling factor alpha, and the paper recommends simply setting alpha=1 rather than tuning it. <span class="meta">(Figure 11)</span><br><span class="scope">Scope: Sweeps over k in {5,10,20,30,50} and alpha in {0.5,1,2,3,4,5,6,8,10} on T0-3B and LLaMA 7B-65B; at 3B and 7B the optimal alpha still matters and shifts with k (about 5-8 at k=5 versus 2-3 at k=50 for T0-3B).</span></li>
+<li>On LLaMA2-70B, ComPEFT averages 67.53% MMLU at 56 MB, above STC (65.24%, 56 MB), BitDelta without training (64.73%, 99 MB) and DAREx-q at 95% sparsity (64.68%, 395 MB), and matches BitDelta with trained scale (67.46%) which requires backward passes. <span class="meta">(Table 3)</span><br><span class="scope">Scope: Rank-64 QLoRA on LLaMA2-70B over 5 instruction-tuning datasets; storage uses Golomb coding for ComPEFT and STC, bitmask for BitDelta and COO sparse matrices for DAREx; DAREx at 99% sparsity collapses to 45.86%.</span></li>
+<li>At 95% sparsity the ternary ComPEFT update has entropy of about 0.34 bits per parameter plus a 16-bit scalar, down from 16 bits per parameter for a bfloat16 task vector, a 47x reduction in communication and storage cost under a perfect coding scheme. <span class="meta">(Section 2.2)</span><br><span class="scope">Scope: Analytical entropy assuming signs of nonzero entries are uniformly distributed; realised sizes in the experiments use Golomb coding, and a two-binary-mask alternative costs 2 bits per parameter but is cheaper to compute with.</span></li>
+<li>ComPEFT frames expert-adapter size as a communication and memory bottleneck for multi-expert serving rather than as a training-cost problem, noting that a QLoRA adapter for LLaMA-65B is 3.2 GB and must be swapped between disk, CPU and GPU per query. <span class="meta">(Section 1)</span><br><span class="scope">Scope: Framing as of the paper&#x27;s 2023 arXiv release and 2025 TMLR version, aimed at PEFT-based expert serving, model merging and MoErging pipelines; the paper measures download and CPU-to-GPU transfer latency but does not build a full serving system.</span></li>
+<li>ComPEFT adapts the sparsification-plus-ternary-quantization idea from federated-learning gradient compression (STC, TernGrad) to post-hoc compression of fine-tuning task vectors, removing the retraining that pruning methods usually need to recover accuracy. <span class="meta">(Section 5)</span><br><span class="scope">Scope: Compression of the residual between a released fine-tuned checkpoint and its initialization; assumes access to both, and to a small validation set for choosing the single scaling hyperparameter alpha.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li></li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>task vector</em></dt><dd>The difference between a fine-tuned model&#x27;s parameters and the initialization they were fine-tuned from, treated as the object to be stored and communicated.</dd>
+<dt><em>density (k)</em></dt><dd>The fraction of task-vector entries whose signs are kept after sparsification; the remaining 1-k fraction is set to zero, so sparsity equals 1-k.</dd>
+<dt><em>ternary quantization</em></dt><dd>Replacing every retained entry of a task vector by its sign in {-1, 0, +1} and one shared 16-bit scalar, so no per-parameter magnitudes are stored.</dd>
+<dt><em>Com(IA)^3 / ComLoRA</em></dt><dd>The names for (IA)^3 and LoRA modules after ComPEFT compression, treated as PEFT methods in their own right on the storage-versus-performance frontier.</dd>
+<dt><em>alpha</em></dt><dd>The single tuned hyperparameter of ComPEFT, a multiplier on the original task vector&#x27;s standard deviation that sets the magnitude of every retained ternary entry.</dd>
+</dl>
+<h2>How to cite</h2>
+<pre>@article{
+yadav2025compeft,
+title={Com{PEFT}: Compression for Communicating Parameter Efficient Updates via Sparsification and Quantization},
+author={Prateek Yadav and Leshem Choshen and Colin Raffel and Mohit Bansal},
+journal={Transactions on Machine Learning Research},
+issn={2835-8856},
+year={2025},
+url={https://openreview.net/forum?id=CovLQwu611},
+note={}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2311.13171">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

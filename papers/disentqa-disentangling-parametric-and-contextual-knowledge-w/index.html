@@ -13,7 +13,7 @@
   <meta name="citation_author" content="Idan Szpektor">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2023">
-  <meta name="citation_conference_title" content="Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long…">
+  <meta name="citation_conference_title" content="ACL 2023">
   <meta name="citation_doi" content="10.18653/V1/2023.ACL-LONG.559">
   <meta name="citation_arxiv_id" content="2211.05655">
   <meta name="citation_abstract" content="Question answering models commonly have access to two sources of “knowledge” during inference time: (1) parametric knowledge - the factual knowledge encoded in the model weights, and (2) contextual knowledge - external knowledge (e.g., a Wikipedia passage) given to the model to generate a grounded answer. Having these two sources of knowledge entangled together is a core issue for generative QA models as it is unclear whether the answer stems from the given non-parametric knowledge or not. This unclarity has implications on issues of trust, interpretability and factuality. In this work, we propose a new paradigm in which QA models are trained to disentangle the two sources of knowledge. Using counterfactual data augmentation, we introduce a model that predicts two answers for a given question: one based on given contextual knowledge and one based on parametric knowledge. Our experiments on the Natural Questions dataset show that this approach improves the performance of QA models by making them more robust to knowledge conflicts between the two knowledge sources, while generating useful disentangled answers.">
@@ -55,10 +55,12 @@
   "datePublished": "2023",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long…"
+    "name": "ACL 2023"
   },
   "identifier": "https://doi.org/10.18653/V1/2023.ACL-LONG.559",
   "abstract": "Question answering models commonly have access to two sources of “knowledge” during inference time: (1) parametric knowledge - the factual knowledge encoded in the model weights, and (2) contextual knowledge - external knowledge (e.g., a Wikipedia passage) given to the model to generate a grounded answer. Having these two sources of knowledge entangled together is a core issue for generative QA models as it is unclear whether the answer stems from the given non-parametric knowledge or not. This unclarity has implications on issues of trust, interpretability and factuality. In this work, we propose a new paradigm in which QA models are trained to disentangle the two sources of knowledge. Using counterfactual data augmentation, we introduce a model that predicts two answers for a given question: one based on given contextual knowledge and one based on parametric knowledge. Our experiments on the Natural Questions dataset show that this approach improves the performance of QA models by making them more robust to knowledge conflicts between the two knowledge sources, while generating useful disentangled answers.",
+  "description": "DisentQA trains a single generative QA model to emit two answers at once — one grounded in the given passage and one from its parametric memory — using counterfactual and unanswerable-context data augmentation on Natural Questions.",
+  "codeRepository": "https://github.com/ellaneeman/disent_qa",
   "sameAs": [
     "https://aclanthology.org/2023.acl-long.559/",
     "https://ar5iv.labs.arxiv.org/html/2211.05655",
@@ -66,9 +68,279 @@
     "https://arxiv.org/pdf/2211.05655",
     "https://doi.org/10.18653/V1/2023.ACL-LONG.559",
     "https://doi.org/10.18653/v1/2023.acl-long.559",
+    "https://github.com/ellaneeman/disent_qa",
     "https://huggingface.co/papers/2211.05655",
     "https://www.alphaxiv.org/abs/2211.05655",
     "https://www.semanticscholar.org/paper/253447228"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "DisentQA introduces a QA paradigm in which one generative model outputs two answers per question. One answer is grounded in the given passage and the other comes from the model's memorized knowledge, so a reader can tell which source an answer came from.",
+      "description": "Holds for: Natural Questions with fine-tuned T5-Large (770M) and T5-11B, gold passages only; the authors state it is the first work to combine multiple answers, counterfactual augmentation and answerability augmentation, with concurrent work by Li et al. (2022)."
+    },
+    {
+      "@type": "Thing",
+      "name": "Combining counterfactual and answerability augmentation raises contextual-answer accuracy on counterfactual Natural Questions contexts to 84.98% for the single-answer T5-11B model, versus 66.81% for the vanilla factual-only model.",
+      "description": "Holds for: T5-11B fine-tuned on NQ examples that have both a gold passage and a short answer; counterfactual contexts built by entity substitution, so only named-entity answers are covered."
+    },
+    {
+      "@type": "Thing",
+      "name": "Adding the second, parametric answer costs almost nothing on standard grounded QA. The multi-answer T5-11B model trained on all augmentations reaches 78.10% on the factual NQ test set, against 78.32% for its single-answer counterpart and 79.34% for the vanilla model.",
+      "description": "Holds for: T5-11B, gold-passage NQ, exact-match accuracy; the test set is restricted to the 1,365 examples that induced the counterfactual set."
+    },
+    {
+      "@type": "Thing",
+      "name": "The T5-11B multi-answer model trained with both counterfactual and answerability data predicts \"unanswerable\" for 99.49% of random contexts. The same multi-answer model trained without counterfactual data reaches only 35.60%.",
+      "description": "Holds for: T5-11B; all models score 100% on empty contexts, so the difficulty is confined to randomly sampled contexts, which the authors call a simplistic proof-of-concept because the random passage is unrelated in topic and entities."
+    },
+    {
+      "@type": "Thing",
+      "name": "The T5-11B model trained on factual, counterfactual and answerability examples gives identical contextual and parametric answers in only 18.46% of counterfactual cases, while models missing either augmentation stay above 92%.",
+      "description": "Holds for: T5-11B on the 1,365-example counterfactual NQ test set; on factual contexts the same model's two answers agree 93.55% of the time, which is the desired behaviour there."
+    },
+    {
+      "@type": "Thing",
+      "name": "Counterfactual augmentation and answerability augmentation are complementary rather than redundant in DisentQA: neither alone produces disentangled answers or reliable abstention, and only their combination achieves both.",
+      "description": "Holds for: Shown for T5-11B and replicated in trend for T5-Large on NQ with gold passages; not tested on question types outside named-entity answers."
+    },
+    {
+      "@type": "Thing",
+      "name": "The fully augmented multi-answer T5-11B model answers 31.14% of empty-context NQ questions correctly from parametric knowledge, 3.5 points above the 27.69% closed-book baseline trained only to answer from parameters.",
+      "description": "Holds for: T5-11B, exact match on the NQ dev-derived test set; the authors note it is not clear why a model trained on both knowledge sources should beat the closed-book model in this setting."
+    },
+    {
+      "@type": "Thing",
+      "name": "Parametric answers in DisentQA models are not context-independent. The fully augmented T5-11B model scores 44.69% parametric accuracy on counterfactual contexts, 31.14% on empty and 30.18% on random contexts.",
+      "description": "Holds for: T5-11B; the higher counterfactual number suggests the model picks up hints from the altered passage, and manual inspection finds leakage in both directions between contextual and parametric answers."
+    },
+    {
+      "@type": "Thing",
+      "name": "Much of the apparent parametric knowledge in DisentQA models is answer overlap with fine-tuning data. On the No-Answer-Overlap dev subset the fully augmented T5-11B model's parametric accuracy drops by 23.74 points on empty contexts and 31.97 points on counterfactual contexts.",
+      "description": "Holds for: T5-11B, drops measured against the full dev set; NAO subsets defined following Lewis et al. (2021) as reference answers absent from the training data, and accuracy stays non-zero everywhere."
+    },
+    {
+      "@type": "Thing",
+      "name": "Only 18% of the fully augmented T5-11B model's parametric answers on the counterfactual test set were never seen as answers during fine-tuning, indicating a strong tendency to reuse fine-tuning answers. Of those unseen answers, 85% differ from the contextual answer.",
+      "description": "Holds for: T5-11B on the counterfactual test set; comparable figures are 25% for the answerability-only multi-answer model, 26% for the counterfactual-only one and 23% for the closed-book baseline."
+    },
+    {
+      "@type": "Thing",
+      "name": "The disentanglement trends of DisentQA hold at 770M parameters but weaker. T5-Large's fully augmented multi-answer model reaches 81.03% contextual accuracy on counterfactual contexts and 22.34% parametric accuracy on empty contexts.",
+      "description": "Holds for: T5-Large (770M) versus T5-11B on NQ, where T5-11B is better in all reported cases; no significance testing was run across random initializations because of model size."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/#faq",
+  "url": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/",
+  "name": "Questions answered by DisentQA: Disentangling Parametric and Contextual Knowledge with Counterfactual Question Answering",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can a QA model tell me whether its answer came from the retrieved passage or from what it memorized?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DisentQA introduces a QA paradigm in which one generative model outputs two answers per question. One answer is grounded in the given passage and the other comes from the model's memorized knowledge, so a reader can tell which source an answer came from. Holds for: Natural Questions with fine-tuned T5-Large (770M) and T5-11B, gold passages only; the authors state it is the first work to combine multiple answers, counterfactual augmentation and answerability augmentation, with concurrent work by Li et al. (2022).",
+        "url": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/"
+      },
+      "alternateName": [
+        "Is there a way to separate a language model's memorized facts from the passage it was given at inference time?",
+        "What is DisentQA?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about knowledge conflicts between a retrieved document and a model's memory?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DisentQA introduces a QA paradigm in which one generative model outputs two answers per question. One answer is grounded in the given passage and the other comes from the model's memorized knowledge, so a reader can tell which source an answer came from. Holds for: Natural Questions with fine-tuned T5-Large (770M) and T5-11B, gold passages only; the authors state it is the first work to combine multiple answers, counterfactual augmentation and answerability augmentation, with concurrent work by Li et al. (2022).",
+        "url": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/"
+      },
+      "alternateName": [
+        "Which paper established a way to evaluate whether QA answers are grounded in context or in parameters?",
+        "Where should I start reading about parametric versus contextual knowledge in question answering?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does counterfactual data augmentation make QA models follow the passage instead of their memory?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Combining counterfactual and answerability augmentation raises contextual-answer accuracy on counterfactual Natural Questions contexts to 84.98% for the single-answer T5-11B model, versus 66.81% for the vanilla factual-only model. Holds for: T5-11B fine-tuned on NQ examples that have both a gold passage and a short answer; counterfactual contexts built by entity substitution, so only named-entity answers are covered.\n\nCounterfactual augmentation and answerability augmentation are complementary rather than redundant in DisentQA: neither alone produces disentangled answers or reliable abstention, and only their combination achieves both. Holds for: Shown for T5-11B and replicated in trend for T5-Large on NQ with gold passages; not tested on question types outside named-entity answers.",
+        "url": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/"
+      },
+      "alternateName": [
+        "How much does robustness to knowledge conflicts improve with counterfactual training on Natural Questions?",
+        "What accuracy do DisentQA models get on counterfactual contexts?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does asking a QA model for two answers hurt its normal accuracy?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Adding the second, parametric answer costs almost nothing on standard grounded QA. The multi-answer T5-11B model trained on all augmentations reaches 78.10% on the factual NQ test set, against 78.32% for its single-answer counterpart and 79.34% for the vanilla model. Holds for: T5-11B, gold-passage NQ, exact-match accuracy; the test set is restricted to the 1,365 examples that induced the counterfactual set.",
+        "url": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/"
+      },
+      "alternateName": [
+        "Is there a cost on standard grounded QA to also predicting a parametric answer?",
+        "How does the multi-answer model compare to a vanilla T5 QA model on factual Natural Questions?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How well can a QA model say 'unanswerable' when the passage is irrelevant?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The T5-11B multi-answer model trained with both counterfactual and answerability data predicts \"unanswerable\" for 99.49% of random contexts. The same multi-answer model trained without counterfactual data reaches only 35.60%. Holds for: T5-11B; all models score 100% on empty contexts, so the difficulty is confined to randomly sampled contexts, which the authors call a simplistic proof-of-concept because the random passage is unrelated in topic and entities.\n\nCounterfactual augmentation and answerability augmentation are complementary rather than redundant in DisentQA: neither alone produces disentangled answers or reliable abstention, and only their combination achieves both. Holds for: Shown for T5-11B and replicated in trend for T5-Large on NQ with gold passages; not tested on question types outside named-entity answers.",
+        "url": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/"
+      },
+      "alternateName": [
+        "Does training on unanswerable examples alone teach a model to abstain?",
+        "What abstention accuracy does DisentQA reach on random contexts?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do the two augmentations in DisentQA each work on their own, or are both needed?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Counterfactual augmentation and answerability augmentation are complementary rather than redundant in DisentQA: neither alone produces disentangled answers or reliable abstention, and only their combination achieves both. Holds for: Shown for T5-11B and replicated in trend for T5-Large on NQ with gold passages; not tested on question types outside named-entity answers.\n\nThe T5-11B model trained on factual, counterfactual and answerability examples gives identical contextual and parametric answers in only 18.46% of counterfactual cases, while models missing either augmentation stay above 92%. Holds for: T5-11B on the 1,365-example counterfactual NQ test set; on factual contexts the same model's two answers agree 93.55% of the time, which is the desired behaviour there.",
+        "url": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/"
+      },
+      "alternateName": [
+        "Is counterfactual augmentation enough for disentanglement without answerability examples?",
+        "Why does DisentQA use both counterfactual and unanswerable training examples?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How often do the contextual and parametric answers actually differ when the passage is altered?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The T5-11B model trained on factual, counterfactual and answerability examples gives identical contextual and parametric answers in only 18.46% of counterfactual cases, while models missing either augmentation stay above 92%. Holds for: T5-11B on the 1,365-example counterfactual NQ test set; on factual contexts the same model's two answers agree 93.55% of the time, which is the desired behaviour there.",
+        "url": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/"
+      },
+      "alternateName": [
+        "How is disentanglement measured in DisentQA, and what score does the best model get?",
+        "What is answer separation on counterfactual Natural Questions examples?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is the parametric answer any good compared with a closed-book QA model?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The fully augmented multi-answer T5-11B model answers 31.14% of empty-context NQ questions correctly from parametric knowledge, 3.5 points above the 27.69% closed-book baseline trained only to answer from parameters. Holds for: T5-11B, exact match on the NQ dev-derived test set; the authors note it is not clear why a model trained on both knowledge sources should beat the closed-book model in this setting.",
+        "url": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/"
+      },
+      "alternateName": [
+        "How accurate are memory-based answers from a model trained to output two answers?",
+        "Does DisentQA's parametric answer beat a closed-book T5 baseline on Natural Questions?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does the parametric answer stay the same regardless of the passage given?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Parametric answers in DisentQA models are not context-independent. The fully augmented T5-11B model scores 44.69% parametric accuracy on counterfactual contexts, 31.14% on empty and 30.18% on random contexts. Holds for: T5-11B; the higher counterfactual number suggests the model picks up hints from the altered passage, and manual inspection finds leakage in both directions between contextual and parametric answers.",
+        "url": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/"
+      },
+      "alternateName": [
+        "Can the provided context leak into a model's supposedly memory-based answer?",
+        "Why do DisentQA parametric answers change across empty, random and counterfactual contexts?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much of a QA model's parametric accuracy is just answers repeated from fine-tuning data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Much of the apparent parametric knowledge in DisentQA models is answer overlap with fine-tuning data. On the No-Answer-Overlap dev subset the fully augmented T5-11B model's parametric accuracy drops by 23.74 points on empty contexts and 31.97 points on counterfactual contexts. Holds for: T5-11B, drops measured against the full dev set; NAO subsets defined following Lewis et al. (2021) as reference answers absent from the training data, and accuracy stays non-zero everywhere.\n\nOnly 18% of the fully augmented T5-11B model's parametric answers on the counterfactual test set were never seen as answers during fine-tuning, indicating a strong tendency to reuse fine-tuning answers. Of those unseen answers, 85% differ from the contextual answer. Holds for: T5-11B on the counterfactual test set; comparable figures are 25% for the answerability-only multi-answer model, 26% for the counterfactual-only one and 23% for the closed-book baseline.",
+        "url": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/"
+      },
+      "alternateName": [
+        "What happens to parametric answer accuracy on questions whose answers never appear in training?",
+        "Does answer overlap inflate closed-book QA results on Natural Questions?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does model size matter for disentangling contextual and parametric knowledge?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The disentanglement trends of DisentQA hold at 770M parameters but weaker. T5-Large's fully augmented multi-answer model reaches 81.03% contextual accuracy on counterfactual contexts and 22.34% parametric accuracy on empty contexts. Holds for: T5-Large (770M) versus T5-11B on NQ, where T5-11B is better in all reported cases; no significance testing was run across random initializations because of model size.",
+        "url": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/"
+      },
+      "alternateName": [
+        "How do T5-Large and T5-11B compare on DisentQA's disentanglement metrics?",
+        "Is 770M parameters enough to learn to output separate contextual and parametric answers?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/#terms",
+  "url": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/",
+  "name": "Terminology in DisentQA: Disentangling Parametric and Contextual Knowledge with Counterfactual Question Answering",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "parametric knowledge",
+      "description": "factual knowledge encoded in a language model's weights during pretraining, as opposed to knowledge supplied in the input at inference time.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "contextual knowledge",
+      "description": "knowledge supplied to a QA model at inference time in the question's context passage, such as a retrieved Wikipedia paragraph.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "answer separation",
+      "description": "the percentage of test cases in which a model's contextual and parametric answers are identical, used as a measure of how far the two knowledge sources have been disentangled; lower is better on counterfactual data and higher on factual data.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "counterfactual example",
+      "description": "a QA example whose context has had every occurrence of the answer entity replaced by a different entity of the same type, so that the correct context-grounded answer contradicts the original memorized answer.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "answerability augmentation",
+      "description": "training examples in which the context is replaced by an empty or randomly sampled passage and the target contextual answer is the special token \"unanswerable\".",
+      "inDefinedTermSet": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "No Answer Overlap (NAO)",
+      "description": "the subset of a test set whose reference answers never appear as answers in the training data, used to control for artifacts from repeated answers.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/disentqa-disentangling-parametric-and-contextual-knowledge-w/#terms"
+    }
   ]
 }
   </script>
@@ -79,6 +351,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -92,13 +365,94 @@
 </head>
 <body>
 <h1>DisentQA: Disentangling Parametric and Contextual Knowledge with Counterfactual Question Answering</h1>
-<p class="meta">Ella Neeman, Roee Aharoni, Or Honovich, Leshem Choshen, Idan Szpektor, Omri Abend · Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long… · 2023</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2211.05655">arXiv</a></li><li><a href="https://arxiv.org/pdf/2211.05655">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2211.05655">HTML</a></li><li><a href="https://huggingface.co/papers/2211.05655">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2211.05655">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2023.ACL-LONG.559">DOI</a></li><li><a href="https://aclanthology.org/2023.acl-long.559/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/253447228">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2023.acl-long.559">Publisher</a></li></ul>
+<p class="sub">question answering that outputs two separate answers, one from the given passage and one from the model&#x27;s memorized knowledge</p>
+<p class="meta">Ella Neeman, Roee Aharoni, Or Honovich, Leshem Choshen, Idan Szpektor, Omri Abend · ACL 2023 · 2023</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2211.05655">arXiv</a></li><li><a href="https://arxiv.org/pdf/2211.05655">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2211.05655">HTML</a></li><li><a href="https://huggingface.co/papers/2211.05655">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2211.05655">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2023.ACL-LONG.559">DOI</a></li><li><a href="https://aclanthology.org/2023.acl-long.559/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/253447228">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2023.acl-long.559">Publisher</a></li><li><a href="https://github.com/ellaneeman/disent_qa">Code</a></li></ul>
+<h2>In one sentence</h2>
+<p>DisentQA trains a single generative QA model to emit two answers at once — one grounded in the given passage and one from its parametric memory — using counterfactual and unanswerable-context data augmentation on Natural Questions.</p>
 <h2>Abstract</h2>
 <p>Question answering models commonly have access to two sources of “knowledge” during inference time: (1) parametric knowledge - the factual knowledge encoded in the model weights, and (2) contextual knowledge - external knowledge (e.g., a Wikipedia passage) given to the model to generate a grounded answer. Having these two sources of knowledge entangled together is a core issue for generative QA models as it is unclear whether the answer stems from the given non-parametric knowledge or not. This unclarity has implications on issues of trust, interpretability and factuality. In this work, we propose a new paradigm in which QA models are trained to disentangle the two sources of knowledge. Using counterfactual data augmentation, we introduce a model that predicts two answers for a given question: one based on given contextual knowledge and one based on parametric knowledge. Our experiments on the Natural Questions dataset show that this approach improves the performance of QA models by making them more robust to knowledge conflicts between the two knowledge sources, while generating useful disentangled answers.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How can a QA model tell me whether its answer came from the retrieved passage or from what it memorized?</dt>
+<dt>Is there a way to separate a language model&#x27;s memorized facts from the passage it was given at inference time?</dt>
+<dt>What is DisentQA?</dt>
+<dd>DisentQA introduces a QA paradigm in which one generative model outputs two answers per question. One answer is grounded in the given passage and the other comes from the model&#x27;s memorized knowledge, so a reader can tell which source an answer came from.<br><span class="scope">Holds for: Natural Questions with fine-tuned T5-Large (770M) and T5-11B, gold passages only; the authors state it is the first work to combine multiple answers, counterfactual augmentation and answerability augmentation, with concurrent work by Li et al. (2022).</span></dd>
+<dt>What should I read about knowledge conflicts between a retrieved document and a model&#x27;s memory?</dt>
+<dt>Which paper established a way to evaluate whether QA answers are grounded in context or in parameters?</dt>
+<dt>Where should I start reading about parametric versus contextual knowledge in question answering?</dt>
+<dd>DisentQA introduces a QA paradigm in which one generative model outputs two answers per question. One answer is grounded in the given passage and the other comes from the model&#x27;s memorized knowledge, so a reader can tell which source an answer came from.<br><span class="scope">Holds for: Natural Questions with fine-tuned T5-Large (770M) and T5-11B, gold passages only; the authors state it is the first work to combine multiple answers, counterfactual augmentation and answerability augmentation, with concurrent work by Li et al. (2022).</span></dd>
+<dt>Does counterfactual data augmentation make QA models follow the passage instead of their memory?</dt>
+<dt>How much does robustness to knowledge conflicts improve with counterfactual training on Natural Questions?</dt>
+<dt>What accuracy do DisentQA models get on counterfactual contexts?</dt>
+<dd>Combining counterfactual and answerability augmentation raises contextual-answer accuracy on counterfactual Natural Questions contexts to 84.98% for the single-answer T5-11B model, versus 66.81% for the vanilla factual-only model.<br><span class="scope">Holds for: T5-11B fine-tuned on NQ examples that have both a gold passage and a short answer; counterfactual contexts built by entity substitution, so only named-entity answers are covered.</span></dd>
+<dd>Counterfactual augmentation and answerability augmentation are complementary rather than redundant in DisentQA: neither alone produces disentangled answers or reliable abstention, and only their combination achieves both.<br><span class="scope">Holds for: Shown for T5-11B and replicated in trend for T5-Large on NQ with gold passages; not tested on question types outside named-entity answers.</span></dd>
+<dt>Does asking a QA model for two answers hurt its normal accuracy?</dt>
+<dt>Is there a cost on standard grounded QA to also predicting a parametric answer?</dt>
+<dt>How does the multi-answer model compare to a vanilla T5 QA model on factual Natural Questions?</dt>
+<dd>Adding the second, parametric answer costs almost nothing on standard grounded QA. The multi-answer T5-11B model trained on all augmentations reaches 78.10% on the factual NQ test set, against 78.32% for its single-answer counterpart and 79.34% for the vanilla model.<br><span class="scope">Holds for: T5-11B, gold-passage NQ, exact-match accuracy; the test set is restricted to the 1,365 examples that induced the counterfactual set.</span></dd>
+<dt>How well can a QA model say &#x27;unanswerable&#x27; when the passage is irrelevant?</dt>
+<dt>Does training on unanswerable examples alone teach a model to abstain?</dt>
+<dt>What abstention accuracy does DisentQA reach on random contexts?</dt>
+<dd>The T5-11B multi-answer model trained with both counterfactual and answerability data predicts &quot;unanswerable&quot; for 99.49% of random contexts. The same multi-answer model trained without counterfactual data reaches only 35.60%.<br><span class="scope">Holds for: T5-11B; all models score 100% on empty contexts, so the difficulty is confined to randomly sampled contexts, which the authors call a simplistic proof-of-concept because the random passage is unrelated in topic and entities.</span></dd>
+<dd>Counterfactual augmentation and answerability augmentation are complementary rather than redundant in DisentQA: neither alone produces disentangled answers or reliable abstention, and only their combination achieves both.<br><span class="scope">Holds for: Shown for T5-11B and replicated in trend for T5-Large on NQ with gold passages; not tested on question types outside named-entity answers.</span></dd>
+<dt>Do the two augmentations in DisentQA each work on their own, or are both needed?</dt>
+<dt>Is counterfactual augmentation enough for disentanglement without answerability examples?</dt>
+<dt>Why does DisentQA use both counterfactual and unanswerable training examples?</dt>
+<dd>Counterfactual augmentation and answerability augmentation are complementary rather than redundant in DisentQA: neither alone produces disentangled answers or reliable abstention, and only their combination achieves both.<br><span class="scope">Holds for: Shown for T5-11B and replicated in trend for T5-Large on NQ with gold passages; not tested on question types outside named-entity answers.</span></dd>
+<dd>The T5-11B model trained on factual, counterfactual and answerability examples gives identical contextual and parametric answers in only 18.46% of counterfactual cases, while models missing either augmentation stay above 92%.<br><span class="scope">Holds for: T5-11B on the 1,365-example counterfactual NQ test set; on factual contexts the same model&#x27;s two answers agree 93.55% of the time, which is the desired behaviour there.</span></dd>
+<dt>How often do the contextual and parametric answers actually differ when the passage is altered?</dt>
+<dt>How is disentanglement measured in DisentQA, and what score does the best model get?</dt>
+<dt>What is answer separation on counterfactual Natural Questions examples?</dt>
+<dd>The T5-11B model trained on factual, counterfactual and answerability examples gives identical contextual and parametric answers in only 18.46% of counterfactual cases, while models missing either augmentation stay above 92%.<br><span class="scope">Holds for: T5-11B on the 1,365-example counterfactual NQ test set; on factual contexts the same model&#x27;s two answers agree 93.55% of the time, which is the desired behaviour there.</span></dd>
+<dt>Is the parametric answer any good compared with a closed-book QA model?</dt>
+<dt>How accurate are memory-based answers from a model trained to output two answers?</dt>
+<dt>Does DisentQA&#x27;s parametric answer beat a closed-book T5 baseline on Natural Questions?</dt>
+<dd>The fully augmented multi-answer T5-11B model answers 31.14% of empty-context NQ questions correctly from parametric knowledge, 3.5 points above the 27.69% closed-book baseline trained only to answer from parameters.<br><span class="scope">Holds for: T5-11B, exact match on the NQ dev-derived test set; the authors note it is not clear why a model trained on both knowledge sources should beat the closed-book model in this setting.</span></dd>
+<dt>Does the parametric answer stay the same regardless of the passage given?</dt>
+<dt>Can the provided context leak into a model&#x27;s supposedly memory-based answer?</dt>
+<dt>Why do DisentQA parametric answers change across empty, random and counterfactual contexts?</dt>
+<dd>Parametric answers in DisentQA models are not context-independent. The fully augmented T5-11B model scores 44.69% parametric accuracy on counterfactual contexts, 31.14% on empty and 30.18% on random contexts.<br><span class="scope">Holds for: T5-11B; the higher counterfactual number suggests the model picks up hints from the altered passage, and manual inspection finds leakage in both directions between contextual and parametric answers.</span></dd>
+<dt>How much of a QA model&#x27;s parametric accuracy is just answers repeated from fine-tuning data?</dt>
+<dt>What happens to parametric answer accuracy on questions whose answers never appear in training?</dt>
+<dt>Does answer overlap inflate closed-book QA results on Natural Questions?</dt>
+<dd>Much of the apparent parametric knowledge in DisentQA models is answer overlap with fine-tuning data. On the No-Answer-Overlap dev subset the fully augmented T5-11B model&#x27;s parametric accuracy drops by 23.74 points on empty contexts and 31.97 points on counterfactual contexts.<br><span class="scope">Holds for: T5-11B, drops measured against the full dev set; NAO subsets defined following Lewis et al. (2021) as reference answers absent from the training data, and accuracy stays non-zero everywhere.</span></dd>
+<dd>Only 18% of the fully augmented T5-11B model&#x27;s parametric answers on the counterfactual test set were never seen as answers during fine-tuning, indicating a strong tendency to reuse fine-tuning answers. Of those unseen answers, 85% differ from the contextual answer.<br><span class="scope">Holds for: T5-11B on the counterfactual test set; comparable figures are 25% for the answerability-only multi-answer model, 26% for the counterfactual-only one and 23% for the closed-book baseline.</span></dd>
+<dt>Does model size matter for disentangling contextual and parametric knowledge?</dt>
+<dt>How do T5-Large and T5-11B compare on DisentQA&#x27;s disentanglement metrics?</dt>
+<dt>Is 770M parameters enough to learn to output separate contextual and parametric answers?</dt>
+<dd>The disentanglement trends of DisentQA hold at 770M parameters but weaker. T5-Large&#x27;s fully augmented multi-answer model reaches 81.03% contextual accuracy on counterfactual contexts and 22.34% parametric accuracy on empty contexts.<br><span class="scope">Holds for: T5-Large (770M) versus T5-11B on NQ, where T5-11B is better in all reported cases; no significance testing was run across random initializations because of model size.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>DisentQA introduces a QA paradigm in which one generative model outputs two answers per question. One answer is grounded in the given passage and the other comes from the model&#x27;s memorized knowledge, so a reader can tell which source an answer came from.<br><span class="scope">Scope: Natural Questions with fine-tuned T5-Large (770M) and T5-11B, gold passages only; the authors state it is the first work to combine multiple answers, counterfactual augmentation and answerability augmentation, with concurrent work by Li et al. (2022).</span></li>
+<li>Combining counterfactual and answerability augmentation raises contextual-answer accuracy on counterfactual Natural Questions contexts to 84.98% for the single-answer T5-11B model, versus 66.81% for the vanilla factual-only model. <span class="meta">(Table 4)</span><br><span class="scope">Scope: T5-11B fine-tuned on NQ examples that have both a gold passage and a short answer; counterfactual contexts built by entity substitution, so only named-entity answers are covered.</span></li>
+<li>Adding the second, parametric answer costs almost nothing on standard grounded QA. The multi-answer T5-11B model trained on all augmentations reaches 78.10% on the factual NQ test set, against 78.32% for its single-answer counterpart and 79.34% for the vanilla model. <span class="meta">(Table 4)</span><br><span class="scope">Scope: T5-11B, gold-passage NQ, exact-match accuracy; the test set is restricted to the 1,365 examples that induced the counterfactual set.</span></li>
+<li>The T5-11B multi-answer model trained with both counterfactual and answerability data predicts &quot;unanswerable&quot; for 99.49% of random contexts. The same multi-answer model trained without counterfactual data reaches only 35.60%. <span class="meta">(Table 5)</span><br><span class="scope">Scope: T5-11B; all models score 100% on empty contexts, so the difficulty is confined to randomly sampled contexts, which the authors call a simplistic proof-of-concept because the random passage is unrelated in topic and entities.</span></li>
+<li>The T5-11B model trained on factual, counterfactual and answerability examples gives identical contextual and parametric answers in only 18.46% of counterfactual cases, while models missing either augmentation stay above 92%. <span class="meta">(Table 6)</span><br><span class="scope">Scope: T5-11B on the 1,365-example counterfactual NQ test set; on factual contexts the same model&#x27;s two answers agree 93.55% of the time, which is the desired behaviour there.</span></li>
+<li>Counterfactual augmentation and answerability augmentation are complementary rather than redundant in DisentQA: neither alone produces disentangled answers or reliable abstention, and only their combination achieves both. <span class="meta">(Tables 4, 5 and 6)</span><br><span class="scope">Scope: Shown for T5-11B and replicated in trend for T5-Large on NQ with gold passages; not tested on question types outside named-entity answers.</span></li>
+<li>The fully augmented multi-answer T5-11B model answers 31.14% of empty-context NQ questions correctly from parametric knowledge, 3.5 points above the 27.69% closed-book baseline trained only to answer from parameters. <span class="meta">(Table 7)</span><br><span class="scope">Scope: T5-11B, exact match on the NQ dev-derived test set; the authors note it is not clear why a model trained on both knowledge sources should beat the closed-book model in this setting.</span></li>
+<li>Parametric answers in DisentQA models are not context-independent. The fully augmented T5-11B model scores 44.69% parametric accuracy on counterfactual contexts, 31.14% on empty and 30.18% on random contexts. <span class="meta">(Table 7)</span><br><span class="scope">Scope: T5-11B; the higher counterfactual number suggests the model picks up hints from the altered passage, and manual inspection finds leakage in both directions between contextual and parametric answers.</span></li>
+<li>Much of the apparent parametric knowledge in DisentQA models is answer overlap with fine-tuning data. On the No-Answer-Overlap dev subset the fully augmented T5-11B model&#x27;s parametric accuracy drops by 23.74 points on empty contexts and 31.97 points on counterfactual contexts. <span class="meta">(Table 8)</span><br><span class="scope">Scope: T5-11B, drops measured against the full dev set; NAO subsets defined following Lewis et al. (2021) as reference answers absent from the training data, and accuracy stays non-zero everywhere.</span></li>
+<li>Only 18% of the fully augmented T5-11B model&#x27;s parametric answers on the counterfactual test set were never seen as answers during fine-tuning, indicating a strong tendency to reuse fine-tuning answers. Of those unseen answers, 85% differ from the contextual answer. <span class="meta">(Section 5.4)</span><br><span class="scope">Scope: T5-11B on the counterfactual test set; comparable figures are 25% for the answerability-only multi-answer model, 26% for the counterfactual-only one and 23% for the closed-book baseline.</span></li>
+<li>The disentanglement trends of DisentQA hold at 770M parameters but weaker. T5-Large&#x27;s fully augmented multi-answer model reaches 81.03% contextual accuracy on counterfactual contexts and 22.34% parametric accuracy on empty contexts. <span class="meta">(Tables 10 and 12)</span><br><span class="scope">Scope: T5-Large (770M) versus T5-11B on NQ, where T5-11B is better in all reported cases; no significance testing was run across random initializations because of model size.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>A high parametric-answer accuracy in DisentQA is not evidence of recalled pretraining knowledge: only 18% of the fully augmented T5-11B model&#x27;s parametric answers on the counterfactual test set were unseen during fine-tuning, and No-Answer-Overlap accuracy is far lower.</li>
+<li>DisentQA&#x27;s parametric answer is not independent of the input passage: the fully augmented T5-11B model&#x27;s parametric accuracy varies from 30.18% on random contexts to 44.69% on counterfactual ones.</li>
+<li>Answerability augmentation alone does not teach abstention on irrelevant passages: the multi-answer T5-11B model trained on empty and random contexts without counterfactual data predicts &quot;unanswerable&quot; for only 35.60% of random contexts.</li>
+<li>The counterfactual data augmentation in DisentQA applies only to questions whose answers are named entities, so knowledge conflicts on other question types, such as Boolean questions, are outside the method as evaluated.</li>
+<li>DisentQA&#x27;s results assume an oracle retriever, since the factual contexts are the NQ gold passages rather than retrieved ones.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>parametric knowledge</em></dt><dd>factual knowledge encoded in a language model&#x27;s weights during pretraining, as opposed to knowledge supplied in the input at inference time.</dd>
+<dt><em>contextual knowledge</em></dt><dd>knowledge supplied to a QA model at inference time in the question&#x27;s context passage, such as a retrieved Wikipedia paragraph.</dd>
+<dt><em>answer separation</em></dt><dd>the percentage of test cases in which a model&#x27;s contextual and parametric answers are identical, used as a measure of how far the two knowledge sources have been disentangled; lower is better on counterfactual data and higher on factual data.</dd>
+<dt><em>counterfactual example</em></dt><dd>a QA example whose context has had every occurrence of the answer entity replaced by a different entity of the same type, so that the correct context-grounded answer contradicts the original memorized answer.</dd>
+<dt><em>answerability augmentation</em></dt><dd>training examples in which the context is replaced by an empty or randomly sampled passage and the target contextual answer is the special token &quot;unanswerable&quot;.</dd>
+<dt><em>No Answer Overlap (NAO)</em></dt><dd>the subset of a test set whose reference answers never appear as answers in the training data, used to control for artifacts from repeated answers.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/acl/NeemanAHCSA23,
-author       = {Ella Neeman and
+<pre>@inproceedings{DBLP:conf/acl/NeemanAHCSA23,author       = {Ella Neeman and
                   Roee Aharoni and
                   Or Honovich and
                   Leshem Choshen and

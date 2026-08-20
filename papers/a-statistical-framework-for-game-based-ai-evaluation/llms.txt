@@ -1,0 +1,59 @@
+# A Statistical Framework for Game-Based AI Evaluation
+
+Authors: Felipe Maia Polo, Leshem Choshen, Yuekai Sun, Kristjan Greenewald
+Venue: NeurIPS 2025 LLM Evaluation Workshop (2025)
+
+## What this paper shows
+A statistical framework for game-based LLM evaluation that splits each match into whether it ended prematurely (timeout or two invalid moves in a row) and, if valid, into win/draw/loss, with both parts sharing one low-dimensional latent skill space for models and games.
+
+## Claims, with scope
+- The statistical framework for game-based AI evaluation separates a model's reliability (avoiding timeouts and invalid moves) from its proficiency (winning games that reach a valid conclusion). Neither is folded into a single win rate or per-game rank.
+  Scope: Two-player text games with a win/draw/loss outcome and a two-strike invalid-move rule; demonstrated only on TextArena data as of the 2025 workshop version, which reports preliminary results.
+- Treating timeouts and repeated invalid moves as informative outcomes rather than discarded matches turns arena failure data into a measure of whether a model follows formats and instructions reliably.
+  Scope: Arenas that log why a match ended; the argument is about arena leaderboards summarising outcomes as raw win rates or independent per-game ranks.
+- Validation loss on a small held-out subset of the roughly 38k TextArena matches indicated that d = 4 latent skill dimensions is the optimal choice for the game-outcome model.
+  Scope: TextArena traces after filtering to game modalities with at least 50 valid matches; a single held-out validation split, no dimension-selection sweep reported.
+  Evidence: Section 4
+- The framework is fit to the public TextArena traces covering 57 language models, 30 game types and roughly 38k recorded matches, including some matches against human players. Filtering to games with at least 50 valid matches leaves 22 game modalities.
+  Scope: One dataset, one snapshot of the TextArena HuggingFace release; games with fewer than 50 valid matches are excluded from the fit.
+  Evidence: Section 4
+- Cosine similarity between fitted 4-dimensional latent skill profiles, normalized so the highest similarity is 1 and the lowest 0, places deepseek-r1 closest to deepseek-r1-distill-llama-70b, deepseek-r1-distill-llama-8b and OpenAI's o1.
+  Scope: Similarities are normalized across the 57 TextArena models so the highest is 1 and the lowest 0, so they are relative, not absolute; fit to the filtered TextArena matches.
+  Evidence: Figure 1
+- After a geomin rotation of the fitted 4-dimensional skill space, "Skill 0" is strongly associated with avoiding timeouts and "Skill 1" with avoiding invalid moves, i.e. following complex instructions correctly.
+  Scope: Rotation chosen on the premature-termination loadings averaged across the 22 retained TextArena games; the labels are the authors' post hoc reading of the loadings.
+  Evidence: Figure 2
+- The latent skills in the game-outcome model are identifiable only up to a common orthogonal rotation of the 4-dimensional skill space. Choosing a rotation changes neither model fit nor predictive performance, only how interpretable the axes are.
+  Scope: After centering and whitening the skills across models, which removes the translation and scale indeterminacies; the residual rotational non-identifiability is the standard one in factor analysis and multidimensional IRT.
+  Evidence: Section 3.3
+- The TextArena complex instruction-following skill, estimated for 57 models, correlates more strongly (Pearson) with a one-dimensional IRT skill fit to MATH than with one fit to IFEval. The games-based skill therefore tracks mathematical reasoning more than narrow instruction following.
+  Scope: The same 57 models on all three fits; correlation signs are not meaningful because the model is translation-invariant, so only relative alignment is interpretable. MATH and IFEval only.
+  Evidence: Figure 3
+- The fitted framework ranks the 57 TextArena models by instruction-following skill, the rotated "Skill 1" axis, where a higher score means a stronger ability to avoid invalid moves and follow complex instructions.
+  Scope: Ranking reflects reliability in games rather than overall win rate; based on the fit to the 22 retained TextArena game modalities.
+  Evidence: Figure 4
+- Fitted per-game valid-play loadings show that the 22 retained TextArena games differ in which of the 4 latent skills govern win/draw/loss outcomes, so no single skill dimension explains performance across all games.
+  Scope: TextArena traces only; the loadings are reported without a quantitative interpretation, which the paper flags as future work.
+  Evidence: Figure 5
+- The framework includes explicit first-mover position-bias terms in both the premature-termination component and the win/draw/loss component, plus a per-game draw margin, so first-move advantage is estimated rather than assumed away.
+  Scope: Two-player games with a defined first mover; these parameters are specified and fit by maximum likelihood, but their estimated magnitudes are not reported.
+  Evidence: Section 3.2
+
+## Common misreadings
+- The correlation between the TextArena instruction-following skill and MATH skill does not have a meaningful sign: the model is invariant to translations of the skills, so only the relative alignment between benchmarks is interpretable.
+- A high score on the rotated "Skill 1" axis means a model rarely makes invalid moves, not that it wins more games; winning valid games is governed by the separate valid-play component and its per-game loadings.
+- Naming the rotated dimensions "avoiding timeouts" and "avoiding invalid moves" is a post hoc reading of the fitted loadings, not a constraint imposed on the model before fitting.
+- The reported results are preliminary analyses on a single TextArena snapshot, not a validated leaderboard replacement: no out-of-sample ranking accuracy or predictive benchmark against Bradley-Terry baselines is reported.
+- The 22 game modalities analysed are a filtered subset of TextArena's 30 game types, since games with fewer than 50 valid matches were dropped.
+
+## Terminology
+- Two-strike rule: A match-ending condition in which a player forfeits after committing two invalid moves in a row.
+- Premature ending: A game that never reaches a win, draw or loss because it ended by timeout or by a player's two consecutive invalid moves.
+- Reliability (in game-based LLM evaluation): A model's ability to avoid premature endings — timeouts and repeated invalid moves — as distinct from its ability to win games that reach a valid conclusion.
+- Proficiency (in game-based LLM evaluation): A model's ability to win games conditional on the match reaching a valid win/draw/loss conclusion.
+- Draw margin: A per-game non-negative parameter in the paired-comparison outcome model whose size controls how often matches end in a draw.
+- Geomin rotation: A factor-analysis criterion for choosing among the equivalent rotations of a latent skill space so that dimensions align with interpretable axes.
+
+## Links
+- Publisher: https://openreview.net/forum?id=1VWfIsRdZA
+- dataset: https://huggingface.co/datasets/the-acorn-ai/textarena-player-game-traces

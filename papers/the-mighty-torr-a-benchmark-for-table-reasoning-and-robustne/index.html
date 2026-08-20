@@ -18,6 +18,7 @@
   <meta name="citation_author" content="Percy Liang">
   <meta name="citation_author" content="Michal Shmueli-Scheuer">
   <meta name="citation_publication_date" content="2025">
+  <meta name="citation_conference_title" content="SurgLLM@ICML">
   <meta name="citation_doi" content="10.48550/arXiv.2502.19412">
   <meta name="citation_arxiv_id" content="2502.19412">
   <meta name="citation_abstract" content="Despite its real-world significance, model performance on tabular data remains underexplored, leaving uncertainty about which model to rely on and which prompt configuration to adopt. To address this gap, we create ToRR, a benchmark for Table Reasoning and Robustness, measuring model performance and robustness on table-related tasks. The benchmark includes 10 datasets that cover different types of table reasoning capabilities across varied domains. ToRR goes beyond model performance rankings, and is designed to reflect whether models can handle tabular data consistently and robustly, across a variety of common table representation formats. We present a leaderboard as well as comprehensive analyses of the results of leading models over ToRR. Our results reveal a striking pattern of brittle model behavior, where even strong models are unable to perform robustly on tabular data tasks. Although no specific table format leads to consistently better performance, we show that testing over multiple formats is crucial for reliably estimating model capabilities. Moreover, we show that the reliability boost from testing multiple prompts can be equivalent to adding more test examples. Overall, our findings show that table understanding and reasoning tasks remain a significant challenge.">
@@ -79,10 +80,11 @@
   "datePublished": "2025",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "arXiv"
+    "name": "SurgLLM@ICML"
   },
   "identifier": "https://doi.org/10.48550/arXiv.2502.19412",
   "abstract": "Despite its real-world significance, model performance on tabular data remains underexplored, leaving uncertainty about which model to rely on and which prompt configuration to adopt. To address this gap, we create ToRR, a benchmark for Table Reasoning and Robustness, measuring model performance and robustness on table-related tasks. The benchmark includes 10 datasets that cover different types of table reasoning capabilities across varied domains. ToRR goes beyond model performance rankings, and is designed to reflect whether models can handle tabular data consistently and robustly, across a variety of common table representation formats. We present a leaderboard as well as comprehensive analyses of the results of leading models over ToRR. Our results reveal a striking pattern of brittle model behavior, where even strong models are unable to perform robustly on tabular data tasks. Although no specific table format leads to consistently better performance, we show that testing over multiple formats is crucial for reliably estimating model capabilities. Moreover, we show that the reliability boost from testing multiple prompts can be equivalent to adding more test examples. Overall, our findings show that table understanding and reasoning tasks remain a significant challenge.",
+  "description": "ToRR evaluates 14 LLMs on 10 table reasoning datasets under 35 semantically equivalent prompt configurations — 7 serializations crossed with 4 structural perturbations — and shows that table performance tops out around 0.50 while every model's score swings widely across formats that carry identical information.",
   "sameAs": [
     "https://arxiv.org/abs/2502.19412",
     "https://arxiv.org/html/2502.19412",
@@ -91,6 +93,286 @@
     "https://huggingface.co/papers/2502.19412",
     "https://www.alphaxiv.org/abs/2502.19412",
     "https://www.semanticscholar.org/paper/276617897"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "On ToRR, the best-performing LLMs (claude-3-5-sonnet, gpt-4o and deepseek-v3) reach an overall performance score of only 0.50. The weakest evaluated model, llama-3-1-8b-instruct, reaches 0.29.",
+      "description": "Holds for: 14 models across 7 families, 10 table datasets, 100 sampled examples per dataset, 5-shot greedy decoding; scores averaged over 35 prompt configurations."
+    },
+    {
+      "@type": "Thing",
+      "name": "Performance differences between models within the same family on ToRR average 0.07, and paired Cohen's d shows most model comparisons on ToRR have small, often non-significant practical differences.",
+      "description": "Holds for: 14 models on 10 table datasets over 35 prompt configurations; aggregated p-values still find all pairwise comparisons significant."
+    },
+    {
+      "@type": "Thing",
+      "name": "Every model evaluated on ToRR is unrobust: across the 35 semantically equivalent prompt configurations of one example, the minimum and maximum scores give entirely different estimates of performance. Robustness scores run from 0.49 for mixtral-8x7b-instruct to 0.70 for claude-3-5-sonnet.",
+      "description": "Holds for: Robustness is 1 minus the mean per-example score range over 7 serializations x 4 structural perturbations plus 7 unperturbed variants; tables embedded directly in the prompt, no tool use."
+    },
+    {
+      "@type": "Thing",
+      "name": "No table serialization format consistently wins on ToRR: aggregated over all models and datasets no serializer outperforms the others, and per-model serializer preferences shift overall performance by at most 0.06.",
+      "description": "Holds for: 7 serializations — HTML, CSV, JSON, Markdown, Indexed Row Major, DataFrame and Concatenation — measured by example-level win rate over 14 models and 10 datasets; individual model-dataset pairs still vary much more."
+    },
+    {
+      "@type": "Thing",
+      "name": "On ToRR the gap between a model's best and worst serializer on a single dataset averages about 0.05. It reaches 0.22 for llama-3-1-8b-instruct on TableBench FC, and 0.23 for llama-3-1-405b-instruct on the same dataset.",
+      "description": "Holds for: Largest max-minus-min score difference across the 7 serializations, computed per model-dataset pair over 14 models and 10 datasets."
+    },
+    {
+      "@type": "Thing",
+      "name": "Structural table perturbations in ToRR have no consistent direction of effect, changing model scores by an average of 0.03 relative to the unperturbed baseline. The 4 perturbations are row swapping, column swapping, transposition and adding empty rows.",
+      "description": "Holds for: 4 perturbations applied on top of each of 7 serializations, 14 models, 10 datasets; per-example absolute impact is larger, and more pronounced for smaller models and for Table QA and fact-checking datasets than for Table-to-Text."
+    },
+    {
+      "@type": "Thing",
+      "name": "Model rankings derived from a single table prompt configuration agree poorly with one another on ToRR, so a benchmark that fixes one serialization format yields an unreliable ranking of models.",
+      "description": "Holds for: Kendall's W over 30 sampled prompt-configuration sets, 14 models, 100 examples per dataset; table serializations and structural perturbations only, not instruction wording."
+    },
+    {
+      "@type": "Thing",
+      "name": "Increasing the number of table prompt configurations from 1 to 10 raises Kendall's W ranking agreement on ToRR by more than 0.35 on average. The largest gains fall between roughly 2 and 8 configurations.",
+      "description": "Holds for: Averaged over 30 sampled configuration sets and over ToRR's datasets; per-dataset gains differ sharply, FinQA rising from 0.35 to 0.93 with 11 prompts while NumericNLG rises only from 0.29 to 0.54."
+    },
+    {
+      "@type": "Thing",
+      "name": "Adding prompt configurations can substitute for test examples: on ToRR, 50 examples evaluated with 2 prompt configurations give about the same model-ranking reliability as 100 examples with 1 configuration.",
+      "description": "Holds for: Kendall's W over 30 randomly sampled example-and-configuration sets, averaged per dataset, on table reasoning tasks at these small sample sizes."
+    },
+    {
+      "@type": "Thing",
+      "name": "Aggregated ToRR separates 79% of model pairs with non-overlapping confidence intervals, while individual datasets range from 38% for TableBench FC to over 71% for WikiTQ.",
+      "description": "Holds for: Bootstrapping 1K seeds over samples of 100 examples per dataset with the 14 evaluated models; separability depends on which models are compared."
+    },
+    {
+      "@type": "Thing",
+      "name": "Closed proprietary models outperform open-weight models across most ToRR datasets, though the open qwen2-72b-instruct beats llama-3-1-405b-instruct on both performance and robustness.",
+      "description": "Holds for: 14 models released through late 2024 and early 2025, served via Together AI and vendor APIs; no reasoning-mode or tool-using configurations."
+    },
+    {
+      "@type": "Thing",
+      "name": "ToRR is a table reasoning benchmark that measures robustness as a first-class quantity, pairing 10 datasets over 6 tabular tasks with 35 semantically equivalent prompt configurations per example. Scores therefore reflect consistency across table formats rather than one chosen format.",
+      "description": "Holds for: Covers tables that fit directly in the prompt as text; excludes tool-using, agentic, retrieval, multi-table and image-based table settings, and hierarchical tables. Compared against TableBench, DataBench, TQA-Bench, InfiAgent-DABench and TableVQA-Bench."
+    },
+    {
+      "@type": "Thing",
+      "name": "ToRR is a worked example for benchmark designers that evaluating over many semantically equivalent prompt variants, rather than one canonical prompt, is what makes a leaderboard's model ranking reproducible.",
+      "description": "Holds for: Shown for table serialization formats and structural table perturbations in English table tasks as of 2025; other prompt dimensions are argued by analogy to prior work, not measured."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/#faq",
+  "url": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/",
+  "name": "Questions answered by The Mighty ToRR: A Benchmark for Table Reasoning and Robustness",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How well do current LLMs actually do on table reasoning tasks?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On ToRR, the best-performing LLMs (claude-3-5-sonnet, gpt-4o and deepseek-v3) reach an overall performance score of only 0.50. The weakest evaluated model, llama-3-1-8b-instruct, reaches 0.29. Holds for: 14 models across 7 families, 10 table datasets, 100 sampled examples per dataset, 5-shot greedy decoding; scores averaged over 35 prompt configurations.\n\nPerformance differences between models within the same family on ToRR average 0.07, and paired Cohen's d shows most model comparisons on ToRR have small, often non-significant practical differences. Holds for: 14 models on 10 table datasets over 35 prompt configurations; aggregated p-values still find all pairwise comparisons significant.",
+        "url": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/"
+      },
+      "alternateName": [
+        "What is the best score any model gets on the ToRR table benchmark?",
+        "Are large language models good at reasoning over tables?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does changing a table's format change how well an LLM answers questions about it?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every model evaluated on ToRR is unrobust: across the 35 semantically equivalent prompt configurations of one example, the minimum and maximum scores give entirely different estimates of performance. Robustness scores run from 0.49 for mixtral-8x7b-instruct to 0.70 for claude-3-5-sonnet. Holds for: Robustness is 1 minus the mean per-example score range over 7 serializations x 4 structural perturbations plus 7 unperturbed variants; tables embedded directly in the prompt, no tool use.\n\nNo table serialization format consistently wins on ToRR: aggregated over all models and datasets no serializer outperforms the others, and per-model serializer preferences shift overall performance by at most 0.06. Holds for: 7 serializations — HTML, CSV, JSON, Markdown, Indexed Row Major, DataFrame and Concatenation — measured by example-level win rate over 14 models and 10 datasets; individual model-dataset pairs still vary much more.\n\nOn ToRR the gap between a model's best and worst serializer on a single dataset averages about 0.05. It reaches 0.22 for llama-3-1-8b-instruct on TableBench FC, and 0.23 for llama-3-1-405b-instruct on the same dataset. Holds for: Largest max-minus-min score difference across the 7 serializations, computed per model-dataset pair over 14 models and 10 datasets.",
+        "url": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/"
+      },
+      "alternateName": [
+        "How sensitive are LLMs to table serialization format?",
+        "Is model performance on tables stable across HTML, CSV, JSON and Markdown?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is the best way to serialize a table for an LLM prompt?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No table serialization format consistently wins on ToRR: aggregated over all models and datasets no serializer outperforms the others, and per-model serializer preferences shift overall performance by at most 0.06. Holds for: 7 serializations — HTML, CSV, JSON, Markdown, Indexed Row Major, DataFrame and Concatenation — measured by example-level win rate over 14 models and 10 datasets; individual model-dataset pairs still vary much more.\n\nOn ToRR the gap between a model's best and worst serializer on a single dataset averages about 0.05. It reaches 0.22 for llama-3-1-8b-instruct on TableBench FC, and 0.23 for llama-3-1-405b-instruct on the same dataset. Holds for: Largest max-minus-min score difference across the 7 serializations, computed per model-dataset pair over 14 models and 10 datasets.",
+        "url": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/"
+      },
+      "alternateName": [
+        "Should I use Markdown or JSON to put a table in a prompt?",
+        "Which table format gives the highest LLM accuracy?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does shuffling rows or transposing a table hurt LLM accuracy?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Structural table perturbations in ToRR have no consistent direction of effect, changing model scores by an average of 0.03 relative to the unperturbed baseline. The 4 perturbations are row swapping, column swapping, transposition and adding empty rows. Holds for: 4 perturbations applied on top of each of 7 serializations, 14 models, 10 datasets; per-example absolute impact is larger, and more pronounced for smaller models and for Table QA and fact-checking datasets than for Table-to-Text.",
+        "url": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/"
+      },
+      "alternateName": [
+        "Do structural table perturbations degrade model performance?",
+        "What happens to model scores when empty rows or swapped columns are added to a table?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many prompt variants do I need for a reliable model ranking?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Model rankings derived from a single table prompt configuration agree poorly with one another on ToRR, so a benchmark that fixes one serialization format yields an unreliable ranking of models. Holds for: Kendall's W over 30 sampled prompt-configuration sets, 14 models, 100 examples per dataset; table serializations and structural perturbations only, not instruction wording.\n\nIncreasing the number of table prompt configurations from 1 to 10 raises Kendall's W ranking agreement on ToRR by more than 0.35 on average. The largest gains fall between roughly 2 and 8 configurations. Holds for: Averaged over 30 sampled configuration sets and over ToRR's datasets; per-dataset gains differ sharply, FinQA rising from 0.35 to 0.93 with 11 prompts while NumericNLG rises only from 0.29 to 0.54.",
+        "url": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/"
+      },
+      "alternateName": [
+        "Is one prompt format enough to rank models on a benchmark?",
+        "How much does model ranking change if I pick a different prompt?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can more prompt variations replace collecting more test examples?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Adding prompt configurations can substitute for test examples: on ToRR, 50 examples evaluated with 2 prompt configurations give about the same model-ranking reliability as 100 examples with 1 configuration. Holds for: Kendall's W over 30 randomly sampled example-and-configuration sets, averaged per dataset, on table reasoning tasks at these small sample sizes.\n\nIncreasing the number of table prompt configurations from 1 to 10 raises Kendall's W ranking agreement on ToRR by more than 0.35 on average. The largest gains fall between roughly 2 and 8 configurations. Holds for: Averaged over 30 sampled configuration sets and over ToRR's datasets; per-dataset gains differ sharply, FinQA rising from 0.35 to 0.93 with 11 prompts while NumericNLG rises only from 0.29 to 0.54.",
+        "url": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/"
+      },
+      "alternateName": [
+        "Is it better to add test examples or add prompt configurations to a benchmark?",
+        "How can I make a small evaluation set more reliable?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about evaluating LLMs on tabular data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ToRR is a table reasoning benchmark that measures robustness as a first-class quantity, pairing 10 datasets over 6 tabular tasks with 35 semantically equivalent prompt configurations per example. Scores therefore reflect consistency across table formats rather than one chosen format. Holds for: Covers tables that fit directly in the prompt as text; excludes tool-using, agentic, retrieval, multi-table and image-based table settings, and hierarchical tables. Compared against TableBench, DataBench, TQA-Bench, InfiAgent-DABench and TableVQA-Bench.\n\nToRR is a worked example for benchmark designers that evaluating over many semantically equivalent prompt variants, rather than one canonical prompt, is what makes a leaderboard's model ranking reproducible. Holds for: Shown for table serialization formats and structural table perturbations in English table tasks as of 2025; other prompt dimensions are argued by analogy to prior work, not measured.",
+        "url": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/"
+      },
+      "alternateName": [
+        "Which benchmark measures both table reasoning and robustness to table formatting?",
+        "Is there a table benchmark that goes beyond a single leaderboard ranking?",
+        "What work established that LLM table performance depends on table format?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How do I know whether a table benchmark can really tell models apart?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Aggregated ToRR separates 79% of model pairs with non-overlapping confidence intervals, while individual datasets range from 38% for TableBench FC to over 71% for WikiTQ. Holds for: Bootstrapping 1K seeds over samples of 100 examples per dataset with the 14 evaluated models; separability depends on which models are compared.",
+        "url": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/"
+      },
+      "alternateName": [
+        "How separable are model scores on ToRR datasets?",
+        "Which table dataset best distinguishes strong from weak models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do open-weight models close the gap with GPT-4o and Claude on table tasks?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Closed proprietary models outperform open-weight models across most ToRR datasets, though the open qwen2-72b-instruct beats llama-3-1-405b-instruct on both performance and robustness. Holds for: 14 models released through late 2024 and early 2025, served via Together AI and vendor APIs; no reasoning-mode or tool-using configurations.\n\nPerformance differences between models within the same family on ToRR average 0.07, and paired Cohen's d shows most model comparisons on ToRR have small, often non-significant practical differences. Holds for: 14 models on 10 table datasets over 35 prompt configurations; aggregated p-values still find all pairwise comparisons significant.",
+        "url": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/"
+      },
+      "alternateName": [
+        "Are proprietary models better than open models at table reasoning?",
+        "Does model size predict table reasoning performance?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which table datasets and tasks does a table reasoning and robustness benchmark cover?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ToRR is a table reasoning benchmark that measures robustness as a first-class quantity, pairing 10 datasets over 6 tabular tasks with 35 semantically equivalent prompt configurations per example. Scores therefore reflect consistency across table formats rather than one chosen format. Holds for: Covers tables that fit directly in the prompt as text; excludes tool-using, agentic, retrieval, multi-table and image-based table settings, and hierarchical tables. Compared against TableBench, DataBench, TQA-Bench, InfiAgent-DABench and TableVQA-Bench.",
+        "url": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/"
+      },
+      "alternateName": [
+        "What table datasets are inside ToRR?",
+        "What kinds of table skills does ToRR test?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How is model robustness scored on tabular tasks in ToRR?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every model evaluated on ToRR is unrobust: across the 35 semantically equivalent prompt configurations of one example, the minimum and maximum scores give entirely different estimates of performance. Robustness scores run from 0.49 for mixtral-8x7b-instruct to 0.70 for claude-3-5-sonnet. Holds for: Robustness is 1 minus the mean per-example score range over 7 serializations x 4 structural perturbations plus 7 unperturbed variants; tables embedded directly in the prompt, no tool use.",
+        "url": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/"
+      },
+      "alternateName": [
+        "What does a robustness score of 0.70 mean for a table benchmark?",
+        "How is per-example score variance turned into a robustness number?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/#terms",
+  "url": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/",
+  "name": "Terminology in The Mighty ToRR: A Benchmark for Table Reasoning and Robustness",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Prompt configuration",
+      "description": "A pairing of one table serialization format with at most one structural table perturbation; ToRR uses 35 of them per example (7 serializations x 4 perturbations, plus the 7 unperturbed serializations).",
+      "inDefinedTermSet": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Serialization",
+      "description": "A method for converting a table into a string that can be embedded in a prompt, such as HTML, CSV, JSON, Markdown, Indexed Row Major, DataFrame or Concatenation.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Structural perturbation",
+      "description": "A change to how a table's content is laid out without changing its content or cell relations: row swapping, column swapping, transposition, or inserting empty rows.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Robustness score (R)",
+      "description": "One minus the average per-example range (maximum minus minimum) of a model's score across all prompt configurations of that example, so 1.0 means identical scores on every table format.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Mean Absolute Impact",
+      "description": "The mean of the absolute score change caused by a perturbation relative to its unperturbed baseline, used so that positive and negative effects do not cancel out in an average.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Separability with Confidence",
+      "description": "The percentage of model pairs whose bootstrapped score confidence intervals do not overlap, used as a measure of how well a benchmark distinguishes models.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/the-mighty-torr-a-benchmark-for-table-reasoning-and-robustne/#terms"
+    }
   ]
 }
   </script>
@@ -101,6 +383,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -114,17 +397,106 @@
 </head>
 <body>
 <h1>The Mighty ToRR: A Benchmark for Table Reasoning and Robustness</h1>
-<p class="meta">Shir Ashury-Tahan, Yifan Mai, Rajmohan C, Ariel Gera, Yotam Perlitz, Asaf Yehudai, Elron Bandel, Leshem Choshen, Eyal Shnarch, Percy Liang, Michal Shmueli-Scheuer · arXiv · 2025</p>
+<p class="sub">a benchmark for Table Reasoning and Robustness: table tasks scored across many equivalent table formats</p>
+<p class="meta">Shir Ashury-Tahan, Yifan Mai, Rajmohan C, Ariel Gera, Yotam Perlitz, Asaf Yehudai, Elron Bandel, Leshem Choshen, Eyal Shnarch, Percy Liang, Michal Shmueli-Scheuer · SurgLLM@ICML · 2025</p>
 <ul class="links"><li><a href="https://arxiv.org/abs/2502.19412">arXiv</a></li><li><a href="https://arxiv.org/pdf/2502.19412">PDF</a></li><li><a href="https://arxiv.org/html/2502.19412">HTML</a></li><li><a href="https://huggingface.co/papers/2502.19412">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2502.19412">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2502.19412">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/276617897">Semantic Scholar</a></li></ul>
+<h2>In one sentence</h2>
+<p>ToRR evaluates 14 LLMs on 10 table reasoning datasets under 35 semantically equivalent prompt configurations — 7 serializations crossed with 4 structural perturbations — and shows that table performance tops out around 0.50 while every model&#x27;s score swings widely across formats that carry identical information.</p>
 <h2>Abstract</h2>
 <p>Despite its real-world significance, model performance on tabular data remains underexplored, leaving uncertainty about which model to rely on and which prompt configuration to adopt. To address this gap, we create ToRR, a benchmark for Table Reasoning and Robustness, measuring model performance and robustness on table-related tasks. The benchmark includes 10 datasets that cover different types of table reasoning capabilities across varied domains. ToRR goes beyond model performance rankings, and is designed to reflect whether models can handle tabular data consistently and robustly, across a variety of common table representation formats. We present a leaderboard as well as comprehensive analyses of the results of leading models over ToRR. Our results reveal a striking pattern of brittle model behavior, where even strong models are unable to perform robustly on tabular data tasks. Although no specific table format leads to consistently better performance, we show that testing over multiple formats is crucial for reliably estimating model capabilities. Moreover, we show that the reliability boost from testing multiple prompts can be equivalent to adding more test examples. Overall, our findings show that table understanding and reasoning tasks remain a significant challenge.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How well do current LLMs actually do on table reasoning tasks?</dt>
+<dt>What is the best score any model gets on the ToRR table benchmark?</dt>
+<dt>Are large language models good at reasoning over tables?</dt>
+<dd>On ToRR, the best-performing LLMs (claude-3-5-sonnet, gpt-4o and deepseek-v3) reach an overall performance score of only 0.50. The weakest evaluated model, llama-3-1-8b-instruct, reaches 0.29.<br><span class="scope">Holds for: 14 models across 7 families, 10 table datasets, 100 sampled examples per dataset, 5-shot greedy decoding; scores averaged over 35 prompt configurations.</span></dd>
+<dd>Performance differences between models within the same family on ToRR average 0.07, and paired Cohen&#x27;s d shows most model comparisons on ToRR have small, often non-significant practical differences.<br><span class="scope">Holds for: 14 models on 10 table datasets over 35 prompt configurations; aggregated p-values still find all pairwise comparisons significant.</span></dd>
+<dt>Does changing a table&#x27;s format change how well an LLM answers questions about it?</dt>
+<dt>How sensitive are LLMs to table serialization format?</dt>
+<dt>Is model performance on tables stable across HTML, CSV, JSON and Markdown?</dt>
+<dd>Every model evaluated on ToRR is unrobust: across the 35 semantically equivalent prompt configurations of one example, the minimum and maximum scores give entirely different estimates of performance. Robustness scores run from 0.49 for mixtral-8x7b-instruct to 0.70 for claude-3-5-sonnet.<br><span class="scope">Holds for: Robustness is 1 minus the mean per-example score range over 7 serializations x 4 structural perturbations plus 7 unperturbed variants; tables embedded directly in the prompt, no tool use.</span></dd>
+<dd>No table serialization format consistently wins on ToRR: aggregated over all models and datasets no serializer outperforms the others, and per-model serializer preferences shift overall performance by at most 0.06.<br><span class="scope">Holds for: 7 serializations — HTML, CSV, JSON, Markdown, Indexed Row Major, DataFrame and Concatenation — measured by example-level win rate over 14 models and 10 datasets; individual model-dataset pairs still vary much more.</span></dd>
+<dd>On ToRR the gap between a model&#x27;s best and worst serializer on a single dataset averages about 0.05. It reaches 0.22 for llama-3-1-8b-instruct on TableBench FC, and 0.23 for llama-3-1-405b-instruct on the same dataset.<br><span class="scope">Holds for: Largest max-minus-min score difference across the 7 serializations, computed per model-dataset pair over 14 models and 10 datasets.</span></dd>
+<dt>What is the best way to serialize a table for an LLM prompt?</dt>
+<dt>Should I use Markdown or JSON to put a table in a prompt?</dt>
+<dt>Which table format gives the highest LLM accuracy?</dt>
+<dd>No table serialization format consistently wins on ToRR: aggregated over all models and datasets no serializer outperforms the others, and per-model serializer preferences shift overall performance by at most 0.06.<br><span class="scope">Holds for: 7 serializations — HTML, CSV, JSON, Markdown, Indexed Row Major, DataFrame and Concatenation — measured by example-level win rate over 14 models and 10 datasets; individual model-dataset pairs still vary much more.</span></dd>
+<dd>On ToRR the gap between a model&#x27;s best and worst serializer on a single dataset averages about 0.05. It reaches 0.22 for llama-3-1-8b-instruct on TableBench FC, and 0.23 for llama-3-1-405b-instruct on the same dataset.<br><span class="scope">Holds for: Largest max-minus-min score difference across the 7 serializations, computed per model-dataset pair over 14 models and 10 datasets.</span></dd>
+<dt>Does shuffling rows or transposing a table hurt LLM accuracy?</dt>
+<dt>Do structural table perturbations degrade model performance?</dt>
+<dt>What happens to model scores when empty rows or swapped columns are added to a table?</dt>
+<dd>Structural table perturbations in ToRR have no consistent direction of effect, changing model scores by an average of 0.03 relative to the unperturbed baseline. The 4 perturbations are row swapping, column swapping, transposition and adding empty rows.<br><span class="scope">Holds for: 4 perturbations applied on top of each of 7 serializations, 14 models, 10 datasets; per-example absolute impact is larger, and more pronounced for smaller models and for Table QA and fact-checking datasets than for Table-to-Text.</span></dd>
+<dt>How many prompt variants do I need for a reliable model ranking?</dt>
+<dt>Is one prompt format enough to rank models on a benchmark?</dt>
+<dt>How much does model ranking change if I pick a different prompt?</dt>
+<dd>Model rankings derived from a single table prompt configuration agree poorly with one another on ToRR, so a benchmark that fixes one serialization format yields an unreliable ranking of models.<br><span class="scope">Holds for: Kendall&#x27;s W over 30 sampled prompt-configuration sets, 14 models, 100 examples per dataset; table serializations and structural perturbations only, not instruction wording.</span></dd>
+<dd>Increasing the number of table prompt configurations from 1 to 10 raises Kendall&#x27;s W ranking agreement on ToRR by more than 0.35 on average. The largest gains fall between roughly 2 and 8 configurations.<br><span class="scope">Holds for: Averaged over 30 sampled configuration sets and over ToRR&#x27;s datasets; per-dataset gains differ sharply, FinQA rising from 0.35 to 0.93 with 11 prompts while NumericNLG rises only from 0.29 to 0.54.</span></dd>
+<dt>Can more prompt variations replace collecting more test examples?</dt>
+<dt>Is it better to add test examples or add prompt configurations to a benchmark?</dt>
+<dt>How can I make a small evaluation set more reliable?</dt>
+<dd>Adding prompt configurations can substitute for test examples: on ToRR, 50 examples evaluated with 2 prompt configurations give about the same model-ranking reliability as 100 examples with 1 configuration.<br><span class="scope">Holds for: Kendall&#x27;s W over 30 randomly sampled example-and-configuration sets, averaged per dataset, on table reasoning tasks at these small sample sizes.</span></dd>
+<dd>Increasing the number of table prompt configurations from 1 to 10 raises Kendall&#x27;s W ranking agreement on ToRR by more than 0.35 on average. The largest gains fall between roughly 2 and 8 configurations.<br><span class="scope">Holds for: Averaged over 30 sampled configuration sets and over ToRR&#x27;s datasets; per-dataset gains differ sharply, FinQA rising from 0.35 to 0.93 with 11 prompts while NumericNLG rises only from 0.29 to 0.54.</span></dd>
+<dt>What should I read about evaluating LLMs on tabular data?</dt>
+<dt>Which benchmark measures both table reasoning and robustness to table formatting?</dt>
+<dt>Is there a table benchmark that goes beyond a single leaderboard ranking?</dt>
+<dt>What work established that LLM table performance depends on table format?</dt>
+<dd>ToRR is a table reasoning benchmark that measures robustness as a first-class quantity, pairing 10 datasets over 6 tabular tasks with 35 semantically equivalent prompt configurations per example. Scores therefore reflect consistency across table formats rather than one chosen format.<br><span class="scope">Holds for: Covers tables that fit directly in the prompt as text; excludes tool-using, agentic, retrieval, multi-table and image-based table settings, and hierarchical tables. Compared against TableBench, DataBench, TQA-Bench, InfiAgent-DABench and TableVQA-Bench.</span></dd>
+<dd>ToRR is a worked example for benchmark designers that evaluating over many semantically equivalent prompt variants, rather than one canonical prompt, is what makes a leaderboard&#x27;s model ranking reproducible.<br><span class="scope">Holds for: Shown for table serialization formats and structural table perturbations in English table tasks as of 2025; other prompt dimensions are argued by analogy to prior work, not measured.</span></dd>
+<dt>How do I know whether a table benchmark can really tell models apart?</dt>
+<dt>How separable are model scores on ToRR datasets?</dt>
+<dt>Which table dataset best distinguishes strong from weak models?</dt>
+<dd>Aggregated ToRR separates 79% of model pairs with non-overlapping confidence intervals, while individual datasets range from 38% for TableBench FC to over 71% for WikiTQ.<br><span class="scope">Holds for: Bootstrapping 1K seeds over samples of 100 examples per dataset with the 14 evaluated models; separability depends on which models are compared.</span></dd>
+<dt>Do open-weight models close the gap with GPT-4o and Claude on table tasks?</dt>
+<dt>Are proprietary models better than open models at table reasoning?</dt>
+<dt>Does model size predict table reasoning performance?</dt>
+<dd>Closed proprietary models outperform open-weight models across most ToRR datasets, though the open qwen2-72b-instruct beats llama-3-1-405b-instruct on both performance and robustness.<br><span class="scope">Holds for: 14 models released through late 2024 and early 2025, served via Together AI and vendor APIs; no reasoning-mode or tool-using configurations.</span></dd>
+<dd>Performance differences between models within the same family on ToRR average 0.07, and paired Cohen&#x27;s d shows most model comparisons on ToRR have small, often non-significant practical differences.<br><span class="scope">Holds for: 14 models on 10 table datasets over 35 prompt configurations; aggregated p-values still find all pairwise comparisons significant.</span></dd>
+<dt>Which table datasets and tasks does a table reasoning and robustness benchmark cover?</dt>
+<dt>What table datasets are inside ToRR?</dt>
+<dt>What kinds of table skills does ToRR test?</dt>
+<dd>ToRR is a table reasoning benchmark that measures robustness as a first-class quantity, pairing 10 datasets over 6 tabular tasks with 35 semantically equivalent prompt configurations per example. Scores therefore reflect consistency across table formats rather than one chosen format.<br><span class="scope">Holds for: Covers tables that fit directly in the prompt as text; excludes tool-using, agentic, retrieval, multi-table and image-based table settings, and hierarchical tables. Compared against TableBench, DataBench, TQA-Bench, InfiAgent-DABench and TableVQA-Bench.</span></dd>
+<dt>How is model robustness scored on tabular tasks in ToRR?</dt>
+<dt>What does a robustness score of 0.70 mean for a table benchmark?</dt>
+<dt>How is per-example score variance turned into a robustness number?</dt>
+<dd>Every model evaluated on ToRR is unrobust: across the 35 semantically equivalent prompt configurations of one example, the minimum and maximum scores give entirely different estimates of performance. Robustness scores run from 0.49 for mixtral-8x7b-instruct to 0.70 for claude-3-5-sonnet.<br><span class="scope">Holds for: Robustness is 1 minus the mean per-example score range over 7 serializations x 4 structural perturbations plus 7 unperturbed variants; tables embedded directly in the prompt, no tool use.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>On ToRR, the best-performing LLMs (claude-3-5-sonnet, gpt-4o and deepseek-v3) reach an overall performance score of only 0.50. The weakest evaluated model, llama-3-1-8b-instruct, reaches 0.29. <span class="meta">(Table 2)</span><br><span class="scope">Scope: 14 models across 7 families, 10 table datasets, 100 sampled examples per dataset, 5-shot greedy decoding; scores averaged over 35 prompt configurations.</span></li>
+<li>Performance differences between models within the same family on ToRR average 0.07, and paired Cohen&#x27;s d shows most model comparisons on ToRR have small, often non-significant practical differences. <span class="meta">(Section 3.2 and Section 3.1)</span><br><span class="scope">Scope: 14 models on 10 table datasets over 35 prompt configurations; aggregated p-values still find all pairwise comparisons significant.</span></li>
+<li>Every model evaluated on ToRR is unrobust: across the 35 semantically equivalent prompt configurations of one example, the minimum and maximum scores give entirely different estimates of performance. Robustness scores run from 0.49 for mixtral-8x7b-instruct to 0.70 for claude-3-5-sonnet. <span class="meta">(Table 2 and Figure 3)</span><br><span class="scope">Scope: Robustness is 1 minus the mean per-example score range over 7 serializations x 4 structural perturbations plus 7 unperturbed variants; tables embedded directly in the prompt, no tool use.</span></li>
+<li>No table serialization format consistently wins on ToRR: aggregated over all models and datasets no serializer outperforms the others, and per-model serializer preferences shift overall performance by at most 0.06. <span class="meta">(Section 3.3 and Figure 9)</span><br><span class="scope">Scope: 7 serializations — HTML, CSV, JSON, Markdown, Indexed Row Major, DataFrame and Concatenation — measured by example-level win rate over 14 models and 10 datasets; individual model-dataset pairs still vary much more.</span></li>
+<li>On ToRR the gap between a model&#x27;s best and worst serializer on a single dataset averages about 0.05. It reaches 0.22 for llama-3-1-8b-instruct on TableBench FC, and 0.23 for llama-3-1-405b-instruct on the same dataset. <span class="meta">(Table 7)</span><br><span class="scope">Scope: Largest max-minus-min score difference across the 7 serializations, computed per model-dataset pair over 14 models and 10 datasets.</span></li>
+<li>Structural table perturbations in ToRR have no consistent direction of effect, changing model scores by an average of 0.03 relative to the unperturbed baseline. The 4 perturbations are row swapping, column swapping, transposition and adding empty rows. <span class="meta">(Figure 12 and Figure 15)</span><br><span class="scope">Scope: 4 perturbations applied on top of each of 7 serializations, 14 models, 10 datasets; per-example absolute impact is larger, and more pronounced for smaller models and for Table QA and fact-checking datasets than for Table-to-Text.</span></li>
+<li>Model rankings derived from a single table prompt configuration agree poorly with one another on ToRR, so a benchmark that fixes one serialization format yields an unreliable ranking of models. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: Kendall&#x27;s W over 30 sampled prompt-configuration sets, 14 models, 100 examples per dataset; table serializations and structural perturbations only, not instruction wording.</span></li>
+<li>Increasing the number of table prompt configurations from 1 to 10 raises Kendall&#x27;s W ranking agreement on ToRR by more than 0.35 on average. The largest gains fall between roughly 2 and 8 configurations. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: Averaged over 30 sampled configuration sets and over ToRR&#x27;s datasets; per-dataset gains differ sharply, FinQA rising from 0.35 to 0.93 with 11 prompts while NumericNLG rises only from 0.29 to 0.54.</span></li>
+<li>Adding prompt configurations can substitute for test examples: on ToRR, 50 examples evaluated with 2 prompt configurations give about the same model-ranking reliability as 100 examples with 1 configuration. <span class="meta">(Figure 5)</span><br><span class="scope">Scope: Kendall&#x27;s W over 30 randomly sampled example-and-configuration sets, averaged per dataset, on table reasoning tasks at these small sample sizes.</span></li>
+<li>Aggregated ToRR separates 79% of model pairs with non-overlapping confidence intervals, while individual datasets range from 38% for TableBench FC to over 71% for WikiTQ. <span class="meta">(Section 4 and Figure 19)</span><br><span class="scope">Scope: Bootstrapping 1K seeds over samples of 100 examples per dataset with the 14 evaluated models; separability depends on which models are compared.</span></li>
+<li>Closed proprietary models outperform open-weight models across most ToRR datasets, though the open qwen2-72b-instruct beats llama-3-1-405b-instruct on both performance and robustness. <span class="meta">(Figure 8 and Table 2)</span><br><span class="scope">Scope: 14 models released through late 2024 and early 2025, served via Together AI and vendor APIs; no reasoning-mode or tool-using configurations.</span></li>
+<li>ToRR is a table reasoning benchmark that measures robustness as a first-class quantity, pairing 10 datasets over 6 tabular tasks with 35 semantically equivalent prompt configurations per example. Scores therefore reflect consistency across table formats rather than one chosen format. <span class="meta">(Table 8)</span><br><span class="scope">Scope: Covers tables that fit directly in the prompt as text; excludes tool-using, agentic, retrieval, multi-table and image-based table settings, and hierarchical tables. Compared against TableBench, DataBench, TQA-Bench, InfiAgent-DABench and TableVQA-Bench.</span></li>
+<li>ToRR is a worked example for benchmark designers that evaluating over many semantically equivalent prompt variants, rather than one canonical prompt, is what makes a leaderboard&#x27;s model ranking reproducible.<br><span class="scope">Scope: Shown for table serialization formats and structural table perturbations in English table tasks as of 2025; other prompt dimensions are argued by analogy to prior work, not measured.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>ToRR&#x27;s finding that no serializer wins on average does not mean table format is irrelevant in practice: individual model-dataset pairs vary by about 0.05 between their best and worst serializer and by up to 0.23 in the worst case, so a deployment still needs its format chosen by case-by-case tuning.</li>
+<li>The low robustness scores in ToRR are not evidence that models prefer particular table formats. The variation is largely idiosyncratic per example, which the paper reads as general prompt sensitivity rather than a format preference.</li>
+<li>ToRR&#x27;s low absolute scores are not simply a small-model story: the strongest closed models reach only 0.50 overall, and the gap between the strongest and weakest large models is narrow.</li>
+<li>The claim that prompt configurations can substitute for test examples is demonstrated for ranking reliability at small sample sizes — 50 examples with 2 configurations matching 100 examples with 1 — and is not a claim that prompt variation replaces data collection in general.</li>
+<li>ToRR does not measure agentic or tool-using table capabilities: datasets requiring SQL, retrieval, code execution, multi-table joins or table images were deliberately excluded, so its scores are not an upper bound on what a table-using pipeline can do.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Prompt configuration</em></dt><dd>A pairing of one table serialization format with at most one structural table perturbation; ToRR uses 35 of them per example (7 serializations x 4 perturbations, plus the 7 unperturbed serializations).</dd>
+<dt><em>Serialization</em></dt><dd>A method for converting a table into a string that can be embedded in a prompt, such as HTML, CSV, JSON, Markdown, Indexed Row Major, DataFrame or Concatenation.</dd>
+<dt><em>Structural perturbation</em></dt><dd>A change to how a table&#x27;s content is laid out without changing its content or cell relations: row swapping, column swapping, transposition, or inserting empty rows.</dd>
+<dt><em>Robustness score (R)</em></dt><dd>One minus the average per-example range (maximum minus minimum) of a model&#x27;s score across all prompt configurations of that example, so 1.0 means identical scores on every table format.</dd>
+<dt><em>Mean Absolute Impact</em></dt><dd>The mean of the absolute score change caused by a perturbation relative to its unperturbed baseline, used so that positive and negative effects do not cancel out in an average.</dd>
+<dt><em>Separability with Confidence</em></dt><dd>The percentage of model pairs whose bootstrapped score confidence intervals do not overlap, used as a measure of how well a benchmark distinguishes models.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@article{ashurytahan2025mightytorrbenchmarktable,
-title={The Mighty ToRR: A Benchmark for Table Reasoning and Robustness}, 
+<pre>@inproceedings{ashurytahan2025mightytorrbenchmarktable,
+      title={The Mighty ToRR: A Benchmark for Table Reasoning and Robustness}, 
       author={Shir Ashury-Tahan and Yifan Mai and Rajmohan C and Ariel Gera and Yotam Perlitz and Asaf Yehudai and Elron Bandel and Leshem Choshen and Eyal Shnarch and Percy Liang and Michal Shmueli-Scheuer},
       year={2025},
       eprint={2502.19412},
-      journal={arXiv},
+      booktitle={SurgLLM@ICML},
       primaryClass={cs.CL},
       url={https://arxiv.org/abs/2502.19412}, 
 }</pre>

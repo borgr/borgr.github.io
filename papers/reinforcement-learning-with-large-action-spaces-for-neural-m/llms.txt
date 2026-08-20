@@ -3,8 +3,58 @@
 Authors: Asaf Yehudai, Leshem Choshen, Lior Fox, Omri Abend
 Venue: Proceedings of the 29th International Conference on Computational Linguistics, {COLING} 2022, Gyeongju, Republic of Korea, October 12-17, 2022 (2022)
 
-## Abstract
-Applying Reinforcement learning (RL) following maximum likelihood estimation (MLE) pre-training is a versatile method for enhancing neural machine translation (NMT) performance. However, recent work has argued that the gains produced by RL for NMT are mostly due to promoting tokens that have already received a fairly high probability in pre-training. We hypothesize that the large action space is a main obstacle to RL’s effectiveness in MT, and conduct two sets of experiments that lend support to our hypothesis. First, we find that reducing the size of the vocabulary improves RL’s effectiveness. Second, we find that effectively reducing the dimension of the action space without changing the vocabulary also yields notable improvement as evaluated by BLEU, semantic similarity, and human evaluation. Indeed, by initializing the network’s final fully connected layer (that maps the network’s internal dimension to the vocabulary dimension), with a layer that generalizes over similar actions, we obtain a substantial improvement in RL performance: 1.5 BLEU points on average.
+## What this paper shows
+Reinforcement learning helps neural machine translation little because the action space is the whole vocabulary; shrinking it — by using a 1K target vocabulary, or by initializing the decoder's final layer with BERT embeddings and freezing it during RL — recovers 1.5 BLEU on average over standard RL.
+
+## Claims, with scope
+- Yehudai et al. (2022) identify the size of the action space, spanning all tens of thousands of vocabulary tokens, as a main obstacle to reinforcement learning's effectiveness in neural machine translation.
+  Scope: Four low-resource WMT pairs into English, MRT with BLEU as reward; prior work on large action spaces existed outside text generation.
+- Cutting the target BPE vocabulary from 17K-31K to 1K raises the BLEU gain that RL adds over MLE pretraining from 0.6/0.17/0.23/0.22 to 1.4/0.83/1.1/1.59 points on de-en, cs-en, ru-en and tr-en. That is about 1 BLEU point more improvement on average.
+  Scope: Low-resource WMT News Commentary v13 (SETIMES2 for tr-en), gated convolutional encoder-decoder, MRT mixed with token-level loss at alpha=0.3, smoothed BLEU as reward; the 1K models' absolute BLEU is lower.
+  Evidence: Table 1
+- With a 1K target vocabulary, RL shifts probability mass upward from low-ranked tokens in neural machine translation. Within the first 100 ranks the small-vocabulary model reduces the probability of 83 ranks, against only 2 for the large-vocabulary model.
+  Scope: Measured over 700K trials of gold-token rank under teacher-forced contexts, four language pairs into English, MRT training with smoothed BLEU as reward.
+  Evidence: Figure 1
+- Initializing the decoder's final fully connected layer with BERT embeddings and freezing it during RL reaches 24.71/17.37/18.30/14.55 BLEU on de-en/cs-en/ru-en/tr-en, 1.5 BLEU points above regular RL on average.
+  Scope: Four low-resource pairs into English, BERT target vocabulary of 30,526, MRT with BLEU reward, MLE pretraining with frozen BERT embeddings; on ru-en freezing does not help (18.30 vs 18.68).
+  Evidence: Table 2
+- BERT target-embedding initialization alone improves RL on all four language pairs into English, from 23.19/15.81/17.31/12.66 BLEU for plain RL to 24.44/17.04/18.68/14.37. Freezing MLE-learned target embeddings during RL instead gives only a slight gain.
+  Scope: Low-resource WMT setting, gated convolutional NMT, MRT objective; plain RL over MLE is itself near-flat (no change on cs-en and ru-en), which is the baseline the BERT gain is measured against.
+  Evidence: Table 2
+- Freezing the target embedding layer removes more than 60% of the network's trainable parameters, from 74.8M-77.2M down to 27.9M-30.2M across the four language pairs. BLEU improves rather than degrades under this reduction.
+  Scope: Gated convolutional encoder-decoder with hidden size 768 and BERT's 30,526-token target vocabulary, four low-resource pairs into English; the frozen embeddings must be informative rather than random.
+  Evidence: Table 5
+- Freezing randomly initialized target embeddings during both MLE and RL degrades German-English translation by about 2 BLEU points. The benefit of freezing therefore depends on the quality of the embedding space rather than on parameter reduction.
+  Scope: Low-resource NMT setup with gated convolutional encoder-decoder, BERT's 30,526-token target vocabulary and the MRT objective, four pairs into English.
+  Evidence: Table 2
+- In a contextual bandit where 10 real actions are each duplicated 400 times into 4000 policy-level actions, initializing the policy's last layer so duplicated actions share weights speeds up learning. Freezing that informative initialization speeds it up further.
+  Scope: Synthetic 10-300-300-4000 feed-forward policy, 50 trials per agent, binary reward with Gaussian noise; the informative initialization encodes only which actions are duplicates and no information about which action is rewarding.
+  Evidence: Figure 2
+- Two professional translators rating 100 translations per language pair on a 0-100 adequacy scale score the BERT-initialized, frozen-embedding RL model above baseline RL on all four language pairs. The Wilcoxon rank sum p-value is 8.5e-5.
+  Scope: Both annotators native English speakers, judging how well each translation conveys the reference's information; significance is computed over the pooled score distributions of the two models, not per language pair.
+  Evidence: Figure 4
+- On the SIM semantic-similarity metric the BERT-initialized frozen-embedding RL model scores 72.81/66.44/67.66/63.59 on de-en/cs-en/ru-en/tr-en against 71.17/63.29/66.17/59.99 for plain RL, with the largest gains on cs-en and ru-en.
+  Scope: SIM as defined by Wieting et al. (2019), which gives partial credit to lexically different but semantically correct translations; BLEU, not SIM, was the reward optimized during RL.
+  Evidence: Table 6
+- MLE-learned target embeddings give nearly identical cosine-similarity distributions for inflection pairs, synonym pairs and random word pairs, whereas BERT embeddings separate inflections from random pairs. BERT still places synonyms close to random pairs.
+  Scope: Word pair lists compiled from WordNet and spaCy; comparison is between the MLE model's learned target embeddings in this low-resource NMT setup and BERT's embedding layer.
+  Evidence: Figure 5
+- During MLE pretraining, BERT target embeddings must be frozen to help: frozen BERT embeddings reach 23.46/16.59/18.14/14.15 BLEU versus 22.99/15.32/17.57/12.65 when trainable, a gain of 0.47 to 1.50 points.
+  Scope: Four low-resource pairs into English with BERT's 30,526-token vocabulary; the paper attributes the difference to catastrophic forgetting of BERT parameters when the layer is trainable.
+  Evidence: Table 4
+
+## Common misreadings
+- The small-vocabulary result is not a recommendation to translate with a 1K target vocabulary: the 1K models have lower absolute BLEU than the large-vocabulary models, and the finding is that RL adds more on top of them.
+- Freezing the target embedding layer is not helpful by itself as a form of regularization or parameter reduction — freezing randomly initialized target embeddings costs about 2 BLEU on German-English.
+- The 1.5 BLEU average improvement is measured against regular RL fine-tuning in the same BERT-vocabulary setup, not against the best system for these language pairs; the method surpasses the large-BPE-vocabulary RL baseline on all pairs except German.
+- The gains are reported only in low-resource settings (roughly 200K-290K training sentence pairs) with a gated convolutional encoder-decoder and MRT; whether they carry to high-resource NMT or to Transformer-based large models is left to future work.
+- BERT embeddings are not shown to capture synonymy well as target embeddings: their cosine-similarity distribution for synonyms that do not share a stem stays close to that of random word pairs.
+
+## Terminology
+- target embeddings: The rows of the final fully connected layer that maps a decoder's internal d-dimensional representation to the target vocabulary, viewed as embeddings of the output actions in inverse analogy to the input embedding layer.
+- informative initialization: Initializing a policy network's last layer so that weight vectors projecting to similar or duplicated actions start out identical or close, encoding the structure of the action space without any information about which actions are rewarding.
+- LTV / STV: Large target vocabulary (17K-31K BPE tokens) versus small target vocabulary (1K BPE tokens) on the target side of a translation model, with the source vocabulary unchanged.
+- SIM: A semantic similarity metric for translation that assigns partial credit to translations that are semantically correct but lexically different from the reference, introduced by Wieting et al. (2019).
 
 ## Links
 - arXiv: https://arxiv.org/abs/2210.03053
@@ -12,14 +62,15 @@ Applying Reinforcement learning (RL) following maximum likelihood estimation (ML
 - HTML: https://ar5iv.labs.arxiv.org/html/2210.03053
 - Hugging Face: https://huggingface.co/papers/2210.03053
 - alphaXiv: https://www.alphaxiv.org/abs/2210.03053
-- DOI: https://doi.org/10.48550/ARXIV.2210.03053
+- DOI: https://doi.org/10.48550/arXiv.2210.03053
 - ACL Anthology: https://aclanthology.org/2022.coling-1.401/
 - Semantic Scholar: https://www.semanticscholar.org/paper/252578532
 - Publisher: https://aclanthology.org/2022.coling-1.401
+- Code: https://github.com/AsafYehudai/Reinforcement-Learning-with-Large-Action-Spaces-for-Neural-Machine-Translation
 
 ## How to cite
-@inproceedings{DBLP:conf/coling/YehudaiCFA22,
-author       = {Asaf Yehudai and
+@inproceedings{yehudai2022reinforcement,
+  author       = {Asaf Yehudai and
                   Leshem Choshen and
                   Lior Fox and
                   Omri Abend},
@@ -52,7 +103,7 @@ author       = {Asaf Yehudai and
   publisher    = {International Committee on Computational Linguistics},
   year         = {2022},
   url          = {https://aclanthology.org/2022.coling-1.401},
-  timestamp    = {Thu, 13 Oct 2022 17:29:38 +0200},
+  timestamp    = {Tue, 27 May 2025 07:57:03 +0200},
   biburl       = {https://dblp.org/rec/conf/coling/YehudaiCFA22.bib},
   bibsource    = {dblp computer science bibliography, https://dblp.org}
 }

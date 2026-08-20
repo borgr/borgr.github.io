@@ -8,16 +8,16 @@
   <meta name="citation_title" content="[Call for Papers] The 2nd BabyLM Challenge: Sample-efficient pretraining on a developmentally plausible corpus">
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Ryan Cotterell">
-  <meta name="citation_author" content="Michael Y. Hu">
+  <meta name="citation_author" content="Michael Hu">
   <meta name="citation_author" content="Tal Linzen">
   <meta name="citation_author" content="Aaron Mueller">
   <meta name="citation_author" content="Candace Ross">
   <meta name="citation_author" content="Alex Warstadt">
-  <meta name="citation_author" content="Ethan Wilcox">
+  <meta name="citation_author" content="E. Wilcox">
   <meta name="citation_author" content="Adina Williams">
   <meta name="citation_author" content="Chengxu Zhuang">
   <meta name="citation_publication_date" content="2024">
-  <meta name="citation_doi" content="10.48550/ARXIV.2404.06214">
+  <meta name="citation_doi" content="10.48550/arXiv.2404.06214">
   <meta name="citation_arxiv_id" content="2404.06214">
   <meta name="citation_abstract" content="After last year&#x27;s successful BabyLM Challenge, the competition will be hosted again in 2024/2025. The overarching goals of the challenge remain the same; however, some of the competition rules will be different. The big changes for this year&#x27;s competition are as follows: First, we replace the loose track with a paper track, which allows (for example) non-model-based submissions, novel cognitively-inspired benchmarks, or analysis techniques. Second, we are relaxing the rules around pretraining data, and will now allow participants to construct their own datasets provided they stay within the 100M-word or 10M-word budget. Third, we introduce a multimodal vision-and-language track, and will release a corpus of 50% text-only and 50% image-text multimodal data as a starting point for LM model training. The purpose of this CfP is to provide rules for this year&#x27;s challenge, explain these rule changes and their rationale in greater detail, give a timeline of this year&#x27;s competition, and provide answers to frequently asked questions from last year&#x27;s challenge.">
   <script type="application/ld+json">
@@ -39,7 +39,7 @@
     },
     {
       "@type": "Person",
-      "name": "Michael Y. Hu"
+      "name": "Michael Hu"
     },
     {
       "@type": "Person",
@@ -59,7 +59,7 @@
     },
     {
       "@type": "Person",
-      "name": "Ethan Wilcox"
+      "name": "E. Wilcox"
     },
     {
       "@type": "Person",
@@ -74,21 +74,307 @@
   "datePublished": "2024",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "CoRR"
+    "name": "arXiv"
   },
-  "identifier": "https://doi.org/10.48550/ARXIV.2404.06214",
+  "identifier": "https://doi.org/10.48550/arXiv.2404.06214",
   "abstract": "After last year's successful BabyLM Challenge, the competition will be hosted again in 2024/2025. The overarching goals of the challenge remain the same; however, some of the competition rules will be different. The big changes for this year's competition are as follows: First, we replace the loose track with a paper track, which allows (for example) non-model-based submissions, novel cognitively-inspired benchmarks, or analysis techniques. Second, we are relaxing the rules around pretraining data, and will now allow participants to construct their own datasets provided they stay within the 100M-word or 10M-word budget. Third, we introduce a multimodal vision-and-language track, and will release a corpus of 50% text-only and 50% image-text multimodal data as a starting point for LM model training. The purpose of this CfP is to provide rules for this year's challenge, explain these rule changes and their rationale in greater detail, give a timeline of this year's competition, and provide answers to frequently asked questions from last year's challenge.",
+  "description": "The 2nd BabyLM Challenge (2024/2025) asks participants to pretrain language models on 100M or 10M words, and changes three rules: a paper-only track replaces the loose track, participants may build their own corpora, and a vision-language track ships a 50% text-only, 50% image-text corpus.",
   "codeRepository": "https://github.com/babylm/evaluation-pipeline-2024",
   "sameAs": [
     "https://arxiv.org/abs/2404.06214",
     "https://arxiv.org/html/2404.06214",
     "https://arxiv.org/pdf/2404.06214",
-    "https://doi.org/10.48550/ARXIV.2404.06214",
+    "https://babylm.github.io/",
+    "https://babylm.github.io/",
+    "https://docs.google.com/spreadsheets/d/182IjCUiaVYSuJq9GAwZeeb-50bxBlY4qEMOdiCh6i-g/edit?usp=sharing",
     "https://doi.org/10.48550/arXiv.2404.06214",
     "https://github.com/babylm/evaluation-pipeline-2024",
     "https://huggingface.co/papers/2404.06214",
+    "https://osf.io/ad7qg/",
     "https://www.alphaxiv.org/abs/2404.06214",
     "https://www.semanticscholar.org/paper/269009968"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "The 2nd BabyLM Challenge runs four tracks: Strict (100M words or less), Strict-small (10M words or less), Vision (multimodal image-text models within a 100M word budget), and Paper (no model required).",
+      "description": "Holds for: Rules as stated in the 2024/2025 call for papers; the Paper track replaces the loose track of the 2023 edition."
+    },
+    {
+      "@type": "Thing",
+      "name": "Unlike the first BabyLM Challenge, the 2024/2025 edition lets participants construct their own pretraining corpora, provided they stay within the 100M-word or 10M-word budget and submit a datasheet for any self-built dataset.",
+      "description": "Holds for: Strict, Strict-small and Vision tracks; the organizers still provide fixed language-only and multimodal corpora for participants who prefer them."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM word budget counts every text seen by any component of a submission: tokenizers, parsers, rerankers, data-augmentation models and other ancillary models all draw on the same 100M or 10M words.",
+      "description": "Holds for: Synthetic data and augmentation are allowed only as a closed system, where the augmenting model's own training text also counts; audio and other linguistic modalities count, non-linguistic ones do not."
+    },
+    {
+      "@type": "Thing",
+      "name": "The Vision track's suggested corpus totals 100M words: 50M words of text-only data downsampled from the 100M text corpus, plus 50M words of paired image-text data covering roughly 2.9M images. The paired half is 27M words from Localized Narratives and 23M from Conceptual Captions 3M.",
+      "description": "Holds for: Word counts are approximate; the Localized Narratives portion uses the MS-COCO and Open Images subsets, and the CC3M portion uses only image-caption pairs whose images were still valid in January 2024."
+    },
+    {
+      "@type": "Thing",
+      "name": "The updated 100M-word text-only BabyLM corpus drops the QED portion of the 2023 dataset in favour of a larger CHILDES share of 29M words. The remaining sources keep their previous relative proportions: 26M words of children's Project Gutenberg text, 20M of OpenSubtitles, 15M of Simple English Wikipedia, 8M of BNC dialogue and 1M of Switchboard.",
+      "description": "Holds for: Strict-track word counts, which are approximate; QED was replaced because on inspection its quality was poorer than hoped."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2nd BabyLM Challenge baselines are built from the previous year's winning submissions rather than trained naively. The Strict and Strict-small baselines are GPT-2, LTG-BERT and Contextualizer, and the Vision baselines are GIT and Flamingo.",
+      "description": "Holds for: Baselines as announced in the call for papers; final released checkpoints and their scores are not reported in the call."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM Challenge places no limit on the number of training epochs or on hyperparameters. The organizers report that in their internal results over-training beyond a couple of epochs gives minor gains at most.",
+      "description": "Holds for: The internal-results statement is an unquantified organizer observation; the stated rationale also covers engineering practice at these data scales and human re-access to linguistic memories."
+    },
+    {
+      "@type": "Thing",
+      "name": "Submissions to the BabyLM Challenge must be able to assign a (pseudo) log-likelihood to a string of text and to be fine-tuned for classification, but need not be able to generate sequences.",
+      "description": "Holds for: The 2024 evaluation pipeline is built on catwalk so that models outside the HuggingFace transformers library can be submitted; Vision-track models must score text conditioned on an image."
+    },
+    {
+      "@type": "Thing",
+      "name": "BabyLM runs its own review process with acceptance based on soundness alone, planning to reject only submissions that make incorrect or unjustified claims. Papers are archival and may be up to 8 pages, with dual submission allowed but not dual publication.",
+      "description": "Holds for: Review policy as stated for the 2024/2025 edition; the presentation venue and formatting requirements were not yet finalized at the time of the call."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM organizers report that submissions to the first challenge did not gain from non-linguistic grounding, and invite the 2024/2025 vision-language track partly to revisit that question.",
+      "description": "Holds for: A summary statement about the 2023 edition's submissions, concerning non-linguistic grounding signals rather than multimodal training in general."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM Challenge is a recurring shared task that reorients pretraining research toward sample efficiency by capping training data at a developmentally plausible 10M or 100M words. A stated goal is making pretraining research feasible on a university budget.",
+      "description": "Holds for: A shared-task call for papers, not an empirical study; the rationale is argued at greater length in the 2023 call and proceedings introduction by Warstadt et al. Second edition, run in 2024/2025."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2nd BabyLM Challenge's paper-only track opens the shared task to non-model submissions, such as novel cognitively-inspired evaluation metrics and in-depth analyses of individual BabyLM models. Best-paper selection in that track is not driven by evaluation scores.",
+      "description": "Holds for: The paper track replaces the loose track used in the 2023 edition; papers may still include a model and report its scores."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/#faq",
+  "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/",
+  "name": "Questions answered by [Call for Papers] The 2nd BabyLM Challenge: Sample-efficient pretraining on a developmentally plausible corpus",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the BabyLM Challenge about?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM Challenge is a recurring shared task that reorients pretraining research toward sample efficiency by capping training data at a developmentally plausible 10M or 100M words. A stated goal is making pretraining research feasible on a university budget. Holds for: A shared-task call for papers, not an empirical study; the rationale is argued at greater length in the 2023 call and proceedings introduction by Warstadt et al. Second edition, run in 2024/2025.\n\nThe 2nd BabyLM Challenge runs four tracks: Strict (100M words or less), Strict-small (10M words or less), Vision (multimodal image-text models within a 100M word budget), and Paper (no model required). Holds for: Rules as stated in the 2024/2025 call for papers; the Paper track replaces the loose track of the 2023 edition.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/"
+      },
+      "alternateName": [
+        "Which shared task limits language model pretraining to a child-sized amount of data?",
+        "Where should I start reading about sample-efficient pretraining on developmentally plausible data?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What tracks does the 2nd BabyLM Challenge have?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2nd BabyLM Challenge runs four tracks: Strict (100M words or less), Strict-small (10M words or less), Vision (multimodal image-text models within a 100M word budget), and Paper (no model required). Holds for: Rules as stated in the 2024/2025 call for papers; the Paper track replaces the loose track of the 2023 edition.\n\nThe Vision track's suggested corpus totals 100M words: 50M words of text-only data downsampled from the 100M text corpus, plus 50M words of paired image-text data covering roughly 2.9M images. The paired half is 27M words from Localized Narratives and 23M from Conceptual Captions 3M. Holds for: Word counts are approximate; the Localized Narratives portion uses the MS-COCO and Open Images subsets, and the CC3M portion uses only image-caption pairs whose images were still valid in January 2024.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/"
+      },
+      "alternateName": [
+        "How many words am I allowed to pretrain on in the 2024 sample-efficient pretraining shared task?",
+        "Is there a multimodal track in the second BabyLM Challenge?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use my own pretraining corpus in the 2024 BabyLM Challenge?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Unlike the first BabyLM Challenge, the 2024/2025 edition lets participants construct their own pretraining corpora, provided they stay within the 100M-word or 10M-word budget and submit a datasheet for any self-built dataset. Holds for: Strict, Strict-small and Vision tracks; the organizers still provide fixed language-only and multimodal corpora for participants who prefer them.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/"
+      },
+      "alternateName": [
+        "Did the 2024 sample-efficient pretraining competition drop its fixed-dataset requirement?",
+        "Do I need a datasheet if I build my own BabyLM dataset?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does training a tokenizer count against the BabyLM word budget?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM word budget counts every text seen by any component of a submission: tokenizers, parsers, rerankers, data-augmentation models and other ancillary models all draw on the same 100M or 10M words. Holds for: Synthetic data and augmentation are allowed only as a closed system, where the augmenting model's own training text also counts; audio and other linguistic modalities count, non-linguistic ones do not.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/"
+      },
+      "alternateName": [
+        "Is synthetic or augmented data allowed in the BabyLM Challenge?",
+        "How is a 100M word pretraining limit counted when ancillary models are used?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What data is in the BabyLM multimodal corpus?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Vision track's suggested corpus totals 100M words: 50M words of text-only data downsampled from the 100M text corpus, plus 50M words of paired image-text data covering roughly 2.9M images. The paired half is 27M words from Localized Narratives and 23M from Conceptual Captions 3M. Holds for: Word counts are approximate; the Localized Narratives portion uses the MS-COCO and Open Images subsets, and the CC3M portion uses only image-caption pairs whose images were still valid in January 2024.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/"
+      },
+      "alternateName": [
+        "Which image-caption datasets are used by the 2024 vision-language track for child-scale pretraining?",
+        "How many images are in the BabyLM 2024 multimodal dataset?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What changed in the BabyLM 100M-word text corpus for 2024?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The updated 100M-word text-only BabyLM corpus drops the QED portion of the 2023 dataset in favour of a larger CHILDES share of 29M words. The remaining sources keep their previous relative proportions: 26M words of children's Project Gutenberg text, 20M of OpenSubtitles, 15M of Simple English Wikipedia, 8M of BNC dialogue and 1M of Switchboard. Holds for: Strict-track word counts, which are approximate; QED was replaced because on inspection its quality was poorer than hoped.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/"
+      },
+      "alternateName": [
+        "Why was QED removed from a child-scale pretraining dataset?",
+        "How much CHILDES data is in the BabyLM strict-track corpus?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What baseline models does the 2nd BabyLM Challenge provide?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2nd BabyLM Challenge baselines are built from the previous year's winning submissions rather than trained naively. The Strict and Strict-small baselines are GPT-2, LTG-BERT and Contextualizer, and the Vision baselines are GIT and Flamingo. Holds for: Baselines as announced in the call for papers; final released checkpoints and their scores are not reported in the call.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/"
+      },
+      "alternateName": [
+        "Which baselines are used for the BabyLM vision track?",
+        "Are the 2024 baselines for the child-scale pretraining competition stronger than the 2023 ones?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a limit on epochs or hyperparameters when training a BabyLM?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM Challenge places no limit on the number of training epochs or on hyperparameters. The organizers report that in their internal results over-training beyond a couple of epochs gives minor gains at most. Holds for: The internal-results statement is an unquantified organizer observation; the stated rationale also covers engineering practice at these data scales and human re-access to linguistic memories.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/"
+      },
+      "alternateName": [
+        "Does training for many epochs help on 100M words?",
+        "Can I tune hyperparameters freely in the BabyLM Challenge?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What must a model be able to do to be evaluated in the BabyLM Challenge?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Submissions to the BabyLM Challenge must be able to assign a (pseudo) log-likelihood to a string of text and to be fine-tuned for classification, but need not be able to generate sequences. Holds for: The 2024 evaluation pipeline is built on catwalk so that models outside the HuggingFace transformers library can be submitted; Vision-track models must score text conditioned on an image.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/"
+      },
+      "alternateName": [
+        "Do submissions to the 2024 sample-efficient pretraining competition have to be HuggingFace models?",
+        "Does a BabyLM submission need to generate text?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How are BabyLM Challenge papers reviewed?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BabyLM runs its own review process with acceptance based on soundness alone, planning to reject only submissions that make incorrect or unjustified claims. Papers are archival and may be up to 8 pages, with dual submission allowed but not dual publication. Holds for: Review policy as stated for the 2024/2025 edition; the presentation venue and formatting requirements were not yet finalized at the time of the call.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/"
+      },
+      "alternateName": [
+        "What are the page limits and archival rules for a submission to the 2024 child-scale pretraining shared task?",
+        "Can I dual-submit a BabyLM paper elsewhere?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Did visual or non-linguistic grounding help models in the first BabyLM Challenge?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM organizers report that submissions to the first challenge did not gain from non-linguistic grounding, and invite the 2024/2025 vision-language track partly to revisit that question. Holds for: A summary statement about the 2023 edition's submissions, concerning non-linguistic grounding signals rather than multimodal training in general.\n\nThe Vision track's suggested corpus totals 100M words: 50M words of text-only data downsampled from the 100M text corpus, plus 50M words of paired image-text data covering roughly 2.9M images. The paired half is 27M words from Localized Narratives and 23M from Conceptual Captions 3M. Holds for: Word counts are approximate; the Localized Narratives portion uses the MS-COCO and Open Images subsets, and the CC3M portion uses only image-caption pairs whose images were still valid in January 2024.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/"
+      },
+      "alternateName": [
+        "What did BabyLM 2023 find about multimodal grounding?",
+        "Is there evidence that image data improves low-resource language model pretraining?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can I submit an analysis or benchmark paper instead of a model to BabyLM?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2nd BabyLM Challenge's paper-only track opens the shared task to non-model submissions, such as novel cognitively-inspired evaluation metrics and in-depth analyses of individual BabyLM models. Best-paper selection in that track is not driven by evaluation scores. Holds for: The paper track replaces the loose track used in the 2023 edition; papers may still include a model and report its scores.\n\nBabyLM runs its own review process with acceptance based on soundness alone, planning to reject only submissions that make incorrect or unjustified claims. Papers are archival and may be up to 8 pages, with dual submission allowed but not dual publication. Holds for: Review policy as stated for the 2024/2025 edition; the presentation venue and formatting requirements were not yet finalized at the time of the call.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/"
+      },
+      "alternateName": [
+        "What is the BabyLM paper track for?",
+        "Does a submission to the 2024 sample-efficient pretraining competition have to be a competition entry?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/#terms",
+  "url": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/",
+  "name": "Terminology in [Call for Papers] The 2nd BabyLM Challenge: Sample-efficient pretraining on a developmentally plausible corpus",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Strict track",
+      "description": "BabyLM Challenge track for language models pretrained on 100M words of text or less, evaluated on language-only tasks.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Strict-small track",
+      "description": "BabyLM Challenge track for language models pretrained on 10M words of text or less, evaluated on language-only tasks.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Vision track",
+      "description": "BabyLM Challenge track for multimodal image-text models trained within a 100M word budget, which must be able to assign (pseudo) log-likelihoods to text conditioned on an image and are evaluated on both language-only and multimodal tasks.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Paper track",
+      "description": "BabyLM Challenge track for submissions that need not include a competition model, such as new cognitively-inspired evaluation metrics or analyses of an existing BabyLM model.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Developmentally plausible corpus",
+      "description": "a pretraining corpus whose size and composition approximate the language input a human child receives, on the order of 10M to 100M words drawn from sources such as child-directed speech, dialogue, subtitles and children's books.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/call-for-papers-the-2nd-babylm-challenge-sample-efficient-pr/#terms"
+    }
   ]
 }
   </script>
@@ -99,6 +385,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -112,35 +399,96 @@
 </head>
 <body>
 <h1>[Call for Papers] The 2nd BabyLM Challenge: Sample-efficient pretraining on a developmentally plausible corpus</h1>
-<p class="meta">Leshem Choshen, Ryan Cotterell, Michael Y. Hu, Tal Linzen, Aaron Mueller, Candace Ross, Alex Warstadt, Ethan Wilcox, Adina Williams, Chengxu Zhuang · CoRR · 2024</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2404.06214">arXiv</a></li><li><a href="https://arxiv.org/pdf/2404.06214">PDF</a></li><li><a href="https://arxiv.org/html/2404.06214">HTML</a></li><li><a href="https://huggingface.co/papers/2404.06214">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2404.06214">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2404.06214">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/269009968">Semantic Scholar</a></li><li><a href="https://doi.org/10.48550/arXiv.2404.06214">Publisher</a></li><li><a href="https://github.com/babylm/evaluation-pipeline-2024">Code</a></li></ul>
+<p class="sub">shared task on pretraining language models with a child-sized amount of language data (10M or 100M words)</p>
+<p class="meta">Leshem Choshen, Ryan Cotterell, Michael Hu, Tal Linzen, Aaron Mueller, Candace Ross, Alex Warstadt, E. Wilcox, Adina Williams, Chengxu Zhuang · arXiv · 2024</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2404.06214">arXiv</a></li><li><a href="https://arxiv.org/pdf/2404.06214">PDF</a></li><li><a href="https://arxiv.org/html/2404.06214">HTML</a></li><li><a href="https://huggingface.co/papers/2404.06214">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2404.06214">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2404.06214">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/269009968">Semantic Scholar</a></li><li><a href="https://github.com/babylm/evaluation-pipeline-2024">Code</a></li><li><a href="https://babylm.github.io/">Project page</a></li><li><a href="https://babylm.github.io/">website</a></li><li><a href="https://osf.io/ad7qg/">Data</a></li><li><a href="https://docs.google.com/spreadsheets/d/182IjCUiaVYSuJq9GAwZeeb-50bxBlY4qEMOdiCh6i-g/edit?usp=sharing">submissions spreadsheet</a></li></ul>
+<h2>In one sentence</h2>
+<p>The 2nd BabyLM Challenge (2024/2025) asks participants to pretrain language models on 100M or 10M words, and changes three rules: a paper-only track replaces the loose track, participants may build their own corpora, and a vision-language track ships a 50% text-only, 50% image-text corpus.</p>
 <h2>Abstract</h2>
 <p>After last year&#x27;s successful BabyLM Challenge, the competition will be hosted again in 2024/2025. The overarching goals of the challenge remain the same; however, some of the competition rules will be different. The big changes for this year&#x27;s competition are as follows: First, we replace the loose track with a paper track, which allows (for example) non-model-based submissions, novel cognitively-inspired benchmarks, or analysis techniques. Second, we are relaxing the rules around pretraining data, and will now allow participants to construct their own datasets provided they stay within the 100M-word or 10M-word budget. Third, we introduce a multimodal vision-and-language track, and will release a corpus of 50% text-only and 50% image-text multimodal data as a starting point for LM model training. The purpose of this CfP is to provide rules for this year&#x27;s challenge, explain these rule changes and their rationale in greater detail, give a timeline of this year&#x27;s competition, and provide answers to frequently asked questions from last year&#x27;s challenge.</p>
-<h2>How to cite</h2>
-<pre>@article{DBLP:journals/corr/abs-2404-06214,
-  author       = {Leshem Choshen and
-                  Ryan Cotterell and
-                  Michael Y. Hu and
-                  Tal Linzen and
-                  Aaron Mueller and
-                  Candace Ross and
-                  Alex Warstadt and
-                  Ethan Wilcox and
-                  Adina Williams and
-                  Chengxu Zhuang},
-  title        = {[Call for Papers] The 2nd BabyLM Challenge: Sample-efficient pretraining
-                  on a developmentally plausible corpus},
-  journal      = {CoRR},
-  volume       = {abs/2404.06214},
-  year         = {2024},
-  url          = {https://doi.org/10.48550/arXiv.2404.06214},
-  doi          = {10.48550/ARXIV.2404.06214},
-  eprinttype    = {arXiv},
-  eprint       = {2404.06214},
-  timestamp    = {Wed, 15 May 2024 01:00:00 +0200},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-2404-06214.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
-}</pre>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What is the BabyLM Challenge about?</dt>
+<dt>Which shared task limits language model pretraining to a child-sized amount of data?</dt>
+<dt>Where should I start reading about sample-efficient pretraining on developmentally plausible data?</dt>
+<dd>The BabyLM Challenge is a recurring shared task that reorients pretraining research toward sample efficiency by capping training data at a developmentally plausible 10M or 100M words. A stated goal is making pretraining research feasible on a university budget.<br><span class="scope">Holds for: A shared-task call for papers, not an empirical study; the rationale is argued at greater length in the 2023 call and proceedings introduction by Warstadt et al. Second edition, run in 2024/2025.</span></dd>
+<dd>The 2nd BabyLM Challenge runs four tracks: Strict (100M words or less), Strict-small (10M words or less), Vision (multimodal image-text models within a 100M word budget), and Paper (no model required).<br><span class="scope">Holds for: Rules as stated in the 2024/2025 call for papers; the Paper track replaces the loose track of the 2023 edition.</span></dd>
+<dt>What tracks does the 2nd BabyLM Challenge have?</dt>
+<dt>How many words am I allowed to pretrain on in the 2024 sample-efficient pretraining shared task?</dt>
+<dt>Is there a multimodal track in the second BabyLM Challenge?</dt>
+<dd>The 2nd BabyLM Challenge runs four tracks: Strict (100M words or less), Strict-small (10M words or less), Vision (multimodal image-text models within a 100M word budget), and Paper (no model required).<br><span class="scope">Holds for: Rules as stated in the 2024/2025 call for papers; the Paper track replaces the loose track of the 2023 edition.</span></dd>
+<dd>The Vision track&#x27;s suggested corpus totals 100M words: 50M words of text-only data downsampled from the 100M text corpus, plus 50M words of paired image-text data covering roughly 2.9M images. The paired half is 27M words from Localized Narratives and 23M from Conceptual Captions 3M.<br><span class="scope">Holds for: Word counts are approximate; the Localized Narratives portion uses the MS-COCO and Open Images subsets, and the CC3M portion uses only image-caption pairs whose images were still valid in January 2024.</span></dd>
+<dt>Can I use my own pretraining corpus in the 2024 BabyLM Challenge?</dt>
+<dt>Did the 2024 sample-efficient pretraining competition drop its fixed-dataset requirement?</dt>
+<dt>Do I need a datasheet if I build my own BabyLM dataset?</dt>
+<dd>Unlike the first BabyLM Challenge, the 2024/2025 edition lets participants construct their own pretraining corpora, provided they stay within the 100M-word or 10M-word budget and submit a datasheet for any self-built dataset.<br><span class="scope">Holds for: Strict, Strict-small and Vision tracks; the organizers still provide fixed language-only and multimodal corpora for participants who prefer them.</span></dd>
+<dt>Does training a tokenizer count against the BabyLM word budget?</dt>
+<dt>Is synthetic or augmented data allowed in the BabyLM Challenge?</dt>
+<dt>How is a 100M word pretraining limit counted when ancillary models are used?</dt>
+<dd>The BabyLM word budget counts every text seen by any component of a submission: tokenizers, parsers, rerankers, data-augmentation models and other ancillary models all draw on the same 100M or 10M words.<br><span class="scope">Holds for: Synthetic data and augmentation are allowed only as a closed system, where the augmenting model&#x27;s own training text also counts; audio and other linguistic modalities count, non-linguistic ones do not.</span></dd>
+<dt>What data is in the BabyLM multimodal corpus?</dt>
+<dt>Which image-caption datasets are used by the 2024 vision-language track for child-scale pretraining?</dt>
+<dt>How many images are in the BabyLM 2024 multimodal dataset?</dt>
+<dd>The Vision track&#x27;s suggested corpus totals 100M words: 50M words of text-only data downsampled from the 100M text corpus, plus 50M words of paired image-text data covering roughly 2.9M images. The paired half is 27M words from Localized Narratives and 23M from Conceptual Captions 3M.<br><span class="scope">Holds for: Word counts are approximate; the Localized Narratives portion uses the MS-COCO and Open Images subsets, and the CC3M portion uses only image-caption pairs whose images were still valid in January 2024.</span></dd>
+<dt>What changed in the BabyLM 100M-word text corpus for 2024?</dt>
+<dt>Why was QED removed from a child-scale pretraining dataset?</dt>
+<dt>How much CHILDES data is in the BabyLM strict-track corpus?</dt>
+<dd>The updated 100M-word text-only BabyLM corpus drops the QED portion of the 2023 dataset in favour of a larger CHILDES share of 29M words. The remaining sources keep their previous relative proportions: 26M words of children&#x27;s Project Gutenberg text, 20M of OpenSubtitles, 15M of Simple English Wikipedia, 8M of BNC dialogue and 1M of Switchboard.<br><span class="scope">Holds for: Strict-track word counts, which are approximate; QED was replaced because on inspection its quality was poorer than hoped.</span></dd>
+<dt>What baseline models does the 2nd BabyLM Challenge provide?</dt>
+<dt>Which baselines are used for the BabyLM vision track?</dt>
+<dt>Are the 2024 baselines for the child-scale pretraining competition stronger than the 2023 ones?</dt>
+<dd>The 2nd BabyLM Challenge baselines are built from the previous year&#x27;s winning submissions rather than trained naively. The Strict and Strict-small baselines are GPT-2, LTG-BERT and Contextualizer, and the Vision baselines are GIT and Flamingo.<br><span class="scope">Holds for: Baselines as announced in the call for papers; final released checkpoints and their scores are not reported in the call.</span></dd>
+<dt>Is there a limit on epochs or hyperparameters when training a BabyLM?</dt>
+<dt>Does training for many epochs help on 100M words?</dt>
+<dt>Can I tune hyperparameters freely in the BabyLM Challenge?</dt>
+<dd>The BabyLM Challenge places no limit on the number of training epochs or on hyperparameters. The organizers report that in their internal results over-training beyond a couple of epochs gives minor gains at most.<br><span class="scope">Holds for: The internal-results statement is an unquantified organizer observation; the stated rationale also covers engineering practice at these data scales and human re-access to linguistic memories.</span></dd>
+<dt>What must a model be able to do to be evaluated in the BabyLM Challenge?</dt>
+<dt>Do submissions to the 2024 sample-efficient pretraining competition have to be HuggingFace models?</dt>
+<dt>Does a BabyLM submission need to generate text?</dt>
+<dd>Submissions to the BabyLM Challenge must be able to assign a (pseudo) log-likelihood to a string of text and to be fine-tuned for classification, but need not be able to generate sequences.<br><span class="scope">Holds for: The 2024 evaluation pipeline is built on catwalk so that models outside the HuggingFace transformers library can be submitted; Vision-track models must score text conditioned on an image.</span></dd>
+<dt>How are BabyLM Challenge papers reviewed?</dt>
+<dt>What are the page limits and archival rules for a submission to the 2024 child-scale pretraining shared task?</dt>
+<dt>Can I dual-submit a BabyLM paper elsewhere?</dt>
+<dd>BabyLM runs its own review process with acceptance based on soundness alone, planning to reject only submissions that make incorrect or unjustified claims. Papers are archival and may be up to 8 pages, with dual submission allowed but not dual publication.<br><span class="scope">Holds for: Review policy as stated for the 2024/2025 edition; the presentation venue and formatting requirements were not yet finalized at the time of the call.</span></dd>
+<dt>Did visual or non-linguistic grounding help models in the first BabyLM Challenge?</dt>
+<dt>What did BabyLM 2023 find about multimodal grounding?</dt>
+<dt>Is there evidence that image data improves low-resource language model pretraining?</dt>
+<dd>The BabyLM organizers report that submissions to the first challenge did not gain from non-linguistic grounding, and invite the 2024/2025 vision-language track partly to revisit that question.<br><span class="scope">Holds for: A summary statement about the 2023 edition&#x27;s submissions, concerning non-linguistic grounding signals rather than multimodal training in general.</span></dd>
+<dd>The Vision track&#x27;s suggested corpus totals 100M words: 50M words of text-only data downsampled from the 100M text corpus, plus 50M words of paired image-text data covering roughly 2.9M images. The paired half is 27M words from Localized Narratives and 23M from Conceptual Captions 3M.<br><span class="scope">Holds for: Word counts are approximate; the Localized Narratives portion uses the MS-COCO and Open Images subsets, and the CC3M portion uses only image-caption pairs whose images were still valid in January 2024.</span></dd>
+<dt>Can I submit an analysis or benchmark paper instead of a model to BabyLM?</dt>
+<dt>What is the BabyLM paper track for?</dt>
+<dt>Does a submission to the 2024 sample-efficient pretraining competition have to be a competition entry?</dt>
+<dd>The 2nd BabyLM Challenge&#x27;s paper-only track opens the shared task to non-model submissions, such as novel cognitively-inspired evaluation metrics and in-depth analyses of individual BabyLM models. Best-paper selection in that track is not driven by evaluation scores.<br><span class="scope">Holds for: The paper track replaces the loose track used in the 2023 edition; papers may still include a model and report its scores.</span></dd>
+<dd>BabyLM runs its own review process with acceptance based on soundness alone, planning to reject only submissions that make incorrect or unjustified claims. Papers are archival and may be up to 8 pages, with dual submission allowed but not dual publication.<br><span class="scope">Holds for: Review policy as stated for the 2024/2025 edition; the presentation venue and formatting requirements were not yet finalized at the time of the call.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>The 2nd BabyLM Challenge runs four tracks: Strict (100M words or less), Strict-small (10M words or less), Vision (multimodal image-text models within a 100M word budget), and Paper (no model required). <span class="meta">(Section 3)</span><br><span class="scope">Scope: Rules as stated in the 2024/2025 call for papers; the Paper track replaces the loose track of the 2023 edition.</span></li>
+<li>Unlike the first BabyLM Challenge, the 2024/2025 edition lets participants construct their own pretraining corpora, provided they stay within the 100M-word or 10M-word budget and submit a datasheet for any self-built dataset. <span class="meta">(Section 4)</span><br><span class="scope">Scope: Strict, Strict-small and Vision tracks; the organizers still provide fixed language-only and multimodal corpora for participants who prefer them.</span></li>
+<li>The BabyLM word budget counts every text seen by any component of a submission: tokenizers, parsers, rerankers, data-augmentation models and other ancillary models all draw on the same 100M or 10M words. <span class="meta">(Section 7)</span><br><span class="scope">Scope: Synthetic data and augmentation are allowed only as a closed system, where the augmenting model&#x27;s own training text also counts; audio and other linguistic modalities count, non-linguistic ones do not.</span></li>
+<li>The Vision track&#x27;s suggested corpus totals 100M words: 50M words of text-only data downsampled from the 100M text corpus, plus 50M words of paired image-text data covering roughly 2.9M images. The paired half is 27M words from Localized Narratives and 23M from Conceptual Captions 3M. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Word counts are approximate; the Localized Narratives portion uses the MS-COCO and Open Images subsets, and the CC3M portion uses only image-caption pairs whose images were still valid in January 2024.</span></li>
+<li>The updated 100M-word text-only BabyLM corpus drops the QED portion of the 2023 dataset in favour of a larger CHILDES share of 29M words. The remaining sources keep their previous relative proportions: 26M words of children&#x27;s Project Gutenberg text, 20M of OpenSubtitles, 15M of Simple English Wikipedia, 8M of BNC dialogue and 1M of Switchboard. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Strict-track word counts, which are approximate; QED was replaced because on inspection its quality was poorer than hoped.</span></li>
+<li>The 2nd BabyLM Challenge baselines are built from the previous year&#x27;s winning submissions rather than trained naively. The Strict and Strict-small baselines are GPT-2, LTG-BERT and Contextualizer, and the Vision baselines are GIT and Flamingo. <span class="meta">(Section 5.1)</span><br><span class="scope">Scope: Baselines as announced in the call for papers; final released checkpoints and their scores are not reported in the call.</span></li>
+<li>The BabyLM Challenge places no limit on the number of training epochs or on hyperparameters. The organizers report that in their internal results over-training beyond a couple of epochs gives minor gains at most. <span class="meta">(Section 7)</span><br><span class="scope">Scope: The internal-results statement is an unquantified organizer observation; the stated rationale also covers engineering practice at these data scales and human re-access to linguistic memories.</span></li>
+<li>Submissions to the BabyLM Challenge must be able to assign a (pseudo) log-likelihood to a string of text and to be fine-tuned for classification, but need not be able to generate sequences. <span class="meta">(Section 5)</span><br><span class="scope">Scope: The 2024 evaluation pipeline is built on catwalk so that models outside the HuggingFace transformers library can be submitted; Vision-track models must score text conditioned on an image.</span></li>
+<li>BabyLM runs its own review process with acceptance based on soundness alone, planning to reject only submissions that make incorrect or unjustified claims. Papers are archival and may be up to 8 pages, with dual submission allowed but not dual publication. <span class="meta">(Section 6.3)</span><br><span class="scope">Scope: Review policy as stated for the 2024/2025 edition; the presentation venue and formatting requirements were not yet finalized at the time of the call.</span></li>
+<li>The BabyLM organizers report that submissions to the first challenge did not gain from non-linguistic grounding, and invite the 2024/2025 vision-language track partly to revisit that question. <span class="meta">(Section 7)</span><br><span class="scope">Scope: A summary statement about the 2023 edition&#x27;s submissions, concerning non-linguistic grounding signals rather than multimodal training in general.</span></li>
+<li>The BabyLM Challenge is a recurring shared task that reorients pretraining research toward sample efficiency by capping training data at a developmentally plausible 10M or 100M words. A stated goal is making pretraining research feasible on a university budget. <span class="meta">(Section 1)</span><br><span class="scope">Scope: A shared-task call for papers, not an empirical study; the rationale is argued at greater length in the 2023 call and proceedings introduction by Warstadt et al. Second edition, run in 2024/2025.</span></li>
+<li>The 2nd BabyLM Challenge&#x27;s paper-only track opens the shared task to non-model submissions, such as novel cognitively-inspired evaluation metrics and in-depth analyses of individual BabyLM models. Best-paper selection in that track is not driven by evaluation scores. <span class="meta">(Section 3)</span><br><span class="scope">Scope: The paper track replaces the loose track used in the 2023 edition; papers may still include a model and report its scores.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The 2nd BabyLM Challenge does not require using the organizers&#x27; corpus: participants may build any dataset they like as long as it stays within the 100M-word or 10M-word budget and comes with a datasheet.</li>
+<li>The 100M-word cap in the BabyLM Challenge is not a cap on tokens seen during training. Multiple epochs and augmentation are allowed; what is capped is the total amount of distinct text any component of the system learned from.</li>
+<li>The Vision track of the 2nd BabyLM Challenge is not evaluated on multimodal tasks alone — its submissions are also run on the language-only evaluation suite.</li>
+<li>The organizers&#x27; remark that the first challenge&#x27;s submissions did not benefit from non-linguistic grounding is not a conclusion that grounding cannot help; the vision-language track exists to encourage further work on exactly that question.</li>
+<li>The Strict-small track&#x27;s 10M-word budget is a separate track, not a smaller warm-up for Strict; a paper may enter several tracks with different models.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Strict track</em></dt><dd>BabyLM Challenge track for language models pretrained on 100M words of text or less, evaluated on language-only tasks.</dd>
+<dt><em>Strict-small track</em></dt><dd>BabyLM Challenge track for language models pretrained on 10M words of text or less, evaluated on language-only tasks.</dd>
+<dt><em>Vision track</em></dt><dd>BabyLM Challenge track for multimodal image-text models trained within a 100M word budget, which must be able to assign (pseudo) log-likelihoods to text conditioned on an image and are evaluated on both language-only and multimodal tasks.</dd>
+<dt><em>Paper track</em></dt><dd>BabyLM Challenge track for submissions that need not include a competition model, such as new cognitively-inspired evaluation metrics or analyses of an existing BabyLM model.</dd>
+<dt><em>Developmentally plausible corpus</em></dt><dd>a pretraining corpus whose size and composition approximate the language input a human child receives, on the order of 10M to 100M words drawn from sources such as child-directed speech, dialogue, subtitles and children&#x27;s books.</dd>
+</dl>
 <h2>References</h2>
 <p>See the full reference list in the <a href="https://arxiv.org/html/2404.06214">paper</a>.</p>
 <footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>

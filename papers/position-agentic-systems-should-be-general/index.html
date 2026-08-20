@@ -15,6 +15,7 @@
   <meta name="citation_author" content="Michal Shmueli-Scheuer">
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="ICML 2026">
   <meta name="citation_abstract" content="We call for the development of agentic systems that thrive in new environments. Agentic systems, comprising foundation models, tools, and an execution strategy, have demonstrated strong capabilities, yet their development is often constrained by narrow benchmarks and their operation is siloed to limited environments. This paper advocates for developing general, adaptive agents that excel across diverse environments, from terminals and web interfaces to biological and embodied settings. We examine current limitations, explain the potential of increased generality, and identify immediate development priorities. Finally, we argue that protocols and evaluation must prioritize adaptiveness to foster a shared ecosystem for general-purpose agentic systems.">
   <script type="application/ld+json">
 {
@@ -60,10 +61,319 @@
   ],
   "isAccessibleForFree": true,
   "datePublished": "2026",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "ICML 2026"
+  },
   "abstract": "We call for the development of agentic systems that thrive in new environments. Agentic systems, comprising foundation models, tools, and an execution strategy, have demonstrated strong capabilities, yet their development is often constrained by narrow benchmarks and their operation is siloed to limited environments. This paper advocates for developing general, adaptive agents that excel across diverse environments, from terminals and web interfaces to biological and embodied settings. We examine current limitations, explain the potential of increased generality, and identify immediate development priorities. Finally, we argue that protocols and evaluation must prioritize adaptiveness to foster a shared ecosystem for general-purpose agentic systems.",
+  "description": "Position paper arguing that agentic systems should be built as general-purpose, environment-agnostic designs rather than benchmark-specific ones, and that protocols and evaluation must describe environment affordances instead of assuming a particular agent interface.",
   "sameAs": [
-    "https://ssrn.com/abstract=6176178",
+    "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6176178",
     "https://www.semanticscholar.org/paper/287926756"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "\"Position: Agentic Systems Should be General\" argues that domain-specific agents are a transitional stage and that agent developers should favor general-purpose designs that adapt across environments while minimizing per-deployment human effort.",
+      "description": "Holds for: A position paper at the ICLR 2026 Workshop on Agents in the Wild, about research priorities rather than what practitioners should ship; specialized agents are held to remain valuable."
+    },
+    {
+      "@type": "Thing",
+      "name": "Generality of an agentic system is a spectrum measured by how little per-deployment human effort a design requires. It is not a binary property, and not how well one instantiation scores on a single task.",
+      "description": "Holds for: A definitional position stated in the paper's own terms, which declines to set a fixed requirement list and does not claim \"Agentic General Interaction\" is reachable."
+    },
+    {
+      "@type": "Thing",
+      "name": "On ASTA Bench scientific tasks, a 358-line generalist ReAct agent using GPT-5 reaches a 44% ASTA score at $0.31 per task. The specialized ASTA-v0 system scores 53% at $3.40 per task with subsystems exceeding 13,000 lines of code.",
+      "description": "Holds for: One benchmark, ASTA Bench, with ASTA-v0 using a mix of Claude 4 Sonnet, Gemini 2.5 Flash, O3, GPT-4.1 and GPT-4o; single reported runs, treated as anecdotal rather than a controlled comparison."
+    },
+    {
+      "@type": "Thing",
+      "name": "On the ASTA Bench literature-understanding subtask, the general ReAct agent scores 53%, below the specialized Asta agent's 62% but above the specialized ASTA Paper Finder's 21% and OpenAI Deep Research's 19%.",
+      "description": "Holds for: One subtask of one scientific-research benchmark; the general agent still loses to the strongest specialized system on that subtask."
+    },
+    {
+      "@type": "Thing",
+      "name": "On SWE-Bench with Claude 4 Sonnet, the domain-agnostic 131-line Mini SWE-Agent scores 65% versus 67% for the 4,161-line specialized SWE-Agent, at $0.37 per task versus about $2.50.",
+      "description": "Holds for: SWE-Bench only, both agents run with Claude 4 Sonnet; the minimal agent is described as roughly 30 times smaller and about 7 times cheaper per run."
+    },
+    {
+      "@type": "Thing",
+      "name": "Across the scientific and software-engineering cases examined, small general agents of a few hundred lines reach 70% to 95% of the performance of specialized systems that run to thousands of lines.",
+      "description": "Holds for: Two settings only, ASTA Bench and SWE-Bench, which the paper itself calls currently rare and anecdotal; no claim that the ratio transfers to web or embodied environments."
+    },
+    {
+      "@type": "Thing",
+      "name": "The HAL Generalist Agent supports multiple environments yet contains more than 20 instances of conditional logic keyed on the benchmark name. Those branches encode per-benchmark assumptions about dataset structure, available tools and task-relevant information.",
+      "description": "Holds for: A code inspection of the HAL Generalist Agent implementation as of the paper's writing, counting `if kwargs['benchmark_name'] == ...` style branches."
+    },
+    {
+      "@type": "Thing",
+      "name": "CUGA supports multiple benchmarks only through manual benchmark-specific setup, including an AppWorld-specific authentication module that logs into applications for the agent and a system prompt that assumes authenticated status. The HAL Generalist Agent shows the same pattern, with more than 20 instances of conditional logic branching on the benchmark name.",
+      "description": "Holds for: Code inspection of CUGA as of the paper's writing, on its AppWorld support; configurability of this kind still leaves the system constrained in novel domains it was not set up for."
+    },
+    {
+      "@type": "Thing",
+      "name": "Tau-Bench, WebArena and TerminalBench each hard-code a mutually incompatible agent interface: user messaging, browser actions and command-line execution respectively. Evaluating one agent across all 3 is impossible without ad hoc engineering.",
+      "description": "Holds for: Three interactive agent benchmarks inspected at their agent base-class level; BrowserGym and Harbor are cited as more general within the browser and terminal domains, but each still imposes one interaction mode."
+    },
+    {
+      "@type": "Thing",
+      "name": "MCP's 3 primitives of tools, resources and prompts represent neither benchmark task semantics nor evaluation workflows. Of 5 surveyed frameworks, all implement tools, only Claude Code implements resources, and only the OpenAI Agents SDK implements prompts.",
+      "description": "Holds for: MCP as a candidate substrate for general-agent evaluation, surveyed over Smolagents, Llama Stack, OpenAI Agents SDK, Codex CLI and Claude Code at the time of writing; A2A is noted as having similar gaps."
+    },
+    {
+      "@type": "Thing",
+      "name": "Basic outcome metrics are incompatible across agent benchmarks: success appears as a Boolean `resolved` flag in SWE-Bench, a `success` field in AppWorld and an implicit reward of 1 in Tau-Bench. Of the 3, only Tau-Bench reports interaction cost.",
+      "description": "Holds for: Three representative benchmarks — Tau-Bench, AppWorld and SWE-Bench — compared across 11 metric types including termination, duration, interaction counts, cost and aggregation conventions."
+    },
+    {
+      "@type": "Thing",
+      "name": "A 5-level classification of agent evaluation generality places BFCL and GSM8K at agentic skills, Tau-Bench and WebArena at interactive-model, HAL at cross-model harness, and BrowserGym and Harbor at protocol-centric. The top level, protocol-agnostic general evaluation, has no existing example.",
+      "description": "Holds for: A classification by the axes of cross-model, interaction, cross-environment, cross-agent and protocol-agnostic coverage, over the benchmarks cited as of the paper's writing."
+    },
+    {
+      "@type": "Thing",
+      "name": "mini-swe-agent drives everything through 1 generic command-execution interface and never branches on benchmark identifiers, running a 5-step loop of template rendering, model query, action parsing, execution and observation feedback. Supporting a new benchmark therefore requires only an Environment backend exposing execute() plus the necessary template variables.",
+      "description": "Holds for: One system, which does not itself claim generality; the extension mechanism holds only where the target environment provides a CLI or can be wrapped as one."
+    },
+    {
+      "@type": "Thing",
+      "name": "\"Position: Agentic Systems Should be General\" concedes control, predictability, efficiency and evaluation rigor as genuine advantages of specialized agents. It argues separately that generality is a distinct property from autonomy.",
+      "description": "Holds for: Opposing positions as engaged with in the paper, which acknowledges reduced insight into how a general agentic pattern interacts with the world and refers readers elsewhere on the autonomy-safety debate."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/#faq",
+  "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/",
+  "name": "Questions answered by Position: Agentic Systems Should be General",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What should I read about building agents that work across many environments?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "\"Position: Agentic Systems Should be General\" argues that domain-specific agents are a transitional stage and that agent developers should favor general-purpose designs that adapt across environments while minimizing per-deployment human effort. Holds for: A position paper at the ICLR 2026 Workshop on Agents in the Wild, about research priorities rather than what practitioners should ship; specialized agents are held to remain valuable.\n\nGenerality of an agentic system is a spectrum measured by how little per-deployment human effort a design requires. It is not a binary property, and not how well one instantiation scores on a single task. Holds for: A definitional position stated in the paper's own terms, which declines to set a fixed requirement list and does not claim \"Agentic General Interaction\" is reachable.",
+        "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/"
+      },
+      "alternateName": [
+        "Is there a position paper arguing for general-purpose AI agents instead of task-specific ones?",
+        "What work argues that agentic systems should be general rather than benchmark-specific?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What does it mean for an agent to be general?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Generality of an agentic system is a spectrum measured by how little per-deployment human effort a design requires. It is not a binary property, and not how well one instantiation scores on a single task. Holds for: A definitional position stated in the paper's own terms, which declines to set a fixed requirement list and does not claim \"Agentic General Interaction\" is reachable.",
+        "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/"
+      },
+      "alternateName": [
+        "How is agent generality defined and measured?",
+        "Is generality of an agentic system a yes-or-no property?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can a simple general agent match a specialized scientific research agent?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On ASTA Bench scientific tasks, a 358-line generalist ReAct agent using GPT-5 reaches a 44% ASTA score at $0.31 per task. The specialized ASTA-v0 system scores 53% at $3.40 per task with subsystems exceeding 13,000 lines of code. Holds for: One benchmark, ASTA Bench, with ASTA-v0 using a mix of Claude 4 Sonnet, Gemini 2.5 Flash, O3, GPT-4.1 and GPT-4o; single reported runs, treated as anecdotal rather than a controlled comparison.\n\nOn the ASTA Bench literature-understanding subtask, the general ReAct agent scores 53%, below the specialized Asta agent's 62% but above the specialized ASTA Paper Finder's 21% and OpenAI Deep Research's 19%. Holds for: One subtask of one scientific-research benchmark; the general agent still loses to the strongest specialized system on that subtask.",
+        "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/"
+      },
+      "alternateName": [
+        "How does a ReAct agent compare to ASTA-v0 on ASTA Bench?",
+        "What is the cost difference between a generalist agent and a specialized agent on scientific tasks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does a minimal agent do as well as SWE-Agent on SWE-Bench?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On SWE-Bench with Claude 4 Sonnet, the domain-agnostic 131-line Mini SWE-Agent scores 65% versus 67% for the 4,161-line specialized SWE-Agent, at $0.37 per task versus about $2.50. Holds for: SWE-Bench only, both agents run with Claude 4 Sonnet; the minimal agent is described as roughly 30 times smaller and about 7 times cheaper per run.",
+        "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/"
+      },
+      "alternateName": [
+        "How much worse is Mini SWE-Agent than SWE-Agent?",
+        "Is a 131-line coding agent competitive on SWE-Bench?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much performance do you lose by using a small general agent instead of a specialized pipeline?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Across the scientific and software-engineering cases examined, small general agents of a few hundred lines reach 70% to 95% of the performance of specialized systems that run to thousands of lines. Holds for: Two settings only, ASTA Bench and SWE-Bench, which the paper itself calls currently rare and anecdotal; no claim that the ratio transfers to web or embodied environments.\n\nOn ASTA Bench scientific tasks, a 358-line generalist ReAct agent using GPT-5 reaches a 44% ASTA score at $0.31 per task. The specialized ASTA-v0 system scores 53% at $3.40 per task with subsystems exceeding 13,000 lines of code. Holds for: One benchmark, ASTA Bench, with ASTA-v0 using a mix of Claude 4 Sonnet, Gemini 2.5 Flash, O3, GPT-4.1 and GPT-4o; single reported runs, treated as anecdotal rather than a controlled comparison.\n\nOn SWE-Bench with Claude 4 Sonnet, the domain-agnostic 131-line Mini SWE-Agent scores 65% versus 67% for the 4,161-line specialized SWE-Agent, at $0.37 per task versus about $2.50. Holds for: SWE-Bench only, both agents run with Claude 4 Sonnet; the minimal agent is described as roughly 30 times smaller and about 7 times cheaper per run.",
+        "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/"
+      },
+      "alternateName": [
+        "Is there evidence that general agents are nearly as good as specialized ones?",
+        "What is the performance gap between a few-hundred-line general agent and a thousands-of-lines specialized system?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are current 'generalist' agents actually general?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The HAL Generalist Agent supports multiple environments yet contains more than 20 instances of conditional logic keyed on the benchmark name. Those branches encode per-benchmark assumptions about dataset structure, available tools and task-relevant information. Holds for: A code inspection of the HAL Generalist Agent implementation as of the paper's writing, counting `if kwargs['benchmark_name'] == ...` style branches.\n\nCUGA supports multiple benchmarks only through manual benchmark-specific setup, including an AppWorld-specific authentication module that logs into applications for the agent and a system prompt that assumes authenticated status. The HAL Generalist Agent shows the same pattern, with more than 20 instances of conditional logic branching on the benchmark name. Holds for: Code inspection of CUGA as of the paper's writing, on its AppWorld support; configurability of this kind still leaves the system constrained in novel domains it was not set up for.",
+        "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/"
+      },
+      "alternateName": [
+        "Does the HAL Generalist Agent contain benchmark-specific code?",
+        "Why is CUGA still constrained despite being configurable?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What does an environment-agnostic agent architecture look like?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "mini-swe-agent drives everything through 1 generic command-execution interface and never branches on benchmark identifiers, running a 5-step loop of template rendering, model query, action parsing, execution and observation feedback. Supporting a new benchmark therefore requires only an Environment backend exposing execute() plus the necessary template variables. Holds for: One system, which does not itself claim generality; the extension mechanism holds only where the target environment provides a CLI or can be wrapped as one.",
+        "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/"
+      },
+      "alternateName": [
+        "How can an agent support a new benchmark without changing its control flow?",
+        "Why is mini-swe-agent held up as an example of good agent design?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why can't the same agent be evaluated on Tau-Bench, WebArena and TerminalBench?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tau-Bench, WebArena and TerminalBench each hard-code a mutually incompatible agent interface: user messaging, browser actions and command-line execution respectively. Evaluating one agent across all 3 is impossible without ad hoc engineering. Holds for: Three interactive agent benchmarks inspected at their agent base-class level; BrowserGym and Harbor are cited as more general within the browser and terminal domains, but each still imposes one interaction mode.\n\nA 5-level classification of agent evaluation generality places BFCL and GSM8K at agentic skills, Tau-Bench and WebArena at interactive-model, HAL at cross-model harness, and BrowserGym and Harbor at protocol-centric. The top level, protocol-agnostic general evaluation, has no existing example. Holds for: A classification by the axes of cross-model, interaction, cross-environment, cross-agent and protocol-agnostic coverage, over the benchmarks cited as of the paper's writing.",
+        "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/"
+      },
+      "alternateName": [
+        "Do agent benchmarks assume a specific agent interface?",
+        "What makes cross-environment agent evaluation so hard?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is MCP enough to standardize agent evaluation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MCP's 3 primitives of tools, resources and prompts represent neither benchmark task semantics nor evaluation workflows. Of 5 surveyed frameworks, all implement tools, only Claude Code implements resources, and only the OpenAI Agents SDK implements prompts. Holds for: MCP as a candidate substrate for general-agent evaluation, surveyed over Smolagents, Llama Stack, OpenAI Agents SDK, Codex CLI and Claude Code at the time of writing; A2A is noted as having similar gaps.",
+        "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/"
+      },
+      "alternateName": [
+        "What is missing from the Model Context Protocol for general agents?",
+        "How consistently do agent frameworks implement MCP tools, resources and prompts?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do agent benchmarks report success and cost in comparable ways?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Basic outcome metrics are incompatible across agent benchmarks: success appears as a Boolean `resolved` flag in SWE-Bench, a `success` field in AppWorld and an implicit reward of 1 in Tau-Bench. Of the 3, only Tau-Bench reports interaction cost. Holds for: Three representative benchmarks — Tau-Bench, AppWorld and SWE-Bench — compared across 11 metric types including termination, duration, interaction counts, cost and aggregation conventions.",
+        "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/"
+      },
+      "alternateName": [
+        "How do metric definitions differ between SWE-Bench, AppWorld and Tau-Bench?",
+        "Why is aggregating results across agent benchmarks unreliable?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What levels of generality exist in agent evaluation setups?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A 5-level classification of agent evaluation generality places BFCL and GSM8K at agentic skills, Tau-Bench and WebArena at interactive-model, HAL at cross-model harness, and BrowserGym and Harbor at protocol-centric. The top level, protocol-agnostic general evaluation, has no existing example. Holds for: A classification by the axes of cross-model, interaction, cross-environment, cross-agent and protocol-agnostic coverage, over the benchmarks cited as of the paper's writing.",
+        "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/"
+      },
+      "alternateName": [
+        "Which agent benchmarks are protocol-agnostic?",
+        "Where do BrowserGym and Harbor sit relative to HAL in evaluation generality?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is the case for specialized agents over general ones?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "\"Position: Agentic Systems Should be General\" concedes control, predictability, efficiency and evaluation rigor as genuine advantages of specialized agents. It argues separately that generality is a distinct property from autonomy. Holds for: Opposing positions as engaged with in the paper, which acknowledges reduced insight into how a general agentic pattern interacts with the world and refers readers elsewhere on the autonomy-safety debate.",
+        "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/"
+      },
+      "alternateName": [
+        "Does arguing for general agents mean arguing for more autonomous agents?",
+        "Are there safety or control arguments against general-purpose agentic systems?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/#terms",
+  "url": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/",
+  "name": "Terminology in Position: Agentic Systems Should be General",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Agentic pattern",
+      "description": "The core orchestration algorithm of an agentic system, governing how components such as foundation models, memory, context compression and tool execution interact and react to one another given an initial input.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "General-purpose agent",
+      "description": "An agentic system able to perform different types of agentic tasks across unfamiliar environments, where generality is measured by how little manual effort each new deployment requires.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Benchmark-conditioned general agent",
+      "description": "An agent that nominally supports several environments but encodes environment- or benchmark-specific assumptions inside its own logic, for example by branching on a benchmark identifier.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Agent-agnostic evaluation",
+      "description": "Benchmark design that specifies the task, observations and action effects without assuming a particular agent interface, so agents built on different protocols can be evaluated natively.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "General performance",
+      "description": "The distinction between an agent being capable in principle, analogous to Turing-completeness, and being practically efficient and reliable in a new environment.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Narrow waist",
+      "description": "A stable, minimal interface layer — by analogy with the Internet protocol stack — that decouples development of tools, models and agentic patterns while preserving interoperability.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Environment affordances",
+      "description": "What an unseen environment offers an agent: what to expect, what can be used, and how the agent is expected to act, which a general agent must receive or collect rather than have hard-coded.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/position-agentic-systems-should-be-general/#terms"
+    }
   ]
 }
   </script>
@@ -74,6 +384,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -87,21 +398,110 @@
 </head>
 <body>
 <h1>Position: Agentic Systems Should be General</h1>
-<p class="meta">Elron Bandel, Asaf Yehudai, Alexandre Lacoste, Avijit Ghosh, Graham Neubig, Margaret Mitchell, Michal Shmueli-Scheuer, Leshem Choshen · 2026</p>
-<ul class="links"><li><a href="https://www.semanticscholar.org/paper/287926756">Semantic Scholar</a></li><li><a href="https://ssrn.com/abstract=6176178">Publisher</a></li></ul>
+<p class="meta">Elron Bandel, Asaf Yehudai, Alexandre Lacoste, Avijit Ghosh, Graham Neubig, Margaret Mitchell, Michal Shmueli-Scheuer, Leshem Choshen · ICML 2026 · 2026</p>
+<ul class="links"><li><a href="https://www.semanticscholar.org/paper/287926756">Semantic Scholar</a></li><li><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6176178">Publisher</a></li></ul>
+<h2>In one sentence</h2>
+<p>Position paper arguing that agentic systems should be built as general-purpose, environment-agnostic designs rather than benchmark-specific ones, and that protocols and evaluation must describe environment affordances instead of assuming a particular agent interface.</p>
 <h2>Abstract</h2>
 <p>We call for the development of agentic systems that thrive in new environments. Agentic systems, comprising foundation models, tools, and an execution strategy, have demonstrated strong capabilities, yet their development is often constrained by narrow benchmarks and their operation is siloed to limited environments. This paper advocates for developing general, adaptive agents that excel across diverse environments, from terminals and web interfaces to biological and embodied settings. We examine current limitations, explain the potential of increased generality, and identify immediate development priorities. Finally, we argue that protocols and evaluation must prioritize adaptiveness to foster a shared ecosystem for general-purpose agentic systems.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What should I read about building agents that work across many environments?</dt>
+<dt>Is there a position paper arguing for general-purpose AI agents instead of task-specific ones?</dt>
+<dt>What work argues that agentic systems should be general rather than benchmark-specific?</dt>
+<dd>&quot;Position: Agentic Systems Should be General&quot; argues that domain-specific agents are a transitional stage and that agent developers should favor general-purpose designs that adapt across environments while minimizing per-deployment human effort.<br><span class="scope">Holds for: A position paper at the ICLR 2026 Workshop on Agents in the Wild, about research priorities rather than what practitioners should ship; specialized agents are held to remain valuable.</span></dd>
+<dd>Generality of an agentic system is a spectrum measured by how little per-deployment human effort a design requires. It is not a binary property, and not how well one instantiation scores on a single task.<br><span class="scope">Holds for: A definitional position stated in the paper&#x27;s own terms, which declines to set a fixed requirement list and does not claim &quot;Agentic General Interaction&quot; is reachable.</span></dd>
+<dt>What does it mean for an agent to be general?</dt>
+<dt>How is agent generality defined and measured?</dt>
+<dt>Is generality of an agentic system a yes-or-no property?</dt>
+<dd>Generality of an agentic system is a spectrum measured by how little per-deployment human effort a design requires. It is not a binary property, and not how well one instantiation scores on a single task.<br><span class="scope">Holds for: A definitional position stated in the paper&#x27;s own terms, which declines to set a fixed requirement list and does not claim &quot;Agentic General Interaction&quot; is reachable.</span></dd>
+<dt>Can a simple general agent match a specialized scientific research agent?</dt>
+<dt>How does a ReAct agent compare to ASTA-v0 on ASTA Bench?</dt>
+<dt>What is the cost difference between a generalist agent and a specialized agent on scientific tasks?</dt>
+<dd>On ASTA Bench scientific tasks, a 358-line generalist ReAct agent using GPT-5 reaches a 44% ASTA score at $0.31 per task. The specialized ASTA-v0 system scores 53% at $3.40 per task with subsystems exceeding 13,000 lines of code.<br><span class="scope">Holds for: One benchmark, ASTA Bench, with ASTA-v0 using a mix of Claude 4 Sonnet, Gemini 2.5 Flash, O3, GPT-4.1 and GPT-4o; single reported runs, treated as anecdotal rather than a controlled comparison.</span></dd>
+<dd>On the ASTA Bench literature-understanding subtask, the general ReAct agent scores 53%, below the specialized Asta agent&#x27;s 62% but above the specialized ASTA Paper Finder&#x27;s 21% and OpenAI Deep Research&#x27;s 19%.<br><span class="scope">Holds for: One subtask of one scientific-research benchmark; the general agent still loses to the strongest specialized system on that subtask.</span></dd>
+<dt>Does a minimal agent do as well as SWE-Agent on SWE-Bench?</dt>
+<dt>How much worse is Mini SWE-Agent than SWE-Agent?</dt>
+<dt>Is a 131-line coding agent competitive on SWE-Bench?</dt>
+<dd>On SWE-Bench with Claude 4 Sonnet, the domain-agnostic 131-line Mini SWE-Agent scores 65% versus 67% for the 4,161-line specialized SWE-Agent, at $0.37 per task versus about $2.50.<br><span class="scope">Holds for: SWE-Bench only, both agents run with Claude 4 Sonnet; the minimal agent is described as roughly 30 times smaller and about 7 times cheaper per run.</span></dd>
+<dt>How much performance do you lose by using a small general agent instead of a specialized pipeline?</dt>
+<dt>Is there evidence that general agents are nearly as good as specialized ones?</dt>
+<dt>What is the performance gap between a few-hundred-line general agent and a thousands-of-lines specialized system?</dt>
+<dd>Across the scientific and software-engineering cases examined, small general agents of a few hundred lines reach 70% to 95% of the performance of specialized systems that run to thousands of lines.<br><span class="scope">Holds for: Two settings only, ASTA Bench and SWE-Bench, which the paper itself calls currently rare and anecdotal; no claim that the ratio transfers to web or embodied environments.</span></dd>
+<dd>On ASTA Bench scientific tasks, a 358-line generalist ReAct agent using GPT-5 reaches a 44% ASTA score at $0.31 per task. The specialized ASTA-v0 system scores 53% at $3.40 per task with subsystems exceeding 13,000 lines of code.<br><span class="scope">Holds for: One benchmark, ASTA Bench, with ASTA-v0 using a mix of Claude 4 Sonnet, Gemini 2.5 Flash, O3, GPT-4.1 and GPT-4o; single reported runs, treated as anecdotal rather than a controlled comparison.</span></dd>
+<dd>On SWE-Bench with Claude 4 Sonnet, the domain-agnostic 131-line Mini SWE-Agent scores 65% versus 67% for the 4,161-line specialized SWE-Agent, at $0.37 per task versus about $2.50.<br><span class="scope">Holds for: SWE-Bench only, both agents run with Claude 4 Sonnet; the minimal agent is described as roughly 30 times smaller and about 7 times cheaper per run.</span></dd>
+<dt>Are current &#x27;generalist&#x27; agents actually general?</dt>
+<dt>Does the HAL Generalist Agent contain benchmark-specific code?</dt>
+<dt>Why is CUGA still constrained despite being configurable?</dt>
+<dd>The HAL Generalist Agent supports multiple environments yet contains more than 20 instances of conditional logic keyed on the benchmark name. Those branches encode per-benchmark assumptions about dataset structure, available tools and task-relevant information.<br><span class="scope">Holds for: A code inspection of the HAL Generalist Agent implementation as of the paper&#x27;s writing, counting `if kwargs[&#x27;benchmark_name&#x27;] == ...` style branches.</span></dd>
+<dd>CUGA supports multiple benchmarks only through manual benchmark-specific setup, including an AppWorld-specific authentication module that logs into applications for the agent and a system prompt that assumes authenticated status. The HAL Generalist Agent shows the same pattern, with more than 20 instances of conditional logic branching on the benchmark name.<br><span class="scope">Holds for: Code inspection of CUGA as of the paper&#x27;s writing, on its AppWorld support; configurability of this kind still leaves the system constrained in novel domains it was not set up for.</span></dd>
+<dt>What does an environment-agnostic agent architecture look like?</dt>
+<dt>How can an agent support a new benchmark without changing its control flow?</dt>
+<dt>Why is mini-swe-agent held up as an example of good agent design?</dt>
+<dd>mini-swe-agent drives everything through 1 generic command-execution interface and never branches on benchmark identifiers, running a 5-step loop of template rendering, model query, action parsing, execution and observation feedback. Supporting a new benchmark therefore requires only an Environment backend exposing execute() plus the necessary template variables.<br><span class="scope">Holds for: One system, which does not itself claim generality; the extension mechanism holds only where the target environment provides a CLI or can be wrapped as one.</span></dd>
+<dt>Why can&#x27;t the same agent be evaluated on Tau-Bench, WebArena and TerminalBench?</dt>
+<dt>Do agent benchmarks assume a specific agent interface?</dt>
+<dt>What makes cross-environment agent evaluation so hard?</dt>
+<dd>Tau-Bench, WebArena and TerminalBench each hard-code a mutually incompatible agent interface: user messaging, browser actions and command-line execution respectively. Evaluating one agent across all 3 is impossible without ad hoc engineering.<br><span class="scope">Holds for: Three interactive agent benchmarks inspected at their agent base-class level; BrowserGym and Harbor are cited as more general within the browser and terminal domains, but each still imposes one interaction mode.</span></dd>
+<dd>A 5-level classification of agent evaluation generality places BFCL and GSM8K at agentic skills, Tau-Bench and WebArena at interactive-model, HAL at cross-model harness, and BrowserGym and Harbor at protocol-centric. The top level, protocol-agnostic general evaluation, has no existing example.<br><span class="scope">Holds for: A classification by the axes of cross-model, interaction, cross-environment, cross-agent and protocol-agnostic coverage, over the benchmarks cited as of the paper&#x27;s writing.</span></dd>
+<dt>Is MCP enough to standardize agent evaluation?</dt>
+<dt>What is missing from the Model Context Protocol for general agents?</dt>
+<dt>How consistently do agent frameworks implement MCP tools, resources and prompts?</dt>
+<dd>MCP&#x27;s 3 primitives of tools, resources and prompts represent neither benchmark task semantics nor evaluation workflows. Of 5 surveyed frameworks, all implement tools, only Claude Code implements resources, and only the OpenAI Agents SDK implements prompts.<br><span class="scope">Holds for: MCP as a candidate substrate for general-agent evaluation, surveyed over Smolagents, Llama Stack, OpenAI Agents SDK, Codex CLI and Claude Code at the time of writing; A2A is noted as having similar gaps.</span></dd>
+<dt>Do agent benchmarks report success and cost in comparable ways?</dt>
+<dt>How do metric definitions differ between SWE-Bench, AppWorld and Tau-Bench?</dt>
+<dt>Why is aggregating results across agent benchmarks unreliable?</dt>
+<dd>Basic outcome metrics are incompatible across agent benchmarks: success appears as a Boolean `resolved` flag in SWE-Bench, a `success` field in AppWorld and an implicit reward of 1 in Tau-Bench. Of the 3, only Tau-Bench reports interaction cost.<br><span class="scope">Holds for: Three representative benchmarks — Tau-Bench, AppWorld and SWE-Bench — compared across 11 metric types including termination, duration, interaction counts, cost and aggregation conventions.</span></dd>
+<dt>What levels of generality exist in agent evaluation setups?</dt>
+<dt>Which agent benchmarks are protocol-agnostic?</dt>
+<dt>Where do BrowserGym and Harbor sit relative to HAL in evaluation generality?</dt>
+<dd>A 5-level classification of agent evaluation generality places BFCL and GSM8K at agentic skills, Tau-Bench and WebArena at interactive-model, HAL at cross-model harness, and BrowserGym and Harbor at protocol-centric. The top level, protocol-agnostic general evaluation, has no existing example.<br><span class="scope">Holds for: A classification by the axes of cross-model, interaction, cross-environment, cross-agent and protocol-agnostic coverage, over the benchmarks cited as of the paper&#x27;s writing.</span></dd>
+<dt>What is the case for specialized agents over general ones?</dt>
+<dt>Does arguing for general agents mean arguing for more autonomous agents?</dt>
+<dt>Are there safety or control arguments against general-purpose agentic systems?</dt>
+<dd>&quot;Position: Agentic Systems Should be General&quot; concedes control, predictability, efficiency and evaluation rigor as genuine advantages of specialized agents. It argues separately that generality is a distinct property from autonomy.<br><span class="scope">Holds for: Opposing positions as engaged with in the paper, which acknowledges reduced insight into how a general agentic pattern interacts with the world and refers readers elsewhere on the autonomy-safety debate.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>&quot;Position: Agentic Systems Should be General&quot; argues that domain-specific agents are a transitional stage and that agent developers should favor general-purpose designs that adapt across environments while minimizing per-deployment human effort.<br><span class="scope">Scope: A position paper at the ICLR 2026 Workshop on Agents in the Wild, about research priorities rather than what practitioners should ship; specialized agents are held to remain valuable.</span></li>
+<li>Generality of an agentic system is a spectrum measured by how little per-deployment human effort a design requires. It is not a binary property, and not how well one instantiation scores on a single task.<br><span class="scope">Scope: A definitional position stated in the paper&#x27;s own terms, which declines to set a fixed requirement list and does not claim &quot;Agentic General Interaction&quot; is reachable.</span></li>
+<li>On ASTA Bench scientific tasks, a 358-line generalist ReAct agent using GPT-5 reaches a 44% ASTA score at $0.31 per task. The specialized ASTA-v0 system scores 53% at $3.40 per task with subsystems exceeding 13,000 lines of code. <span class="meta">(Table 1)</span><br><span class="scope">Scope: One benchmark, ASTA Bench, with ASTA-v0 using a mix of Claude 4 Sonnet, Gemini 2.5 Flash, O3, GPT-4.1 and GPT-4o; single reported runs, treated as anecdotal rather than a controlled comparison.</span></li>
+<li>On the ASTA Bench literature-understanding subtask, the general ReAct agent scores 53%, below the specialized Asta agent&#x27;s 62% but above the specialized ASTA Paper Finder&#x27;s 21% and OpenAI Deep Research&#x27;s 19%. <span class="meta">(Section 5)</span><br><span class="scope">Scope: One subtask of one scientific-research benchmark; the general agent still loses to the strongest specialized system on that subtask.</span></li>
+<li>On SWE-Bench with Claude 4 Sonnet, the domain-agnostic 131-line Mini SWE-Agent scores 65% versus 67% for the 4,161-line specialized SWE-Agent, at $0.37 per task versus about $2.50. <span class="meta">(Table 2)</span><br><span class="scope">Scope: SWE-Bench only, both agents run with Claude 4 Sonnet; the minimal agent is described as roughly 30 times smaller and about 7 times cheaper per run.</span></li>
+<li>Across the scientific and software-engineering cases examined, small general agents of a few hundred lines reach 70% to 95% of the performance of specialized systems that run to thousands of lines. <span class="meta">(Section 5)</span><br><span class="scope">Scope: Two settings only, ASTA Bench and SWE-Bench, which the paper itself calls currently rare and anecdotal; no claim that the ratio transfers to web or embodied environments.</span></li>
+<li>The HAL Generalist Agent supports multiple environments yet contains more than 20 instances of conditional logic keyed on the benchmark name. Those branches encode per-benchmark assumptions about dataset structure, available tools and task-relevant information. <span class="meta">(Section 4.2)</span><br><span class="scope">Scope: A code inspection of the HAL Generalist Agent implementation as of the paper&#x27;s writing, counting `if kwargs[&#x27;benchmark_name&#x27;] == ...` style branches.</span></li>
+<li>CUGA supports multiple benchmarks only through manual benchmark-specific setup, including an AppWorld-specific authentication module that logs into applications for the agent and a system prompt that assumes authenticated status. The HAL Generalist Agent shows the same pattern, with more than 20 instances of conditional logic branching on the benchmark name. <span class="meta">(Section 4.2)</span><br><span class="scope">Scope: Code inspection of CUGA as of the paper&#x27;s writing, on its AppWorld support; configurability of this kind still leaves the system constrained in novel domains it was not set up for.</span></li>
+<li>Tau-Bench, WebArena and TerminalBench each hard-code a mutually incompatible agent interface: user messaging, browser actions and command-line execution respectively. Evaluating one agent across all 3 is impossible without ad hoc engineering. <span class="meta">(Section 8.3)</span><br><span class="scope">Scope: Three interactive agent benchmarks inspected at their agent base-class level; BrowserGym and Harbor are cited as more general within the browser and terminal domains, but each still imposes one interaction mode.</span></li>
+<li>MCP&#x27;s 3 primitives of tools, resources and prompts represent neither benchmark task semantics nor evaluation workflows. Of 5 surveyed frameworks, all implement tools, only Claude Code implements resources, and only the OpenAI Agents SDK implements prompts. <span class="meta">(Table C.1)</span><br><span class="scope">Scope: MCP as a candidate substrate for general-agent evaluation, surveyed over Smolagents, Llama Stack, OpenAI Agents SDK, Codex CLI and Claude Code at the time of writing; A2A is noted as having similar gaps.</span></li>
+<li>Basic outcome metrics are incompatible across agent benchmarks: success appears as a Boolean `resolved` flag in SWE-Bench, a `success` field in AppWorld and an implicit reward of 1 in Tau-Bench. Of the 3, only Tau-Bench reports interaction cost. <span class="meta">(Table C.2)</span><br><span class="scope">Scope: Three representative benchmarks — Tau-Bench, AppWorld and SWE-Bench — compared across 11 metric types including termination, duration, interaction counts, cost and aggregation conventions.</span></li>
+<li>A 5-level classification of agent evaluation generality places BFCL and GSM8K at agentic skills, Tau-Bench and WebArena at interactive-model, HAL at cross-model harness, and BrowserGym and Harbor at protocol-centric. The top level, protocol-agnostic general evaluation, has no existing example. <span class="meta">(Table A.1)</span><br><span class="scope">Scope: A classification by the axes of cross-model, interaction, cross-environment, cross-agent and protocol-agnostic coverage, over the benchmarks cited as of the paper&#x27;s writing.</span></li>
+<li>mini-swe-agent drives everything through 1 generic command-execution interface and never branches on benchmark identifiers, running a 5-step loop of template rendering, model query, action parsing, execution and observation feedback. Supporting a new benchmark therefore requires only an Environment backend exposing execute() plus the necessary template variables. <span class="meta">(Section 4.3)</span><br><span class="scope">Scope: One system, which does not itself claim generality; the extension mechanism holds only where the target environment provides a CLI or can be wrapped as one.</span></li>
+<li>&quot;Position: Agentic Systems Should be General&quot; concedes control, predictability, efficiency and evaluation rigor as genuine advantages of specialized agents. It argues separately that generality is a distinct property from autonomy.<br><span class="scope">Scope: Opposing positions as engaged with in the paper, which acknowledges reduced insight into how a general agentic pattern interacts with the world and refers readers elsewhere on the autonomy-safety debate.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>&quot;Position: Agentic Systems Should be General&quot; does not claim specialized agents are useless: it holds that specialization is a transitional research stage and that general systems give better starting points for the specialized agents practitioners still need.</li>
+<li>The ASTA Bench and SWE-Bench comparisons are presented as anecdotal sparks of promise, not as a controlled demonstration that general agents beat specialized ones — in both cases the specialized system still scores higher.</li>
+<li>Arguing for general agents is not arguing for more autonomous agents; generality and autonomy are treated as distinct properties, and no position is taken on how much autonomy agents should have.</li>
+<li>Naming HAL and CUGA as benchmark-conditioned is a critique of where environment assumptions live in the code, not a claim that those systems perform poorly on the benchmarks they target.</li>
+<li>Criticism of MCP is not a claim that MCP should be abandoned: it is identified as promising groundwork that lacks task semantics and evaluation-workflow support needed for general-agent evaluation.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Agentic pattern</em></dt><dd>The core orchestration algorithm of an agentic system, governing how components such as foundation models, memory, context compression and tool execution interact and react to one another given an initial input.</dd>
+<dt><em>General-purpose agent</em></dt><dd>An agentic system able to perform different types of agentic tasks across unfamiliar environments, where generality is measured by how little manual effort each new deployment requires.</dd>
+<dt><em>Benchmark-conditioned general agent</em></dt><dd>An agent that nominally supports several environments but encodes environment- or benchmark-specific assumptions inside its own logic, for example by branching on a benchmark identifier.</dd>
+<dt><em>Agent-agnostic evaluation</em></dt><dd>Benchmark design that specifies the task, observations and action effects without assuming a particular agent interface, so agents built on different protocols can be evaluated natively.</dd>
+<dt><em>General performance</em></dt><dd>The distinction between an agent being capable in principle, analogous to Turing-completeness, and being practically efficient and reliable in a new environment.</dd>
+<dt><em>Narrow waist</em></dt><dd>A stable, minimal interface layer — by analogy with the Internet protocol stack — that decouples development of tools, models and agentic patterns while preserving interoperability.</dd>
+<dt><em>Environment affordances</em></dt><dd>What an unseen environment offers an agent: what to expect, what can be used, and how the agent is expected to act, which a general agent must receive or collect rather than have hard-coded.</dd>
+</dl>
 <h2>How to cite</h2>
 <pre>@misc{bandel2026agentic,
-title        = {Position: Agentic Systems Should be General},
+  title        = {Position: Agentic Systems Should be General},
   author       = {Bandel, Elron and Yehudai, Asaf and Lacoste, Alexandre and Ghosh, Avijit and Neubig, Graham and Mitchell, Margaret and Shmueli-Scheuer, Michal and Choshen, Leshem},
   year         = {2026},
   month        = feb,
   note         = {14 pages. Posted 18 Feb 2026},
-  institution  = {SSRN},
-  howpublished = {\url{https://ssrn.com/abstract=6176178}},
+  institution  = {International Conference on Machine Learning (ICML) 2026},
   abstract     = {We call for the development of agentic systems that thrive in new environments. Agentic systems, comprising foundation models, tools, and an execution strategy, have demonstrated strong capabilities, yet their development is often constrained by narrow benchmarks and their operation is siloed to limited environments. This paper advocates for developing general, adaptive agents that excel across diverse environments, from terminals and web interfaces to biological and embodied settings. We examine current limitations, explain the potential of increased generality, and identify immediate development priorities. Finally, we argue that protocols and evaluation must prioritize adaptiveness to foster a shared ecosystem for general-purpose agentic systems.},
-  url          = {https://ssrn.com/abstract=6176178}
 }</pre>
 <h2>References</h2>
 <p>See the full reference list in the <a href="https://borgr.github.io/papers/position-agentic-systems-should-be-general/">paper</a>.</p>

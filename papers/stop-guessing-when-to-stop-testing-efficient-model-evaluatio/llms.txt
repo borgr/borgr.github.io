@@ -1,10 +1,68 @@
 # Stop Guessing When to Stop Testing: Efficient Model Evaluation with Just Enough Data
 
-Authors: Ofir Arviv, K. Greenewald, Yotam Perlitz, Hadar Mulian, Michal Shmueli-Scheuer, Leshem Choshen
-Venue: Annual Meeting of the Association for Computational Linguistics (2026)
+stopping a benchmark run as soon as the statistics justify it, instead of at a fixed sample size
 
-## Abstract
-The inherent rigidity of fixed-size benchmarks makes them an inefficient tool for model evaluation. Diverse evaluation objectives, including model ranking, model selection and testing throughout development, demand varying levels of statistical power. The mismatch between fixed sample sizes and these diverse needs results in either excessive computational cost or compromised reliability - a critical concern for model evaluation. To overcome these limitations, we call for adoption of sequential testing in our field. We provide an adaptive evaluation framework, that provides a principled way to navigate the trade-off between efficiency and reliability in model evaluation. Our framework combines the established statistical paradigm of sequential testing with stopping criteria tailored to common evaluation needs such as diminishing returns detection, and minimum detectable effect size. We demonstrate its ability to adaptively manage the efficiency-reliability trade-off on the Open VLM Leaderboard, including, for example, a 80% reduction in computational cost compared to fixed-size evaluation (with a 2.5-point CI width allowance) while maintaining statistical significance.
+Authors: Ofir Arviv, Kristjan Greenewald, Yotam Perlitz, Hadar Mulian, Michal Shmueli-Scheuer, Leshem Choshen
+Venue: Findings of the Association for Computational Linguistics, {ACL} 2026, San Diego, California, United States, July 2-7, 2026 (2026)
+
+## What this paper shows
+Adaptive evaluation applies group sequential testing with the Pocock spending function to benchmark runs, so evaluation stops as soon as a user-defined criterion — a target confidence-interval width, an equivalence margin, a score threshold — is met, with the statistical guarantees preserved despite repeated peeking.
+
+## Claims, with scope
+- Stopping an Open VLM Leaderboard evaluation once the 95% confidence-interval half-width reaches ±2.5 points saves 80% of the evaluation cost relative to the full benchmark. Stopping instead at the diminishing-returns plateau saves 44% while giving up 0.132 points of precision.
+  Scope: 206 VLMs on the Open VLM Leaderboard, 31 multimodal benchmarks totalling 14,400 examples, averaged over 10 random seeds; unweighted mean-of-means scoring, and savings depend on that benchmark's dataset-size heterogeneity.
+  Evidence: Figure 1
+- On the Open VLM Leaderboard, a ±3-point confidence interval on a single model's score needs roughly 15% of the examples, ±2 points needs about 30%, and ±1.5 points needs about half.
+  Scope: 95% CIs for each of 206 VLMs over 10 random seeds, unweighted mean-of-means over 31 datasets; the fractions are specific to this benchmark's variance structure.
+  Evidence: Section 7.1
+- Going from 8K examples (55% of the Open VLM Leaderboard) to the full 14,400 examples narrows the confidence interval only from 2.9 to 2.7 points. That 0.2-point gain costs nearly double the compute.
+  Scope: 206 VLMs, 95% CI half-width averaged over 10 seeds; precision improves as n^(-1/2) and small high-variance datasets dominate the unweighted mean-of-means, which caps overall uncertainty.
+  Evidence: Section 7.1
+- The common heuristic of evaluating on 1K examples or fewer yields confidence intervals often exceeding ±5.5 points on the Open VLM Leaderboard, wide enough to be impractical for decision-making.
+  Scope: 206 VLMs, 31 multimodal datasets, mean-of-means score, 10 seeds; magnitude is benchmark-specific and reflects heterogeneous dataset sizes.
+  Evidence: Section 7.1
+- For pairs of top-50 Open VLM Leaderboard models differing by more than 2 points, sequential stopping saved at least 60% of the evaluation effort. Pairs differing by less than 1.2 points typically consumed the full benchmark without reaching significance.
+  Scope: 1K sampled pairs from the top 50 models, strict comparison at 95% confidence, initial sample 600 (100 per dataset) and batch size 100, Pocock spending function; roughly 24% of pairs fall in the sub-1.2-point regime.
+  Evidence: Figure 2
+- Adaptive sequential evaluation reliably separated 76% of 1K top-50 Open VLM Leaderboard model pairs at 95% confidence. A fixed 1.2K-sample heuristic of 200 examples per dataset, evaluated with bootstrap confidence intervals, separated only 55%.
+  Scope: 1K sampled pairs from the top 50 models; the fixed-size baseline was given bootstrap inference, which is more powerful per sample than the sequential test.
+  Evidence: Section 7.2
+- With a fixed 1.2K-sample budget on the Open VLM Leaderboard, the model pairs that cannot be reliably separated look no different to the user from the ones that can. Sequential testing instead reports when a comparison never reached significance.
+  Scope: 1K sampled pairs from the top 50 models at 95% confidence, where the fixed budget separated 55% of pairs and the sequential procedure 76%.
+  Evidence: Section 7.2
+- Ranking 5 Open VLM Leaderboard models drawn from the top 15 with a ±2-point equivalence margin at α=0.05 used only 60% of the examples. On average 2.4 of the 20 pairwise comparisons per run stayed indistinguishable and consumed the full benchmark.
+  Scope: 5 models sampled from the top 15 across 10 seeds, pairwise comparisons without multiple-testing correction, best-to-worst gap at most 5 points.
+  Evidence: Section 7.3.1
+- Testing whether a candidate model beats a deployed baseline by at least 2 points at 95% confidence used 63% of the examples of a fixed-sample evaluation. The average is over 100 sampled Open VLM Leaderboard pairs from the top 15.
+  Scope: One-sided test with stopping on either a confirmed ≥2-point improvement or on futility; 100 random pairs from the top 15 models, so gaps between the compared models are small.
+  Evidence: Section 7.3.2
+- Screening Open VLM Leaderboard models by discarding those below 60 points and otherwise stopping at a ±2-point CI used 30% of the total sample budget, against 50% without the discard rule. 86 models were filtered out early.
+  Scope: 206 VLMs over 10 seeds, two combined stopping rules (threshold crossing plus precision-based); the saving depends on how many candidates are genuinely weak.
+  Evidence: Section 7.3.3
+- The adaptive evaluation framework of "Stop Guessing When to Stop Testing" argues that NLP and vision-language benchmarking should replace fixed-size test sets with sequential testing. It imports group sequential designs from clinical trials into model evaluation.
+  Scope: A position and framework paper whose experiments cover one leaderboard, the Open VLM Leaderboard with 206 models; sequential testing itself is long established in clinical trials and quality control.
+  Evidence: Section 1
+- The adaptive evaluation framework obtains its statistical guarantees from the evaluation run in progress alone, needing no prior scores for other models. Efficient-evaluation methods that select benchmark subsets instead rely on statistics from full benchmark runs.
+  Scope: Contrast is with subset-selection and score-prediction approaches; the sequential framework instead assumes per-example scores behave close to i.i.d. and pays a modest power reduction for the interim looks.
+  Evidence: Section 3
+- The adaptive evaluation framework supplies 6 stopping rules that users can mix to match an evaluation objective: efficacy, equivalence margin, precision-based (minimum detectable effect size), threshold crossing, futility and diminishing returns.
+  Scope: Multi-dataset benchmarks with per-example scores in [0,1]; the experiments demonstrate the precision-based, equivalence-margin, threshold-crossing and futility rules, and margins or thresholds must be user-specified.
+  Evidence: Section 5.3
+
+## Common misreadings
+- The 80% cost reduction is not free precision: it is the saving obtained when the user accepts a ±2.5-point confidence interval on the Open VLM Leaderboard score, and tighter targets cost more samples.
+- Adaptive evaluation does not make close model comparisons resolvable: pairs differing by under 1.2 points still consumed the full Open VLM Leaderboard without reaching significance, and the framework's contribution is reporting that failure rather than hiding it.
+- Sequential testing is not statistically free — repeated interim looks force a stricter per-stage threshold and cost a modest amount of power relative to a fixed-size bootstrap test of the same sample size.
+- The reported percentage savings are measurements on the Open VLM Leaderboard's 31 heterogeneous multimodal datasets, not general constants; a benchmark whose datasets are uniformly large will show a different diminishing-returns point.
+- Adaptive stopping does not remove the need for user judgement: equivalence margins, score thresholds and acceptable CI widths must be specified in advance, which the paper's limitations note demands statistical or domain expertise.
+- Because stopping points depend on observed performance, results can vary between runs, so adaptive evaluation is not automatically more reproducible than fixed-size evaluation unless randomness is controlled.
+
+## Terminology
+- Diminishing returns stopping: A stopping rule that halts evaluation once the marginal gain in confidence-interval precision from an additional batch of examples falls below a user-specified threshold.
+- Equivalence margin stopping: A stopping rule that halts a model comparison once the estimated performance difference is confidently confined within a user-specified margin, declaring the two models practically equivalent instead of waiting for strict significance.
+- Group sequential testing (GST): A statistical design that analyses accumulating data in batches at pre-specified interim points and adjusts the per-stage significance threshold so the overall Type I error rate stays at the nominal level despite repeated looks.
+- Mean-of-means benchmark score: A multi-dataset benchmark score computed as the unweighted average of per-dataset means, so every dataset contributes equally regardless of its size.
+- Peeking: Repeatedly inspecting and acting on results while data is still being collected, which invalidates the standard interpretation of fixed-sample p-values and confidence intervals.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2607.08522
@@ -12,5 +70,34 @@ The inherent rigidity of fixed-size benchmarks makes them an inefficient tool fo
 - HTML: https://arxiv.org/html/2607.08522
 - Hugging Face: https://huggingface.co/papers/2607.08522
 - alphaXiv: https://www.alphaxiv.org/abs/2607.08522
-- DOI: https://doi.org/10.18653/v1/2026.findings-acl.43
+- DOI: https://doi.org/10.18653/V1/2026.FINDINGS-ACL.43
 - Semantic Scholar: https://www.semanticscholar.org/paper/289773796
+- Publisher: https://doi.org/10.18653/v1/2026.findings-acl.43
+- Code: https://github.com/OfirArviv/adaptive-eval
+- Data: https://huggingface.co/datasets/VLMEval/OpenVLMRecords
+
+## How to cite
+@inproceedings{arviv2026stop,
+  author       = {Ofir Arviv and
+                  Kristjan Greenewald and
+                  Yotam Perlitz and
+                  Hadar Mulian and
+                  Michal Shmueli{-}Scheuer and
+                  Leshem Choshen},
+  editor       = {Maria Liakata and
+                  Viviane P. Moreira and
+                  Jiajun Zhang and
+                  David Jurgens},
+  title        = {Stop Guessing When to Stop Testing: Efficient Model Evaluation with
+                  Just Enough Data},
+  booktitle    = {Findings of the Association for Computational Linguistics, {ACL} 2026,
+                  San Diego, California, United States, July 2-7, 2026},
+  pages        = {871--881},
+  publisher    = {Association for Computational Linguistics},
+  year         = {2026},
+  url          = {https://doi.org/10.18653/v1/2026.findings-acl.43},
+  doi          = {10.18653/V1/2026.FINDINGS-ACL.43},
+  timestamp    = {Thu, 30 Jul 2026 01:00:00 +0200},
+  biburl       = {https://dblp.org/rec/conf/acl/ArvivGPMSC26.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}

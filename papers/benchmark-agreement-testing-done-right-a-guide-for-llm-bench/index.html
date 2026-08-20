@@ -64,21 +64,282 @@
   "datePublished": "2024",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "CoRR"
+    "name": "arXiv"
   },
   "identifier": "https://doi.org/10.48550/ARXIV.2407.13696",
   "abstract": "Recent advancements in Language Models (LMs) have catalyzed the creation of multiple benchmarks, designed to assess these models' general capabilities. A crucial task, however, is assessing the validity of the benchmarks themselves. This is most commonly done via Benchmark Agreement Testing (BAT), where new benchmarks are validated against established ones using some agreement metric (e.g., rank correlation). Despite the crucial role of BAT for benchmark builders and consumers, there are no standardized procedures for such agreement testing. This deficiency can lead to invalid conclusions, fostering mistrust in benchmarks and upending the ability to properly choose the appropriate benchmark to use. By analyzing over 40 prominent benchmarks, we demonstrate how some overlooked methodological choices can significantly influence BAT results, potentially undermining the validity of conclusions. To address these inconsistencies, we propose a set of best practices for BAT and demonstrate how utilizing these methodologies greatly improves BAT robustness and validity. To foster adoption and facilitate future research,, we introduce BenchBench, a python package for BAT, and release the BenchBench-leaderboard, a meta-benchmark designed to evaluate benchmarks using their peers. Our findings underscore the necessity for standardized BAT, ensuring the robustness and validity of benchmark evaluations in the evolving landscape of language model research. BenchBench Package: github.com/IBM/BenchBench Leaderboard: hf.co/spaces/IBM/BenchBench",
-  "codeRepository": "https://github.com/ibm/benchbench",
+  "description": "Benchmark Agreement Testing — validating a new LLM benchmark by correlating model rankings with established ones — gives unstable answers unless the reference benchmarks are aggregated, the threshold is data-driven and enough models are randomly sampled; BenchBench implements all three.",
+  "codeRepository": "https://github.com/IBM/benchbench",
   "sameAs": [
     "https://arxiv.org/abs/2407.13696",
     "https://arxiv.org/html/2407.13696",
     "https://arxiv.org/pdf/2407.13696",
     "https://doi.org/10.48550/ARXIV.2407.13696",
     "https://doi.org/10.48550/arXiv.2407.13696",
-    "https://github.com/ibm/benchbench",
+    "https://github.com/IBM/benchbench",
+    "https://hf.co/spaces/ibm/benchbench",
     "https://huggingface.co/papers/2407.13696",
     "https://www.alphaxiv.org/abs/2407.13696",
     "https://www.semanticscholar.org/paper/287923131"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Applying aggregate reference benchmarks, metric-aware thresholds and randomly sampled model selection together cuts the standard deviation of Benchmark Agreement Testing results from 0.31 to 0.10, a 67% reduction.",
+      "description": "Holds for: Over 40 LLM benchmarks with results cut off at Jan 2024, spanning over 200 models; variance measured across repeated BAT instances using Kendall-tau; benchmark pairs need at least 5 intersecting models."
+    },
+    {
+      "@type": "Thing",
+      "name": "Replacing a single arbitrary reference benchmark with an aggregate reference reduces the standard deviation of BAT correlations from 0.31 to 0.23, a drop of more than 30%. The aggregate is built by averaging model win-rates across several benchmarks.",
+      "description": "Holds for: Requires access to model scores from multiple benchmarks measuring a similar construct, which BenchBench supplies; measured on the paper's set of over 40 benchmarks, results cutoff Jan 2024."
+    },
+    {
+      "@type": "Thing",
+      "name": "Selecting the models for BAT randomly and in larger numbers, rather than picking a small arbitrary set, lowers the standard deviation of BAT results from 0.31 to 0.20, a 35% reduction. The recommendation is at least 10 models, preferably more.",
+      "description": "Holds for: Kendall-tau agreement over the paper's collection of more than 40 benchmarks, cutoff Jan 2024; assumes the target benchmark already has scores across diverse model sizes and architectures."
+    },
+    {
+      "@type": "Thing",
+      "name": "Alpaca v2 agrees with MT-Bench at Kendall-tau 0.57 but with LMSys Arena at 0.82, even though both references are taken to measure similar abilities. A single-reference BAT conclusion can therefore be an artifact of which reference was picked.",
+      "description": "Holds for: Each correlation computed over 20 randomly sampled models shared by the benchmark pair; benchmark results cut off Jan 2024."
+    },
+    {
+      "@type": "Thing",
+      "name": "With small model subsets the standard deviation of BAT results approaches 0.25. The Kendall-tau correlation between LMSys Arena and MT-Bench ranges from roughly 0.65 to 0.99 depending only on how many models are included.",
+      "description": "Holds for: Randomly sampled subsets of models shared by the two benchmarks; variance shrinks as subset size grows, so the instability is a small-sample property, not a property of those two benchmarks."
+    },
+    {
+      "@type": "Thing",
+      "name": "Two benchmarks can show high agreement over a wide range of models while agreeing poorly over the top-ranked ones. Kendall-tau between LMSys Arena and each of BBH, MMLU and Alpaca v2 changes substantially between the top 5, top 10 and top 15 Arena models.",
+      "description": "Holds for: Compares overlapping top-k model sets ranked by LMSys Arena; the effect is about closely ranked models generally, and the paper reports that the top 3 models are almost never in agreement across benchmarks."
+    },
+    {
+      "@type": "Thing",
+      "name": "For a fixed number of models, BAT correlation over models adjacent in rank is lower than over randomly sampled models, and the gap widens as the subset gets smaller.",
+      "description": "Holds for: Adjacent sets sampled from the full rank range rather than a fixed tier; averaged over all benchmark pairs in the paper's collection using Kendall-tau."
+    },
+    {
+      "@type": "Thing",
+      "name": "Kendall-tau and Pearson agreement scores track each other closely across benchmark pairs (r²=0.85) but differ by a roughly constant bias of 0.21. Applying one fixed threshold such as 0.8 to both metrics is therefore unsound.",
+      "description": "Holds for: All benchmark pairs in the paper's collection with varying model subsets; the bias is the offset between rank and score correlation, and does not license converting one metric into the other for an individual pair."
+    },
+    {
+      "@type": "Thing",
+      "name": "Choosing the agreement metric and threshold in a data-driven way rather than by a fixed cutoff reduces the standard deviation of BAT results from 0.31 to 0.23. Agreement is declared when the target benchmark's Z-score against other benchmarks' agreement with the same reference exceeds -1σ.",
+      "description": "Holds for: Requires a population of benchmarks already scored against the chosen reference, which BenchBench maintains and updates as benchmarks are added; measured on the paper's over-40-benchmark collection."
+    },
+    {
+      "@type": "Thing",
+      "name": "Benchmark agreement is not uniform across model tiers: bottom-tier models agree with Kendall coefficients just below 0.5, middle-tier models below 0.2, and top-tier models around 0.3.",
+      "description": "Holds for: Tiers defined by rank position over models in the paper's benchmark collection, cutoff Jan 2024; bottom-ranked models also show the highest score standard deviation."
+    },
+    {
+      "@type": "Thing",
+      "name": "BenchBench is an open-source Python package and leaderboard that standardizes Benchmark Agreement Testing. It ships stored results for over 40 LLM benchmarks, so a benchmark builder can run agreement testing without evaluating models on the reference benchmarks.",
+      "description": "Holds for: As of the 2024 preprint; covers the benchmarks in the package's database with results cut off Jan 2024, and requires the user to supply target-benchmark scores for the models it recommends."
+    },
+    {
+      "@type": "Thing",
+      "name": "\"Benchmark Agreement Testing Done Right\" proposes best practices for validating an LLM benchmark against established ones. The practices cover the choice of reference benchmarks, models, correlation metric and agreement threshold, for which no standard procedure existed.",
+      "description": "Holds for: As of 2024, and about agreement testing between LLM benchmarks reporting model-level scores; the paper deliberately does not address when BAT should be used or how high or low agreement should be interpreted substantively."
+    },
+    {
+      "@type": "Thing",
+      "name": "A survey of prior work using benchmark agreement testing finds no shared methodology. Reported practice includes a 0.8 threshold applied to both rank and score correlation, a 0.7 rank-correlation threshold, and validation against a single reference using 6 models.",
+      "description": "Holds for: Based on the works reviewed in the paper's related-work discussion rather than an exhaustive systematic review of the literature."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/#faq",
+  "url": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/",
+  "name": "Questions answered by Benchmark Agreement Testing Done Right: A Guide for LLM Benchmark Evaluation",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I check whether a new LLM benchmark is valid by comparing it to existing benchmarks?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "\"Benchmark Agreement Testing Done Right\" proposes best practices for validating an LLM benchmark against established ones. The practices cover the choice of reference benchmarks, models, correlation metric and agreement threshold, for which no standard procedure existed. Holds for: As of 2024, and about agreement testing between LLM benchmarks reporting model-level scores; the paper deliberately does not address when BAT should be used or how high or low agreement should be interpreted substantively.\n\nApplying aggregate reference benchmarks, metric-aware thresholds and randomly sampled model selection together cuts the standard deviation of Benchmark Agreement Testing results from 0.31 to 0.10, a 67% reduction. Holds for: Over 40 LLM benchmarks with results cut off at Jan 2024, spanning over 200 models; variance measured across repeated BAT instances using Kendall-tau; benchmark pairs need at least 5 intersecting models.",
+        "url": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/"
+      },
+      "alternateName": [
+        "What are the recommended best practices for benchmark agreement testing?",
+        "How should I run correlations between my benchmark and established LLM leaderboards?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much does following the BAT best practices actually reduce variance?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Applying aggregate reference benchmarks, metric-aware thresholds and randomly sampled model selection together cuts the standard deviation of Benchmark Agreement Testing results from 0.31 to 0.10, a 67% reduction. Holds for: Over 40 LLM benchmarks with results cut off at Jan 2024, spanning over 200 models; variance measured across repeated BAT instances using Kendall-tau; benchmark pairs need at least 5 intersecting models.\n\nReplacing a single arbitrary reference benchmark with an aggregate reference reduces the standard deviation of BAT correlations from 0.31 to 0.23, a drop of more than 30%. The aggregate is built by averaging model win-rates across several benchmarks. Holds for: Requires access to model scores from multiple benchmarks measuring a similar construct, which BenchBench supplies; measured on the paper's set of over 40 benchmarks, results cutoff Jan 2024.\n\nSelecting the models for BAT randomly and in larger numbers, rather than picking a small arbitrary set, lowers the standard deviation of BAT results from 0.31 to 0.20, a 35% reduction. The recommendation is at least 10 models, preferably more. Holds for: Kendall-tau agreement over the paper's collection of more than 40 benchmarks, cutoff Jan 2024; assumes the target benchmark already has scores across diverse model sizes and architectures.\n\nChoosing the agreement metric and threshold in a data-driven way rather than by a fixed cutoff reduces the standard deviation of BAT results from 0.31 to 0.23. Agreement is declared when the target benchmark's Z-score against other benchmarks' agreement with the same reference exceeds -1σ. Holds for: Requires a population of benchmarks already scored against the chosen reference, which BenchBench maintains and updates as benchmarks are added; measured on the paper's over-40-benchmark collection.",
+        "url": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/"
+      },
+      "alternateName": [
+        "Do the BenchBench recommendations make agreement results more stable, and by how much?",
+        "What is the measured effect of aggregating references, sampling models and using a data-driven threshold together?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is it safe to validate a new benchmark against just one established benchmark?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Alpaca v2 agrees with MT-Bench at Kendall-tau 0.57 but with LMSys Arena at 0.82, even though both references are taken to measure similar abilities. A single-reference BAT conclusion can therefore be an artifact of which reference was picked. Holds for: Each correlation computed over 20 randomly sampled models shared by the benchmark pair; benchmark results cut off Jan 2024.\n\nReplacing a single arbitrary reference benchmark with an aggregate reference reduces the standard deviation of BAT correlations from 0.31 to 0.23, a drop of more than 30%. The aggregate is built by averaging model win-rates across several benchmarks. Holds for: Requires access to model scores from multiple benchmarks measuring a similar construct, which BenchBench supplies; measured on the paper's set of over 40 benchmarks, results cutoff Jan 2024.",
+        "url": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/"
+      },
+      "alternateName": [
+        "How much do agreement scores change if I pick a different reference benchmark?",
+        "Why use an aggregate of several reference benchmarks instead of one?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many models do I need for a reliable rank correlation between two benchmarks?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "With small model subsets the standard deviation of BAT results approaches 0.25. The Kendall-tau correlation between LMSys Arena and MT-Bench ranges from roughly 0.65 to 0.99 depending only on how many models are included. Holds for: Randomly sampled subsets of models shared by the two benchmarks; variance shrinks as subset size grows, so the instability is a small-sample property, not a property of those two benchmarks.\n\nSelecting the models for BAT randomly and in larger numbers, rather than picking a small arbitrary set, lowers the standard deviation of BAT results from 0.31 to 0.20, a 35% reduction. The recommendation is at least 10 models, preferably more. Holds for: Kendall-tau agreement over the paper's collection of more than 40 benchmarks, cutoff Jan 2024; assumes the target benchmark already has scores across diverse model sizes and architectures.",
+        "url": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/"
+      },
+      "alternateName": [
+        "Why is benchmark agreement unstable when only a few models are compared?",
+        "What happens to correlation variance with small model subsets?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why do benchmarks agree overall but disagree on the strongest models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Two benchmarks can show high agreement over a wide range of models while agreeing poorly over the top-ranked ones. Kendall-tau between LMSys Arena and each of BBH, MMLU and Alpaca v2 changes substantially between the top 5, top 10 and top 15 Arena models. Holds for: Compares overlapping top-k model sets ranked by LMSys Arena; the effect is about closely ranked models generally, and the paper reports that the top 3 models are almost never in agreement across benchmarks.\n\nFor a fixed number of models, BAT correlation over models adjacent in rank is lower than over randomly sampled models, and the gap widens as the subset gets smaller. Holds for: Adjacent sets sampled from the full rank range rather than a fixed tier; averaged over all benchmark pairs in the paper's collection using Kendall-tau.",
+        "url": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/"
+      },
+      "alternateName": [
+        "Does benchmark agreement hold for top-ranked LLMs?",
+        "Is high rank correlation between leaderboards meaningful for frontier models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use the same 0.8 correlation threshold for Kendall-tau and Pearson?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Kendall-tau and Pearson agreement scores track each other closely across benchmark pairs (r²=0.85) but differ by a roughly constant bias of 0.21. Applying one fixed threshold such as 0.8 to both metrics is therefore unsound. Holds for: All benchmark pairs in the paper's collection with varying model subsets; the bias is the offset between rank and score correlation, and does not license converting one metric into the other for an individual pair.\n\nChoosing the agreement metric and threshold in a data-driven way rather than by a fixed cutoff reduces the standard deviation of BAT results from 0.31 to 0.23. Agreement is declared when the target benchmark's Z-score against other benchmarks' agreement with the same reference exceeds -1σ. Holds for: Requires a population of benchmarks already scored against the chosen reference, which BenchBench maintains and updates as benchmarks are added; measured on the paper's over-40-benchmark collection.",
+        "url": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/"
+      },
+      "alternateName": [
+        "How do rank and score correlations differ when comparing LLM benchmarks?",
+        "Is there a bias between Kendall-tau and Pearson agreement scores?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does benchmark agreement depend on whether the compared LLMs are weak, mid-range or state of the art?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Benchmark agreement is not uniform across model tiers: bottom-tier models agree with Kendall coefficients just below 0.5, middle-tier models below 0.2, and top-tier models around 0.3. Holds for: Tiers defined by rank position over models in the paper's benchmark collection, cutoff Jan 2024; bottom-ranked models also show the highest score standard deviation.\n\nFor a fixed number of models, BAT correlation over models adjacent in rank is lower than over randomly sampled models, and the gap widens as the subset gets smaller. Holds for: Adjacent sets sampled from the full rank range rather than a fixed tier; averaged over all benchmark pairs in the paper's collection using Kendall-tau.",
+        "url": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/"
+      },
+      "alternateName": [
+        "How does model tier affect correlations between LLM benchmarks?",
+        "Do older or lower-ranked models inflate benchmark agreement?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a software package for running benchmark agreement testing?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BenchBench is an open-source Python package and leaderboard that standardizes Benchmark Agreement Testing. It ships stored results for over 40 LLM benchmarks, so a benchmark builder can run agreement testing without evaluating models on the reference benchmarks. Holds for: As of the 2024 preprint; covers the benchmarks in the package's database with results cut off Jan 2024, and requires the user to supply target-benchmark scores for the models it recommends.",
+        "url": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/"
+      },
+      "alternateName": [
+        "What does the BenchBench leaderboard rank?",
+        "Where can I get pooled results for many LLM benchmarks to correlate my own against?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about the validity of LLM benchmarks and leaderboards?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "\"Benchmark Agreement Testing Done Right\" proposes best practices for validating an LLM benchmark against established ones. The practices cover the choice of reference benchmarks, models, correlation metric and agreement threshold, for which no standard procedure existed. Holds for: As of 2024, and about agreement testing between LLM benchmarks reporting model-level scores; the paper deliberately does not address when BAT should be used or how high or low agreement should be interpreted substantively.\n\nA survey of prior work using benchmark agreement testing finds no shared methodology. Reported practice includes a 0.8 threshold applied to both rank and score correlation, a 0.7 rank-correlation threshold, and validation against a single reference using 6 models. Holds for: Based on the works reviewed in the paper's related-work discussion rather than an exhaustive systematic review of the literature.",
+        "url": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/"
+      },
+      "alternateName": [
+        "Which paper established standards for evaluating benchmarks against each other?",
+        "Where should I start reading on meta-evaluation of LLM benchmarks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How inconsistent is existing practice when papers report agreement with established benchmarks?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A survey of prior work using benchmark agreement testing finds no shared methodology. Reported practice includes a 0.8 threshold applied to both rank and score correlation, a 0.7 rank-correlation threshold, and validation against a single reference using 6 models. Holds for: Based on the works reviewed in the paper's related-work discussion rather than an exhaustive systematic review of the literature.\n\n\"Benchmark Agreement Testing Done Right\" proposes best practices for validating an LLM benchmark against established ones. The practices cover the choice of reference benchmarks, models, correlation metric and agreement threshold, for which no standard procedure existed. Holds for: As of 2024, and about agreement testing between LLM benchmarks reporting model-level scores; the paper deliberately does not address when BAT should be used or how high or low agreement should be interpreted substantively.",
+        "url": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/"
+      },
+      "alternateName": [
+        "What thresholds have prior LLM benchmark papers used to call agreement high?",
+        "Do published benchmark validation studies use a common methodology?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/#terms",
+  "url": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/",
+  "name": "Terminology in Benchmark Agreement Testing Done Right: A Guide for LLM Benchmark Evaluation",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Benchmark Agreement Testing (BAT)",
+      "description": "Validating a benchmark by measuring the statistical agreement — typically Kendall-tau over ranks or Pearson over scores — between its model scores and those of an established reference benchmark.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Aggregate reference benchmark",
+      "description": "A synthetic reference formed by averaging model win-rates across several benchmarks that measure a similar construct, used in place of a single arbitrarily chosen reference.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Granularity (in benchmark agreement)",
+      "description": "The spread of model quality inside the compared model subset; agreement measured over models adjacent in rank is fine-grained, agreement over models of widely varying quality is coarse.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Data-driven threshold",
+      "description": "Deciding whether a target benchmark agrees with a reference by its Z-score against the distribution of other benchmarks' agreement with that same reference, with agreement declared above -1σ, rather than by a fixed correlation cutoff.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Model tier",
+      "description": "The rank band a model occupies within a benchmark's leaderboard — bottom, middle or top — treated as a variable that changes measured benchmark agreement.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/benchmark-agreement-testing-done-right-a-guide-for-llm-bench/#terms"
+    }
   ]
 }
   </script>
@@ -89,6 +350,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -102,13 +364,98 @@
 </head>
 <body>
 <h1>Benchmark Agreement Testing Done Right: A Guide for LLM Benchmark Evaluation</h1>
-<p class="meta">Yotam Perlitz, Ariel Gera, Ofir Arviv, Asaf Yehudai, Elron Bandel, Eyal Shnarch, Michal Shmueli-Scheuer, Leshem Choshen · CoRR · 2024</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2407.13696">arXiv</a></li><li><a href="https://arxiv.org/pdf/2407.13696">PDF</a></li><li><a href="https://arxiv.org/html/2407.13696">HTML</a></li><li><a href="https://huggingface.co/papers/2407.13696">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2407.13696">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2407.13696">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/287923131">Semantic Scholar</a></li><li><a href="https://doi.org/10.48550/arXiv.2407.13696">Publisher</a></li><li><a href="https://github.com/ibm/benchbench">Code</a></li></ul>
+<p class="sub">a Python package and meta-benchmark for testing whether one LLM benchmark agrees with others</p>
+<p class="meta">Yotam Perlitz, Ariel Gera, Ofir Arviv, Asaf Yehudai, Elron Bandel, Eyal Shnarch, Michal Shmueli-Scheuer, Leshem Choshen · arXiv · 2024</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2407.13696">arXiv</a></li><li><a href="https://arxiv.org/pdf/2407.13696">PDF</a></li><li><a href="https://arxiv.org/html/2407.13696">HTML</a></li><li><a href="https://huggingface.co/papers/2407.13696">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2407.13696">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2407.13696">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/287923131">Semantic Scholar</a></li><li><a href="https://doi.org/10.48550/arXiv.2407.13696">Publisher</a></li><li><a href="https://github.com/IBM/benchbench">Code</a></li><li><a href="https://hf.co/spaces/ibm/benchbench">Leaderboard</a></li></ul>
+<h2>In one sentence</h2>
+<p>Benchmark Agreement Testing — validating a new LLM benchmark by correlating model rankings with established ones — gives unstable answers unless the reference benchmarks are aggregated, the threshold is data-driven and enough models are randomly sampled; BenchBench implements all three.</p>
 <h2>Abstract</h2>
 <p>Recent advancements in Language Models (LMs) have catalyzed the creation of multiple benchmarks, designed to assess these models&#x27; general capabilities. A crucial task, however, is assessing the validity of the benchmarks themselves. This is most commonly done via Benchmark Agreement Testing (BAT), where new benchmarks are validated against established ones using some agreement metric (e.g., rank correlation). Despite the crucial role of BAT for benchmark builders and consumers, there are no standardized procedures for such agreement testing. This deficiency can lead to invalid conclusions, fostering mistrust in benchmarks and upending the ability to properly choose the appropriate benchmark to use. By analyzing over 40 prominent benchmarks, we demonstrate how some overlooked methodological choices can significantly influence BAT results, potentially undermining the validity of conclusions. To address these inconsistencies, we propose a set of best practices for BAT and demonstrate how utilizing these methodologies greatly improves BAT robustness and validity. To foster adoption and facilitate future research,, we introduce BenchBench, a python package for BAT, and release the BenchBench-leaderboard, a meta-benchmark designed to evaluate benchmarks using their peers. Our findings underscore the necessity for standardized BAT, ensuring the robustness and validity of benchmark evaluations in the evolving landscape of language model research. BenchBench Package: github.com/IBM/BenchBench Leaderboard: hf.co/spaces/IBM/BenchBench</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How do I check whether a new LLM benchmark is valid by comparing it to existing benchmarks?</dt>
+<dt>What are the recommended best practices for benchmark agreement testing?</dt>
+<dt>How should I run correlations between my benchmark and established LLM leaderboards?</dt>
+<dd>&quot;Benchmark Agreement Testing Done Right&quot; proposes best practices for validating an LLM benchmark against established ones. The practices cover the choice of reference benchmarks, models, correlation metric and agreement threshold, for which no standard procedure existed.<br><span class="scope">Holds for: As of 2024, and about agreement testing between LLM benchmarks reporting model-level scores; the paper deliberately does not address when BAT should be used or how high or low agreement should be interpreted substantively.</span></dd>
+<dd>Applying aggregate reference benchmarks, metric-aware thresholds and randomly sampled model selection together cuts the standard deviation of Benchmark Agreement Testing results from 0.31 to 0.10, a 67% reduction.<br><span class="scope">Holds for: Over 40 LLM benchmarks with results cut off at Jan 2024, spanning over 200 models; variance measured across repeated BAT instances using Kendall-tau; benchmark pairs need at least 5 intersecting models.</span></dd>
+<dt>How much does following the BAT best practices actually reduce variance?</dt>
+<dt>Do the BenchBench recommendations make agreement results more stable, and by how much?</dt>
+<dt>What is the measured effect of aggregating references, sampling models and using a data-driven threshold together?</dt>
+<dd>Applying aggregate reference benchmarks, metric-aware thresholds and randomly sampled model selection together cuts the standard deviation of Benchmark Agreement Testing results from 0.31 to 0.10, a 67% reduction.<br><span class="scope">Holds for: Over 40 LLM benchmarks with results cut off at Jan 2024, spanning over 200 models; variance measured across repeated BAT instances using Kendall-tau; benchmark pairs need at least 5 intersecting models.</span></dd>
+<dd>Replacing a single arbitrary reference benchmark with an aggregate reference reduces the standard deviation of BAT correlations from 0.31 to 0.23, a drop of more than 30%. The aggregate is built by averaging model win-rates across several benchmarks.<br><span class="scope">Holds for: Requires access to model scores from multiple benchmarks measuring a similar construct, which BenchBench supplies; measured on the paper&#x27;s set of over 40 benchmarks, results cutoff Jan 2024.</span></dd>
+<dd>Selecting the models for BAT randomly and in larger numbers, rather than picking a small arbitrary set, lowers the standard deviation of BAT results from 0.31 to 0.20, a 35% reduction. The recommendation is at least 10 models, preferably more.<br><span class="scope">Holds for: Kendall-tau agreement over the paper&#x27;s collection of more than 40 benchmarks, cutoff Jan 2024; assumes the target benchmark already has scores across diverse model sizes and architectures.</span></dd>
+<dd>Choosing the agreement metric and threshold in a data-driven way rather than by a fixed cutoff reduces the standard deviation of BAT results from 0.31 to 0.23. Agreement is declared when the target benchmark&#x27;s Z-score against other benchmarks&#x27; agreement with the same reference exceeds -1σ.<br><span class="scope">Holds for: Requires a population of benchmarks already scored against the chosen reference, which BenchBench maintains and updates as benchmarks are added; measured on the paper&#x27;s over-40-benchmark collection.</span></dd>
+<dt>Is it safe to validate a new benchmark against just one established benchmark?</dt>
+<dt>How much do agreement scores change if I pick a different reference benchmark?</dt>
+<dt>Why use an aggregate of several reference benchmarks instead of one?</dt>
+<dd>Alpaca v2 agrees with MT-Bench at Kendall-tau 0.57 but with LMSys Arena at 0.82, even though both references are taken to measure similar abilities. A single-reference BAT conclusion can therefore be an artifact of which reference was picked.<br><span class="scope">Holds for: Each correlation computed over 20 randomly sampled models shared by the benchmark pair; benchmark results cut off Jan 2024.</span></dd>
+<dd>Replacing a single arbitrary reference benchmark with an aggregate reference reduces the standard deviation of BAT correlations from 0.31 to 0.23, a drop of more than 30%. The aggregate is built by averaging model win-rates across several benchmarks.<br><span class="scope">Holds for: Requires access to model scores from multiple benchmarks measuring a similar construct, which BenchBench supplies; measured on the paper&#x27;s set of over 40 benchmarks, results cutoff Jan 2024.</span></dd>
+<dt>How many models do I need for a reliable rank correlation between two benchmarks?</dt>
+<dt>Why is benchmark agreement unstable when only a few models are compared?</dt>
+<dt>What happens to correlation variance with small model subsets?</dt>
+<dd>With small model subsets the standard deviation of BAT results approaches 0.25. The Kendall-tau correlation between LMSys Arena and MT-Bench ranges from roughly 0.65 to 0.99 depending only on how many models are included.<br><span class="scope">Holds for: Randomly sampled subsets of models shared by the two benchmarks; variance shrinks as subset size grows, so the instability is a small-sample property, not a property of those two benchmarks.</span></dd>
+<dd>Selecting the models for BAT randomly and in larger numbers, rather than picking a small arbitrary set, lowers the standard deviation of BAT results from 0.31 to 0.20, a 35% reduction. The recommendation is at least 10 models, preferably more.<br><span class="scope">Holds for: Kendall-tau agreement over the paper&#x27;s collection of more than 40 benchmarks, cutoff Jan 2024; assumes the target benchmark already has scores across diverse model sizes and architectures.</span></dd>
+<dt>Why do benchmarks agree overall but disagree on the strongest models?</dt>
+<dt>Does benchmark agreement hold for top-ranked LLMs?</dt>
+<dt>Is high rank correlation between leaderboards meaningful for frontier models?</dt>
+<dd>Two benchmarks can show high agreement over a wide range of models while agreeing poorly over the top-ranked ones. Kendall-tau between LMSys Arena and each of BBH, MMLU and Alpaca v2 changes substantially between the top 5, top 10 and top 15 Arena models.<br><span class="scope">Holds for: Compares overlapping top-k model sets ranked by LMSys Arena; the effect is about closely ranked models generally, and the paper reports that the top 3 models are almost never in agreement across benchmarks.</span></dd>
+<dd>For a fixed number of models, BAT correlation over models adjacent in rank is lower than over randomly sampled models, and the gap widens as the subset gets smaller.<br><span class="scope">Holds for: Adjacent sets sampled from the full rank range rather than a fixed tier; averaged over all benchmark pairs in the paper&#x27;s collection using Kendall-tau.</span></dd>
+<dt>Can I use the same 0.8 correlation threshold for Kendall-tau and Pearson?</dt>
+<dt>How do rank and score correlations differ when comparing LLM benchmarks?</dt>
+<dt>Is there a bias between Kendall-tau and Pearson agreement scores?</dt>
+<dd>Kendall-tau and Pearson agreement scores track each other closely across benchmark pairs (r²=0.85) but differ by a roughly constant bias of 0.21. Applying one fixed threshold such as 0.8 to both metrics is therefore unsound.<br><span class="scope">Holds for: All benchmark pairs in the paper&#x27;s collection with varying model subsets; the bias is the offset between rank and score correlation, and does not license converting one metric into the other for an individual pair.</span></dd>
+<dd>Choosing the agreement metric and threshold in a data-driven way rather than by a fixed cutoff reduces the standard deviation of BAT results from 0.31 to 0.23. Agreement is declared when the target benchmark&#x27;s Z-score against other benchmarks&#x27; agreement with the same reference exceeds -1σ.<br><span class="scope">Holds for: Requires a population of benchmarks already scored against the chosen reference, which BenchBench maintains and updates as benchmarks are added; measured on the paper&#x27;s over-40-benchmark collection.</span></dd>
+<dt>Does benchmark agreement depend on whether the compared LLMs are weak, mid-range or state of the art?</dt>
+<dt>How does model tier affect correlations between LLM benchmarks?</dt>
+<dt>Do older or lower-ranked models inflate benchmark agreement?</dt>
+<dd>Benchmark agreement is not uniform across model tiers: bottom-tier models agree with Kendall coefficients just below 0.5, middle-tier models below 0.2, and top-tier models around 0.3.<br><span class="scope">Holds for: Tiers defined by rank position over models in the paper&#x27;s benchmark collection, cutoff Jan 2024; bottom-ranked models also show the highest score standard deviation.</span></dd>
+<dd>For a fixed number of models, BAT correlation over models adjacent in rank is lower than over randomly sampled models, and the gap widens as the subset gets smaller.<br><span class="scope">Holds for: Adjacent sets sampled from the full rank range rather than a fixed tier; averaged over all benchmark pairs in the paper&#x27;s collection using Kendall-tau.</span></dd>
+<dt>Is there a software package for running benchmark agreement testing?</dt>
+<dt>What does the BenchBench leaderboard rank?</dt>
+<dt>Where can I get pooled results for many LLM benchmarks to correlate my own against?</dt>
+<dd>BenchBench is an open-source Python package and leaderboard that standardizes Benchmark Agreement Testing. It ships stored results for over 40 LLM benchmarks, so a benchmark builder can run agreement testing without evaluating models on the reference benchmarks.<br><span class="scope">Holds for: As of the 2024 preprint; covers the benchmarks in the package&#x27;s database with results cut off Jan 2024, and requires the user to supply target-benchmark scores for the models it recommends.</span></dd>
+<dt>What should I read about the validity of LLM benchmarks and leaderboards?</dt>
+<dt>Which paper established standards for evaluating benchmarks against each other?</dt>
+<dt>Where should I start reading on meta-evaluation of LLM benchmarks?</dt>
+<dd>&quot;Benchmark Agreement Testing Done Right&quot; proposes best practices for validating an LLM benchmark against established ones. The practices cover the choice of reference benchmarks, models, correlation metric and agreement threshold, for which no standard procedure existed.<br><span class="scope">Holds for: As of 2024, and about agreement testing between LLM benchmarks reporting model-level scores; the paper deliberately does not address when BAT should be used or how high or low agreement should be interpreted substantively.</span></dd>
+<dd>A survey of prior work using benchmark agreement testing finds no shared methodology. Reported practice includes a 0.8 threshold applied to both rank and score correlation, a 0.7 rank-correlation threshold, and validation against a single reference using 6 models.<br><span class="scope">Holds for: Based on the works reviewed in the paper&#x27;s related-work discussion rather than an exhaustive systematic review of the literature.</span></dd>
+<dt>How inconsistent is existing practice when papers report agreement with established benchmarks?</dt>
+<dt>What thresholds have prior LLM benchmark papers used to call agreement high?</dt>
+<dt>Do published benchmark validation studies use a common methodology?</dt>
+<dd>A survey of prior work using benchmark agreement testing finds no shared methodology. Reported practice includes a 0.8 threshold applied to both rank and score correlation, a 0.7 rank-correlation threshold, and validation against a single reference using 6 models.<br><span class="scope">Holds for: Based on the works reviewed in the paper&#x27;s related-work discussion rather than an exhaustive systematic review of the literature.</span></dd>
+<dd>&quot;Benchmark Agreement Testing Done Right&quot; proposes best practices for validating an LLM benchmark against established ones. The practices cover the choice of reference benchmarks, models, correlation metric and agreement threshold, for which no standard procedure existed.<br><span class="scope">Holds for: As of 2024, and about agreement testing between LLM benchmarks reporting model-level scores; the paper deliberately does not address when BAT should be used or how high or low agreement should be interpreted substantively.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Applying aggregate reference benchmarks, metric-aware thresholds and randomly sampled model selection together cuts the standard deviation of Benchmark Agreement Testing results from 0.31 to 0.10, a 67% reduction. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Over 40 LLM benchmarks with results cut off at Jan 2024, spanning over 200 models; variance measured across repeated BAT instances using Kendall-tau; benchmark pairs need at least 5 intersecting models.</span></li>
+<li>Replacing a single arbitrary reference benchmark with an aggregate reference reduces the standard deviation of BAT correlations from 0.31 to 0.23, a drop of more than 30%. The aggregate is built by averaging model win-rates across several benchmarks. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Requires access to model scores from multiple benchmarks measuring a similar construct, which BenchBench supplies; measured on the paper&#x27;s set of over 40 benchmarks, results cutoff Jan 2024.</span></li>
+<li>Selecting the models for BAT randomly and in larger numbers, rather than picking a small arbitrary set, lowers the standard deviation of BAT results from 0.31 to 0.20, a 35% reduction. The recommendation is at least 10 models, preferably more. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Kendall-tau agreement over the paper&#x27;s collection of more than 40 benchmarks, cutoff Jan 2024; assumes the target benchmark already has scores across diverse model sizes and architectures.</span></li>
+<li>Alpaca v2 agrees with MT-Bench at Kendall-tau 0.57 but with LMSys Arena at 0.82, even though both references are taken to measure similar abilities. A single-reference BAT conclusion can therefore be an artifact of which reference was picked. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: Each correlation computed over 20 randomly sampled models shared by the benchmark pair; benchmark results cut off Jan 2024.</span></li>
+<li>With small model subsets the standard deviation of BAT results approaches 0.25. The Kendall-tau correlation between LMSys Arena and MT-Bench ranges from roughly 0.65 to 0.99 depending only on how many models are included. <span class="meta">(Figure 5)</span><br><span class="scope">Scope: Randomly sampled subsets of models shared by the two benchmarks; variance shrinks as subset size grows, so the instability is a small-sample property, not a property of those two benchmarks.</span></li>
+<li>Two benchmarks can show high agreement over a wide range of models while agreeing poorly over the top-ranked ones. Kendall-tau between LMSys Arena and each of BBH, MMLU and Alpaca v2 changes substantially between the top 5, top 10 and top 15 Arena models. <span class="meta">(Figure 2)</span><br><span class="scope">Scope: Compares overlapping top-k model sets ranked by LMSys Arena; the effect is about closely ranked models generally, and the paper reports that the top 3 models are almost never in agreement across benchmarks.</span></li>
+<li>For a fixed number of models, BAT correlation over models adjacent in rank is lower than over randomly sampled models, and the gap widens as the subset gets smaller. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: Adjacent sets sampled from the full rank range rather than a fixed tier; averaged over all benchmark pairs in the paper&#x27;s collection using Kendall-tau.</span></li>
+<li>Kendall-tau and Pearson agreement scores track each other closely across benchmark pairs (r²=0.85) but differ by a roughly constant bias of 0.21. Applying one fixed threshold such as 0.8 to both metrics is therefore unsound. <span class="meta">(Figure 6)</span><br><span class="scope">Scope: All benchmark pairs in the paper&#x27;s collection with varying model subsets; the bias is the offset between rank and score correlation, and does not license converting one metric into the other for an individual pair.</span></li>
+<li>Choosing the agreement metric and threshold in a data-driven way rather than by a fixed cutoff reduces the standard deviation of BAT results from 0.31 to 0.23. Agreement is declared when the target benchmark&#x27;s Z-score against other benchmarks&#x27; agreement with the same reference exceeds -1σ. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Requires a population of benchmarks already scored against the chosen reference, which BenchBench maintains and updates as benchmarks are added; measured on the paper&#x27;s over-40-benchmark collection.</span></li>
+<li>Benchmark agreement is not uniform across model tiers: bottom-tier models agree with Kendall coefficients just below 0.5, middle-tier models below 0.2, and top-tier models around 0.3. <span class="meta">(Figure 8)</span><br><span class="scope">Scope: Tiers defined by rank position over models in the paper&#x27;s benchmark collection, cutoff Jan 2024; bottom-ranked models also show the highest score standard deviation.</span></li>
+<li>BenchBench is an open-source Python package and leaderboard that standardizes Benchmark Agreement Testing. It ships stored results for over 40 LLM benchmarks, so a benchmark builder can run agreement testing without evaluating models on the reference benchmarks. <span class="meta">(Section 5)</span><br><span class="scope">Scope: As of the 2024 preprint; covers the benchmarks in the package&#x27;s database with results cut off Jan 2024, and requires the user to supply target-benchmark scores for the models it recommends.</span></li>
+<li>&quot;Benchmark Agreement Testing Done Right&quot; proposes best practices for validating an LLM benchmark against established ones. The practices cover the choice of reference benchmarks, models, correlation metric and agreement threshold, for which no standard procedure existed. <span class="meta">(Section 3, Section 4)</span><br><span class="scope">Scope: As of 2024, and about agreement testing between LLM benchmarks reporting model-level scores; the paper deliberately does not address when BAT should be used or how high or low agreement should be interpreted substantively.</span></li>
+<li>A survey of prior work using benchmark agreement testing finds no shared methodology. Reported practice includes a 0.8 threshold applied to both rank and score correlation, a 0.7 rank-correlation threshold, and validation against a single reference using 6 models. <span class="meta">(Section 6)</span><br><span class="scope">Scope: Based on the works reviewed in the paper&#x27;s related-work discussion rather than an exhaustive systematic review of the literature.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>High agreement between two LLM benchmarks does not mean they measure the same qualities; it can also reflect that strong models are strong at many tasks, and it does not license the conclusion that new benchmarks are unnecessary.</li>
+<li>Low agreement is not automatically evidence that a benchmark is invalid: an unreliable benchmark whose ranking has not converged will disagree even with itself under different subsets or seeds, so reliability bounds the achievable agreement.</li>
+<li>The 0.21 offset between Kendall-tau and Pearson is a population-level bias across benchmark pairs, not a conversion factor to apply to an individual pair&#x27;s score.</li>
+<li>BenchBench&#x27;s best practices do not require running more evaluations: the package ships stored reference-benchmark results, so the variance reduction comes at no additional compute cost.</li>
+<li>The finding that bottom-tier models agree more is not a reason to drop old models, switch benchmarks frequently or restrict BAT to recent models; the paper concludes no strong action follows from the tier trend.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Benchmark Agreement Testing (BAT)</em></dt><dd>Validating a benchmark by measuring the statistical agreement — typically Kendall-tau over ranks or Pearson over scores — between its model scores and those of an established reference benchmark.</dd>
+<dt><em>Aggregate reference benchmark</em></dt><dd>A synthetic reference formed by averaging model win-rates across several benchmarks that measure a similar construct, used in place of a single arbitrarily chosen reference.</dd>
+<dt><em>Granularity (in benchmark agreement)</em></dt><dd>The spread of model quality inside the compared model subset; agreement measured over models adjacent in rank is fine-grained, agreement over models of widely varying quality is coarse.</dd>
+<dt><em>Data-driven threshold</em></dt><dd>Deciding whether a target benchmark agrees with a reference by its Z-score against the distribution of other benchmarks&#x27; agreement with that same reference, with agreement declared above -1σ, rather than by a fixed correlation cutoff.</dd>
+<dt><em>Model tier</em></dt><dd>The rank band a model occupies within a benchmark&#x27;s leaderboard — bottom, middle or top — treated as a variable that changes measured benchmark agreement.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@article{DBLP:journals/corr/abs-2407-13696,
-author       = {Yotam Perlitz and
+<pre>@article{DBLP:journals/corr/abs-2407-13696,author       = {Yotam Perlitz and
                   Ariel Gera and
                   Ofir Arviv and
                   Asaf Yehudai and

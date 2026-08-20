@@ -10,10 +10,10 @@
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Aaron Mueller">
   <meta name="citation_author" content="Adina Williams">
-  <meta name="citation_author" content="Ethan Wilcox">
+  <meta name="citation_author" content="Ethan Gotlieb Wilcox">
   <meta name="citation_author" content="Chengxu Zhuang">
   <meta name="citation_publication_date" content="2023">
-  <meta name="citation_doi" content="10.48550/ARXIV.2301.11796">
+  <meta name="citation_doi" content="10.48550/arXiv.2301.11796">
   <meta name="citation_arxiv_id" content="2301.11796">
   <meta name="citation_abstract" content="We present the call for papers for the BabyLM Challenge: Sample-efﬁcient pretraining on a developmentally plausible corpus. This shared task is intended for participants with an interest in small scale language modeling, human language acquisition, low-resource NLP, and cognitive modeling. In partnership with CoNLL and CMCL, we provide a platform for approaches to pretraining with a limited-size corpus sourced from data inspired by the input to children. The task has three tracks, two of which restrict the training data to pre-released datasets of 10M and 100M words and are ded-icated to explorations of approaches such as architectural variations, self-supervised objec-tives, or curriculum learning. The ﬁnal track only restricts the amount of text used, allowing innovation in the choice of the data, its domain, and even its modality (i.e., data from sources other than text is welcome). We will release a shared evaluation pipeline which scores models on a variety of benchmarks and tasks, in-cluding targeted syntactic evaluations and natural language understanding.">
   <script type="application/ld+json">
@@ -43,7 +43,7 @@
     },
     {
       "@type": "Person",
-      "name": "Ethan Wilcox"
+      "name": "Ethan Gotlieb Wilcox"
     },
     {
       "@type": "Person",
@@ -54,19 +54,232 @@
   "datePublished": "2023",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "CoRR"
+    "name": "arXiv"
   },
-  "identifier": "https://doi.org/10.48550/ARXIV.2301.11796",
+  "identifier": "https://doi.org/10.48550/arXiv.2301.11796",
   "abstract": "We present the call for papers for the BabyLM Challenge: Sample-efﬁcient pretraining on a developmentally plausible corpus. This shared task is intended for participants with an interest in small scale language modeling, human language acquisition, low-resource NLP, and cognitive modeling. In partnership with CoNLL and CMCL, we provide a platform for approaches to pretraining with a limited-size corpus sourced from data inspired by the input to children. The task has three tracks, two of which restrict the training data to pre-released datasets of 10M and 100M words and are ded-icated to explorations of approaches such as architectural variations, self-supervised objec-tives, or curriculum learning. The ﬁnal track only restricts the amount of text used, allowing innovation in the choice of the data, its domain, and even its modality (i.e., data from sources other than text is welcome). We will release a shared evaluation pipeline which scores models on a variety of benchmarks and tasks, in-cluding targeted syntactic evaluations and natural language understanding.",
+  "description": "The BabyLM Challenge is a shared task that caps pretraining data at roughly 10M or 100M words drawn from child-directed speech, children's books, subtitles and Wikipedia, and scores submissions on a shared pipeline of targeted syntactic and natural language understanding evaluations.",
   "sameAs": [
     "https://ar5iv.labs.arxiv.org/html/2301.11796",
     "https://arxiv.org/abs/2301.11796",
     "https://arxiv.org/pdf/2301.11796",
-    "https://doi.org/10.48550/ARXIV.2301.11796",
+    "https://babylm.github.io/",
+    "https://babylm.github.io/",
     "https://doi.org/10.48550/arXiv.2301.11796",
+    "https://github.com/babylm/babylm.github.io/raw/main/babylm_data.zip",
     "https://huggingface.co/papers/2301.11796",
     "https://www.alphaxiv.org/abs/2301.11796",
     "https://www.semanticscholar.org/paper/256358845"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "The BabyLM Challenge established a shared task for sample-efficient language model pretraining at human-scale data budgets, hosted at CoNLL 2023 in partnership with CMCL. It targets researchers in small-scale language modeling, language acquisition, low-resource NLP and cognitive modeling.",
+      "description": "Holds for: As of the 2023 call for papers, which specifies tracks, data and timeline rather than reporting results from submissions."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM call motivates the task with the gap between modern language models, trained on data multiple orders of magnitude larger than what a typical child is exposed to, and human learners. Pretraining at human-like data scales has seen almost no progress.",
+      "description": "Holds for: Comparison is between English pretraining corpora of large models circa 2022 and estimates of a child's linguistic input; Figure 1 is a to-scale visualization rather than a controlled measurement."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM Challenge runs three tracks: Strict and Strict-small, which allow only the fixed released datasets of about 100M and 10M words, and Loose. The Loose track caps training text at 100M words but permits other domains, other data sources and non-linguistic data.",
+      "description": "Holds for: Strict-track submissions may not use pretrained models for any purpose including reranking or data augmentation; Loose-track winners are chosen holistically on evaluation performance, relevance, impact and novelty rather than on the shared score alone."
+    },
+    {
+      "@type": "Thing",
+      "name": "The released BabyLM training corpora total 9.96M words for Strict-small and 98.04M words for Strict, with Strict-small being an approximately 10% uniform subsample of Strict.",
+      "description": "Holds for: English only; word counts are for the training splits of the 10 included corpora as released in January 2023."
+    },
+    {
+      "@type": "Thing",
+      "name": "Transcribed and spoken-style text dominates the BabyLM corpus, with OpenSubtitles contributing 31% of words, the QCRI Educational Domain Corpus 11% and the BNC dialogue portion 8%. Child-directed speech from CHILDES supplies 5%, and Wikipedia 10%.",
+      "description": "Holds for: Proportions are by word count over the 10 corpora released for the Strict and Strict-small tracks in January 2023."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM 100M-word cap is justified by cited estimates that children are exposed to 2M-7M words per year, implying 24M-84M words by the onset of adolescence at age 12.",
+      "description": "Holds for: Based on cited estimates of children's input, not new measurement; the released Strict corpus of 98.04M words sits above that range."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM baselines are OPT, RoBERTa and T5 trained from scratch on the fixed datasets using the hyperparameters of those established large models. The call describes them as naive starting points rather than strong baselines.",
+      "description": "Holds for: Hyperparameters are transferred unchanged from the large-scale originals, so the baselines are not tuned for 10M- or 100M-word regimes; the call does not report their scores."
+    },
+    {
+      "@type": "Thing",
+      "name": "BabyLM submissions must be able to score a sequence with a log-likelihood or pseudo-log-likelihood and to be fine-tuned for classification, but need not be able to generate sequences.",
+      "description": "Holds for: The shared evaluation pipeline runs in Google Colab and assumes models load in HuggingFace transformers; participants with incompatible models may run their own pipeline."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM Challenge places no limit on the number of training epochs and no limit on hyperparameters. The stated reasons are that small-scale training with SGD needs multiple epochs and that humans retain and relearn from memories of linguistic experience.",
+      "description": "Holds for: The restriction is on the quantity and source of training data, not on compute; in the Loose track parameter and training efficiency may be weighed in ranking."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM Challenge frames scaled-down pretraining as a way to democratize pretraining research, arguing that data-efficiency techniques developed on a university budget can transfer to larger corpora and to low-resource languages.",
+      "description": "Holds for: An argument made in the 2023 call rather than a demonstrated transfer result; the call also notes that pretraining on 10M-100M words still carries real computational, energy and financial cost."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/#faq",
+  "url": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/",
+  "name": "Questions answered by Call for Papers - The BabyLM Challenge: Sample-efficient pretraining on a developmentally plausible corpus",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a good starting point for research on training language models with as little data as a child hears?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM Challenge established a shared task for sample-efficient language model pretraining at human-scale data budgets, hosted at CoNLL 2023 in partnership with CMCL. It targets researchers in small-scale language modeling, language acquisition, low-resource NLP and cognitive modeling. Holds for: As of the 2023 call for papers, which specifies tracks, data and timeline rather than reporting results from submissions.\n\nThe BabyLM Challenge frames scaled-down pretraining as a way to democratize pretraining research, arguing that data-efficiency techniques developed on a university budget can transfer to larger corpora and to low-resource languages. Holds for: An argument made in the 2023 call rather than a demonstrated transfer result; the call also notes that pretraining on 10M-100M words still carries real computational, energy and financial cost.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/"
+      },
+      "alternateName": [
+        "Where should I start reading about sample-efficient or human-scale language model pretraining?",
+        "What shared task exists for small-scale language modeling and cognitive modeling?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much training data does the BabyLM Challenge allow?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The released BabyLM training corpora total 9.96M words for Strict-small and 98.04M words for Strict, with Strict-small being an approximately 10% uniform subsample of Strict. Holds for: English only; word counts are for the training splits of the 10 included corpora as released in January 2023.\n\nThe BabyLM 100M-word cap is justified by cited estimates that children are exposed to 2M-7M words per year, implying 24M-84M words by the onset of adolescence at age 12. Holds for: Based on cited estimates of children's input, not new measurement; the released Strict corpus of 98.04M words sits above that range.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/"
+      },
+      "alternateName": [
+        "How many words are in the 10M and 100M word pretraining corpora for the BabyLM shared task?",
+        "What is the size of the developmentally plausible pretraining dataset released for small-scale language modeling?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What text sources make up the BabyLM pretraining corpus?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Transcribed and spoken-style text dominates the BabyLM corpus, with OpenSubtitles contributing 31% of words, the QCRI Educational Domain Corpus 11% and the BNC dialogue portion 8%. Child-directed speech from CHILDES supplies 5%, and Wikipedia 10%. Holds for: Proportions are by word count over the 10 corpora released for the Strict and Strict-small tracks in January 2023.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/"
+      },
+      "alternateName": [
+        "Which corpora and domains are in the child-inspired 100M-word pretraining dataset?",
+        "How much of the developmentally plausible pretraining data is transcribed speech versus Wikipedia?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What are the tracks of the BabyLM Challenge and how do they differ?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM Challenge runs three tracks: Strict and Strict-small, which allow only the fixed released datasets of about 100M and 10M words, and Loose. The Loose track caps training text at 100M words but permits other domains, other data sources and non-linguistic data. Holds for: Strict-track submissions may not use pretrained models for any purpose including reranking or data augmentation; Loose-track winners are chosen holistically on evaluation performance, relevance, impact and novelty rather than on the shared score alone.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/"
+      },
+      "alternateName": [
+        "Can I use my own data or multimodal data in the sample-efficient pretraining shared task?",
+        "What is the difference between the Strict, Strict-small and Loose tracks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why did anyone set up a challenge about pretraining on child-sized amounts of text?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM call motivates the task with the gap between modern language models, trained on data multiple orders of magnitude larger than what a typical child is exposed to, and human learners. Pretraining at human-like data scales has seen almost no progress. Holds for: Comparison is between English pretraining corpora of large models circa 2022 and estimates of a child's linguistic input; Figure 1 is a to-scale visualization rather than a controlled measurement.\n\nThe BabyLM Challenge established a shared task for sample-efficient language model pretraining at human-scale data budgets, hosted at CoNLL 2023 in partnership with CMCL. It targets researchers in small-scale language modeling, language acquisition, low-resource NLP and cognitive modeling. Holds for: As of the 2023 call for papers, which specifies tracks, data and timeline rather than reporting results from submissions.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/"
+      },
+      "alternateName": [
+        "How much more data do large language models see than a child does?",
+        "What motivates studying language model pretraining at human data scales?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What baseline models does the BabyLM Challenge provide?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM baselines are OPT, RoBERTa and T5 trained from scratch on the fixed datasets using the hyperparameters of those established large models. The call describes them as naive starting points rather than strong baselines. Holds for: Hyperparameters are transferred unchanged from the large-scale originals, so the baselines are not tuned for 10M- or 100M-word regimes; the call does not report their scores.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/"
+      },
+      "alternateName": [
+        "Are the OPT, RoBERTa and T5 baselines for the 10M-word pretraining task tuned?",
+        "What should a submission to the sample-efficient pretraining challenge be compared against?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What must a model be able to do to be evaluated in the BabyLM Challenge?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BabyLM submissions must be able to score a sequence with a log-likelihood or pseudo-log-likelihood and to be fine-tuned for classification, but need not be able to generate sequences. Holds for: The shared evaluation pipeline runs in Google Colab and assumes models load in HuggingFace transformers; participants with incompatible models may run their own pipeline.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/"
+      },
+      "alternateName": [
+        "Do submissions to the child-scale pretraining shared task have to be generative language models?",
+        "What interface does the shared evaluation pipeline for small-scale language models require?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does the BabyLM Challenge limit training compute or epochs?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM Challenge places no limit on the number of training epochs and no limit on hyperparameters. The stated reasons are that small-scale training with SGD needs multiple epochs and that humans retain and relearn from memories of linguistic experience. Holds for: The restriction is on the quantity and source of training data, not on compute; in the Loose track parameter and training efficiency may be weighed in ranking.",
+        "url": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/"
+      },
+      "alternateName": [
+        "Can I train for many epochs on the 10M-word BabyLM corpus?",
+        "Are there hyperparameter restrictions in the sample-efficient pretraining shared task?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/#terms",
+  "url": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/",
+  "name": "Terminology in Call for Papers - The BabyLM Challenge: Sample-efficient pretraining on a developmentally plausible corpus",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Strict track",
+      "description": "The BabyLM Challenge track in which models may be trained only on the released fixed corpus of about 100M words, with no use of pretrained models for any purpose.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Strict-small track",
+      "description": "The BabyLM Challenge track in which models may be trained only on an approximately 10% uniform subsample of the fixed BabyLM corpus, totalling 9.96M words.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Loose track",
+      "description": "The BabyLM Challenge track in which training text is capped at 100M words but may come from any domain, source or modality, with unlimited additional non-linguistic data and unlimited text generated by a model that itself obeys the data restrictions.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Developmentally plausible corpus",
+      "description": "A pretraining corpus whose size and composition are inspired by the linguistic input a child receives: under 100M words and weighted toward transcribed speech.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/call-for-papers-the-babylm-challenge-sample-efficient-pretra/#terms"
+    }
   ]
 }
   </script>
@@ -77,6 +290,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -90,31 +304,76 @@
 </head>
 <body>
 <h1>Call for Papers - The BabyLM Challenge: Sample-efficient pretraining on a developmentally plausible corpus</h1>
-<p class="meta">Alex Warstadt, Leshem Choshen, Aaron Mueller, Adina Williams, Ethan Wilcox, Chengxu Zhuang · CoRR · 2023</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2301.11796">arXiv</a></li><li><a href="https://arxiv.org/pdf/2301.11796">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2301.11796">HTML</a></li><li><a href="https://huggingface.co/papers/2301.11796">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2301.11796">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2301.11796">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/256358845">Semantic Scholar</a></li><li><a href="https://doi.org/10.48550/arXiv.2301.11796">Publisher</a></li></ul>
+<p class="sub">a shared task on pretraining language models on the amount of text a child hears, roughly 10M or 100M words</p>
+<p class="meta">Alex Warstadt, Leshem Choshen, Aaron Mueller, Adina Williams, Ethan Gotlieb Wilcox, Chengxu Zhuang · arXiv · 2023</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2301.11796">arXiv</a></li><li><a href="https://arxiv.org/pdf/2301.11796">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2301.11796">HTML</a></li><li><a href="https://huggingface.co/papers/2301.11796">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2301.11796">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2301.11796">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/256358845">Semantic Scholar</a></li><li><a href="https://babylm.github.io/">Project page</a></li><li><a href="https://babylm.github.io/">project page</a></li><li><a href="https://github.com/babylm/babylm.github.io/raw/main/babylm_data.zip">training data</a></li></ul>
+<h2>In one sentence</h2>
+<p>The BabyLM Challenge is a shared task that caps pretraining data at roughly 10M or 100M words drawn from child-directed speech, children&#x27;s books, subtitles and Wikipedia, and scores submissions on a shared pipeline of targeted syntactic and natural language understanding evaluations.</p>
 <h2>Abstract</h2>
 <p>We present the call for papers for the BabyLM Challenge: Sample-efﬁcient pretraining on a developmentally plausible corpus. This shared task is intended for participants with an interest in small scale language modeling, human language acquisition, low-resource NLP, and cognitive modeling. In partnership with CoNLL and CMCL, we provide a platform for approaches to pretraining with a limited-size corpus sourced from data inspired by the input to children. The task has three tracks, two of which restrict the training data to pre-released datasets of 10M and 100M words and are ded-icated to explorations of approaches such as architectural variations, self-supervised objec-tives, or curriculum learning. The ﬁnal track only restricts the amount of text used, allowing innovation in the choice of the data, its domain, and even its modality (i.e., data from sources other than text is welcome). We will release a shared evaluation pipeline which scores models on a variety of benchmarks and tasks, in-cluding targeted syntactic evaluations and natural language understanding.</p>
-<h2>How to cite</h2>
-<pre>@article{DBLP:journals/corr/abs-2301-11796,
-  author       = {Alex Warstadt and
-                  Leshem Choshen and
-                  Aaron Mueller and
-                  Adina Williams and
-                  Ethan Wilcox and
-                  Chengxu Zhuang},
-  title        = {Call for Papers - The BabyLM Challenge: Sample-efficient pretraining
-                  on a developmentally plausible corpus},
-  journal      = {CoRR},
-  volume       = {abs/2301.11796},
-  year         = {2023},
-  url          = {https://doi.org/10.48550/arXiv.2301.11796},
-  doi          = {10.48550/ARXIV.2301.11796},
-  eprinttype    = {arXiv},
-  eprint       = {2301.11796},
-  timestamp    = {Tue, 31 Jan 2023 00:00:00 +0100},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-2301-11796.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
-}</pre>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What is a good starting point for research on training language models with as little data as a child hears?</dt>
+<dt>Where should I start reading about sample-efficient or human-scale language model pretraining?</dt>
+<dt>What shared task exists for small-scale language modeling and cognitive modeling?</dt>
+<dd>The BabyLM Challenge established a shared task for sample-efficient language model pretraining at human-scale data budgets, hosted at CoNLL 2023 in partnership with CMCL. It targets researchers in small-scale language modeling, language acquisition, low-resource NLP and cognitive modeling.<br><span class="scope">Holds for: As of the 2023 call for papers, which specifies tracks, data and timeline rather than reporting results from submissions.</span></dd>
+<dd>The BabyLM Challenge frames scaled-down pretraining as a way to democratize pretraining research, arguing that data-efficiency techniques developed on a university budget can transfer to larger corpora and to low-resource languages.<br><span class="scope">Holds for: An argument made in the 2023 call rather than a demonstrated transfer result; the call also notes that pretraining on 10M-100M words still carries real computational, energy and financial cost.</span></dd>
+<dt>How much training data does the BabyLM Challenge allow?</dt>
+<dt>How many words are in the 10M and 100M word pretraining corpora for the BabyLM shared task?</dt>
+<dt>What is the size of the developmentally plausible pretraining dataset released for small-scale language modeling?</dt>
+<dd>The released BabyLM training corpora total 9.96M words for Strict-small and 98.04M words for Strict, with Strict-small being an approximately 10% uniform subsample of Strict.<br><span class="scope">Holds for: English only; word counts are for the training splits of the 10 included corpora as released in January 2023.</span></dd>
+<dd>The BabyLM 100M-word cap is justified by cited estimates that children are exposed to 2M-7M words per year, implying 24M-84M words by the onset of adolescence at age 12.<br><span class="scope">Holds for: Based on cited estimates of children&#x27;s input, not new measurement; the released Strict corpus of 98.04M words sits above that range.</span></dd>
+<dt>What text sources make up the BabyLM pretraining corpus?</dt>
+<dt>Which corpora and domains are in the child-inspired 100M-word pretraining dataset?</dt>
+<dt>How much of the developmentally plausible pretraining data is transcribed speech versus Wikipedia?</dt>
+<dd>Transcribed and spoken-style text dominates the BabyLM corpus, with OpenSubtitles contributing 31% of words, the QCRI Educational Domain Corpus 11% and the BNC dialogue portion 8%. Child-directed speech from CHILDES supplies 5%, and Wikipedia 10%.<br><span class="scope">Holds for: Proportions are by word count over the 10 corpora released for the Strict and Strict-small tracks in January 2023.</span></dd>
+<dt>What are the tracks of the BabyLM Challenge and how do they differ?</dt>
+<dt>Can I use my own data or multimodal data in the sample-efficient pretraining shared task?</dt>
+<dt>What is the difference between the Strict, Strict-small and Loose tracks?</dt>
+<dd>The BabyLM Challenge runs three tracks: Strict and Strict-small, which allow only the fixed released datasets of about 100M and 10M words, and Loose. The Loose track caps training text at 100M words but permits other domains, other data sources and non-linguistic data.<br><span class="scope">Holds for: Strict-track submissions may not use pretrained models for any purpose including reranking or data augmentation; Loose-track winners are chosen holistically on evaluation performance, relevance, impact and novelty rather than on the shared score alone.</span></dd>
+<dt>Why did anyone set up a challenge about pretraining on child-sized amounts of text?</dt>
+<dt>How much more data do large language models see than a child does?</dt>
+<dt>What motivates studying language model pretraining at human data scales?</dt>
+<dd>The BabyLM call motivates the task with the gap between modern language models, trained on data multiple orders of magnitude larger than what a typical child is exposed to, and human learners. Pretraining at human-like data scales has seen almost no progress.<br><span class="scope">Holds for: Comparison is between English pretraining corpora of large models circa 2022 and estimates of a child&#x27;s linguistic input; Figure 1 is a to-scale visualization rather than a controlled measurement.</span></dd>
+<dd>The BabyLM Challenge established a shared task for sample-efficient language model pretraining at human-scale data budgets, hosted at CoNLL 2023 in partnership with CMCL. It targets researchers in small-scale language modeling, language acquisition, low-resource NLP and cognitive modeling.<br><span class="scope">Holds for: As of the 2023 call for papers, which specifies tracks, data and timeline rather than reporting results from submissions.</span></dd>
+<dt>What baseline models does the BabyLM Challenge provide?</dt>
+<dt>Are the OPT, RoBERTa and T5 baselines for the 10M-word pretraining task tuned?</dt>
+<dt>What should a submission to the sample-efficient pretraining challenge be compared against?</dt>
+<dd>The BabyLM baselines are OPT, RoBERTa and T5 trained from scratch on the fixed datasets using the hyperparameters of those established large models. The call describes them as naive starting points rather than strong baselines.<br><span class="scope">Holds for: Hyperparameters are transferred unchanged from the large-scale originals, so the baselines are not tuned for 10M- or 100M-word regimes; the call does not report their scores.</span></dd>
+<dt>What must a model be able to do to be evaluated in the BabyLM Challenge?</dt>
+<dt>Do submissions to the child-scale pretraining shared task have to be generative language models?</dt>
+<dt>What interface does the shared evaluation pipeline for small-scale language models require?</dt>
+<dd>BabyLM submissions must be able to score a sequence with a log-likelihood or pseudo-log-likelihood and to be fine-tuned for classification, but need not be able to generate sequences.<br><span class="scope">Holds for: The shared evaluation pipeline runs in Google Colab and assumes models load in HuggingFace transformers; participants with incompatible models may run their own pipeline.</span></dd>
+<dt>Does the BabyLM Challenge limit training compute or epochs?</dt>
+<dt>Can I train for many epochs on the 10M-word BabyLM corpus?</dt>
+<dt>Are there hyperparameter restrictions in the sample-efficient pretraining shared task?</dt>
+<dd>The BabyLM Challenge places no limit on the number of training epochs and no limit on hyperparameters. The stated reasons are that small-scale training with SGD needs multiple epochs and that humans retain and relearn from memories of linguistic experience.<br><span class="scope">Holds for: The restriction is on the quantity and source of training data, not on compute; in the Loose track parameter and training efficiency may be weighed in ranking.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>The BabyLM Challenge established a shared task for sample-efficient language model pretraining at human-scale data budgets, hosted at CoNLL 2023 in partnership with CMCL. It targets researchers in small-scale language modeling, language acquisition, low-resource NLP and cognitive modeling.<br><span class="scope">Scope: As of the 2023 call for papers, which specifies tracks, data and timeline rather than reporting results from submissions.</span></li>
+<li>The BabyLM call motivates the task with the gap between modern language models, trained on data multiple orders of magnitude larger than what a typical child is exposed to, and human learners. Pretraining at human-like data scales has seen almost no progress. <span class="meta">(Figure 1 and Section 1)</span><br><span class="scope">Scope: Comparison is between English pretraining corpora of large models circa 2022 and estimates of a child&#x27;s linguistic input; Figure 1 is a to-scale visualization rather than a controlled measurement.</span></li>
+<li>The BabyLM Challenge runs three tracks: Strict and Strict-small, which allow only the fixed released datasets of about 100M and 10M words, and Loose. The Loose track caps training text at 100M words but permits other domains, other data sources and non-linguistic data. <span class="meta">(Section 3)</span><br><span class="scope">Scope: Strict-track submissions may not use pretrained models for any purpose including reranking or data augmentation; Loose-track winners are chosen holistically on evaluation performance, relevance, impact and novelty rather than on the shared score alone.</span></li>
+<li>The released BabyLM training corpora total 9.96M words for Strict-small and 98.04M words for Strict, with Strict-small being an approximately 10% uniform subsample of Strict. <span class="meta">(Table 1 and Section 3)</span><br><span class="scope">Scope: English only; word counts are for the training splits of the 10 included corpora as released in January 2023.</span></li>
+<li>Transcribed and spoken-style text dominates the BabyLM corpus, with OpenSubtitles contributing 31% of words, the QCRI Educational Domain Corpus 11% and the BNC dialogue portion 8%. Child-directed speech from CHILDES supplies 5%, and Wikipedia 10%. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Proportions are by word count over the 10 corpora released for the Strict and Strict-small tracks in January 2023.</span></li>
+<li>The BabyLM 100M-word cap is justified by cited estimates that children are exposed to 2M-7M words per year, implying 24M-84M words by the onset of adolescence at age 12. <span class="meta">(Section 4)</span><br><span class="scope">Scope: Based on cited estimates of children&#x27;s input, not new measurement; the released Strict corpus of 98.04M words sits above that range.</span></li>
+<li>The BabyLM baselines are OPT, RoBERTa and T5 trained from scratch on the fixed datasets using the hyperparameters of those established large models. The call describes them as naive starting points rather than strong baselines. <span class="meta">(Section 5.1)</span><br><span class="scope">Scope: Hyperparameters are transferred unchanged from the large-scale originals, so the baselines are not tuned for 10M- or 100M-word regimes; the call does not report their scores.</span></li>
+<li>BabyLM submissions must be able to score a sequence with a log-likelihood or pseudo-log-likelihood and to be fine-tuned for classification, but need not be able to generate sequences. <span class="meta">(Section 5)</span><br><span class="scope">Scope: The shared evaluation pipeline runs in Google Colab and assumes models load in HuggingFace transformers; participants with incompatible models may run their own pipeline.</span></li>
+<li>The BabyLM Challenge places no limit on the number of training epochs and no limit on hyperparameters. The stated reasons are that small-scale training with SGD needs multiple epochs and that humans retain and relearn from memories of linguistic experience. <span class="meta">(Section 7)</span><br><span class="scope">Scope: The restriction is on the quantity and source of training data, not on compute; in the Loose track parameter and training efficiency may be weighed in ranking.</span></li>
+<li>The BabyLM Challenge frames scaled-down pretraining as a way to democratize pretraining research, arguing that data-efficiency techniques developed on a university budget can transfer to larger corpora and to low-resource languages. <span class="meta">(Section 1 and Section 6)</span><br><span class="scope">Scope: An argument made in the 2023 call rather than a demonstrated transfer result; the call also notes that pretraining on 10M-100M words still carries real computational, energy and financial cost.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The BabyLM call for papers reports no model results: it specifies the tracks, the released corpora, the baselines and the evaluation requirements, so findings about which architectures or objectives win at 10M words come from the participant papers and the later results write-ups, not from the call.</li>
+<li>The BabyLM data limit is on words of training text, not on compute, parameters or epochs; a model trained for many epochs on the 10M-word corpus is a valid Strict-small submission.</li>
+<li>The BabyLM corpus is not purely child-directed speech: CHILDES supplies 5% of words, while movie and educational-video subtitles, Wikipedia and Project Gutenberg supply the majority.</li>
+<li>&quot;Developmentally plausible&quot; in the BabyLM Challenge refers to the quantity and the speech-heavy composition of the text, not to an ordering that mimics acquisition; curriculum learning is an approach participants may try, not a property of the released data.</li>
+<li>The Loose track is not an unrestricted-data track: submissions are still capped at 100M words of training text, with the freedom applying to the domain, source and modality of that data plus unlimited non-linguistic data.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Strict track</em></dt><dd>The BabyLM Challenge track in which models may be trained only on the released fixed corpus of about 100M words, with no use of pretrained models for any purpose.</dd>
+<dt><em>Strict-small track</em></dt><dd>The BabyLM Challenge track in which models may be trained only on an approximately 10% uniform subsample of the fixed BabyLM corpus, totalling 9.96M words.</dd>
+<dt><em>Loose track</em></dt><dd>The BabyLM Challenge track in which training text is capped at 100M words but may come from any domain, source or modality, with unlimited additional non-linguistic data and unlimited text generated by a model that itself obeys the data restrictions.</dd>
+<dt><em>Developmentally plausible corpus</em></dt><dd>A pretraining corpus whose size and composition are inspired by the linguistic input a child receives: under 100M words and weighted toward transcribed speech.</dd>
+</dl>
 <h2>References</h2>
 <p>See the full reference list in the <a href="https://ar5iv.labs.arxiv.org/html/2301.11796">paper</a>.</p>
 <footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>

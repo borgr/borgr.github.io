@@ -99,6 +99,7 @@
   "datePublished": "2026",
   "identifier": "https://doi.org/10.48550/arXiv.2602.22953",
   "abstract": "General-purpose agents perform tasks in unfamiliar environments without domain-specific manual customization. Yet no study has systematically measured how agent architecture shapes performance across heterogeneous protocols and diverse unfamiliar environments. This is the first systematic study, comparing tool-calling, MCP, code-generation, and CLI agents on the same benchmarks with the same models. Two gaps blocked such a study: existing harnesses require per-benchmark wiring or fixed protocol classes (web for BrowserGym, CLI for Harbor), and benchmarks themselves expect human-authored prompts, context, and integration glue. To enable this study, we contribute (1) a unifying protocol that bridges existing benchmark and agent protocols; (2) an evaluation harness that surfaces any benchmark to any general-purpose agent and backbone model; and (3) the first Open General Agent Leaderboard of agent configurations, a full factorial over 5 agent architectures x 5 backbone LLMs (three closed-source, two open-weight) x 6 benchmarks spanning software engineering, customer service, deep research, and personal assistance. We find that (i) general agents adapt to every tested domain without per-domain customization; (ii) agent architecture choice swings results by up to 12pp within a single model, yet backbone model choice dominates overall performance; (iii) on 4 of 6 tested benchmarks, top general agents are indistinguishable from the leading heavily-customized domain-specific agents; (iv) open-weight models tested exhibit\"generality sinks\"absent from frontier closed-source models: they consistently collapse on specific agent architectures or benchmarks; (v) a behavioral failure analysis reveals architecture-distinctive error signatures that aggregate scoring cannot discriminate. Code, harness, leaderboard, and traces are at https://www.exgentic.ai.",
+  "description": "General Agent Evaluation introduces the Unified Protocol and the Exgentic harness, which let unmodified tool-calling, MCP, code-generation and CLI agents run on unmodified agentic benchmarks, and uses them to run a full 5 agent x 5 model x 6 benchmark factorial as the first Open General Agent Leaderboard.",
   "codeRepository": "https://github.com/Exgentic/exgentic",
   "sameAs": [
     "https://arxiv.org/abs/2602.22953",
@@ -106,9 +107,315 @@
     "https://arxiv.org/pdf/2602.22953",
     "https://doi.org/10.48550/arXiv.2602.22953",
     "https://github.com/Exgentic/exgentic",
+    "https://huggingface.co/datasets/open-agent-leaderboard/results",
     "https://huggingface.co/papers/2602.22953",
+    "https://huggingface.co/spaces/open-agent-leaderboard/leaderboard",
     "https://www.alphaxiv.org/abs/2602.22953",
+    "https://www.exgentic.ai",
     "https://www.semanticscholar.org/paper/286082826"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "General Agent Evaluation contributes the Open General Agent Leaderboard, a full factorial of 5 agent architectures x 5 backbone LLMs x 6 benchmarks. Each agent is run unmodified on benchmarks it was not customized for, at a total evaluation cost of about $20K.",
+      "description": "Holds for: ReAct, ReAct Short, Smolagent, OpenAI Solo and Claude Code over Claude Opus 4.5, Gemini 3 Pro, GPT 5.2, DeepSeek-V3.2 and Kimi-K2.5; benchmarks are AppWorld, BrowseComp+, SWE-Bench Verified and tau2-Bench Airline/Retail/Telecom."
+    },
+    {
+      "@type": "Thing",
+      "name": "The Unified Protocol represents every agentic benchmark task as three fields, task, context and actions. CLI, tool-calling and MCP agents are each served in their native protocol without rewriting the agent or the benchmark.",
+      "description": "Holds for: Derived by surveying existing agent and benchmark communication patterns; covers any agent protocol decomposable into discrete typed actions, and not continuous action spaces such as pixel-level computer use."
+    },
+    {
+      "@type": "Thing",
+      "name": "Backbone model choice explains 27.8% of cell success-rate variance while agent architecture explains only 0.5%, a 58x gap across the 15 closed-source configurations.",
+      "description": "Holds for: Eta-squared over the 15 closed-source cells only; adding the 2 open-weight models makes the architecture main effect detectable (F(4,136)=3.82, p=0.006)."
+    },
+    {
+      "@type": "Thing",
+      "name": "Within a single backbone model, agent architecture choice swings bench-weighted success by up to 12 percentage points. Claude Opus 4.5 ranges from 0.73 with OpenAI Solo to 0.61 with vanilla ReAct.",
+      "description": "Holds for: Closed-source backbones show 7-12pp architectural spread and open-weight backbones 14-18pp; paired t-tests on shared (benchmark, task) pairs, single run per cell."
+    },
+    {
+      "@type": "Thing",
+      "name": "On 4 of 6 benchmarks the best general-agent configuration is statistically indistinguishable from the top reported domain-specific agent, including 0.81 versus 0.79 on SWE-Bench Verified and 0.85 versus 0.86 on tau2-Bench-Retail; BrowseComp+ (0.61 vs 0.80) and tau2-Bench-Telecom (0.88 vs 0.98) remain specialist-led.",
+      "description": "Holds for: General-agent scores from 100 randomly sampled instances per benchmark (50 for Airline) against published specialist scores on full benchmarks; parity means the gap is within the per-benchmark Wilson 95% half-width of 7-12pp."
+    },
+    {
+      "@type": "Thing",
+      "name": "No single agent architecture is best everywhere: OpenAI Solo wins on SWE-Bench Verified and all three tau2-Bench subdomains, while Smolagent wins on AppWorld. Aggregate architecture rankings are not significant (range about 7pp, p>0.1).",
+      "description": "Holds for: 5 architectures x 6 benchmarks, best configuration per benchmark chosen across all 5 backbones; significance from paired t-tests on shared (benchmark, task) outcomes."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2 open-weight backbones tested show generality sinks absent from the frontier closed models: on tau2-Bench-Telecom Kimi-K2.5 scores 0.83 with ReAct and 0.00 with autonomous architectures. 94% of Kimi-K2.5 autonomous tau2-Bench sessions take zero steps after a first-turn protocol violation.",
+      "description": "Holds for: DeepSeek-V3.2 and Kimi-K2.5 only, so an observation about 2 checkpoints rather than open-weight models generally; zero-step rates are 31% for DeepSeek-V3.2 and 1.7% for closed-source; SWE-Bench Verified and BrowseComp+ show no sink."
+    },
+    {
+      "@type": "Thing",
+      "name": "Every open-weight-backed configuration collapses on AppWorld regardless of architecture, with the best (DeepSeek-V3.2+Smolagent) reaching only 0.13 against 0.70 for Claude Opus 4.5+Smolagent.",
+      "description": "Holds for: AppWorld exposes about 468 actions; DeepSeek-V3.2 and Kimi-K2.5 only, single run per cell. GPT 5.2 collapses on the same benchmark for a different reason, its 128-tool API ceiling."
+    },
+    {
+      "@type": "Thing",
+      "name": "GPT 5.2's 128-tool API ceiling drives 3 of its 4 non-shortlisting configurations to 0.00 on AppWorld, which exposes about 468 actions. Claude Opus 4.5-backed configurations reach 0.61-0.70 on the same environment with no shortlisting.",
+      "description": "Holds for: AppWorld only, 100 tasks; a model-API limitation rather than an integration artifact, and tool shortlisting recovers GPT 5.2 to only 0.22 on AppWorld."
+    },
+    {
+      "@type": "Thing",
+      "name": "Adding tool shortlisting to a vanilla ReAct agent improves success for 4 of the 5 backbones tested, by +22pp on AppWorld and +5.5pp bench-weighted for GPT 5.2. DeepSeek-V3.2 is the lone regression at -5pp on AppWorld.",
+      "description": "Holds for: AppWorld is the only tool-rich benchmark in the suite (about 468 actions), so bench-weighted deltas are one quarter of the AppWorld delta; shortlisting keeps the top k=30 tools per turn."
+    },
+    {
+      "@type": "Thing",
+      "name": "Tool shortlisting cuts Claude Opus 4.5's ReAct cost from $5.75 to $3.78 per task, a $1.97 saving, while leaving GPT 5.2 roughly flat ($0.17 to $0.26).",
+      "description": "Holds for: Per-task costs from LiteLLM pricing data over the 6-benchmark suite, bench-weighted; ReAct versus ReAct Short at fixed model and benchmark."
+    },
+    {
+      "@type": "Thing",
+      "name": "Cost-efficiency spans about 30x across the 25 configurations, from ReAct+GPT 5.2 and OpenAI Solo+DeepSeek-V3.2 at 2.43 score/$ down to Claude Code+Claude Opus 4.5 at 0.08 score/$. The highest-scoring configuration, OpenAI Solo+Claude Opus 4.5, runs at 0.09 score/$.",
+      "description": "Holds for: Efficiency is bench-weighted success divided by bench-weighted inference cost per task, priced with LiteLLM data at the time of the runs; excludes human and infrastructure cost."
+    },
+    {
+      "@type": "Thing",
+      "name": "Failed runs consume more steps than successful ones for every agent architecture tested. Bench-weighted overheads are +54% for ReAct, +45% for ReAct Short, +39% for Claude Code, +26% for Smolagent and +20% for OpenAI Solo, peaking at +111% for ReAct on AppWorld.",
+      "description": "Holds for: Three closed-source backbones only, since open-weight autonomous failures terminate by protocol violation rather than resource exhaustion; zero-step sessions excluded and step counts capped at 50; a few tau2-Bench cells are near zero or negative."
+    },
+    {
+      "@type": "Thing",
+      "name": "Agent architectures have distinct failure signatures even though architecture explains only 0.5% of success-rate variance. Claude Code and OpenAI Solo over-represent Premature Termination by +4.0pp and +7.3pp against an 8.7% mean, while ReAct and ReAct Short sit 5.0pp and 3.7pp below it.",
+      "description": "Holds for: LLM-judge categorisation of failed sessions with full trajectories into 27 categories (ErrorMap adapted, gpt-5.5 judge); zero-step sessions have no trajectory and are excluded; descriptive, not powered for causal claims."
+    },
+    {
+      "@type": "Thing",
+      "name": "Pairwise Spearman rank correlations between the six benchmarks are predominantly positive across the 15 closed-source configurations, with a median of +0.67 and a range of [+0.44, +0.81]; BrowseComp+ is the least correlated (0.44-0.75).",
+      "description": "Holds for: Closed-source configurations only (Claude Opus 4.5, Gemini 3 Pro, GPT 5.2); correlations computed over configuration rankings, not over individual tasks."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/general-agent-evaluation/#faq",
+  "url": "https://borgr.github.io/papers/general-agent-evaluation/",
+  "name": "Questions answered by General Agent Evaluation",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What should I read about evaluating general-purpose AI agents across many benchmarks?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "General Agent Evaluation contributes the Open General Agent Leaderboard, a full factorial of 5 agent architectures x 5 backbone LLMs x 6 benchmarks. Each agent is run unmodified on benchmarks it was not customized for, at a total evaluation cost of about $20K. Holds for: ReAct, ReAct Short, Smolagent, OpenAI Solo and Claude Code over Claude Opus 4.5, Gemini 3 Pro, GPT 5.2, DeepSeek-V3.2 and Kimi-K2.5; benchmarks are AppWorld, BrowseComp+, SWE-Bench Verified and tau2-Bench Airline/Retail/Telecom.\n\nThe Unified Protocol represents every agentic benchmark task as three fields, task, context and actions. CLI, tool-calling and MCP agents are each served in their native protocol without rewriting the agent or the benchmark. Holds for: Derived by surveying existing agent and benchmark communication patterns; covers any agent protocol decomposable into discrete typed actions, and not continuous action spaces such as pixel-level computer use.",
+        "url": "https://borgr.github.io/papers/general-agent-evaluation/"
+      },
+      "alternateName": [
+        "Is there a systematic comparison of tool-calling, MCP, code-generation and CLI agents on the same benchmarks?",
+        "Which paper introduces an open leaderboard of agent architecture and backbone model combinations?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does the agent scaffold or the underlying LLM matter more for agent performance?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Backbone model choice explains 27.8% of cell success-rate variance while agent architecture explains only 0.5%, a 58x gap across the 15 closed-source configurations. Holds for: Eta-squared over the 15 closed-source cells only; adding the 2 open-weight models makes the architecture main effect detectable (F(4,136)=3.82, p=0.006).\n\nWithin a single backbone model, agent architecture choice swings bench-weighted success by up to 12 percentage points. Claude Opus 4.5 ranges from 0.73 with OpenAI Solo to 0.61 with vanilla ReAct. Holds for: Closed-source backbones show 7-12pp architectural spread and open-weight backbones 14-18pp; paired t-tests on shared (benchmark, task) pairs, single run per cell.",
+        "url": "https://borgr.github.io/papers/general-agent-evaluation/"
+      },
+      "alternateName": [
+        "How much of agent success variance comes from the backbone model versus the agent architecture?",
+        "Is optimizing agent architecture worth it compared with switching to a stronger backbone LLM?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can general-purpose agents match agents that were hand-tuned for a specific benchmark?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On 4 of 6 benchmarks the best general-agent configuration is statistically indistinguishable from the top reported domain-specific agent, including 0.81 versus 0.79 on SWE-Bench Verified and 0.85 versus 0.86 on tau2-Bench-Retail; BrowseComp+ (0.61 vs 0.80) and tau2-Bench-Telecom (0.88 vs 0.98) remain specialist-led. Holds for: General-agent scores from 100 randomly sampled instances per benchmark (50 for Airline) against published specialist scores on full benchmarks; parity means the gap is within the per-benchmark Wilson 95% half-width of 7-12pp.\n\nNo single agent architecture is best everywhere: OpenAI Solo wins on SWE-Bench Verified and all three tau2-Bench subdomains, while Smolagent wins on AppWorld. Aggregate architecture rankings are not significant (range about 7pp, p>0.1). Holds for: 5 architectures x 6 benchmarks, best configuration per benchmark chosen across all 5 backbones; significance from paired t-tests on shared (benchmark, task) outcomes.",
+        "url": "https://borgr.github.io/papers/general-agent-evaluation/"
+      },
+      "alternateName": [
+        "How do generalist agents compare to domain-specific SWE-Bench or tau2-Bench leaders?",
+        "Do you lose accuracy by using one unmodified agent across software engineering, customer service and deep research tasks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which agent and model combination scores highest across agentic benchmarks?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Within a single backbone model, agent architecture choice swings bench-weighted success by up to 12 percentage points. Claude Opus 4.5 ranges from 0.73 with OpenAI Solo to 0.61 with vanilla ReAct. Holds for: Closed-source backbones show 7-12pp architectural spread and open-weight backbones 14-18pp; paired t-tests on shared (benchmark, task) pairs, single run per cell.\n\nBackbone model choice explains 27.8% of cell success-rate variance while agent architecture explains only 0.5%, a 58x gap across the 15 closed-source configurations. Holds for: Eta-squared over the 15 closed-source cells only; adding the 2 open-weight models makes the architecture main effect detectable (F(4,136)=3.82, p=0.006).",
+        "url": "https://borgr.github.io/papers/general-agent-evaluation/"
+      },
+      "alternateName": [
+        "What is the top configuration on the Open General Agent Leaderboard?",
+        "Which backbone LLM leads for agentic tasks in a full agent-by-model factorial study?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do open-weight models work as reliably as closed frontier models inside agent scaffolds?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2 open-weight backbones tested show generality sinks absent from the frontier closed models: on tau2-Bench-Telecom Kimi-K2.5 scores 0.83 with ReAct and 0.00 with autonomous architectures. 94% of Kimi-K2.5 autonomous tau2-Bench sessions take zero steps after a first-turn protocol violation. Holds for: DeepSeek-V3.2 and Kimi-K2.5 only, so an observation about 2 checkpoints rather than open-weight models generally; zero-step rates are 31% for DeepSeek-V3.2 and 1.7% for closed-source; SWE-Bench Verified and BrowseComp+ show no sink.\n\nEvery open-weight-backed configuration collapses on AppWorld regardless of architecture, with the best (DeepSeek-V3.2+Smolagent) reaching only 0.13 against 0.70 for Claude Opus 4.5+Smolagent. Holds for: AppWorld exposes about 468 actions; DeepSeek-V3.2 and Kimi-K2.5 only, single run per cell. GPT 5.2 collapses on the same benchmark for a different reason, its 128-tool API ceiling.",
+        "url": "https://borgr.github.io/papers/general-agent-evaluation/"
+      },
+      "alternateName": [
+        "Why does the same open-weight model score 0.83 with one agent and 0.00 with another?",
+        "What are generality sinks in agent evaluation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does tool shortlisting help agents in environments with hundreds of tools?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Adding tool shortlisting to a vanilla ReAct agent improves success for 4 of the 5 backbones tested, by +22pp on AppWorld and +5.5pp bench-weighted for GPT 5.2. DeepSeek-V3.2 is the lone regression at -5pp on AppWorld. Holds for: AppWorld is the only tool-rich benchmark in the suite (about 468 actions), so bench-weighted deltas are one quarter of the AppWorld delta; shortlisting keeps the top k=30 tools per turn.\n\nTool shortlisting cuts Claude Opus 4.5's ReAct cost from $5.75 to $3.78 per task, a $1.97 saving, while leaving GPT 5.2 roughly flat ($0.17 to $0.26). Holds for: Per-task costs from LiteLLM pricing data over the 6-benchmark suite, bench-weighted; ReAct versus ReAct Short at fixed model and benchmark.",
+        "url": "https://borgr.github.io/papers/general-agent-evaluation/"
+      },
+      "alternateName": [
+        "Is filtering the tool list per turn worth it for a ReAct agent?",
+        "How much does tool shortlisting improve success and reduce cost?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What happens when a benchmark exposes more tools than the model's API allows?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GPT 5.2's 128-tool API ceiling drives 3 of its 4 non-shortlisting configurations to 0.00 on AppWorld, which exposes about 468 actions. Claude Opus 4.5-backed configurations reach 0.61-0.70 on the same environment with no shortlisting. Holds for: AppWorld only, 100 tasks; a model-API limitation rather than an integration artifact, and tool shortlisting recovers GPT 5.2 to only 0.22 on AppWorld.\n\nEvery open-weight-backed configuration collapses on AppWorld regardless of architecture, with the best (DeepSeek-V3.2+Smolagent) reaching only 0.13 against 0.70 for Claude Opus 4.5+Smolagent. Holds for: AppWorld exposes about 468 actions; DeepSeek-V3.2 and Kimi-K2.5 only, single run per cell. GPT 5.2 collapses on the same benchmark for a different reason, its 128-tool API ceiling.",
+        "url": "https://borgr.github.io/papers/general-agent-evaluation/"
+      },
+      "alternateName": [
+        "Why do GPT 5.2 agents score zero on AppWorld?",
+        "Does a 128-tool API limit break agent evaluation on tool-rich environments?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost per task to run frontier agents on agentic benchmarks?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cost-efficiency spans about 30x across the 25 configurations, from ReAct+GPT 5.2 and OpenAI Solo+DeepSeek-V3.2 at 2.43 score/$ down to Claude Code+Claude Opus 4.5 at 0.08 score/$. The highest-scoring configuration, OpenAI Solo+Claude Opus 4.5, runs at 0.09 score/$. Holds for: Efficiency is bench-weighted success divided by bench-weighted inference cost per task, priced with LiteLLM data at the time of the runs; excludes human and infrastructure cost.",
+        "url": "https://borgr.github.io/papers/general-agent-evaluation/"
+      },
+      "alternateName": [
+        "Which agent configurations give the best success per dollar?",
+        "Is the highest-scoring agent configuration also the most cost-efficient?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do failing agent runs burn more steps than successful ones?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Failed runs consume more steps than successful ones for every agent architecture tested. Bench-weighted overheads are +54% for ReAct, +45% for ReAct Short, +39% for Claude Code, +26% for Smolagent and +20% for OpenAI Solo, peaking at +111% for ReAct on AppWorld. Holds for: Three closed-source backbones only, since open-weight autonomous failures terminate by protocol violation rather than resource exhaustion; zero-step sessions excluded and step counts capped at 50; a few tau2-Bench cells are near zero or negative.\n\nAgent architectures have distinct failure signatures even though architecture explains only 0.5% of success-rate variance. Claude Code and OpenAI Solo over-represent Premature Termination by +4.0pp and +7.3pp against an 8.7% mean, while ReAct and ReAct Short sit 5.0pp and 3.7pp below it. Holds for: LLM-judge categorisation of failed sessions with full trajectories into 27 categories (ErrorMap adapted, gpt-5.5 judge); zero-step sessions have no trajectory and are excluded; descriptive, not powered for causal claims.",
+        "url": "https://borgr.github.io/papers/general-agent-evaluation/"
+      },
+      "alternateName": [
+        "How much extra compute do failed agent trajectories consume?",
+        "Do different agent architectures fail in different ways?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What kinds of errors do agents actually make on long-horizon tasks?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Agent architectures have distinct failure signatures even though architecture explains only 0.5% of success-rate variance. Claude Code and OpenAI Solo over-represent Premature Termination by +4.0pp and +7.3pp against an 8.7% mean, while ReAct and ReAct Short sit 5.0pp and 3.7pp below it. Holds for: LLM-judge categorisation of failed sessions with full trajectories into 27 categories (ErrorMap adapted, gpt-5.5 judge); zero-step sessions have no trajectory and are excluded; descriptive, not powered for causal claims.",
+        "url": "https://borgr.github.io/papers/general-agent-evaluation/"
+      },
+      "alternateName": [
+        "Can failure-mode analysis distinguish agent architectures that success rates cannot?",
+        "What is Premature Termination in agent failure taxonomies?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How does the Unified Protocol let an unmodified agent run on an unmodified benchmark?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Unified Protocol represents every agentic benchmark task as three fields, task, context and actions. CLI, tool-calling and MCP agents are each served in their native protocol without rewriting the agent or the benchmark. Holds for: Derived by surveying existing agent and benchmark communication patterns; covers any agent protocol decomposable into discrete typed actions, and not continuous action spaces such as pixel-level computer use.\n\nGeneral Agent Evaluation contributes the Open General Agent Leaderboard, a full factorial of 5 agent architectures x 5 backbone LLMs x 6 benchmarks. Each agent is run unmodified on benchmarks it was not customized for, at a total evaluation cost of about $20K. Holds for: ReAct, ReAct Short, Smolagent, OpenAI Solo and Claude Code over Claude Opus 4.5, Gemini 3 Pro, GPT 5.2, DeepSeek-V3.2 and Kimi-K2.5; benchmarks are AppWorld, BrowseComp+, SWE-Bench Verified and tau2-Bench Airline/Retail/Telecom.",
+        "url": "https://borgr.github.io/papers/general-agent-evaluation/"
+      },
+      "alternateName": [
+        "What is the task/context/actions representation used by Exgentic?",
+        "How can I evaluate my own agent on SWE-Bench, AppWorld and tau2-Bench without per-benchmark wiring?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do agentic benchmarks measure the same underlying capability?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pairwise Spearman rank correlations between the six benchmarks are predominantly positive across the 15 closed-source configurations, with a median of +0.67 and a range of [+0.44, +0.81]; BrowseComp+ is the least correlated (0.44-0.75). Holds for: Closed-source configurations only (Claude Opus 4.5, Gemini 3 Pro, GPT 5.2); correlations computed over configuration rankings, not over individual tasks.",
+        "url": "https://borgr.github.io/papers/general-agent-evaluation/"
+      },
+      "alternateName": [
+        "How correlated are AppWorld, BrowseComp+, SWE-Bench and tau2-Bench scores across configurations?",
+        "Which agentic benchmark captures the most distinct skills?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/general-agent-evaluation/#terms",
+  "url": "https://borgr.github.io/papers/general-agent-evaluation/",
+  "name": "Terminology in General Agent Evaluation",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Unified Protocol",
+      "description": "A benchmark-agent mediation layer in which every task is expressed as three fields — task (a textual description of what to do), context (what the agent should know, e.g. a policy document), and actions (typed environment operations, optionally with one designated message action and one final-answer action) — so that agents using CLI, tool-calling APIs or MCP can each be served in their native protocol.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/general-agent-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "agent architecture",
+      "description": "The full bundle shipped with an agent — scaffold, available tools, memory, schema guards, planning and any auxiliary components — that is, everything the agent author commits to except the backbone LLM.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/general-agent-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "generality sink",
+      "description": "A backbone model's consistent collapse to near-zero success on a specific agent architecture (architecture sink) or on a specific benchmark regardless of architecture (benchmark sink), while the same model performs competitively elsewhere.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/general-agent-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "architectural spread",
+      "description": "The difference in bench-weighted mean success between the best and worst agent architecture paired with a fixed backbone model.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/general-agent-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "tool shortlisting",
+      "description": "A per-turn preprocessing step that queries the backbone LLM with the conversation so far and the full action catalog and forwards only the k=30 most relevant tools to the main call, used when a benchmark exposes more than 30 actions.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/general-agent-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "bench-weighted mean",
+      "description": "A weighted mean of success across the six benchmarks in which the three tau2-Bench subdomains are aggregated and given equal total weight to each of the other benchmarks.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/general-agent-evaluation/#terms"
+    }
   ]
 }
   </script>
@@ -119,6 +426,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -132,13 +440,110 @@
 </head>
 <body>
 <h1>General Agent Evaluation</h1>
+<p class="sub">an evaluation harness that lets any unmodified general-purpose agent run on any agentic benchmark via a shared task/context/actions protocol</p>
 <p class="meta">Elron Bandel, Asaf Yehudai, Lilach Eden, Yehoshua Sagron, Yotam Perlitz, Elad Venezian, Natalia Razinkov, Natan Ergas, Shlomit Shachor Ifergan, Segev Shlomov, Michal Jacovi, Leshem Choshen, Liat Ein-Dor, Yoav Katz, Michal Shmueli-Scheuer · 2026</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2602.22953">arXiv</a></li><li><a href="https://arxiv.org/pdf/2602.22953">PDF</a></li><li><a href="https://arxiv.org/html/2602.22953">HTML</a></li><li><a href="https://huggingface.co/papers/2602.22953">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2602.22953">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2602.22953">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/286082826">Semantic Scholar</a></li><li><a href="https://github.com/Exgentic/exgentic">Code</a></li></ul>
+<ul class="links"><li><a href="https://arxiv.org/abs/2602.22953">arXiv</a></li><li><a href="https://arxiv.org/pdf/2602.22953">PDF</a></li><li><a href="https://arxiv.org/html/2602.22953">HTML</a></li><li><a href="https://huggingface.co/papers/2602.22953">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2602.22953">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2602.22953">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/286082826">Semantic Scholar</a></li><li><a href="https://github.com/Exgentic/exgentic">Code</a></li><li><a href="https://www.exgentic.ai">Leaderboard</a></li><li><a href="https://huggingface.co/datasets/open-agent-leaderboard/results">results dataset</a></li><li><a href="https://huggingface.co/spaces/open-agent-leaderboard/leaderboard">leaderboard space</a></li></ul>
+<h2>In one sentence</h2>
+<p>General Agent Evaluation introduces the Unified Protocol and the Exgentic harness, which let unmodified tool-calling, MCP, code-generation and CLI agents run on unmodified agentic benchmarks, and uses them to run a full 5 agent x 5 model x 6 benchmark factorial as the first Open General Agent Leaderboard.</p>
 <h2>Abstract</h2>
 <p>General-purpose agents perform tasks in unfamiliar environments without domain-specific manual customization. Yet no study has systematically measured how agent architecture shapes performance across heterogeneous protocols and diverse unfamiliar environments. This is the first systematic study, comparing tool-calling, MCP, code-generation, and CLI agents on the same benchmarks with the same models. Two gaps blocked such a study: existing harnesses require per-benchmark wiring or fixed protocol classes (web for BrowserGym, CLI for Harbor), and benchmarks themselves expect human-authored prompts, context, and integration glue. To enable this study, we contribute (1) a unifying protocol that bridges existing benchmark and agent protocols; (2) an evaluation harness that surfaces any benchmark to any general-purpose agent and backbone model; and (3) the first Open General Agent Leaderboard of agent configurations, a full factorial over 5 agent architectures x 5 backbone LLMs (three closed-source, two open-weight) x 6 benchmarks spanning software engineering, customer service, deep research, and personal assistance. We find that (i) general agents adapt to every tested domain without per-domain customization; (ii) agent architecture choice swings results by up to 12pp within a single model, yet backbone model choice dominates overall performance; (iii) on 4 of 6 tested benchmarks, top general agents are indistinguishable from the leading heavily-customized domain-specific agents; (iv) open-weight models tested exhibit&quot;generality sinks&quot;absent from frontier closed-source models: they consistently collapse on specific agent architectures or benchmarks; (v) a behavioral failure analysis reveals architecture-distinctive error signatures that aggregate scoring cannot discriminate. Code, harness, leaderboard, and traces are at https://www.exgentic.ai.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What should I read about evaluating general-purpose AI agents across many benchmarks?</dt>
+<dt>Is there a systematic comparison of tool-calling, MCP, code-generation and CLI agents on the same benchmarks?</dt>
+<dt>Which paper introduces an open leaderboard of agent architecture and backbone model combinations?</dt>
+<dd>General Agent Evaluation contributes the Open General Agent Leaderboard, a full factorial of 5 agent architectures x 5 backbone LLMs x 6 benchmarks. Each agent is run unmodified on benchmarks it was not customized for, at a total evaluation cost of about $20K.<br><span class="scope">Holds for: ReAct, ReAct Short, Smolagent, OpenAI Solo and Claude Code over Claude Opus 4.5, Gemini 3 Pro, GPT 5.2, DeepSeek-V3.2 and Kimi-K2.5; benchmarks are AppWorld, BrowseComp+, SWE-Bench Verified and tau2-Bench Airline/Retail/Telecom.</span></dd>
+<dd>The Unified Protocol represents every agentic benchmark task as three fields, task, context and actions. CLI, tool-calling and MCP agents are each served in their native protocol without rewriting the agent or the benchmark.<br><span class="scope">Holds for: Derived by surveying existing agent and benchmark communication patterns; covers any agent protocol decomposable into discrete typed actions, and not continuous action spaces such as pixel-level computer use.</span></dd>
+<dt>Does the agent scaffold or the underlying LLM matter more for agent performance?</dt>
+<dt>How much of agent success variance comes from the backbone model versus the agent architecture?</dt>
+<dt>Is optimizing agent architecture worth it compared with switching to a stronger backbone LLM?</dt>
+<dd>Backbone model choice explains 27.8% of cell success-rate variance while agent architecture explains only 0.5%, a 58x gap across the 15 closed-source configurations.<br><span class="scope">Holds for: Eta-squared over the 15 closed-source cells only; adding the 2 open-weight models makes the architecture main effect detectable (F(4,136)=3.82, p=0.006).</span></dd>
+<dd>Within a single backbone model, agent architecture choice swings bench-weighted success by up to 12 percentage points. Claude Opus 4.5 ranges from 0.73 with OpenAI Solo to 0.61 with vanilla ReAct.<br><span class="scope">Holds for: Closed-source backbones show 7-12pp architectural spread and open-weight backbones 14-18pp; paired t-tests on shared (benchmark, task) pairs, single run per cell.</span></dd>
+<dt>Can general-purpose agents match agents that were hand-tuned for a specific benchmark?</dt>
+<dt>How do generalist agents compare to domain-specific SWE-Bench or tau2-Bench leaders?</dt>
+<dt>Do you lose accuracy by using one unmodified agent across software engineering, customer service and deep research tasks?</dt>
+<dd>On 4 of 6 benchmarks the best general-agent configuration is statistically indistinguishable from the top reported domain-specific agent, including 0.81 versus 0.79 on SWE-Bench Verified and 0.85 versus 0.86 on tau2-Bench-Retail; BrowseComp+ (0.61 vs 0.80) and tau2-Bench-Telecom (0.88 vs 0.98) remain specialist-led.<br><span class="scope">Holds for: General-agent scores from 100 randomly sampled instances per benchmark (50 for Airline) against published specialist scores on full benchmarks; parity means the gap is within the per-benchmark Wilson 95% half-width of 7-12pp.</span></dd>
+<dd>No single agent architecture is best everywhere: OpenAI Solo wins on SWE-Bench Verified and all three tau2-Bench subdomains, while Smolagent wins on AppWorld. Aggregate architecture rankings are not significant (range about 7pp, p&gt;0.1).<br><span class="scope">Holds for: 5 architectures x 6 benchmarks, best configuration per benchmark chosen across all 5 backbones; significance from paired t-tests on shared (benchmark, task) outcomes.</span></dd>
+<dt>Which agent and model combination scores highest across agentic benchmarks?</dt>
+<dt>What is the top configuration on the Open General Agent Leaderboard?</dt>
+<dt>Which backbone LLM leads for agentic tasks in a full agent-by-model factorial study?</dt>
+<dd>Within a single backbone model, agent architecture choice swings bench-weighted success by up to 12 percentage points. Claude Opus 4.5 ranges from 0.73 with OpenAI Solo to 0.61 with vanilla ReAct.<br><span class="scope">Holds for: Closed-source backbones show 7-12pp architectural spread and open-weight backbones 14-18pp; paired t-tests on shared (benchmark, task) pairs, single run per cell.</span></dd>
+<dd>Backbone model choice explains 27.8% of cell success-rate variance while agent architecture explains only 0.5%, a 58x gap across the 15 closed-source configurations.<br><span class="scope">Holds for: Eta-squared over the 15 closed-source cells only; adding the 2 open-weight models makes the architecture main effect detectable (F(4,136)=3.82, p=0.006).</span></dd>
+<dt>Do open-weight models work as reliably as closed frontier models inside agent scaffolds?</dt>
+<dt>Why does the same open-weight model score 0.83 with one agent and 0.00 with another?</dt>
+<dt>What are generality sinks in agent evaluation?</dt>
+<dd>The 2 open-weight backbones tested show generality sinks absent from the frontier closed models: on tau2-Bench-Telecom Kimi-K2.5 scores 0.83 with ReAct and 0.00 with autonomous architectures. 94% of Kimi-K2.5 autonomous tau2-Bench sessions take zero steps after a first-turn protocol violation.<br><span class="scope">Holds for: DeepSeek-V3.2 and Kimi-K2.5 only, so an observation about 2 checkpoints rather than open-weight models generally; zero-step rates are 31% for DeepSeek-V3.2 and 1.7% for closed-source; SWE-Bench Verified and BrowseComp+ show no sink.</span></dd>
+<dd>Every open-weight-backed configuration collapses on AppWorld regardless of architecture, with the best (DeepSeek-V3.2+Smolagent) reaching only 0.13 against 0.70 for Claude Opus 4.5+Smolagent.<br><span class="scope">Holds for: AppWorld exposes about 468 actions; DeepSeek-V3.2 and Kimi-K2.5 only, single run per cell. GPT 5.2 collapses on the same benchmark for a different reason, its 128-tool API ceiling.</span></dd>
+<dt>Does tool shortlisting help agents in environments with hundreds of tools?</dt>
+<dt>Is filtering the tool list per turn worth it for a ReAct agent?</dt>
+<dt>How much does tool shortlisting improve success and reduce cost?</dt>
+<dd>Adding tool shortlisting to a vanilla ReAct agent improves success for 4 of the 5 backbones tested, by +22pp on AppWorld and +5.5pp bench-weighted for GPT 5.2. DeepSeek-V3.2 is the lone regression at -5pp on AppWorld.<br><span class="scope">Holds for: AppWorld is the only tool-rich benchmark in the suite (about 468 actions), so bench-weighted deltas are one quarter of the AppWorld delta; shortlisting keeps the top k=30 tools per turn.</span></dd>
+<dd>Tool shortlisting cuts Claude Opus 4.5&#x27;s ReAct cost from $5.75 to $3.78 per task, a $1.97 saving, while leaving GPT 5.2 roughly flat ($0.17 to $0.26).<br><span class="scope">Holds for: Per-task costs from LiteLLM pricing data over the 6-benchmark suite, bench-weighted; ReAct versus ReAct Short at fixed model and benchmark.</span></dd>
+<dt>What happens when a benchmark exposes more tools than the model&#x27;s API allows?</dt>
+<dt>Why do GPT 5.2 agents score zero on AppWorld?</dt>
+<dt>Does a 128-tool API limit break agent evaluation on tool-rich environments?</dt>
+<dd>GPT 5.2&#x27;s 128-tool API ceiling drives 3 of its 4 non-shortlisting configurations to 0.00 on AppWorld, which exposes about 468 actions. Claude Opus 4.5-backed configurations reach 0.61-0.70 on the same environment with no shortlisting.<br><span class="scope">Holds for: AppWorld only, 100 tasks; a model-API limitation rather than an integration artifact, and tool shortlisting recovers GPT 5.2 to only 0.22 on AppWorld.</span></dd>
+<dd>Every open-weight-backed configuration collapses on AppWorld regardless of architecture, with the best (DeepSeek-V3.2+Smolagent) reaching only 0.13 against 0.70 for Claude Opus 4.5+Smolagent.<br><span class="scope">Holds for: AppWorld exposes about 468 actions; DeepSeek-V3.2 and Kimi-K2.5 only, single run per cell. GPT 5.2 collapses on the same benchmark for a different reason, its 128-tool API ceiling.</span></dd>
+<dt>How much does it cost per task to run frontier agents on agentic benchmarks?</dt>
+<dt>Which agent configurations give the best success per dollar?</dt>
+<dt>Is the highest-scoring agent configuration also the most cost-efficient?</dt>
+<dd>Cost-efficiency spans about 30x across the 25 configurations, from ReAct+GPT 5.2 and OpenAI Solo+DeepSeek-V3.2 at 2.43 score/$ down to Claude Code+Claude Opus 4.5 at 0.08 score/$. The highest-scoring configuration, OpenAI Solo+Claude Opus 4.5, runs at 0.09 score/$.<br><span class="scope">Holds for: Efficiency is bench-weighted success divided by bench-weighted inference cost per task, priced with LiteLLM data at the time of the runs; excludes human and infrastructure cost.</span></dd>
+<dt>Do failing agent runs burn more steps than successful ones?</dt>
+<dt>How much extra compute do failed agent trajectories consume?</dt>
+<dt>Do different agent architectures fail in different ways?</dt>
+<dd>Failed runs consume more steps than successful ones for every agent architecture tested. Bench-weighted overheads are +54% for ReAct, +45% for ReAct Short, +39% for Claude Code, +26% for Smolagent and +20% for OpenAI Solo, peaking at +111% for ReAct on AppWorld.<br><span class="scope">Holds for: Three closed-source backbones only, since open-weight autonomous failures terminate by protocol violation rather than resource exhaustion; zero-step sessions excluded and step counts capped at 50; a few tau2-Bench cells are near zero or negative.</span></dd>
+<dd>Agent architectures have distinct failure signatures even though architecture explains only 0.5% of success-rate variance. Claude Code and OpenAI Solo over-represent Premature Termination by +4.0pp and +7.3pp against an 8.7% mean, while ReAct and ReAct Short sit 5.0pp and 3.7pp below it.<br><span class="scope">Holds for: LLM-judge categorisation of failed sessions with full trajectories into 27 categories (ErrorMap adapted, gpt-5.5 judge); zero-step sessions have no trajectory and are excluded; descriptive, not powered for causal claims.</span></dd>
+<dt>What kinds of errors do agents actually make on long-horizon tasks?</dt>
+<dt>Can failure-mode analysis distinguish agent architectures that success rates cannot?</dt>
+<dt>What is Premature Termination in agent failure taxonomies?</dt>
+<dd>Agent architectures have distinct failure signatures even though architecture explains only 0.5% of success-rate variance. Claude Code and OpenAI Solo over-represent Premature Termination by +4.0pp and +7.3pp against an 8.7% mean, while ReAct and ReAct Short sit 5.0pp and 3.7pp below it.<br><span class="scope">Holds for: LLM-judge categorisation of failed sessions with full trajectories into 27 categories (ErrorMap adapted, gpt-5.5 judge); zero-step sessions have no trajectory and are excluded; descriptive, not powered for causal claims.</span></dd>
+<dt>How does the Unified Protocol let an unmodified agent run on an unmodified benchmark?</dt>
+<dt>What is the task/context/actions representation used by Exgentic?</dt>
+<dt>How can I evaluate my own agent on SWE-Bench, AppWorld and tau2-Bench without per-benchmark wiring?</dt>
+<dd>The Unified Protocol represents every agentic benchmark task as three fields, task, context and actions. CLI, tool-calling and MCP agents are each served in their native protocol without rewriting the agent or the benchmark.<br><span class="scope">Holds for: Derived by surveying existing agent and benchmark communication patterns; covers any agent protocol decomposable into discrete typed actions, and not continuous action spaces such as pixel-level computer use.</span></dd>
+<dd>General Agent Evaluation contributes the Open General Agent Leaderboard, a full factorial of 5 agent architectures x 5 backbone LLMs x 6 benchmarks. Each agent is run unmodified on benchmarks it was not customized for, at a total evaluation cost of about $20K.<br><span class="scope">Holds for: ReAct, ReAct Short, Smolagent, OpenAI Solo and Claude Code over Claude Opus 4.5, Gemini 3 Pro, GPT 5.2, DeepSeek-V3.2 and Kimi-K2.5; benchmarks are AppWorld, BrowseComp+, SWE-Bench Verified and tau2-Bench Airline/Retail/Telecom.</span></dd>
+<dt>Do agentic benchmarks measure the same underlying capability?</dt>
+<dt>How correlated are AppWorld, BrowseComp+, SWE-Bench and tau2-Bench scores across configurations?</dt>
+<dt>Which agentic benchmark captures the most distinct skills?</dt>
+<dd>Pairwise Spearman rank correlations between the six benchmarks are predominantly positive across the 15 closed-source configurations, with a median of +0.67 and a range of [+0.44, +0.81]; BrowseComp+ is the least correlated (0.44-0.75).<br><span class="scope">Holds for: Closed-source configurations only (Claude Opus 4.5, Gemini 3 Pro, GPT 5.2); correlations computed over configuration rankings, not over individual tasks.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>General Agent Evaluation contributes the Open General Agent Leaderboard, a full factorial of 5 agent architectures x 5 backbone LLMs x 6 benchmarks. Each agent is run unmodified on benchmarks it was not customized for, at a total evaluation cost of about $20K.<br><span class="scope">Scope: ReAct, ReAct Short, Smolagent, OpenAI Solo and Claude Code over Claude Opus 4.5, Gemini 3 Pro, GPT 5.2, DeepSeek-V3.2 and Kimi-K2.5; benchmarks are AppWorld, BrowseComp+, SWE-Bench Verified and tau2-Bench Airline/Retail/Telecom.</span></li>
+<li>The Unified Protocol represents every agentic benchmark task as three fields, task, context and actions. CLI, tool-calling and MCP agents are each served in their native protocol without rewriting the agent or the benchmark.<br><span class="scope">Scope: Derived by surveying existing agent and benchmark communication patterns; covers any agent protocol decomposable into discrete typed actions, and not continuous action spaces such as pixel-level computer use.</span></li>
+<li>Backbone model choice explains 27.8% of cell success-rate variance while agent architecture explains only 0.5%, a 58x gap across the 15 closed-source configurations. <span class="meta">(Section 4.3)</span><br><span class="scope">Scope: Eta-squared over the 15 closed-source cells only; adding the 2 open-weight models makes the architecture main effect detectable (F(4,136)=3.82, p=0.006).</span></li>
+<li>Within a single backbone model, agent architecture choice swings bench-weighted success by up to 12 percentage points. Claude Opus 4.5 ranges from 0.73 with OpenAI Solo to 0.61 with vanilla ReAct. <span class="meta">(Table 16)</span><br><span class="scope">Scope: Closed-source backbones show 7-12pp architectural spread and open-weight backbones 14-18pp; paired t-tests on shared (benchmark, task) pairs, single run per cell.</span></li>
+<li>On 4 of 6 benchmarks the best general-agent configuration is statistically indistinguishable from the top reported domain-specific agent, including 0.81 versus 0.79 on SWE-Bench Verified and 0.85 versus 0.86 on tau2-Bench-Retail; BrowseComp+ (0.61 vs 0.80) and tau2-Bench-Telecom (0.88 vs 0.98) remain specialist-led. <span class="meta">(Table 11)</span><br><span class="scope">Scope: General-agent scores from 100 randomly sampled instances per benchmark (50 for Airline) against published specialist scores on full benchmarks; parity means the gap is within the per-benchmark Wilson 95% half-width of 7-12pp.</span></li>
+<li>No single agent architecture is best everywhere: OpenAI Solo wins on SWE-Bench Verified and all three tau2-Bench subdomains, while Smolagent wins on AppWorld. Aggregate architecture rankings are not significant (range about 7pp, p&gt;0.1). <span class="meta">(Section 4.2)</span><br><span class="scope">Scope: 5 architectures x 6 benchmarks, best configuration per benchmark chosen across all 5 backbones; significance from paired t-tests on shared (benchmark, task) outcomes.</span></li>
+<li>The 2 open-weight backbones tested show generality sinks absent from the frontier closed models: on tau2-Bench-Telecom Kimi-K2.5 scores 0.83 with ReAct and 0.00 with autonomous architectures. 94% of Kimi-K2.5 autonomous tau2-Bench sessions take zero steps after a first-turn protocol violation. <span class="meta">(Section 4.7)</span><br><span class="scope">Scope: DeepSeek-V3.2 and Kimi-K2.5 only, so an observation about 2 checkpoints rather than open-weight models generally; zero-step rates are 31% for DeepSeek-V3.2 and 1.7% for closed-source; SWE-Bench Verified and BrowseComp+ show no sink.</span></li>
+<li>Every open-weight-backed configuration collapses on AppWorld regardless of architecture, with the best (DeepSeek-V3.2+Smolagent) reaching only 0.13 against 0.70 for Claude Opus 4.5+Smolagent. <span class="meta">(Table 9)</span><br><span class="scope">Scope: AppWorld exposes about 468 actions; DeepSeek-V3.2 and Kimi-K2.5 only, single run per cell. GPT 5.2 collapses on the same benchmark for a different reason, its 128-tool API ceiling.</span></li>
+<li>GPT 5.2&#x27;s 128-tool API ceiling drives 3 of its 4 non-shortlisting configurations to 0.00 on AppWorld, which exposes about 468 actions. Claude Opus 4.5-backed configurations reach 0.61-0.70 on the same environment with no shortlisting. <span class="meta">(Section 4.7)</span><br><span class="scope">Scope: AppWorld only, 100 tasks; a model-API limitation rather than an integration artifact, and tool shortlisting recovers GPT 5.2 to only 0.22 on AppWorld.</span></li>
+<li>Adding tool shortlisting to a vanilla ReAct agent improves success for 4 of the 5 backbones tested, by +22pp on AppWorld and +5.5pp bench-weighted for GPT 5.2. DeepSeek-V3.2 is the lone regression at -5pp on AppWorld. <span class="meta">(Table 12)</span><br><span class="scope">Scope: AppWorld is the only tool-rich benchmark in the suite (about 468 actions), so bench-weighted deltas are one quarter of the AppWorld delta; shortlisting keeps the top k=30 tools per turn.</span></li>
+<li>Tool shortlisting cuts Claude Opus 4.5&#x27;s ReAct cost from $5.75 to $3.78 per task, a $1.97 saving, while leaving GPT 5.2 roughly flat ($0.17 to $0.26). <span class="meta">(Table 12)</span><br><span class="scope">Scope: Per-task costs from LiteLLM pricing data over the 6-benchmark suite, bench-weighted; ReAct versus ReAct Short at fixed model and benchmark.</span></li>
+<li>Cost-efficiency spans about 30x across the 25 configurations, from ReAct+GPT 5.2 and OpenAI Solo+DeepSeek-V3.2 at 2.43 score/$ down to Claude Code+Claude Opus 4.5 at 0.08 score/$. The highest-scoring configuration, OpenAI Solo+Claude Opus 4.5, runs at 0.09 score/$. <span class="meta">(Table 10)</span><br><span class="scope">Scope: Efficiency is bench-weighted success divided by bench-weighted inference cost per task, priced with LiteLLM data at the time of the runs; excludes human and infrastructure cost.</span></li>
+<li>Failed runs consume more steps than successful ones for every agent architecture tested. Bench-weighted overheads are +54% for ReAct, +45% for ReAct Short, +39% for Claude Code, +26% for Smolagent and +20% for OpenAI Solo, peaking at +111% for ReAct on AppWorld. <span class="meta">(Table 14)</span><br><span class="scope">Scope: Three closed-source backbones only, since open-weight autonomous failures terminate by protocol violation rather than resource exhaustion; zero-step sessions excluded and step counts capped at 50; a few tau2-Bench cells are near zero or negative.</span></li>
+<li>Agent architectures have distinct failure signatures even though architecture explains only 0.5% of success-rate variance. Claude Code and OpenAI Solo over-represent Premature Termination by +4.0pp and +7.3pp against an 8.7% mean, while ReAct and ReAct Short sit 5.0pp and 3.7pp below it. <span class="meta">(Section 4.10)</span><br><span class="scope">Scope: LLM-judge categorisation of failed sessions with full trajectories into 27 categories (ErrorMap adapted, gpt-5.5 judge); zero-step sessions have no trajectory and are excluded; descriptive, not powered for causal claims.</span></li>
+<li>Pairwise Spearman rank correlations between the six benchmarks are predominantly positive across the 15 closed-source configurations, with a median of +0.67 and a range of [+0.44, +0.81]; BrowseComp+ is the least correlated (0.44-0.75). <span class="meta">(Section 4.5)</span><br><span class="scope">Scope: Closed-source configurations only (Claude Opus 4.5, Gemini 3 Pro, GPT 5.2); correlations computed over configuration rankings, not over individual tasks.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The 0.5% variance contribution of agent architecture does not mean agent design is irrelevant: within a fixed backbone model architecture choice swings bench-weighted success by up to 12pp for closed-source models and 14-18pp for the open-weight models tested, and the model-architecture interaction accounts for an estimated 5.4% of variance.</li>
+<li>The generality-sink finding is an observation about 2 open-weight checkpoints, DeepSeek-V3.2 and Kimi-K2.5, and is not evidence that open-weight models in general collapse inside autonomous agent scaffolds.</li>
+<li>The claim of parity with domain specialists on 4 of 6 benchmarks means the gap falls within Wilson 95% uncertainty at 100 sampled instances, not that general agents beat specialists; BrowseComp+ and tau2-Bench-Telecom remain specialist-led by 19pp and 10pp.</li>
+<li>GPT 5.2&#x27;s 0.00 scores on AppWorld reflect its 128-tool API ceiling against about 468 exposed actions, not a harness integration bug: Claude Opus 4.5 configurations reach 0.61-0.70 on the same environment with no shortlisting.</li>
+<li>The Open General Agent Leaderboard scores are single-run point estimates on 100 sampled instances per benchmark (50 for tau2-Bench-Airline) with provider default sampling, so per-cell rerun variability is not measured and small cell differences should not be read as rankings.</li>
+<li>Exgentic does not force agents onto one transport the way a web-only or CLI-only harness does: agents are served through their native protocol (CLI, tool-calling APIs, or MCP) and the Unified Protocol mediates, though continuous-action environments such as pixel-level computer use are not yet supported.</li>
+<li>The behavioral failure analysis is a descriptive LLM-judge categorisation of failed sessions and is not powered for causal claims about which architecture or model causes which error.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Unified Protocol</em></dt><dd>A benchmark-agent mediation layer in which every task is expressed as three fields — task (a textual description of what to do), context (what the agent should know, e.g. a policy document), and actions (typed environment operations, optionally with one designated message action and one final-answer action) — so that agents using CLI, tool-calling APIs or MCP can each be served in their native protocol.</dd>
+<dt><em>agent architecture</em></dt><dd>The full bundle shipped with an agent — scaffold, available tools, memory, schema guards, planning and any auxiliary components — that is, everything the agent author commits to except the backbone LLM.</dd>
+<dt><em>generality sink</em></dt><dd>A backbone model&#x27;s consistent collapse to near-zero success on a specific agent architecture (architecture sink) or on a specific benchmark regardless of architecture (benchmark sink), while the same model performs competitively elsewhere.</dd>
+<dt><em>architectural spread</em></dt><dd>The difference in bench-weighted mean success between the best and worst agent architecture paired with a fixed backbone model.</dd>
+<dt><em>tool shortlisting</em></dt><dd>A per-turn preprocessing step that queries the backbone LLM with the conversation so far and the full action catalog and forwards only the k=30 most relevant tools to the main call, used when a benchmark exposes more than 30 actions.</dd>
+<dt><em>bench-weighted mean</em></dt><dd>A weighted mean of success across the six benchmarks in which the three tau2-Bench subdomains are aggregated and given equal total weight to each of the other benchmarks.</dd>
+</dl>
 <h2>How to cite</h2>
 <pre>@misc{bandel2026generalagentevaluation,
-title={General Agent Evaluation}, 
+      title={General Agent Evaluation}, 
       author={Elron Bandel and Asaf Yehudai and Lilach Eden and Yehoshua Sagron and Yotam Perlitz and Elad Venezian and Natalia Razinkov and Natan Ergas and Shlomit Shachor Ifergan and Segev Shlomov and Michal Jacovi and Leshem Choshen and Liat Ein-Dor and Yoav Katz and Michal Shmueli-Scheuer},
       year={2026},
       eprint={2602.22953},

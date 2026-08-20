@@ -18,7 +18,7 @@
   <meta name="citation_author" content="Swaminathan Sundararaman">
   <meta name="citation_author" content="Danny Harnik">
   <meta name="citation_publication_date" content="2025">
-  <meta name="citation_conference_title" content="2025 IEEE 18th International Conference on Cloud Computing (CLOUD)">
+  <meta name="citation_conference_title" content="CLOUD 2025">
   <meta name="citation_doi" content="10.1109/CLOUD67622.2025.00028">
   <meta name="citation_arxiv_id" content="2411.05239">
   <meta name="citation_abstract" content="With the growth of model sizes and the scale of their deployment, their sheer size burdens the infrastructure requiring more network and more storage to accommodate these. While there is a vast model compression literature deleting parts of the model weights for faster inference, we investigate a more traditional type of compression - one that represents the model in a compact form and is coupled with a decompression algorithm that returns it to its original form and size - namely lossless compression. We present ZipNN, a lossless compression tailored to neural networks. Somewhat surprisingly, we show that specific lossless compression can gain significant network and storage reduction on popular models, often saving 33% and at times reducing over 50% of the model size. We investigate the source of model compressibility and introduce specialized compression variants tailored for models that further increase the effectiveness of compression. On popular models (e.g. Llama 3) ZipNN shows space savings that are over 17% better than vanilla compression while also improving compression and decompression speeds by 62%. Using multiple workers and threads, ZipNN can achieve decompression speeds of up to 80GB/s and compression speed of up to 13GB/s. We estimate that these methods could save over an ExaByte per year of network traffic downloaded from a large model hub like Hugging Face.">
@@ -80,10 +80,11 @@
   "datePublished": "2025",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "2025 IEEE 18th International Conference on Cloud Computing (CLOUD)"
+    "name": "CLOUD 2025"
   },
   "identifier": "https://doi.org/10.1109/CLOUD67622.2025.00028",
   "abstract": "With the growth of model sizes and the scale of their deployment, their sheer size burdens the infrastructure requiring more network and more storage to accommodate these. While there is a vast model compression literature deleting parts of the model weights for faster inference, we investigate a more traditional type of compression - one that represents the model in a compact form and is coupled with a decompression algorithm that returns it to its original form and size - namely lossless compression. We present ZipNN, a lossless compression tailored to neural networks. Somewhat surprisingly, we show that specific lossless compression can gain significant network and storage reduction on popular models, often saving 33% and at times reducing over 50% of the model size. We investigate the source of model compressibility and introduce specialized compression variants tailored for models that further increase the effectiveness of compression. On popular models (e.g. Llama 3) ZipNN shows space savings that are over 17% better than vanilla compression while also improving compression and decompression speeds by 62%. Using multiple workers and threads, ZipNN can achieve decompression speeds of up to 80GB/s and compression speed of up to 13GB/s. We estimate that these methods could save over an ExaByte per year of network traffic downloaded from a large model hub like Hugging Face.",
+  "description": "ZipNN is a lossless compressor for neural network files that separates the highly skewed floating-point exponent bytes into their own stream and encodes them with Huffman coding only, shrinking popular BF16 models by about a third with no loss of any bit.",
   "sameAs": [
     "https://arxiv.org/abs/2411.05239",
     "https://arxiv.org/html/2411.05239",
@@ -92,6 +93,315 @@
     "https://huggingface.co/papers/2411.05239",
     "https://www.alphaxiv.org/abs/2411.05239",
     "https://www.semanticscholar.org/paper/273950190"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "The compressibility of neural network weights comes almost entirely from the floating-point exponent, while the fraction and sign bits are close to random. Across four models only around 40 of the 256 possible exponent values appear, and the top 12 account for almost 99.9% of parameters.",
+      "description": "Holds for: Measured on 1GB taken from the middle of each model, for BF16 and FP32 language models plus ResNet, where 50 exponent values appear and the top 17 dominate."
+    },
+    {
+      "@type": "Thing",
+      "name": "ZipNN compresses BF16 models to about 66% of their original size, with the exponent byte group reaching roughly 32.5-34.8% and the remaining bytes essentially incompressible. Llama-3.1 goes to 66.4%, Mistral to 66.3% and Bloom to 67.4%.",
+      "description": "Holds for: BF16 models trained and left unmodified after training; measured on 1GB from the middle for large models. FP32 regular models such as Olmo and Wav2vec only reach about 83%."
+    },
+    {
+      "@type": "Thing",
+      "name": "So-called clean models, which were rounded or converted between parameter types after training, compress far below the exponent-only limit: T5-base (FP32) reaches 33.7% of its original size, XLM-RoBERTa 41.8% and Clip 48.1%.",
+      "description": "Holds for: Requires byte grouping of the fraction bytes, since the gains come from near-zero fraction byte groups; clean models lose this extra compressibility once fine-tuned again."
+    },
+    {
+      "@type": "Thing",
+      "name": "Against Zstd with default configuration, ZipNN takes Llama-3.1 BF16 from 77.7% to 66.4% compressed size while raising compression speed from 0.71 to 1.15 GB/s and decompression from 1.02 to 1.65 GB/s.",
+      "description": "Holds for: Single thread on a single core of an Apple M1 Max with 64GB RAM, 10 runs over 1GB from the middle of the model, maximum observed standard deviation 2%."
+    },
+    {
+      "@type": "Thing",
+      "name": "On the clean FP32 model xlm-RoBERTa, ZipNN reaches 42.9% compressed size versus 57.4% for Zstd, with compression speed rising from 0.18 to 0.83 GB/s and decompression from 0.77 to 1.41 GB/s.",
+      "description": "Holds for: Single thread, single core, Apple M1 Max; 1GB from the middle of the model. Speedups are largest on clean models because more of the data is compressible rather than skipped."
+    },
+    {
+      "@type": "Thing",
+      "name": "Dropping the Lempel-Ziv stage and using Huffman entropy coding alone improves both speed and compression ratio on model exponents. The repetitions LZ finds are artifacts of the skewed distribution: randomly shuffling a model's parameters changes the exponent compression ratio by at most 0.05%.",
+      "description": "Holds for: Exponent already separated into its own stream; Huffman without exponent extraction only helps speed. An FSE encoder gains 0-2% more ratio at times over 2X the time cost."
+    },
+    {
+      "@type": "Thing",
+      "name": "Pure repetition-removal compressors gain nothing on model weights: LZ4 and Snappy achieve zero compression savings on the tested models despite being faster than every other method.",
+      "description": "Holds for: Tested on Llama-3.1 (BF16), Olmo-1b (FP32) and xlm-RoBERTa (FP32); model tensors are noisy and unstructured, so multi-byte repetitions are scarce."
+    },
+    {
+      "@type": "Thing",
+      "name": "ZipNN reaches up to 80GB/s decompression and up to 13GB/s compression throughput with 16 workers, each worker kept within a NUMA node and given a block size as low as 100MB. A single worker with multiple threads peaks lower, above 45GB/s for decompressing 10GB, with compression peaking around 16 threads.",
+      "description": "Holds for: Intel Xeon Platinum 8480+ pod, 224 cores across 2 NUMA nodes, 2TB DRAM; model size matters, and 100MB inputs reach far lower throughput than 10GB ones."
+    },
+    {
+      "@type": "Thing",
+      "name": "Gradients and optimizer states compress better than the model itself during RoBERTa fine-tuning: the model reaches about 66% compressed size, the optimizer 54% and the gradients 47%. The extra gain is concentrated in the token embeddings layer.",
+      "description": "Holds for: BF16 RoBERTa under fine-tuning; the embedding layer of gradients and optimizers compresses better with Zstd than with Huffman, unlike the model itself."
+    },
+    {
+      "@type": "Thing",
+      "name": "Delta compression of checkpoints stays well ahead of standalone compression even when the base is 5 or 10 epochs away, though it is worse than delta against the immediately preceding checkpoint.",
+      "description": "Holds for: Self-trained ResNet18 (FP32), Amber (BF16) and Olmo (FP32) public training checkpoints, using XOR deltas; the space taken by the periodic full bases is excluded from the reported figures."
+    },
+    {
+      "@type": "Thing",
+      "name": "Three RoBERTa variants fine-tuned on tweets for irony, offensive-language and abuse detection compress to 83.7% of original size standalone. Stored as pairwise deltas they reach 56% on average.",
+      "description": "Holds for: Models sharing the same base checkpoint; XOR delta plus lossless compression. Requires keeping the base available to reconstruct."
+    },
+    {
+      "@type": "Thing",
+      "name": "ZipNN's per-chunk choice between Huffman and Zstd always matched or beat whichever of the two was better on ResNet18 checkpoint deltas. Zstd is selected when zeros exceed 90% of a chunk or any zero run passes 3% of chunk size.",
+      "description": "Holds for: ResNet18 (FP32) fine-tuning deltas; Huffman wins in the first two learning-rate-scheduler steps and Zstd after the third, and the thresholds were fixed by simulation rather than tuned per model."
+    },
+    {
+      "@type": "Thing",
+      "name": "Loading a 16GB Granite-3.1-8b-instruct BF16 model stored at 2/3 its original size from a clustered file system to GPU, including decompression, took approximately 3 seconds, on par with loading the uncompressed model.",
+      "description": "Holds for: OpenShift pod with Intel Xeon Platinum 8480+, vLLM 0.7.2 with 4 workers, PVC-backed file system delivering 8GB/s per worker; a slower CPU or fewer threads would change the balance."
+    },
+    {
+      "@type": "Thing",
+      "name": "ZipNN makes the case that lossless compression, not just pruning and quantization, is a lever on model storage and network cost. It argues lossless compression should be the default for traffic to and from model hubs like Hugging Face.",
+      "description": "Holds for: As of publication in 2025; the argument rests on measurements of Hugging Face-hosted models in FP32, BF16 and FP16, and some GGUF-quantized models do not compress at all."
+    },
+    {
+      "@type": "Thing",
+      "name": "Hugging Face stated in August 2024 that it holds 1.3M models over 12PB of storage and serves 1 billion daily requests, around 6PB of network bandwidth per day. Lossless compression is estimated to save over an ExaByte of downloaded traffic per year.",
+      "description": "Holds for: The ExaByte figure is an estimate extrapolated from the hub's reported traffic and the measured compression ratios of top-downloaded models, not a measured saving."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/#faq",
+  "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/",
+  "name": "Questions answered by ZipNN: Lossless Compression for AI Models",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can neural network weights be compressed without losing any accuracy?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The compressibility of neural network weights comes almost entirely from the floating-point exponent, while the fraction and sign bits are close to random. Across four models only around 40 of the 256 possible exponent values appear, and the top 12 account for almost 99.9% of parameters. Holds for: Measured on 1GB taken from the middle of each model, for BF16 and FP32 language models plus ResNet, where 50 exponent values appear and the top 17 dominate.\n\nZipNN compresses BF16 models to about 66% of their original size, with the exponent byte group reaching roughly 32.5-34.8% and the remaining bytes essentially incompressible. Llama-3.1 goes to 66.4%, Mistral to 66.3% and Bloom to 67.4%. Holds for: BF16 models trained and left unmodified after training; measured on 1GB from the middle for large models. FP32 regular models such as Olmo and Wav2vec only reach about 83%.\n\nZipNN makes the case that lossless compression, not just pruning and quantization, is a lever on model storage and network cost. It argues lossless compression should be the default for traffic to and from model hubs like Hugging Face. Holds for: As of publication in 2025; the argument rests on measurements of Hugging Face-hosted models in FP32, BF16 and FP16, and some GGUF-quantized models do not compress at all.",
+        "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/"
+      },
+      "alternateName": [
+        "Is lossless compression of model files actually worth it, or are weights high-entropy?",
+        "How much smaller can a model file get with lossless compression?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why are floating-point model weights compressible at all?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The compressibility of neural network weights comes almost entirely from the floating-point exponent, while the fraction and sign bits are close to random. Across four models only around 40 of the 256 possible exponent values appear, and the top 12 account for almost 99.9% of parameters. Holds for: Measured on 1GB taken from the middle of each model, for BF16 and FP32 language models plus ResNet, where 50 exponent values appear and the top 17 dominate.\n\nPure repetition-removal compressors gain nothing on model weights: LZ4 and Snappy achieve zero compression savings on the tested models despite being faster than every other method. Holds for: Tested on Llama-3.1 (BF16), Olmo-1b (FP32) and xlm-RoBERTa (FP32); model tensors are noisy and unstructured, so multi-byte repetitions are scarce.",
+        "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/"
+      },
+      "alternateName": [
+        "What part of a float32 parameter carries the redundancy in model weights?",
+        "Where does the compressibility of neural network parameters come from?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much does ZipNN beat zstd by on Llama 3?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Against Zstd with default configuration, ZipNN takes Llama-3.1 BF16 from 77.7% to 66.4% compressed size while raising compression speed from 0.71 to 1.15 GB/s and decompression from 1.02 to 1.65 GB/s. Holds for: Single thread on a single core of an Apple M1 Max with 64GB RAM, 10 runs over 1GB from the middle of the model, maximum observed standard deviation 2%.\n\nOn the clean FP32 model xlm-RoBERTa, ZipNN reaches 42.9% compressed size versus 57.4% for Zstd, with compression speed rising from 0.18 to 0.83 GB/s and decompression from 0.77 to 1.41 GB/s. Holds for: Single thread, single core, Apple M1 Max; 1GB from the middle of the model. Speedups are largest on clean models because more of the data is compressible rather than skipped.",
+        "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/"
+      },
+      "alternateName": [
+        "Does a model-specific compressor do better than a general-purpose one like Zstd?",
+        "What compression ratio and speed does ZipNN get versus zstd?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why does ZipNN skip Lempel-Ziv and use Huffman coding only?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dropping the Lempel-Ziv stage and using Huffman entropy coding alone improves both speed and compression ratio on model exponents. The repetitions LZ finds are artifacts of the skewed distribution: randomly shuffling a model's parameters changes the exponent compression ratio by at most 0.05%. Holds for: Exponent already separated into its own stream; Huffman without exponent extraction only helps speed. An FSE encoder gains 0-2% more ratio at times over 2X the time cost.\n\nPure repetition-removal compressors gain nothing on model weights: LZ4 and Snappy achieve zero compression savings on the tested models despite being faster than every other method. Holds for: Tested on Llama-3.1 (BF16), Olmo-1b (FP32) and xlm-RoBERTa (FP32); model tensors are noisy and unstructured, so multi-byte repetitions are scarce.",
+        "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/"
+      },
+      "alternateName": [
+        "Do LZ4 or Snappy compress model weights?",
+        "Is repetition removal useful on model tensors?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which models compress much better than a third off, and why?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "So-called clean models, which were rounded or converted between parameter types after training, compress far below the exponent-only limit: T5-base (FP32) reaches 33.7% of its original size, XLM-RoBERTa 41.8% and Clip 48.1%. Holds for: Requires byte grouping of the fraction bytes, since the gains come from near-zero fraction byte groups; clean models lose this extra compressibility once fine-tuned again.",
+        "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/"
+      },
+      "alternateName": [
+        "What are clean models in the context of lossless model compression?",
+        "Why do RoBERTa and T5 compress far better than Llama?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How fast can lossless model decompression run on a many-core server?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ZipNN reaches up to 80GB/s decompression and up to 13GB/s compression throughput with 16 workers, each worker kept within a NUMA node and given a block size as low as 100MB. A single worker with multiple threads peaks lower, above 45GB/s for decompressing 10GB, with compression peaking around 16 threads. Holds for: Intel Xeon Platinum 8480+ pod, 224 cores across 2 NUMA nodes, 2TB DRAM; model size matters, and 100MB inputs reach far lower throughput than 10GB ones.\n\nLoading a 16GB Granite-3.1-8b-instruct BF16 model stored at 2/3 its original size from a clustered file system to GPU, including decompression, took approximately 3 seconds, on par with loading the uncompressed model. Holds for: OpenShift pod with Intel Xeon Platinum 8480+, vLLM 0.7.2 with 4 workers, PVC-backed file system delivering 8GB/s per worker; a slower CPU or fewer threads would change the balance.",
+        "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/"
+      },
+      "alternateName": [
+        "What decompression throughput is achievable when loading compressed models?",
+        "Does compressed model loading become a bottleneck at multi-GB/s?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can gradients and optimizer states be losslessly compressed too?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gradients and optimizer states compress better than the model itself during RoBERTa fine-tuning: the model reaches about 66% compressed size, the optimizer 54% and the gradients 47%. The extra gain is concentrated in the token embeddings layer. Holds for: BF16 RoBERTa under fine-tuning; the embedding layer of gradients and optimizers compresses better with Zstd than with Huffman, unlike the model itself.",
+        "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/"
+      },
+      "alternateName": [
+        "Do optimizer states compress better or worse than model weights?",
+        "Is there anything to gain from compressing FSDP gradient traffic?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is delta compression worth it for training checkpoints?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Delta compression of checkpoints stays well ahead of standalone compression even when the base is 5 or 10 epochs away, though it is worse than delta against the immediately preceding checkpoint. Holds for: Self-trained ResNet18 (FP32), Amber (BF16) and Olmo (FP32) public training checkpoints, using XOR deltas; the space taken by the periodic full bases is excluded from the reported figures.\n\nZipNN's per-chunk choice between Huffman and Zstd always matched or beat whichever of the two was better on ResNet18 checkpoint deltas. Zstd is selected when zeros exceed 90% of a chunk or any zero run passes 3% of chunk size. Holds for: ResNet18 (FP32) fine-tuning deltas; Huffman wins in the first two learning-rate-scheduler steps and Zstd after the third, and the thresholds were fixed by simulation rather than tuned per model.",
+        "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/"
+      },
+      "alternateName": [
+        "How much space can be saved storing consecutive checkpoints as deltas?",
+        "Does storing a periodic full base ruin delta compression of checkpoints?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can many fine-tunes of the same base model be stored cheaply together?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Three RoBERTa variants fine-tuned on tweets for irony, offensive-language and abuse detection compress to 83.7% of original size standalone. Stored as pairwise deltas they reach 56% on average. Holds for: Models sharing the same base checkpoint; XOR delta plus lossless compression. Requires keeping the base available to reconstruct.",
+        "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/"
+      },
+      "alternateName": [
+        "How much do sibling fine-tuned models compress against each other?",
+        "Is it cheaper to store model variants as deltas from a shared base?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about reducing storage and bandwidth cost for model hubs?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ZipNN makes the case that lossless compression, not just pruning and quantization, is a lever on model storage and network cost. It argues lossless compression should be the default for traffic to and from model hubs like Hugging Face. Holds for: As of publication in 2025; the argument rests on measurements of Hugging Face-hosted models in FP32, BF16 and FP16, and some GGUF-quantized models do not compress at all.\n\nHugging Face stated in August 2024 that it holds 1.3M models over 12PB of storage and serves 1 billion daily requests, around 6PB of network bandwidth per day. Lossless compression is estimated to save over an ExaByte of downloaded traffic per year. Holds for: The ExaByte figure is an estimate extrapolated from the hub's reported traffic and the measured compression ratios of top-downloaded models, not a measured saving.",
+        "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/"
+      },
+      "alternateName": [
+        "Which paper argues for lossless compression of AI models rather than quantization?",
+        "Where should I start reading about compressing model files without changing the weights?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much network traffic could model compression save Hugging Face?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hugging Face stated in August 2024 that it holds 1.3M models over 12PB of storage and serves 1 billion daily requests, around 6PB of network bandwidth per day. Lossless compression is estimated to save over an ExaByte of downloaded traffic per year. Holds for: The ExaByte figure is an estimate extrapolated from the hub's reported traffic and the measured compression ratios of top-downloaded models, not a measured saving.",
+        "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/"
+      },
+      "alternateName": [
+        "How large is model download traffic at a big model hub?",
+        "What is the claimed ExaByte-per-year saving from compressing model downloads?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does storing models compressed slow down inference server startup?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Loading a 16GB Granite-3.1-8b-instruct BF16 model stored at 2/3 its original size from a clustered file system to GPU, including decompression, took approximately 3 seconds, on par with loading the uncompressed model. Holds for: OpenShift pod with Intel Xeon Platinum 8480+, vLLM 0.7.2 with 4 workers, PVC-backed file system delivering 8GB/s per worker; a slower CPU or fewer threads would change the balance.",
+        "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/"
+      },
+      "alternateName": [
+        "What is the load time penalty when a Granite BF16 model is kept compressed on disk?",
+        "Can vLLM load a compressed model without extra latency?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/#terms",
+  "url": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/",
+  "name": "Terminology in ZipNN: Lossless Compression for AI Models",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "exponent extraction",
+      "description": "Rearranging a floating-point tensor so that all exponent bytes of the parameters form one contiguous compression stream, separated from the sign and fraction bits that dilute their skewed distribution.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "byte grouping",
+      "description": "Splitting the bytes of each floating-point parameter into one stream per byte position, so that fraction bytes with different degrees of near-zero structure are compressed independently.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "clean model",
+      "description": "A model whose weights underwent rounding or a parameter-type conversion after training, leaving many fraction bits zero and making it compressible beyond the exponent; further fine-tuning removes this property.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "regular model",
+      "description": "A model that was trained and left unmodified afterwards, so only its exponent bytes are compressible and the fraction and sign bits are effectively random.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "compressed size (%)",
+      "description": "The percentage of the original data remaining after compression, so lower is better: a gigabyte reduced to a quarter of a gigabyte has a compressed size of 25%.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "delta compression",
+      "description": "Storing a model as the XOR difference from a similar base model, plus lossless compression of that difference, so reconstruction requires both the base and the delta.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "periodic base",
+      "description": "A scheme in which a full standalone-compressed checkpoint is stored every k checkpoints and intermediate checkpoints are kept as deltas, bounding the length of delta chains needed for recovery.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/zipnn-lossless-compression-for-ai-models/#terms"
+    }
   ]
 }
   </script>
@@ -102,6 +412,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -115,13 +426,108 @@
 </head>
 <body>
 <h1>ZipNN: Lossless Compression for AI Models</h1>
-<p class="meta">Moshik Hershcovitch, Andrew Wood, Leshem Choshen, Guy Girmonsky, Roy Leibovitz, Or Ozeri, Ilias Ennmouri, Michal Malka, Peter Chin, Swaminathan Sundararaman, Danny Harnik · 2025 IEEE 18th International Conference on Cloud Computing (CLOUD) · 2025</p>
+<p class="sub">lossless compression tailored to neural network weight files</p>
+<p class="meta">Moshik Hershcovitch, Andrew Wood, Leshem Choshen, Guy Girmonsky, Roy Leibovitz, Or Ozeri, Ilias Ennmouri, Michal Malka, Peter Chin, Swaminathan Sundararaman, Danny Harnik · CLOUD 2025 · 2025</p>
 <ul class="links"><li><a href="https://arxiv.org/abs/2411.05239">arXiv</a></li><li><a href="https://arxiv.org/pdf/2411.05239">PDF</a></li><li><a href="https://arxiv.org/html/2411.05239">HTML</a></li><li><a href="https://huggingface.co/papers/2411.05239">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2411.05239">alphaXiv</a></li><li><a href="https://doi.org/10.1109/CLOUD67622.2025.00028">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/273950190">Semantic Scholar</a></li></ul>
+<h2>In one sentence</h2>
+<p>ZipNN is a lossless compressor for neural network files that separates the highly skewed floating-point exponent bytes into their own stream and encodes them with Huffman coding only, shrinking popular BF16 models by about a third with no loss of any bit.</p>
 <h2>Abstract</h2>
 <p>With the growth of model sizes and the scale of their deployment, their sheer size burdens the infrastructure requiring more network and more storage to accommodate these. While there is a vast model compression literature deleting parts of the model weights for faster inference, we investigate a more traditional type of compression - one that represents the model in a compact form and is coupled with a decompression algorithm that returns it to its original form and size - namely lossless compression. We present ZipNN, a lossless compression tailored to neural networks. Somewhat surprisingly, we show that specific lossless compression can gain significant network and storage reduction on popular models, often saving 33% and at times reducing over 50% of the model size. We investigate the source of model compressibility and introduce specialized compression variants tailored for models that further increase the effectiveness of compression. On popular models (e.g. Llama 3) ZipNN shows space savings that are over 17% better than vanilla compression while also improving compression and decompression speeds by 62%. Using multiple workers and threads, ZipNN can achieve decompression speeds of up to 80GB/s and compression speed of up to 13GB/s. We estimate that these methods could save over an ExaByte per year of network traffic downloaded from a large model hub like Hugging Face.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Can neural network weights be compressed without losing any accuracy?</dt>
+<dt>Is lossless compression of model files actually worth it, or are weights high-entropy?</dt>
+<dt>How much smaller can a model file get with lossless compression?</dt>
+<dd>The compressibility of neural network weights comes almost entirely from the floating-point exponent, while the fraction and sign bits are close to random. Across four models only around 40 of the 256 possible exponent values appear, and the top 12 account for almost 99.9% of parameters.<br><span class="scope">Holds for: Measured on 1GB taken from the middle of each model, for BF16 and FP32 language models plus ResNet, where 50 exponent values appear and the top 17 dominate.</span></dd>
+<dd>ZipNN compresses BF16 models to about 66% of their original size, with the exponent byte group reaching roughly 32.5-34.8% and the remaining bytes essentially incompressible. Llama-3.1 goes to 66.4%, Mistral to 66.3% and Bloom to 67.4%.<br><span class="scope">Holds for: BF16 models trained and left unmodified after training; measured on 1GB from the middle for large models. FP32 regular models such as Olmo and Wav2vec only reach about 83%.</span></dd>
+<dd>ZipNN makes the case that lossless compression, not just pruning and quantization, is a lever on model storage and network cost. It argues lossless compression should be the default for traffic to and from model hubs like Hugging Face.<br><span class="scope">Holds for: As of publication in 2025; the argument rests on measurements of Hugging Face-hosted models in FP32, BF16 and FP16, and some GGUF-quantized models do not compress at all.</span></dd>
+<dt>Why are floating-point model weights compressible at all?</dt>
+<dt>What part of a float32 parameter carries the redundancy in model weights?</dt>
+<dt>Where does the compressibility of neural network parameters come from?</dt>
+<dd>The compressibility of neural network weights comes almost entirely from the floating-point exponent, while the fraction and sign bits are close to random. Across four models only around 40 of the 256 possible exponent values appear, and the top 12 account for almost 99.9% of parameters.<br><span class="scope">Holds for: Measured on 1GB taken from the middle of each model, for BF16 and FP32 language models plus ResNet, where 50 exponent values appear and the top 17 dominate.</span></dd>
+<dd>Pure repetition-removal compressors gain nothing on model weights: LZ4 and Snappy achieve zero compression savings on the tested models despite being faster than every other method.<br><span class="scope">Holds for: Tested on Llama-3.1 (BF16), Olmo-1b (FP32) and xlm-RoBERTa (FP32); model tensors are noisy and unstructured, so multi-byte repetitions are scarce.</span></dd>
+<dt>How much does ZipNN beat zstd by on Llama 3?</dt>
+<dt>Does a model-specific compressor do better than a general-purpose one like Zstd?</dt>
+<dt>What compression ratio and speed does ZipNN get versus zstd?</dt>
+<dd>Against Zstd with default configuration, ZipNN takes Llama-3.1 BF16 from 77.7% to 66.4% compressed size while raising compression speed from 0.71 to 1.15 GB/s and decompression from 1.02 to 1.65 GB/s.<br><span class="scope">Holds for: Single thread on a single core of an Apple M1 Max with 64GB RAM, 10 runs over 1GB from the middle of the model, maximum observed standard deviation 2%.</span></dd>
+<dd>On the clean FP32 model xlm-RoBERTa, ZipNN reaches 42.9% compressed size versus 57.4% for Zstd, with compression speed rising from 0.18 to 0.83 GB/s and decompression from 0.77 to 1.41 GB/s.<br><span class="scope">Holds for: Single thread, single core, Apple M1 Max; 1GB from the middle of the model. Speedups are largest on clean models because more of the data is compressible rather than skipped.</span></dd>
+<dt>Why does ZipNN skip Lempel-Ziv and use Huffman coding only?</dt>
+<dt>Do LZ4 or Snappy compress model weights?</dt>
+<dt>Is repetition removal useful on model tensors?</dt>
+<dd>Dropping the Lempel-Ziv stage and using Huffman entropy coding alone improves both speed and compression ratio on model exponents. The repetitions LZ finds are artifacts of the skewed distribution: randomly shuffling a model&#x27;s parameters changes the exponent compression ratio by at most 0.05%.<br><span class="scope">Holds for: Exponent already separated into its own stream; Huffman without exponent extraction only helps speed. An FSE encoder gains 0-2% more ratio at times over 2X the time cost.</span></dd>
+<dd>Pure repetition-removal compressors gain nothing on model weights: LZ4 and Snappy achieve zero compression savings on the tested models despite being faster than every other method.<br><span class="scope">Holds for: Tested on Llama-3.1 (BF16), Olmo-1b (FP32) and xlm-RoBERTa (FP32); model tensors are noisy and unstructured, so multi-byte repetitions are scarce.</span></dd>
+<dt>Which models compress much better than a third off, and why?</dt>
+<dt>What are clean models in the context of lossless model compression?</dt>
+<dt>Why do RoBERTa and T5 compress far better than Llama?</dt>
+<dd>So-called clean models, which were rounded or converted between parameter types after training, compress far below the exponent-only limit: T5-base (FP32) reaches 33.7% of its original size, XLM-RoBERTa 41.8% and Clip 48.1%.<br><span class="scope">Holds for: Requires byte grouping of the fraction bytes, since the gains come from near-zero fraction byte groups; clean models lose this extra compressibility once fine-tuned again.</span></dd>
+<dt>How fast can lossless model decompression run on a many-core server?</dt>
+<dt>What decompression throughput is achievable when loading compressed models?</dt>
+<dt>Does compressed model loading become a bottleneck at multi-GB/s?</dt>
+<dd>ZipNN reaches up to 80GB/s decompression and up to 13GB/s compression throughput with 16 workers, each worker kept within a NUMA node and given a block size as low as 100MB. A single worker with multiple threads peaks lower, above 45GB/s for decompressing 10GB, with compression peaking around 16 threads.<br><span class="scope">Holds for: Intel Xeon Platinum 8480+ pod, 224 cores across 2 NUMA nodes, 2TB DRAM; model size matters, and 100MB inputs reach far lower throughput than 10GB ones.</span></dd>
+<dd>Loading a 16GB Granite-3.1-8b-instruct BF16 model stored at 2/3 its original size from a clustered file system to GPU, including decompression, took approximately 3 seconds, on par with loading the uncompressed model.<br><span class="scope">Holds for: OpenShift pod with Intel Xeon Platinum 8480+, vLLM 0.7.2 with 4 workers, PVC-backed file system delivering 8GB/s per worker; a slower CPU or fewer threads would change the balance.</span></dd>
+<dt>Can gradients and optimizer states be losslessly compressed too?</dt>
+<dt>Do optimizer states compress better or worse than model weights?</dt>
+<dt>Is there anything to gain from compressing FSDP gradient traffic?</dt>
+<dd>Gradients and optimizer states compress better than the model itself during RoBERTa fine-tuning: the model reaches about 66% compressed size, the optimizer 54% and the gradients 47%. The extra gain is concentrated in the token embeddings layer.<br><span class="scope">Holds for: BF16 RoBERTa under fine-tuning; the embedding layer of gradients and optimizers compresses better with Zstd than with Huffman, unlike the model itself.</span></dd>
+<dt>Is delta compression worth it for training checkpoints?</dt>
+<dt>How much space can be saved storing consecutive checkpoints as deltas?</dt>
+<dt>Does storing a periodic full base ruin delta compression of checkpoints?</dt>
+<dd>Delta compression of checkpoints stays well ahead of standalone compression even when the base is 5 or 10 epochs away, though it is worse than delta against the immediately preceding checkpoint.<br><span class="scope">Holds for: Self-trained ResNet18 (FP32), Amber (BF16) and Olmo (FP32) public training checkpoints, using XOR deltas; the space taken by the periodic full bases is excluded from the reported figures.</span></dd>
+<dd>ZipNN&#x27;s per-chunk choice between Huffman and Zstd always matched or beat whichever of the two was better on ResNet18 checkpoint deltas. Zstd is selected when zeros exceed 90% of a chunk or any zero run passes 3% of chunk size.<br><span class="scope">Holds for: ResNet18 (FP32) fine-tuning deltas; Huffman wins in the first two learning-rate-scheduler steps and Zstd after the third, and the thresholds were fixed by simulation rather than tuned per model.</span></dd>
+<dt>Can many fine-tunes of the same base model be stored cheaply together?</dt>
+<dt>How much do sibling fine-tuned models compress against each other?</dt>
+<dt>Is it cheaper to store model variants as deltas from a shared base?</dt>
+<dd>Three RoBERTa variants fine-tuned on tweets for irony, offensive-language and abuse detection compress to 83.7% of original size standalone. Stored as pairwise deltas they reach 56% on average.<br><span class="scope">Holds for: Models sharing the same base checkpoint; XOR delta plus lossless compression. Requires keeping the base available to reconstruct.</span></dd>
+<dt>What should I read about reducing storage and bandwidth cost for model hubs?</dt>
+<dt>Which paper argues for lossless compression of AI models rather than quantization?</dt>
+<dt>Where should I start reading about compressing model files without changing the weights?</dt>
+<dd>ZipNN makes the case that lossless compression, not just pruning and quantization, is a lever on model storage and network cost. It argues lossless compression should be the default for traffic to and from model hubs like Hugging Face.<br><span class="scope">Holds for: As of publication in 2025; the argument rests on measurements of Hugging Face-hosted models in FP32, BF16 and FP16, and some GGUF-quantized models do not compress at all.</span></dd>
+<dd>Hugging Face stated in August 2024 that it holds 1.3M models over 12PB of storage and serves 1 billion daily requests, around 6PB of network bandwidth per day. Lossless compression is estimated to save over an ExaByte of downloaded traffic per year.<br><span class="scope">Holds for: The ExaByte figure is an estimate extrapolated from the hub&#x27;s reported traffic and the measured compression ratios of top-downloaded models, not a measured saving.</span></dd>
+<dt>How much network traffic could model compression save Hugging Face?</dt>
+<dt>How large is model download traffic at a big model hub?</dt>
+<dt>What is the claimed ExaByte-per-year saving from compressing model downloads?</dt>
+<dd>Hugging Face stated in August 2024 that it holds 1.3M models over 12PB of storage and serves 1 billion daily requests, around 6PB of network bandwidth per day. Lossless compression is estimated to save over an ExaByte of downloaded traffic per year.<br><span class="scope">Holds for: The ExaByte figure is an estimate extrapolated from the hub&#x27;s reported traffic and the measured compression ratios of top-downloaded models, not a measured saving.</span></dd>
+<dt>Does storing models compressed slow down inference server startup?</dt>
+<dt>What is the load time penalty when a Granite BF16 model is kept compressed on disk?</dt>
+<dt>Can vLLM load a compressed model without extra latency?</dt>
+<dd>Loading a 16GB Granite-3.1-8b-instruct BF16 model stored at 2/3 its original size from a clustered file system to GPU, including decompression, took approximately 3 seconds, on par with loading the uncompressed model.<br><span class="scope">Holds for: OpenShift pod with Intel Xeon Platinum 8480+, vLLM 0.7.2 with 4 workers, PVC-backed file system delivering 8GB/s per worker; a slower CPU or fewer threads would change the balance.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>The compressibility of neural network weights comes almost entirely from the floating-point exponent, while the fraction and sign bits are close to random. Across four models only around 40 of the 256 possible exponent values appear, and the top 12 account for almost 99.9% of parameters. <span class="meta">(Figure 2 and Section III-A)</span><br><span class="scope">Scope: Measured on 1GB taken from the middle of each model, for BF16 and FP32 language models plus ResNet, where 50 exponent values appear and the top 17 dominate.</span></li>
+<li>ZipNN compresses BF16 models to about 66% of their original size, with the exponent byte group reaching roughly 32.5-34.8% and the remaining bytes essentially incompressible. Llama-3.1 goes to 66.4%, Mistral to 66.3% and Bloom to 67.4%. <span class="meta">(Table II)</span><br><span class="scope">Scope: BF16 models trained and left unmodified after training; measured on 1GB from the middle for large models. FP32 regular models such as Olmo and Wav2vec only reach about 83%.</span></li>
+<li>So-called clean models, which were rounded or converted between parameter types after training, compress far below the exponent-only limit: T5-base (FP32) reaches 33.7% of its original size, XLM-RoBERTa 41.8% and Clip 48.1%. <span class="meta">(Table II)</span><br><span class="scope">Scope: Requires byte grouping of the fraction bytes, since the gains come from near-zero fraction byte groups; clean models lose this extra compressibility once fine-tuned again.</span></li>
+<li>Against Zstd with default configuration, ZipNN takes Llama-3.1 BF16 from 77.7% to 66.4% compressed size while raising compression speed from 0.71 to 1.15 GB/s and decompression from 1.02 to 1.65 GB/s. <span class="meta">(Table III)</span><br><span class="scope">Scope: Single thread on a single core of an Apple M1 Max with 64GB RAM, 10 runs over 1GB from the middle of the model, maximum observed standard deviation 2%.</span></li>
+<li>On the clean FP32 model xlm-RoBERTa, ZipNN reaches 42.9% compressed size versus 57.4% for Zstd, with compression speed rising from 0.18 to 0.83 GB/s and decompression from 0.77 to 1.41 GB/s. <span class="meta">(Table III)</span><br><span class="scope">Scope: Single thread, single core, Apple M1 Max; 1GB from the middle of the model. Speedups are largest on clean models because more of the data is compressible rather than skipped.</span></li>
+<li>Dropping the Lempel-Ziv stage and using Huffman entropy coding alone improves both speed and compression ratio on model exponents. The repetitions LZ finds are artifacts of the skewed distribution: randomly shuffling a model&#x27;s parameters changes the exponent compression ratio by at most 0.05%. <span class="meta">(Section III-A and Figure 4)</span><br><span class="scope">Scope: Exponent already separated into its own stream; Huffman without exponent extraction only helps speed. An FSE encoder gains 0-2% more ratio at times over 2X the time cost.</span></li>
+<li>Pure repetition-removal compressors gain nothing on model weights: LZ4 and Snappy achieve zero compression savings on the tested models despite being faster than every other method. <span class="meta">(Section V-B)</span><br><span class="scope">Scope: Tested on Llama-3.1 (BF16), Olmo-1b (FP32) and xlm-RoBERTa (FP32); model tensors are noisy and unstructured, so multi-byte repetitions are scarce.</span></li>
+<li>ZipNN reaches up to 80GB/s decompression and up to 13GB/s compression throughput with 16 workers, each worker kept within a NUMA node and given a block size as low as 100MB. A single worker with multiple threads peaks lower, above 45GB/s for decompressing 10GB, with compression peaking around 16 threads. <span class="meta">(Section V-C and Figure 10)</span><br><span class="scope">Scope: Intel Xeon Platinum 8480+ pod, 224 cores across 2 NUMA nodes, 2TB DRAM; model size matters, and 100MB inputs reach far lower throughput than 10GB ones.</span></li>
+<li>Gradients and optimizer states compress better than the model itself during RoBERTa fine-tuning: the model reaches about 66% compressed size, the optimizer 54% and the gradients 47%. The extra gain is concentrated in the token embeddings layer. <span class="meta">(Section IV-A and Figure 7)</span><br><span class="scope">Scope: BF16 RoBERTa under fine-tuning; the embedding layer of gradients and optimizers compresses better with Zstd than with Huffman, unlike the model itself.</span></li>
+<li>Delta compression of checkpoints stays well ahead of standalone compression even when the base is 5 or 10 epochs away, though it is worse than delta against the immediately preceding checkpoint. <span class="meta">(Figure 9)</span><br><span class="scope">Scope: Self-trained ResNet18 (FP32), Amber (BF16) and Olmo (FP32) public training checkpoints, using XOR deltas; the space taken by the periodic full bases is excluded from the reported figures.</span></li>
+<li>Three RoBERTa variants fine-tuned on tweets for irony, offensive-language and abuse detection compress to 83.7% of original size standalone. Stored as pairwise deltas they reach 56% on average. <span class="meta">(Section IV-B)</span><br><span class="scope">Scope: Models sharing the same base checkpoint; XOR delta plus lossless compression. Requires keeping the base available to reconstruct.</span></li>
+<li>ZipNN&#x27;s per-chunk choice between Huffman and Zstd always matched or beat whichever of the two was better on ResNet18 checkpoint deltas. Zstd is selected when zeros exceed 90% of a chunk or any zero run passes 3% of chunk size. <span class="meta">(Figure 8 and Section IV-B)</span><br><span class="scope">Scope: ResNet18 (FP32) fine-tuning deltas; Huffman wins in the first two learning-rate-scheduler steps and Zstd after the third, and the thresholds were fixed by simulation rather than tuned per model.</span></li>
+<li>Loading a 16GB Granite-3.1-8b-instruct BF16 model stored at 2/3 its original size from a clustered file system to GPU, including decompression, took approximately 3 seconds, on par with loading the uncompressed model. <span class="meta">(Section V-D2)</span><br><span class="scope">Scope: OpenShift pod with Intel Xeon Platinum 8480+, vLLM 0.7.2 with 4 workers, PVC-backed file system delivering 8GB/s per worker; a slower CPU or fewer threads would change the balance.</span></li>
+<li>ZipNN makes the case that lossless compression, not just pruning and quantization, is a lever on model storage and network cost. It argues lossless compression should be the default for traffic to and from model hubs like Hugging Face.<br><span class="scope">Scope: As of publication in 2025; the argument rests on measurements of Hugging Face-hosted models in FP32, BF16 and FP16, and some GGUF-quantized models do not compress at all.</span></li>
+<li>Hugging Face stated in August 2024 that it holds 1.3M models over 12PB of storage and serves 1 billion daily requests, around 6PB of network bandwidth per day. Lossless compression is estimated to save over an ExaByte of downloaded traffic per year. <span class="meta">(Section II-A1 and the abstract)</span><br><span class="scope">Scope: The ExaByte figure is an estimate extrapolated from the hub&#x27;s reported traffic and the measured compression ratios of top-downloaded models, not a measured saving.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The 33% saving reported for ZipNN is not uniform across model files: it applies to BF16 models, whereas regular FP32 and FP16 models compress only to about 83-85% and so-called clean models can reach 34%.</li>
+<li>ZipNN is not a model-compression method in the pruning, distillation or quantization sense: decompression restores the file bit-for-bit, so accuracy is unchanged and inference-time memory of the running model is not reduced.</li>
+<li>Lossless compression does not stack reliably on top of quantization: off-the-shelf GPTQ and AWQ models still compress to 85-91%, while GGUF-quantized models in the paper&#x27;s tests did not compress at all.</li>
+<li>The 80GB/s decompression figure is a multi-worker, many-core server throughput on a 224-core Intel Xeon Platinum 8480+ pod, not the single-thread rate, which is 1.65 GB/s for Llama-3.1 on an Apple M1 Max.</li>
+<li>Compressibility of clean models is a property of post-training rounding, not of the architecture: further fine-tuning removes the extra compressibility and the model reverts to exponent-only savings.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>exponent extraction</em></dt><dd>Rearranging a floating-point tensor so that all exponent bytes of the parameters form one contiguous compression stream, separated from the sign and fraction bits that dilute their skewed distribution.</dd>
+<dt><em>byte grouping</em></dt><dd>Splitting the bytes of each floating-point parameter into one stream per byte position, so that fraction bytes with different degrees of near-zero structure are compressed independently.</dd>
+<dt><em>clean model</em></dt><dd>A model whose weights underwent rounding or a parameter-type conversion after training, leaving many fraction bits zero and making it compressible beyond the exponent; further fine-tuning removes this property.</dd>
+<dt><em>regular model</em></dt><dd>A model that was trained and left unmodified afterwards, so only its exponent bytes are compressible and the fraction and sign bits are effectively random.</dd>
+<dt><em>compressed size (%)</em></dt><dd>The percentage of the original data remaining after compression, so lower is better: a gigabyte reduced to a quarter of a gigabyte has a compressed size of 25%.</dd>
+<dt><em>delta compression</em></dt><dd>Storing a model as the XOR difference from a similar base model, plus lossless compression of that difference, so reconstruction requires both the base and the delta.</dd>
+<dt><em>periodic base</em></dt><dd>A scheme in which a full standalone-compressed checkpoint is stored every k checkpoints and intermediate checkpoints are kept as deltas, bounding the length of delta chains needed for recovery.</dd>
+</dl>
 <h2>How to cite</h2>
 <pre>@INPROCEEDINGS{zipnn,
-author={Hershcovitch, Moshik and Wood, Andrew and Choshen, Leshem and Girmonsky, Guy and Leibovitz, Roy and Ozeri, Or and Ennmouri, Ilias and Malka, Michal and Chin, Peter and Sundararaman, Swaminathan and Harnik, Danny},
+  author={Hershcovitch, Moshik and Wood, Andrew and Choshen, Leshem and Girmonsky, Guy and Leibovitz, Roy and Ozeri, Or and Ennmouri, Ilias and Malka, Michal and Chin, Peter and Sundararaman, Swaminathan and Harnik, Danny},
   booktitle={2025 IEEE 18th International Conference on Cloud Computing (CLOUD)}, 
   title={ZipNN: Lossless Compression for AI Models}, 
   year={2025},

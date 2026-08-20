@@ -11,7 +11,7 @@
   <meta name="citation_author" content="Gal Patel">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2023">
-  <meta name="citation_conference_title" content="Proceedings of the 27th Conference on Computational Natural Language Learning, CoNLL 2023, Singapore…">
+  <meta name="citation_conference_title" content="CoNLL 2023">
   <meta name="citation_doi" content="10.18653/V1/2023.CONLL-1.29">
   <meta name="citation_arxiv_id" content="2305.14991">
   <meta name="citation_abstract" content="We propose a novel methodology (namely, MuLER) that transforms any reference-based evaluation metric for text generation, such as machine translation (MT) into a fine-grained analysis tool. Given a system and a metric, MuLER quantifies how much the chosen metric penalizes specific error types (e.g., errors in translating names of locations). MuLER thus enables a detailed error analysis which can lead to targeted improvement efforts for specific phenomena. We perform experiments in both synthetic and naturalistic settings to support MuLER’s validity and showcase its usability in MT evaluation, and other tasks, such as summarization. Analyzing all submissions to WMT in 2014-2020, we find consistent trends. For example, nouns and verbs are among the most frequent POS tags. However, they are among the hardest to translate. Performance on most POS tags improves with overall system performance, but a few are not thus correlated (their identity changes from language to language). Preliminary experiments with summarization reveal similar trends.">
@@ -45,10 +45,12 @@
   "datePublished": "2023",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 27th Conference on Computational Natural Language Learning, CoNLL 2023, Singapore…"
+    "name": "CoNLL 2023"
   },
   "identifier": "https://doi.org/10.18653/V1/2023.CONLL-1.29",
   "abstract": "We propose a novel methodology (namely, MuLER) that transforms any reference-based evaluation metric for text generation, such as machine translation (MT) into a fine-grained analysis tool. Given a system and a metric, MuLER quantifies how much the chosen metric penalizes specific error types (e.g., errors in translating names of locations). MuLER thus enables a detailed error analysis which can lead to targeted improvement efforts for specific phenomena. We perform experiments in both synthetic and naturalistic settings to support MuLER’s validity and showcase its usability in MT evaluation, and other tasks, such as summarization. Analyzing all submissions to WMT in 2014-2020, we find consistent trends. For example, nouns and verbs are among the most frequent POS tags. However, they are among the hardest to translate. Performance on most POS tags improves with overall system performance, but a few are not thus correlated (their identity changes from language to language). Preliminary experiments with summarization reveal similar trends.",
+  "description": "MuLER decomposes any reference-based metric, such as BLEU, ROUGE or BERTScore, into per-feature scores by masking a phenomenon (nouns, location names, gender) in both reference and output and measuring how much of the metric's achievable gain the system fails to realize.",
+  "codeRepository": "https://github.com/tai314159/MuLER",
   "sameAs": [
     "https://aclanthology.org/2023.conll-1.29/",
     "https://arxiv.org/abs/2305.14991",
@@ -56,9 +58,284 @@
     "https://arxiv.org/pdf/2305.14991",
     "https://doi.org/10.18653/V1/2023.CONLL-1.29",
     "https://doi.org/10.18653/v1/2023.conll-1.29",
+    "https://github.com/tai314159/MuLER",
     "https://huggingface.co/papers/2305.14991",
     "https://www.alphaxiv.org/abs/2305.14991",
     "https://www.semanticscholar.org/paper/258865721"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "MuLER turns any reference-based text-generation metric, such as BLEU, ROUGE or BERTScore, into a per-phenomenon error analysis. By masking a feature such as nouns or location names in both reference and system output, it measures how much of the metric's achievable gain the system leaves on the table.",
+      "description": "Holds for: Requires a feature detectable automatically on the target side (tagger or lexicon scorer) and a reference-based metric; demonstrated for machine translation into English and for CNN/DailyMail summarization as of 2023."
+    },
+    {
+      "@type": "Thing",
+      "name": "MuLER offers a naturalistic alternative to challenge sets for fine-grained evaluation. Instead of constructing minimal-pair test items, it restricts an existing test set's evaluation to the examples that contain the feature of interest.",
+      "description": "Holds for: Positioned in the paper's related-work discussion against minimal-change evaluation and challenge-set methods; MuLER covers a closed but extendable set of automatically detectable traits rather than arbitrary linguistic phenomena."
+    },
+    {
+      "@type": "Thing",
+      "name": "In a manual analysis of WMT system pairs with near-equal BLEU but differing MuLER, the system MuLER ranked better on a feature translated that feature better in 91.3% of sentences. That covers the 97 sentences of 201 where quality differed.",
+      "description": "Holds for: 5 system pairs from WMT 2018-2020 (fi-en, tr-en, ru-en, zh-en), features LOC, ORDINAL, AUX, PERSON and WORK_OF_ART; annotated by one of the authors on shuffled side-by-side outputs."
+    },
+    {
+      "@type": "Thing",
+      "name": "Nouns and verbs are among the hardest POS tags to translate under MuLER even though they are among the most frequent POS tokens. On WMT 2019 German-English systems, 100%-masking MuLER runs 0.225-0.306 for nouns and 0.359-0.448 for verbs (lower is better).",
+      "description": "Holds for: WMT news-task submissions into English, POS features tagged automatically; MuLER computed with BLEU. The frequency figures are token frequencies in the evaluated data, not measured training-set counts."
+    },
+    {
+      "@type": "Thing",
+      "name": "Overall BLEU gains do not imply better named-entity translation: correlations between BLEU and negative MuLER are high for sentiment, concreteness, valence, arousal and dominance features but not for most named-entity types.",
+      "description": "Holds for: Pearson correlations over all WMT 2014-2017 submissions with English as target, per source language; the features on which BLEU and MuLER agree change from language to language."
+    },
+    {
+      "@type": "Thing",
+      "name": "Masking a fixed fraction of a feature's occurrences with the oracle strategy and the rest with the anti-oracle strategy places MuLER proportionally inside the oracle-to-anti-oracle interval. On the WMT 2020 de-en submission OPPO.1360, the 50-50 hybrid noun score of 0.33 sits between the anti-oracle 0.21 and the oracle 0.45.",
+      "description": "Holds for: 5 randomly chosen WMT submissions (de-en, ru-en, fi-en, 2015-2020) at 50-50, 40-60 and 30-70 splits, nouns and verbs only, BLEU as the base metric; the split is synthetic, partitioning feature words by first letter."
+    },
+    {
+      "@type": "Thing",
+      "name": "Synthetic features built to match the frequency of real POS tags give MuLER a variance near zero across 1000 draws, 4.09e-04 for the noun-matched synthetic feature. Their scores also differ from the matched real tag's MuLER score, so MuLER does not fire on arbitrary word groupings.",
+      "description": "Holds for: WMT 2019 German-English submission online-G.0, synthetic features formed by splitting the unique vocabulary into p equal groups for p in 2 to 6, 1000 sampled runs; real features compared are NOUN, VERB, PROPN, PRON and ADV."
+    },
+    {
+      "@type": "Thing",
+      "name": "MuLER is far less sensitive to how frequently a feature occurs than its unnormalized numerator. On WMT 2019 de-en Facebook_FAIR.6750, masking 50% versus 100% of nouns moves abl-MuLER from 0.021 to 0.054 while MuLER moves only from 0.203 to 0.267.",
+      "description": "Holds for: WMT 2019 German-English submissions, nouns and verbs, BLEU as base metric, frequency varied by masking a first-letter-sorted subset of feature occurrences and ignoring the rest."
+    },
+    {
+      "@type": "Thing",
+      "name": "On WinoGender sentence pairs differing only in one pronoun's gender, BLEU scores the pair at 0.8 while MuLER's gender feature is 1.0, the maximum penalty. A bottom-line metric can therefore look near-perfect on a dimension it entirely fails.",
+      "description": "Holds for: WinoGender female-male pairs treated as reference-output pairs rather than as real system output; a diagnostic demonstration of the score's sensitivity, not an evaluation of a deployed MT system."
+    },
+    {
+      "@type": "Thing",
+      "name": "Applied with ROUGE to T5-small, T5-base and DistilBART summarizers, MuLER shows the concreteness score consistently lower than valence, dominance, arousal and sentiment. That matches the expectation that summaries compress text by making it more concrete.",
+      "description": "Holds for: CNN/DailyMail summarization, 3 HuggingFace models, lexicon-based sentence scorers; described by the paper as preliminary summarization experiments."
+    },
+    {
+      "@type": "Thing",
+      "name": "MuLER extends to embedding-based metrics by editing BERTScore's reference-candidate similarity matrix, and on 5 randomly sampled WMT 2020 Chinese-English submissions produces trends similar to MuLER with BLEU.",
+      "description": "Holds for: bert-base-uncased BERTScore, 5 zh-en WMT 2020 submissions; the paper labels these preliminary experiments, with the ordering max > min verified on 1000 randomly sampled sentences."
+    },
+    {
+      "@type": "Thing",
+      "name": "MuLER can come out negative when oracle masking lowers rather than raises the base metric. The documented causes are tagger errors and cases where a word is a noun in the reference and a verb in the output.",
+      "description": "Holds for: Documented as edge cases with worked WMT examples; MuLER is otherwise computed only on sentences where both reference and output contain the feature, which prevents division by zero."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/#faq",
+  "url": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/",
+  "name": "Questions answered by MuLER: Detailed and Scalable Reference-based Evaluation",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can I find out which linguistic phenomena a machine translation system gets wrong, instead of just its BLEU score?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MuLER turns any reference-based text-generation metric, such as BLEU, ROUGE or BERTScore, into a per-phenomenon error analysis. By masking a feature such as nouns or location names in both reference and system output, it measures how much of the metric's achievable gain the system leaves on the table. Holds for: Requires a feature detectable automatically on the target side (tagger or lexicon scorer) and a reference-based metric; demonstrated for machine translation into English and for CNN/DailyMail summarization as of 2023.\n\nMuLER offers a naturalistic alternative to challenge sets for fine-grained evaluation. Instead of constructing minimal-pair test items, it restricts an existing test set's evaluation to the examples that contain the feature of interest. Holds for: Positioned in the paper's related-work discussion against minimal-change evaluation and challenge-set methods; MuLER covers a closed but extendable set of automatically detectable traits rather than arbitrary linguistic phenomena.",
+        "url": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/"
+      },
+      "alternateName": [
+        "Is there a way to break a single BLEU or ROUGE number down by error type?",
+        "What does MuLER do?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about fine-grained evaluation of text generation systems?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MuLER offers a naturalistic alternative to challenge sets for fine-grained evaluation. Instead of constructing minimal-pair test items, it restricts an existing test set's evaluation to the examples that contain the feature of interest. Holds for: Positioned in the paper's related-work discussion against minimal-change evaluation and challenge-set methods; MuLER covers a closed but extendable set of automatically detectable traits rather than arbitrary linguistic phenomena.\n\nMuLER turns any reference-based text-generation metric, such as BLEU, ROUGE or BERTScore, into a per-phenomenon error analysis. By masking a feature such as nouns or location names in both reference and system output, it measures how much of the metric's achievable gain the system leaves on the table. Holds for: Requires a feature detectable automatically on the target side (tagger or lexicon scorer) and a reference-based metric; demonstrated for machine translation into English and for CNN/DailyMail summarization as of 2023.",
+        "url": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/"
+      },
+      "alternateName": [
+        "Which papers move beyond bottom-line metrics like BLEU toward per-phenomenon analysis?",
+        "Where does MuLER sit relative to challenge-set evaluation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which parts of speech are hardest for machine translation systems to get right?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nouns and verbs are among the hardest POS tags to translate under MuLER even though they are among the most frequent POS tokens. On WMT 2019 German-English systems, 100%-masking MuLER runs 0.225-0.306 for nouns and 0.359-0.448 for verbs (lower is better). Holds for: WMT news-task submissions into English, POS features tagged automatically; MuLER computed with BLEU. The frequency figures are token frequencies in the evaluated data, not measured training-set counts.",
+        "url": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/"
+      },
+      "alternateName": [
+        "Are frequent words like nouns and verbs easy for MT systems to translate?",
+        "What did analysing all WMT submissions from 2014 to 2020 reveal about POS tags?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does a higher BLEU score mean better named-entity translation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Overall BLEU gains do not imply better named-entity translation: correlations between BLEU and negative MuLER are high for sentiment, concreteness, valence, arousal and dominance features but not for most named-entity types. Holds for: Pearson correlations over all WMT 2014-2017 submissions with English as target, per source language; the features on which BLEU and MuLER agree change from language to language.\n\nNouns and verbs are among the hardest POS tags to translate under MuLER even though they are among the most frequent POS tokens. On WMT 2019 German-English systems, 100%-masking MuLER runs 0.225-0.306 for nouns and 0.359-0.448 for verbs (lower is better). Holds for: WMT news-task submissions into English, POS features tagged automatically; MuLER computed with BLEU. The frequency figures are token frequencies in the evaluated data, not measured training-set counts.",
+        "url": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/"
+      },
+      "alternateName": [
+        "Do all linguistic phenomena improve as overall MT quality improves?",
+        "Which features track overall metric gains and which do not?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is there human validation that MuLER scores reflect real translation quality on a feature?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In a manual analysis of WMT system pairs with near-equal BLEU but differing MuLER, the system MuLER ranked better on a feature translated that feature better in 91.3% of sentences. That covers the 97 sentences of 201 where quality differed. Holds for: 5 system pairs from WMT 2018-2020 (fi-en, tr-en, ru-en, zh-en), features LOC, ORDINAL, AUX, PERSON and WORK_OF_ART; annotated by one of the authors on shuffled side-by-side outputs.",
+        "url": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/"
+      },
+      "alternateName": [
+        "How well does a fine-grained metric decomposition agree with human judgement of feature translation quality?",
+        "Was MuLER checked manually against annotated WMT outputs?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does a per-feature evaluation score get confounded by how often the feature occurs?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MuLER is far less sensitive to how frequently a feature occurs than its unnormalized numerator. On WMT 2019 de-en Facebook_FAIR.6750, masking 50% versus 100% of nouns moves abl-MuLER from 0.021 to 0.054 while MuLER moves only from 0.203 to 0.267. Holds for: WMT 2019 German-English submissions, nouns and verbs, BLEU as base metric, frequency varied by masking a first-letter-sorted subset of feature occurrences and ignoring the rest.\n\nMasking a fixed fraction of a feature's occurrences with the oracle strategy and the rest with the anti-oracle strategy places MuLER proportionally inside the oracle-to-anti-oracle interval. On the WMT 2020 de-en submission OPPO.1360, the 50-50 hybrid noun score of 0.33 sits between the anti-oracle 0.21 and the oracle 0.45. Holds for: 5 randomly chosen WMT submissions (de-en, ru-en, fi-en, 2015-2020) at 50-50, 40-60 and 30-70 splits, nouns and verbs only, BLEU as the base metric; the split is synthetic, partitioning feature words by first letter.",
+        "url": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/"
+      },
+      "alternateName": [
+        "How do I know a fine-grained metric is not just measuring feature frequency?",
+        "Why does MuLER normalize by the oracle minus anti-oracle interval?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Would a feature-masking evaluation score fire on arbitrary random word sets too?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Synthetic features built to match the frequency of real POS tags give MuLER a variance near zero across 1000 draws, 4.09e-04 for the noun-matched synthetic feature. Their scores also differ from the matched real tag's MuLER score, so MuLER does not fire on arbitrary word groupings. Holds for: WMT 2019 German-English submission online-G.0, synthetic features formed by splitting the unique vocabulary into p equal groups for p in 2 to 6, 1000 sampled runs; real features compared are NOUN, VERB, PROPN, PRON and ADV.\n\nMasking a fixed fraction of a feature's occurrences with the oracle strategy and the rest with the anti-oracle strategy places MuLER proportionally inside the oracle-to-anti-oracle interval. On the WMT 2020 de-en submission OPPO.1360, the 50-50 hybrid noun score of 0.33 sits between the anti-oracle 0.21 and the oracle 0.45. Holds for: 5 randomly chosen WMT submissions (de-en, ru-en, fi-en, 2015-2020) at 50-50, 40-60 and 30-70 splits, nouns and verbs only, BLEU as the base metric; the split is synthetic, partitioning feature words by first letter.",
+        "url": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/"
+      },
+      "alternateName": [
+        "How was MuLER shown to be specific to real linguistic phenomena?",
+        "What synthetic experiments validate MuLER?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can BLEU detect whether a system translates gender correctly?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On WinoGender sentence pairs differing only in one pronoun's gender, BLEU scores the pair at 0.8 while MuLER's gender feature is 1.0, the maximum penalty. A bottom-line metric can therefore look near-perfect on a dimension it entirely fails. Holds for: WinoGender female-male pairs treated as reference-output pairs rather than as real system output; a diagnostic demonstration of the score's sensitivity, not an evaluation of a deployed MT system.",
+        "url": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/"
+      },
+      "alternateName": [
+        "What do WinoGender pairs reveal about the blind spots of overlap metrics?",
+        "How does MuLER expose gender errors that BLEU misses?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does MuLER work for summarization as well as translation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Applied with ROUGE to T5-small, T5-base and DistilBART summarizers, MuLER shows the concreteness score consistently lower than valence, dominance, arousal and sentiment. That matches the expectation that summaries compress text by making it more concrete. Holds for: CNN/DailyMail summarization, 3 HuggingFace models, lexicon-based sentence scorers; described by the paper as preliminary summarization experiments.",
+        "url": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/"
+      },
+      "alternateName": [
+        "Can ROUGE be decomposed by feature to compare summarization models?",
+        "What did MuLER find when comparing T5 and DistilBART summarizers?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does feature-level metric decomposition work with neural metrics like BERTScore?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MuLER extends to embedding-based metrics by editing BERTScore's reference-candidate similarity matrix, and on 5 randomly sampled WMT 2020 Chinese-English submissions produces trends similar to MuLER with BLEU. Holds for: bert-base-uncased BERTScore, 5 zh-en WMT 2020 submissions; the paper labels these preliminary experiments, with the ordering max > min verified on 1000 randomly sampled sentences.\n\nMuLER turns any reference-based text-generation metric, such as BLEU, ROUGE or BERTScore, into a per-phenomenon error analysis. By masking a feature such as nouns or location names in both reference and system output, it measures how much of the metric's achievable gain the system leaves on the table. Holds for: Requires a feature detectable automatically on the target side (tagger or lexicon scorer) and a reference-based metric; demonstrated for machine translation into English and for CNN/DailyMail summarization as of 2023.",
+        "url": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/"
+      },
+      "alternateName": [
+        "Is MuLER limited to n-gram overlap metrics such as BLEU and ROUGE?",
+        "How is BERTScore adapted for oracle and anti-oracle masking?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can a MuLER score come out negative, and what does that mean?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MuLER can come out negative when oracle masking lowers rather than raises the base metric. The documented causes are tagger errors and cases where a word is a noun in the reference and a verb in the output. Holds for: Documented as edge cases with worked WMT examples; MuLER is otherwise computed only on sentences where both reference and output contain the feature, which prevents division by zero.",
+        "url": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/"
+      },
+      "alternateName": [
+        "Why would masking a feature make the base metric worse instead of better?",
+        "What are the known failure cases of oracle masking in MuLER?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/#terms",
+  "url": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/",
+  "name": "Terminology in MuLER: Detailed and Scalable Reference-based Evaluation",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "oracle masking",
+      "description": "Replacing every span carrying a feature with the same mask token in both the reference and the system output, so the metric behaves as if the system had translated that feature perfectly.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "anti-oracle masking",
+      "description": "Replacing spans carrying a feature with different mask tokens in the reference and in the output, destroying the correspondence and so simulating a system that gets the feature entirely wrong.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "MuLER score",
+      "description": "The oracle-masked metric score minus the unmasked score, divided by the oracle minus anti-oracle difference; a unitless number where lower means better performance on the feature.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "abl-MuLER",
+      "description": "An ablated version of the MuLER score consisting of its numerator only, without the oracle-minus-anti-oracle normalization.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "discrepancy breakdown",
+      "description": "A triple of add, hit and miss counts recording how often a feature appears more, equally or fewer times in the output than in the reference, covering over- and under-generation that the MuLER score itself ignores.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "indices-BLEU",
+      "description": "BLEU computed only over the sentences in which the feature of interest appears in both the reference and the system output.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/muler-detailed-and-scalable-reference-based-evaluation/#terms"
+    }
   ]
 }
   </script>
@@ -69,6 +346,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -82,13 +360,99 @@
 </head>
 <body>
 <h1>MuLER: Detailed and Scalable Reference-based Evaluation</h1>
-<p class="meta">Taelin Karidi, Leshem Choshen, Gal Patel, Omri Abend · Proceedings of the 27th Conference on Computational Natural Language Learning, CoNLL 2023, Singapore… · 2023</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2305.14991">arXiv</a></li><li><a href="https://arxiv.org/pdf/2305.14991">PDF</a></li><li><a href="https://arxiv.org/html/2305.14991">HTML</a></li><li><a href="https://huggingface.co/papers/2305.14991">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2305.14991">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2023.CONLL-1.29">DOI</a></li><li><a href="https://aclanthology.org/2023.conll-1.29/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/258865721">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2023.conll-1.29">Publisher</a></li></ul>
+<p class="sub">Multi-Level Evaluation with Reference: a way to split a single BLEU or ROUGE score into per-phenomenon error scores</p>
+<p class="meta">Taelin Karidi, Leshem Choshen, Gal Patel, Omri Abend · CoNLL 2023 · 2023</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2305.14991">arXiv</a></li><li><a href="https://arxiv.org/pdf/2305.14991">PDF</a></li><li><a href="https://arxiv.org/html/2305.14991">HTML</a></li><li><a href="https://huggingface.co/papers/2305.14991">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2305.14991">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2023.CONLL-1.29">DOI</a></li><li><a href="https://aclanthology.org/2023.conll-1.29/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/258865721">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2023.conll-1.29">Publisher</a></li><li><a href="https://github.com/tai314159/MuLER">Code</a></li></ul>
+<h2>In one sentence</h2>
+<p>MuLER decomposes any reference-based metric, such as BLEU, ROUGE or BERTScore, into per-feature scores by masking a phenomenon (nouns, location names, gender) in both reference and output and measuring how much of the metric&#x27;s achievable gain the system fails to realize.</p>
 <h2>Abstract</h2>
 <p>We propose a novel methodology (namely, MuLER) that transforms any reference-based evaluation metric for text generation, such as machine translation (MT) into a fine-grained analysis tool. Given a system and a metric, MuLER quantifies how much the chosen metric penalizes specific error types (e.g., errors in translating names of locations). MuLER thus enables a detailed error analysis which can lead to targeted improvement efforts for specific phenomena. We perform experiments in both synthetic and naturalistic settings to support MuLER’s validity and showcase its usability in MT evaluation, and other tasks, such as summarization. Analyzing all submissions to WMT in 2014-2020, we find consistent trends. For example, nouns and verbs are among the most frequent POS tags. However, they are among the hardest to translate. Performance on most POS tags improves with overall system performance, but a few are not thus correlated (their identity changes from language to language). Preliminary experiments with summarization reveal similar trends.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How can I find out which linguistic phenomena a machine translation system gets wrong, instead of just its BLEU score?</dt>
+<dt>Is there a way to break a single BLEU or ROUGE number down by error type?</dt>
+<dt>What does MuLER do?</dt>
+<dd>MuLER turns any reference-based text-generation metric, such as BLEU, ROUGE or BERTScore, into a per-phenomenon error analysis. By masking a feature such as nouns or location names in both reference and system output, it measures how much of the metric&#x27;s achievable gain the system leaves on the table.<br><span class="scope">Holds for: Requires a feature detectable automatically on the target side (tagger or lexicon scorer) and a reference-based metric; demonstrated for machine translation into English and for CNN/DailyMail summarization as of 2023.</span></dd>
+<dd>MuLER offers a naturalistic alternative to challenge sets for fine-grained evaluation. Instead of constructing minimal-pair test items, it restricts an existing test set&#x27;s evaluation to the examples that contain the feature of interest.<br><span class="scope">Holds for: Positioned in the paper&#x27;s related-work discussion against minimal-change evaluation and challenge-set methods; MuLER covers a closed but extendable set of automatically detectable traits rather than arbitrary linguistic phenomena.</span></dd>
+<dt>What should I read about fine-grained evaluation of text generation systems?</dt>
+<dt>Which papers move beyond bottom-line metrics like BLEU toward per-phenomenon analysis?</dt>
+<dt>Where does MuLER sit relative to challenge-set evaluation?</dt>
+<dd>MuLER offers a naturalistic alternative to challenge sets for fine-grained evaluation. Instead of constructing minimal-pair test items, it restricts an existing test set&#x27;s evaluation to the examples that contain the feature of interest.<br><span class="scope">Holds for: Positioned in the paper&#x27;s related-work discussion against minimal-change evaluation and challenge-set methods; MuLER covers a closed but extendable set of automatically detectable traits rather than arbitrary linguistic phenomena.</span></dd>
+<dd>MuLER turns any reference-based text-generation metric, such as BLEU, ROUGE or BERTScore, into a per-phenomenon error analysis. By masking a feature such as nouns or location names in both reference and system output, it measures how much of the metric&#x27;s achievable gain the system leaves on the table.<br><span class="scope">Holds for: Requires a feature detectable automatically on the target side (tagger or lexicon scorer) and a reference-based metric; demonstrated for machine translation into English and for CNN/DailyMail summarization as of 2023.</span></dd>
+<dt>Which parts of speech are hardest for machine translation systems to get right?</dt>
+<dt>Are frequent words like nouns and verbs easy for MT systems to translate?</dt>
+<dt>What did analysing all WMT submissions from 2014 to 2020 reveal about POS tags?</dt>
+<dd>Nouns and verbs are among the hardest POS tags to translate under MuLER even though they are among the most frequent POS tokens. On WMT 2019 German-English systems, 100%-masking MuLER runs 0.225-0.306 for nouns and 0.359-0.448 for verbs (lower is better).<br><span class="scope">Holds for: WMT news-task submissions into English, POS features tagged automatically; MuLER computed with BLEU. The frequency figures are token frequencies in the evaluated data, not measured training-set counts.</span></dd>
+<dt>Does a higher BLEU score mean better named-entity translation?</dt>
+<dt>Do all linguistic phenomena improve as overall MT quality improves?</dt>
+<dt>Which features track overall metric gains and which do not?</dt>
+<dd>Overall BLEU gains do not imply better named-entity translation: correlations between BLEU and negative MuLER are high for sentiment, concreteness, valence, arousal and dominance features but not for most named-entity types.<br><span class="scope">Holds for: Pearson correlations over all WMT 2014-2017 submissions with English as target, per source language; the features on which BLEU and MuLER agree change from language to language.</span></dd>
+<dd>Nouns and verbs are among the hardest POS tags to translate under MuLER even though they are among the most frequent POS tokens. On WMT 2019 German-English systems, 100%-masking MuLER runs 0.225-0.306 for nouns and 0.359-0.448 for verbs (lower is better).<br><span class="scope">Holds for: WMT news-task submissions into English, POS features tagged automatically; MuLER computed with BLEU. The frequency figures are token frequencies in the evaluated data, not measured training-set counts.</span></dd>
+<dt>Is there human validation that MuLER scores reflect real translation quality on a feature?</dt>
+<dt>How well does a fine-grained metric decomposition agree with human judgement of feature translation quality?</dt>
+<dt>Was MuLER checked manually against annotated WMT outputs?</dt>
+<dd>In a manual analysis of WMT system pairs with near-equal BLEU but differing MuLER, the system MuLER ranked better on a feature translated that feature better in 91.3% of sentences. That covers the 97 sentences of 201 where quality differed.<br><span class="scope">Holds for: 5 system pairs from WMT 2018-2020 (fi-en, tr-en, ru-en, zh-en), features LOC, ORDINAL, AUX, PERSON and WORK_OF_ART; annotated by one of the authors on shuffled side-by-side outputs.</span></dd>
+<dt>Does a per-feature evaluation score get confounded by how often the feature occurs?</dt>
+<dt>How do I know a fine-grained metric is not just measuring feature frequency?</dt>
+<dt>Why does MuLER normalize by the oracle minus anti-oracle interval?</dt>
+<dd>MuLER is far less sensitive to how frequently a feature occurs than its unnormalized numerator. On WMT 2019 de-en Facebook_FAIR.6750, masking 50% versus 100% of nouns moves abl-MuLER from 0.021 to 0.054 while MuLER moves only from 0.203 to 0.267.<br><span class="scope">Holds for: WMT 2019 German-English submissions, nouns and verbs, BLEU as base metric, frequency varied by masking a first-letter-sorted subset of feature occurrences and ignoring the rest.</span></dd>
+<dd>Masking a fixed fraction of a feature&#x27;s occurrences with the oracle strategy and the rest with the anti-oracle strategy places MuLER proportionally inside the oracle-to-anti-oracle interval. On the WMT 2020 de-en submission OPPO.1360, the 50-50 hybrid noun score of 0.33 sits between the anti-oracle 0.21 and the oracle 0.45.<br><span class="scope">Holds for: 5 randomly chosen WMT submissions (de-en, ru-en, fi-en, 2015-2020) at 50-50, 40-60 and 30-70 splits, nouns and verbs only, BLEU as the base metric; the split is synthetic, partitioning feature words by first letter.</span></dd>
+<dt>Would a feature-masking evaluation score fire on arbitrary random word sets too?</dt>
+<dt>How was MuLER shown to be specific to real linguistic phenomena?</dt>
+<dt>What synthetic experiments validate MuLER?</dt>
+<dd>Synthetic features built to match the frequency of real POS tags give MuLER a variance near zero across 1000 draws, 4.09e-04 for the noun-matched synthetic feature. Their scores also differ from the matched real tag&#x27;s MuLER score, so MuLER does not fire on arbitrary word groupings.<br><span class="scope">Holds for: WMT 2019 German-English submission online-G.0, synthetic features formed by splitting the unique vocabulary into p equal groups for p in 2 to 6, 1000 sampled runs; real features compared are NOUN, VERB, PROPN, PRON and ADV.</span></dd>
+<dd>Masking a fixed fraction of a feature&#x27;s occurrences with the oracle strategy and the rest with the anti-oracle strategy places MuLER proportionally inside the oracle-to-anti-oracle interval. On the WMT 2020 de-en submission OPPO.1360, the 50-50 hybrid noun score of 0.33 sits between the anti-oracle 0.21 and the oracle 0.45.<br><span class="scope">Holds for: 5 randomly chosen WMT submissions (de-en, ru-en, fi-en, 2015-2020) at 50-50, 40-60 and 30-70 splits, nouns and verbs only, BLEU as the base metric; the split is synthetic, partitioning feature words by first letter.</span></dd>
+<dt>Can BLEU detect whether a system translates gender correctly?</dt>
+<dt>What do WinoGender pairs reveal about the blind spots of overlap metrics?</dt>
+<dt>How does MuLER expose gender errors that BLEU misses?</dt>
+<dd>On WinoGender sentence pairs differing only in one pronoun&#x27;s gender, BLEU scores the pair at 0.8 while MuLER&#x27;s gender feature is 1.0, the maximum penalty. A bottom-line metric can therefore look near-perfect on a dimension it entirely fails.<br><span class="scope">Holds for: WinoGender female-male pairs treated as reference-output pairs rather than as real system output; a diagnostic demonstration of the score&#x27;s sensitivity, not an evaluation of a deployed MT system.</span></dd>
+<dt>Does MuLER work for summarization as well as translation?</dt>
+<dt>Can ROUGE be decomposed by feature to compare summarization models?</dt>
+<dt>What did MuLER find when comparing T5 and DistilBART summarizers?</dt>
+<dd>Applied with ROUGE to T5-small, T5-base and DistilBART summarizers, MuLER shows the concreteness score consistently lower than valence, dominance, arousal and sentiment. That matches the expectation that summaries compress text by making it more concrete.<br><span class="scope">Holds for: CNN/DailyMail summarization, 3 HuggingFace models, lexicon-based sentence scorers; described by the paper as preliminary summarization experiments.</span></dd>
+<dt>Does feature-level metric decomposition work with neural metrics like BERTScore?</dt>
+<dt>Is MuLER limited to n-gram overlap metrics such as BLEU and ROUGE?</dt>
+<dt>How is BERTScore adapted for oracle and anti-oracle masking?</dt>
+<dd>MuLER extends to embedding-based metrics by editing BERTScore&#x27;s reference-candidate similarity matrix, and on 5 randomly sampled WMT 2020 Chinese-English submissions produces trends similar to MuLER with BLEU.<br><span class="scope">Holds for: bert-base-uncased BERTScore, 5 zh-en WMT 2020 submissions; the paper labels these preliminary experiments, with the ordering max &gt; min verified on 1000 randomly sampled sentences.</span></dd>
+<dd>MuLER turns any reference-based text-generation metric, such as BLEU, ROUGE or BERTScore, into a per-phenomenon error analysis. By masking a feature such as nouns or location names in both reference and system output, it measures how much of the metric&#x27;s achievable gain the system leaves on the table.<br><span class="scope">Holds for: Requires a feature detectable automatically on the target side (tagger or lexicon scorer) and a reference-based metric; demonstrated for machine translation into English and for CNN/DailyMail summarization as of 2023.</span></dd>
+<dt>Can a MuLER score come out negative, and what does that mean?</dt>
+<dt>Why would masking a feature make the base metric worse instead of better?</dt>
+<dt>What are the known failure cases of oracle masking in MuLER?</dt>
+<dd>MuLER can come out negative when oracle masking lowers rather than raises the base metric. The documented causes are tagger errors and cases where a word is a noun in the reference and a verb in the output.<br><span class="scope">Holds for: Documented as edge cases with worked WMT examples; MuLER is otherwise computed only on sentences where both reference and output contain the feature, which prevents division by zero.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>MuLER turns any reference-based text-generation metric, such as BLEU, ROUGE or BERTScore, into a per-phenomenon error analysis. By masking a feature such as nouns or location names in both reference and system output, it measures how much of the metric&#x27;s achievable gain the system leaves on the table.<br><span class="scope">Scope: Requires a feature detectable automatically on the target side (tagger or lexicon scorer) and a reference-based metric; demonstrated for machine translation into English and for CNN/DailyMail summarization as of 2023.</span></li>
+<li>MuLER offers a naturalistic alternative to challenge sets for fine-grained evaluation. Instead of constructing minimal-pair test items, it restricts an existing test set&#x27;s evaluation to the examples that contain the feature of interest.<br><span class="scope">Scope: Positioned in the paper&#x27;s related-work discussion against minimal-change evaluation and challenge-set methods; MuLER covers a closed but extendable set of automatically detectable traits rather than arbitrary linguistic phenomena.</span></li>
+<li>In a manual analysis of WMT system pairs with near-equal BLEU but differing MuLER, the system MuLER ranked better on a feature translated that feature better in 91.3% of sentences. That covers the 97 sentences of 201 where quality differed. <span class="meta">(Section 4.3 and Table 10)</span><br><span class="scope">Scope: 5 system pairs from WMT 2018-2020 (fi-en, tr-en, ru-en, zh-en), features LOC, ORDINAL, AUX, PERSON and WORK_OF_ART; annotated by one of the authors on shuffled side-by-side outputs.</span></li>
+<li>Nouns and verbs are among the hardest POS tags to translate under MuLER even though they are among the most frequent POS tokens. On WMT 2019 German-English systems, 100%-masking MuLER runs 0.225-0.306 for nouns and 0.359-0.448 for verbs (lower is better). <span class="meta">(Figure 4 and Table 15)</span><br><span class="scope">Scope: WMT news-task submissions into English, POS features tagged automatically; MuLER computed with BLEU. The frequency figures are token frequencies in the evaluated data, not measured training-set counts.</span></li>
+<li>Overall BLEU gains do not imply better named-entity translation: correlations between BLEU and negative MuLER are high for sentiment, concreteness, valence, arousal and dominance features but not for most named-entity types. <span class="meta">(Figure 3 and Section 4.2)</span><br><span class="scope">Scope: Pearson correlations over all WMT 2014-2017 submissions with English as target, per source language; the features on which BLEU and MuLER agree change from language to language.</span></li>
+<li>Masking a fixed fraction of a feature&#x27;s occurrences with the oracle strategy and the rest with the anti-oracle strategy places MuLER proportionally inside the oracle-to-anti-oracle interval. On the WMT 2020 de-en submission OPPO.1360, the 50-50 hybrid noun score of 0.33 sits between the anti-oracle 0.21 and the oracle 0.45. <span class="meta">(Table 4 and Tables 11-13)</span><br><span class="scope">Scope: 5 randomly chosen WMT submissions (de-en, ru-en, fi-en, 2015-2020) at 50-50, 40-60 and 30-70 splits, nouns and verbs only, BLEU as the base metric; the split is synthetic, partitioning feature words by first letter.</span></li>
+<li>Synthetic features built to match the frequency of real POS tags give MuLER a variance near zero across 1000 draws, 4.09e-04 for the noun-matched synthetic feature. Their scores also differ from the matched real tag&#x27;s MuLER score, so MuLER does not fire on arbitrary word groupings. <span class="meta">(Table 2 and Table 14)</span><br><span class="scope">Scope: WMT 2019 German-English submission online-G.0, synthetic features formed by splitting the unique vocabulary into p equal groups for p in 2 to 6, 1000 sampled runs; real features compared are NOUN, VERB, PROPN, PRON and ADV.</span></li>
+<li>MuLER is far less sensitive to how frequently a feature occurs than its unnormalized numerator. On WMT 2019 de-en Facebook_FAIR.6750, masking 50% versus 100% of nouns moves abl-MuLER from 0.021 to 0.054 while MuLER moves only from 0.203 to 0.267. <span class="meta">(Table 3 and Table 15)</span><br><span class="scope">Scope: WMT 2019 German-English submissions, nouns and verbs, BLEU as base metric, frequency varied by masking a first-letter-sorted subset of feature occurrences and ignoring the rest.</span></li>
+<li>On WinoGender sentence pairs differing only in one pronoun&#x27;s gender, BLEU scores the pair at 0.8 while MuLER&#x27;s gender feature is 1.0, the maximum penalty. A bottom-line metric can therefore look near-perfect on a dimension it entirely fails. <span class="meta">(Section 4.6)</span><br><span class="scope">Scope: WinoGender female-male pairs treated as reference-output pairs rather than as real system output; a diagnostic demonstration of the score&#x27;s sensitivity, not an evaluation of a deployed MT system.</span></li>
+<li>Applied with ROUGE to T5-small, T5-base and DistilBART summarizers, MuLER shows the concreteness score consistently lower than valence, dominance, arousal and sentiment. That matches the expectation that summaries compress text by making it more concrete. <span class="meta">(Figure 7 and Section 4.4)</span><br><span class="scope">Scope: CNN/DailyMail summarization, 3 HuggingFace models, lexicon-based sentence scorers; described by the paper as preliminary summarization experiments.</span></li>
+<li>MuLER extends to embedding-based metrics by editing BERTScore&#x27;s reference-candidate similarity matrix, and on 5 randomly sampled WMT 2020 Chinese-English submissions produces trends similar to MuLER with BLEU. <span class="meta">(Figure 9 and Appendix C)</span><br><span class="scope">Scope: bert-base-uncased BERTScore, 5 zh-en WMT 2020 submissions; the paper labels these preliminary experiments, with the ordering max &gt; min verified on 1000 randomly sampled sentences.</span></li>
+<li>MuLER can come out negative when oracle masking lowers rather than raises the base metric. The documented causes are tagger errors and cases where a word is a noun in the reference and a verb in the output. <span class="meta">(Table 7 and Appendix G)</span><br><span class="scope">Scope: Documented as edge cases with worked WMT examples; MuLER is otherwise computed only on sentences where both reference and output contain the feature, which prevents division by zero.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>A lower MuLER score is better, not worse: MuLER measures the gain the system still leaves available on a feature, so 0 means nothing to improve and 1 means total failure on that feature.</li>
+<li>MuLER is not an independent measure of feature accuracy: it inherits the base metric&#x27;s blind spots, so where BLEU or ROUGE is invariant to a trait MuLER will be too, and it is only as reliable as the tagger or lexicon used to detect the feature.</li>
+<li>A low MuLER score does not mean the masked span itself was translated correctly. The manual analysis found many cases where the feature span matched the reference in both systems and the difference lay in the surrounding context.</li>
+<li>MuLER is not meant for comparing systems of wildly different overall quality; the paper argues the comparison is informative mainly for systems of roughly similar overall performance.</li>
+<li>The finding that nouns and verbs are hard to translate is about relative MuLER penalties on WMT submissions into English, not a claim that MT systems mistranslate most nouns and verbs.</li>
+<li>The summarization and BERTScore results are explicitly preliminary in the paper: 3 CNN/DailyMail models and 5 zh-en WMT 2020 submissions respectively, not a broad evaluation of either setting.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>oracle masking</em></dt><dd>Replacing every span carrying a feature with the same mask token in both the reference and the system output, so the metric behaves as if the system had translated that feature perfectly.</dd>
+<dt><em>anti-oracle masking</em></dt><dd>Replacing spans carrying a feature with different mask tokens in the reference and in the output, destroying the correspondence and so simulating a system that gets the feature entirely wrong.</dd>
+<dt><em>MuLER score</em></dt><dd>The oracle-masked metric score minus the unmasked score, divided by the oracle minus anti-oracle difference; a unitless number where lower means better performance on the feature.</dd>
+<dt><em>abl-MuLER</em></dt><dd>An ablated version of the MuLER score consisting of its numerator only, without the oracle-minus-anti-oracle normalization.</dd>
+<dt><em>discrepancy breakdown</em></dt><dd>A triple of add, hit and miss counts recording how often a feature appears more, equally or fewer times in the output than in the reference, covering over- and under-generation that the MuLER score itself ignores.</dd>
+<dt><em>indices-BLEU</em></dt><dd>BLEU computed only over the sentences in which the feature of interest appears in both the reference and the system output.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/conll/KaridiCPA23,
-author       = {Taelin Karidi and
+<pre>@inproceedings{karidi2023muler,
+  author       = {Taelin Karidi and
                   Leshem Choshen and
                   Gal Patel and
                   Omri Abend},

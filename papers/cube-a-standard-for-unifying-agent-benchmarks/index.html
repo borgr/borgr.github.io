@@ -29,11 +29,11 @@
   <meta name="citation_author" content="Alexandre Drouin">
   <meta name="citation_author" content="Siva Reddy">
   <meta name="citation_author" content="Tao Yu">
-  <meta name="citation_author" content="Yung-Cheng Su">
+  <meta name="citation_author" content="Yu Su">
   <meta name="citation_author" content="Graham Neubig">
-  <meta name="citation_author" content="D. Song">
+  <meta name="citation_author" content="Dawn Song">
   <meta name="citation_publication_date" content="2026">
-  <meta name="citation_doi" content="10.48550/arXiv.2603.15798">
+  <meta name="citation_doi" content="10.48550/ARXIV.2603.15798">
   <meta name="citation_arxiv_id" content="2603.15798">
   <meta name="citation_abstract" content="The proliferation of agent benchmarks has created critical fragmentation that threatens research productivity. Each new benchmark requires substantial custom integration, creating an&quot;integration tax&quot;that limits comprehensive evaluation. We propose CUBE (Common Unified Benchmark Environments), a universal protocol standard built on MCP and Gym that allows benchmarks to be wrapped once and used everywhere. By separating task, benchmark, package, and registry concerns into distinct API layers, CUBE enables any compliant platform to access any compliant benchmark for evaluation, RL training, or data generation without custom integration. We call on the community to contribute to the development of this standard before platform-specific implementations deepen fragmentation as benchmark production accelerates through 2026.">
   <script type="application/ld+json">
@@ -139,7 +139,7 @@
     },
     {
       "@type": "Person",
-      "name": "Yung-Cheng Su"
+      "name": "Yu Su"
     },
     {
       "@type": "Person",
@@ -147,25 +147,330 @@
     },
     {
       "@type": "Person",
-      "name": "D. Song"
+      "name": "Dawn Song"
     }
   ],
   "isAccessibleForFree": true,
   "datePublished": "2026",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "arXiv.org"
+    "name": "arXiv"
   },
-  "identifier": "https://doi.org/10.48550/arXiv.2603.15798",
+  "identifier": "https://doi.org/10.48550/ARXIV.2603.15798",
   "abstract": "The proliferation of agent benchmarks has created critical fragmentation that threatens research productivity. Each new benchmark requires substantial custom integration, creating an\"integration tax\"that limits comprehensive evaluation. We propose CUBE (Common Unified Benchmark Environments), a universal protocol standard built on MCP and Gym that allows benchmarks to be wrapped once and used everywhere. By separating task, benchmark, package, and registry concerns into distinct API layers, CUBE enables any compliant platform to access any compliant benchmark for evaluation, RL training, or data generation without custom integration. We call on the community to contribute to the development of this standard before platform-specific implementations deepen fragmentation as benchmark production accelerates through 2026.",
+  "description": "CUBE is a proposed protocol standard fusing MCP tool calls with Gym-style reset/step/evaluate semantics, splitting task, benchmark, package and registry concerns into separate API layers so an agent benchmark is wrapped once and usable by any compliant evaluation or RL-training platform.",
+  "codeRepository": "https://github.com/The-AI-Alliance/cube-standard",
   "sameAs": [
     "https://arxiv.org/abs/2603.15798",
     "https://arxiv.org/html/2603.15798",
     "https://arxiv.org/pdf/2603.15798",
-    "https://doi.org/10.48550/arXiv.2603.15798",
+    "https://docs.google.com/forms/d/e/1FAIpQLSddMFyRXZJPpD0I2K27OEmIPUpj57w--u2NuMscrjNlkqy8rQ/viewform",
+    "https://doi.org/10.48550/ARXIV.2603.15798",
+    "https://github.com/The-AI-Alliance/cube-harness",
+    "https://github.com/The-AI-Alliance/cube-standard",
     "https://huggingface.co/papers/2603.15798",
+    "https://the-ai-alliance.github.io/cube-standard/",
     "https://www.alphaxiv.org/abs/2603.15798",
     "https://www.semanticscholar.org/paper/286579599"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "CUBE is a position paper naming the \"integration tax\" as the bottleneck that limits which labs can evaluate agents broadly. The tax is the per-benchmark custom wrapper work that N agents against M benchmarks demands, and CUBE's proposed fix is a single benchmark-side interface contract.",
+      "description": "Holds for: A position paper from March 2026 arguing for a standard; it reports no agent accuracy results and no measured reduction in engineering effort. Concurrent with AgentBeats' Agentified Agent Assessment paradigm, which shares the motivation but differs in scope and design."
+    },
+    {
+      "@type": "Thing",
+      "name": "Over 300 agentic benchmarks exist, many of them innovative but largely unknown because they are too difficult to set up. CUBE's authors forecast that number to double by the end of 2026.",
+      "description": "Holds for: A community count and an authors' projection as of March 2026, not a systematic survey with an enumerated list; the doubling is attributed to coding-agent and RL post-training activity."
+    },
+    {
+      "@type": "Thing",
+      "name": "CUBE separates agent-benchmark integration into 4 distinct API layers: task-level interaction, benchmark-level discovery and spawning, package-level installation and parallelization, and a registry-level metadata catalog. A benchmark author implements Python classes once and CUBE generates the RPC layer automatically.",
+      "description": "Holds for: Describes the proposed contract as of the v1 draft; the reference implementation is labelled alpha and interfaces may change. The layer split is argued on design grounds, not validated by a user study or an integration-effort measurement."
+    },
+    {
+      "@type": "Thing",
+      "name": "CUBE's task-level API keeps MCP's tools/list, tools/call, resources/list and resources/read unchanged, and adds cube/evaluate, cube/reset, cube/step, cube/close and cube/privileged_info. The result is a superset from which both plain MCP and plain Gym can be recovered, plus a non-blocking async-Gym pattern.",
+      "description": "Holds for: MCP is chosen for actions because its non-blocking tools/call and tool-signature discovery suit benchmarks such as ARE and GAIA-2 that require agents to coordinate long-running operations; the traditional blocking Gym step function cannot express those patterns."
+    },
+    {
+      "@type": "Thing",
+      "name": "CUBE's benchmark-level layer handles benchmarks whose infrastructure is shared across tasks, such as WebArena's persistent GitLab, e-commerce and forum micro-internet or OSWorld's full desktop OS. Those resources are initialized once in Benchmark.setup() and each spawned task receives a RuntimeContext.",
+      "description": "Holds for: OpenEnv requires the user to provision shared infrastructure externally via environment variables, and Harbor's per-task container model has no cross-task shared-infrastructure lifecycle, which is reflected in its adapter catalogue excluding WebArena and OSWorld."
+    },
+    {
+      "@type": "Thing",
+      "name": "CUBE standardizes an optional info field carrying privileged information at both task and step level, such as the evaluation function's source code, ground-truth answers, or summaries of internal environment state. Its stated purposes are better LLM-judge failure diagnosis and privileged policy distillation during training.",
+      "description": "Holds for: The field is curated by benchmark designers and optional, so its content varies by benchmark; the paper motivates it from documented LLM-judge limitations but reports no measurement of judge accuracy with versus without it."
+    },
+    {
+      "@type": "Thing",
+      "name": "Every CUBE package must expose get_debug_task_configs() and make_debug_agent(task_id), a scripted agent guaranteed to solve a debug task. Any consumer can then run a full episode end-to-end and assert the reward reaches 1.0 without calling a live language model.",
+      "description": "Holds for: Makes benchmarks testable in standard CI pipelines; it checks that the harness plumbing and reward path work, not that the benchmark's task difficulty or evaluation logic is well designed."
+    },
+    {
+      "@type": "Thing",
+      "name": "The CUBE Registry indexes metadata only and hosts no benchmark code or data, pointing at PyPI via a package field. The recorded metadata covers runtime type (docker, apptainer, vm, docker-root, docker-in-docker, live), hardware needs, task count, separate package and benchmark licenses, and a content notice for cloned or copyrighted material.",
+      "description": "Holds for: Registration triggers a GitHub compliance-verification job; the design intent is that authors retain control of distribution and that researchers can filter out benchmarks incompatible with their infrastructure before installing anything."
+    },
+    {
+      "@type": "Thing",
+      "name": "Four popular agent benchmarks disagree on nearly every infrastructure axis: SWE-bench uses per-task Docker containers, WebArena and OSWorld need benchmark-level VMs, and GAIA ships static files with no tools at all. OSWorld's scaling bottleneck is 20 GB+ of RAM per agent plus heavy disk I/O for state resets.",
+      "description": "Holds for: A 4-benchmark comparison (WebArena, SWE-bench, OSWorld, GAIA) chosen to illustrate heterogeneity in hosting format, action space, integration effort and scaling bottleneck; not an exhaustive benchmark survey."
+    },
+    {
+      "@type": "Thing",
+      "name": "CUBE had 9 wrapped CUBEs at the time of writing, an explicitly early-stage catalogue. The compared platforms list 40+ environments in NeMo Gym, 250+ benchmarks across 17 domains in AgentBeats, 30+ in OpenEnv and 46+ adapters in Harbor.",
+      "description": "Holds for: Counts as documented in March 2026, which move quickly. CUBE is the only entry in the comparison whose stated coverage includes shared-infrastructure and VM-based benchmarks."
+    },
+    {
+      "@type": "Thing",
+      "name": "CUBE positions existing agent platforms as complementary rather than rivals, and targets the benchmark packaging and infrastructure lifecycle layer that none of them specifies. Each compared platform evolved from its own niche: NeMo Gym from RL training, AgentBeats from competition infrastructure, OpenEnv from the HuggingFace ecosystem, Harbor from SWE evaluation and HAL from academic benchmarking.",
+      "description": "Holds for: Platform features and documentation available in March 2026. The paper states an AgentBeats judge agent could consume a CUBE benchmark through a thin connector, but reports no such connector as built."
+    },
+    {
+      "@type": "Thing",
+      "name": "CUBE's authors state explicitly that their design is not claimed to be optimal, only that some standard is necessary. Objections they list a critic might prefer include explicit async primitives, fewer abstraction layers, pure Gym without MCP, and message-passing over RPC.",
+      "description": "Holds for: A draft standard put forward for community feedback in March 2026; the listed alternative designs are not evaluated against CUBE's own."
+    },
+    {
+      "@type": "Thing",
+      "name": "CUBE's adoption plan addresses a two-sided deadlock in which platforms wait for compliant benchmarks while benchmark authors wait for platform demand. The plan recruits early platform supporters to build reference connectors for NVIDIA NeMo Gym and OpenEnv, and targets critical mass by the end of 2026.",
+      "description": "Holds for: A plan and a target date stated in March 2026, not an achieved outcome; the initial corpus spans web navigation, software engineering and desktop environments, the reference implementation is alpha and the connectors are proposed deliverables."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/#faq",
+  "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/",
+  "name": "Questions answered by CUBE: A Standard for Unifying Agent Benchmarks",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can I run one agent across many different agent benchmarks without writing a wrapper for each?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CUBE is a position paper naming the \"integration tax\" as the bottleneck that limits which labs can evaluate agents broadly. The tax is the per-benchmark custom wrapper work that N agents against M benchmarks demands, and CUBE's proposed fix is a single benchmark-side interface contract. Holds for: A position paper from March 2026 arguing for a standard; it reports no agent accuracy results and no measured reduction in engineering effort. Concurrent with AgentBeats' Agentified Agent Assessment paradigm, which shares the motivation but differs in scope and design.\n\nCUBE separates agent-benchmark integration into 4 distinct API layers: task-level interaction, benchmark-level discovery and spawning, package-level installation and parallelization, and a registry-level metadata catalog. A benchmark author implements Python classes once and CUBE generates the RPC layer automatically. Holds for: Describes the proposed contract as of the v1 draft; the reference implementation is labelled alpha and interfaces may change. The layer split is argued on design grounds, not validated by a user study or an integration-effort measurement.\n\nCUBE's task-level API keeps MCP's tools/list, tools/call, resources/list and resources/read unchanged, and adds cube/evaluate, cube/reset, cube/step, cube/close and cube/privileged_info. The result is a superset from which both plain MCP and plain Gym can be recovered, plus a non-blocking async-Gym pattern. Holds for: MCP is chosen for actions because its non-blocking tools/call and tool-signature discovery suit benchmarks such as ARE and GAIA-2 that require agents to coordinate long-running operations; the traditional blocking Gym step function cannot express those patterns.",
+        "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/"
+      },
+      "alternateName": [
+        "Is there a standard interface for agent benchmarks so they work on any evaluation platform?",
+        "What does CUBE propose for unifying agent benchmarks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about fragmentation in agent benchmark infrastructure?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CUBE is a position paper naming the \"integration tax\" as the bottleneck that limits which labs can evaluate agents broadly. The tax is the per-benchmark custom wrapper work that N agents against M benchmarks demands, and CUBE's proposed fix is a single benchmark-side interface contract. Holds for: A position paper from March 2026 arguing for a standard; it reports no agent accuracy results and no measured reduction in engineering effort. Concurrent with AgentBeats' Agentified Agent Assessment paradigm, which shares the motivation but differs in scope and design.\n\nCUBE positions existing agent platforms as complementary rather than rivals, and targets the benchmark packaging and infrastructure lifecycle layer that none of them specifies. Each compared platform evolved from its own niche: NeMo Gym from RL training, AgentBeats from competition infrastructure, OpenEnv from the HuggingFace ecosystem, Harbor from SWE evaluation and HAL from academic benchmarking. Holds for: Platform features and documentation available in March 2026. The paper states an AgentBeats judge agent could consume a CUBE benchmark through a thin connector, but reports no such connector as built.",
+        "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/"
+      },
+      "alternateName": [
+        "Which paper argues for a common standard for agent evaluation environments?",
+        "Where should I start reading about the integration burden of agentic benchmarks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many agentic benchmarks are there right now?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Over 300 agentic benchmarks exist, many of them innovative but largely unknown because they are too difficult to set up. CUBE's authors forecast that number to double by the end of 2026. Holds for: A community count and an authors' projection as of March 2026, not a systematic survey with an enumerated list; the doubling is attributed to coding-agent and RL post-training activity.",
+        "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/"
+      },
+      "alternateName": [
+        "Is the number of agent benchmarks expected to grow?",
+        "How many agent benchmarks does the CUBE position paper count?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why combine MCP with the Gym API instead of just using Gym?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CUBE's task-level API keeps MCP's tools/list, tools/call, resources/list and resources/read unchanged, and adds cube/evaluate, cube/reset, cube/step, cube/close and cube/privileged_info. The result is a superset from which both plain MCP and plain Gym can be recovered, plus a non-blocking async-Gym pattern. Holds for: MCP is chosen for actions because its non-blocking tools/call and tool-signature discovery suit benchmarks such as ARE and GAIA-2 that require agents to coordinate long-running operations; the traditional blocking Gym step function cannot express those patterns.",
+        "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/"
+      },
+      "alternateName": [
+        "How does CUBE handle asynchronous, non-blocking tool calls that a blocking step function cannot?",
+        "What methods does the CUBE task-level API define?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How do you support benchmarks like WebArena or OSWorld that need one shared server or VM across all tasks?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CUBE's benchmark-level layer handles benchmarks whose infrastructure is shared across tasks, such as WebArena's persistent GitLab, e-commerce and forum micro-internet or OSWorld's full desktop OS. Those resources are initialized once in Benchmark.setup() and each spawned task receives a RuntimeContext. Holds for: OpenEnv requires the user to provision shared infrastructure externally via environment variables, and Harbor's per-task container model has no cross-task shared-infrastructure lifecycle, which is reflected in its adapter catalogue excluding WebArena and OSWorld.\n\nFour popular agent benchmarks disagree on nearly every infrastructure axis: SWE-bench uses per-task Docker containers, WebArena and OSWorld need benchmark-level VMs, and GAIA ships static files with no tools at all. OSWorld's scaling bottleneck is 20 GB+ of RAM per agent plus heavy disk I/O for state resets. Holds for: A 4-benchmark comparison (WebArena, SWE-bench, OSWorld, GAIA) chosen to illustrate heterogeneity in hosting format, action space, integration effort and scaling bottleneck; not an exhaustive benchmark survey.",
+        "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/"
+      },
+      "alternateName": [
+        "Which agent frameworks can manage shared infrastructure spanning multiple tasks?",
+        "Why do OpenEnv and Harbor struggle with WebArena and OSWorld?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why is integrating agent benchmarks so much work — what actually differs between them?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Four popular agent benchmarks disagree on nearly every infrastructure axis: SWE-bench uses per-task Docker containers, WebArena and OSWorld need benchmark-level VMs, and GAIA ships static files with no tools at all. OSWorld's scaling bottleneck is 20 GB+ of RAM per agent plus heavy disk I/O for state resets. Holds for: A 4-benchmark comparison (WebArena, SWE-bench, OSWorld, GAIA) chosen to illustrate heterogeneity in hosting format, action space, integration effort and scaling bottleneck; not an exhaustive benchmark survey.",
+        "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/"
+      },
+      "alternateName": [
+        "How much RAM does OSWorld need per agent?",
+        "What are the infrastructure differences between WebArena, SWE-bench, OSWorld and GAIA?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can an evaluation harness get ground-truth answers or the grading code to help an LLM judge?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CUBE standardizes an optional info field carrying privileged information at both task and step level, such as the evaluation function's source code, ground-truth answers, or summaries of internal environment state. Its stated purposes are better LLM-judge failure diagnosis and privileged policy distillation during training. Holds for: The field is curated by benchmark designers and optional, so its content varies by benchmark; the paper motivates it from documented LLM-judge limitations but reports no measurement of judge accuracy with versus without it.",
+        "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/"
+      },
+      "alternateName": [
+        "What is privileged information in the CUBE benchmark protocol?",
+        "How can judge-based failure analysis be made more accurate on agent benchmarks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How do I test that a wrapped agent benchmark actually works without paying for LLM calls?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every CUBE package must expose get_debug_task_configs() and make_debug_agent(task_id), a scripted agent guaranteed to solve a debug task. Any consumer can then run a full episode end-to-end and assert the reward reaches 1.0 without calling a live language model. Holds for: Makes benchmarks testable in standard CI pipelines; it checks that the harness plumbing and reward path work, not that the benchmark's task difficulty or evaluation logic is well designed.",
+        "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/"
+      },
+      "alternateName": [
+        "Can agent benchmarks be checked in a CI pipeline?",
+        "What is a CUBE debug agent for?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How would I discover agent benchmarks that fit my available GPU, RAM and container runtime?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The CUBE Registry indexes metadata only and hosts no benchmark code or data, pointing at PyPI via a package field. The recorded metadata covers runtime type (docker, apptainer, vm, docker-root, docker-in-docker, live), hardware needs, task count, separate package and benchmark licenses, and a content notice for cloned or copyrighted material. Holds for: Registration triggers a GitHub compliance-verification job; the design intent is that authors retain control of distribution and that researchers can filter out benchmarks incompatible with their infrastructure before installing anything.",
+        "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/"
+      },
+      "alternateName": [
+        "Does the CUBE registry host benchmark code or data?",
+        "What metadata does a registered CUBE benchmark have to publish?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How does CUBE compare with NeMo Gym, OpenEnv, Harbor, AgentBeats and HAL?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CUBE had 9 wrapped CUBEs at the time of writing, an explicitly early-stage catalogue. The compared platforms list 40+ environments in NeMo Gym, 250+ benchmarks across 17 domains in AgentBeats, 30+ in OpenEnv and 46+ adapters in Harbor. Holds for: Counts as documented in March 2026, which move quickly. CUBE is the only entry in the comparison whose stated coverage includes shared-infrastructure and VM-based benchmarks.\n\nCUBE positions existing agent platforms as complementary rather than rivals, and targets the benchmark packaging and infrastructure lifecycle layer that none of them specifies. Each compared platform evolved from its own niche: NeMo Gym from RL training, AgentBeats from competition infrastructure, OpenEnv from the HuggingFace ecosystem, Harbor from SWE evaluation and HAL from academic benchmarking. Holds for: Platform features and documentation available in March 2026. The paper states an AgentBeats judge agent could consume a CUBE benchmark through a thin connector, but reports no such connector as built.",
+        "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/"
+      },
+      "alternateName": [
+        "How many benchmarks does CUBE currently wrap compared with other agent platforms?",
+        "Which agent benchmark platform wraps the most environments — NeMo Gym, OpenEnv, Harbor or AgentBeats?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do the CUBE authors claim their API design is the right one?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CUBE's authors state explicitly that their design is not claimed to be optimal, only that some standard is necessary. Objections they list a critic might prefer include explicit async primitives, fewer abstraction layers, pure Gym without MCP, and message-passing over RPC. Holds for: A draft standard put forward for community feedback in March 2026; the listed alternative designs are not evaluated against CUBE's own.",
+        "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/"
+      },
+      "alternateName": [
+        "What objections to the CUBE design do its own authors acknowledge?",
+        "Is there an argument against adding a new agent benchmark standard at all?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How does a new benchmark standard get adopted when platforms and benchmark authors each wait for the other?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CUBE's adoption plan addresses a two-sided deadlock in which platforms wait for compliant benchmarks while benchmark authors wait for platform demand. The plan recruits early platform supporters to build reference connectors for NVIDIA NeMo Gym and OpenEnv, and targets critical mass by the end of 2026. Holds for: A plan and a target date stated in March 2026, not an achieved outcome; the initial corpus spans web navigation, software engineering and desktop environments, the reference implementation is alpha and the connectors are proposed deliverables.",
+        "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/"
+      },
+      "alternateName": [
+        "What is the plan for getting CUBE adopted, and by when?",
+        "Which platforms are getting CUBE reference connectors?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/#terms",
+  "url": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/",
+  "name": "Terminology in CUBE: A Standard for Unifying Agent Benchmarks",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Integration Tax",
+      "description": "The redundant engineering cost of writing a separate driver or wrapper for every agent-benchmark pair, so that evaluating one agent on five benchmarks means five unique wrappers, and switching evaluation frameworks means starting over.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "CUBE",
+      "description": "Common Unified Benchmark Environments: a protocol standard defining task-, benchmark-, package- and registry-level interfaces that an agent benchmark implements once to become usable by any compliant evaluation or RL-training platform.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "a CUBE",
+      "description": "A single benchmark wrapped to comply with the CUBE standard, distributed as a Python package and indexed in the CUBE registry.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "async-Gym API",
+      "description": "An interaction pattern obtained by fusing MCP's non-blocking tools/call with Gym-style reward and termination semantics, letting an agent issue multiple concurrent long-running tool calls instead of waiting inside a blocking step function.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "privileged information",
+      "description": "Optional context exposed to the evaluation harness but not the agent — evaluation function source code, ground-truth answers, or summaries of internal environment state — used for judge-based failure diagnosis and privileged policy distillation.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "debug agent",
+      "description": "A scripted, non-LLM agent shipped with a benchmark package that is guaranteed to solve a designated debug task, so a full episode can be run in CI and asserted to reach a reward of 1.0.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "compliance badge",
+      "description": "A registry-visible marker earned by a benchmark that passes a stress suite verifying idempotent resets, isolation between concurrent task instances, and resource usage within declared bounds.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/cube-a-standard-for-unifying-agent-benchmarks/#terms"
+    }
   ]
 }
   </script>
@@ -176,6 +481,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -189,10 +495,111 @@
 </head>
 <body>
 <h1>CUBE: A Standard for Unifying Agent Benchmarks</h1>
-<p class="meta">Alexandre Lacoste, Nicolas Gontier, Oleh Shliazhko, Aman Jaiswal, Kusha Sareen, Shailesh Nanisetty, Joan Cabezas, Manuel Del Verme, Omar G. Younis, Simone Baratta, Matteo Avalle, Imene Kerboua, Xing Han Lù, Elron Bandel, Michal Shmueli-Scheuer, Asaf Yehudai, Leshem Choshen, Jonathan Lebensold, Sean Hughes, Massimo Caccia, Alexandre Drouin, Siva Reddy, Tao Yu, Yung-Cheng Su, Graham Neubig, D. Song · arXiv.org · 2026</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2603.15798">arXiv</a></li><li><a href="https://arxiv.org/pdf/2603.15798">PDF</a></li><li><a href="https://arxiv.org/html/2603.15798">HTML</a></li><li><a href="https://huggingface.co/papers/2603.15798">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2603.15798">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2603.15798">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/286579599">Semantic Scholar</a></li></ul>
+<p class="sub">Common Unified Benchmark Environments — a wrap-once protocol so any agent benchmark runs on any evaluation or RL platform</p>
+<p class="meta">Alexandre Lacoste, Nicolas Gontier, Oleh Shliazhko, Aman Jaiswal, Kusha Sareen, Shailesh Nanisetty, Joan Cabezas, Manuel Del Verme, Omar G. Younis, Simone Baratta, Matteo Avalle, Imene Kerboua, Xing Han Lù, Elron Bandel, Michal Shmueli-Scheuer, Asaf Yehudai, Leshem Choshen, Jonathan Lebensold, Sean Hughes, Massimo Caccia, Alexandre Drouin, Siva Reddy, Tao Yu, Yu Su, Graham Neubig, Dawn Song · arXiv · 2026</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2603.15798">arXiv</a></li><li><a href="https://arxiv.org/pdf/2603.15798">PDF</a></li><li><a href="https://arxiv.org/html/2603.15798">HTML</a></li><li><a href="https://huggingface.co/papers/2603.15798">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2603.15798">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2603.15798">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/286579599">Semantic Scholar</a></li><li><a href="https://github.com/The-AI-Alliance/cube-standard">Code</a></li><li><a href="https://github.com/The-AI-Alliance/cube-harness">harness</a></li><li><a href="https://the-ai-alliance.github.io/cube-standard/">docs</a></li><li><a href="https://docs.google.com/forms/d/e/1FAIpQLSddMFyRXZJPpD0I2K27OEmIPUpj57w--u2NuMscrjNlkqy8rQ/viewform">benchmark-contribution-form</a></li></ul>
+<h2>In one sentence</h2>
+<p>CUBE is a proposed protocol standard fusing MCP tool calls with Gym-style reset/step/evaluate semantics, splitting task, benchmark, package and registry concerns into separate API layers so an agent benchmark is wrapped once and usable by any compliant evaluation or RL-training platform.</p>
 <h2>Abstract</h2>
 <p>The proliferation of agent benchmarks has created critical fragmentation that threatens research productivity. Each new benchmark requires substantial custom integration, creating an&quot;integration tax&quot;that limits comprehensive evaluation. We propose CUBE (Common Unified Benchmark Environments), a universal protocol standard built on MCP and Gym that allows benchmarks to be wrapped once and used everywhere. By separating task, benchmark, package, and registry concerns into distinct API layers, CUBE enables any compliant platform to access any compliant benchmark for evaluation, RL training, or data generation without custom integration. We call on the community to contribute to the development of this standard before platform-specific implementations deepen fragmentation as benchmark production accelerates through 2026.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How can I run one agent across many different agent benchmarks without writing a wrapper for each?</dt>
+<dt>Is there a standard interface for agent benchmarks so they work on any evaluation platform?</dt>
+<dt>What does CUBE propose for unifying agent benchmarks?</dt>
+<dd>CUBE is a position paper naming the &quot;integration tax&quot; as the bottleneck that limits which labs can evaluate agents broadly. The tax is the per-benchmark custom wrapper work that N agents against M benchmarks demands, and CUBE&#x27;s proposed fix is a single benchmark-side interface contract.<br><span class="scope">Holds for: A position paper from March 2026 arguing for a standard; it reports no agent accuracy results and no measured reduction in engineering effort. Concurrent with AgentBeats&#x27; Agentified Agent Assessment paradigm, which shares the motivation but differs in scope and design.</span></dd>
+<dd>CUBE separates agent-benchmark integration into 4 distinct API layers: task-level interaction, benchmark-level discovery and spawning, package-level installation and parallelization, and a registry-level metadata catalog. A benchmark author implements Python classes once and CUBE generates the RPC layer automatically.<br><span class="scope">Holds for: Describes the proposed contract as of the v1 draft; the reference implementation is labelled alpha and interfaces may change. The layer split is argued on design grounds, not validated by a user study or an integration-effort measurement.</span></dd>
+<dd>CUBE&#x27;s task-level API keeps MCP&#x27;s tools/list, tools/call, resources/list and resources/read unchanged, and adds cube/evaluate, cube/reset, cube/step, cube/close and cube/privileged_info. The result is a superset from which both plain MCP and plain Gym can be recovered, plus a non-blocking async-Gym pattern.<br><span class="scope">Holds for: MCP is chosen for actions because its non-blocking tools/call and tool-signature discovery suit benchmarks such as ARE and GAIA-2 that require agents to coordinate long-running operations; the traditional blocking Gym step function cannot express those patterns.</span></dd>
+<dt>What should I read about fragmentation in agent benchmark infrastructure?</dt>
+<dt>Which paper argues for a common standard for agent evaluation environments?</dt>
+<dt>Where should I start reading about the integration burden of agentic benchmarks?</dt>
+<dd>CUBE is a position paper naming the &quot;integration tax&quot; as the bottleneck that limits which labs can evaluate agents broadly. The tax is the per-benchmark custom wrapper work that N agents against M benchmarks demands, and CUBE&#x27;s proposed fix is a single benchmark-side interface contract.<br><span class="scope">Holds for: A position paper from March 2026 arguing for a standard; it reports no agent accuracy results and no measured reduction in engineering effort. Concurrent with AgentBeats&#x27; Agentified Agent Assessment paradigm, which shares the motivation but differs in scope and design.</span></dd>
+<dd>CUBE positions existing agent platforms as complementary rather than rivals, and targets the benchmark packaging and infrastructure lifecycle layer that none of them specifies. Each compared platform evolved from its own niche: NeMo Gym from RL training, AgentBeats from competition infrastructure, OpenEnv from the HuggingFace ecosystem, Harbor from SWE evaluation and HAL from academic benchmarking.<br><span class="scope">Holds for: Platform features and documentation available in March 2026. The paper states an AgentBeats judge agent could consume a CUBE benchmark through a thin connector, but reports no such connector as built.</span></dd>
+<dt>How many agentic benchmarks are there right now?</dt>
+<dt>Is the number of agent benchmarks expected to grow?</dt>
+<dt>How many agent benchmarks does the CUBE position paper count?</dt>
+<dd>Over 300 agentic benchmarks exist, many of them innovative but largely unknown because they are too difficult to set up. CUBE&#x27;s authors forecast that number to double by the end of 2026.<br><span class="scope">Holds for: A community count and an authors&#x27; projection as of March 2026, not a systematic survey with an enumerated list; the doubling is attributed to coding-agent and RL post-training activity.</span></dd>
+<dt>Why combine MCP with the Gym API instead of just using Gym?</dt>
+<dt>How does CUBE handle asynchronous, non-blocking tool calls that a blocking step function cannot?</dt>
+<dt>What methods does the CUBE task-level API define?</dt>
+<dd>CUBE&#x27;s task-level API keeps MCP&#x27;s tools/list, tools/call, resources/list and resources/read unchanged, and adds cube/evaluate, cube/reset, cube/step, cube/close and cube/privileged_info. The result is a superset from which both plain MCP and plain Gym can be recovered, plus a non-blocking async-Gym pattern.<br><span class="scope">Holds for: MCP is chosen for actions because its non-blocking tools/call and tool-signature discovery suit benchmarks such as ARE and GAIA-2 that require agents to coordinate long-running operations; the traditional blocking Gym step function cannot express those patterns.</span></dd>
+<dt>How do you support benchmarks like WebArena or OSWorld that need one shared server or VM across all tasks?</dt>
+<dt>Which agent frameworks can manage shared infrastructure spanning multiple tasks?</dt>
+<dt>Why do OpenEnv and Harbor struggle with WebArena and OSWorld?</dt>
+<dd>CUBE&#x27;s benchmark-level layer handles benchmarks whose infrastructure is shared across tasks, such as WebArena&#x27;s persistent GitLab, e-commerce and forum micro-internet or OSWorld&#x27;s full desktop OS. Those resources are initialized once in Benchmark.setup() and each spawned task receives a RuntimeContext.<br><span class="scope">Holds for: OpenEnv requires the user to provision shared infrastructure externally via environment variables, and Harbor&#x27;s per-task container model has no cross-task shared-infrastructure lifecycle, which is reflected in its adapter catalogue excluding WebArena and OSWorld.</span></dd>
+<dd>Four popular agent benchmarks disagree on nearly every infrastructure axis: SWE-bench uses per-task Docker containers, WebArena and OSWorld need benchmark-level VMs, and GAIA ships static files with no tools at all. OSWorld&#x27;s scaling bottleneck is 20 GB+ of RAM per agent plus heavy disk I/O for state resets.<br><span class="scope">Holds for: A 4-benchmark comparison (WebArena, SWE-bench, OSWorld, GAIA) chosen to illustrate heterogeneity in hosting format, action space, integration effort and scaling bottleneck; not an exhaustive benchmark survey.</span></dd>
+<dt>Why is integrating agent benchmarks so much work — what actually differs between them?</dt>
+<dt>How much RAM does OSWorld need per agent?</dt>
+<dt>What are the infrastructure differences between WebArena, SWE-bench, OSWorld and GAIA?</dt>
+<dd>Four popular agent benchmarks disagree on nearly every infrastructure axis: SWE-bench uses per-task Docker containers, WebArena and OSWorld need benchmark-level VMs, and GAIA ships static files with no tools at all. OSWorld&#x27;s scaling bottleneck is 20 GB+ of RAM per agent plus heavy disk I/O for state resets.<br><span class="scope">Holds for: A 4-benchmark comparison (WebArena, SWE-bench, OSWorld, GAIA) chosen to illustrate heterogeneity in hosting format, action space, integration effort and scaling bottleneck; not an exhaustive benchmark survey.</span></dd>
+<dt>Can an evaluation harness get ground-truth answers or the grading code to help an LLM judge?</dt>
+<dt>What is privileged information in the CUBE benchmark protocol?</dt>
+<dt>How can judge-based failure analysis be made more accurate on agent benchmarks?</dt>
+<dd>CUBE standardizes an optional info field carrying privileged information at both task and step level, such as the evaluation function&#x27;s source code, ground-truth answers, or summaries of internal environment state. Its stated purposes are better LLM-judge failure diagnosis and privileged policy distillation during training.<br><span class="scope">Holds for: The field is curated by benchmark designers and optional, so its content varies by benchmark; the paper motivates it from documented LLM-judge limitations but reports no measurement of judge accuracy with versus without it.</span></dd>
+<dt>How do I test that a wrapped agent benchmark actually works without paying for LLM calls?</dt>
+<dt>Can agent benchmarks be checked in a CI pipeline?</dt>
+<dt>What is a CUBE debug agent for?</dt>
+<dd>Every CUBE package must expose get_debug_task_configs() and make_debug_agent(task_id), a scripted agent guaranteed to solve a debug task. Any consumer can then run a full episode end-to-end and assert the reward reaches 1.0 without calling a live language model.<br><span class="scope">Holds for: Makes benchmarks testable in standard CI pipelines; it checks that the harness plumbing and reward path work, not that the benchmark&#x27;s task difficulty or evaluation logic is well designed.</span></dd>
+<dt>How would I discover agent benchmarks that fit my available GPU, RAM and container runtime?</dt>
+<dt>Does the CUBE registry host benchmark code or data?</dt>
+<dt>What metadata does a registered CUBE benchmark have to publish?</dt>
+<dd>The CUBE Registry indexes metadata only and hosts no benchmark code or data, pointing at PyPI via a package field. The recorded metadata covers runtime type (docker, apptainer, vm, docker-root, docker-in-docker, live), hardware needs, task count, separate package and benchmark licenses, and a content notice for cloned or copyrighted material.<br><span class="scope">Holds for: Registration triggers a GitHub compliance-verification job; the design intent is that authors retain control of distribution and that researchers can filter out benchmarks incompatible with their infrastructure before installing anything.</span></dd>
+<dt>How does CUBE compare with NeMo Gym, OpenEnv, Harbor, AgentBeats and HAL?</dt>
+<dt>How many benchmarks does CUBE currently wrap compared with other agent platforms?</dt>
+<dt>Which agent benchmark platform wraps the most environments — NeMo Gym, OpenEnv, Harbor or AgentBeats?</dt>
+<dd>CUBE had 9 wrapped CUBEs at the time of writing, an explicitly early-stage catalogue. The compared platforms list 40+ environments in NeMo Gym, 250+ benchmarks across 17 domains in AgentBeats, 30+ in OpenEnv and 46+ adapters in Harbor.<br><span class="scope">Holds for: Counts as documented in March 2026, which move quickly. CUBE is the only entry in the comparison whose stated coverage includes shared-infrastructure and VM-based benchmarks.</span></dd>
+<dd>CUBE positions existing agent platforms as complementary rather than rivals, and targets the benchmark packaging and infrastructure lifecycle layer that none of them specifies. Each compared platform evolved from its own niche: NeMo Gym from RL training, AgentBeats from competition infrastructure, OpenEnv from the HuggingFace ecosystem, Harbor from SWE evaluation and HAL from academic benchmarking.<br><span class="scope">Holds for: Platform features and documentation available in March 2026. The paper states an AgentBeats judge agent could consume a CUBE benchmark through a thin connector, but reports no such connector as built.</span></dd>
+<dt>Do the CUBE authors claim their API design is the right one?</dt>
+<dt>What objections to the CUBE design do its own authors acknowledge?</dt>
+<dt>Is there an argument against adding a new agent benchmark standard at all?</dt>
+<dd>CUBE&#x27;s authors state explicitly that their design is not claimed to be optimal, only that some standard is necessary. Objections they list a critic might prefer include explicit async primitives, fewer abstraction layers, pure Gym without MCP, and message-passing over RPC.<br><span class="scope">Holds for: A draft standard put forward for community feedback in March 2026; the listed alternative designs are not evaluated against CUBE&#x27;s own.</span></dd>
+<dt>How does a new benchmark standard get adopted when platforms and benchmark authors each wait for the other?</dt>
+<dt>What is the plan for getting CUBE adopted, and by when?</dt>
+<dt>Which platforms are getting CUBE reference connectors?</dt>
+<dd>CUBE&#x27;s adoption plan addresses a two-sided deadlock in which platforms wait for compliant benchmarks while benchmark authors wait for platform demand. The plan recruits early platform supporters to build reference connectors for NVIDIA NeMo Gym and OpenEnv, and targets critical mass by the end of 2026.<br><span class="scope">Holds for: A plan and a target date stated in March 2026, not an achieved outcome; the initial corpus spans web navigation, software engineering and desktop environments, the reference implementation is alpha and the connectors are proposed deliverables.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>CUBE is a position paper naming the &quot;integration tax&quot; as the bottleneck that limits which labs can evaluate agents broadly. The tax is the per-benchmark custom wrapper work that N agents against M benchmarks demands, and CUBE&#x27;s proposed fix is a single benchmark-side interface contract.<br><span class="scope">Scope: A position paper from March 2026 arguing for a standard; it reports no agent accuracy results and no measured reduction in engineering effort. Concurrent with AgentBeats&#x27; Agentified Agent Assessment paradigm, which shares the motivation but differs in scope and design.</span></li>
+<li>Over 300 agentic benchmarks exist, many of them innovative but largely unknown because they are too difficult to set up. CUBE&#x27;s authors forecast that number to double by the end of 2026. <span class="meta">(Section 1)</span><br><span class="scope">Scope: A community count and an authors&#x27; projection as of March 2026, not a systematic survey with an enumerated list; the doubling is attributed to coding-agent and RL post-training activity.</span></li>
+<li>CUBE separates agent-benchmark integration into 4 distinct API layers: task-level interaction, benchmark-level discovery and spawning, package-level installation and parallelization, and a registry-level metadata catalog. A benchmark author implements Python classes once and CUBE generates the RPC layer automatically. <span class="meta">(Section 3)</span><br><span class="scope">Scope: Describes the proposed contract as of the v1 draft; the reference implementation is labelled alpha and interfaces may change. The layer split is argued on design grounds, not validated by a user study or an integration-effort measurement.</span></li>
+<li>CUBE&#x27;s task-level API keeps MCP&#x27;s tools/list, tools/call, resources/list and resources/read unchanged, and adds cube/evaluate, cube/reset, cube/step, cube/close and cube/privileged_info. The result is a superset from which both plain MCP and plain Gym can be recovered, plus a non-blocking async-Gym pattern. <span class="meta">(Table 2)</span><br><span class="scope">Scope: MCP is chosen for actions because its non-blocking tools/call and tool-signature discovery suit benchmarks such as ARE and GAIA-2 that require agents to coordinate long-running operations; the traditional blocking Gym step function cannot express those patterns.</span></li>
+<li>CUBE&#x27;s benchmark-level layer handles benchmarks whose infrastructure is shared across tasks, such as WebArena&#x27;s persistent GitLab, e-commerce and forum micro-internet or OSWorld&#x27;s full desktop OS. Those resources are initialized once in Benchmark.setup() and each spawned task receives a RuntimeContext. <span class="meta">(Section 3.2 and Section 3.3)</span><br><span class="scope">Scope: OpenEnv requires the user to provision shared infrastructure externally via environment variables, and Harbor&#x27;s per-task container model has no cross-task shared-infrastructure lifecycle, which is reflected in its adapter catalogue excluding WebArena and OSWorld.</span></li>
+<li>CUBE standardizes an optional info field carrying privileged information at both task and step level, such as the evaluation function&#x27;s source code, ground-truth answers, or summaries of internal environment state. Its stated purposes are better LLM-judge failure diagnosis and privileged policy distillation during training. <span class="meta">(Table 2 and Section 3.1)</span><br><span class="scope">Scope: The field is curated by benchmark designers and optional, so its content varies by benchmark; the paper motivates it from documented LLM-judge limitations but reports no measurement of judge accuracy with versus without it.</span></li>
+<li>Every CUBE package must expose get_debug_task_configs() and make_debug_agent(task_id), a scripted agent guaranteed to solve a debug task. Any consumer can then run a full episode end-to-end and assert the reward reaches 1.0 without calling a live language model. <span class="meta">(Section 3.3)</span><br><span class="scope">Scope: Makes benchmarks testable in standard CI pipelines; it checks that the harness plumbing and reward path work, not that the benchmark&#x27;s task difficulty or evaluation logic is well designed.</span></li>
+<li>The CUBE Registry indexes metadata only and hosts no benchmark code or data, pointing at PyPI via a package field. The recorded metadata covers runtime type (docker, apptainer, vm, docker-root, docker-in-docker, live), hardware needs, task count, separate package and benchmark licenses, and a content notice for cloned or copyrighted material. <span class="meta">(Table 4 and Section 3.4)</span><br><span class="scope">Scope: Registration triggers a GitHub compliance-verification job; the design intent is that authors retain control of distribution and that researchers can filter out benchmarks incompatible with their infrastructure before installing anything.</span></li>
+<li>Four popular agent benchmarks disagree on nearly every infrastructure axis: SWE-bench uses per-task Docker containers, WebArena and OSWorld need benchmark-level VMs, and GAIA ships static files with no tools at all. OSWorld&#x27;s scaling bottleneck is 20 GB+ of RAM per agent plus heavy disk I/O for state resets. <span class="meta">(Table 1)</span><br><span class="scope">Scope: A 4-benchmark comparison (WebArena, SWE-bench, OSWorld, GAIA) chosen to illustrate heterogeneity in hosting format, action space, integration effort and scaling bottleneck; not an exhaustive benchmark survey.</span></li>
+<li>CUBE had 9 wrapped CUBEs at the time of writing, an explicitly early-stage catalogue. The compared platforms list 40+ environments in NeMo Gym, 250+ benchmarks across 17 domains in AgentBeats, 30+ in OpenEnv and 46+ adapters in Harbor. <span class="meta">(Table 5)</span><br><span class="scope">Scope: Counts as documented in March 2026, which move quickly. CUBE is the only entry in the comparison whose stated coverage includes shared-infrastructure and VM-based benchmarks.</span></li>
+<li>CUBE positions existing agent platforms as complementary rather than rivals, and targets the benchmark packaging and infrastructure lifecycle layer that none of them specifies. Each compared platform evolved from its own niche: NeMo Gym from RL training, AgentBeats from competition infrastructure, OpenEnv from the HuggingFace ecosystem, Harbor from SWE evaluation and HAL from academic benchmarking. <span class="meta">(Section 4.3 and Table 5)</span><br><span class="scope">Scope: Platform features and documentation available in March 2026. The paper states an AgentBeats judge agent could consume a CUBE benchmark through a thin connector, but reports no such connector as built.</span></li>
+<li>CUBE&#x27;s authors state explicitly that their design is not claimed to be optimal, only that some standard is necessary. Objections they list a critic might prefer include explicit async primitives, fewer abstraction layers, pure Gym without MCP, and message-passing over RPC. <span class="meta">(Section 5)</span><br><span class="scope">Scope: A draft standard put forward for community feedback in March 2026; the listed alternative designs are not evaluated against CUBE&#x27;s own.</span></li>
+<li>CUBE&#x27;s adoption plan addresses a two-sided deadlock in which platforms wait for compliant benchmarks while benchmark authors wait for platform demand. The plan recruits early platform supporters to build reference connectors for NVIDIA NeMo Gym and OpenEnv, and targets critical mass by the end of 2026. <span class="meta">(Section 3.6)</span><br><span class="scope">Scope: A plan and a target date stated in March 2026, not an achieved outcome; the initial corpus spans web navigation, software engineering and desktop environments, the reference implementation is alpha and the connectors are proposed deliverables.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>CUBE is a protocol specification plus a reference implementation, not a benchmark suite: the paper reports no agent scores and, at the time of writing, only 9 wrapped benchmarks.</li>
+<li>The claim that CUBE reduces integration work is an argument from design, not a measurement — the paper reports no experiment quantifying engineering time saved versus writing per-benchmark wrappers.</li>
+<li>CUBE is not a replacement for NeMo Gym, OpenEnv, Harbor or AgentBeats; it targets the benchmark packaging and infrastructure-lifecycle layer and expects those platforms to consume CUBE benchmarks through thin connectors.</li>
+<li>Building on MCP does not mean CUBE is only for tool-calling LLM agents: cube/reset, cube/step and cube/evaluate keep Gym-compatible RL semantics, with in-process Python execution for low-latency training loops.</li>
+<li>The CUBE Registry is not a hosting service — it indexes metadata and points at PyPI, so benchmark authors keep control of their own distribution.</li>
+<li>Requiring benchmark authors to ship default tools does not lock agents into those tools: a tool_config parameter at initialization lets researchers substitute alternative tool implementations without changing benchmark code.</li>
+<li>The &quot;over 300 benchmarks doubling by end of 2026&quot; figure is the authors&#x27; forecast stated in a position paper, not an outcome measured from a benchmark census.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Integration Tax</em></dt><dd>The redundant engineering cost of writing a separate driver or wrapper for every agent-benchmark pair, so that evaluating one agent on five benchmarks means five unique wrappers, and switching evaluation frameworks means starting over.</dd>
+<dt><em>CUBE</em></dt><dd>Common Unified Benchmark Environments: a protocol standard defining task-, benchmark-, package- and registry-level interfaces that an agent benchmark implements once to become usable by any compliant evaluation or RL-training platform.</dd>
+<dt><em>a CUBE</em></dt><dd>A single benchmark wrapped to comply with the CUBE standard, distributed as a Python package and indexed in the CUBE registry.</dd>
+<dt><em>async-Gym API</em></dt><dd>An interaction pattern obtained by fusing MCP&#x27;s non-blocking tools/call with Gym-style reward and termination semantics, letting an agent issue multiple concurrent long-running tool calls instead of waiting inside a blocking step function.</dd>
+<dt><em>privileged information</em></dt><dd>Optional context exposed to the evaluation harness but not the agent — evaluation function source code, ground-truth answers, or summaries of internal environment state — used for judge-based failure diagnosis and privileged policy distillation.</dd>
+<dt><em>debug agent</em></dt><dd>A scripted, non-LLM agent shipped with a benchmark package that is guaranteed to solve a designated debug task, so a full episode can be run in CI and asserted to reach a reward of 1.0.</dd>
+<dt><em>compliance badge</em></dt><dd>A registry-visible marker earned by a benchmark that passes a stress suite verifying idempotent resets, isolation between concurrent task instances, and resource usage within declared bounds.</dd>
+</dl>
+<h2>How to cite</h2>
+<pre>@misc{lacoste2026cube,
+  title={CUBE: A Standard for Unifying Agent Benchmarks},
+  author={Alexandre Lacoste and Nicolas Gontier and Oleh Shliazhko and Aman Jaiswal and Kusha Sareen and Shailesh Nanisetty and Joan Cabezas and Manuel Del Verme and Omar G. Younis and Simone Baratta and Matteo Avalle and Imene Kerboua and Xing Han Lù and Elron Bandel and Michal Shmueli-Scheuer and Asaf Yehudai and Leshem Choshen and Jonathan Lebensold and Sean Hughes and Massimo Caccia and Alexandre Drouin and Siva Reddy and Tao Yu and Yu Su and Graham Neubig and Dawn Song},
+  year={2026},
+  url       = {https://arxiv.org/abs/2603.15798},
+  doi       = {10.48550/ARXIV.2603.15798},
+  publisher = {arXiv}
+}</pre>
 <h2>References</h2>
 <p>See the full reference list in the <a href="https://arxiv.org/html/2603.15798">paper</a>.</p>
 <footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>

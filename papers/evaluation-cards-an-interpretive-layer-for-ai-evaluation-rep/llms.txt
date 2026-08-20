@@ -1,10 +1,72 @@
 # Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting
 
-Authors: Avijit Ghosh, Anka Reuel, Jenny Chim, Wm. Matthew Kennedy, Srishti Yadav, Jennifer Mickel, Yanan Long, Andrew Tran, A. Kornilova, Damian Stachura, Kevin Klyman, F. Friedrich, Jeba Sania, Max Lamparth, Jan Batzner, Anoop Mishra, Eliya Habba, Yixiong Hao, N. Heath, Shalaleh Rismani, Usman Gohar, Andreas Loehr, David Manheim, Ruchira Dhar, Sree Harsha Nelaturu, Aarush Sinha, Leshem Choshen, Drishti Sharma, I. Khire, Amit Saha, Subramanyam Sahoo, Michael Hardy, Michael A. Riegler, Kabir Manghnani, M. Lin, Yanan Jiang, Yilin Huang, Asaf Yehudai, Jessica Ji, A. Hofmann, Mubashara Akhtar, Nuno Moniz, Yacine Jernite, Stella Biderman, Zeerak Ta-lat, Sanmi Koyejo, M. Kochenderfer, Irene Solaiman
+a unified, machine-populated record that joins benchmark metadata, evaluation run data and model metadata so a reported score can be traced, compared and read for what it omits
+
+Authors: Avijit Ghosh, Anka Reuel, Jenny Chim, Wm. Matthew Kennedy, Srishti Yadav, Jennifer Mickel, Yanan Long, Andrew Tran, Anastassia Kornilova, Damian Stachura, Kevin Klyman, Felix Friedrich, Jeba Sania, Jan Batzner, Anoop Mishra, Eliya Habba, Yixiong Hao, Nathan Heath, Shalaleh Rismani, Usman Gohar, Andrea Loehr, David Manheim, Ruchira Dhar, Sree Harsha Nelaturu, Aarush Sinha, Leshem Choshen, Drishti Sharma, Ishan Khire, Amit Saha, Subramanyam Sahoo, Michael Hardy, Michael Alexander Riegler, Kabir Manghnani, Michelle Lin, Yanan Jiang, Yilin Huang, Asaf Yehudai, Jessica Ji, Aris Hofmann, Mubashara Akhtar, Max Lamparth, Nuno Moniz, Yacine Jernite, Stella Biderman, Zeerak Talat, Sanmi Koyejo, Mykel Kochenderfer, Irene Solaiman
 Venue: preprint (2026)
 
-## Abstract
-AI evaluation results are produced at scale but reported inconsistently across leaderboards, model cards, benchmark papers, and company blogs. The cost is interpretive: readers cannot reliably compare results across sources, identify what a report omits, or trace an aggregate claim to its underlying evidence. Recent efforts address isolated components but leave three gaps: they cover only narrow slices of the evaluation lifecycle and do not compose into a single interpretable record; they specify static representations that do not differentiate the questions different stakeholders bring to the same evidence; and they remain proposals on paper, lacking the extraction infrastructure required for adoption at scale. We present \EvalCards{}, an operational reporting layer that composes benchmark metadata, evaluation run data, and model metadata into a unified record. We (1) derive a reporting schema from a structured review of 52 papers and 10 stakeholder interviews, (2) implement four interpretive signals (reproducibility, documentation completeness, provenance and risk, and score comparability), rendered through reader modes calibrated to research and non-research audiences, and (3) deploy a monitoring tool that applies \EvalCards{} across 5,816 models, 635 benchmarks, and 101,843 results, surfacing systematic gaps in current reporting practice.
+## What this paper shows
+Evaluation Cards is a deployed reporting layer that joins benchmark metadata, evaluation run data and model metadata into one record, resolves every score to a family-composite-benchmark-split-metric path, and computes four interpretive signals (reproducibility, completeness, provenance, comparability) over it.
+
+## Claims, with scope
+- Across 50,461 (model, benchmark, metric-path) triples in the Evaluation Cards corpus, 48,698 (96.5%) are missing at least one field of the minimal reproducibility sub-schema. Within that sub-schema, max_tokens is absent from 95.6% of triples and temperature from 93.9%.
+  Scope: Public LLM evaluation reporting ingested as of June 4, 2026 from EEE converters (HELM, lm-eval-harness, Inspect AI), leaderboard scrapes and community contributions; the sub-schema checks only temperature and max_tokens, not seeds, hardware or determinism.
+  Evidence: Section 5, Finding 1
+- On 180 (model, benchmark) pairs reported by both first- and third-party evaluators, first-party rows populate 0.0% of the base reproducibility fields on average against 16.6% for third-party rows. The reproducibility gap is therefore widest in developer self-reporting.
+  Scope: 180 paired first/third-party cases in the ingested corpus; base fields are temperature and max_tokens only; evaluator relationship is self-declared in the EEE evaluator_relationship field.
+  Evidence: Section 5, Finding 1
+- Median per-benchmark documentation completeness against the 28-field operationalized Evaluation Cards schema is 10.7% across 635 benchmarks. Per-field population runs from 100.0% for score and metric score_type down to 0.0% for preregistration_url and lifecycle_status.
+  Scope: 635 benchmarks with warehouse completeness rows, of which 211 carry matched Auto-BenchmarkCards records; completeness measures artifact-side documentation adequacy only, and partial fields score as the fraction of sub-items populated.
+  Evidence: Section 5, Finding 2
+- Of 49,865 (model, benchmark) pairs in the Evaluation Cards corpus, 98.2% are reported by only one party, and among the 181 multi-organization metric groups 94 (51.9%) exceed the 5% cross-party score-divergence threshold.
+  Scope: Ingested public reporting from 30 organizations as of June 4, 2026; the 5% threshold is applied uniformly on each metric's native scale and ignores sampling variance.
+  Evidence: Section 5, Finding 3
+- First-party-only reporting is most prevalent for agentic benchmarks (15.1%) and general benchmarks (12.5%), and least prevalent for safety benchmarks (0.8%). Independent reporting is thus scarcest in the categories where comparability problems would matter most.
+  Scope: Benchmark categories assigned by LLM-assisted labelling from benchmark name only into an 18-category taxonomy, with human review and manual corrections; the ingested corpus overrepresents English-language benchmarks and frontier-scale models.
+  Evidence: Section 5, Finding 3
+- In the GPT-5 Evaluation Cards profile, 202 of 213 documented results (95%) lack temperature or max_tokens, and 13% of results are first-party. MATH-500 is reported by 3 organizations with scores from 84.7% (LLM Stats) to 98.9% (Artificial Analysis).
+  Scope: One model view rendered from the Evaluation Cards interface on June 4, 2026, covering 118 benchmarks and 19 reporting organizations; a single frontier model rather than a corpus-wide statistic.
+  Evidence: Appendix A.3
+- Aggregating MMLU-Pro across 8 reporting organizations, 4,975 of 5,079 reported results (98%) lack a minimal reproducibility field. 6 model entries diverge across parties beyond the threshold, including Llama 3.2 at 20.9% from Hugging Face versus 61.8% from Arcadia Impact.
+  Scope: One benchmark view rendered on June 4, 2026 over 401 models and 8 organizations; MMLU-Pro's own Auto-BenchmarkCards record populates 26 of 28 fields, so it is a well-documented benchmark rather than a typical one.
+  Evidence: Appendix A.4
+- The Evaluation Cards reporting framework is a five-part structure covering design, before execution, execution, lifecycle, and reporting and publication. It was derived from 730 recommendation items coded from 52 papers out of 748 screened candidates, plus 12 stakeholder interviews.
+  Scope: Preregistered review of AI evaluation practice papers published 2020-2025; two independent coders reached Cohen's kappa in [0.865, 0.895] and Krippendorff's alpha in [0.916, 0.964]; interviewees recruited through author networks, mostly North America-based.
+  Evidence: Section 3.1, Table 2
+- The Evaluation Cards entity resolver reaches 98.3% accuracy on models, 77.4% on benchmarks and 86.7% on metrics, over 200 randomly sampled entities per type. The resolver maps observed model, benchmark and metric strings to canonical identifiers.
+  Scope: In-domain EEE corpus data with manual labelling of each prediction, and matching rules were curated on the full dataset, so figures are not held-out; unresolved strings are retained rather than dropped.
+  Evidence: Appendix D.2.2
+- Evaluation Cards replaces the flat (model, benchmark, score) triple with a five-level rollout hierarchy of family, composite, benchmark, split and metric. A claim such as "GPT-5 achieves 0.994 on MATH" resolves to MATH-family / artificial_analysis / MATH-500 / advanced-math / accuracy.
+  Scope: LLM benchmarks ingested into Evaluation Cards; the hierarchy lets integrity signals attach to a (model, metric-path) pair rather than to a benchmark label, and depends on the canonicalization layer resolving name variants correctly.
+  Evidence: Section 3.2, Figure 2
+- Evaluation Cards renders identical records through two reader modes, differing only in which fields are surfaced or compressed. Research mode lists the specific missing configuration fields, while the default summary mode states the same signal as "How this model was prompted during testing is not documented."
+  Scope: Two modes derived from 12 practitioner interviews across technical, developer and policy roles; systematic usability evaluation is planned post-deployment rather than completed.
+  Evidence: Section 4.3
+- Evaluation Cards assigns no letter grades, pass/fail thresholds or completeness rankings, surfacing omitted fields to readers instead of penalizing developers for them.
+  Scope: All records in the interface; signal outputs are flags, missing-field lists and a completeness score in [0,1].
+  Evidence: Section 4.2
+- Evaluation Cards composes three previously separate efforts into a single reader-facing record: Auto-BenchmarkCards for benchmark metadata, EEE for evaluation run data, and community model catalogs. It is an integration layer rather than another documentation standard for evaluators to fill in by hand.
+  Scope: As of the June 2026 preprint, and by the comparison in Table 1 against Datasheets, Data Cards, Model Cards, BenchmarkCards, Audit Cards, Eval Factsheets, SPHERE, STREAM, HELM, Inspect, Open LLM Leaderboard, EEE and BetterBench; covers LLM evaluation only.
+  Evidence: Table 1
+- Evaluation Cards is a deployed monitoring instrument for the state of public AI evaluation reporting, applied to 5,816 models, 635 benchmarks and 101,955 reported results from 30 organizations. Its code is open and the interface is live and hosted.
+  Scope: LLM evaluation reporting as of June 4, 2026; the corpus is what EEE, leaderboard scrapes and community contributions supply rather than a census of public reporting.
+  Evidence: Section 5, Appendix A.2, Appendix N
+
+## Common misreadings
+- A high Evaluation Cards completeness score means a benchmark is well documented, not that the underlying evaluation was rigorous; completeness measures artifact-side reporting adequacy only.
+- Evaluation Cards is not a new checklist for evaluators to fill in by hand: fields are populated by extraction from Auto-BenchmarkCards, EEE and model catalogs, with only lifecycle_status reserved for voluntary disclosure.
+- The reproducibility figures describe the public reporting record, not the evaluations themselves: a result flagged as a reproducibility gap may have been run carefully but reported without temperature or max_tokens.
+- The corpus is not a census of public AI evaluation reporting; results not contributed to EEE or picked up by the scrapers are absent, and English-language benchmarks and frontier-scale models are overrepresented.
+- Evaluation Cards covers LLM evaluation reporting only and does not currently support other AI systems or modalities.
+- Cross-party score divergence flags are not proof that one reporter is wrong: the 5% threshold is applied uniformly across metrics and ignores sampling variance, and benchmark misresolution can inflate the flags.
+
+## Terminology
+- rollout hierarchy: A five-level structure — family, composite, benchmark, split, metric — through which every reported evaluation score resolves to an explicit traceable path instead of a flat (model, benchmark, score) triple.
+- minimal reproducibility sub-schema: The small set of fields required to re-run a reported evaluation: temperature and max_tokens, extended with harness, eval_plan and eval_limits for agentic evaluations.
+- reporting completeness: The share of a 28-field operationalized reporting schema populated for a benchmark, where fields with sub-items score as the fraction of sub-items present.
+- provenance signal: An annotation on a reported score stating whether the evaluator was first-party, third-party or collaborative, whether any other party reported the same score, and which risk categories the benchmark carries.
+- comparability flag: A warning raised when reported scores for the same model, benchmark and metric differ by more than 5% of the metric's range, either across setup variants or across reporting parties.
+- reader modes: Two renderings of one identical evaluation record — a research mode foregrounding methodology and configuration, and a summary mode foregrounding plain-language accountability — differing only in which fields are surfaced, compressed or reframed.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2606.09809
@@ -12,4 +74,19 @@ AI evaluation results are produced at scale but reported inconsistently across l
 - HTML: https://arxiv.org/html/2606.09809
 - Hugging Face: https://huggingface.co/papers/2606.09809
 - alphaXiv: https://www.alphaxiv.org/abs/2606.09809
+- DOI: https://doi.org/10.48550/arXiv.2606.09809
 - Semantic Scholar: https://www.semanticscholar.org/paper/289098621
+- Project page: https://evalevalai.com/
+- Demo: https://evalcards.evalevalai.com
+- Code: https://huggingface.co/spaces/evaleval/general-eval-card/tree/main
+
+## How to cite
+@misc{ghosh2026evaluationcardsinterpretivelayer,
+      title={Evaluation Cards: An Interpretive Layer for AI Evaluation Reporting}, 
+      author={Avijit Ghosh and Anka Reuel and Jenny Chim and Wm. Matthew Kennedy and Srishti Yadav and Jennifer Mickel and Yanan Long and Andrew Tran and Anastassia Kornilova and Damian Stachura and Kevin Klyman and Felix Friedrich and Jeba Sania and Jan Batzner and Anoop Mishra and Eliya Habba and Yixiong Hao and Nathan Heath and Shalaleh Rismani and Usman Gohar and Andrea Loehr and David Manheim and Ruchira Dhar and Sree Harsha Nelaturu and Aarush Sinha and Leshem Choshen and Drishti Sharma and Ishan Khire and Amit Saha and Subramanyam Sahoo and Michael Hardy and Michael Alexander Riegler and Kabir Manghnani and Michelle Lin and Yanan Jiang and Yilin Huang and Asaf Yehudai and Jessica Ji and Aris Hofmann and Mubashara Akhtar and Max Lamparth and Nuno Moniz and Yacine Jernite and Stella Biderman and Zeerak Talat and Sanmi Koyejo and Mykel Kochenderfer and Irene Solaiman},
+      year={2026},
+      eprint={2606.09809},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2606.09809}, 
+}

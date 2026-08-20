@@ -1,10 +1,58 @@
 # Data Contamination Report from the 2024 CONDA Shared Task
 
-Authors: Oscar Sainz, Iker Garc\'\ia-Ferrero, Alon Jacovi, Jon Ander Campos, Yanai Elazar, Eneko Agirre, Yoav Goldberg, Wei-Lin Chen, Jenny Chim, Leshem Choshen, Luca D'Amico-Wong, Melissa Dell, Run-Ze Fan, Shahriar Golchin, Yucheng Li, Pengfei Liu, Bhavish Pahwa, Ameya Prabhu, Suryansh Sharma, Emily Silcock, Kateryna Solonko, David Stap, Mihai Surdeanu, Yu-Min Tseng, Vishaal Udandarao, Zengzhi Wang, Ruijie Xu, Jinglin Yang
-Venue: CoRR (2024)
+Authors: Oscar Sainz, Iker García-Ferrero, Alon Jacovi, Jon Ander Campos, Yanai Elazar, Eneko Agirre, Yoav Goldberg, Wei-Lin Chen, Jenny Chim, Leshem Choshen, Luca D'Amico-Wong, Melissa Dell, Run-Ze Fan, Shahriar Golchin, Yucheng Li, Pengfei Liu, Bhavish Pahwa, Ameya Prabhu, Suryansh Sharma, Emily Silcock, Kateryna Solonko, David Stap, Mihai Surdeanu, Yu-Min Tseng, Vishaal Udandarao, Zengzhi Wang, Ruijie Xu, Jinglin Yang
+Venue: The First Data Contamination Workshop, {CONDA} 2024, August 16, 2024, Bangkok, Thailand, Proceedings of the Workshop (2024)
 
-## Abstract
-The 1st Workshop on Data Contamination (CONDA 2024) focuses on all relevant aspects of data contamination in natural language processing, where data contamination is understood as situations where evaluation data is included in pre-training corpora used to train large scale models, compromising evaluation results. The workshop fostered a shared task to collect evidence on data contamination in current available datasets and models. The goal of the shared task and associated database is to assist the community in understanding the extent of the problem and to assist researchers in avoiding reporting evaluation results on known contaminated resources. The shared task provides a structured, centralized public database for the collection of contamination evidence, open to contributions from the community via GitHub pool requests. This first compilation paper is based on 566 reported entries over 91 contaminated sources from a total of 23 contributors. The details of the individual contamination events are available in the platform. The platform continues to be online, open to contributions from the community.
+## What this paper shows
+The CONDA 2024 shared task built a public, community-maintained Data Contamination Database, compiling 566 contamination entries over 91 evaluation datasets and 42 contaminated corpora and models from 23 contributors so researchers can avoid reporting results on known-contaminated benchmarks.
+
+## Claims, with scope
+- The CONDA 2024 shared task created the Data Contamination Database, a structured, centralized public registry where researchers submit evidence of evaluation datasets appearing in pre-training corpora or models via GitHub pull requests. Submissions are discussed openly before admission.
+  Scope: Community-submitted evidence about NLP evaluation datasets, corpora and language models; entries are not independently re-verified by the organizers. The database remains open after the June 23rd, 2024 snapshot used for the report.
+- The CONDA 2024 report addresses the gap that although many state-of-the-art model reports mention data contamination, there was little organized, compiled knowledge about documented cases of contamination in practice.
+  Scope: As of mid-2024, and about NLP evaluation resources; only works whose evidence was submitted to the shared task are covered.
+- The 2024 CONDA report compiles 566 contamination entries covering 91 evaluation datasets and 42 contaminated sources (pre-training corpora or models), submitted by 23 contributors.
+  Scope: Snapshot of submissions collected on June 23rd, 2024; a convenience sample of what contributors chose to report rather than a systematic audit of datasets or models.
+  Evidence: Section 3
+- Of the 566 entries in the CONDA report, 432 are contamination events and 144 are non-contamination events. The 432 contamination events break down into 20 train-set, 95 dev-set and 317 test-set reports, a contamination event being any report above 0% contamination.
+  Scope: Counts are per (source, dataset split) report; evidence comes from heterogeneous data-based and model-based methods that are hardly comparable to each other.
+  Evidence: Section 3
+- Among pre-training corpora, the CONDA report records 35 contamination events for C4, 32 for RedPajama v2, 30 for the Pile and 29 for OSCAR. It records 6 for CommonCrawl itself, 2 each for TheStack and ProofPile, and 1 for xP3.
+  Scope: Counts of reported test sets per corpus in the June 2024 snapshot; reflect how much attention each corpus received from contributors, so a lower count does not mean a cleaner corpus.
+  Evidence: Table 1 and Section 3
+- Most reported contamination evidence in the CONDA report concerns closed models. The counts are 24 events for GPT-3, 17 for GLaM, 16 for GPT-4, 13 for GPT-3.5, 8 for PaLM, 3 for PaLM-2, 2 for GPT-3.5 Turbo and 1 for Claude 3 Opus.
+  Scope: Test-set contamination events in the June 2024 snapshot; evidence for closed models comes from model-based membership-inference style methods or from vendors' own technical reports, not from inspecting pre-training data.
+  Evidence: Figure 3 and Section 3
+- For open models the CONDA report records 14 contamination events for models fine-tuned with FLAN data, 5 for Mistral and 3 for Llama 2. It records 2 each for Qwen, Llemma and Aquila 2, and 1 each for mT0 and BLOOMZ.
+  Scope: Test-set contamination events in the June 2024 snapshot; counts depend on which open models contributors examined and with which detection method.
+  Evidence: Figure 3 and Section 3
+- The most-contaminated task types reported to CONDA are text-scoring, QA and multiple-choice QA. They include heavily downloaded benchmarks such as MMLU, GLUE and ai2_arc that are standard in community leaderboards like the Open LLM Leaderboard.
+  Scope: Task labels are the Hugging Face hub task_id of each dataset, and popularity is measured by Hugging Face download counts; the same dataset can appear as contaminated for one model and uncontaminated for another.
+  Evidence: Figure 4 and Figure 5
+- Test sets reported in the CONDA contamination database cluster in the 2018 to 2021 publication period, for both contamination events above 0% and non-contamination events at 0%.
+  Scope: Publication years of the datasets contributors submitted, so the distribution partly reflects which benchmarks were popular enough to be tested for contamination.
+  Evidence: Figure 7
+- Newer models in the CONDA report are contaminated with newer benchmarks. GPT-3, launched in 2020, is predominantly contaminated with datasets from 2016, while GPT-4, released in 2023, is mainly contaminated with datasets from 2018 to 2022.
+  Scope: Based on the 3 models with the most reported contamination instances, GPT-4, GPT-3 and GPT-3.5; a descriptive pattern in submitted reports, not a controlled comparison.
+  Evidence: Figure 7 and Section 4
+- The CONDA 2024 report organizes contamination-detection work into data-based approaches, which search the pre-training corpus for evaluation data, and model-based approaches, which probe a model's outputs without corpus access. Each family is split further by whether the data or model is proprietary or open.
+  Scope: A taxonomy of only the works whose evidence was used in the shared task, not a comprehensive survey of contamination-detection methods.
+  Evidence: Figure 1 and Section 2
+- The CONDA report states that it covers only a small sample of the exploration space of possible contamination cases, namely those reported during the shared task period in mid-2024.
+  Scope: The June 2024 snapshot; the database continues to accept submissions and is intended to be updated as new models and datasets appear.
+  Evidence: Section 5
+
+## Common misreadings
+- Absence of a dataset or model from the CONDA Data Contamination Database does not mean it is uncontaminated: the report covers only a small sample of cases submitted during the mid-2024 shared task period, so counts reflect contributor attention rather than a systematic audit.
+- The counts of contamination events per corpus or per model are not comparable measures of how contaminated each source is, because the underlying evidence comes from different data-based and model-based methods that the report itself describes as hardly comparable.
+- The CONDA 2024 report is a compilation of community-submitted evidence, not a new contamination detection method, and the organizers did not independently re-run the detection procedures behind each entry.
+- The 566 figure counts database entries, not distinct contaminated datasets: 432 of them are contamination events above 0% and 144 record 0% contamination, over 91 evaluation datasets and 42 sources.
+- The taxonomy in the CONDA report is not a survey of all contamination-detection literature; it covers only the works whose evidence was used for the shared task, and the report explicitly defers a fuller survey.
+
+## Terminology
+- contamination event: In the CONDA Data Contamination Database, a single report that a given split of an evaluation dataset was found at above 0% contamination in a given pre-training corpus or model; reports of exactly 0% are recorded as non-contamination events.
+- data-based approach: A contamination detection method that inspects the pre-training corpus itself for evaluation data, typically by string or sub-string matching such as 13-gram, 50-character or full-string overlap.
+- model-based approach: A contamination detection method that estimates a model's contamination by prompting it or analysing its output probabilities, without access to the pre-training data, formulated as a membership inference attack.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2407.21530
@@ -12,14 +60,16 @@ The 1st Workshop on Data Contamination (CONDA 2024) focuses on all relevant aspe
 - HTML: https://arxiv.org/html/2407.21530
 - Hugging Face: https://huggingface.co/papers/2407.21530
 - alphaXiv: https://www.alphaxiv.org/abs/2407.21530
-- DOI: https://doi.org/10.48550/ARXIV.2407.21530
+- DOI: https://doi.org/10.18653/V1/2024.CONDA-1.4
 - ACL Anthology: https://aclanthology.org/2024.conda-1.4/
 - Semantic Scholar: https://www.semanticscholar.org/paper/271571641
-- Publisher: https://doi.org/10.48550/arXiv.2407.21530
+- Publisher: https://doi.org/10.18653/v1/2024.conda-1.4
+- Project page: https://conda-workshop.github.io/
+- database: https://huggingface.co/spaces/CONDA-Workshop/Data-Contamination-Database
+- workshop: https://conda-workshop.github.io/
 
 ## How to cite
-@article{DBLP:journals/corr/abs-2407-21530,
-author       = {Oscar Sainz and
+@inproceedings{DBLP:journals/corr/abs-2407-21530,author       = {Oscar Sainz and
                   Iker Garc{\'{\i}}a{-}Ferrero and
                   Alon Jacovi and
                   Jon Ander Campos and
@@ -48,14 +98,23 @@ author       = {Oscar Sainz and
                   Ruijie Xu and
                   Jinglin Yang},
   title        = {Data Contamination Report from the 2024 {CONDA} Shared Task},
-  journal      = {CoRR},
-  volume       = {abs/2407.21530},
   year         = {2024},
-  url          = {https://doi.org/10.48550/arXiv.2407.21530},
-  doi          = {10.48550/ARXIV.2407.21530},
+  url          = {https://doi.org/10.18653/v1/2024.conda-1.4},
+  doi          = {10.18653/V1/2024.CONDA-1.4},
   eprinttype    = {arXiv},
   eprint       = {2407.21530},
-  timestamp    = {Wed, 21 Aug 2024 01:00:00 +0200},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-2407-21530.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
+  timestamp    = {Thu, 26 Feb 2026 00:00:00 +0100},
+  biburl       = {https://dblp.org/rec/conf/conda/SainzGJCEAGCCCDDFGLLPPS24.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org},
+  editor       = {Oscar Sainz and
+                  Iker Garc{\'{\i}}a{-}Ferrero and
+                  Eneko Agirre and
+                  Jon Ander Campos and
+                  Alon Jacovi and
+                  Yanai Elazar and
+                  Yoav Goldberg},
+  booktitle    = {The First Data Contamination Workshop, {CONDA} 2024, August 16, 2024,
+                  Bangkok, Thailand, Proceedings of the Workshop},
+  pages        = {41--56},
+  publisher    = {Association for Computational Linguistics}
 }

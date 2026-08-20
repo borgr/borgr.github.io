@@ -1,10 +1,64 @@
 # Asymmetry in Low-Rank Adapters of Foundation Models
 
-Authors: Jiacheng Zhu, Kristjan H. Greenewald, Kimia Nadjahi, Haitz S\'aez de Oc\'ariz Borde, Rickard Br"uel Gabrielsson, Leshem Choshen, Marzyeh Ghassemi, Mikhail Yurochkin, Justin Solomon
+Authors: Jiacheng Zhu, Kristjan H. Greenewald, Kimia Nadjahi, Haitz Sáez de Ocáriz Borde, Rickard Brüel Gabrielsson, Leshem Choshen, Marzyeh Ghassemi, Mikhail Yurochkin, Justin Solomon
 Venue: Forty-first International Conference on Machine Learning, {ICML} 2024, Vienna, Austria, July 21-27, 2024 (2024)
 
-## Abstract
-Parameter-efficient fine-tuning optimizes large, pre-trained foundation models by updating a subset of parameters; in this class, Low-Rank Adaptation (LoRA) is particularly effective. Inspired by an effort to investigate the different roles of LoRA matrices during fine-tuning, this paper characterizes and leverages unexpected asymmetry in the importance of low-rank adapter matrices. Specifically, when updating the parameter matrices of a neural network by adding a product $BA$, we observe that the $B$ and $A$ matrices have distinct functions: $A$ extracts features from the input, while $B$ uses these features to create the desired output. Based on this observation, we demonstrate that fine-tuning $B$ is inherently more effective than fine-tuning $A$, and that a random untrained $A$ should perform nearly as well as a fine-tuned one. Using an information-theoretic lens, we also bound the generalization of low-rank adapters, showing that the parameter savings of exclusively training $B$ improves the bound. We support our conclusions with experiments on RoBERTa, BART-Large, LLaMA-2, and ViTs.
+## What this paper shows
+LoRA's two factors have different jobs — A extracts features from the layer input, B maps them to the output — so freezing A to a random orthonormal matrix and tuning only B halves trainable parameters, tightens generalization bounds by sqrt(2), and matches or beats LoRA on RoBERTa, BART, Llama-2 and ViTs.
+
+## Claims, with scope
+- "Asymmetry in Low-Rank Adapters of Foundation Models" gives a formal analysis of why LoRA's two factors are not interchangeable. A projects the layer input to r features while B maps those features to the layer output, so tuning B matters more than tuning A.
+  Scope: Analysis covers rank-r updates W0+BA applied multiplicatively to an input-dependent vector, covering feedforward and attention layers; earlier work such as VeRA and LoRA-FA froze A empirically without a formal account, as of publication in 2024.
+- For multivariate linear least squares, freezing A to a random orthonormal matrix and tuning B achieves loss at least as low as freezing B and tuning A. The guarantee holds with high probability as d/r grows.
+  Scope: A pre-trained linear model with zero-mean target inputs and b fixed to b_targ, with U and Q drawn uniformly from their Stiefel manifolds; asymptotic in d/r, with no guarantee at small d/r.
+  Evidence: Theorem 4.3 (Section 4.1.1), with proof in Appendix B.3
+- The advantage of tuning B over tuning A in low-rank least squares scales as (1 - r/d) times Tr[U_X U_X^T Delta^T Delta]. The gap is therefore largest when the layer dimension far exceeds the rank, the typical regime in practice.
+  Scope: Derived in an intuition regime where the input covariance is exactly rank r with equal eigenvalues sigma^2, and as d becomes large; the general case is bounded only by the inequality behind Theorem 4.3.
+  Evidence: Section 4.1.1, 'Intuition on asymmetry gap'
+- Information-theoretic generalization bounds for LoRA shrink by a factor of sqrt(2) when only one factor is tuned instead of both, for square parameter matrices. The rank of a B-only adapter can therefore be doubled while still matching standard LoRA's bound.
+  Scope: A sigma-sub-Gaussian loss, each tuned parameter quantized to q bits, and d_in = d_out for the sqrt(2) factor; upper bounds on generalization error rather than measured test gaps.
+  Evidence: Lemma 4.5 (Section 4.2.2), proof in Appendix C
+- On GLUE with RoBERTa-large, tuning only B with a frozen random A averages 87.4 at r=8 and 87.5 at r=16. Tuning only A with a frozen random B averages 84.2 and 85.9, with the largest gaps on CoLA and RTE.
+  Scope: RoBERTa-large (355M) with adapters on query/key/value matrices, at 0.3% and 0.8% trainable parameters, averaged over MNLI, SST-2, MRPC, CoLA, QNLI, RTE and STS-B.
+  Evidence: Table 1
+- Tuning only B at r=16 reaches a GLUE average of 87.5 with 0.8% trainable parameters, above conventional LoRA at r=8 (87.2 with 0.8%). It statistically matches AdaLoRA (87.9), which uses 2.5% of parameters.
+  Scope: RoBERTa-large on the 7 GLUE tasks reported, adapters on query/key/value matrices; the rank is doubled to keep the trainable-parameter count equal to LoRA's, and AdaLoRA is numerically higher.
+  Evidence: Table 1
+- The A/B asymmetry is not an artifact of LoRA's zero-versus-random initialization. When both matrices are trained, GLUE averages with RoBERTa-large fall within 87.3 to 87.8 across 4 initialization schemes, with differences tending to be smaller than the standard error.
+  Scope: RoBERTa-large at 0.8% trainable parameters, comparing B initialized to zero with A random or A set to right singular vectors, and A initialized to zero with B random or B set to left singular vectors; both factors are trained in all 4 rows.
+  Evidence: Table 2
+- On summarization with BART-large, tuning only B beats tuning only A at r=16 on both datasets: 42.91/19.61/34.64 versus 42.37/19.30/34.29 ROUGE-1/2/L on XSum, and 43.65/20.62/40.72 versus 43.38/20.36/40.48 on CNN/DailyMail.
+  Scope: BART-large with adapters on every query/key/value matrix, 0.44% trainable parameters, beam length 8 for XSum and 4 for CNN/DailyMail; tuning both matrices at r=8 scores higher than either single-factor variant.
+  Evidence: Table 3
+- With Llama-2-7B instruction-tuned on Alpaca, tuning only B at r=64 reaches 46.46 average 5-shot MMLU accuracy with 0.12% trainable parameters. LoRA at r=32 reaches 44.76 with 0.24%, and tuning only A at r=32 reaches 44.51.
+  Scope: 5-shot MMLU averaged over Humanities, STEM, Social and Other; the B-only r=32 setting scores 45.36 average but is below LoRA on the Social subject, and the base Llama-2-7B scores 43.14.
+  Evidence: Table 4
+- On DomainBed with an ImageNet-pretrained ViT, freezing a random A and tuning only B gives the best out-of-domain accuracy on VLCS (75.81% at r=8 versus 56.43% for LoRA r=8) and OfficeHome (77.85% at r=16 versus 74.46%). LoRA stays ahead out-of-domain on PACS, at 75.58% versus 73.76%.
+  Scope: ViT fine-tuned on the LabelMe, Cartoon and Clipart environments of VLCS, PACS and Office-Home with the original 80/20 train/test split; out-of-domain numbers averaged across held-out environments. On TerraIncognita low-rank adapters fit poorly and full fine-tuning is strongest.
+  Evidence: Table 5, with per-environment breakdown in Table 8 and TerraIncognita in Table 9
+- Tuning a single LoRA factor yields a smaller train-minus-test accuracy gap than standard LoRA across DomainBed datasets, for example 11.82% versus 24.03% on the in-domain VLCS LabelMe environment for B-only at r=8.
+  Scope: ViT on VLCS, PACS, OfficeHome and TerraIncognita environments; the trend holds generally across environments rather than uniformly in every column, and the comparison is against LoRA at r=8.
+  Evidence: Table 10
+- Across layers of a LoRA-fine-tuned RoBERTa, learned B matrices are similar when trained on the same task with different random seeds and dissimilar across different tasks. Learned A matrices are similar whenever initialization is shared, regardless of task.
+  Scope: RoBERTa-large on GLUE: mrpc with 5 random seeds for the same-task setting, and mrpc, rte, stsb, cola for the different-task settings, with similarity measured by canonical correlation analysis goodness of fit.
+  Evidence: Figure 1, with the metric defined in Appendix A
+- Training only B instead of both LoRA factors reduces trainable parameters by a factor of d_out/(d_out+d_in), which is 0.5 for square weight matrices, at the same rank r.
+  Scope: Per adapted parameter matrix at fixed rank; the saving is on trainable parameters, memory, storage and communication, not on the frozen pre-trained model.
+  Evidence: Section 4.2.1
+
+## Common misreadings
+- The claim is not that the A matrix is useless: A must still project the layer input to r features, and it is the tuning of A, not its presence, that the analysis shows to be dispensable.
+- Freezing A does not always beat tuning both factors at the same rank. On BART-large summarization at 0.44% parameters, tuning both matrices at r=8 scores higher than either single-factor variant at r=16; the gains come from spending the saved parameters on a larger rank.
+- The generalization result is a bound on generalization error under a sub-Gaussian loss assumption, not a proof that B-only tuning has better test accuracy.
+- Out-of-domain gains from tuning only B are not universal across DomainBed: LoRA remains ahead out-of-domain on PACS, and on TerraIncognita low-rank adapters fit poorly and full fine-tuning is the strongest method.
+- Theorem 4.3 is an asymptotic statement holding with high probability as the ratio of layer dimension to rank grows; it is not a per-instance guarantee that tuning B beats tuning A for any particular layer.
+
+## Terminology
+- A matrix (LoRA): The r-by-d_in factor of a low-rank weight update BA, which projects a layer's input down to r features.
+- B matrix (LoRA): The d_out-by-r factor of a low-rank weight update BA, which maps the r projected features to the layer's output space.
+- A_rand: An initialization scheme in which the LoRA down-projection is set to a random orthonormal matrix and kept frozen throughout fine-tuning.
+- hat notation (B-hat, A-hat): A hat over a LoRA factor marks that matrix as being updated during fine-tuning; a factor without a hat is frozen at its initialization.
+- CCA goodness of fit: A similarity score between two matrices computed from the squared Frobenius norm of the product of their orthonormal column bases, divided by the smaller rank, making it invariant to the invertible reparameterization BA = (BC)(C^{-1}A) of a low-rank adapter.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2402.16842
@@ -12,14 +66,13 @@ Parameter-efficient fine-tuning optimizes large, pre-trained foundation models b
 - HTML: https://arxiv.org/html/2402.16842
 - Hugging Face: https://huggingface.co/papers/2402.16842
 - alphaXiv: https://www.alphaxiv.org/abs/2402.16842
-- DOI: https://doi.org/10.48550/ARXIV.2402.16842
+- DOI: https://doi.org/10.48550/arXiv.2402.16842
 - Semantic Scholar: https://www.semanticscholar.org/paper/268033026
 - Publisher: https://openreview.net/forum?id=txRZBD8tBV
 - Code: https://github.com/Jiacheng-Zhu-AIML/AsymmetryLoRA
 
 ## How to cite
-@inproceedings{DBLP:conf/icml/ZhuGNBGCGY024,
-author       = {Jiacheng Zhu and
+@inproceedings{DBLP:conf/icml/ZhuGNBGCGY024,author       = {Jiacheng Zhu and
                   Kristjan H. Greenewald and
                   Kimia Nadjahi and
                   Haitz S{\'{a}}ez de Oc{\'{a}}riz Borde and

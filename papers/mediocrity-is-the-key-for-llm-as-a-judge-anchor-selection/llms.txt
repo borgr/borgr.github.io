@@ -1,10 +1,65 @@
 # Mediocrity is the key for LLM as a Judge Anchor Selection
 
 Authors: Shachar Don-Yehiya, Asaf Yehudai, Leshem Choshen, Omri Abend
-Venue: Annual Meeting of the Association for Computational Linguistics (2026)
+Venue: Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), {ACL} 2026, San Diego, California, United States, July 2-7, 2026 (2026)
 
-## Abstract
-The ``LLM-as-a-judge''paradigm has become a standard method for evaluating open-ended generation. To address the quadratic scalability costs of pairwise comparisons, popular benchmarks like Arena-Hard and AlpacaEval compare all models against a single anchor. However, despite its widespread use, the impact of anchor selection on the reliability of the results remains largely unexplored. In this work, we systematically investigate the effect of anchor selection by evaluating 22 different anchors on the Arena-Hard-v2.0 dataset. We find that the choice of anchor is critical: a poor anchor can dramatically reduce correlation with human rankings. We identify that common anchor choices (best-performing and worst-performing models) make poor anchors. Because these extreme anchors are consistently better or worse than all other models, they are seldom indicative of the relative ranking of the models. We further quantify the effect size of anchor selection, showing it is comparable to the selection of a judge model. We conclude with actionable recommendations. First, we conduct a power analysis, and compute sufficient benchmark sizes for anchor-based evaluation, finding that standard benchmark sizes are insufficient for pairwise evaluation and fail to distinguish between competitive models reliably. Second, we provide guidelines for selecting informative anchors to ensure reliable and efficient evaluation practices.
+## What this paper shows
+Across 866,250 pairwise LLM-as-a-judge comparisons on Arena-Hard-v2.0, anchor quality follows an inverted U-shape in model strength: mid-ranked ("mediocre") anchors give rankings closest to the all-pairs and human gold, while the strongest and weakest models — the usual choices — are the worst anchors.
+
+## Claims, with scope
+- Anchor quality in LLM-as-a-judge pairwise evaluation follows an inverted U-shape in the anchor's own strength. Top-ranked and bottom-ranked models yield the lowest Kendall's tau with the all-pairs gold ranking, and mid-ranked models the highest.
+  Scope: Arena-Hard-v2.0, 750 instructions, 22 models each used as anchor and competitor; Deepseek-V3 judge, replicated for GPT-OSS 120B, GPT-OSS 20B, Qwen3 235B A22B, Qwen3 8B, and on AlpacaEval with 11 models.
+  Evidence: Figure 1; Figures 12-16; Figure 17
+- Choosing a bad anchor instead of the best one costs up to .30 Kendall's tau in correlation with the human ranking on Arena-Hard-v2.0. The gap against the all-pairs quadratic ranking reaches .19.
+  Scope: 22 anchors, 5 judges, 750 Arena-Hard-v2.0 instructions; the .30 human gap is the GPT-OSS 20B judge, and per-judge human gaps span .181-.305.
+  Evidence: Table 3
+- o3, the top-performing model in the pool, is the worst anchor for every one of the 5 judges tested. Under the Deepseek-V3 judge it reaches only .818 Kendall's tau with the quadratic ranking and .324 with the human ranking.
+  Scope: Arena-Hard-v2.0 with 22 evaluated models; "top-performing" is relative to this pool, and o3's failure as an anchor follows from its position at the top rather than from the model itself.
+  Evidence: Table 1; Tables 4-7
+- Anchor selection matters as much as judge selection in LLM-as-a-judge evaluation. The best-to-worst anchor gap in correlation with human ranking is .181-.305 depending on the judge, comparable to or larger than the spread across the 5 judges.
+  Scope: 5 judges (Deepseek-V3, GPT-OSS 120B, GPT-OSS 20B, Qwen3 235B A22B, Qwen3 8B) on Arena-Hard-v2.0 with 22 models; anchor effects are similar at every judge quality level.
+  Evidence: Table 3
+- A strong anchor throws away most of the evaluation budget: o3 beats every opposing model on roughly 500 of the 750 Arena-Hard-v2.0 samples. Only 45% of o3's comparisons are informative, against 61% for the most informative anchor, o3 Mini.
+  Scope: Deepseek-V3 as judge on Arena-Hard-v2.0 with 22 models; informativeness is the fraction of model pairs receiving different verdicts against the anchor, and the empirical range across the 22 anchors is 45.5% to 61.1%.
+  Evidence: Figure 2; Table 9
+- Anchor informativeness predicts ranking accuracy, with R^2 = 0.5940 between an anchor's informativeness rate and the Kendall's tau of its induced ranking with the quadratic ranking.
+  Scope: 22 anchors on Arena-Hard-v2.0, Deepseek-V3 as judge; a single-judge regression over 22 points, so the relation is directional evidence rather than a calibrated predictor.
+  Evidence: Figure 3
+- Standard benchmark sizes are statistically insufficient for anchor-based pairwise evaluation. Detecting a +5% win-rate edge at 80% power needs 617 discordant samples, which becomes 1,372 total samples at o3's tie rate, far more than Arena-Hard-v2.0's 750.
+  Scope: One-sided sign test, alpha = 0.05, power = 0.80, with the total inflated by 1/informativeness; larger effects stay detectable, as +10% needs 341 total samples at a 55% tie rate.
+  Evidence: Table 2
+- Anchor-based evaluation caps its own informativeness at 0.5 with magnitude-free tie/win/loss verdicts, maximised when the anchor sits exactly in the middle of the ranking. Even the best empirical anchor leaves 39% of Arena-Hard-v2.0 samples uninformative.
+  Scope: The 0.5 bound assumes verdicts in {-1,0,1} and that transitivity holds; empirical rates above 0.5 arise because the judge's 5-level verdicts carry magnitude. Arena-Hard-v2.0, 22 models.
+  Evidence: Section 4.3
+- Adding more anchors helps less than picking the right one. Averaging over random anchor sets raises Kendall's tau with the quadratic ranking, but a single random anchor already reaches .92 versus .82 for the strongest model as anchor.
+  Scope: Iterative Bradley-Terry aggregation over anchor sets growing from 1 to 22 models, 40 shuffled permutations, Deepseek-V3 judge on Arena-Hard-v2.0; converges to tau = 1.0 by construction when all 22 models are anchors.
+  Evidence: Figure 7
+- An anchor's informativeness can be screened with only 10 benchmark samples, correlating with full-dataset informativeness at Pearson r above 0.86 for 3 or more evaluated models. For 8 or more models the correlation is above 0.91.
+  Scope: Arena-Hard-v2.0, pool sizes swept over 3-22 models, 30 repetitions, informativeness estimated from 10 random samples; rates span 0.42-0.65 versus 0.44-0.61 on the full data.
+  Evidence: Table 10; Section 5.3
+- Anchor-based rankings are far more sensitive to benchmark size than all-pairs rankings. Averaged over anchors, anchor-based correlation with human ranking converges to the quadratic correlation only at around 600 samples, while o3 as anchor stays well below at every size.
+  Scope: Sample sizes swept from 50 to 750 on Arena-Hard-v2.0, 30 repetitions, Deepseek-V3 judge; the same trend holds for GPT-OSS 120B, GPT-OSS 20B and Qwen3 235B A22B, but with the Qwen3 8B judge the mean anchor-based correlation exceeds the quadratic one from about 150 samples.
+  Evidence: Figure 4; Figures 8-11
+- "Mediocrity is the key for LLM as a Judge Anchor Selection" is a systematic study of anchor choice in LLM-as-a-judge leaderboards. It treats the anchor, rather than the judge, as the neglected design decision in Arena-Hard- and AlpacaEval-style evaluation.
+  Scope: As of publication in 2026; earlier work on anchor-based evaluation focused on transitivity violations and proposed alternative protocols, while this study keeps the anchor protocol. English-language open-ended generation benchmarks only.
+  Evidence: Section 7
+- "Mediocrity is the key for LLM as a Judge Anchor Selection" offers a decision procedure for pairwise evaluation. Avoid an external anchor when a natural baseline exists or when 3 or fewer models are compared, otherwise pick a mid-performing anchor and report its informativeness.
+  Scope: Leaderboard settings where a full ranking of 4 or more models is needed; with 3 models all-pairs comparison costs the same 3N judgments as an external anchor. "Mediocre" is relative to the pool being ranked, so the choice must be recalibrated per model set.
+  Evidence: Figure 5
+- "Mediocrity is the key for LLM as a Judge Anchor Selection" releases about 900K LLM judge verdicts, covering all 22-choose-2 model pairs on 750 Arena-Hard-v2.0 instructions for 5 judges.
+  Scope: Arena-Hard-v2.0 and AlpacaEval instructions, 5 open-weight judges (no commercial judge models); verdicts are on a 5-level scale from clear loss to clear win.
+  Evidence: Section 3.2
+
+## Common misreadings
+- "Mediocre" anchors are not weak models: mediocrity is defined relative to the pool being ranked, so a pool of frontier models needs a frontier-level mid-ranked anchor.
+- The inverted U-shape is not a claim that o3 is a bad model; o3 fails as an anchor because it sits at the top of the evaluated pool, and any model in that position would fail the same way.
+- Using several anchors instead of one does not remove the need to choose well: a single random anchor reaches .92 Kendall's tau with the quadratic ranking while the strongest model reaches .82.
+- The study does not propose replacing anchor-based evaluation with an alternative protocol; it keeps the protocol and gives guidelines for using it reliably.
+
+## Terminology
+- Anchor-based evaluation: An LLM-as-a-judge protocol in which every evaluated model is compared only against one fixed reference model (the anchor), reducing the number of judgments from quadratic to linear in the number of models.
+- Anchor informativeness: The fraction of (sample, model pair) cases in which two models receive different verdicts against the same anchor, so the sample can discriminate between them; comparisons where both models tie or both win identically carry no ranking signal.
+- Quadratic ranking: The ranking obtained by judging all possible pairs of evaluated models on every benchmark instruction and aggregating with Bradley-Terry, used as the gold standard that anchor-based ranking approximates.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2603.16848
@@ -12,5 +67,30 @@ The ``LLM-as-a-judge''paradigm has become a standard method for evaluating open-
 - HTML: https://arxiv.org/html/2603.16848
 - Hugging Face: https://huggingface.co/papers/2603.16848
 - alphaXiv: https://www.alphaxiv.org/abs/2603.16848
-- DOI: https://doi.org/10.48550/arXiv.2603.16848
+- DOI: https://doi.org/10.18653/V1/2026.ACL-LONG.706
 - Semantic Scholar: https://www.semanticscholar.org/paper/286583837
+- Publisher: https://doi.org/10.18653/v1/2026.acl-long.706
+- Code: https://github.com/IBM/Anchor-Selection
+- Project page: https://huggingface.co/datasets/ibm-research/900K-Judgements
+- dataset: https://huggingface.co/datasets/ibm-research/900K-Judgements
+
+## How to cite
+@inproceedings{don2026mediocrity,
+  title={Mediocrity is the key for LLM as a Judge Anchor Selection},
+  author={Don-Yehiya, Shachar and Yehudai, Asaf and Choshen, Leshem and Abend, Omri},
+  year={2026},
+  editor    = {Maria Liakata and
+                  Viviane P. Moreira and
+                  Jiajun Zhang and
+                  David Jurgens},
+  booktitle = {Proceedings of the 64th Annual Meeting of the Association for Computational
+                  Linguistics (Volume 1: Long Papers), {ACL} 2026, San Diego, California,
+                  United States, July 2-7, 2026},
+  pages     = {15491--15513},
+  publisher = {Association for Computational Linguistics},
+  url       = {https://doi.org/10.18653/v1/2026.acl-long.706},
+  doi       = {10.18653/V1/2026.ACL-LONG.706},
+  timestamp = {Thu, 30 Jul 2026 01:00:00 +0200},
+  biburl    = {https://dblp.org/rec/conf/acl/Don-YehiyaYCA26.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}

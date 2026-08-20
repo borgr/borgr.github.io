@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Holmes: {A} Benchmark to Assess the Linguistic Competence of Language Models — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/">
+  <meta name="citation_title" content="Holmes: A Benchmark to Assess the Linguistic Competence of Language Models">
+  <meta name="citation_author" content="Andreas Waldis">
+  <meta name="citation_author" content="Yotam Perlitz">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Yufang Hou">
+  <meta name="citation_author" content="Iryna Gurevych">
+  <meta name="citation_publication_date" content="2024">
+  <meta name="citation_journal_title" content="TACL">
+  <meta name="citation_doi" content="10.1162/TACL_A_00718">
+  <meta name="citation_arxiv_id" content="2404.18923">
+  <meta name="citation_abstract" content="We introduce Holmes, a new benchmark designed to assess language models (LMs) linguistic competence - their unconscious understanding of linguistic phenomena. Specifically, we use classifier-based probing to examine LMs&#x27;internal representations regarding distinct linguistic phenomena (e.g., part-of-speech tagging). As a result, we meet recent calls to disentangle LMs&#x27;linguistic competence from other cognitive abilities, such as following instructions in prompting-based evaluations. Composing Holmes, we review over 270 probing studies and include more than 200 datasets to assess syntax, morphology, semantics, reasoning, and discourse phenomena. Analyzing over 50 LMs reveals that, aligned with known trends, their linguistic competence correlates with model size. However, surprisingly, model architecture and instruction tuning also significantly influence performance, particularly in morphology and syntax. Finally, we propose FlashHolmes, a streamlined version that reduces the computation load while maintaining high-ranking precision.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/#article",
+  "name": "Holmes: A Benchmark to Assess the Linguistic Competence of Language Models",
+  "headline": "Holmes: A Benchmark to Assess the Linguistic Competence of Language Models",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Andreas Waldis"
+    },
+    {
+      "@type": "Person",
+      "name": "Yotam Perlitz"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Yufang Hou"
+    },
+    {
+      "@type": "Person",
+      "name": "Iryna Gurevych"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2024",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "TACL"
+  },
+  "identifier": "https://doi.org/10.1162/TACL_A_00718",
+  "abstract": "We introduce Holmes, a new benchmark designed to assess language models (LMs) linguistic competence - their unconscious understanding of linguistic phenomena. Specifically, we use classifier-based probing to examine LMs'internal representations regarding distinct linguistic phenomena (e.g., part-of-speech tagging). As a result, we meet recent calls to disentangle LMs'linguistic competence from other cognitive abilities, such as following instructions in prompting-based evaluations. Composing Holmes, we review over 270 probing studies and include more than 200 datasets to assess syntax, morphology, semantics, reasoning, and discourse phenomena. Analyzing over 50 LMs reveals that, aligned with known trends, their linguistic competence correlates with model size. However, surprisingly, model architecture and instruction tuning also significantly influence performance, particularly in morphology and syntax. Finally, we propose FlashHolmes, a streamlined version that reduces the computation load while maintaining high-ranking precision.",
+  "description": "Holmes measures the linguistic competence of language models by training linear probes on the frozen last-layer representations of 208 datasets covering morphology, syntax, semantics, reasoning and discourse, isolating linguistic knowledge from instruction following.",
+  "sameAs": [
+    "https://arxiv.org/abs/2404.18923",
+    "https://arxiv.org/html/2404.18923",
+    "https://arxiv.org/pdf/2404.18923",
+    "https://doi.org/10.1162/TACL\\_A\\_00718",
+    "https://doi.org/10.1162/tacl\\_a\\_00718",
+    "https://holmes-benchmark.github.io",
+    "https://huggingface.co/papers/2404.18923",
+    "https://www.alphaxiv.org/abs/2404.18923",
+    "https://www.semanticscholar.org/paper/274625741"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Holmes is a probing benchmark that assesses the English linguistic competence of language models with 208 datasets covering 66 phenomena. Its morphology, syntax, semantics, reasoning and discourse datasets consolidate resources found in a survey of 274 probing studies.",
+      "description": "Holds for: English only, and last-layer internal representations only. Classifier-based (linear) probing, so generation and instruction following are not measured; 18 of the 208 datasets rest on licensed resources."
+    },
+    {
+      "@type": "Thing",
+      "name": "A meta-study of 274 probing papers finds the literature collectively covers 289 tasks and 161 language models, yet individual studies stay narrow. Part-of-speech tagging, the most probed task, was evaluated on only 23% of the models, and the top-10 most mentioned models account for 80% of all model mentions.",
+      "description": "Holds for: 28,063 papers from 2015 to August 2023 at ACL-family venues plus selected other venues, filtered by occurrences of 'probing'/'probe' and then manually reviewed; recent large models such as Pythia, UL2 and Llama-2 are almost absent from the surveyed work."
+    },
+    {
+      "@type": "Thing",
+      "name": "Among 274 surveyed probing studies, 74% use classifier-based probing and 20% use mask-based probing, while roughly 3% rely on attention patterns or other approaches.",
+      "description": "Holds for: Categorisation of studies published 2015 to August 2023 at major NLP venues; each study assigned a single dominant probing method."
+    },
+    {
+      "@type": "Thing",
+      "name": "Probing results on Holmes vary little across seeds, with an average standard deviation of 0.02 over 5 random seeds, against the 0.07 deviation reported for prompt paraphrasing in prompting-based evaluation. Average compression is 1.9 and average selectivity 0.31.",
+      "description": "Holds for: Averages over 208 probing datasets and the evaluated models, with fixed probe hyperparameters (20 epochs, batch size 64, learning rate 0.0005); selectivity computed only for base-sized models of 10M-200M parameters."
+    },
+    {
+      "@type": "Thing",
+      "name": "Across 59 evaluated language models, linguistic competence is markedly stronger for formal phenomena (morphology and syntax) than for functional ones (semantics, reasoning and discourse), which score lower on the probing task metric.",
+      "description": "Holds for: 59 models spanning sparse, static, encoder, decoder and encoder-decoder types, probed on last-layer representations of 208 English datasets."
+    },
+    {
+      "@type": "Thing",
+      "name": "The five phenomenon types in Holmes correlate at 68.4±7.5 Kendall-tau with the overall model ranking but only 54.7±13.9 with each other. Discourse is the most distinct type, at 44.4±14.7 average correlation with the others.",
+      "description": "Holds for: Kendall-tau rank correlations over the models jointly evaluated within Holmes; semantics and reasoning correlate 73.9 and 75.6 with the overall ranking but only 58.4 with each other."
+    },
+    {
+      "@type": "Thing",
+      "name": "Encoder language models reach a mean winning rate of 52% on Holmes against 21% for decoder models of comparable size. Decoder models do not match encoder stability on frequent part-of-speech tokens even at 700 times the parameter count.",
+      "description": "Holds for: 5 encoder and 6 decoder models up to 220M parameters for the mean-winning-rate comparison; token stability covers BERT, RoBERTa, GPT2, Pythia-12B and Llama-2-70B on the top-20 most common tokens of the pos, xpos and upos datasets."
+    },
+    {
+      "@type": "Thing",
+      "name": "Linguistic competence on Holmes scales with parameter count within the Pythia and T5 families. The jump is pronounced beyond 0.5B parameters for Pythia and 1.0B for T5, and is concentrated in morphology and syntax.",
+      "description": "Holds for: 8 T5 sizes and 5 Pythia sizes only; T5 (encoder-decoder) reaches a mean winning rate of 40-70% versus 20-60% for Pythia (decoder-only), so architecture and scale are not separated in this comparison."
+    },
+    {
+      "@type": "Thing",
+      "name": "Instruction tuning raises mean winning rate on Holmes by an average of +10% for morphology, +5% for syntax and +4% for reasoning. It lowers it by -3% for semantics and -1% for discourse, for an overall average of +2%, with per-model effects from +41% to -13%.",
+      "description": "Holds for: 11 instruction-tuned models each compared against its own pre-trained base (Llama-2-Chat, FLAN-T5, Dolly-v2, Tülu-2, Orca-2, Vicuna-v1.5, FLAN-UL2, Mixtral-Instruct) at 7B to 70B parameters."
+    },
+    {
+      "@type": "Thing",
+      "name": "Holmes probing rankings correlate only moderately with the prompting-based OpenLLM leaderboard, at 54.7 to 58.0 Kendall-tau for syntax, semantics and discourse, rising to 65.3 for morphology and 77.5 for reasoning.",
+      "description": "Holds for: Models evaluated by both Holmes and OpenLLM (Beeching et al., 2023); correlation patterns hold across MMLU, TruthfulQA and GSM8K, with TruthfulQA the weakest correlate."
+    },
+    {
+      "@type": "Thing",
+      "name": "On the BLiMP datasets evaluated by both Holmes and HELM, probing-based and prompting-based model rankings barely agree, at a rank correlation of tau=0.05. Most HELM prompting results fall below the random baseline.",
+      "description": "Holds for: 40 open decoder models and 22 BLiMP datasets covering quantifier, island effects, irregular forms and binding phenomena, using HELM's own evaluation code with its multiple-choice-joined prompting adaptation."
+    },
+    {
+      "@type": "Thing",
+      "name": "FlashHolmes reproduces Holmes model rankings at a rank resolution of about 1.5 while requiring roughly 3% of the computation. It trains probes on 1/32 of the training instances and drops the 18 licensed datasets, versus about 6 GPU days of encoding for a 70B model on full Holmes.",
+      "description": "Holds for: Rank resolution is the 95% CI of rank difference against full Holmes, where 1/2 of the training data gives about 0.9 and 1/512 about 2.6; English datasets, last-layer representations."
+    },
+    {
+      "@type": "Thing",
+      "name": "Holmes argues that probing-based evaluation retains validity under dataset contamination, because instruction tuning aligns a model's textual responses rather than explicitly aligning the internal representations that the probes read.",
+      "description": "Holds for: An argument rather than a measurement; training data is unknown for several evaluated models, including Llama-2, Mixtral and Wizard."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/#faq",
+  "url": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/",
+  "name": "Questions answered by Holmes: A Benchmark to Assess the Linguistic Competence of Language Models",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What benchmark should I read about first for evaluating what language models know about grammar and linguistics?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Holmes is a probing benchmark that assesses the English linguistic competence of language models with 208 datasets covering 66 phenomena. Its morphology, syntax, semantics, reasoning and discourse datasets consolidate resources found in a survey of 274 probing studies. Holds for: English only, and last-layer internal representations only. Classifier-based (linear) probing, so generation and instruction following are not measured; 18 of the 208 datasets rest on licensed resources.\n\nA meta-study of 274 probing papers finds the literature collectively covers 289 tasks and 161 language models, yet individual studies stay narrow. Part-of-speech tagging, the most probed task, was evaluated on only 23% of the models, and the top-10 most mentioned models account for 80% of all model mentions. Holds for: 28,063 papers from 2015 to August 2023 at ACL-family venues plus selected other venues, filtered by occurrences of 'probing'/'probe' and then manually reviewed; recent large models such as Pythia, UL2 and Llama-2 are almost absent from the surveyed work.",
+        "url": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/"
+      },
+      "alternateName": [
+        "Is there a benchmark that tests linguistic knowledge of LLMs without prompting?",
+        "Where can I find a large consolidated collection of probing datasets for language models?",
+        "What work consolidated the probing literature into an evaluation suite?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does prompting a language model about syntax tell you the same thing as probing its representations?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On the BLiMP datasets evaluated by both Holmes and HELM, probing-based and prompting-based model rankings barely agree, at a rank correlation of tau=0.05. Most HELM prompting results fall below the random baseline. Holds for: 40 open decoder models and 22 BLiMP datasets covering quantifier, island effects, irregular forms and binding phenomena, using HELM's own evaluation code with its multiple-choice-joined prompting adaptation.\n\nHolmes probing rankings correlate only moderately with the prompting-based OpenLLM leaderboard, at 54.7 to 58.0 Kendall-tau for syntax, semantics and discourse, rising to 65.3 for morphology and 77.5 for reasoning. Holds for: Models evaluated by both Holmes and OpenLLM (Beeching et al., 2023); correlation patterns hold across MMLU, TruthfulQA and GSM8K, with TruthfulQA the weakest correlate.",
+        "url": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/"
+      },
+      "alternateName": [
+        "Can prompting-based benchmarks replace probing for measuring linguistic knowledge?",
+        "How well do HELM's BLiMP prompting results agree with probing results?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do encoder models understand language better than decoder-only LLMs?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Encoder language models reach a mean winning rate of 52% on Holmes against 21% for decoder models of comparable size. Decoder models do not match encoder stability on frequent part-of-speech tokens even at 700 times the parameter count. Holds for: 5 encoder and 6 decoder models up to 220M parameters for the mean-winning-rate comparison; token stability covers BERT, RoBERTa, GPT2, Pythia-12B and Llama-2-70B on the top-20 most common tokens of the pos, xpos and upos datasets.",
+        "url": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/"
+      },
+      "alternateName": [
+        "Does architecture matter for how well a model encodes part-of-speech and agreement?",
+        "Can a 70B decoder model match BERT on token-level linguistic probing?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does instruction tuning improve a model's internal grasp of linguistic phenomena?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Instruction tuning raises mean winning rate on Holmes by an average of +10% for morphology, +5% for syntax and +4% for reasoning. It lowers it by -3% for semantics and -1% for discourse, for an overall average of +2%, with per-model effects from +41% to -13%. Holds for: 11 instruction-tuned models each compared against its own pre-trained base (Llama-2-Chat, FLAN-T5, Dolly-v2, Tülu-2, Orca-2, Vicuna-v1.5, FLAN-UL2, Mixtral-Instruct) at 7B to 70B parameters.",
+        "url": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/"
+      },
+      "alternateName": [
+        "What effect does RLHF-style instruction tuning have on syntax and semantics probing scores?",
+        "Is instruction tuning only a superficial alignment when it comes to linguistic competence?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does linguistic competence in language models scale with parameter count?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Linguistic competence on Holmes scales with parameter count within the Pythia and T5 families. The jump is pronounced beyond 0.5B parameters for Pythia and 1.0B for T5, and is concentrated in morphology and syntax. Holds for: 8 T5 sizes and 5 Pythia sizes only; T5 (encoder-decoder) reaches a mean winning rate of 40-70% versus 20-60% for Pythia (decoder-only), so architecture and scale are not separated in this comparison.",
+        "url": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/"
+      },
+      "alternateName": [
+        "At what model size do probing scores for morphology and syntax jump?",
+        "How do T5 and Pythia compare as they get bigger on linguistic probing?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which linguistic phenomena are language models good and bad at internally?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Across 59 evaluated language models, linguistic competence is markedly stronger for formal phenomena (morphology and syntax) than for functional ones (semantics, reasoning and discourse), which score lower on the probing task metric. Holds for: 59 models spanning sparse, static, encoder, decoder and encoder-decoder types, probed on last-layer representations of 208 English datasets.\n\nThe five phenomenon types in Holmes correlate at 68.4±7.5 Kendall-tau with the overall model ranking but only 54.7±13.9 with each other. Discourse is the most distinct type, at 44.4±14.7 average correlation with the others. Holds for: Kendall-tau rank correlations over the models jointly evaluated within Holmes; semantics and reasoning correlate 73.9 and 75.6 with the overall ranking but only 58.4 with each other.",
+        "url": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/"
+      },
+      "alternateName": [
+        "Are semantics and discourse harder for language models than syntax?",
+        "What is the difference between formal and functional linguistic phenomena in model probing results?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are classifier-probing results stable enough to build a benchmark on?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Probing results on Holmes vary little across seeds, with an average standard deviation of 0.02 over 5 random seeds, against the 0.07 deviation reported for prompt paraphrasing in prompting-based evaluation. Average compression is 1.9 and average selectivity 0.31. Holds for: Averages over 208 probing datasets and the evaluated models, with fixed probe hyperparameters (20 epochs, batch size 64, learning rate 0.0005); selectivity computed only for base-sized models of 10M-200M parameters.",
+        "url": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/"
+      },
+      "alternateName": [
+        "How much do probing scores vary across random seeds compared to prompt variation?",
+        "What reliability checks did the Holmes benchmark run on its probes?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How expensive is it to evaluate a new large language model on a full probing benchmark?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "FlashHolmes reproduces Holmes model rankings at a rank resolution of about 1.5 while requiring roughly 3% of the computation. It trains probes on 1/32 of the training instances and drops the 18 licensed datasets, versus about 6 GPU days of encoding for a 70B model on full Holmes. Holds for: Rank resolution is the 95% CI of rank difference against full Holmes, where 1/2 of the training data gives about 0.9 and 1/512 about 2.6; English datasets, last-layer representations.",
+        "url": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/"
+      },
+      "alternateName": [
+        "Is there a cheap version of Holmes for evaluating a new model?",
+        "How much compute does FlashHolmes save and at what cost in ranking accuracy?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How fragmented is existing probing research on language models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A meta-study of 274 probing papers finds the literature collectively covers 289 tasks and 161 language models, yet individual studies stay narrow. Part-of-speech tagging, the most probed task, was evaluated on only 23% of the models, and the top-10 most mentioned models account for 80% of all model mentions. Holds for: 28,063 papers from 2015 to August 2023 at ACL-family venues plus selected other venues, filtered by occurrences of 'probing'/'probe' and then manually reviewed; recent large models such as Pythia, UL2 and Llama-2 are almost absent from the surveyed work.\n\nAmong 274 surveyed probing studies, 74% use classifier-based probing and 20% use mask-based probing, while roughly 3% rely on attention patterns or other approaches. Holds for: Categorisation of studies published 2015 to August 2023 at major NLP venues; each study assigned a single dominant probing method.",
+        "url": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/"
+      },
+      "alternateName": [
+        "How many tasks and models does the probing literature actually cover jointly?",
+        "Which probing method dominates the published literature?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is a probing benchmark affected by benchmark contamination in pretraining data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Holmes argues that probing-based evaluation retains validity under dataset contamination, because instruction tuning aligns a model's textual responses rather than explicitly aligning the internal representations that the probes read. Holds for: An argument rather than a measurement; training data is unknown for several evaluated models, including Llama-2, Mixtral and Wizard.",
+        "url": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/"
+      },
+      "alternateName": [
+        "Why would evaluating internal representations be more robust to data leakage?",
+        "Does Holmes control for the possibility that OntoNotes was in a model's pretraining corpus?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many language models and datasets does a linguistic probing benchmark like Holmes cover?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Holmes is a probing benchmark that assesses the English linguistic competence of language models with 208 datasets covering 66 phenomena. Its morphology, syntax, semantics, reasoning and discourse datasets consolidate resources found in a survey of 274 probing studies. Holds for: English only, and last-layer internal representations only. Classifier-based (linear) probing, so generation and instruction following are not measured; 18 of the 208 datasets rest on licensed resources.\n\nAcross 59 evaluated language models, linguistic competence is markedly stronger for formal phenomena (morphology and syntax) than for functional ones (semantics, reasoning and discourse), which score lower on the probing task metric. Holds for: 59 models spanning sparse, static, encoder, decoder and encoder-decoder types, probed on last-layer representations of 208 English datasets.",
+        "url": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/"
+      },
+      "alternateName": [
+        "What does the Holmes benchmark measure about language models?",
+        "Which linguistic phenomena are covered by a large probing benchmark for language models?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/#terms",
+  "url": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/",
+  "name": "Terminology in Holmes: A Benchmark to Assess the Linguistic Competence of Language Models",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "linguistic competence",
+      "description": "Following Chomsky (1965), a language model's unconscious internal understanding of linguistic phenomena, assessed via its internal representations rather than via its textual responses.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "linguistic performance",
+      "description": "A language model's use of language in textual responses to instructions, which is what prompting-based benchmarks measure and which conflates linguistic knowledge with abilities such as instruction following.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "formal vs. functional phenomena",
+      "description": "Formal phenomena are morphology and syntax (grammatical rules and statistical patterns); functional phenomena are semantics, reasoning and discourse (practical abilities like interpreting sentiment or detecting speculation).",
+      "inDefinedTermSet": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "selectivity",
+      "description": "The macro-F1 of a probe trained on the true labels minus the macro-F1 of the same probe trained on randomly assigned control-task labels; higher values mean the probe found phenomenon-relevant structure rather than memorising.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "compression",
+      "description": "The ratio of a uniform encoding of instances and labels to their minimum description length under the probe; higher values mean the linguistic phenomenon is more cleanly encoded in the representation.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "discriminability",
+      "description": "The Kendall-tau alignment between the model ranking induced by a single probing dataset and the overall benchmark ranking; low values mean no single dataset dominates the aggregate ranking.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "rank resolution",
+      "description": "The 95% confidence interval of the difference in a model's rank between a subsampled benchmark and the full benchmark; a resolution of 1 means a model keeps its rank or swaps with a neighbour.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "FlashHolmes",
+      "description": "The streamlined variant of the Holmes benchmark that trains probes on 1/32 of the training instances and excludes 18 licensed datasets.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/holmes-a-benchmark-to-assess-the-linguistic-competence-of-la/#terms"
+    }
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>Holmes: A Benchmark to Assess the Linguistic Competence of Language Models</h1>
+<p class="sub">a probing benchmark that measures what language models internally encode about linguistic phenomena</p>
+<p class="meta">Andreas Waldis, Yotam Perlitz, Leshem Choshen, Yufang Hou, Iryna Gurevych · TACL · 2024</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2404.18923">arXiv</a></li><li><a href="https://arxiv.org/pdf/2404.18923">PDF</a></li><li><a href="https://arxiv.org/html/2404.18923">HTML</a></li><li><a href="https://huggingface.co/papers/2404.18923">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2404.18923">alphaXiv</a></li><li><a href="https://doi.org/10.1162/TACL\_A\_00718">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/274625741">Semantic Scholar</a></li><li><a href="https://doi.org/10.1162/tacl\_a\_00718">Publisher</a></li><li><a href="https://holmes-benchmark.github.io">project page</a></li></ul>
+<h2>In one sentence</h2>
+<p>Holmes measures the linguistic competence of language models by training linear probes on the frozen last-layer representations of 208 datasets covering morphology, syntax, semantics, reasoning and discourse, isolating linguistic knowledge from instruction following.</p>
+<h2>Abstract</h2>
+<p>We introduce Holmes, a new benchmark designed to assess language models (LMs) linguistic competence - their unconscious understanding of linguistic phenomena. Specifically, we use classifier-based probing to examine LMs&#x27;internal representations regarding distinct linguistic phenomena (e.g., part-of-speech tagging). As a result, we meet recent calls to disentangle LMs&#x27;linguistic competence from other cognitive abilities, such as following instructions in prompting-based evaluations. Composing Holmes, we review over 270 probing studies and include more than 200 datasets to assess syntax, morphology, semantics, reasoning, and discourse phenomena. Analyzing over 50 LMs reveals that, aligned with known trends, their linguistic competence correlates with model size. However, surprisingly, model architecture and instruction tuning also significantly influence performance, particularly in morphology and syntax. Finally, we propose FlashHolmes, a streamlined version that reduces the computation load while maintaining high-ranking precision.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What benchmark should I read about first for evaluating what language models know about grammar and linguistics?</dt>
+<dt>Is there a benchmark that tests linguistic knowledge of LLMs without prompting?</dt>
+<dt>Where can I find a large consolidated collection of probing datasets for language models?</dt>
+<dt>What work consolidated the probing literature into an evaluation suite?</dt>
+<dd>Holmes is a probing benchmark that assesses the English linguistic competence of language models with 208 datasets covering 66 phenomena. Its morphology, syntax, semantics, reasoning and discourse datasets consolidate resources found in a survey of 274 probing studies.<br><span class="scope">Holds for: English only, and last-layer internal representations only. Classifier-based (linear) probing, so generation and instruction following are not measured; 18 of the 208 datasets rest on licensed resources.</span></dd>
+<dd>A meta-study of 274 probing papers finds the literature collectively covers 289 tasks and 161 language models, yet individual studies stay narrow. Part-of-speech tagging, the most probed task, was evaluated on only 23% of the models, and the top-10 most mentioned models account for 80% of all model mentions.<br><span class="scope">Holds for: 28,063 papers from 2015 to August 2023 at ACL-family venues plus selected other venues, filtered by occurrences of &#x27;probing&#x27;/&#x27;probe&#x27; and then manually reviewed; recent large models such as Pythia, UL2 and Llama-2 are almost absent from the surveyed work.</span></dd>
+<dt>Does prompting a language model about syntax tell you the same thing as probing its representations?</dt>
+<dt>Can prompting-based benchmarks replace probing for measuring linguistic knowledge?</dt>
+<dt>How well do HELM&#x27;s BLiMP prompting results agree with probing results?</dt>
+<dd>On the BLiMP datasets evaluated by both Holmes and HELM, probing-based and prompting-based model rankings barely agree, at a rank correlation of tau=0.05. Most HELM prompting results fall below the random baseline.<br><span class="scope">Holds for: 40 open decoder models and 22 BLiMP datasets covering quantifier, island effects, irregular forms and binding phenomena, using HELM&#x27;s own evaluation code with its multiple-choice-joined prompting adaptation.</span></dd>
+<dd>Holmes probing rankings correlate only moderately with the prompting-based OpenLLM leaderboard, at 54.7 to 58.0 Kendall-tau for syntax, semantics and discourse, rising to 65.3 for morphology and 77.5 for reasoning.<br><span class="scope">Holds for: Models evaluated by both Holmes and OpenLLM (Beeching et al., 2023); correlation patterns hold across MMLU, TruthfulQA and GSM8K, with TruthfulQA the weakest correlate.</span></dd>
+<dt>Do encoder models understand language better than decoder-only LLMs?</dt>
+<dt>Does architecture matter for how well a model encodes part-of-speech and agreement?</dt>
+<dt>Can a 70B decoder model match BERT on token-level linguistic probing?</dt>
+<dd>Encoder language models reach a mean winning rate of 52% on Holmes against 21% for decoder models of comparable size. Decoder models do not match encoder stability on frequent part-of-speech tokens even at 700 times the parameter count.<br><span class="scope">Holds for: 5 encoder and 6 decoder models up to 220M parameters for the mean-winning-rate comparison; token stability covers BERT, RoBERTa, GPT2, Pythia-12B and Llama-2-70B on the top-20 most common tokens of the pos, xpos and upos datasets.</span></dd>
+<dt>Does instruction tuning improve a model&#x27;s internal grasp of linguistic phenomena?</dt>
+<dt>What effect does RLHF-style instruction tuning have on syntax and semantics probing scores?</dt>
+<dt>Is instruction tuning only a superficial alignment when it comes to linguistic competence?</dt>
+<dd>Instruction tuning raises mean winning rate on Holmes by an average of +10% for morphology, +5% for syntax and +4% for reasoning. It lowers it by -3% for semantics and -1% for discourse, for an overall average of +2%, with per-model effects from +41% to -13%.<br><span class="scope">Holds for: 11 instruction-tuned models each compared against its own pre-trained base (Llama-2-Chat, FLAN-T5, Dolly-v2, Tülu-2, Orca-2, Vicuna-v1.5, FLAN-UL2, Mixtral-Instruct) at 7B to 70B parameters.</span></dd>
+<dt>Does linguistic competence in language models scale with parameter count?</dt>
+<dt>At what model size do probing scores for morphology and syntax jump?</dt>
+<dt>How do T5 and Pythia compare as they get bigger on linguistic probing?</dt>
+<dd>Linguistic competence on Holmes scales with parameter count within the Pythia and T5 families. The jump is pronounced beyond 0.5B parameters for Pythia and 1.0B for T5, and is concentrated in morphology and syntax.<br><span class="scope">Holds for: 8 T5 sizes and 5 Pythia sizes only; T5 (encoder-decoder) reaches a mean winning rate of 40-70% versus 20-60% for Pythia (decoder-only), so architecture and scale are not separated in this comparison.</span></dd>
+<dt>Which linguistic phenomena are language models good and bad at internally?</dt>
+<dt>Are semantics and discourse harder for language models than syntax?</dt>
+<dt>What is the difference between formal and functional linguistic phenomena in model probing results?</dt>
+<dd>Across 59 evaluated language models, linguistic competence is markedly stronger for formal phenomena (morphology and syntax) than for functional ones (semantics, reasoning and discourse), which score lower on the probing task metric.<br><span class="scope">Holds for: 59 models spanning sparse, static, encoder, decoder and encoder-decoder types, probed on last-layer representations of 208 English datasets.</span></dd>
+<dd>The five phenomenon types in Holmes correlate at 68.4±7.5 Kendall-tau with the overall model ranking but only 54.7±13.9 with each other. Discourse is the most distinct type, at 44.4±14.7 average correlation with the others.<br><span class="scope">Holds for: Kendall-tau rank correlations over the models jointly evaluated within Holmes; semantics and reasoning correlate 73.9 and 75.6 with the overall ranking but only 58.4 with each other.</span></dd>
+<dt>Are classifier-probing results stable enough to build a benchmark on?</dt>
+<dt>How much do probing scores vary across random seeds compared to prompt variation?</dt>
+<dt>What reliability checks did the Holmes benchmark run on its probes?</dt>
+<dd>Probing results on Holmes vary little across seeds, with an average standard deviation of 0.02 over 5 random seeds, against the 0.07 deviation reported for prompt paraphrasing in prompting-based evaluation. Average compression is 1.9 and average selectivity 0.31.<br><span class="scope">Holds for: Averages over 208 probing datasets and the evaluated models, with fixed probe hyperparameters (20 epochs, batch size 64, learning rate 0.0005); selectivity computed only for base-sized models of 10M-200M parameters.</span></dd>
+<dt>How expensive is it to evaluate a new large language model on a full probing benchmark?</dt>
+<dt>Is there a cheap version of Holmes for evaluating a new model?</dt>
+<dt>How much compute does FlashHolmes save and at what cost in ranking accuracy?</dt>
+<dd>FlashHolmes reproduces Holmes model rankings at a rank resolution of about 1.5 while requiring roughly 3% of the computation. It trains probes on 1/32 of the training instances and drops the 18 licensed datasets, versus about 6 GPU days of encoding for a 70B model on full Holmes.<br><span class="scope">Holds for: Rank resolution is the 95% CI of rank difference against full Holmes, where 1/2 of the training data gives about 0.9 and 1/512 about 2.6; English datasets, last-layer representations.</span></dd>
+<dt>How fragmented is existing probing research on language models?</dt>
+<dt>How many tasks and models does the probing literature actually cover jointly?</dt>
+<dt>Which probing method dominates the published literature?</dt>
+<dd>A meta-study of 274 probing papers finds the literature collectively covers 289 tasks and 161 language models, yet individual studies stay narrow. Part-of-speech tagging, the most probed task, was evaluated on only 23% of the models, and the top-10 most mentioned models account for 80% of all model mentions.<br><span class="scope">Holds for: 28,063 papers from 2015 to August 2023 at ACL-family venues plus selected other venues, filtered by occurrences of &#x27;probing&#x27;/&#x27;probe&#x27; and then manually reviewed; recent large models such as Pythia, UL2 and Llama-2 are almost absent from the surveyed work.</span></dd>
+<dd>Among 274 surveyed probing studies, 74% use classifier-based probing and 20% use mask-based probing, while roughly 3% rely on attention patterns or other approaches.<br><span class="scope">Holds for: Categorisation of studies published 2015 to August 2023 at major NLP venues; each study assigned a single dominant probing method.</span></dd>
+<dt>Is a probing benchmark affected by benchmark contamination in pretraining data?</dt>
+<dt>Why would evaluating internal representations be more robust to data leakage?</dt>
+<dt>Does Holmes control for the possibility that OntoNotes was in a model&#x27;s pretraining corpus?</dt>
+<dd>Holmes argues that probing-based evaluation retains validity under dataset contamination, because instruction tuning aligns a model&#x27;s textual responses rather than explicitly aligning the internal representations that the probes read.<br><span class="scope">Holds for: An argument rather than a measurement; training data is unknown for several evaluated models, including Llama-2, Mixtral and Wizard.</span></dd>
+<dt>How many language models and datasets does a linguistic probing benchmark like Holmes cover?</dt>
+<dt>What does the Holmes benchmark measure about language models?</dt>
+<dt>Which linguistic phenomena are covered by a large probing benchmark for language models?</dt>
+<dd>Holmes is a probing benchmark that assesses the English linguistic competence of language models with 208 datasets covering 66 phenomena. Its morphology, syntax, semantics, reasoning and discourse datasets consolidate resources found in a survey of 274 probing studies.<br><span class="scope">Holds for: English only, and last-layer internal representations only. Classifier-based (linear) probing, so generation and instruction following are not measured; 18 of the 208 datasets rest on licensed resources.</span></dd>
+<dd>Across 59 evaluated language models, linguistic competence is markedly stronger for formal phenomena (morphology and syntax) than for functional ones (semantics, reasoning and discourse), which score lower on the probing task metric.<br><span class="scope">Holds for: 59 models spanning sparse, static, encoder, decoder and encoder-decoder types, probed on last-layer representations of 208 English datasets.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Holmes is a probing benchmark that assesses the English linguistic competence of language models with 208 datasets covering 66 phenomena. Its morphology, syntax, semantics, reasoning and discourse datasets consolidate resources found in a survey of 274 probing studies. <span class="meta">(Section 4.1, Section 3.1)</span><br><span class="scope">Scope: English only, and last-layer internal representations only. Classifier-based (linear) probing, so generation and instruction following are not measured; 18 of the 208 datasets rest on licensed resources.</span></li>
+<li>A meta-study of 274 probing papers finds the literature collectively covers 289 tasks and 161 language models, yet individual studies stay narrow. Part-of-speech tagging, the most probed task, was evaluated on only 23% of the models, and the top-10 most mentioned models account for 80% of all model mentions. <span class="meta">(Section 3.2 (iv), Figure 5, Figure 6)</span><br><span class="scope">Scope: 28,063 papers from 2015 to August 2023 at ACL-family venues plus selected other venues, filtered by occurrences of &#x27;probing&#x27;/&#x27;probe&#x27; and then manually reviewed; recent large models such as Pythia, UL2 and Llama-2 are almost absent from the surveyed work.</span></li>
+<li>Among 274 surveyed probing studies, 74% use classifier-based probing and 20% use mask-based probing, while roughly 3% rely on attention patterns or other approaches. <span class="meta">(Section 3.2 (iii), Figure 4)</span><br><span class="scope">Scope: Categorisation of studies published 2015 to August 2023 at major NLP venues; each study assigned a single dominant probing method.</span></li>
+<li>Probing results on Holmes vary little across seeds, with an average standard deviation of 0.02 over 5 random seeds, against the 0.07 deviation reported for prompt paraphrasing in prompting-based evaluation. Average compression is 1.9 and average selectivity 0.31. <span class="meta">(Section 5 (i), Figure 8)</span><br><span class="scope">Scope: Averages over 208 probing datasets and the evaluated models, with fixed probe hyperparameters (20 epochs, batch size 64, learning rate 0.0005); selectivity computed only for base-sized models of 10M-200M parameters.</span></li>
+<li>Across 59 evaluated language models, linguistic competence is markedly stronger for formal phenomena (morphology and syntax) than for functional ones (semantics, reasoning and discourse), which score lower on the probing task metric. <span class="meta">(Section 5 (ii), Figure 9)</span><br><span class="scope">Scope: 59 models spanning sparse, static, encoder, decoder and encoder-decoder types, probed on last-layer representations of 208 English datasets.</span></li>
+<li>The five phenomenon types in Holmes correlate at 68.4±7.5 Kendall-tau with the overall model ranking but only 54.7±13.9 with each other. Discourse is the most distinct type, at 44.4±14.7 average correlation with the others. <span class="meta">(Section 5 (ii), Figure 10 (left))</span><br><span class="scope">Scope: Kendall-tau rank correlations over the models jointly evaluated within Holmes; semantics and reasoning correlate 73.9 and 75.6 with the overall ranking but only 58.4 with each other.</span></li>
+<li>Encoder language models reach a mean winning rate of 52% on Holmes against 21% for decoder models of comparable size. Decoder models do not match encoder stability on frequent part-of-speech tokens even at 700 times the parameter count. <span class="meta">(Section 5 (iii), Figure 11)</span><br><span class="scope">Scope: 5 encoder and 6 decoder models up to 220M parameters for the mean-winning-rate comparison; token stability covers BERT, RoBERTa, GPT2, Pythia-12B and Llama-2-70B on the top-20 most common tokens of the pos, xpos and upos datasets.</span></li>
+<li>Linguistic competence on Holmes scales with parameter count within the Pythia and T5 families. The jump is pronounced beyond 0.5B parameters for Pythia and 1.0B for T5, and is concentrated in morphology and syntax. <span class="meta">(Section 5 (iv), Figure 12)</span><br><span class="scope">Scope: 8 T5 sizes and 5 Pythia sizes only; T5 (encoder-decoder) reaches a mean winning rate of 40-70% versus 20-60% for Pythia (decoder-only), so architecture and scale are not separated in this comparison.</span></li>
+<li>Instruction tuning raises mean winning rate on Holmes by an average of +10% for morphology, +5% for syntax and +4% for reasoning. It lowers it by -3% for semantics and -1% for discourse, for an overall average of +2%, with per-model effects from +41% to -13%. <span class="meta">(Table 2)</span><br><span class="scope">Scope: 11 instruction-tuned models each compared against its own pre-trained base (Llama-2-Chat, FLAN-T5, Dolly-v2, Tülu-2, Orca-2, Vicuna-v1.5, FLAN-UL2, Mixtral-Instruct) at 7B to 70B parameters.</span></li>
+<li>Holmes probing rankings correlate only moderately with the prompting-based OpenLLM leaderboard, at 54.7 to 58.0 Kendall-tau for syntax, semantics and discourse, rising to 65.3 for morphology and 77.5 for reasoning. <span class="meta">(Section 5 (vi), Figure 10 (right))</span><br><span class="scope">Scope: Models evaluated by both Holmes and OpenLLM (Beeching et al., 2023); correlation patterns hold across MMLU, TruthfulQA and GSM8K, with TruthfulQA the weakest correlate.</span></li>
+<li>On the BLiMP datasets evaluated by both Holmes and HELM, probing-based and prompting-based model rankings barely agree, at a rank correlation of tau=0.05. Most HELM prompting results fall below the random baseline. <span class="meta">(Figure 15)</span><br><span class="scope">Scope: 40 open decoder models and 22 BLiMP datasets covering quantifier, island effects, irregular forms and binding phenomena, using HELM&#x27;s own evaluation code with its multiple-choice-joined prompting adaptation.</span></li>
+<li>FlashHolmes reproduces Holmes model rankings at a rank resolution of about 1.5 while requiring roughly 3% of the computation. It trains probes on 1/32 of the training instances and drops the 18 licensed datasets, versus about 6 GPU days of encoding for a 70B model on full Holmes. <span class="meta">(Section 6, Figure 13)</span><br><span class="scope">Scope: Rank resolution is the 95% CI of rank difference against full Holmes, where 1/2 of the training data gives about 0.9 and 1/512 about 2.6; English datasets, last-layer representations.</span></li>
+<li>Holmes argues that probing-based evaluation retains validity under dataset contamination, because instruction tuning aligns a model&#x27;s textual responses rather than explicitly aligning the internal representations that the probes read. <span class="meta">(Ethical Considerations and Limitations, Dataset Contamination)</span><br><span class="scope">Scope: An argument rather than a measurement; training data is unknown for several evaluated models, including Llama-2, Mixtral and Wizard.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>Holmes does not test whether a language model can answer grammar questions; it trains linear probes on frozen last-layer representations, so a high Holmes score says nothing directly about a model&#x27;s generated output.</li>
+<li>The finding that encoders beat decoders holds for models up to 220M parameters in the mean-winning-rate comparison, because no large encoder-only models were available; it is not a measured comparison of a 70B encoder against a 70B decoder.</li>
+<li>Instruction tuning is not uniformly harmful or uniformly helpful for linguistic competence: it averages +10% mean winning rate on morphology but -3% on semantics, and individual models range from -13% to +41% depending on phenomenon type.</li>
+<li>A moderate Holmes-OpenLLM rank correlation does not mean probing and prompting measure the same thing; on jointly evaluated BLiMP datasets the two rankings agree at only tau=0.05.</li>
+<li>FlashHolmes is not merely a random subsample of Holmes: besides training on 1/32 of the instances it also excludes the 18 datasets built from licensed resources.</li>
+<li>Holmes covers English only, so its rankings should not be read as claims about multilingual linguistic competence.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>linguistic competence</em></dt><dd>Following Chomsky (1965), a language model&#x27;s unconscious internal understanding of linguistic phenomena, assessed via its internal representations rather than via its textual responses.</dd>
+<dt><em>linguistic performance</em></dt><dd>A language model&#x27;s use of language in textual responses to instructions, which is what prompting-based benchmarks measure and which conflates linguistic knowledge with abilities such as instruction following.</dd>
+<dt><em>formal vs. functional phenomena</em></dt><dd>Formal phenomena are morphology and syntax (grammatical rules and statistical patterns); functional phenomena are semantics, reasoning and discourse (practical abilities like interpreting sentiment or detecting speculation).</dd>
+<dt><em>selectivity</em></dt><dd>The macro-F1 of a probe trained on the true labels minus the macro-F1 of the same probe trained on randomly assigned control-task labels; higher values mean the probe found phenomenon-relevant structure rather than memorising.</dd>
+<dt><em>compression</em></dt><dd>The ratio of a uniform encoding of instances and labels to their minimum description length under the probe; higher values mean the linguistic phenomenon is more cleanly encoded in the representation.</dd>
+<dt><em>discriminability</em></dt><dd>The Kendall-tau alignment between the model ranking induced by a single probing dataset and the overall benchmark ranking; low values mean no single dataset dominates the aggregate ranking.</dd>
+<dt><em>rank resolution</em></dt><dd>The 95% confidence interval of the difference in a model&#x27;s rank between a subsampled benchmark and the full benchmark; a resolution of 1 means a model keeps its rank or swaps with a neighbour.</dd>
+<dt><em>FlashHolmes</em></dt><dd>The streamlined variant of the Holmes benchmark that trains probes on 1/32 of the training instances and excludes 18 licensed datasets.</dd>
+</dl>
+<h2>How to cite</h2>
+<pre>@article{DBLP:journals/corr/abs-2404-18923,author       = {Andreas Waldis and
+                  Yotam Perlitz and
+                  Leshem Choshen and
+                  Yufang Hou and
+                  Iryna Gurevych},
+  title        = {Holmes: {A} Benchmark to Assess the Linguistic Competence of Language Models},
+  journal      = {Trans. Assoc. Comput. Linguistics},
+  volume       = {12},
+  year         = {2024},
+  url          = {https://doi.org/10.1162/tacl\_a\_00718},
+  doi          = {10.1162/TACL\_A\_00718},
+  eprinttype    = {arXiv},
+  eprint       = {2404.18923},
+  timestamp    = {Tue, 14 Oct 2025 01:00:00 +0200},
+  biburl       = {https://dblp.org/rec/journals/tacl/WaldisWPCCHG24.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org},
+  pages        = {1616--1647}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2404.18923">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

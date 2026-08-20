@@ -10,7 +10,7 @@
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2022">
-  <meta name="citation_conference_title" content="Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing, EMNLP 2022, Abu…">
+  <meta name="citation_conference_title" content="EMNLP 2022">
   <meta name="citation_doi" content="10.18653/V1/2022.EMNLP-MAIN.767">
   <meta name="citation_arxiv_id" content="2205.09178">
   <meta name="citation_abstract" content="We present the task of PreQuEL, Pre-(Quality-Estimation) Learning. A PreQuEL system predicts how well a given sentence will be translated, without recourse to the actual translation, thus eschewing unnecessary resource allocation when translation quality is bound to be low. PreQuEL can be defined relative to a given MT system (e.g., some industry service) or generally relative to the state-of-the-art.From a theoretical perspective, PreQuEL places the focus on the source text, tracing properties, possibly linguistic features, that make a sentence harder to machine translate.We develop a baseline model for the task and analyze its performance. We also develop a data augmentation method (from parallel corpora), that improves results substantially. We show that this augmentation method can improve the performance of the Quality-Estimation task as well.We investigate the properties of the input text that our model is sensitive to, by testing it on challenge sets and different languages. We conclude that it is aware of syntactic and semantic distinctions, and correlates and even over-emphasizes the importance of standard NLP features.">
@@ -40,10 +40,12 @@
   "datePublished": "2022",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing, EMNLP 2022, Abu…"
+    "name": "EMNLP 2022"
   },
   "identifier": "https://doi.org/10.18653/V1/2022.EMNLP-MAIN.767",
   "abstract": "We present the task of PreQuEL, Pre-(Quality-Estimation) Learning. A PreQuEL system predicts how well a given sentence will be translated, without recourse to the actual translation, thus eschewing unnecessary resource allocation when translation quality is bound to be low. PreQuEL can be defined relative to a given MT system (e.g., some industry service) or generally relative to the state-of-the-art.From a theoretical perspective, PreQuEL places the focus on the source text, tracing properties, possibly linguistic features, that make a sentence harder to machine translate.We develop a baseline model for the task and analyze its performance. We also develop a data augmentation method (from parallel corpora), that improves results substantially. We show that this augmentation method can improve the performance of the Quality-Estimation task as well.We investigate the properties of the input text that our model is sensitive to, by testing it on challenge sets and different languages. We conclude that it is aware of syntactic and semantic distinctions, and correlates and even over-emphasizes the importance of standard NLP features.",
+  "description": "PreQuEL predicts how well a sentence will be machine-translated from the source text alone, before any translation is produced, and a data-augmentation method that labels parallel corpora with automatic metric scores makes it work well enough to approach a full quality-estimation system.",
+  "codeRepository": "https://github.com/shachardon/PreQuEL",
   "sameAs": [
     "https://aclanthology.org/2022.emnlp-main.767/",
     "https://ar5iv.labs.arxiv.org/html/2205.09178",
@@ -51,9 +53,324 @@
     "https://arxiv.org/pdf/2205.09178",
     "https://doi.org/10.18653/V1/2022.EMNLP-MAIN.767",
     "https://doi.org/10.18653/v1/2022.emnlp-main.767",
+    "https://github.com/shachardon/PreQuEL",
     "https://huggingface.co/papers/2205.09178",
     "https://www.alphaxiv.org/abs/2205.09178",
     "https://www.semanticscholar.org/paper/248887741"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "PreQuEL introduces the task of predicting machine-translation quality from the source sentence alone, before any translation exists, shifting quality estimation's focus from the output onto properties of the input text.",
+      "description": "Holds for: Introduced at EMNLP 2022; earlier quality-estimation work required the translation, and Sun et al. (2020) had treated source-only prediction as a dataset artifact rather than a task."
+    },
+    {
+      "@type": "Thing",
+      "name": "PreQuEL is a starting point for readers deciding between paid machine translation and human translation. A source-only quality predictor can be run before any translation cost is incurred.",
+      "description": "Holds for: Motivational framing for the sentence-level setting studied; no cost or deployment study is reported, and absolute correlations remain modest."
+    },
+    {
+      "@type": "Thing",
+      "name": "The best PreQuEL model reaches Pearson's r of 0.336 with human direct-assessment scores on English-German, against 0.135 for a negated-sentence-length baseline.",
+      "description": "Holds for: WMT 2020 sentence-level DA data, 7K training sentences, single fairseq MT system; Multitask model, RoBERTa-large, 3 seeds."
+    },
+    {
+      "@type": "Thing",
+      "name": "The best source-only PreQuEL model trails TransQuest, a quality-estimation system that sees the actual translation, by only 4.5 Pearson points on English-German (0.336 vs 0.381).",
+      "description": "Holds for: WMT 2020 en-de DA data; TransQuest run with official code scored below its published numbers. On et-en the gap is far larger: 0.602 vs 0.767."
+    },
+    {
+      "@type": "Thing",
+      "name": "Intertraining on parallel-corpus data automatically labelled with COMET raises PreQuEL's en-de correlation from 0.196 to 0.315, and the multi-task variant reaches 0.336.",
+      "description": "Holds for: en-de WMT 2020 DA; augmentation from WMT-News, bible-uedin, Tatoeba and GlobalVoices re-translated with OPUS-MT/Marian, 3 seeds."
+    },
+    {
+      "@type": "Thing",
+      "name": "The same COMET-labelled augmentation also improves ordinary quality estimation: TransQuest on en-de rises from 0.381 (std 0.043) to 0.429 (std 0.008) Pearson's r when intertrained on the augmented data.",
+      "description": "Holds for: en-de WMT 2020 DA, TransQuest architecture, 3 seeds; the gain is in both correlation and seed-to-seed stability."
+    },
+    {
+      "@type": "Thing",
+      "name": "A PreQuEL model supervised only with Marian outputs correlates 0.610 on Facebook FAIR outputs versus 0.652 on Marian's own, a drop of 4.2 points. That exceeds the 0.535 bound implied by inter-system label similarity.",
+      "description": "Holds for: COMET-labelled augmented data rather than human DA labels, en-de, two neural MT systems; the two systems' COMET labels correlate 0.60-0.82 across datasets."
+    },
+    {
+      "@type": "Thing",
+      "name": "PreQuEL learns target-language-specific difficulty: an en-de model correlates 0.377 with en-de gold scores but only 0.260 with en-zh, while the en-zh model scores 0.577 on en-zh and 0.140 on en-de.",
+      "description": "Holds for: Simple Aug models, source sentences shared between the en-de and en-zh WMT 2020 development DA sets, augmentation from NewsTests and bible-uedin."
+    },
+    {
+      "@type": "Thing",
+      "name": "PreQuEL predictions correlate more strongly with standard NLP features than the human gold scores do, for example -0.2894 versus -0.1305 with sentence length. The model therefore over-estimates those features' importance.",
+      "description": "Holds for: Simple Aug on the en-de DA development set; only statistically significant features reported, including UD parse depth, verb count, advcl and case edge counts and n-gram probabilities."
+    },
+    {
+      "@type": "Thing",
+      "name": "Concatenating a UD parser to the PreQuEL encoder raises en-de correlation to 0.326 against 0.265 for a same-size two-encoder control without a parser. The smaller Multitask model still beats both at 0.336.",
+      "description": "Holds for: en-de WMT 2020 DA; Combined+ and Combined- both use augmentation intertraining and double the parameter count of the Simple model (355M x 3 x 2)."
+    },
+    {
+      "@type": "Thing",
+      "name": "On a German word-ordering challenge set, PreQuEL predictions correlate more highly between sentence pairs that share meaning (0.901 and 0.936) than between pairs that share syntax (0.687 and 0.641). Meaning matters more to the model than word order.",
+      "description": "Holds for: Second German word-ordering challenge set of Choshen and Abend (2021), de-en Simple model trained on COMET-labelled augmented data rather than human DA labels."
+    },
+    {
+      "@type": "Thing",
+      "name": "Used as an analytic probe, PreQuEL scores are almost unchanged by swapping person names (-0.03) or numerical values (-0.03), but drop for Yoda-style reordering (-0.85) and random word deletion (-0.62). Back-translated English sentences score higher (+0.11).",
+      "description": "Holds for: en-de Simple Aug on NL-Augmenter transformations of DA source sentences; means over the 127-996 sentences each transformation actually changed, and the automatic transformations add noise."
+    },
+    {
+      "@type": "Thing",
+      "name": "Predicting translation quality from the source alone is harder for direct-assessment labels than for HTER: an en-de source-only model reaches 0.196 on DA versus 0.322 on HTER.",
+      "description": "Holds for: en-de WMT 2020 DA and HTER data, Simple architecture, 3 seeds each; supports that switching the metric to DA does not remove source-only predictability."
+    },
+    {
+      "@type": "Thing",
+      "name": "PreQuEL correlations vary widely by domain and degrade out of domain, from 0.72 in-domain and 0.36 out-of-domain on bible-uedin to 0.36 and 0.25 on Tatoeba.",
+      "description": "Holds for: Single Simple instances without ensembling, trained on ChrF++ augmentations, evaluated on development sets of NewsTests, bible-uedin, GlobalVoices and Tatoeba."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/#faq",
+  "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/",
+  "name": "Questions answered by PreQuEL: Quality Estimation of Machine Translation Outputs in Advance",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can you predict machine translation quality before translating a sentence?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PreQuEL introduces the task of predicting machine-translation quality from the source sentence alone, before any translation exists, shifting quality estimation's focus from the output onto properties of the input text. Holds for: Introduced at EMNLP 2022; earlier quality-estimation work required the translation, and Sun et al. (2020) had treated source-only prediction as a dataset artifact rather than a task.\n\nThe best PreQuEL model reaches Pearson's r of 0.336 with human direct-assessment scores on English-German, against 0.135 for a negated-sentence-length baseline. Holds for: WMT 2020 sentence-level DA data, 7K training sentences, single fairseq MT system; Multitask model, RoBERTa-large, 3 seeds.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "Is it possible to estimate translation quality from the source sentence only?",
+        "What is PreQuEL?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about quality estimation without access to the translation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PreQuEL introduces the task of predicting machine-translation quality from the source sentence alone, before any translation exists, shifting quality estimation's focus from the output onto properties of the input text. Holds for: Introduced at EMNLP 2022; earlier quality-estimation work required the translation, and Sun et al. (2020) had treated source-only prediction as a dataset artifact rather than a task.\n\nPreQuEL is a starting point for readers deciding between paid machine translation and human translation. A source-only quality predictor can be run before any translation cost is incurred. Holds for: Motivational framing for the sentence-level setting studied; no cost or deployment study is reported, and absolute correlations remain modest.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "Which paper introduced source-only translation quality prediction?",
+        "Where should I start reading about deciding whether to machine translate or hire human translators?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much worse is source-only prediction than a real quality estimation system?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The best source-only PreQuEL model trails TransQuest, a quality-estimation system that sees the actual translation, by only 4.5 Pearson points on English-German (0.336 vs 0.381). Holds for: WMT 2020 en-de DA data; TransQuest run with official code scored below its published numbers. On et-en the gap is far larger: 0.602 vs 0.767.\n\nThe best PreQuEL model reaches Pearson's r of 0.336 with human direct-assessment scores on English-German, against 0.135 for a negated-sentence-length baseline. Holds for: WMT 2020 sentence-level DA data, 7K training sentences, single fairseq MT system; Multitask model, RoBERTa-large, 3 seeds.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "Does seeing the translation help quality estimation much?",
+        "How close does PreQuEL get to TransQuest?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How can I get more training data for translation quality prediction without human annotation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Intertraining on parallel-corpus data automatically labelled with COMET raises PreQuEL's en-de correlation from 0.196 to 0.315, and the multi-task variant reaches 0.336. Holds for: en-de WMT 2020 DA; augmentation from WMT-News, bible-uedin, Tatoeba and GlobalVoices re-translated with OPUS-MT/Marian, 3 seeds.\n\nThe same COMET-labelled augmentation also improves ordinary quality estimation: TransQuest on en-de rises from 0.381 (std 0.043) to 0.429 (std 0.008) Pearson's r when intertrained on the augmented data. Holds for: en-de WMT 2020 DA, TransQuest architecture, 3 seeds; the gain is in both correlation and seed-to-seed stability.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "Does labelling parallel corpora with COMET scores help train a quality predictor?",
+        "What does the PreQuEL augmentation method contribute?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can automatic-metric augmentation improve a normal quality estimation model?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The same COMET-labelled augmentation also improves ordinary quality estimation: TransQuest on en-de rises from 0.381 (std 0.043) to 0.429 (std 0.008) Pearson's r when intertrained on the augmented data. Holds for: en-de WMT 2020 DA, TransQuest architecture, 3 seeds; the gain is in both correlation and seed-to-seed stability.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "Does COMET-based intertraining help TransQuest on WMT 2020 en-de?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does a source-only quality predictor trained on one MT system transfer to another system?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A PreQuEL model supervised only with Marian outputs correlates 0.610 on Facebook FAIR outputs versus 0.652 on Marian's own, a drop of 4.2 points. That exceeds the 0.535 bound implied by inter-system label similarity. Holds for: COMET-labelled augmented data rather than human DA labels, en-de, two neural MT systems; the two systems' COMET labels correlate 0.60-0.82 across datasets.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "Is translation difficulty shared across state-of-the-art MT systems?",
+        "How much correlation is lost when testing PreQuEL on a different translation system?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does source-only difficulty prediction depend on the target language?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PreQuEL learns target-language-specific difficulty: an en-de model correlates 0.377 with en-de gold scores but only 0.260 with en-zh, while the en-zh model scores 0.577 on en-zh and 0.140 on en-de. Holds for: Simple Aug models, source sentences shared between the en-de and en-zh WMT 2020 development DA sets, augmentation from NewsTests and bible-uedin.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "Is a sentence that is hard to translate into German also hard to translate into Chinese?",
+        "Do en-de and en-zh PreQuEL models transfer to each other?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which features of a source sentence make it hard to machine translate?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PreQuEL predictions correlate more strongly with standard NLP features than the human gold scores do, for example -0.2894 versus -0.1305 with sentence length. The model therefore over-estimates those features' importance. Holds for: Simple Aug on the en-de DA development set; only statistically significant features reported, including UD parse depth, verb count, advcl and case edge counts and n-gram probabilities.\n\nUsed as an analytic probe, PreQuEL scores are almost unchanged by swapping person names (-0.03) or numerical values (-0.03), but drop for Yoda-style reordering (-0.85) and random word deletion (-0.62). Back-translated English sentences score higher (+0.11). Holds for: en-de Simple Aug on NL-Augmenter transformations of DA source sentences; means over the 127-996 sentences each transformation actually changed, and the automatic transformations add noise.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "Do sentence length and n-gram probability predict translation difficulty?",
+        "Does a source-only quality model rely too much on surface features?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does adding a dependency parser improve source-only translation quality prediction?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Concatenating a UD parser to the PreQuEL encoder raises en-de correlation to 0.326 against 0.265 for a same-size two-encoder control without a parser. The smaller Multitask model still beats both at 0.336. Holds for: en-de WMT 2020 DA; Combined+ and Combined- both use augmentation intertraining and double the parameter count of the Simple model (355M x 3 x 2).\n\nOn a German word-ordering challenge set, PreQuEL predictions correlate more highly between sentence pairs that share meaning (0.901 and 0.936) than between pairs that share syntax (0.687 and 0.641). Meaning matters more to the model than word order. Holds for: Second German word-ordering challenge set of Choshen and Abend (2021), de-en Simple model trained on COMET-labelled augmented data rather than human DA labels.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "How much does explicit syntactic knowledge help predicting MT difficulty?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is a source-only quality model sensitive to meaning or just to word order?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On a German word-ordering challenge set, PreQuEL predictions correlate more highly between sentence pairs that share meaning (0.901 and 0.936) than between pairs that share syntax (0.687 and 0.641). Meaning matters more to the model than word order. Holds for: Second German word-ordering challenge set of Choshen and Abend (2021), de-en Simple model trained on COMET-labelled augmented data rather than human DA labels.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "What do German word-ordering challenge sets reveal about PreQuEL predictions?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can a translation-difficulty model be used to study which linguistic phenomena hurt MT?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Used as an analytic probe, PreQuEL scores are almost unchanged by swapping person names (-0.03) or numerical values (-0.03), but drop for Yoda-style reordering (-0.85) and random word deletion (-0.62). Back-translated English sentences score higher (+0.11). Holds for: en-de Simple Aug on NL-Augmenter transformations of DA source sentences; means over the 127-996 sentences each transformation actually changed, and the automatic transformations add noise.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "What happens to predicted translation quality when person names or numbers are swapped in the source?",
+        "Which source-sentence perturbations change predicted MT quality most?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is source-only quality estimation just an artifact of HTER labels?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Predicting translation quality from the source alone is harder for direct-assessment labels than for HTER: an en-de source-only model reaches 0.196 on DA versus 0.322 on HTER. Holds for: en-de WMT 2020 DA and HTER data, Simple architecture, 3 seeds each; supports that switching the metric to DA does not remove source-only predictability.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "Does using direct-assessment scores instead of HTER stop models from cheating with the source alone?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How well does source-only translation quality prediction hold up on a new domain?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PreQuEL correlations vary widely by domain and degrade out of domain, from 0.72 in-domain and 0.36 out-of-domain on bible-uedin to 0.36 and 0.25 on Tatoeba. Holds for: Single Simple instances without ensembling, trained on ChrF++ augmentations, evaluated on development sets of NewsTests, bible-uedin, GlobalVoices and Tatoeba.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "Does the domain of the training corpus matter for predicting MT difficulty?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What accuracy does the best en-de PreQuEL model reach?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The best PreQuEL model reaches Pearson's r of 0.336 with human direct-assessment scores on English-German, against 0.135 for a negated-sentence-length baseline. Holds for: WMT 2020 sentence-level DA data, 7K training sentences, single fairseq MT system; Multitask model, RoBERTa-large, 3 seeds.\n\nIntertraining on parallel-corpus data automatically labelled with COMET raises PreQuEL's en-de correlation from 0.196 to 0.315, and the multi-task variant reaches 0.336. Holds for: en-de WMT 2020 DA; augmentation from WMT-News, bible-uedin, Tatoeba and GlobalVoices re-translated with OPUS-MT/Marian, 3 seeds.",
+        "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
+      },
+      "alternateName": [
+        "What Pearson correlation does source-only MT quality prediction achieve on English-German?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/#terms",
+  "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/",
+  "name": "Terminology in PreQuEL: Quality Estimation of Machine Translation Outputs in Advance",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "PreQuEL",
+      "description": "Pre-(Quality-Estimation) Learning: predicting the quality that a machine-translation system will produce for a given source sentence, using only that source sentence and never the translation.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "System-specific PreQuEL variant",
+      "description": "Predicting translation quality for one named MT system whose outputs supplied the training labels, as opposed to predicting quality for state-of-the-art MT in general.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Augmentation from parallel corpora",
+      "description": "Re-translating an existing parallel corpus with the target MT system and using automatic metric scores (COMET, ChrF++, BERTScore) of those translations as free training labels for a quality predictor.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Simple Aug",
+      "description": "The baseline TransQuest-style PreQuEL regressor first intertrained on COMET-labelled augmented data and then fine-tuned on human direct-assessment scores.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Multitask (PreQuEL)",
+      "description": "A PreQuEL model with one classifier head per automatic metric, trained to predict COMET, ChrF++ and BERTScore alongside the human direct-assessment score.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/#terms"
+    }
   ]
 }
   </script>
@@ -64,6 +381,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -77,13 +395,106 @@
 </head>
 <body>
 <h1>PreQuEL: Quality Estimation of Machine Translation Outputs in Advance</h1>
-<p class="meta">Shachar Don-Yehiya, Leshem Choshen, Omri Abend · Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing, EMNLP 2022, Abu… · 2022</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2205.09178">arXiv</a></li><li><a href="https://arxiv.org/pdf/2205.09178">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2205.09178">HTML</a></li><li><a href="https://huggingface.co/papers/2205.09178">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2205.09178">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2022.EMNLP-MAIN.767">DOI</a></li><li><a href="https://aclanthology.org/2022.emnlp-main.767/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/248887741">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2022.emnlp-main.767">Publisher</a></li></ul>
+<p class="sub">predicting machine-translation quality from the source sentence alone, before translating</p>
+<p class="meta">Shachar Don-Yehiya, Leshem Choshen, Omri Abend · EMNLP 2022 · 2022</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2205.09178">arXiv</a></li><li><a href="https://arxiv.org/pdf/2205.09178">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2205.09178">HTML</a></li><li><a href="https://huggingface.co/papers/2205.09178">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2205.09178">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2022.EMNLP-MAIN.767">DOI</a></li><li><a href="https://aclanthology.org/2022.emnlp-main.767/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/248887741">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2022.emnlp-main.767">Publisher</a></li><li><a href="https://github.com/shachardon/PreQuEL">Code</a></li></ul>
+<h2>In one sentence</h2>
+<p>PreQuEL predicts how well a sentence will be machine-translated from the source text alone, before any translation is produced, and a data-augmentation method that labels parallel corpora with automatic metric scores makes it work well enough to approach a full quality-estimation system.</p>
 <h2>Abstract</h2>
 <p>We present the task of PreQuEL, Pre-(Quality-Estimation) Learning. A PreQuEL system predicts how well a given sentence will be translated, without recourse to the actual translation, thus eschewing unnecessary resource allocation when translation quality is bound to be low. PreQuEL can be defined relative to a given MT system (e.g., some industry service) or generally relative to the state-of-the-art.From a theoretical perspective, PreQuEL places the focus on the source text, tracing properties, possibly linguistic features, that make a sentence harder to machine translate.We develop a baseline model for the task and analyze its performance. We also develop a data augmentation method (from parallel corpora), that improves results substantially. We show that this augmentation method can improve the performance of the Quality-Estimation task as well.We investigate the properties of the input text that our model is sensitive to, by testing it on challenge sets and different languages. We conclude that it is aware of syntactic and semantic distinctions, and correlates and even over-emphasizes the importance of standard NLP features.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Can you predict machine translation quality before translating a sentence?</dt>
+<dt>Is it possible to estimate translation quality from the source sentence only?</dt>
+<dt>What is PreQuEL?</dt>
+<dd>PreQuEL introduces the task of predicting machine-translation quality from the source sentence alone, before any translation exists, shifting quality estimation&#x27;s focus from the output onto properties of the input text.<br><span class="scope">Holds for: Introduced at EMNLP 2022; earlier quality-estimation work required the translation, and Sun et al. (2020) had treated source-only prediction as a dataset artifact rather than a task.</span></dd>
+<dd>The best PreQuEL model reaches Pearson&#x27;s r of 0.336 with human direct-assessment scores on English-German, against 0.135 for a negated-sentence-length baseline.<br><span class="scope">Holds for: WMT 2020 sentence-level DA data, 7K training sentences, single fairseq MT system; Multitask model, RoBERTa-large, 3 seeds.</span></dd>
+<dt>What should I read about quality estimation without access to the translation?</dt>
+<dt>Which paper introduced source-only translation quality prediction?</dt>
+<dt>Where should I start reading about deciding whether to machine translate or hire human translators?</dt>
+<dd>PreQuEL introduces the task of predicting machine-translation quality from the source sentence alone, before any translation exists, shifting quality estimation&#x27;s focus from the output onto properties of the input text.<br><span class="scope">Holds for: Introduced at EMNLP 2022; earlier quality-estimation work required the translation, and Sun et al. (2020) had treated source-only prediction as a dataset artifact rather than a task.</span></dd>
+<dd>PreQuEL is a starting point for readers deciding between paid machine translation and human translation. A source-only quality predictor can be run before any translation cost is incurred.<br><span class="scope">Holds for: Motivational framing for the sentence-level setting studied; no cost or deployment study is reported, and absolute correlations remain modest.</span></dd>
+<dt>How much worse is source-only prediction than a real quality estimation system?</dt>
+<dt>Does seeing the translation help quality estimation much?</dt>
+<dt>How close does PreQuEL get to TransQuest?</dt>
+<dd>The best source-only PreQuEL model trails TransQuest, a quality-estimation system that sees the actual translation, by only 4.5 Pearson points on English-German (0.336 vs 0.381).<br><span class="scope">Holds for: WMT 2020 en-de DA data; TransQuest run with official code scored below its published numbers. On et-en the gap is far larger: 0.602 vs 0.767.</span></dd>
+<dd>The best PreQuEL model reaches Pearson&#x27;s r of 0.336 with human direct-assessment scores on English-German, against 0.135 for a negated-sentence-length baseline.<br><span class="scope">Holds for: WMT 2020 sentence-level DA data, 7K training sentences, single fairseq MT system; Multitask model, RoBERTa-large, 3 seeds.</span></dd>
+<dt>How can I get more training data for translation quality prediction without human annotation?</dt>
+<dt>Does labelling parallel corpora with COMET scores help train a quality predictor?</dt>
+<dt>What does the PreQuEL augmentation method contribute?</dt>
+<dd>Intertraining on parallel-corpus data automatically labelled with COMET raises PreQuEL&#x27;s en-de correlation from 0.196 to 0.315, and the multi-task variant reaches 0.336.<br><span class="scope">Holds for: en-de WMT 2020 DA; augmentation from WMT-News, bible-uedin, Tatoeba and GlobalVoices re-translated with OPUS-MT/Marian, 3 seeds.</span></dd>
+<dd>The same COMET-labelled augmentation also improves ordinary quality estimation: TransQuest on en-de rises from 0.381 (std 0.043) to 0.429 (std 0.008) Pearson&#x27;s r when intertrained on the augmented data.<br><span class="scope">Holds for: en-de WMT 2020 DA, TransQuest architecture, 3 seeds; the gain is in both correlation and seed-to-seed stability.</span></dd>
+<dt>Can automatic-metric augmentation improve a normal quality estimation model?</dt>
+<dt>Does COMET-based intertraining help TransQuest on WMT 2020 en-de?</dt>
+<dd>The same COMET-labelled augmentation also improves ordinary quality estimation: TransQuest on en-de rises from 0.381 (std 0.043) to 0.429 (std 0.008) Pearson&#x27;s r when intertrained on the augmented data.<br><span class="scope">Holds for: en-de WMT 2020 DA, TransQuest architecture, 3 seeds; the gain is in both correlation and seed-to-seed stability.</span></dd>
+<dt>Does a source-only quality predictor trained on one MT system transfer to another system?</dt>
+<dt>Is translation difficulty shared across state-of-the-art MT systems?</dt>
+<dt>How much correlation is lost when testing PreQuEL on a different translation system?</dt>
+<dd>A PreQuEL model supervised only with Marian outputs correlates 0.610 on Facebook FAIR outputs versus 0.652 on Marian&#x27;s own, a drop of 4.2 points. That exceeds the 0.535 bound implied by inter-system label similarity.<br><span class="scope">Holds for: COMET-labelled augmented data rather than human DA labels, en-de, two neural MT systems; the two systems&#x27; COMET labels correlate 0.60-0.82 across datasets.</span></dd>
+<dt>Does source-only difficulty prediction depend on the target language?</dt>
+<dt>Is a sentence that is hard to translate into German also hard to translate into Chinese?</dt>
+<dt>Do en-de and en-zh PreQuEL models transfer to each other?</dt>
+<dd>PreQuEL learns target-language-specific difficulty: an en-de model correlates 0.377 with en-de gold scores but only 0.260 with en-zh, while the en-zh model scores 0.577 on en-zh and 0.140 on en-de.<br><span class="scope">Holds for: Simple Aug models, source sentences shared between the en-de and en-zh WMT 2020 development DA sets, augmentation from NewsTests and bible-uedin.</span></dd>
+<dt>Which features of a source sentence make it hard to machine translate?</dt>
+<dt>Do sentence length and n-gram probability predict translation difficulty?</dt>
+<dt>Does a source-only quality model rely too much on surface features?</dt>
+<dd>PreQuEL predictions correlate more strongly with standard NLP features than the human gold scores do, for example -0.2894 versus -0.1305 with sentence length. The model therefore over-estimates those features&#x27; importance.<br><span class="scope">Holds for: Simple Aug on the en-de DA development set; only statistically significant features reported, including UD parse depth, verb count, advcl and case edge counts and n-gram probabilities.</span></dd>
+<dd>Used as an analytic probe, PreQuEL scores are almost unchanged by swapping person names (-0.03) or numerical values (-0.03), but drop for Yoda-style reordering (-0.85) and random word deletion (-0.62). Back-translated English sentences score higher (+0.11).<br><span class="scope">Holds for: en-de Simple Aug on NL-Augmenter transformations of DA source sentences; means over the 127-996 sentences each transformation actually changed, and the automatic transformations add noise.</span></dd>
+<dt>Does adding a dependency parser improve source-only translation quality prediction?</dt>
+<dt>How much does explicit syntactic knowledge help predicting MT difficulty?</dt>
+<dd>Concatenating a UD parser to the PreQuEL encoder raises en-de correlation to 0.326 against 0.265 for a same-size two-encoder control without a parser. The smaller Multitask model still beats both at 0.336.<br><span class="scope">Holds for: en-de WMT 2020 DA; Combined+ and Combined- both use augmentation intertraining and double the parameter count of the Simple model (355M x 3 x 2).</span></dd>
+<dd>On a German word-ordering challenge set, PreQuEL predictions correlate more highly between sentence pairs that share meaning (0.901 and 0.936) than between pairs that share syntax (0.687 and 0.641). Meaning matters more to the model than word order.<br><span class="scope">Holds for: Second German word-ordering challenge set of Choshen and Abend (2021), de-en Simple model trained on COMET-labelled augmented data rather than human DA labels.</span></dd>
+<dt>Is a source-only quality model sensitive to meaning or just to word order?</dt>
+<dt>What do German word-ordering challenge sets reveal about PreQuEL predictions?</dt>
+<dd>On a German word-ordering challenge set, PreQuEL predictions correlate more highly between sentence pairs that share meaning (0.901 and 0.936) than between pairs that share syntax (0.687 and 0.641). Meaning matters more to the model than word order.<br><span class="scope">Holds for: Second German word-ordering challenge set of Choshen and Abend (2021), de-en Simple model trained on COMET-labelled augmented data rather than human DA labels.</span></dd>
+<dt>Can a translation-difficulty model be used to study which linguistic phenomena hurt MT?</dt>
+<dt>What happens to predicted translation quality when person names or numbers are swapped in the source?</dt>
+<dt>Which source-sentence perturbations change predicted MT quality most?</dt>
+<dd>Used as an analytic probe, PreQuEL scores are almost unchanged by swapping person names (-0.03) or numerical values (-0.03), but drop for Yoda-style reordering (-0.85) and random word deletion (-0.62). Back-translated English sentences score higher (+0.11).<br><span class="scope">Holds for: en-de Simple Aug on NL-Augmenter transformations of DA source sentences; means over the 127-996 sentences each transformation actually changed, and the automatic transformations add noise.</span></dd>
+<dt>Is source-only quality estimation just an artifact of HTER labels?</dt>
+<dt>Does using direct-assessment scores instead of HTER stop models from cheating with the source alone?</dt>
+<dd>Predicting translation quality from the source alone is harder for direct-assessment labels than for HTER: an en-de source-only model reaches 0.196 on DA versus 0.322 on HTER.<br><span class="scope">Holds for: en-de WMT 2020 DA and HTER data, Simple architecture, 3 seeds each; supports that switching the metric to DA does not remove source-only predictability.</span></dd>
+<dt>How well does source-only translation quality prediction hold up on a new domain?</dt>
+<dt>Does the domain of the training corpus matter for predicting MT difficulty?</dt>
+<dd>PreQuEL correlations vary widely by domain and degrade out of domain, from 0.72 in-domain and 0.36 out-of-domain on bible-uedin to 0.36 and 0.25 on Tatoeba.<br><span class="scope">Holds for: Single Simple instances without ensembling, trained on ChrF++ augmentations, evaluated on development sets of NewsTests, bible-uedin, GlobalVoices and Tatoeba.</span></dd>
+<dt>What accuracy does the best en-de PreQuEL model reach?</dt>
+<dt>What Pearson correlation does source-only MT quality prediction achieve on English-German?</dt>
+<dd>The best PreQuEL model reaches Pearson&#x27;s r of 0.336 with human direct-assessment scores on English-German, against 0.135 for a negated-sentence-length baseline.<br><span class="scope">Holds for: WMT 2020 sentence-level DA data, 7K training sentences, single fairseq MT system; Multitask model, RoBERTa-large, 3 seeds.</span></dd>
+<dd>Intertraining on parallel-corpus data automatically labelled with COMET raises PreQuEL&#x27;s en-de correlation from 0.196 to 0.315, and the multi-task variant reaches 0.336.<br><span class="scope">Holds for: en-de WMT 2020 DA; augmentation from WMT-News, bible-uedin, Tatoeba and GlobalVoices re-translated with OPUS-MT/Marian, 3 seeds.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>PreQuEL introduces the task of predicting machine-translation quality from the source sentence alone, before any translation exists, shifting quality estimation&#x27;s focus from the output onto properties of the input text.<br><span class="scope">Scope: Introduced at EMNLP 2022; earlier quality-estimation work required the translation, and Sun et al. (2020) had treated source-only prediction as a dataset artifact rather than a task.</span></li>
+<li>PreQuEL is a starting point for readers deciding between paid machine translation and human translation. A source-only quality predictor can be run before any translation cost is incurred.<br><span class="scope">Scope: Motivational framing for the sentence-level setting studied; no cost or deployment study is reported, and absolute correlations remain modest.</span></li>
+<li>The best PreQuEL model reaches Pearson&#x27;s r of 0.336 with human direct-assessment scores on English-German, against 0.135 for a negated-sentence-length baseline. <span class="meta">(Table 1)</span><br><span class="scope">Scope: WMT 2020 sentence-level DA data, 7K training sentences, single fairseq MT system; Multitask model, RoBERTa-large, 3 seeds.</span></li>
+<li>The best source-only PreQuEL model trails TransQuest, a quality-estimation system that sees the actual translation, by only 4.5 Pearson points on English-German (0.336 vs 0.381). <span class="meta">(Table 1)</span><br><span class="scope">Scope: WMT 2020 en-de DA data; TransQuest run with official code scored below its published numbers. On et-en the gap is far larger: 0.602 vs 0.767.</span></li>
+<li>Intertraining on parallel-corpus data automatically labelled with COMET raises PreQuEL&#x27;s en-de correlation from 0.196 to 0.315, and the multi-task variant reaches 0.336. <span class="meta">(Table 1)</span><br><span class="scope">Scope: en-de WMT 2020 DA; augmentation from WMT-News, bible-uedin, Tatoeba and GlobalVoices re-translated with OPUS-MT/Marian, 3 seeds.</span></li>
+<li>The same COMET-labelled augmentation also improves ordinary quality estimation: TransQuest on en-de rises from 0.381 (std 0.043) to 0.429 (std 0.008) Pearson&#x27;s r when intertrained on the augmented data. <span class="meta">(Section 9.1)</span><br><span class="scope">Scope: en-de WMT 2020 DA, TransQuest architecture, 3 seeds; the gain is in both correlation and seed-to-seed stability.</span></li>
+<li>A PreQuEL model supervised only with Marian outputs correlates 0.610 on Facebook FAIR outputs versus 0.652 on Marian&#x27;s own, a drop of 4.2 points. That exceeds the 0.535 bound implied by inter-system label similarity. <span class="meta">(Section 7.1)</span><br><span class="scope">Scope: COMET-labelled augmented data rather than human DA labels, en-de, two neural MT systems; the two systems&#x27; COMET labels correlate 0.60-0.82 across datasets.</span></li>
+<li>PreQuEL learns target-language-specific difficulty: an en-de model correlates 0.377 with en-de gold scores but only 0.260 with en-zh, while the en-zh model scores 0.577 on en-zh and 0.140 on en-de. <span class="meta">(Table 3)</span><br><span class="scope">Scope: Simple Aug models, source sentences shared between the en-de and en-zh WMT 2020 development DA sets, augmentation from NewsTests and bible-uedin.</span></li>
+<li>PreQuEL predictions correlate more strongly with standard NLP features than the human gold scores do, for example -0.2894 versus -0.1305 with sentence length. The model therefore over-estimates those features&#x27; importance. <span class="meta">(Table 4)</span><br><span class="scope">Scope: Simple Aug on the en-de DA development set; only statistically significant features reported, including UD parse depth, verb count, advcl and case edge counts and n-gram probabilities.</span></li>
+<li>Concatenating a UD parser to the PreQuEL encoder raises en-de correlation to 0.326 against 0.265 for a same-size two-encoder control without a parser. The smaller Multitask model still beats both at 0.336. <span class="meta">(Table 1)</span><br><span class="scope">Scope: en-de WMT 2020 DA; Combined+ and Combined- both use augmentation intertraining and double the parameter count of the Simple model (355M x 3 x 2).</span></li>
+<li>On a German word-ordering challenge set, PreQuEL predictions correlate more highly between sentence pairs that share meaning (0.901 and 0.936) than between pairs that share syntax (0.687 and 0.641). Meaning matters more to the model than word order. <span class="meta">(Table 7)</span><br><span class="scope">Scope: Second German word-ordering challenge set of Choshen and Abend (2021), de-en Simple model trained on COMET-labelled augmented data rather than human DA labels.</span></li>
+<li>Used as an analytic probe, PreQuEL scores are almost unchanged by swapping person names (-0.03) or numerical values (-0.03), but drop for Yoda-style reordering (-0.85) and random word deletion (-0.62). Back-translated English sentences score higher (+0.11). <span class="meta">(Table 2)</span><br><span class="scope">Scope: en-de Simple Aug on NL-Augmenter transformations of DA source sentences; means over the 127-996 sentences each transformation actually changed, and the automatic transformations add noise.</span></li>
+<li>Predicting translation quality from the source alone is harder for direct-assessment labels than for HTER: an en-de source-only model reaches 0.196 on DA versus 0.322 on HTER. <span class="meta">(Section 9.2)</span><br><span class="scope">Scope: en-de WMT 2020 DA and HTER data, Simple architecture, 3 seeds each; supports that switching the metric to DA does not remove source-only predictability.</span></li>
+<li>PreQuEL correlations vary widely by domain and degrade out of domain, from 0.72 in-domain and 0.36 out-of-domain on bible-uedin to 0.36 and 0.25 on Tatoeba. <span class="meta">(Table 5)</span><br><span class="scope">Scope: Single Simple instances without ensembling, trained on ChrF++ augmentations, evaluated on development sets of NewsTests, bible-uedin, GlobalVoices and Tatoeba.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>PreQuEL does not tell a user why a sentence is hard to translate: the models are trained end to end and cannot point to the responsible linguistic features, only correlate with them.</li>
+<li>An en-de correlation of 0.336 is not a high correlation in absolute terms, and the paper states its predictions should be used with care rather than as a reliable per-sentence filter.</li>
+<li>The finding that quality can be predicted from the source alone is not evidence that the WMT quality-estimation datasets are cheatable; an oracle source-only model could in principle simulate the MT system, so source-only predictability is expected rather than an artifact.</li>
+<li>The claim that PreQuEL generalises across MT systems rests on COMET-labelled augmented data comparing Marian and Facebook FAIR outputs, not on human direct-assessment labels for multiple systems.</li>
+<li>The augmentation method does not replace human direct-assessment data: it is used as intertraining or an auxiliary task before fine-tuning on DA scores, and a model trained on COMET data alone at matched 7K size reaches only 0.219 en-de.</li>
+<li>Adding a UD parser is not the paper&#x27;s winning design; the parser-augmented model doubles parameters and is still beaten by the much smaller multi-task model.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>PreQuEL</em></dt><dd>Pre-(Quality-Estimation) Learning: predicting the quality that a machine-translation system will produce for a given source sentence, using only that source sentence and never the translation.</dd>
+<dt><em>System-specific PreQuEL variant</em></dt><dd>Predicting translation quality for one named MT system whose outputs supplied the training labels, as opposed to predicting quality for state-of-the-art MT in general.</dd>
+<dt><em>Augmentation from parallel corpora</em></dt><dd>Re-translating an existing parallel corpus with the target MT system and using automatic metric scores (COMET, ChrF++, BERTScore) of those translations as free training labels for a quality predictor.</dd>
+<dt><em>Simple Aug</em></dt><dd>The baseline TransQuest-style PreQuEL regressor first intertrained on COMET-labelled augmented data and then fine-tuned on human direct-assessment scores.</dd>
+<dt><em>Multitask (PreQuEL)</em></dt><dd>A PreQuEL model with one classifier head per automatic metric, trained to predict COMET, ChrF++ and BERTScore alongside the human direct-assessment score.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/emnlp/Don-YehiyaCA22,
-author       = {Shachar Don{-}Yehiya and
+<pre>@inproceedings{DBLP:conf/emnlp/Don-YehiyaCA22,author       = {Shachar Don{-}Yehiya and
                   Leshem Choshen and
                   Omri Abend},
   editor       = {Yoav Goldberg and

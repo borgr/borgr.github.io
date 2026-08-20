@@ -8,14 +8,14 @@
   <meta name="citation_title" content="Genie: Achieving Human Parity in Content-Grounded Datasets Generation">
   <meta name="citation_author" content="Asaf Yehudai">
   <meta name="citation_author" content="Boaz Carmeli">
-  <meta name="citation_author" content="Yosi Mass">
+  <meta name="citation_author" content="Y. Mass">
   <meta name="citation_author" content="Ofir Arviv">
   <meta name="citation_author" content="Nathaniel Mills">
   <meta name="citation_author" content="Assaf Toledo">
   <meta name="citation_author" content="Eyal Shnarch">
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_publication_date" content="2024">
-  <meta name="citation_doi" content="10.48550/ARXIV.2401.14367">
+  <meta name="citation_doi" content="10.48550/arXiv.2401.14367">
   <meta name="citation_arxiv_id" content="2401.14367">
   <meta name="citation_abstract" content="The lack of high-quality data for content-grounded generation tasks has been identified as a major obstacle to advancing these tasks. To address this gap, we propose Genie, a novel method for automatically generating high-quality content-grounded data. It consists of three stages: (a) Content Preparation, (b) Generation: creating task-specific examples from the content (e.g., question-answer pairs or summaries). (c) Filtering mechanism aiming to ensure the quality and faithfulness of the generated data. We showcase this methodology by generating three large-scale synthetic data, making wishes, for Long-Form Question-Answering (LFQA), summarization, and information extraction. In a human evaluation, our generated data was found to be natural and of high quality. Furthermore, we compare models trained on our data with models trained on human-written data -- ELI5 and ASQA for LFQA and CNN-DailyMail for Summarization. We show that our models are on par with or outperforming models trained on human-generated data and consistently outperforming them in faithfulness. Finally, we applied our method to create LFQA data within the medical domain and compared a model trained on it with models trained on other domains.">
   <script type="application/ld+json">
@@ -36,7 +36,7 @@
     },
     {
       "@type": "Person",
-      "name": "Yosi Mass"
+      "name": "Y. Mass"
     },
     {
       "@type": "Person",
@@ -64,19 +64,303 @@
   "datePublished": "2024",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "CoRR"
+    "name": "arXiv"
   },
-  "identifier": "https://doi.org/10.48550/ARXIV.2401.14367",
+  "identifier": "https://doi.org/10.48550/arXiv.2401.14367",
   "abstract": "The lack of high-quality data for content-grounded generation tasks has been identified as a major obstacle to advancing these tasks. To address this gap, we propose Genie, a novel method for automatically generating high-quality content-grounded data. It consists of three stages: (a) Content Preparation, (b) Generation: creating task-specific examples from the content (e.g., question-answer pairs or summaries). (c) Filtering mechanism aiming to ensure the quality and faithfulness of the generated data. We showcase this methodology by generating three large-scale synthetic data, making wishes, for Long-Form Question-Answering (LFQA), summarization, and information extraction. In a human evaluation, our generated data was found to be natural and of high quality. Furthermore, we compare models trained on our data with models trained on human-written data -- ELI5 and ASQA for LFQA and CNN-DailyMail for Summarization. We show that our models are on par with or outperforming models trained on human-generated data and consistently outperforming them in faithfulness. Finally, we applied our method to create LFQA data within the medical domain and compared a model trained on it with models trained on other domains.",
+  "description": "Genie builds content-grounded training data automatically by extracting passages, few-shot prompting an LLM to write question-answer pairs or summaries from each passage, and filtering the output with format, NLI-faithfulness and reward-model checks.",
   "sameAs": [
     "https://arxiv.org/abs/2401.14367",
     "https://arxiv.org/html/2401.14367",
     "https://arxiv.org/pdf/2401.14367",
-    "https://doi.org/10.48550/ARXIV.2401.14367",
     "https://doi.org/10.48550/arXiv.2401.14367",
     "https://huggingface.co/papers/2401.14367",
     "https://www.alphaxiv.org/abs/2401.14367",
     "https://www.semanticscholar.org/paper/267211959"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "In a side-by-side forced-choice test, an expert annotator picked Genie's synthetic question as the human-written one in 72% of ELI5 pairs, 63% of NQ pairs and 49% of ASQA pairs. ELI5 questions come from Reddit posts and NQ questions from Google search logs.",
+      "description": "Holds for: 1 non-author expert annotator, 100 question pairs per dataset, each pair grounded in the same content; ASQA questions are crowdsourced."
+    },
+    {
+      "@type": "Thing",
+      "name": "Genie's filtering raises human-judged question relevance from 67% to 92% and answers that address the question from 80% to 98%. Answer faithfulness rises from 53% to 76% and overall answer quality from 3.48 to 4.58 on a 5-point Likert scale.",
+      "description": "Holds for: 100 randomly sampled content-question-answer triplets from Wikipedia-from-scratch synthetic QA generated by Falcon-40B; the filters are an NLI model and a DeBERTa-v3 reward model at a 0.5 threshold, neither scoring the question directly."
+    },
+    {
+      "@type": "Thing",
+      "name": "Synthetic QA generated over pre-cleaned NQ passages scores higher on every human quality dimension than synthetic QA generated from freshly crawled Wikipedia. Question clarity is 91% versus 67% and answer faithfulness 88% versus 76%.",
+      "description": "Holds for: 100 triplets per condition, single expert annotator, Falcon-40B as generator; both conditions pass the same format, faithfulness and reward filters."
+    },
+    {
+      "@type": "Thing",
+      "name": "Flan-xl trained on 10,000 Genie-generated QA examples reaches ROUGE-L 28.2 and reward 80.3 on ASQA, versus 31.4 and 68.6 for training on human-written ASQA. It also beats human ELI5 training data, which reaches 18.7 ROUGE-L on the ASQA test set.",
+      "description": "Holds for: Flan-xl, 10,000 training examples per condition and identical hyperparameters; ASQA-trained model still leads on ROUGE-L and Bert-Score, while synthetic data leads on reward. Falcon-40B is the data generator."
+    },
+    {
+      "@type": "Thing",
+      "name": "Flan-xl trained on Genie's Wikipedia-from-scratch QA data earns a reward score of 85.1 on ASQA and 26.7 on ELI5. That is above the 72.1 of the ASQA gold answers and just under the 30.3 of the ELI5 gold answers.",
+      "description": "Holds for: Reward is the OpenAssistant DeBERTa-v3-large-v2 reference-less model, also used inside Genie's filter, so generator and evaluator share a preference model; Flan-xl base, 10,000 training examples."
+    },
+    {
+      "@type": "Thing",
+      "name": "Flan-xl trained on Genie's in-domain synthetic QA reaches 81.9 k-Precision and 79.1 ANLI on ASQA, against 67.5 and 55.7 for human ASQA training data and 52.9 and 33.5 for human ELI5 data.",
+      "description": "Holds for: Flan-xl, 10,000 examples per condition, ASQA test set. The untrained Flan-xl baseline scores higher still (98.2 k-Precision) with short, near-extractive answers."
+    },
+    {
+      "@type": "Thing",
+      "name": "On CNN-DailyMail, Flan-xl trained on Genie's Wish-Summarization data scores 28.6 ROUGE-L against 33.3 for training on human CNN-DailyMail summaries, while edging it on reward (97.5 versus 96.5) and k-Precision (98.2 versus 97.0).",
+      "description": "Holds for: Flan-xl, CNN-DailyMail test set, 10,000 training examples per condition; parity claim is on Bert-Score, reward and faithfulness metrics, not on ROUGE-L, where human data wins."
+    },
+    {
+      "@type": "Thing",
+      "name": "On PubMed-QA, Flan-xl trained on Genie's medical-domain synthetic QA scores 22.1 ROUGE-L and 81.8 ANLI. Out-of-domain synthetic QA built from NQ passages scores a comparable 22.0 ROUGE-L with higher reward (44.5 versus 39.4) and k-Precision (84.2 versus 78.2).",
+      "description": "Holds for: One target domain (medical LFQA on PubMed papers), Flan-xl base, Falcon-40B generator, 10,000 examples per condition; only ANLI favours in-domain data, so the faithfulness comparison is inconclusive."
+    },
+    {
+      "@type": "Thing",
+      "name": "Genie generates 10 content-grounded examples in under a minute at $0.02-$0.04 per LLM API call, against roughly $4.45 per expert-written question. At that annotation rate its 300K-example release would have cost over $1M.",
+      "description": "Holds for: Cost per question taken from the ASQA paper's reported annotation rate; API costs are those of the models used in 2024 and exclude filtering-model inference and human verification."
+    },
+    {
+      "@type": "Thing",
+      "name": "The released Genie datasets span 300K+ samples with vocd-D lexical diversity above their human-written counterparts, for example 76.0 for Wish-Summarization versus 40.1 for CNN-DailyMail. Wish-QA-NQ holds 88K samples against 6,316 for ASQA.",
+      "description": "Holds for: vocd-D computed over responses; Wish-QA-NQ's diversity (62.3) is below ASQA's (65.8), while Wish-QA-ELI5 (71.8) exceeds ELI5 (70.9). Sizes reflect what was released, not a cap on what the method can produce."
+    },
+    {
+      "@type": "Thing",
+      "name": "Applied to information extraction with only a new set of few-shot examples, Genie's synthetic data lifts Flan-xl from 42.3 to 47.9 ROUGE-L and from 35.9 to 87.4 reward. It beats human Databricks training data on reward and k-Precision but trails it on ROUGE-L, Bert-Score and ANLI.",
+      "description": "Holds for: Databricks information-extraction split, 1000 train / 50 test examples, synthetic data generated over Google-NQ passages; the 50-example test set is small."
+    },
+    {
+      "@type": "Thing",
+      "name": "Genie is a task-agnostic recipe for synthesising content-grounded training data. It extends the generate-then-filter pattern of Self-Instruct and Unnatural Instructions to data that must be grounded in supplied documents rather than in model knowledge.",
+      "description": "Holds for: Demonstrated on long-form QA, summarization and information extraction in English, with Falcon-40B and Llama-2-70B as generators, as of the January 2024 preprint; content preparation is rule-based and must be re-implemented per source format."
+    },
+    {
+      "@type": "Thing",
+      "name": "Genie's experiments provide evidence that ASQA is a higher-quality long-form QA dataset than ELI5. Models trained on ASQA outperform models trained on ELI5 on both test sets, and ELI5 questions were the ones annotators most often mistook synthetic questions for.",
+      "description": "Holds for: Comparison is at a matched 10,000 training examples with Flan-xl; ASQA is roughly 6K examples in total against 272K for ELI5, so the quality ordering says nothing about which is more useful at full scale."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/#faq",
+  "url": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/",
+  "name": "Questions answered by Genie: Achieving Human Parity in Content-Grounded Datasets Generation",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can synthetic LLM-generated question-answering data replace human-written training data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Flan-xl trained on 10,000 Genie-generated QA examples reaches ROUGE-L 28.2 and reward 80.3 on ASQA, versus 31.4 and 68.6 for training on human-written ASQA. It also beats human ELI5 training data, which reaches 18.7 ROUGE-L on the ASQA test set. Holds for: Flan-xl, 10,000 training examples per condition and identical hyperparameters; ASQA-trained model still leads on ROUGE-L and Bert-Score, while synthetic data leads on reward. Falcon-40B is the data generator.\n\nFlan-xl trained on Genie's Wikipedia-from-scratch QA data earns a reward score of 85.1 on ASQA and 26.7 on ELI5. That is above the 72.1 of the ASQA gold answers and just under the 30.3 of the ELI5 gold answers. Holds for: Reward is the OpenAssistant DeBERTa-v3-large-v2 reference-less model, also used inside Genie's filter, so generator and evaluator share a preference model; Flan-xl base, 10,000 training examples.\n\nFlan-xl trained on Genie's in-domain synthetic QA reaches 81.9 k-Precision and 79.1 ANLI on ASQA, against 67.5 and 55.7 for human ASQA training data and 52.9 and 33.5 for human ELI5 data. Holds for: Flan-xl, 10,000 examples per condition, ASQA test set. The untrained Flan-xl baseline scores higher still (98.2 k-Precision) with short, near-extractive answers.",
+        "url": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/"
+      },
+      "alternateName": [
+        "Do models trained on synthetic grounded QA match models trained on human datasets like ELI5 and ASQA?",
+        "How does Genie-generated data compare to human-written LFQA data for training?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are automatically generated questions distinguishable from human-written ones?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In a side-by-side forced-choice test, an expert annotator picked Genie's synthetic question as the human-written one in 72% of ELI5 pairs, 63% of NQ pairs and 49% of ASQA pairs. ELI5 questions come from Reddit posts and NQ questions from Google search logs. Holds for: 1 non-author expert annotator, 100 question pairs per dataset, each pair grounded in the same content; ASQA questions are crowdsourced.",
+        "url": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/"
+      },
+      "alternateName": [
+        "How natural do synthetic questions look to human annotators compared with Reddit or Google-search questions?",
+        "Did Genie pass a Turing-style test on question naturalness?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does filtering synthetic data actually improve its quality, and by how much?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Genie's filtering raises human-judged question relevance from 67% to 92% and answers that address the question from 80% to 98%. Answer faithfulness rises from 53% to 76% and overall answer quality from 3.48 to 4.58 on a 5-point Likert scale. Holds for: 100 randomly sampled content-question-answer triplets from Wikipedia-from-scratch synthetic QA generated by Falcon-40B; the filters are an NLI model and a DeBERTa-v3 reward model at a 0.5 threshold, neither scoring the question directly.\n\nSynthetic QA generated over pre-cleaned NQ passages scores higher on every human quality dimension than synthetic QA generated from freshly crawled Wikipedia. Question clarity is 91% versus 67% and answer faithfulness 88% versus 76%. Holds for: 100 triplets per condition, single expert annotator, Falcon-40B as generator; both conditions pass the same format, faithfulness and reward filters.",
+        "url": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/"
+      },
+      "alternateName": [
+        "What do NLI-faithfulness and reward-model filters buy when generating synthetic QA data?",
+        "How much does Genie's filtering stage change human quality ratings?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is synthetic training data more or less faithful to the grounding document than human data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Flan-xl trained on Genie's in-domain synthetic QA reaches 81.9 k-Precision and 79.1 ANLI on ASQA, against 67.5 and 55.7 for human ASQA training data and 52.9 and 33.5 for human ELI5 data. Holds for: Flan-xl, 10,000 examples per condition, ASQA test set. The untrained Flan-xl baseline scores higher still (98.2 k-Precision) with short, near-extractive answers.\n\nOn CNN-DailyMail, Flan-xl trained on Genie's Wish-Summarization data scores 28.6 ROUGE-L against 33.3 for training on human CNN-DailyMail summaries, while edging it on reward (97.5 versus 96.5) and k-Precision (98.2 versus 97.0). Holds for: Flan-xl, CNN-DailyMail test set, 10,000 training examples per condition; parity claim is on Bert-Score, reward and faithfulness metrics, not on ROUGE-L, where human data wins.",
+        "url": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/"
+      },
+      "alternateName": [
+        "Does training on generated grounded QA reduce hallucination relative to ELI5 and ASQA?",
+        "How do k-Precision and ANLI faithfulness scores compare across human and synthetic training sets?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need in-domain synthetic data for medical question answering, or will general-domain data do?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On PubMed-QA, Flan-xl trained on Genie's medical-domain synthetic QA scores 22.1 ROUGE-L and 81.8 ANLI. Out-of-domain synthetic QA built from NQ passages scores a comparable 22.0 ROUGE-L with higher reward (44.5 versus 39.4) and k-Precision (84.2 versus 78.2). Holds for: One target domain (medical LFQA on PubMed papers), Flan-xl base, Falcon-40B generator, 10,000 examples per condition; only ANLI favours in-domain data, so the faithfulness comparison is inconclusive.",
+        "url": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/"
+      },
+      "alternateName": [
+        "Does generating training data in the target domain help on PubMed long-form QA?",
+        "Is domain-matched synthetic data worth it for content-grounded generation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much cheaper is generating a grounded QA dataset with an LLM than paying annotators?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Genie generates 10 content-grounded examples in under a minute at $0.02-$0.04 per LLM API call, against roughly $4.45 per expert-written question. At that annotation rate its 300K-example release would have cost over $1M. Holds for: Cost per question taken from the ASQA paper's reported annotation rate; API costs are those of the models used in 2024 and exclude filtering-model inference and human verification.",
+        "url": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/"
+      },
+      "alternateName": [
+        "What does it cost to build 300K content-grounded examples synthetically?",
+        "How fast is automatic content-grounded dataset creation compared with crowdsourcing?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is synthetic data less lexically diverse than human-written data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The released Genie datasets span 300K+ samples with vocd-D lexical diversity above their human-written counterparts, for example 76.0 for Wish-Summarization versus 40.1 for CNN-DailyMail. Wish-QA-NQ holds 88K samples against 6,316 for ASQA. Holds for: vocd-D computed over responses; Wish-QA-NQ's diversity (62.3) is below ASQA's (65.8), while Wish-QA-ELI5 (71.8) exceeds ELI5 (70.9). Sizes reflect what was released, not a cap on what the method can produce.",
+        "url": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/"
+      },
+      "alternateName": [
+        "How large and how varied are the released Wish-QA and Wish-Summarization datasets?",
+        "Does automatically generated grounded data collapse into repetitive vocabulary?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does the Genie recipe work for summarization and information extraction, not just QA?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On CNN-DailyMail, Flan-xl trained on Genie's Wish-Summarization data scores 28.6 ROUGE-L against 33.3 for training on human CNN-DailyMail summaries, while edging it on reward (97.5 versus 96.5) and k-Precision (98.2 versus 97.0). Holds for: Flan-xl, CNN-DailyMail test set, 10,000 training examples per condition; parity claim is on Bert-Score, reward and faithfulness metrics, not on ROUGE-L, where human data wins.\n\nApplied to information extraction with only a new set of few-shot examples, Genie's synthetic data lifts Flan-xl from 42.3 to 47.9 ROUGE-L and from 35.9 to 87.4 reward. It beats human Databricks training data on reward and k-Precision but trails it on ROUGE-L, Bert-Score and ANLI. Holds for: Databricks information-extraction split, 1000 train / 50 test examples, synthetic data generated over Google-NQ passages; the 50-example test set is small.\n\nGenie is a task-agnostic recipe for synthesising content-grounded training data. It extends the generate-then-filter pattern of Self-Instruct and Unnatural Instructions to data that must be grounded in supplied documents rather than in model knowledge. Holds for: Demonstrated on long-form QA, summarization and information extraction in English, with Falcon-40B and Llama-2-70B as generators, as of the January 2024 preprint; content preparation is rule-based and must be re-implemented per source format.",
+        "url": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/"
+      },
+      "alternateName": [
+        "Can one generate-and-filter pipeline cover several content-grounded tasks?",
+        "What tasks besides long-form QA has Genie been applied to?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about generating synthetic training data grounded in documents?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Genie is a task-agnostic recipe for synthesising content-grounded training data. It extends the generate-then-filter pattern of Self-Instruct and Unnatural Instructions to data that must be grounded in supplied documents rather than in model knowledge. Holds for: Demonstrated on long-form QA, summarization and information extraction in English, with Falcon-40B and Llama-2-70B as generators, as of the January 2024 preprint; content preparation is rule-based and must be re-implemented per source format.",
+        "url": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/"
+      },
+      "alternateName": [
+        "Which paper introduced a general pipeline for building content-grounded datasets for RAG-style tasks?",
+        "Where does Genie sit relative to Self-Instruct and Unnatural Instructions?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is ASQA or ELI5 the better long-form QA dataset to train on?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Genie's experiments provide evidence that ASQA is a higher-quality long-form QA dataset than ELI5. Models trained on ASQA outperform models trained on ELI5 on both test sets, and ELI5 questions were the ones annotators most often mistook synthetic questions for. Holds for: Comparison is at a matched 10,000 training examples with Flan-xl; ASQA is roughly 6K examples in total against 272K for ELI5, so the quality ordering says nothing about which is more useful at full scale.",
+        "url": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/"
+      },
+      "alternateName": [
+        "What evidence is there that ELI5 is noisier than carefully annotated LFQA datasets?",
+        "Which human LFQA dataset transfers better across test sets, ASQA or ELI5?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which LLMs were used to generate the synthetic data, and does the choice matter?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Genie is a task-agnostic recipe for synthesising content-grounded training data. It extends the generate-then-filter pattern of Self-Instruct and Unnatural Instructions to data that must be grounded in supplied documents rather than in model knowledge. Holds for: Demonstrated on long-form QA, summarization and information extraction in English, with Falcon-40B and Llama-2-70B as generators, as of the January 2024 preprint; content preparation is rule-based and must be re-implemented per source format.\n\nFlan-xl trained on 10,000 Genie-generated QA examples reaches ROUGE-L 28.2 and reward 80.3 on ASQA, versus 31.4 and 68.6 for training on human-written ASQA. It also beats human ELI5 training data, which reaches 18.7 ROUGE-L on the ASQA test set. Holds for: Flan-xl, 10,000 training examples per condition and identical hyperparameters; ASQA-trained model still leads on ROUGE-L and Bert-Score, while synthetic data leads on reward. Falcon-40B is the data generator.",
+        "url": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/"
+      },
+      "alternateName": [
+        "Does a purely pretrained generator like Falcon-40B work as well as an aligned Llama-2-70B?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/#terms",
+  "url": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/",
+  "name": "Terminology in Genie: Achieving Human Parity in Content-Grounded Datasets Generation",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Genie",
+      "description": "A three-stage method for automatically curating content-grounded datasets: rule-based content preparation, few-shot LLM generation of task examples from each content passage, and filtering by format, NLI-based faithfulness and reward-model quality.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Wish-QA",
+      "description": "The family of synthetic question-answering datasets produced by Genie; the bare name also denotes the variant built from scratch by crawling and processing Wikipedia pages (Wikipedia-from-Scratch).",
+      "inDefinedTermSet": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Wish-QA-NQ",
+      "description": "Synthetic question-answer data generated over Natural Questions passages, which were originally extracted from Wikipedia by human annotators and are therefore already clean and topically focused.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Wish-QA-MED",
+      "description": "Synthetic long-form question-answering data generated over PubMed papers, used as in-domain medical training data.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "K-Precision",
+      "description": "A lexical faithfulness metric measuring the fraction of words in a generated response that also appear in the grounding content.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "content-grounded generation",
+      "description": "Tasks where a model must produce a response derived from a supplied document or passage, such as retrieval-augmented question answering, grounded summarization and information extraction.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "vocd-D",
+      "description": "A lexical diversity measure computed from the vocabulary-size-to-token-count curve, used to compare the vocabulary richness of dataset responses.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/genie-achieving-human-parity-in-content-grounded-datasets-ge/#terms"
+    }
   ]
 }
   </script>
@@ -87,6 +371,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -100,30 +385,114 @@
 </head>
 <body>
 <h1>Genie: Achieving Human Parity in Content-Grounded Datasets Generation</h1>
-<p class="meta">Asaf Yehudai, Boaz Carmeli, Yosi Mass, Ofir Arviv, Nathaniel Mills, Assaf Toledo, Eyal Shnarch, Leshem Choshen · CoRR · 2024</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2401.14367">arXiv</a></li><li><a href="https://arxiv.org/pdf/2401.14367">PDF</a></li><li><a href="https://arxiv.org/html/2401.14367">HTML</a></li><li><a href="https://huggingface.co/papers/2401.14367">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2401.14367">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2401.14367">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/267211959">Semantic Scholar</a></li><li><a href="https://doi.org/10.48550/arXiv.2401.14367">Publisher</a></li></ul>
+<p class="sub">a three-stage pipeline (content preparation, few-shot LLM generation, filtering) for automatically building content-grounded training datasets</p>
+<p class="meta">Asaf Yehudai, Boaz Carmeli, Y. Mass, Ofir Arviv, Nathaniel Mills, Assaf Toledo, Eyal Shnarch, Leshem Choshen · arXiv · 2024</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2401.14367">arXiv</a></li><li><a href="https://arxiv.org/pdf/2401.14367">PDF</a></li><li><a href="https://arxiv.org/html/2401.14367">HTML</a></li><li><a href="https://huggingface.co/papers/2401.14367">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2401.14367">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2401.14367">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/267211959">Semantic Scholar</a></li></ul>
+<h2>In one sentence</h2>
+<p>Genie builds content-grounded training data automatically by extracting passages, few-shot prompting an LLM to write question-answer pairs or summaries from each passage, and filtering the output with format, NLI-faithfulness and reward-model checks.</p>
 <h2>Abstract</h2>
 <p>The lack of high-quality data for content-grounded generation tasks has been identified as a major obstacle to advancing these tasks. To address this gap, we propose Genie, a novel method for automatically generating high-quality content-grounded data. It consists of three stages: (a) Content Preparation, (b) Generation: creating task-specific examples from the content (e.g., question-answer pairs or summaries). (c) Filtering mechanism aiming to ensure the quality and faithfulness of the generated data. We showcase this methodology by generating three large-scale synthetic data, making wishes, for Long-Form Question-Answering (LFQA), summarization, and information extraction. In a human evaluation, our generated data was found to be natural and of high quality. Furthermore, we compare models trained on our data with models trained on human-written data -- ELI5 and ASQA for LFQA and CNN-DailyMail for Summarization. We show that our models are on par with or outperforming models trained on human-generated data and consistently outperforming them in faithfulness. Finally, we applied our method to create LFQA data within the medical domain and compared a model trained on it with models trained on other domains.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Can synthetic LLM-generated question-answering data replace human-written training data?</dt>
+<dt>Do models trained on synthetic grounded QA match models trained on human datasets like ELI5 and ASQA?</dt>
+<dt>How does Genie-generated data compare to human-written LFQA data for training?</dt>
+<dd>Flan-xl trained on 10,000 Genie-generated QA examples reaches ROUGE-L 28.2 and reward 80.3 on ASQA, versus 31.4 and 68.6 for training on human-written ASQA. It also beats human ELI5 training data, which reaches 18.7 ROUGE-L on the ASQA test set.<br><span class="scope">Holds for: Flan-xl, 10,000 training examples per condition and identical hyperparameters; ASQA-trained model still leads on ROUGE-L and Bert-Score, while synthetic data leads on reward. Falcon-40B is the data generator.</span></dd>
+<dd>Flan-xl trained on Genie&#x27;s Wikipedia-from-scratch QA data earns a reward score of 85.1 on ASQA and 26.7 on ELI5. That is above the 72.1 of the ASQA gold answers and just under the 30.3 of the ELI5 gold answers.<br><span class="scope">Holds for: Reward is the OpenAssistant DeBERTa-v3-large-v2 reference-less model, also used inside Genie&#x27;s filter, so generator and evaluator share a preference model; Flan-xl base, 10,000 training examples.</span></dd>
+<dd>Flan-xl trained on Genie&#x27;s in-domain synthetic QA reaches 81.9 k-Precision and 79.1 ANLI on ASQA, against 67.5 and 55.7 for human ASQA training data and 52.9 and 33.5 for human ELI5 data.<br><span class="scope">Holds for: Flan-xl, 10,000 examples per condition, ASQA test set. The untrained Flan-xl baseline scores higher still (98.2 k-Precision) with short, near-extractive answers.</span></dd>
+<dt>Are automatically generated questions distinguishable from human-written ones?</dt>
+<dt>How natural do synthetic questions look to human annotators compared with Reddit or Google-search questions?</dt>
+<dt>Did Genie pass a Turing-style test on question naturalness?</dt>
+<dd>In a side-by-side forced-choice test, an expert annotator picked Genie&#x27;s synthetic question as the human-written one in 72% of ELI5 pairs, 63% of NQ pairs and 49% of ASQA pairs. ELI5 questions come from Reddit posts and NQ questions from Google search logs.<br><span class="scope">Holds for: 1 non-author expert annotator, 100 question pairs per dataset, each pair grounded in the same content; ASQA questions are crowdsourced.</span></dd>
+<dt>Does filtering synthetic data actually improve its quality, and by how much?</dt>
+<dt>What do NLI-faithfulness and reward-model filters buy when generating synthetic QA data?</dt>
+<dt>How much does Genie&#x27;s filtering stage change human quality ratings?</dt>
+<dd>Genie&#x27;s filtering raises human-judged question relevance from 67% to 92% and answers that address the question from 80% to 98%. Answer faithfulness rises from 53% to 76% and overall answer quality from 3.48 to 4.58 on a 5-point Likert scale.<br><span class="scope">Holds for: 100 randomly sampled content-question-answer triplets from Wikipedia-from-scratch synthetic QA generated by Falcon-40B; the filters are an NLI model and a DeBERTa-v3 reward model at a 0.5 threshold, neither scoring the question directly.</span></dd>
+<dd>Synthetic QA generated over pre-cleaned NQ passages scores higher on every human quality dimension than synthetic QA generated from freshly crawled Wikipedia. Question clarity is 91% versus 67% and answer faithfulness 88% versus 76%.<br><span class="scope">Holds for: 100 triplets per condition, single expert annotator, Falcon-40B as generator; both conditions pass the same format, faithfulness and reward filters.</span></dd>
+<dt>Is synthetic training data more or less faithful to the grounding document than human data?</dt>
+<dt>Does training on generated grounded QA reduce hallucination relative to ELI5 and ASQA?</dt>
+<dt>How do k-Precision and ANLI faithfulness scores compare across human and synthetic training sets?</dt>
+<dd>Flan-xl trained on Genie&#x27;s in-domain synthetic QA reaches 81.9 k-Precision and 79.1 ANLI on ASQA, against 67.5 and 55.7 for human ASQA training data and 52.9 and 33.5 for human ELI5 data.<br><span class="scope">Holds for: Flan-xl, 10,000 examples per condition, ASQA test set. The untrained Flan-xl baseline scores higher still (98.2 k-Precision) with short, near-extractive answers.</span></dd>
+<dd>On CNN-DailyMail, Flan-xl trained on Genie&#x27;s Wish-Summarization data scores 28.6 ROUGE-L against 33.3 for training on human CNN-DailyMail summaries, while edging it on reward (97.5 versus 96.5) and k-Precision (98.2 versus 97.0).<br><span class="scope">Holds for: Flan-xl, CNN-DailyMail test set, 10,000 training examples per condition; parity claim is on Bert-Score, reward and faithfulness metrics, not on ROUGE-L, where human data wins.</span></dd>
+<dt>Do I need in-domain synthetic data for medical question answering, or will general-domain data do?</dt>
+<dt>Does generating training data in the target domain help on PubMed long-form QA?</dt>
+<dt>Is domain-matched synthetic data worth it for content-grounded generation?</dt>
+<dd>On PubMed-QA, Flan-xl trained on Genie&#x27;s medical-domain synthetic QA scores 22.1 ROUGE-L and 81.8 ANLI. Out-of-domain synthetic QA built from NQ passages scores a comparable 22.0 ROUGE-L with higher reward (44.5 versus 39.4) and k-Precision (84.2 versus 78.2).<br><span class="scope">Holds for: One target domain (medical LFQA on PubMed papers), Flan-xl base, Falcon-40B generator, 10,000 examples per condition; only ANLI favours in-domain data, so the faithfulness comparison is inconclusive.</span></dd>
+<dt>How much cheaper is generating a grounded QA dataset with an LLM than paying annotators?</dt>
+<dt>What does it cost to build 300K content-grounded examples synthetically?</dt>
+<dt>How fast is automatic content-grounded dataset creation compared with crowdsourcing?</dt>
+<dd>Genie generates 10 content-grounded examples in under a minute at $0.02-$0.04 per LLM API call, against roughly $4.45 per expert-written question. At that annotation rate its 300K-example release would have cost over $1M.<br><span class="scope">Holds for: Cost per question taken from the ASQA paper&#x27;s reported annotation rate; API costs are those of the models used in 2024 and exclude filtering-model inference and human verification.</span></dd>
+<dt>Is synthetic data less lexically diverse than human-written data?</dt>
+<dt>How large and how varied are the released Wish-QA and Wish-Summarization datasets?</dt>
+<dt>Does automatically generated grounded data collapse into repetitive vocabulary?</dt>
+<dd>The released Genie datasets span 300K+ samples with vocd-D lexical diversity above their human-written counterparts, for example 76.0 for Wish-Summarization versus 40.1 for CNN-DailyMail. Wish-QA-NQ holds 88K samples against 6,316 for ASQA.<br><span class="scope">Holds for: vocd-D computed over responses; Wish-QA-NQ&#x27;s diversity (62.3) is below ASQA&#x27;s (65.8), while Wish-QA-ELI5 (71.8) exceeds ELI5 (70.9). Sizes reflect what was released, not a cap on what the method can produce.</span></dd>
+<dt>Does the Genie recipe work for summarization and information extraction, not just QA?</dt>
+<dt>Can one generate-and-filter pipeline cover several content-grounded tasks?</dt>
+<dt>What tasks besides long-form QA has Genie been applied to?</dt>
+<dd>On CNN-DailyMail, Flan-xl trained on Genie&#x27;s Wish-Summarization data scores 28.6 ROUGE-L against 33.3 for training on human CNN-DailyMail summaries, while edging it on reward (97.5 versus 96.5) and k-Precision (98.2 versus 97.0).<br><span class="scope">Holds for: Flan-xl, CNN-DailyMail test set, 10,000 training examples per condition; parity claim is on Bert-Score, reward and faithfulness metrics, not on ROUGE-L, where human data wins.</span></dd>
+<dd>Applied to information extraction with only a new set of few-shot examples, Genie&#x27;s synthetic data lifts Flan-xl from 42.3 to 47.9 ROUGE-L and from 35.9 to 87.4 reward. It beats human Databricks training data on reward and k-Precision but trails it on ROUGE-L, Bert-Score and ANLI.<br><span class="scope">Holds for: Databricks information-extraction split, 1000 train / 50 test examples, synthetic data generated over Google-NQ passages; the 50-example test set is small.</span></dd>
+<dd>Genie is a task-agnostic recipe for synthesising content-grounded training data. It extends the generate-then-filter pattern of Self-Instruct and Unnatural Instructions to data that must be grounded in supplied documents rather than in model knowledge.<br><span class="scope">Holds for: Demonstrated on long-form QA, summarization and information extraction in English, with Falcon-40B and Llama-2-70B as generators, as of the January 2024 preprint; content preparation is rule-based and must be re-implemented per source format.</span></dd>
+<dt>What should I read about generating synthetic training data grounded in documents?</dt>
+<dt>Which paper introduced a general pipeline for building content-grounded datasets for RAG-style tasks?</dt>
+<dt>Where does Genie sit relative to Self-Instruct and Unnatural Instructions?</dt>
+<dd>Genie is a task-agnostic recipe for synthesising content-grounded training data. It extends the generate-then-filter pattern of Self-Instruct and Unnatural Instructions to data that must be grounded in supplied documents rather than in model knowledge.<br><span class="scope">Holds for: Demonstrated on long-form QA, summarization and information extraction in English, with Falcon-40B and Llama-2-70B as generators, as of the January 2024 preprint; content preparation is rule-based and must be re-implemented per source format.</span></dd>
+<dt>Is ASQA or ELI5 the better long-form QA dataset to train on?</dt>
+<dt>What evidence is there that ELI5 is noisier than carefully annotated LFQA datasets?</dt>
+<dt>Which human LFQA dataset transfers better across test sets, ASQA or ELI5?</dt>
+<dd>Genie&#x27;s experiments provide evidence that ASQA is a higher-quality long-form QA dataset than ELI5. Models trained on ASQA outperform models trained on ELI5 on both test sets, and ELI5 questions were the ones annotators most often mistook synthetic questions for.<br><span class="scope">Holds for: Comparison is at a matched 10,000 training examples with Flan-xl; ASQA is roughly 6K examples in total against 272K for ELI5, so the quality ordering says nothing about which is more useful at full scale.</span></dd>
+<dt>Which LLMs were used to generate the synthetic data, and does the choice matter?</dt>
+<dt>Does a purely pretrained generator like Falcon-40B work as well as an aligned Llama-2-70B?</dt>
+<dd>Genie is a task-agnostic recipe for synthesising content-grounded training data. It extends the generate-then-filter pattern of Self-Instruct and Unnatural Instructions to data that must be grounded in supplied documents rather than in model knowledge.<br><span class="scope">Holds for: Demonstrated on long-form QA, summarization and information extraction in English, with Falcon-40B and Llama-2-70B as generators, as of the January 2024 preprint; content preparation is rule-based and must be re-implemented per source format.</span></dd>
+<dd>Flan-xl trained on 10,000 Genie-generated QA examples reaches ROUGE-L 28.2 and reward 80.3 on ASQA, versus 31.4 and 68.6 for training on human-written ASQA. It also beats human ELI5 training data, which reaches 18.7 ROUGE-L on the ASQA test set.<br><span class="scope">Holds for: Flan-xl, 10,000 training examples per condition and identical hyperparameters; ASQA-trained model still leads on ROUGE-L and Bert-Score, while synthetic data leads on reward. Falcon-40B is the data generator.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>In a side-by-side forced-choice test, an expert annotator picked Genie&#x27;s synthetic question as the human-written one in 72% of ELI5 pairs, 63% of NQ pairs and 49% of ASQA pairs. ELI5 questions come from Reddit posts and NQ questions from Google search logs. <span class="meta">(Table 1 (naturalness evaluation, Section 4))</span><br><span class="scope">Scope: 1 non-author expert annotator, 100 question pairs per dataset, each pair grounded in the same content; ASQA questions are crowdsourced.</span></li>
+<li>Genie&#x27;s filtering raises human-judged question relevance from 67% to 92% and answers that address the question from 80% to 98%. Answer faithfulness rises from 53% to 76% and overall answer quality from 3.48 to 4.58 on a 5-point Likert scale. <span class="meta">(Table 1)</span><br><span class="scope">Scope: 100 randomly sampled content-question-answer triplets from Wikipedia-from-scratch synthetic QA generated by Falcon-40B; the filters are an NLI model and a DeBERTa-v3 reward model at a 0.5 threshold, neither scoring the question directly.</span></li>
+<li>Synthetic QA generated over pre-cleaned NQ passages scores higher on every human quality dimension than synthetic QA generated from freshly crawled Wikipedia. Question clarity is 91% versus 67% and answer faithfulness 88% versus 76%. <span class="meta">(Table 7 (Appendix B))</span><br><span class="scope">Scope: 100 triplets per condition, single expert annotator, Falcon-40B as generator; both conditions pass the same format, faithfulness and reward filters.</span></li>
+<li>Flan-xl trained on 10,000 Genie-generated QA examples reaches ROUGE-L 28.2 and reward 80.3 on ASQA, versus 31.4 and 68.6 for training on human-written ASQA. It also beats human ELI5 training data, which reaches 18.7 ROUGE-L on the ASQA test set. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Flan-xl, 10,000 training examples per condition and identical hyperparameters; ASQA-trained model still leads on ROUGE-L and Bert-Score, while synthetic data leads on reward. Falcon-40B is the data generator.</span></li>
+<li>Flan-xl trained on Genie&#x27;s Wikipedia-from-scratch QA data earns a reward score of 85.1 on ASQA and 26.7 on ELI5. That is above the 72.1 of the ASQA gold answers and just under the 30.3 of the ELI5 gold answers. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Reward is the OpenAssistant DeBERTa-v3-large-v2 reference-less model, also used inside Genie&#x27;s filter, so generator and evaluator share a preference model; Flan-xl base, 10,000 training examples.</span></li>
+<li>Flan-xl trained on Genie&#x27;s in-domain synthetic QA reaches 81.9 k-Precision and 79.1 ANLI on ASQA, against 67.5 and 55.7 for human ASQA training data and 52.9 and 33.5 for human ELI5 data. <span class="meta">(Table 3)</span><br><span class="scope">Scope: Flan-xl, 10,000 examples per condition, ASQA test set. The untrained Flan-xl baseline scores higher still (98.2 k-Precision) with short, near-extractive answers.</span></li>
+<li>On CNN-DailyMail, Flan-xl trained on Genie&#x27;s Wish-Summarization data scores 28.6 ROUGE-L against 33.3 for training on human CNN-DailyMail summaries, while edging it on reward (97.5 versus 96.5) and k-Precision (98.2 versus 97.0). <span class="meta">(Table 4)</span><br><span class="scope">Scope: Flan-xl, CNN-DailyMail test set, 10,000 training examples per condition; parity claim is on Bert-Score, reward and faithfulness metrics, not on ROUGE-L, where human data wins.</span></li>
+<li>On PubMed-QA, Flan-xl trained on Genie&#x27;s medical-domain synthetic QA scores 22.1 ROUGE-L and 81.8 ANLI. Out-of-domain synthetic QA built from NQ passages scores a comparable 22.0 ROUGE-L with higher reward (44.5 versus 39.4) and k-Precision (84.2 versus 78.2). <span class="meta">(Table 5)</span><br><span class="scope">Scope: One target domain (medical LFQA on PubMed papers), Flan-xl base, Falcon-40B generator, 10,000 examples per condition; only ANLI favours in-domain data, so the faithfulness comparison is inconclusive.</span></li>
+<li>Genie generates 10 content-grounded examples in under a minute at $0.02-$0.04 per LLM API call, against roughly $4.45 per expert-written question. At that annotation rate its 300K-example release would have cost over $1M. <span class="meta">(Section 4, Monetary and Time Cost)</span><br><span class="scope">Scope: Cost per question taken from the ASQA paper&#x27;s reported annotation rate; API costs are those of the models used in 2024 and exclude filtering-model inference and human verification.</span></li>
+<li>The released Genie datasets span 300K+ samples with vocd-D lexical diversity above their human-written counterparts, for example 76.0 for Wish-Summarization versus 40.1 for CNN-DailyMail. Wish-QA-NQ holds 88K samples against 6,316 for ASQA. <span class="meta">(Table 6 (Appendix A))</span><br><span class="scope">Scope: vocd-D computed over responses; Wish-QA-NQ&#x27;s diversity (62.3) is below ASQA&#x27;s (65.8), while Wish-QA-ELI5 (71.8) exceeds ELI5 (70.9). Sizes reflect what was released, not a cap on what the method can produce.</span></li>
+<li>Applied to information extraction with only a new set of few-shot examples, Genie&#x27;s synthetic data lifts Flan-xl from 42.3 to 47.9 ROUGE-L and from 35.9 to 87.4 reward. It beats human Databricks training data on reward and k-Precision but trails it on ROUGE-L, Bert-Score and ANLI. <span class="meta">(Table 12 (Appendix C))</span><br><span class="scope">Scope: Databricks information-extraction split, 1000 train / 50 test examples, synthetic data generated over Google-NQ passages; the 50-example test set is small.</span></li>
+<li>Genie is a task-agnostic recipe for synthesising content-grounded training data. It extends the generate-then-filter pattern of Self-Instruct and Unnatural Instructions to data that must be grounded in supplied documents rather than in model knowledge. <span class="meta">(Section 7)</span><br><span class="scope">Scope: Demonstrated on long-form QA, summarization and information extraction in English, with Falcon-40B and Llama-2-70B as generators, as of the January 2024 preprint; content preparation is rule-based and must be re-implemented per source format.</span></li>
+<li>Genie&#x27;s experiments provide evidence that ASQA is a higher-quality long-form QA dataset than ELI5. Models trained on ASQA outperform models trained on ELI5 on both test sets, and ELI5 questions were the ones annotators most often mistook synthetic questions for. <span class="meta">(Table 2 and Table 1)</span><br><span class="scope">Scope: Comparison is at a matched 10,000 training examples with Flan-xl; ASQA is roughly 6K examples in total against 272K for ELI5, so the quality ordering says nothing about which is more useful at full scale.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>&quot;Human parity&quot; in Genie refers to the usefulness of the generated data for training and to human quality ratings of it, not to the synthetic answers being verified as factually correct; 76% of filtered answers were judged faithful to their content, leaving a quarter that were not.</li>
+<li>Genie&#x27;s synthetic data does not win on every metric: human CNN-DailyMail summaries still give higher ROUGE-L than Wish-Summarization, and human ASQA data still gives higher ROUGE-L and Bert-Score on the ASQA test set.</li>
+<li>The very high faithfulness scores of the untrained Flan-xl baseline are not evidence that no training is needed; those answers are short and near-extractive and score far worse on ROUGE-L and reward.</li>
+<li>The finding that out-of-domain synthetic QA matches in-domain medical synthetic QA is specific to long-form QA with the content supplied in the prompt, and is not shown to hold for tasks where the model must rely on domain knowledge.</li>
+<li>Genie is not a distillation method: the trained model is made expert on one content-grounded task rather than made to imitate a broad set of teacher skills.</li>
+<li>The reward-score advantage over gold answers is measured with the same OpenAssistant reward model that Genie uses as a filter, so it is not an independent human preference judgement.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Genie</em></dt><dd>A three-stage method for automatically curating content-grounded datasets: rule-based content preparation, few-shot LLM generation of task examples from each content passage, and filtering by format, NLI-based faithfulness and reward-model quality.</dd>
+<dt><em>Wish-QA</em></dt><dd>The family of synthetic question-answering datasets produced by Genie; the bare name also denotes the variant built from scratch by crawling and processing Wikipedia pages (Wikipedia-from-Scratch).</dd>
+<dt><em>Wish-QA-NQ</em></dt><dd>Synthetic question-answer data generated over Natural Questions passages, which were originally extracted from Wikipedia by human annotators and are therefore already clean and topically focused.</dd>
+<dt><em>Wish-QA-MED</em></dt><dd>Synthetic long-form question-answering data generated over PubMed papers, used as in-domain medical training data.</dd>
+<dt><em>K-Precision</em></dt><dd>A lexical faithfulness metric measuring the fraction of words in a generated response that also appear in the grounding content.</dd>
+<dt><em>content-grounded generation</em></dt><dd>Tasks where a model must produce a response derived from a supplied document or passage, such as retrieval-augmented question answering, grounded summarization and information extraction.</dd>
+<dt><em>vocd-D</em></dt><dd>A lexical diversity measure computed from the vocabulary-size-to-token-count curve, used to compare the vocabulary richness of dataset responses.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@article{DBLP:journals/corr/abs-2401-14367,
-  author       = {Asaf Yehudai and
+<pre>@inproceedings{DBLP:conf/iclr/YehudaiCMAMSC24,author       = {Asaf Yehudai and
                   Boaz Carmeli and
                   Yosi Mass and
                   Ofir Arviv and
                   Nathaniel Mills and
-                  Assaf Toledo and
                   Eyal Shnarch and
                   Leshem Choshen},
-  title        = {Genie: Achieving Human Parity in Content-Grounded Datasets Generation},
-  journal      = {CoRR},
-  volume       = {abs/2401.14367},
+  title        = {Achieving Human Parity in Content-Grounded Datasets Generation},
+  booktitle    = {The Twelfth International Conference on Learning Representations,
+                  {ICLR} 2024, Vienna, Austria, May 7-11, 2024},
+  publisher    = {OpenReview.net},
   year         = {2024},
-  url          = {https://doi.org/10.48550/arXiv.2401.14367},
-  doi          = {10.48550/ARXIV.2401.14367},
-  eprinttype    = {arXiv},
-  eprint       = {2401.14367},
-  timestamp    = {Tue, 06 Feb 2024 00:00:00 +0100},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-2401-14367.bib},
+  url          = {https://openreview.net/forum?id=RjYKTQ0L0W},
+  timestamp    = {Wed, 07 Aug 2024 01:00:00 +0200},
+  biburl       = {https://dblp.org/rec/conf/iclr/YehudaiCMAMSC24.bib},
   bibsource    = {dblp computer science bibliography, https://dblp.org}
 }</pre>
 <h2>References</h2>

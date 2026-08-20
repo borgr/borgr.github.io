@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Findings of the Third {B}aby{LM} Challenge: Accelerating Language Modeling Research with Cognitively Plausible Data — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/">
+  <meta name="citation_title" content="Findings of the Third BabyLM Challenge: Accelerating Language Modeling Research with Cognitively Plausible Data">
+  <meta name="citation_author" content="Lucas Charpentier">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Ryan Cotterell">
+  <meta name="citation_author" content="Mustafa Omer Gul">
+  <meta name="citation_author" content="Michael Y. Hu">
+  <meta name="citation_author" content="Jing Liu">
+  <meta name="citation_author" content="Jaap Jumelet">
+  <meta name="citation_author" content="Tal Linzen">
+  <meta name="citation_author" content="Aaron Mueller">
+  <meta name="citation_author" content="Candance Ross">
+  <meta name="citation_author" content="Raj Sanjay Shah">
+  <meta name="citation_author" content="Alex Warstadt">
+  <meta name="citation_author" content="Ethan Gotlieb Wilcox">
+  <meta name="citation_author" content="Adina Williams">
+  <meta name="citation_publication_date" content="2025">
+  <meta name="citation_conference_title" content="Proceedings of the First BabyLM Workshop">
+  <meta name="citation_doi" content="10.18653/v1/2025.babylm-main.28">
+  <meta name="citation_abstract" content="This report summarizes the findings from the 3rd BabyLM Challenge and the 1st BabyLM Workshop. The BabyLM Challenge is a shared task aimed at closing the data efficiency gap between human and machine language learners. The goal is to improve the performance of language models given a fixed training budget of no more than 100 million words. This year, the challenge was held as part of an expanded BabyLM Workshop that invited paper submissions on topics relevant to the BabyLM effort, including sample-efficient pretraining and cognitive modeling for LMs. For the challenge, we kept the text-only and text{--}image tracks from previous years, but also introduced a new \textit{interaction} track, where student models are allowed to learn from feedback from larger teacher models. Furthermore, we introduce a new set of evaluation tasks to assess the ``human likeness&#x27;&#x27; of models on a cognitive and linguistic level, limit the total amount of training compute allowed, and measure performance on intermediate checkpoints. We observe that new training objectives and architectures tend to produce the best-performing approaches, and that interaction with teacher models can yield high-quality language models. The strict and interaction tracks saw submissions that outperformed the best-performing methods from previous years. We do not observe a complete correlation between training FLOPs and performance. {\%}, suggesting that some methods can produce real gains beyond allowing us to spend more compute. This year{&#x27;}s BabyLM Challenge shows that there is still room to innovate in a data-constrained setting, and that community-driven research can yield actionable insights for language modeling.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/#article",
+  "name": "Findings of the Third BabyLM Challenge: Accelerating Language Modeling Research with Cognitively Plausible Data",
+  "headline": "Findings of the Third BabyLM Challenge: Accelerating Language Modeling Research with Cognitively Plausible Data",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Lucas Charpentier"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Ryan Cotterell"
+    },
+    {
+      "@type": "Person",
+      "name": "Mustafa Omer Gul"
+    },
+    {
+      "@type": "Person",
+      "name": "Michael Y. Hu"
+    },
+    {
+      "@type": "Person",
+      "name": "Jing Liu"
+    },
+    {
+      "@type": "Person",
+      "name": "Jaap Jumelet"
+    },
+    {
+      "@type": "Person",
+      "name": "Tal Linzen"
+    },
+    {
+      "@type": "Person",
+      "name": "Aaron Mueller"
+    },
+    {
+      "@type": "Person",
+      "name": "Candance Ross"
+    },
+    {
+      "@type": "Person",
+      "name": "Raj Sanjay Shah"
+    },
+    {
+      "@type": "Person",
+      "name": "Alex Warstadt"
+    },
+    {
+      "@type": "Person",
+      "name": "Ethan Gotlieb Wilcox"
+    },
+    {
+      "@type": "Person",
+      "name": "Adina Williams"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2025",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "Proceedings of the First BabyLM Workshop"
+  },
+  "identifier": "https://doi.org/10.18653/v1/2025.babylm-main.28",
+  "abstract": "This report summarizes the findings from the 3rd BabyLM Challenge and the 1st BabyLM Workshop. The BabyLM Challenge is a shared task aimed at closing the data efficiency gap between human and machine language learners. The goal is to improve the performance of language models given a fixed training budget of no more than 100 million words. This year, the challenge was held as part of an expanded BabyLM Workshop that invited paper submissions on topics relevant to the BabyLM effort, including sample-efficient pretraining and cognitive modeling for LMs. For the challenge, we kept the text-only and text{--}image tracks from previous years, but also introduced a new \\textit{interaction} track, where student models are allowed to learn from feedback from larger teacher models. Furthermore, we introduce a new set of evaluation tasks to assess the ``human likeness'' of models on a cognitive and linguistic level, limit the total amount of training compute allowed, and measure performance on intermediate checkpoints. We observe that new training objectives and architectures tend to produce the best-performing approaches, and that interaction with teacher models can yield high-quality language models. The strict and interaction tracks saw submissions that outperformed the best-performing methods from previous years. We do not observe a complete correlation between training FLOPs and performance. {\\%}, suggesting that some methods can produce real gains beyond allowing us to spend more compute. This year{'}s BabyLM Challenge shows that there is still room to innovate in a data-constrained setting, and that community-driven research can yield actionable insights for language modeling.",
+  "description": "The third BabyLM Challenge capped pretraining at 100M words (10M in strict-small), added an interaction track where a student learns from a larger teacher model, capped total word exposure and required intermediate checkpoints; objective and architecture changes, not curriculum learning, produced the winners.",
+  "sameAs": [
+    "https://aclanthology.org/2025.babylm-main.28/",
+    "https://aclanthology.org/2025.babylm-main.28/",
+    "https://doi.org/10.18653/v1/2025.babylm-main.28",
+    "https://github.com/babylm/evaluation-pipeline-2025",
+    "https://huggingface.co/spaces/BabyLM-community/babylm-leaderboard-2025-alltasks",
+    "https://www.semanticscholar.org/paper/282893571"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "The Findings of the Third BabyLM Challenge report documents a shared task on data-efficient language model pretraining under a budget of at most 100M words. It is the reference point for the challenge's 2025 tracks, corpora, evaluation suite and winning systems.",
+      "description": "Holds for: Covers the third iteration only, with English data and evaluations; the first and second iterations are reported in separate findings papers (Warstadt et al. 2023; Hu et al. 2024)."
+    },
+    {
+      "@type": "Thing",
+      "name": "The third BabyLM Challenge introduced an interaction track in which a student model learns from feedback produced by a larger teacher model, rather than only from passive exposure to human-written text. Teachers were restricted to a fixed list including Llama3.1-8B-Instruct and any LM below 1B parameters.",
+      "description": "Holds for: The student may see at most 100M external words and generate at most 100M of its own; the teacher's weights, hidden states and output distribution may not be exposed to the student."
+    },
+    {
+      "@type": "Thing",
+      "name": "The winning systems of the third BabyLM Challenge were a diffusion masked language model, an instruction-tuned model, a modular mixture-of-experts model and a reinforcement-learning interactive storytelling model. Curriculum learning was the most common approach among submissions but won nothing.",
+      "description": "Holds for: 32 models submitted across the strict, strict-small, multimodal and interaction tracks; winners named separately for human-likeness and for NLP task scores."
+    },
+    {
+      "@type": "Thing",
+      "name": "BLM, the interaction-track winner of the third BabyLM Challenge, scored 20.8 on human-likeness and 54.4 on the NLP metric, beating the track's SimPO baseline (20.4 human-likeness, 54.1 NLP) and taking both awards.",
+      "description": "Holds for: Interaction track only; the challenge's own aggregate human-likeness and NLP task metrics on the final checkpoint, with the student limited to 100M external words."
+    },
+    {
+      "@type": "Thing",
+      "name": "In the strict track of the third BabyLM Challenge, CLASS-IT reached a human-likeness score of 20.4 against the best GPT-BERT baseline's 22.5. Simple-Diffusion reached an NLP score of 58.4 against the best baseline's 63.0.",
+      "description": "Holds for: Strict track (100M words), final-checkpoint full evaluation; the GPT-BERT baselines are last year's winning submission, trained on the 100M-word BabyLM corpus."
+    },
+    {
+      "@type": "Thing",
+      "name": "In the strict-small track of the third BabyLM Challenge, MoEP reached a human-likeness score of 31.5 and a macro average of 42.3, above every baseline in that track. The best baseline human-likeness was 19.8 and the best baseline macro average 37.4.",
+      "description": "Holds for: Strict-small track (10M words) only; baselines are GPT-BERT variants and GPT-2 Small trained on the 10M-word BabyLM corpus. In the strict track the baselines were not beaten on the aggregate metrics."
+    },
+    {
+      "@type": "Thing",
+      "name": "Across the third BabyLM Challenge submissions, macro average score shows no strong relationship with training FLOPs in the strict and strict-small tracks; a positive correlation appears only in the interaction track.",
+      "description": "Holds for: 32 models under this year's exposure cap of 100M words for strict-small and 1B for other tracks; FLOPs self-reported by participants."
+    },
+    {
+      "@type": "Thing",
+      "name": "In the third BabyLM Challenge, linguistic task performance and cognitive modeling task performance were positively correlated across submitted models in every track except strict-small.",
+      "description": "Holds for: Within-track correlations across submitted models, using the new human-likeness tasks against BLiMP/GLUE/EWoK; the multimodal track had only 1 submission."
+    },
+    {
+      "@type": "Thing",
+      "name": "Some strict-track and interaction-track models in the third BabyLM Challenge reach BLiMP scores comparable to a 70B-parameter Llama model. On GLUE, all submitted models remain below both the human score and the Llama 70B skyline.",
+      "description": "Holds for: BLiMP and GLUE only; GLUE is evaluated after finetuning on subsampled (Super)GLUE tasks capped at 10,000 training examples. Does not extend to the cognitive human-likeness tasks."
+    },
+    {
+      "@type": "Thing",
+      "name": "Across intermediate checkpoints in the third BabyLM Challenge, BLiMP and EWoK scores rise with words seen, while wug past-tense accuracy is flat for the first 10-50M words before a phase shift upward. Entity tracking shows U-shaped scaling in the strict track.",
+      "description": "Holds for: Checkpoints requested every 1M words to 10M, every 10M to 100M, and every 100M to 1B, evaluated on the fast (20% subsampled) task versions. Reading-time prediction and wug adjective nominalization show no strong relationship with words seen."
+    },
+    {
+      "@type": "Thing",
+      "name": "Grouping third BabyLM Challenge submissions by backbone architecture, GPT-BERT consistently yields the strongest cognitive, linguistic and macro average scores, with DeBERTa and LTG-BERT also performing strongly.",
+      "description": "Holds for: Backbones compared include BERT, DeBERTa, Flamingo, GIT, GPT-2, GPT-BERT, Llama, LSTM, LTG-BERT, ModernBERT, Qwen2 and RoBERTa, aggregated over submissions without controlling training data or hyperparameters."
+    },
+    {
+      "@type": "Thing",
+      "name": "The third BabyLM Challenge organizers tested replacing the finetuning-based (Super)GLUE evaluations with zero-shot prompting. They concluded that models at these data budgets do not support robust in-context learning, so the finetuning tasks were kept.",
+      "description": "Holds for: Models trained on 10M-100M words; cost was instead reduced by subsampling tasks larger than 10,000 training examples down to 10,000 and dropping highly correlated tasks such as QNLI."
+    },
+    {
+      "@type": "Thing",
+      "name": "The multimodal track of the third BabyLM Challenge received only 1 submission, BitMar, which scored below both the Flamingo and GIT baselines on vision average (26.7 versus 49.3 and 49.7).",
+      "description": "Holds for: Multimodal track only; the organizers attribute part of the difficulty to the provided vision embeddings and data download process and plan to move to a more openly licensed dataset."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/#faq",
+  "url": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/",
+  "name": "Questions answered by Findings of the Third BabyLM Challenge: Accelerating Language Modeling Research with Cognitively Plausible Data",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a good paper to read about training language models on human-scale amounts of data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Findings of the Third BabyLM Challenge report documents a shared task on data-efficient language model pretraining under a budget of at most 100M words. It is the reference point for the challenge's 2025 tracks, corpora, evaluation suite and winning systems. Holds for: Covers the third iteration only, with English data and evaluations; the first and second iterations are reported in separate findings papers (Warstadt et al. 2023; Hu et al. 2024).\n\nThe winning systems of the third BabyLM Challenge were a diffusion masked language model, an instruction-tuned model, a modular mixture-of-experts model and a reinforcement-learning interactive storytelling model. Curriculum learning was the most common approach among submissions but won nothing. Holds for: 32 models submitted across the strict, strict-small, multimodal and interaction tracks; winners named separately for human-likeness and for NLP task scores.",
+        "url": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/"
+      },
+      "alternateName": [
+        "Where should I start reading about sample-efficient pretraining shared tasks?",
+        "Which paper documents the BabyLM Challenge results?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What was new in the 2025 BabyLM Challenge compared with earlier years?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The third BabyLM Challenge introduced an interaction track in which a student model learns from feedback produced by a larger teacher model, rather than only from passive exposure to human-written text. Teachers were restricted to a fixed list including Llama3.1-8B-Instruct and any LM below 1B parameters. Holds for: The student may see at most 100M external words and generate at most 100M of its own; the teacher's weights, hidden states and output distribution may not be exposed to the student.\n\nBLM, the interaction-track winner of the third BabyLM Challenge, scored 20.8 on human-likeness and 54.4 on the NLP metric, beating the track's SimPO baseline (20.4 human-likeness, 54.1 NLP) and taking both awards. Holds for: Interaction track only; the challenge's own aggregate human-likeness and NLP task metrics on the final checkpoint, with the student limited to 100M external words.",
+        "url": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/"
+      },
+      "alternateName": [
+        "How does the BabyLM interaction track work?",
+        "Can a small model learn from a bigger teacher model under the BabyLM rules?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does curriculum learning actually help when pretraining on 100M words?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The winning systems of the third BabyLM Challenge were a diffusion masked language model, an instruction-tuned model, a modular mixture-of-experts model and a reinforcement-learning interactive storytelling model. Curriculum learning was the most common approach among submissions but won nothing. Holds for: 32 models submitted across the strict, strict-small, multimodal and interaction tracks; winners named separately for human-likeness and for NLP task scores.\n\nGrouping third BabyLM Challenge submissions by backbone architecture, GPT-BERT consistently yields the strongest cognitive, linguistic and macro average scores, with DeBERTa and LTG-BERT also performing strongly. Holds for: Backbones compared include BERT, DeBERTa, Flamingo, GIT, GPT-2, GPT-BERT, Llama, LSTM, LTG-BERT, ModernBERT, Qwen2 and RoBERTa, aggregated over submissions without controlling training data or hyperparameters.",
+        "url": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/"
+      },
+      "alternateName": [
+        "What kinds of methods won the third BabyLM Challenge?",
+        "Which approaches worked best under a fixed small data budget?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Did any 2025 BabyLM submission beat the previous year's winning baseline?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In the strict-small track of the third BabyLM Challenge, MoEP reached a human-likeness score of 31.5 and a macro average of 42.3, above every baseline in that track. The best baseline human-likeness was 19.8 and the best baseline macro average 37.4. Holds for: Strict-small track (10M words) only; baselines are GPT-BERT variants and GPT-2 Small trained on the 10M-word BabyLM corpus. In the strict track the baselines were not beaten on the aggregate metrics.\n\nIn the strict track of the third BabyLM Challenge, CLASS-IT reached a human-likeness score of 20.4 against the best GPT-BERT baseline's 22.5. Simple-Diffusion reached an NLP score of 58.4 against the best baseline's 63.0. Holds for: Strict track (100M words), final-checkpoint full evaluation; the GPT-BERT baselines are last year's winning submission, trained on the 100M-word BabyLM corpus.\n\nBLM, the interaction-track winner of the third BabyLM Challenge, scored 20.8 on human-likeness and 54.4 on the NLP metric, beating the track's SimPO baseline (20.4 human-likeness, 54.1 NLP) and taking both awards. Holds for: Interaction track only; the challenge's own aggregate human-likeness and NLP task metrics on the final checkpoint, with the student limited to 100M external words.",
+        "url": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/"
+      },
+      "alternateName": [
+        "How did submissions compare with the GPT-BERT baselines?",
+        "Were the BabyLM baselines beaten in the strict and strict-small tracks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does spending more compute improve BabyLM scores?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Across the third BabyLM Challenge submissions, macro average score shows no strong relationship with training FLOPs in the strict and strict-small tracks; a positive correlation appears only in the interaction track. Holds for: 32 models under this year's exposure cap of 100M words for strict-small and 1B for other tracks; FLOPs self-reported by participants.",
+        "url": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/"
+      },
+      "alternateName": [
+        "Is there a relationship between training FLOPs and performance for small-data language models?",
+        "Did the BabyLM organizers find a compute-performance correlation in 2025?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do models that look human-like on cognitive tasks also do well on linguistic benchmarks?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In the third BabyLM Challenge, linguistic task performance and cognitive modeling task performance were positively correlated across submitted models in every track except strict-small. Holds for: Within-track correlations across submitted models, using the new human-likeness tasks against BLiMP/GLUE/EWoK; the multimodal track had only 1 submission.",
+        "url": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/"
+      },
+      "alternateName": [
+        "Is cognitive modeling performance correlated with BLiMP and GLUE performance?",
+        "Do human-likeness and NLP task scores go together for BabyLM models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How close are 100M-word models to large language models on grammaticality judgments?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Some strict-track and interaction-track models in the third BabyLM Challenge reach BLiMP scores comparable to a 70B-parameter Llama model. On GLUE, all submitted models remain below both the human score and the Llama 70B skyline. Holds for: BLiMP and GLUE only; GLUE is evaluated after finetuning on subsampled (Super)GLUE tasks capped at 10,000 training examples. Does not extend to the cognitive human-likeness tasks.",
+        "url": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/"
+      },
+      "alternateName": [
+        "Can a model trained on 100M words match Llama 70B on BLiMP?",
+        "Where do small-data language models still fall short of humans?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How do BabyLM abilities emerge over the course of pretraining?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Across intermediate checkpoints in the third BabyLM Challenge, BLiMP and EWoK scores rise with words seen, while wug past-tense accuracy is flat for the first 10-50M words before a phase shift upward. Entity tracking shows U-shaped scaling in the strict track. Holds for: Checkpoints requested every 1M words to 10M, every 10M to 100M, and every 100M to 1B, evaluated on the fast (20% subsampled) task versions. Reading-time prediction and wug adjective nominalization show no strong relationship with words seen.",
+        "url": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/"
+      },
+      "alternateName": [
+        "When do morphological generalization abilities appear as words seen increases?",
+        "Does entity tracking improve monotonically with pretraining data?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can GLUE-style evaluation of BabyLM models be done zero-shot instead of by finetuning?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The third BabyLM Challenge organizers tested replacing the finetuning-based (Super)GLUE evaluations with zero-shot prompting. They concluded that models at these data budgets do not support robust in-context learning, so the finetuning tasks were kept. Holds for: Models trained on 10M-100M words; cost was instead reduced by subsampling tasks larger than 10,000 training examples down to 10,000 and dropping highly correlated tasks such as QNLI.",
+        "url": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/"
+      },
+      "alternateName": [
+        "Why does the BabyLM evaluation pipeline still require finetuning?",
+        "Do 100M-word models show in-context learning?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why are there so few multimodal BabyLM submissions?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The multimodal track of the third BabyLM Challenge received only 1 submission, BitMar, which scored below both the Flamingo and GIT baselines on vision average (26.7 versus 49.3 and 49.7). Holds for: Multimodal track only; the organizers attribute part of the difficulty to the provided vision embeddings and data download process and plan to move to a more openly licensed dataset.",
+        "url": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/"
+      },
+      "alternateName": [
+        "How did vision-language models do in the 2025 BabyLM Challenge?",
+        "What is being changed about the BabyLM multimodal track?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which model architecture performs best when pretraining on 10M-100M words?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Grouping third BabyLM Challenge submissions by backbone architecture, GPT-BERT consistently yields the strongest cognitive, linguistic and macro average scores, with DeBERTa and LTG-BERT also performing strongly. Holds for: Backbones compared include BERT, DeBERTa, Flamingo, GIT, GPT-2, GPT-BERT, Llama, LSTM, LTG-BERT, ModernBERT, Qwen2 and RoBERTa, aggregated over submissions without controlling training data or hyperparameters.",
+        "url": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/"
+      },
+      "alternateName": [
+        "Is GPT-BERT still the strongest backbone for small-data pretraining?",
+        "Which backbones lead on the BabyLM evaluation suite?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/#terms",
+  "url": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/",
+  "name": "Terminology in Findings of the Third BabyLM Challenge: Accelerating Language Modeling Research with Cognitively Plausible Data",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Strict and Strict-Small tracks",
+      "description": "BabyLM Challenge tracks limiting training data to at most 100M words and at most 10M words respectively, with no other restriction on model or training procedure; participants may use the provided BabyLM corpus or build their own within the word limit.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Interaction track",
+      "description": "A BabyLM Challenge track in which an external teacher model from a fixed list may be placed in the training pipeline, giving scalar or natural-language feedback or generating data conditioned on the student's outputs, but never exposing its weights, hidden states or output distribution to the student.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "human-likeness score",
+      "description": "An aggregate BabyLM metric over tasks measuring psychometric and linguistic similarity to human learners — reading-time correlation, age-of-acquisition correlation, wug past-tense and adjective nominalization agreement with human preferences, entity tracking and COMPS — reported separately from NLP task accuracy.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "word exposure limit",
+      "description": "A cap on total training tokens counted with repetition, set in the third BabyLM Challenge at 100M words for strict-small and 1B words for the other tracks, so that extra epochs over the same data cannot be used to buy performance.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "masked next token prediction (MNTP)",
+      "description": "A variant of masked language modeling used by GPT-BERT in which outputs are shifted as in autoregressive training, allowing one model to be trained and evaluated as both an encoder and a decoder.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/#terms"
+    }
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>Findings of the Third BabyLM Challenge: Accelerating Language Modeling Research with Cognitively Plausible Data</h1>
+<p class="meta">Lucas Charpentier, Leshem Choshen, Ryan Cotterell, Mustafa Omer Gul, Michael Y. Hu, Jing Liu, Jaap Jumelet, Tal Linzen, Aaron Mueller, Candance Ross, Raj Sanjay Shah, Alex Warstadt, Ethan Gotlieb Wilcox, Adina Williams · Proceedings of the First BabyLM Workshop · 2025</p>
+<ul class="links"><li><a href="https://doi.org/10.18653/v1/2025.babylm-main.28">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/282893571">Semantic Scholar</a></li><li><a href="https://aclanthology.org/2025.babylm-main.28/">Publisher</a></li><li><a href="https://aclanthology.org/2025.babylm-main.28/">anthology</a></li><li><a href="https://github.com/babylm/evaluation-pipeline-2025">evaluation pipeline</a></li><li><a href="https://huggingface.co/spaces/BabyLM-community/babylm-leaderboard-2025-alltasks">Leaderboard</a></li></ul>
+<h2>In one sentence</h2>
+<p>The third BabyLM Challenge capped pretraining at 100M words (10M in strict-small), added an interaction track where a student learns from a larger teacher model, capped total word exposure and required intermediate checkpoints; objective and architecture changes, not curriculum learning, produced the winners.</p>
+<h2>Abstract</h2>
+<p>This report summarizes the findings from the 3rd BabyLM Challenge and the 1st BabyLM Workshop. The BabyLM Challenge is a shared task aimed at closing the data efficiency gap between human and machine language learners. The goal is to improve the performance of language models given a fixed training budget of no more than 100 million words. This year, the challenge was held as part of an expanded BabyLM Workshop that invited paper submissions on topics relevant to the BabyLM effort, including sample-efficient pretraining and cognitive modeling for LMs. For the challenge, we kept the text-only and text{--}image tracks from previous years, but also introduced a new \textit{interaction} track, where student models are allowed to learn from feedback from larger teacher models. Furthermore, we introduce a new set of evaluation tasks to assess the ``human likeness&#x27;&#x27; of models on a cognitive and linguistic level, limit the total amount of training compute allowed, and measure performance on intermediate checkpoints. We observe that new training objectives and architectures tend to produce the best-performing approaches, and that interaction with teacher models can yield high-quality language models. The strict and interaction tracks saw submissions that outperformed the best-performing methods from previous years. We do not observe a complete correlation between training FLOPs and performance. {\%}, suggesting that some methods can produce real gains beyond allowing us to spend more compute. This year{&#x27;}s BabyLM Challenge shows that there is still room to innovate in a data-constrained setting, and that community-driven research can yield actionable insights for language modeling.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What is a good paper to read about training language models on human-scale amounts of data?</dt>
+<dt>Where should I start reading about sample-efficient pretraining shared tasks?</dt>
+<dt>Which paper documents the BabyLM Challenge results?</dt>
+<dd>The Findings of the Third BabyLM Challenge report documents a shared task on data-efficient language model pretraining under a budget of at most 100M words. It is the reference point for the challenge&#x27;s 2025 tracks, corpora, evaluation suite and winning systems.<br><span class="scope">Holds for: Covers the third iteration only, with English data and evaluations; the first and second iterations are reported in separate findings papers (Warstadt et al. 2023; Hu et al. 2024).</span></dd>
+<dd>The winning systems of the third BabyLM Challenge were a diffusion masked language model, an instruction-tuned model, a modular mixture-of-experts model and a reinforcement-learning interactive storytelling model. Curriculum learning was the most common approach among submissions but won nothing.<br><span class="scope">Holds for: 32 models submitted across the strict, strict-small, multimodal and interaction tracks; winners named separately for human-likeness and for NLP task scores.</span></dd>
+<dt>What was new in the 2025 BabyLM Challenge compared with earlier years?</dt>
+<dt>How does the BabyLM interaction track work?</dt>
+<dt>Can a small model learn from a bigger teacher model under the BabyLM rules?</dt>
+<dd>The third BabyLM Challenge introduced an interaction track in which a student model learns from feedback produced by a larger teacher model, rather than only from passive exposure to human-written text. Teachers were restricted to a fixed list including Llama3.1-8B-Instruct and any LM below 1B parameters.<br><span class="scope">Holds for: The student may see at most 100M external words and generate at most 100M of its own; the teacher&#x27;s weights, hidden states and output distribution may not be exposed to the student.</span></dd>
+<dd>BLM, the interaction-track winner of the third BabyLM Challenge, scored 20.8 on human-likeness and 54.4 on the NLP metric, beating the track&#x27;s SimPO baseline (20.4 human-likeness, 54.1 NLP) and taking both awards.<br><span class="scope">Holds for: Interaction track only; the challenge&#x27;s own aggregate human-likeness and NLP task metrics on the final checkpoint, with the student limited to 100M external words.</span></dd>
+<dt>Does curriculum learning actually help when pretraining on 100M words?</dt>
+<dt>What kinds of methods won the third BabyLM Challenge?</dt>
+<dt>Which approaches worked best under a fixed small data budget?</dt>
+<dd>The winning systems of the third BabyLM Challenge were a diffusion masked language model, an instruction-tuned model, a modular mixture-of-experts model and a reinforcement-learning interactive storytelling model. Curriculum learning was the most common approach among submissions but won nothing.<br><span class="scope">Holds for: 32 models submitted across the strict, strict-small, multimodal and interaction tracks; winners named separately for human-likeness and for NLP task scores.</span></dd>
+<dd>Grouping third BabyLM Challenge submissions by backbone architecture, GPT-BERT consistently yields the strongest cognitive, linguistic and macro average scores, with DeBERTa and LTG-BERT also performing strongly.<br><span class="scope">Holds for: Backbones compared include BERT, DeBERTa, Flamingo, GIT, GPT-2, GPT-BERT, Llama, LSTM, LTG-BERT, ModernBERT, Qwen2 and RoBERTa, aggregated over submissions without controlling training data or hyperparameters.</span></dd>
+<dt>Did any 2025 BabyLM submission beat the previous year&#x27;s winning baseline?</dt>
+<dt>How did submissions compare with the GPT-BERT baselines?</dt>
+<dt>Were the BabyLM baselines beaten in the strict and strict-small tracks?</dt>
+<dd>In the strict-small track of the third BabyLM Challenge, MoEP reached a human-likeness score of 31.5 and a macro average of 42.3, above every baseline in that track. The best baseline human-likeness was 19.8 and the best baseline macro average 37.4.<br><span class="scope">Holds for: Strict-small track (10M words) only; baselines are GPT-BERT variants and GPT-2 Small trained on the 10M-word BabyLM corpus. In the strict track the baselines were not beaten on the aggregate metrics.</span></dd>
+<dd>In the strict track of the third BabyLM Challenge, CLASS-IT reached a human-likeness score of 20.4 against the best GPT-BERT baseline&#x27;s 22.5. Simple-Diffusion reached an NLP score of 58.4 against the best baseline&#x27;s 63.0.<br><span class="scope">Holds for: Strict track (100M words), final-checkpoint full evaluation; the GPT-BERT baselines are last year&#x27;s winning submission, trained on the 100M-word BabyLM corpus.</span></dd>
+<dd>BLM, the interaction-track winner of the third BabyLM Challenge, scored 20.8 on human-likeness and 54.4 on the NLP metric, beating the track&#x27;s SimPO baseline (20.4 human-likeness, 54.1 NLP) and taking both awards.<br><span class="scope">Holds for: Interaction track only; the challenge&#x27;s own aggregate human-likeness and NLP task metrics on the final checkpoint, with the student limited to 100M external words.</span></dd>
+<dt>Does spending more compute improve BabyLM scores?</dt>
+<dt>Is there a relationship between training FLOPs and performance for small-data language models?</dt>
+<dt>Did the BabyLM organizers find a compute-performance correlation in 2025?</dt>
+<dd>Across the third BabyLM Challenge submissions, macro average score shows no strong relationship with training FLOPs in the strict and strict-small tracks; a positive correlation appears only in the interaction track.<br><span class="scope">Holds for: 32 models under this year&#x27;s exposure cap of 100M words for strict-small and 1B for other tracks; FLOPs self-reported by participants.</span></dd>
+<dt>Do models that look human-like on cognitive tasks also do well on linguistic benchmarks?</dt>
+<dt>Is cognitive modeling performance correlated with BLiMP and GLUE performance?</dt>
+<dt>Do human-likeness and NLP task scores go together for BabyLM models?</dt>
+<dd>In the third BabyLM Challenge, linguistic task performance and cognitive modeling task performance were positively correlated across submitted models in every track except strict-small.<br><span class="scope">Holds for: Within-track correlations across submitted models, using the new human-likeness tasks against BLiMP/GLUE/EWoK; the multimodal track had only 1 submission.</span></dd>
+<dt>How close are 100M-word models to large language models on grammaticality judgments?</dt>
+<dt>Can a model trained on 100M words match Llama 70B on BLiMP?</dt>
+<dt>Where do small-data language models still fall short of humans?</dt>
+<dd>Some strict-track and interaction-track models in the third BabyLM Challenge reach BLiMP scores comparable to a 70B-parameter Llama model. On GLUE, all submitted models remain below both the human score and the Llama 70B skyline.<br><span class="scope">Holds for: BLiMP and GLUE only; GLUE is evaluated after finetuning on subsampled (Super)GLUE tasks capped at 10,000 training examples. Does not extend to the cognitive human-likeness tasks.</span></dd>
+<dt>How do BabyLM abilities emerge over the course of pretraining?</dt>
+<dt>When do morphological generalization abilities appear as words seen increases?</dt>
+<dt>Does entity tracking improve monotonically with pretraining data?</dt>
+<dd>Across intermediate checkpoints in the third BabyLM Challenge, BLiMP and EWoK scores rise with words seen, while wug past-tense accuracy is flat for the first 10-50M words before a phase shift upward. Entity tracking shows U-shaped scaling in the strict track.<br><span class="scope">Holds for: Checkpoints requested every 1M words to 10M, every 10M to 100M, and every 100M to 1B, evaluated on the fast (20% subsampled) task versions. Reading-time prediction and wug adjective nominalization show no strong relationship with words seen.</span></dd>
+<dt>Can GLUE-style evaluation of BabyLM models be done zero-shot instead of by finetuning?</dt>
+<dt>Why does the BabyLM evaluation pipeline still require finetuning?</dt>
+<dt>Do 100M-word models show in-context learning?</dt>
+<dd>The third BabyLM Challenge organizers tested replacing the finetuning-based (Super)GLUE evaluations with zero-shot prompting. They concluded that models at these data budgets do not support robust in-context learning, so the finetuning tasks were kept.<br><span class="scope">Holds for: Models trained on 10M-100M words; cost was instead reduced by subsampling tasks larger than 10,000 training examples down to 10,000 and dropping highly correlated tasks such as QNLI.</span></dd>
+<dt>Why are there so few multimodal BabyLM submissions?</dt>
+<dt>How did vision-language models do in the 2025 BabyLM Challenge?</dt>
+<dt>What is being changed about the BabyLM multimodal track?</dt>
+<dd>The multimodal track of the third BabyLM Challenge received only 1 submission, BitMar, which scored below both the Flamingo and GIT baselines on vision average (26.7 versus 49.3 and 49.7).<br><span class="scope">Holds for: Multimodal track only; the organizers attribute part of the difficulty to the provided vision embeddings and data download process and plan to move to a more openly licensed dataset.</span></dd>
+<dt>Which model architecture performs best when pretraining on 10M-100M words?</dt>
+<dt>Is GPT-BERT still the strongest backbone for small-data pretraining?</dt>
+<dt>Which backbones lead on the BabyLM evaluation suite?</dt>
+<dd>Grouping third BabyLM Challenge submissions by backbone architecture, GPT-BERT consistently yields the strongest cognitive, linguistic and macro average scores, with DeBERTa and LTG-BERT also performing strongly.<br><span class="scope">Holds for: Backbones compared include BERT, DeBERTa, Flamingo, GIT, GPT-2, GPT-BERT, Llama, LSTM, LTG-BERT, ModernBERT, Qwen2 and RoBERTa, aggregated over submissions without controlling training data or hyperparameters.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>The Findings of the Third BabyLM Challenge report documents a shared task on data-efficient language model pretraining under a budget of at most 100M words. It is the reference point for the challenge&#x27;s 2025 tracks, corpora, evaluation suite and winning systems.<br><span class="scope">Scope: Covers the third iteration only, with English data and evaluations; the first and second iterations are reported in separate findings papers (Warstadt et al. 2023; Hu et al. 2024).</span></li>
+<li>The third BabyLM Challenge introduced an interaction track in which a student model learns from feedback produced by a larger teacher model, rather than only from passive exposure to human-written text. Teachers were restricted to a fixed list including Llama3.1-8B-Instruct and any LM below 1B parameters.<br><span class="scope">Scope: The student may see at most 100M external words and generate at most 100M of its own; the teacher&#x27;s weights, hidden states and output distribution may not be exposed to the student.</span></li>
+<li>The winning systems of the third BabyLM Challenge were a diffusion masked language model, an instruction-tuned model, a modular mixture-of-experts model and a reinforcement-learning interactive storytelling model. Curriculum learning was the most common approach among submissions but won nothing. <span class="meta">(Figure 1 and Section 6.1)</span><br><span class="scope">Scope: 32 models submitted across the strict, strict-small, multimodal and interaction tracks; winners named separately for human-likeness and for NLP task scores.</span></li>
+<li>BLM, the interaction-track winner of the third BabyLM Challenge, scored 20.8 on human-likeness and 54.4 on the NLP metric, beating the track&#x27;s SimPO baseline (20.4 human-likeness, 54.1 NLP) and taking both awards. <span class="meta">(Table 3)</span><br><span class="scope">Scope: Interaction track only; the challenge&#x27;s own aggregate human-likeness and NLP task metrics on the final checkpoint, with the student limited to 100M external words.</span></li>
+<li>In the strict track of the third BabyLM Challenge, CLASS-IT reached a human-likeness score of 20.4 against the best GPT-BERT baseline&#x27;s 22.5. Simple-Diffusion reached an NLP score of 58.4 against the best baseline&#x27;s 63.0. <span class="meta">(Table 3)</span><br><span class="scope">Scope: Strict track (100M words), final-checkpoint full evaluation; the GPT-BERT baselines are last year&#x27;s winning submission, trained on the 100M-word BabyLM corpus.</span></li>
+<li>In the strict-small track of the third BabyLM Challenge, MoEP reached a human-likeness score of 31.5 and a macro average of 42.3, above every baseline in that track. The best baseline human-likeness was 19.8 and the best baseline macro average 37.4. <span class="meta">(Table 3)</span><br><span class="scope">Scope: Strict-small track (10M words) only; baselines are GPT-BERT variants and GPT-2 Small trained on the 10M-word BabyLM corpus. In the strict track the baselines were not beaten on the aggregate metrics.</span></li>
+<li>Across the third BabyLM Challenge submissions, macro average score shows no strong relationship with training FLOPs in the strict and strict-small tracks; a positive correlation appears only in the interaction track. <span class="meta">(Figure 6)</span><br><span class="scope">Scope: 32 models under this year&#x27;s exposure cap of 100M words for strict-small and 1B for other tracks; FLOPs self-reported by participants.</span></li>
+<li>In the third BabyLM Challenge, linguistic task performance and cognitive modeling task performance were positively correlated across submitted models in every track except strict-small. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: Within-track correlations across submitted models, using the new human-likeness tasks against BLiMP/GLUE/EWoK; the multimodal track had only 1 submission.</span></li>
+<li>Some strict-track and interaction-track models in the third BabyLM Challenge reach BLiMP scores comparable to a 70B-parameter Llama model. On GLUE, all submitted models remain below both the human score and the Llama 70B skyline. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: BLiMP and GLUE only; GLUE is evaluated after finetuning on subsampled (Super)GLUE tasks capped at 10,000 training examples. Does not extend to the cognitive human-likeness tasks.</span></li>
+<li>Across intermediate checkpoints in the third BabyLM Challenge, BLiMP and EWoK scores rise with words seen, while wug past-tense accuracy is flat for the first 10-50M words before a phase shift upward. Entity tracking shows U-shaped scaling in the strict track. <span class="meta">(Figure 5 and Section 7)</span><br><span class="scope">Scope: Checkpoints requested every 1M words to 10M, every 10M to 100M, and every 100M to 1B, evaluated on the fast (20% subsampled) task versions. Reading-time prediction and wug adjective nominalization show no strong relationship with words seen.</span></li>
+<li>Grouping third BabyLM Challenge submissions by backbone architecture, GPT-BERT consistently yields the strongest cognitive, linguistic and macro average scores, with DeBERTa and LTG-BERT also performing strongly. <span class="meta">(Figure 7)</span><br><span class="scope">Scope: Backbones compared include BERT, DeBERTa, Flamingo, GIT, GPT-2, GPT-BERT, Llama, LSTM, LTG-BERT, ModernBERT, Qwen2 and RoBERTa, aggregated over submissions without controlling training data or hyperparameters.</span></li>
+<li>The third BabyLM Challenge organizers tested replacing the finetuning-based (Super)GLUE evaluations with zero-shot prompting. They concluded that models at these data budgets do not support robust in-context learning, so the finetuning tasks were kept. <span class="meta">(Section 4.2)</span><br><span class="scope">Scope: Models trained on 10M-100M words; cost was instead reduced by subsampling tasks larger than 10,000 training examples down to 10,000 and dropping highly correlated tasks such as QNLI.</span></li>
+<li>The multimodal track of the third BabyLM Challenge received only 1 submission, BitMar, which scored below both the Flamingo and GIT baselines on vision average (26.7 versus 49.3 and 49.7). <span class="meta">(Table 2 and Table 3)</span><br><span class="scope">Scope: Multimodal track only; the organizers attribute part of the difficulty to the provided vision embeddings and data download process and plan to move to a more openly licensed dataset.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The third BabyLM Challenge did not show that submissions beat the baselines everywhere: in the strict track the GPT-BERT baselines still had the best human-likeness (22.5) and best NLP score (63.0), and in the multimodal track the sole submission scored below both baselines on vision.</li>
+<li>The finding that FLOPs and performance are weakly related is not evidence that compute is irrelevant: a positive correlation still appears in the interaction track, this year&#x27;s exposure cap removed one of the main ways compute was previously converted into score, and hyperparameter tuning remains a compute-dependent advantage.</li>
+<li>Curriculum learning being the most popular approach in the third BabyLM Challenge is not evidence that it was the most effective one; the best-performing entries modified the training objective or architecture instead.</li>
+<li>Matching a 70B Llama on BLiMP does not mean BabyLM-scale models match large models generally: on GLUE all submitted models remain below both the Llama 70B skyline and human scores.</li>
+<li>The interaction track&#x27;s teacher model is not distilled into the student in the usual sense — exposing the teacher&#x27;s weights, hidden states or output distribution to the student was prohibited, and interaction had to run through text or scalar feedback.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Strict and Strict-Small tracks</em></dt><dd>BabyLM Challenge tracks limiting training data to at most 100M words and at most 10M words respectively, with no other restriction on model or training procedure; participants may use the provided BabyLM corpus or build their own within the word limit.</dd>
+<dt><em>Interaction track</em></dt><dd>A BabyLM Challenge track in which an external teacher model from a fixed list may be placed in the training pipeline, giving scalar or natural-language feedback or generating data conditioned on the student&#x27;s outputs, but never exposing its weights, hidden states or output distribution to the student.</dd>
+<dt><em>human-likeness score</em></dt><dd>An aggregate BabyLM metric over tasks measuring psychometric and linguistic similarity to human learners — reading-time correlation, age-of-acquisition correlation, wug past-tense and adjective nominalization agreement with human preferences, entity tracking and COMPS — reported separately from NLP task accuracy.</dd>
+<dt><em>word exposure limit</em></dt><dd>A cap on total training tokens counted with repetition, set in the third BabyLM Challenge at 100M words for strict-small and 1B words for the other tracks, so that extra epochs over the same data cannot be used to buy performance.</dd>
+<dt><em>masked next token prediction (MNTP)</em></dt><dd>A variant of masked language modeling used by GPT-BERT in which outputs are shifted as in autoregressive training, allowing one model to be trained and evaluated as both an encoder and a decoder.</dd>
+</dl>
+<h2>How to cite</h2>
+<pre>@inproceedings{charpentier-etal-2025-findings,
+    title = &quot;Findings of the Third {B}aby{LM} Challenge: Accelerating Language Modeling Research with Cognitively Plausible Data&quot;,
+    author = &quot;Charpentier, Lucas  and
+      Choshen, Leshem  and
+      Cotterell, Ryan  and
+      Gul, Mustafa Omer  and
+      Hu, Michael Y.  and
+      Liu, Jing  and
+      Jumelet, Jaap  and
+      Linzen, Tal  and
+      Mueller, Aaron  and
+      Ross, Candance  and
+      Shah, Raj Sanjay  and
+      Warstadt, Alex  and
+      Wilcox, Ethan Gotlieb  and
+      Williams, Adina&quot;,
+    editor = &quot;Charpentier, Lucas  and
+      Choshen, Leshem  and
+      Cotterell, Ryan  and
+      Gul, Mustafa Omer  and
+      Hu, Michael Y.  and
+      Liu, Jing  and
+      Jumelet, Jaap  and
+      Linzen, Tal  and
+      Mueller, Aaron  and
+      Ross, Candace  and
+      Shah, Raj Sanjay  and
+      Warstadt, Alex  and
+      Wilcox, Ethan Gotlieb  and
+      Williams, Adina&quot;,
+    booktitle = &quot;Proceedings of the First BabyLM Workshop&quot;,
+    month = nov,
+    year = &quot;2025&quot;,
+    address = &quot;Suzhou, China&quot;,
+    publisher = &quot;Association for Computational Linguistics&quot;,
+    url = &quot;https://aclanthology.org/2025.babylm-main.28/&quot;,
+    doi = &quot;10.18653/v1/2025.babylm-main.28&quot;,
+    pages = &quot;399--420&quot;,
+    ISBN = &quot;TODO&quot;,
+    abstract = &quot;This report summarizes the findings from the 3rd BabyLM Challenge and the 1st BabyLM Workshop. The BabyLM Challenge is a shared task aimed at closing the data efficiency gap between human and machine language learners. The goal is to improve the performance of language models given a fixed training budget of no more than 100 million words. This year, the challenge was held as part of an expanded BabyLM Workshop that invited paper submissions on topics relevant to the BabyLM effort, including sample-efficient pretraining and cognitive modeling for LMs. For the challenge, we kept the text-only and text{--}image tracks from previous years, but also introduced a new \textit{interaction} track, where student models are allowed to learn from feedback from larger teacher models. Furthermore, we introduce a new set of evaluation tasks to assess the ``human likeness&#x27;&#x27; of models on a cognitive and linguistic level, limit the total amount of training compute allowed, and measure performance on intermediate checkpoints. We observe that new training objectives and architectures tend to produce the best-performing approaches, and that interaction with teacher models can yield high-quality language models. The strict and interaction tracks saw submissions that outperformed the best-performing methods from previous years. We do not observe a complete correlation between training FLOPs and performance. {\%}, suggesting that some methods can produce real gains beyond allowing us to spend more compute. This year{&#x27;}s BabyLM Challenge shows that there is still room to innovate in a data-constrained setting, and that community-driven research can yield actionable insights for language modeling.&quot;
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://borgr.github.io/papers/findings-of-the-third-babylm-challenge-accelerating-language/">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

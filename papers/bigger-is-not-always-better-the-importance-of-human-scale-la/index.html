@@ -18,6 +18,7 @@
   <meta name="citation_publication_date" content="2025">
   <meta name="citation_journal_title" content="Journal of Memory and Language">
   <meta name="citation_doi" content="10.1016/j.jml.2025.104650">
+  <meta name="citation_abstract" content="When trained to place high probability on a training corpus, neural network language models can learn a surprising amount about language. Recent work has demonstrated that large performance improvements can arise from simply increasing, i.e., scaling, the size of the corpora they are trained on and the number of parameters in those models. Accordingly, many contemporary systems are trained on trillions of words. While largely beneficial to performance on language applications, scaling has several downsides for both computational psycholinguistics and natural language processing research. We discuss the scientific challenges presented by the scaling paradigm, as well as the benefits that would result from language models that can learn from human-scale data. In the second half of this paper, we report on findings from a recent effort to bring about human-scale language model pretraining: the first iteration of the BabyLM Challenge, a shared task organized by the authors that invited participants to train a language model on 100 million words or less. The challenge produced several concrete best practices for practitioners interested in small-scale language modeling. For cognitive scientists, the challenge demonstrated that robust linguistic generalizations can be learned by models trained on a human-scale dataset, though this is not yet achieved through cognitively plausible mechanisms. Furthermore, it established a population of “BabyLMs” that are all effective at data-efficient language learning. Studying such models can help us identify hypotheses for the computational mechanisms that underlie human language acquisition. • Psycholinguistics benefits from computational models trained at human data scale. • We report on the BabyLM Challenge, an effort to train models at human scale. • BabyLM models achieve close to human-level performance on some tasks. • High language modeling performance is attainable with academic computational resources. • We identify actionable">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -71,9 +72,297 @@
     "name": "Journal of Memory and Language"
   },
   "identifier": "https://doi.org/10.1016/j.jml.2025.104650",
+  "abstract": "When trained to place high probability on a training corpus, neural network language models can learn a surprising amount about language. Recent work has demonstrated that large performance improvements can arise from simply increasing, i.e., scaling, the size of the corpora they are trained on and the number of parameters in those models. Accordingly, many contemporary systems are trained on trillions of words. While largely beneficial to performance on language applications, scaling has several downsides for both computational psycholinguistics and natural language processing research. We discuss the scientific challenges presented by the scaling paradigm, as well as the benefits that would result from language models that can learn from human-scale data. In the second half of this paper, we report on findings from a recent effort to bring about human-scale language model pretraining: the first iteration of the BabyLM Challenge, a shared task organized by the authors that invited participants to train a language model on 100 million words or less. The challenge produced several concrete best practices for practitioners interested in small-scale language modeling. For cognitive scientists, the challenge demonstrated that robust linguistic generalizations can be learned by models trained on a human-scale dataset, though this is not yet achieved through cognitively plausible mechanisms. Furthermore, it established a population of “BabyLMs” that are all effective at data-efficient language learning. Studying such models can help us identify hypotheses for the computational mechanisms that underlie human language acquisition. • Psycholinguistics benefits from computational models trained at human data scale. • We report on the BabyLM Challenge, an effort to train models at human scale. • BabyLM models achieve close to human-level performance on some tasks. • High language modeling performance is attainable with academic computational resources. • We identify actionable insights for human-scale language modeling.",
+  "description": "Bigger is not always better: scaling language models to trillions of words weakens their value as cognitive models, and the first BabyLM Challenge shows that models trained on 100 million words or fewer reach near-human BLiMP performance -- though not by cognitively plausible means.",
   "sameAs": [
     "https://doi.org/10.1016/j.jml.2025.104650",
     "https://www.semanticscholar.org/paper/278862573"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "The BabyLM Challenge, a CoNLL 2023 shared task, asked participants to pretrain language models on 100 million words of English or fewer. That budget is roughly the linguistic input available to a child in the United States by age 12.",
+      "description": "Holds for: English only, text and transcribed speech only, with no limit on compute or number of training epochs; the 3 tracks were Strict (100M words), Strict-Small (10M words) and Loose (100M words plus non-linguistic data)."
+    },
+    {
+      "@type": "Thing",
+      "name": "Scaling training corpora to trillions of words undermines two scientific uses of language models in psycholinguistics, Wilcox et al. argue. Those uses are assessing poverty-of-the-stimulus claims and estimating word probabilities for testing surprisal theory.",
+      "description": "Holds for: An argument about neural language models used as cognitive models of language learning and processing, not about their engineering utility, which the paper grants is improved by scaling."
+    },
+    {
+      "@type": "Thing",
+      "name": "The best BabyLM submissions reached 0.85-0.86 on BLiMP while trained on 100 million words, above the Llama 2 70B skyline score of 0.84. The top model was a few percentage points shy of human performance on BLiMP.",
+      "description": "Holds for: BLiMP minimal-pair accuracy on English syntax; Llama 2 was evaluated on GLUE and SuperGLUE with in-context learning rather than fine-tuning."
+    },
+    {
+      "@type": "Thing",
+      "name": "Cutting the BabyLM training budget from 100 million to 10 million words cost the best submissions about 5 points of BLiMP, 0.85 down to 0.80. The corresponding GLUE drop was 4 points, 0.78 down to 0.74.",
+      "description": "Holds for: Top-3 submissions in the Strict and Strict-Small tracks; both corpora used the same source composition, with Strict-Small sampled at 10% from each source."
+    },
+    {
+      "@type": "Thing",
+      "name": "Loose-track BabyLM models, permitted extra non-linguistic data such as audio, code or images, tended to score lower in the aggregate than Strict-Small models trained on 10 million words of text alone.",
+      "description": "Holds for: First BabyLM iteration only, with 2023-era architectures not designed for multimodal pretraining; the extra modality data was not counted against the 100M-word budget."
+    },
+    {
+      "@type": "Thing",
+      "name": "BabyLM submissions performed about the same on BLiMP subtasks central to poverty-of-the-stimulus debates as on the remaining BLiMP subtasks. The POS-relevant subtasks covered island constraints, filler-gap dependencies and subject-aux inversion.",
+      "description": "Holds for: Post-hoc partition of BLiMP subtasks by the paper's authors, averaged across submissions within each track, with 95% CIs across model scores; English syntax only."
+    },
+    {
+      "@type": "Thing",
+      "name": "All top BabyLM models except Strict-Small McGill-BERT scored positively on MSGS, indicating a preference for linguistic over surface generalizations comparable to Llama 2 (0.26) and RoBERTa-base (0.24).",
+      "description": "Holds for: MSGS Matthews correlation after fine-tuning on ambiguous training sets; MSGS has not been run with human subjects, so no human reference point exists, and Loose-track McGill-BERT scored -0.02."
+    },
+    {
+      "@type": "Thing",
+      "name": "Curriculum learning was the most popular strategy among BabyLM submissions yet produced only marginal gains over the baselines, while data preprocessing and architectural modifications were the most effective strategies.",
+      "description": "Holds for: Meta-analysis by hand-coding each submission into 9 approach categories, counting at most one model per participant per track; curricula tested were those participants chose, sorted mostly by simplicity metrics."
+    },
+    {
+      "@type": "Thing",
+      "name": "LTG-BERT is the architecture Wilcox et al. recommend as a starting point for small-scale language modeling. ELC-BERT's added layer-wise skip connections gave no advantage over it when both were trained for 20 epochs on the 100-million-word Strict corpus.",
+      "description": "Holds for: Reproduction runs averaged over 3 seeds on 4 NVIDIA RTX8000 GPUs, with smaller batch size and shorter sequence length than the original LTG-BERT paper; the 2 models tie on BLiMP at 0.83."
+    },
+    {
+      "@type": "Thing",
+      "name": "Training ELC-BERT and LTG-BERT for 20 epochs instead of the 450 or more used in the winning submission cost about 2 points on BLiMP and GLUE. It also cost about 10 points on the BLiMP Supplement, leaving the 20-epoch models ahead of McGill-BERT on GLUE but behind it on BLiMP.",
+      "description": "Holds for: Reproductions on the 100-million-word Strict corpus, 3 seeds, with batch size and sequence length differing from the original submissions."
+    },
+    {
+      "@type": "Thing",
+      "name": "BLiMP gains from additional training epochs on the BabyLM corpora diminish roughly exponentially, so most benefit of repeated exposure arrives within the first 20 epochs. Strict-Small GLUE performance declines after 50 epochs.",
+      "description": "Holds for: LTG-BERT on the Strict and Strict-Small corpora, losses and scores averaged over 3 seeds; training loss correlates with BLiMP at -0.99 (Strict) and -0.95 (Strict-Small), but with GLUE at only 0.61 for Strict-Small."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM Challenge showed that robust linguistic generalizations are learnable from human-scale data, but not through cognitively plausible mechanisms. Winning systems relied on transformer optimization tricks, hundreds of training epochs, and large-scale data augmentation.",
+      "description": "Holds for: The first (2023) iteration's submissions; only 7 teams ran the optional age-of-acquisition evaluation, and no submission was evaluated against incremental reading-time data."
+    },
+    {
+      "@type": "Thing",
+      "name": "The first BabyLM Challenge received 31 papers and 162 submitted models, establishing a population of openly released models that are all effective data-efficient learners of English.",
+      "description": "Holds for: CoNLL 2023 iteration; participants could enter multiple tracks, so unique-participant counts per track are lower than the model count."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/#faq",
+  "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/",
+  "name": "Questions answered by Bigger is not always better: The importance of human-scale language modeling for psycholinguistics",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why is training language models on trillions of words a problem for cognitive science?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scaling training corpora to trillions of words undermines two scientific uses of language models in psycholinguistics, Wilcox et al. argue. Those uses are assessing poverty-of-the-stimulus claims and estimating word probabilities for testing surprisal theory. Holds for: An argument about neural language models used as cognitive models of language learning and processing, not about their engineering utility, which the paper grants is improved by scaling.\n\nThe BabyLM Challenge showed that robust linguistic generalizations are learnable from human-scale data, but not through cognitively plausible mechanisms. Winning systems relied on transformer optimization tricks, hundreds of training epochs, and large-scale data augmentation. Holds for: The first (2023) iteration's submissions; only 7 teams ran the optional age-of-acquisition evaluation, and no submission was evaluated against incremental reading-time data.",
+        "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/"
+      },
+      "alternateName": [
+        "What are the downsides of scaling for psycholinguistics?",
+        "Why would anyone want a language model trained on less data?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is the BabyLM Challenge?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM Challenge, a CoNLL 2023 shared task, asked participants to pretrain language models on 100 million words of English or fewer. That budget is roughly the linguistic input available to a child in the United States by age 12. Holds for: English only, text and transcribed speech only, with no limit on compute or number of training epochs; the 3 tracks were Strict (100M words), Strict-Small (10M words) and Loose (100M words plus non-linguistic data).\n\nThe first BabyLM Challenge received 31 papers and 162 submitted models, establishing a population of openly released models that are all effective data-efficient learners of English. Holds for: CoNLL 2023 iteration; participants could enter multiple tracks, so unique-participant counts per track are lower than the model count.",
+        "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/"
+      },
+      "alternateName": [
+        "What was the data budget in the BabyLM shared task?",
+        "Which shared task asked people to train language models on child-scale data?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How good can a language model get on grammar tests with only 100 million words of training data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The best BabyLM submissions reached 0.85-0.86 on BLiMP while trained on 100 million words, above the Llama 2 70B skyline score of 0.84. The top model was a few percentage points shy of human performance on BLiMP. Holds for: BLiMP minimal-pair accuracy on English syntax; Llama 2 was evaluated on GLUE and SuperGLUE with in-context learning rather than fine-tuning.\n\nCutting the BabyLM training budget from 100 million to 10 million words cost the best submissions about 5 points of BLiMP, 0.85 down to 0.80. The corresponding GLUE drop was 4 points, 0.78 down to 0.74. Holds for: Top-3 submissions in the Strict and Strict-Small tracks; both corpora used the same source composition, with Strict-Small sampled at 10% from each source.",
+        "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/"
+      },
+      "alternateName": [
+        "Can small language models match large ones on BLiMP?",
+        "Do human-scale language models come close to human grammatical performance?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does curriculum learning help when pretraining data is scarce?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Curriculum learning was the most popular strategy among BabyLM submissions yet produced only marginal gains over the baselines, while data preprocessing and architectural modifications were the most effective strategies. Holds for: Meta-analysis by hand-coding each submission into 9 approach categories, counting at most one model per participant per track; curricula tested were those participants chose, sorted mostly by simplicity metrics.",
+        "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/"
+      },
+      "alternateName": [
+        "Did sorting training data from simple to complex improve BabyLM models?",
+        "What training strategies actually worked in the BabyLM Challenge?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which architecture should I use for small-scale language model pretraining?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "LTG-BERT is the architecture Wilcox et al. recommend as a starting point for small-scale language modeling. ELC-BERT's added layer-wise skip connections gave no advantage over it when both were trained for 20 epochs on the 100-million-word Strict corpus. Holds for: Reproduction runs averaged over 3 seeds on 4 NVIDIA RTX8000 GPUs, with smaller batch size and shorter sequence length than the original LTG-BERT paper; the 2 models tie on BLiMP at 0.83.",
+        "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/"
+      },
+      "alternateName": [
+        "Is ELC-BERT better than LTG-BERT for 100M-word pretraining?",
+        "What model do the BabyLM organizers recommend as a starting point?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many epochs should a language model be trained for on a 100-million-word corpus?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Training ELC-BERT and LTG-BERT for 20 epochs instead of the 450 or more used in the winning submission cost about 2 points on BLiMP and GLUE. It also cost about 10 points on the BLiMP Supplement, leaving the 20-epoch models ahead of McGill-BERT on GLUE but behind it on BLiMP. Holds for: Reproductions on the 100-million-word Strict corpus, 3 seeds, with batch size and sequence length differing from the original submissions.\n\nBLiMP gains from additional training epochs on the BabyLM corpora diminish roughly exponentially, so most benefit of repeated exposure arrives within the first 20 epochs. Strict-Small GLUE performance declines after 50 epochs. Holds for: LTG-BERT on the Strict and Strict-Small corpora, losses and scores averaged over 3 seeds; training loss correlates with BLiMP at -0.99 (Strict) and -0.95 (Strict-Small), but with GLUE at only 0.61 for Strict-Small.",
+        "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/"
+      },
+      "alternateName": [
+        "Did the winning BabyLM model win because of its architecture or because it trained longer?",
+        "Do hundreds of training epochs help on small corpora?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can neural networks learn island constraints and filler-gap dependencies from child-scale data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BabyLM submissions performed about the same on BLiMP subtasks central to poverty-of-the-stimulus debates as on the remaining BLiMP subtasks. The POS-relevant subtasks covered island constraints, filler-gap dependencies and subject-aux inversion. Holds for: Post-hoc partition of BLiMP subtasks by the paper's authors, averaged across submissions within each track, with 95% CIs across model scores; English syntax only.\n\nThe best BabyLM submissions reached 0.85-0.86 on BLiMP while trained on 100 million words, above the Llama 2 70B skyline score of 0.84. The top model was a few percentage points shy of human performance on BLiMP. Holds for: BLiMP minimal-pair accuracy on English syntax; Llama 2 was evaluated on GLUE and SuperGLUE with in-context learning rather than fine-tuning.",
+        "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/"
+      },
+      "alternateName": [
+        "What do BabyLM results say about poverty-of-the-stimulus arguments?",
+        "Are hard-to-learn syntactic phenomena harder for models trained on 100 million words?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Did adding images or audio help language models trained on limited data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Loose-track BabyLM models, permitted extra non-linguistic data such as audio, code or images, tended to score lower in the aggregate than Strict-Small models trained on 10 million words of text alone. Holds for: First BabyLM iteration only, with 2023-era architectures not designed for multimodal pretraining; the extra modality data was not counted against the 100M-word budget.",
+        "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/"
+      },
+      "alternateName": [
+        "Does multimodal input improve sample efficiency in BabyLM submissions?",
+        "Were Loose-track BabyLM models better than text-only ones?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do small language models generalize linguistically or just memorize surface cues?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "All top BabyLM models except Strict-Small McGill-BERT scored positively on MSGS, indicating a preference for linguistic over surface generalizations comparable to Llama 2 (0.26) and RoBERTa-base (0.24). Holds for: MSGS Matthews correlation after fine-tuning on ambiguous training sets; MSGS has not been run with human subjects, so no human reference point exists, and Loose-track McGill-BERT scored -0.02.",
+        "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/"
+      },
+      "alternateName": [
+        "What did MSGS scores show about BabyLM models?",
+        "How can you tell whether a model's benchmark score reflects real linguistic generalization?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about human-scale or data-efficient language modeling for psycholinguistics?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scaling training corpora to trillions of words undermines two scientific uses of language models in psycholinguistics, Wilcox et al. argue. Those uses are assessing poverty-of-the-stimulus claims and estimating word probabilities for testing surprisal theory. Holds for: An argument about neural language models used as cognitive models of language learning and processing, not about their engineering utility, which the paper grants is improved by scaling.\n\nThe BabyLM Challenge, a CoNLL 2023 shared task, asked participants to pretrain language models on 100 million words of English or fewer. That budget is roughly the linguistic input available to a child in the United States by age 12. Holds for: English only, text and transcribed speech only, with no limit on compute or number of training epochs; the 3 tracks were Strict (100M words), Strict-Small (10M words) and Loose (100M words plus non-linguistic data).\n\nThe BabyLM Challenge showed that robust linguistic generalizations are learnable from human-scale data, but not through cognitively plausible mechanisms. Winning systems relied on transformer optimization tricks, hundreds of training epochs, and large-scale data augmentation. Holds for: The first (2023) iteration's submissions; only 7 teams ran the optional age-of-acquisition evaluation, and no submission was evaluated against incremental reading-time data.",
+        "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/"
+      },
+      "alternateName": [
+        "Which paper argues that bigger language models are not better for cognitive modeling?",
+        "Where should I start reading about developmentally plausible language model pretraining?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are BabyLM models cognitively plausible models of child language acquisition?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM Challenge showed that robust linguistic generalizations are learnable from human-scale data, but not through cognitively plausible mechanisms. Winning systems relied on transformer optimization tricks, hundreds of training epochs, and large-scale data augmentation. Holds for: The first (2023) iteration's submissions; only 7 teams ran the optional age-of-acquisition evaluation, and no submission was evaluated against incremental reading-time data.",
+        "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/"
+      },
+      "alternateName": [
+        "Did the BabyLM Challenge identify how children learn language so efficiently?",
+        "Do the winning small-scale models resemble human learners?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much worse is a 10-million-word language model than a 100-million-word one?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cutting the BabyLM training budget from 100 million to 10 million words cost the best submissions about 5 points of BLiMP, 0.85 down to 0.80. The corresponding GLUE drop was 4 points, 0.78 down to 0.74. Holds for: Top-3 submissions in the Strict and Strict-Small tracks; both corpora used the same source composition, with Strict-Small sampled at 10% from each source.",
+        "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/"
+      },
+      "alternateName": [
+        "Does going from 10M to 100M training words matter much for grammar benchmarks?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/#terms",
+  "url": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/",
+  "name": "Terminology in Bigger is not always better: The importance of human-scale language modeling for psycholinguistics",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "BabyLM Corpus",
+      "description": "The 100-million-word English pretraining corpus released for the BabyLM Challenge, in which about 56% is transcribed or scripted speech and about 40% comes from sources intended or suitable for children, with the rest from adult writing such as Wikipedia and Project Gutenberg.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Strict, Strict-Small and Loose tracks",
+      "description": "The three BabyLM Challenge entry conditions: 100 million English training tokens (Strict), 10 million (Strict-Small), and 100 million tokens plus optional non-linguistic data such as audio, code or images (Loose).",
+      "inDefinedTermSet": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "skyline model",
+      "description": "A large, fully-scaled reference model included for comparison rather than as a competitor, such as the 70-billion-parameter Llama 2 evaluated alongside 100-million-word models.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "POS-relevant BLiMP subtasks",
+      "description": "The BLiMP minimal-pair subtasks whose phenomena have figured in poverty-of-the-stimulus learnability debates: island constraints, filler-gap dependencies and subject-aux inversion.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "MSGS",
+      "description": "The Mixed Signals Generalization Set, a fine-tuning benchmark that trains a model on labels consistent with both a linguistic and a surface generalization and then tests which one the model adopted, scored as a Matthews correlation where 1 is systematic linguistic generalization and -1 systematic surface generalization.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/bigger-is-not-always-better-the-importance-of-human-scale-la/#terms"
+    }
   ]
 }
   </script>
@@ -84,6 +373,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -97,11 +387,103 @@
 </head>
 <body>
 <h1>Bigger is not always better: The importance of human-scale language modeling for psycholinguistics</h1>
+<p class="sub">a language model pretrained on roughly the amount of language a child hears, 100 million words or less</p>
 <p class="meta">Ethan Gotlieb Wilcox, Michael Y Hu, Aaron Mueller, Alex Warstadt, Leshem Choshen, Chengxu Zhuang, Adina Williams, Ryan Cotterell, Tal Linzen · Journal of Memory and Language · 2025</p>
 <ul class="links"><li><a href="https://doi.org/10.1016/j.jml.2025.104650">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/278862573">Semantic Scholar</a></li></ul>
+<h2>In one sentence</h2>
+<p>Bigger is not always better: scaling language models to trillions of words weakens their value as cognitive models, and the first BabyLM Challenge shows that models trained on 100 million words or fewer reach near-human BLiMP performance -- though not by cognitively plausible means.</p>
+<h2>Abstract</h2>
+<p>When trained to place high probability on a training corpus, neural network language models can learn a surprising amount about language. Recent work has demonstrated that large performance improvements can arise from simply increasing, i.e., scaling, the size of the corpora they are trained on and the number of parameters in those models. Accordingly, many contemporary systems are trained on trillions of words. While largely beneficial to performance on language applications, scaling has several downsides for both computational psycholinguistics and natural language processing research. We discuss the scientific challenges presented by the scaling paradigm, as well as the benefits that would result from language models that can learn from human-scale data. In the second half of this paper, we report on findings from a recent effort to bring about human-scale language model pretraining: the first iteration of the BabyLM Challenge, a shared task organized by the authors that invited participants to train a language model on 100 million words or less. The challenge produced several concrete best practices for practitioners interested in small-scale language modeling. For cognitive scientists, the challenge demonstrated that robust linguistic generalizations can be learned by models trained on a human-scale dataset, though this is not yet achieved through cognitively plausible mechanisms. Furthermore, it established a population of “BabyLMs” that are all effective at data-efficient language learning. Studying such models can help us identify hypotheses for the computational mechanisms that underlie human language acquisition. • Psycholinguistics benefits from computational models trained at human data scale. • We report on the BabyLM Challenge, an effort to train models at human scale. • BabyLM models achieve close to human-level performance on some tasks. • High language modeling performance is attainable with academic computational resources. • We identify actionable insights for human-scale language modeling.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Why is training language models on trillions of words a problem for cognitive science?</dt>
+<dt>What are the downsides of scaling for psycholinguistics?</dt>
+<dt>Why would anyone want a language model trained on less data?</dt>
+<dd>Scaling training corpora to trillions of words undermines two scientific uses of language models in psycholinguistics, Wilcox et al. argue. Those uses are assessing poverty-of-the-stimulus claims and estimating word probabilities for testing surprisal theory.<br><span class="scope">Holds for: An argument about neural language models used as cognitive models of language learning and processing, not about their engineering utility, which the paper grants is improved by scaling.</span></dd>
+<dd>The BabyLM Challenge showed that robust linguistic generalizations are learnable from human-scale data, but not through cognitively plausible mechanisms. Winning systems relied on transformer optimization tricks, hundreds of training epochs, and large-scale data augmentation.<br><span class="scope">Holds for: The first (2023) iteration&#x27;s submissions; only 7 teams ran the optional age-of-acquisition evaluation, and no submission was evaluated against incremental reading-time data.</span></dd>
+<dt>What is the BabyLM Challenge?</dt>
+<dt>What was the data budget in the BabyLM shared task?</dt>
+<dt>Which shared task asked people to train language models on child-scale data?</dt>
+<dd>The BabyLM Challenge, a CoNLL 2023 shared task, asked participants to pretrain language models on 100 million words of English or fewer. That budget is roughly the linguistic input available to a child in the United States by age 12.<br><span class="scope">Holds for: English only, text and transcribed speech only, with no limit on compute or number of training epochs; the 3 tracks were Strict (100M words), Strict-Small (10M words) and Loose (100M words plus non-linguistic data).</span></dd>
+<dd>The first BabyLM Challenge received 31 papers and 162 submitted models, establishing a population of openly released models that are all effective data-efficient learners of English.<br><span class="scope">Holds for: CoNLL 2023 iteration; participants could enter multiple tracks, so unique-participant counts per track are lower than the model count.</span></dd>
+<dt>How good can a language model get on grammar tests with only 100 million words of training data?</dt>
+<dt>Can small language models match large ones on BLiMP?</dt>
+<dt>Do human-scale language models come close to human grammatical performance?</dt>
+<dd>The best BabyLM submissions reached 0.85-0.86 on BLiMP while trained on 100 million words, above the Llama 2 70B skyline score of 0.84. The top model was a few percentage points shy of human performance on BLiMP.<br><span class="scope">Holds for: BLiMP minimal-pair accuracy on English syntax; Llama 2 was evaluated on GLUE and SuperGLUE with in-context learning rather than fine-tuning.</span></dd>
+<dd>Cutting the BabyLM training budget from 100 million to 10 million words cost the best submissions about 5 points of BLiMP, 0.85 down to 0.80. The corresponding GLUE drop was 4 points, 0.78 down to 0.74.<br><span class="scope">Holds for: Top-3 submissions in the Strict and Strict-Small tracks; both corpora used the same source composition, with Strict-Small sampled at 10% from each source.</span></dd>
+<dt>Does curriculum learning help when pretraining data is scarce?</dt>
+<dt>Did sorting training data from simple to complex improve BabyLM models?</dt>
+<dt>What training strategies actually worked in the BabyLM Challenge?</dt>
+<dd>Curriculum learning was the most popular strategy among BabyLM submissions yet produced only marginal gains over the baselines, while data preprocessing and architectural modifications were the most effective strategies.<br><span class="scope">Holds for: Meta-analysis by hand-coding each submission into 9 approach categories, counting at most one model per participant per track; curricula tested were those participants chose, sorted mostly by simplicity metrics.</span></dd>
+<dt>Which architecture should I use for small-scale language model pretraining?</dt>
+<dt>Is ELC-BERT better than LTG-BERT for 100M-word pretraining?</dt>
+<dt>What model do the BabyLM organizers recommend as a starting point?</dt>
+<dd>LTG-BERT is the architecture Wilcox et al. recommend as a starting point for small-scale language modeling. ELC-BERT&#x27;s added layer-wise skip connections gave no advantage over it when both were trained for 20 epochs on the 100-million-word Strict corpus.<br><span class="scope">Holds for: Reproduction runs averaged over 3 seeds on 4 NVIDIA RTX8000 GPUs, with smaller batch size and shorter sequence length than the original LTG-BERT paper; the 2 models tie on BLiMP at 0.83.</span></dd>
+<dt>How many epochs should a language model be trained for on a 100-million-word corpus?</dt>
+<dt>Did the winning BabyLM model win because of its architecture or because it trained longer?</dt>
+<dt>Do hundreds of training epochs help on small corpora?</dt>
+<dd>Training ELC-BERT and LTG-BERT for 20 epochs instead of the 450 or more used in the winning submission cost about 2 points on BLiMP and GLUE. It also cost about 10 points on the BLiMP Supplement, leaving the 20-epoch models ahead of McGill-BERT on GLUE but behind it on BLiMP.<br><span class="scope">Holds for: Reproductions on the 100-million-word Strict corpus, 3 seeds, with batch size and sequence length differing from the original submissions.</span></dd>
+<dd>BLiMP gains from additional training epochs on the BabyLM corpora diminish roughly exponentially, so most benefit of repeated exposure arrives within the first 20 epochs. Strict-Small GLUE performance declines after 50 epochs.<br><span class="scope">Holds for: LTG-BERT on the Strict and Strict-Small corpora, losses and scores averaged over 3 seeds; training loss correlates with BLiMP at -0.99 (Strict) and -0.95 (Strict-Small), but with GLUE at only 0.61 for Strict-Small.</span></dd>
+<dt>Can neural networks learn island constraints and filler-gap dependencies from child-scale data?</dt>
+<dt>What do BabyLM results say about poverty-of-the-stimulus arguments?</dt>
+<dt>Are hard-to-learn syntactic phenomena harder for models trained on 100 million words?</dt>
+<dd>BabyLM submissions performed about the same on BLiMP subtasks central to poverty-of-the-stimulus debates as on the remaining BLiMP subtasks. The POS-relevant subtasks covered island constraints, filler-gap dependencies and subject-aux inversion.<br><span class="scope">Holds for: Post-hoc partition of BLiMP subtasks by the paper&#x27;s authors, averaged across submissions within each track, with 95% CIs across model scores; English syntax only.</span></dd>
+<dd>The best BabyLM submissions reached 0.85-0.86 on BLiMP while trained on 100 million words, above the Llama 2 70B skyline score of 0.84. The top model was a few percentage points shy of human performance on BLiMP.<br><span class="scope">Holds for: BLiMP minimal-pair accuracy on English syntax; Llama 2 was evaluated on GLUE and SuperGLUE with in-context learning rather than fine-tuning.</span></dd>
+<dt>Did adding images or audio help language models trained on limited data?</dt>
+<dt>Does multimodal input improve sample efficiency in BabyLM submissions?</dt>
+<dt>Were Loose-track BabyLM models better than text-only ones?</dt>
+<dd>Loose-track BabyLM models, permitted extra non-linguistic data such as audio, code or images, tended to score lower in the aggregate than Strict-Small models trained on 10 million words of text alone.<br><span class="scope">Holds for: First BabyLM iteration only, with 2023-era architectures not designed for multimodal pretraining; the extra modality data was not counted against the 100M-word budget.</span></dd>
+<dt>Do small language models generalize linguistically or just memorize surface cues?</dt>
+<dt>What did MSGS scores show about BabyLM models?</dt>
+<dt>How can you tell whether a model&#x27;s benchmark score reflects real linguistic generalization?</dt>
+<dd>All top BabyLM models except Strict-Small McGill-BERT scored positively on MSGS, indicating a preference for linguistic over surface generalizations comparable to Llama 2 (0.26) and RoBERTa-base (0.24).<br><span class="scope">Holds for: MSGS Matthews correlation after fine-tuning on ambiguous training sets; MSGS has not been run with human subjects, so no human reference point exists, and Loose-track McGill-BERT scored -0.02.</span></dd>
+<dt>What should I read about human-scale or data-efficient language modeling for psycholinguistics?</dt>
+<dt>Which paper argues that bigger language models are not better for cognitive modeling?</dt>
+<dt>Where should I start reading about developmentally plausible language model pretraining?</dt>
+<dd>Scaling training corpora to trillions of words undermines two scientific uses of language models in psycholinguistics, Wilcox et al. argue. Those uses are assessing poverty-of-the-stimulus claims and estimating word probabilities for testing surprisal theory.<br><span class="scope">Holds for: An argument about neural language models used as cognitive models of language learning and processing, not about their engineering utility, which the paper grants is improved by scaling.</span></dd>
+<dd>The BabyLM Challenge, a CoNLL 2023 shared task, asked participants to pretrain language models on 100 million words of English or fewer. That budget is roughly the linguistic input available to a child in the United States by age 12.<br><span class="scope">Holds for: English only, text and transcribed speech only, with no limit on compute or number of training epochs; the 3 tracks were Strict (100M words), Strict-Small (10M words) and Loose (100M words plus non-linguistic data).</span></dd>
+<dd>The BabyLM Challenge showed that robust linguistic generalizations are learnable from human-scale data, but not through cognitively plausible mechanisms. Winning systems relied on transformer optimization tricks, hundreds of training epochs, and large-scale data augmentation.<br><span class="scope">Holds for: The first (2023) iteration&#x27;s submissions; only 7 teams ran the optional age-of-acquisition evaluation, and no submission was evaluated against incremental reading-time data.</span></dd>
+<dt>Are BabyLM models cognitively plausible models of child language acquisition?</dt>
+<dt>Did the BabyLM Challenge identify how children learn language so efficiently?</dt>
+<dt>Do the winning small-scale models resemble human learners?</dt>
+<dd>The BabyLM Challenge showed that robust linguistic generalizations are learnable from human-scale data, but not through cognitively plausible mechanisms. Winning systems relied on transformer optimization tricks, hundreds of training epochs, and large-scale data augmentation.<br><span class="scope">Holds for: The first (2023) iteration&#x27;s submissions; only 7 teams ran the optional age-of-acquisition evaluation, and no submission was evaluated against incremental reading-time data.</span></dd>
+<dt>How much worse is a 10-million-word language model than a 100-million-word one?</dt>
+<dt>Does going from 10M to 100M training words matter much for grammar benchmarks?</dt>
+<dd>Cutting the BabyLM training budget from 100 million to 10 million words cost the best submissions about 5 points of BLiMP, 0.85 down to 0.80. The corresponding GLUE drop was 4 points, 0.78 down to 0.74.<br><span class="scope">Holds for: Top-3 submissions in the Strict and Strict-Small tracks; both corpora used the same source composition, with Strict-Small sampled at 10% from each source.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>The BabyLM Challenge, a CoNLL 2023 shared task, asked participants to pretrain language models on 100 million words of English or fewer. That budget is roughly the linguistic input available to a child in the United States by age 12.<br><span class="scope">Scope: English only, text and transcribed speech only, with no limit on compute or number of training epochs; the 3 tracks were Strict (100M words), Strict-Small (10M words) and Loose (100M words plus non-linguistic data).</span></li>
+<li>Scaling training corpora to trillions of words undermines two scientific uses of language models in psycholinguistics, Wilcox et al. argue. Those uses are assessing poverty-of-the-stimulus claims and estimating word probabilities for testing surprisal theory.<br><span class="scope">Scope: An argument about neural language models used as cognitive models of language learning and processing, not about their engineering utility, which the paper grants is improved by scaling.</span></li>
+<li>The best BabyLM submissions reached 0.85-0.86 on BLiMP while trained on 100 million words, above the Llama 2 70B skyline score of 0.84. The top model was a few percentage points shy of human performance on BLiMP. <span class="meta">(Table 1; Figure 3)</span><br><span class="scope">Scope: BLiMP minimal-pair accuracy on English syntax; Llama 2 was evaluated on GLUE and SuperGLUE with in-context learning rather than fine-tuning.</span></li>
+<li>Cutting the BabyLM training budget from 100 million to 10 million words cost the best submissions about 5 points of BLiMP, 0.85 down to 0.80. The corresponding GLUE drop was 4 points, 0.78 down to 0.74. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Top-3 submissions in the Strict and Strict-Small tracks; both corpora used the same source composition, with Strict-Small sampled at 10% from each source.</span></li>
+<li>Loose-track BabyLM models, permitted extra non-linguistic data such as audio, code or images, tended to score lower in the aggregate than Strict-Small models trained on 10 million words of text alone. <span class="meta">(Table 1; Figure 3)</span><br><span class="scope">Scope: First BabyLM iteration only, with 2023-era architectures not designed for multimodal pretraining; the extra modality data was not counted against the 100M-word budget.</span></li>
+<li>BabyLM submissions performed about the same on BLiMP subtasks central to poverty-of-the-stimulus debates as on the remaining BLiMP subtasks. The POS-relevant subtasks covered island constraints, filler-gap dependencies and subject-aux inversion. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: Post-hoc partition of BLiMP subtasks by the paper&#x27;s authors, averaged across submissions within each track, with 95% CIs across model scores; English syntax only.</span></li>
+<li>All top BabyLM models except Strict-Small McGill-BERT scored positively on MSGS, indicating a preference for linguistic over surface generalizations comparable to Llama 2 (0.26) and RoBERTa-base (0.24). <span class="meta">(Table 1)</span><br><span class="scope">Scope: MSGS Matthews correlation after fine-tuning on ambiguous training sets; MSGS has not been run with human subjects, so no human reference point exists, and Loose-track McGill-BERT scored -0.02.</span></li>
+<li>Curriculum learning was the most popular strategy among BabyLM submissions yet produced only marginal gains over the baselines, while data preprocessing and architectural modifications were the most effective strategies. <span class="meta">(Figure 5; Figure 6)</span><br><span class="scope">Scope: Meta-analysis by hand-coding each submission into 9 approach categories, counting at most one model per participant per track; curricula tested were those participants chose, sorted mostly by simplicity metrics.</span></li>
+<li>LTG-BERT is the architecture Wilcox et al. recommend as a starting point for small-scale language modeling. ELC-BERT&#x27;s added layer-wise skip connections gave no advantage over it when both were trained for 20 epochs on the 100-million-word Strict corpus. <span class="meta">(Table A.2; Appendix A)</span><br><span class="scope">Scope: Reproduction runs averaged over 3 seeds on 4 NVIDIA RTX8000 GPUs, with smaller batch size and shorter sequence length than the original LTG-BERT paper; the 2 models tie on BLiMP at 0.83.</span></li>
+<li>Training ELC-BERT and LTG-BERT for 20 epochs instead of the 450 or more used in the winning submission cost about 2 points on BLiMP and GLUE. It also cost about 10 points on the BLiMP Supplement, leaving the 20-epoch models ahead of McGill-BERT on GLUE but behind it on BLiMP. <span class="meta">(Table A.2)</span><br><span class="scope">Scope: Reproductions on the 100-million-word Strict corpus, 3 seeds, with batch size and sequence length differing from the original submissions.</span></li>
+<li>BLiMP gains from additional training epochs on the BabyLM corpora diminish roughly exponentially, so most benefit of repeated exposure arrives within the first 20 epochs. Strict-Small GLUE performance declines after 50 epochs. <span class="meta">(Figure A.8; Figure A.9)</span><br><span class="scope">Scope: LTG-BERT on the Strict and Strict-Small corpora, losses and scores averaged over 3 seeds; training loss correlates with BLiMP at -0.99 (Strict) and -0.95 (Strict-Small), but with GLUE at only 0.61 for Strict-Small.</span></li>
+<li>The BabyLM Challenge showed that robust linguistic generalizations are learnable from human-scale data, but not through cognitively plausible mechanisms. Winning systems relied on transformer optimization tricks, hundreds of training epochs, and large-scale data augmentation.<br><span class="scope">Scope: The first (2023) iteration&#x27;s submissions; only 7 teams ran the optional age-of-acquisition evaluation, and no submission was evaluated against incremental reading-time data.</span></li>
+<li>The first BabyLM Challenge received 31 papers and 162 submitted models, establishing a population of openly released models that are all effective data-efficient learners of English. <span class="meta">(Section &#x27;Submitted systems and results&#x27;; Figure 2)</span><br><span class="scope">Scope: CoNLL 2023 iteration; participants could enter multiple tracks, so unique-participant counts per track are lower than the model count.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>A BabyLM model scoring near Llama 2 on BLiMP and GLUE is not equivalent to a large language model: BabyLMs generate repetitive and sometimes nonsensical text and are poor at following instructions or learning from in-context examples.</li>
+<li>The BabyLM Challenge did not establish that models learn language the way children do -- the winning systems used hundreds of epochs over the same corpus, low-level transformer optimization tricks, and data augmentation, none of which is cognitively plausible.</li>
+<li>The negative result for curriculum learning bears on model training regimes; it is not evidence that child-directed speech is useless for children, though the paper reads it as supporting skepticism that child-directed speech is necessary for effective learning.</li>
+<li>All BabyLM Challenge results are for English, so whether the same architectures and data efficiencies hold for typologically different languages is untested.</li>
+<li>ELC-BERT winning both Strict and Strict-Small tracks does not mean its layer-wise skip connections were what made it win: under a controlled 20-epoch budget it performs comparably to the plain LTG-BERT backbone.</li>
+<li>The claim is not that scaling harms language technology performance -- the paper grants that scaling largely benefits applications, and locates the harm in scientific uses such as poverty-of-the-stimulus arguments and reading-time prediction.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>BabyLM Corpus</em></dt><dd>The 100-million-word English pretraining corpus released for the BabyLM Challenge, in which about 56% is transcribed or scripted speech and about 40% comes from sources intended or suitable for children, with the rest from adult writing such as Wikipedia and Project Gutenberg.</dd>
+<dt><em>Strict, Strict-Small and Loose tracks</em></dt><dd>The three BabyLM Challenge entry conditions: 100 million English training tokens (Strict), 10 million (Strict-Small), and 100 million tokens plus optional non-linguistic data such as audio, code or images (Loose).</dd>
+<dt><em>skyline model</em></dt><dd>A large, fully-scaled reference model included for comparison rather than as a competitor, such as the 70-billion-parameter Llama 2 evaluated alongside 100-million-word models.</dd>
+<dt><em>POS-relevant BLiMP subtasks</em></dt><dd>The BLiMP minimal-pair subtasks whose phenomena have figured in poverty-of-the-stimulus learnability debates: island constraints, filler-gap dependencies and subject-aux inversion.</dd>
+<dt><em>MSGS</em></dt><dd>The Mixed Signals Generalization Set, a fine-tuning benchmark that trains a model on labels consistent with both a linguistic and a surface generalization and then tests which one the model adopted, scored as a Matthews correlation where 1 is systematic linguistic generalization and -1 systematic surface generalization.</dd>
+</dl>
 <h2>How to cite</h2>
 <pre>@article{wilcox2024bigger,
-title={Bigger is not always better: The importance of human-scale language modeling for psycholinguistics},
+  title={Bigger is not always better: The importance of human-scale language modeling for psycholinguistics},
   author={Wilcox, Ethan Gotlieb and Hu, Michael Y and Mueller, Aaron and Warstadt, Alex and Choshen, Leshem and Zhuang, Chengxu and Williams, Adina and Cotterell, Ryan and Linzen, Tal},
   journal={Journal of Memory and Language},
   volume={144},

@@ -3,8 +3,59 @@
 Authors: Eric Zhang, Leshem Choshen, Jacob Andreas
 Venue: arXiv preprint arXiv:2506.20989 (2025)
 
-## Abstract
-There are two primary ways of incorporating new information into a language model (LM): changing its prompt or changing its parameters, e.g. via fine-tuning. Parameter updates incur no long-term storage cost for model changes. However, for many model updates, prompting is significantly more effective: prompted models can generalize robustly from single examples and draw logical inferences that do not occur under standard fine-tuning. Can models be modified so that fine-tuning does emulate prompting? This paper describes a method for meta-training LMs such that gradient updates emulate the effects of conditioning on new information. Our approach uses tools from gradient-based meta-learning but uses an LM's own prompted predictions as targets, eliminating the need for ground-truth labels. Subsequent gradient descent training recovers some (and occasionally all) of prompted model performance -- showing improvement on the ``reversal curse''tasks, and answering questions about text passages after a single gradient update. These results suggest that, with appropriate initialization, gradient descent can be surprisingly expressive. Our results suggest new avenues for long-context modeling and offer insight into the generalization capabilities of gradient-based learning.
+## What this paper shows
+Meta-training a language model with a MAML-style objective whose targets are the model's own prompted predictions makes a single gradient step on a passage behave partly like conditioning on it, recovering some of the gap between fine-tuning and prompting.
+
+## Claims, with scope
+- "Can Gradient Descent Simulate Prompting?" asks whether a language model can be meta-trained so that a gradient step on new text behaves like putting that text in the prompt. The meta-training targets are the model's own prompted predictions, so no ground-truth labels are needed.
+  Scope: Framed for single-context knowledge updates on Llama 3.2 1B, with four tasks: Character Description, Reversal Curse, SQuAD and WikiText. No claim that the objective scales to large diverse meta-training corpora.
+- "Can Gradient Descent Simulate Prompting?" takes up the inverse of the well-studied claim that in-context learning implements gradient descent. It asks instead whether gradient descent, given the right initialization, can reproduce the predictions that conditioning produces.
+  Scope: As of the 2025 arXiv posting; cited prior work covers in-context learning as implicit gradient descent and context distillation separately, and no survey of contemporaneous work on the inverse direction is offered.
+- Meta-learning from the model's own prompted (conditioning) predictions gives fine-tuning accuracies extremely close to oracle meta-learning from gold labels across the Character Description, Reversal Curse, SQuAD and WikiText tasks.
+  Scope: Llama 3.2 1B, one meta-training epoch, inner learning rate 1e-3; standard error of all accuracies under ±2%. The gold-label variant is treated as an upper bound rather than a separately useful method.
+  Evidence: Figure 2
+- On SQuAD, meta-training recovers about a quarter of the prompted model's performance advantage over naive fine-tuning. On WikiText, it recovers about half of the prompting-versus-fine-tuning gap, which the paper attributes to the larger dataset.
+  Scope: Llama 3.2 1B, a single gradient step on one context, one meta-training epoch; 82031 SQuAD and 343586 WikiText training records.
+  Evidence: Section 5.1, Figure 2
+- Meta-trained models improve substantially over base-model fine-tuning on the Reversal Curse task, but accuracy on Reversal Curse stays lower than on the Character Description task, where the description precedes the name.
+  Scope: Synthetic datasets of 5000 training and 500 test examples generated in the style of Berglund et al.'s reversal-curse data, evaluated on Llama 3.2 1B.
+  Evidence: Figure 2, Section 5.1
+- Meta-training only a rank-1 update to the model parameters raises SQuAD fine-tuning accuracy from 47.3 to 59.4 and WikiText from 29.1 to 37.5, matching full-rank meta-training (58.6 and 37.2).
+  Scope: Llama 3.2 1B in the gold-label meta-learning setting, with a full-rank update in the inner step; standard error within ±2. Held-out data was used to tune the outer learning rate per task.
+  Evidence: Table 1
+- Constraining both the meta-learned initialization and the inner adaptation step to a LoRA adapter reaches 72.0 accuracy on SQuAD fine-tuning, against 45.1 for an untrained LoRA adapter and 58.6 for full-rank meta-training. On WikiText the same configuration reaches 38.3 versus 32.2 untrained.
+  Scope: Llama 3.2 1B, gold-label meta-learning, SQuAD and WikiText only; Character Description and Reversal Curse were excluded as too easy. Standard error within ±2.
+  Evidence: Table 1
+- On the SQuAD validation split, 12.8% of items are answered correctly by the meta-trained model only after the gradient step on the relevant context, against 3.6% that become correct without any context. Most of the gain therefore requires the inner update rather than better guessing.
+  Scope: Llama 3.2 1B meta-trained on SQuAD; the corresponding training-split figures are 34.7% and 5.8%, and 55.6% of validation items are answered incorrectly in every condition.
+  Evidence: Table 4
+- Fine-tuning the meta-trained model on an irrelevant context drawn from the same dataset drops SQuAD accuracy to 29.7 from 58.6 with the correct context, below the 35.2 no-context baseline. On WikiText the same substitution collapses accuracy to 0.010 from 37.2.
+  Scope: Llama 3.2 1B meta-trained models, contexts randomly sampled from the same dataset distribution; standard error within ±2.
+  Evidence: Table 5
+- Meta-training explicitly for batched multi-context inner updates keeps SQuAD accuracy above the base model at 4 and 16 sequential updates (51.5 and 46.6 versus 43.6 and 42.6). Every multi-update setting still falls well short of the 57.2 reached with a single context.
+  Scope: SQuAD only, chosen because its contexts are non-contradictory; Llama 3.2 1B, gold-label setting, standard error under ±3 over resampled random groups of updates.
+  Evidence: Table 2
+- A WikiText meta-trained model transfers almost nothing to SQuAD: SQuAD fine-tuning accuracy reaches 47.8 sequentially and 48.0 jointly, against 47.3 with no meta-learning and 58.6 for in-domain SQuAD meta-training.
+  Scope: Llama 3.2 1B, WikiText-to-SQuAD direction only, reusing the same SQuAD subset the model was originally fine-tuned on; standard error within ±2.
+  Evidence: Table 3
+- WikiText meta-learning accuracy falls from 37.2 to 34.8 after sequential fine-tuning on SQuAD, and to the same 34.8 under joint SQuAD-plus-WikiText training. Joint optimization therefore costs about as much as forgetting from sequential fine-tuning.
+  Scope: Llama 3.2 1B, WikiText meta-learning task with SQuAD as the fine-tuning task; standard error within ±2. Only this one task pair was tested.
+  Evidence: Table 3
+
+## Common misreadings
+- Meta-training does not make fine-tuning fully equivalent to prompting: on SQuAD only about a quarter of the prompting advantage is recovered, and prompted accuracy (87.7) remains far above the best meta-trained fine-tuning accuracy.
+- The finding that a rank-1 update suffices concerns the meta-learned change to the initialization, not the amount of capacity needed to store new knowledge at fine-tuning time.
+- Meta-learning from the model's own prompted predictions is not ordinary context distillation: the targets are used inside a bi-level MAML objective so that a later gradient step on the raw context reproduces conditioning, rather than training the model to answer directly.
+- The near-equality between learning from conditioning and learning from gold labels does not mean labels are useless in general; the gold-label variant is used as an oracle upper bound and is reported as slightly less noisy.
+- Meta-training is not a drop-in continual-learning method: accuracy degrades substantially over 4 and 16 successive context updates, and meta-learning ability partly disappears after later fine-tuning on another task.
+- Results are from Llama 3.2 1B with a batch size of 16 on a single 80GB H100 and one meta-training epoch, so they are not evidence about what happens at larger model or data scale.
+
+## Terminology
+- Meta-learning from conditioning: A MAML-style objective that minimizes the KL divergence between a frozen teacher model's predictions when conditioned on a context and the student's predictions after one gradient step on that same context, requiring no ground-truth answers.
+- Inner step: The single gradient update on a context's next-token prediction loss whose effect the meta-training objective is trying to make equivalent to placing that context in the prompt.
+- No Context (NC) evaluation: Scoring a response given only the query, with the context discarded, used as the lower bound on how well a gradient-based context update can do.
+- Character Description task: A synthetic reversal-curse-style dataset in which the description precedes the name in the learned sentence, so that the model must complete a paraphrased description with the same name.
+- LoRA inner + outer: A configuration in which both the meta-learned initialization and the adaptation step are restricted to the same low-rank adapter, rather than adapting all model parameters at fine-tuning time.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2506.20989
@@ -17,7 +68,7 @@ There are two primary ways of incorporating new information into a language mode
 
 ## How to cite
 @article{zhang2025can,
-title={Can Gradient Descent Simulate Prompting?},
+  title={Can Gradient Descent Simulate Prompting?},
   author={Zhang, Eric and Choshen, Leshem and Andreas, Jacob},
   journal={arXiv preprint arXiv:2506.20989},
   year={2025}

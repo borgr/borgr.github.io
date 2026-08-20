@@ -59,10 +59,11 @@
   "datePublished": "2024",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "CoRR"
+    "name": "arXiv"
   },
   "identifier": "https://doi.org/10.48550/ARXIV.2404.15198",
   "abstract": "With the growth of model sizes and scale of their deployment, their sheer size burdens the infrastructure requiring more network and more storage to accommodate these. While there is a vast literature about reducing model sizes, we investigate a more traditional type of compression -- one that compresses the model to a smaller form and is coupled with a decompression algorithm that returns it to its original size -- namely lossless compression. Somewhat surprisingly, we show that such lossless compression can gain significant network and storage reduction on popular models, at times reducing over $50\\%$ of the model size. We investigate the source of model compressibility, introduce compression variants tailored for models and categorize models to compressibility groups. We also introduce a tunable lossy compression technique that can further reduce size even on the less compressible models with little to no effect on the model accuracy. We estimate that these methods could save over an ExaByte per month of network traffic downloaded from a large model hub like HuggingFace.",
+  "description": "Standard lossless compressors, rearranged to group same-position bytes of every parameter together (byte grouping), cut popular Hugging Face models by 15-65% of their size, and a tunable lossy variant that trims sub-2^-b bits pushes savings further with no measurable accuracy loss.",
   "sameAs": [
     "https://arxiv.org/abs/2404.15198",
     "https://arxiv.org/html/2404.15198",
@@ -72,6 +73,289 @@
     "https://huggingface.co/papers/2404.15198",
     "https://www.alphaxiv.org/abs/2404.15198",
     "https://www.semanticscholar.org/paper/269197564"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Zstd with byte grouping compresses widely downloaded Hugging Face models to compression ratios of 35.7% for T5-base, 47.0% for RoBERTa, 50.1% for CLIP and 71% for Mistral. Decompression restores the weights exactly.",
+      "description": "Holds for: Zstd at default level 3 with byte grouping, on FP32, FP16 and BF16 checkpoints downloaded from Hugging Face in August 2023 (Mistral and FP16 models in March 2024); compression run on CPU only."
+    },
+    {
+      "@type": "Thing",
+      "name": "Foundation models fall into 3 compressibility groups: FP32/FP16 models compressible only in the exponent byte, \"clean\" base models compressible in the exponent and both lower mantissa bytes, and BF16 models. The three groups reach compression ratios of ~80-85%, 35-50% and ~70% respectively.",
+      "description": "Holds for: Categories drawn from highly downloaded Hugging Face models spanning several modalities, architectures and float formats; based on Zstd level 3 with byte grouping."
+    },
+    {
+      "@type": "Thing",
+      "name": "Byte grouping before compression improves the compressed size of a model by 7-8.2% for exponent-only-compressible models, 19-27% for clean base models and 8.5-10% for BF16 models.",
+      "description": "Holds for: Measured with Zstd; byte grouping requires knowing only the parameter type, not the model structure, so it works on a raw binary checkpoint."
+    },
+    {
+      "@type": "Thing",
+      "name": "Without byte grouping LZ4 achieves almost no compression on models, reaching only a 95% compression ratio on RoBERTa. With byte grouping the same compressor reaches 56%, still behind Zstd's 47.0%.",
+      "description": "Holds for: RoBERTa FP32 checkpoint; LZ4 relies only on repetition removal, which fails on unstructured tensors, whereas Zstd and Zlib add entropy encoding."
+    },
+    {
+      "@type": "Thing",
+      "name": "Fine-tuning destroys the compressibility of clean base models: RoBERTa drops from the 47.0% compression ratio of the base checkpoint to 80.7% after 1 epoch and 82.5% after 9 epochs of fine-tuning.",
+      "description": "Holds for: RoBERTa FP32 fine-tuned on the Rotten Tomatoes dataset; the mechanism is that minuscule weight updates fill the previously zeroed lower mantissa bytes with entropy."
+    },
+    {
+      "@type": "Thing",
+      "name": "Tunable lossy compression at precision factor B=2^23 reduces the compressed size of FP32 models by a further 20%, taking wav2vec from a ~85% to a ~68% compression ratio. B=2^23 is the level at which FP32 arithmetic already introduces its own rounding error.",
+      "description": "Holds for: FP32 models; B=2^23 is justified by FP32's own 2^-23 rounding error and by Adam epsilon defaults of 1e-8/1e-7, not by an accuracy sweep on wav2vec itself. Layers with parameters outside [-1,1] are left uncompressed."
+    },
+    {
+      "@type": "Thing",
+      "name": "Fine-tuned RoBERTa keeps accuracy near 90% down to a precision factor of B=2^6, with a slight rise just before the drop-off, while the compression ratio improves almost linearly to around 20%.",
+      "description": "Holds for: RoBERTa fine-tuned on Rotten Tomatoes, single task and single fine-tuned model; on the clean base RoBERTa the same technique yields no benefit until B=2^18."
+    },
+    {
+      "@type": "Thing",
+      "name": "T5 variants fine-tuned on CNN-DM, XSUM, SQuAD, ASQA, WikiAnswers and WMT22 En-Ru show no significant change in exact match, Rouge-L or sacreBLEU at precision factors B=2^24 and B=2^19. Compression ratios there are 70% and 56%, versus 85% with lossless compression alone.",
+      "description": "Holds for: Only 2 precision values were evaluated because of the cost of fine-tuning; T5-base FP32 checkpoints."
+    },
+    {
+      "@type": "Thing",
+      "name": "Compressing the delta between consecutive fine-tuning epochs of RoBERTa reaches a 55% lossless compression ratio, versus nearly 83% for the same checkpoint standalone. Taking the delta against the base model instead of the previous epoch gives 65%.",
+      "description": "Holds for: RoBERTa fine-tuned on Rotten Tomatoes, lossless Zstd with byte grouping; delta against a base model avoids maintaining long chains of deltas but compresses less well."
+    },
+    {
+      "@type": "Thing",
+      "name": "Delta compression at precision factor B=2^23 reaches a 37% compression ratio between consecutive RoBERTa checkpoints and 49% against the base model, without affecting accuracy, and aggressive precision factors go below 10%.",
+      "description": "Holds for: RoBERTa fine-tuned on Rotten Tomatoes with lossless Zstd and byte grouping underneath; accuracy checked on that one task only."
+    },
+    {
+      "@type": "Thing",
+      "name": "Three RoBERTa variants fine-tuned on tweets for irony, offensive-language and abuse detection compress to 85.7% standalone on average but to 56% on average when stored as pairwise deltas.",
+      "description": "Holds for: cardiffnlp twitter-roberta-base irony/offensive/hate models, lossless Zstd with byte grouping; delta benefit deteriorates as models drift further apart in time."
+    },
+    {
+      "@type": "Thing",
+      "name": "Lossy compression at precision factor B=2^23 cuts wav2vec download time by almost 20% on a 30 MBps network and upload time by 16% on a 20 MBps link. Lossless compression saves only 1% of upload time on the same model.",
+      "description": "Holds for: wav2vec, the least compressible category, via torch.save/torch.load on a cloud VM in the Milan region; the lossy implementation omitted the sign-bit optimization. On cached 120-130 MBps reads the edge is slight."
+    },
+    {
+      "@type": "Thing",
+      "name": "Off-the-shelf GPTQ and AWQ quantized versions of CapybaraHermes-2.5-Mistral-7B still compress losslessly to ratios between 85% and 91%, with byte grouping contributing 1-2%.",
+      "description": "Holds for: 8-bit and 4-bit GPTQ and AWQ quantizations of one Mistral-7B derivative, compressed with Zstd at default level 3."
+    },
+    {
+      "@type": "Thing",
+      "name": "Lossless compression of the top downloaded Hugging Face models would save PetaBytes of traffic per model per month, including 11.7 PB for wav2vec and 26.1 PB for Bloom. Summed across the hub the estimate is over an ExaByte per month.",
+      "description": "Holds for: Estimate from download counts as of August 2023 (Mistral March 2024) multiplied by measured compression ratios; assumes compression is applied at the hub and does not model cache hierarchies."
+    },
+    {
+      "@type": "Thing",
+      "name": "\"Lossless and Near-Lossless Compression for Foundation Models\" brings classical storage-and-network compression to model distribution, and argues it should be the default in communication with hubs such as Hugging Face. That direction is distinct from pruning, distillation and quantization, which shrink models irreversibly for inference speed.",
+      "description": "Holds for: Framing as of 2024, with only one prior work found proposing compression, applied after two other model-compression steps. Covers stored and transferred model files, checkpoints, gradients and optimizer state, not inference-time speedups. The PyTorch save/load integration is intended for upstream contribution rather than merged."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/#faq",
+  "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/",
+  "name": "Questions answered by Lossless and Near-Lossless Compression for Foundation Models",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much smaller can a model file get with ordinary lossless compression?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Zstd with byte grouping compresses widely downloaded Hugging Face models to compression ratios of 35.7% for T5-base, 47.0% for RoBERTa, 50.1% for CLIP and 71% for Mistral. Decompression restores the weights exactly. Holds for: Zstd at default level 3 with byte grouping, on FP32, FP16 and BF16 checkpoints downloaded from Hugging Face in August 2023 (Mistral and FP16 models in March 2024); compression run on CPU only.\n\nFoundation models fall into 3 compressibility groups: FP32/FP16 models compressible only in the exponent byte, \"clean\" base models compressible in the exponent and both lower mantissa bytes, and BF16 models. The three groups reach compression ratios of ~80-85%, 35-50% and ~70% respectively. Holds for: Categories drawn from highly downloaded Hugging Face models spanning several modalities, architectures and float formats; based on Zstd level 3 with byte grouping.",
+        "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
+      },
+      "alternateName": [
+        "Can zstd or gzip actually shrink neural network weights?",
+        "What compression ratio do Hugging Face models get with lossless compression?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why do some checkpoints compress far better than others?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Foundation models fall into 3 compressibility groups: FP32/FP16 models compressible only in the exponent byte, \"clean\" base models compressible in the exponent and both lower mantissa bytes, and BF16 models. The three groups reach compression ratios of ~80-85%, 35-50% and ~70% respectively. Holds for: Categories drawn from highly downloaded Hugging Face models spanning several modalities, architectures and float formats; based on Zstd level 3 with byte grouping.\n\nFine-tuning destroys the compressibility of clean base models: RoBERTa drops from the 47.0% compression ratio of the base checkpoint to 80.7% after 1 epoch and 82.5% after 9 epochs of fine-tuning. Holds for: RoBERTa FP32 fine-tuned on the Rotten Tomatoes dataset; the mechanism is that minuscule weight updates fill the previously zeroed lower mantissa bytes with entropy.",
+        "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
+      },
+      "alternateName": [
+        "What makes a model file compressible or incompressible?",
+        "Which kinds of model checkpoints benefit most from compression?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is byte grouping and how much does it help compression?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Byte grouping before compression improves the compressed size of a model by 7-8.2% for exponent-only-compressible models, 19-27% for clean base models and 8.5-10% for BF16 models. Holds for: Measured with Zstd; byte grouping requires knowing only the parameter type, not the model structure, so it works on a raw binary checkpoint.\n\nWithout byte grouping LZ4 achieves almost no compression on models, reaching only a 95% compression ratio on RoBERTa. With byte grouping the same compressor reaches 56%, still behind Zstd's 47.0%. Holds for: RoBERTa FP32 checkpoint; LZ4 relies only on repetition removal, which fails on unstructured tensors, whereas Zstd and Zlib add entropy encoding.",
+        "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
+      },
+      "alternateName": [
+        "Does rearranging bytes before compressing a model file improve the ratio?",
+        "How much extra compression comes from grouping same-position bytes of parameters?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does fine-tuning make a checkpoint harder to compress?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fine-tuning destroys the compressibility of clean base models: RoBERTa drops from the 47.0% compression ratio of the base checkpoint to 80.7% after 1 epoch and 82.5% after 9 epochs of fine-tuning. Holds for: RoBERTa FP32 fine-tuned on the Rotten Tomatoes dataset; the mechanism is that minuscule weight updates fill the previously zeroed lower mantissa bytes with entropy.",
+        "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
+      },
+      "alternateName": [
+        "Why is a fine-tuned model less compressible than the base model it came from?",
+        "What happens to compressibility after a few epochs of fine-tuning RoBERTa?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can I drop low-order weight bits to compress a checkpoint without losing accuracy?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tunable lossy compression at precision factor B=2^23 reduces the compressed size of FP32 models by a further 20%, taking wav2vec from a ~85% to a ~68% compression ratio. B=2^23 is the level at which FP32 arithmetic already introduces its own rounding error. Holds for: FP32 models; B=2^23 is justified by FP32's own 2^-23 rounding error and by Adam epsilon defaults of 1e-8/1e-7, not by an accuracy sweep on wav2vec itself. Layers with parameters outside [-1,1] are left uncompressed.\n\nFine-tuned RoBERTa keeps accuracy near 90% down to a precision factor of B=2^6, with a slight rise just before the drop-off, while the compression ratio improves almost linearly to around 20%. Holds for: RoBERTa fine-tuned on Rotten Tomatoes, single task and single fine-tuned model; on the clean base RoBERTa the same technique yields no benefit until B=2^18.\n\nT5 variants fine-tuned on CNN-DM, XSUM, SQuAD, ASQA, WikiAnswers and WMT22 En-Ru show no significant change in exact match, Rouge-L or sacreBLEU at precision factors B=2^24 and B=2^19. Compression ratios there are 70% and 56%, versus 85% with lossless compression alone. Holds for: Only 2 precision values were evaluated because of the cost of fine-tuning; T5-base FP32 checkpoints.",
+        "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
+      },
+      "alternateName": [
+        "How far can precision be trimmed before model accuracy degrades?",
+        "What precision factor is safe for near-lossless model compression?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much storage can I save by storing checkpoint diffs instead of full checkpoints?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Compressing the delta between consecutive fine-tuning epochs of RoBERTa reaches a 55% lossless compression ratio, versus nearly 83% for the same checkpoint standalone. Taking the delta against the base model instead of the previous epoch gives 65%. Holds for: RoBERTa fine-tuned on Rotten Tomatoes, lossless Zstd with byte grouping; delta against a base model avoids maintaining long chains of deltas but compresses less well.\n\nDelta compression at precision factor B=2^23 reaches a 37% compression ratio between consecutive RoBERTa checkpoints and 49% against the base model, without affecting accuracy, and aggressive precision factors go below 10%. Holds for: RoBERTa fine-tuned on Rotten Tomatoes with lossless Zstd and byte grouping underneath; accuracy checked on that one task only.",
+        "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
+      },
+      "alternateName": [
+        "Is delta compression worth it for training checkpoints?",
+        "What compression ratio do deltas between consecutive fine-tuning epochs achieve?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can several models fine-tuned from the same base be stored more cheaply together?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Three RoBERTa variants fine-tuned on tweets for irony, offensive-language and abuse detection compress to 85.7% standalone on average but to 56% on average when stored as pairwise deltas. Holds for: cardiffnlp twitter-roberta-base irony/offensive/hate models, lossless Zstd with byte grouping; delta benefit deteriorates as models drift further apart in time.",
+        "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
+      },
+      "alternateName": [
+        "Does delta compression help for sibling fine-tunes of one base model?",
+        "How well do deltas between different task-specific RoBERTa variants compress?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does compressing a model actually make downloads faster, or does decompression eat the gain?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lossy compression at precision factor B=2^23 cuts wav2vec download time by almost 20% on a 30 MBps network and upload time by 16% on a 20 MBps link. Lossless compression saves only 1% of upload time on the same model. Holds for: wav2vec, the least compressible category, via torch.save/torch.load on a cloud VM in the Milan region; the lossy implementation omitted the sign-bit optimization. On cached 120-130 MBps reads the edge is slight.",
+        "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
+      },
+      "alternateName": [
+        "What is the end-to-end upload and download time effect of compressing checkpoints?",
+        "Is model compression worth the CPU cost on a fast network?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are quantized models already as small as they can get?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Off-the-shelf GPTQ and AWQ quantized versions of CapybaraHermes-2.5-Mistral-7B still compress losslessly to ratios between 85% and 91%, with byte grouping contributing 1-2%. Holds for: 8-bit and 4-bit GPTQ and AWQ quantizations of one Mistral-7B derivative, compressed with Zstd at default level 3.",
+        "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
+      },
+      "alternateName": [
+        "Can a GPTQ or AWQ quantized checkpoint be compressed further?",
+        "Does lossless compression still help after quantization?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much network traffic could a model hub save by compressing downloads?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lossless compression of the top downloaded Hugging Face models would save PetaBytes of traffic per model per month, including 11.7 PB for wav2vec and 26.1 PB for Bloom. Summed across the hub the estimate is over an ExaByte per month. Holds for: Estimate from download counts as of August 2023 (Mistral March 2024) multiplied by measured compression ratios; assumes compression is applied at the hub and does not model cache hierarchies.\n\n\"Lossless and Near-Lossless Compression for Foundation Models\" brings classical storage-and-network compression to model distribution, and argues it should be the default in communication with hubs such as Hugging Face. That direction is distinct from pruning, distillation and quantization, which shrink models irreversibly for inference speed. Holds for: Framing as of 2024, with only one prior work found proposing compression, applied after two other model-compression steps. Covers stored and transferred model files, checkpoints, gradients and optimizer state, not inference-time speedups. The PyTorch save/load integration is intended for upstream contribution rather than merged.",
+        "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
+      },
+      "alternateName": [
+        "What is the scale of bandwidth wasted serving uncompressed model weights?",
+        "How many petabytes would compressing popular Hugging Face models save?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about reducing the storage and bandwidth cost of model checkpoints?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "\"Lossless and Near-Lossless Compression for Foundation Models\" brings classical storage-and-network compression to model distribution, and argues it should be the default in communication with hubs such as Hugging Face. That direction is distinct from pruning, distillation and quantization, which shrink models irreversibly for inference speed. Holds for: Framing as of 2024, with only one prior work found proposing compression, applied after two other model-compression steps. Covers stored and transferred model files, checkpoints, gradients and optimizer state, not inference-time speedups. The PyTorch save/load integration is intended for upstream contribution rather than merged.",
+        "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
+      },
+      "alternateName": [
+        "Which paper studies lossless compression of foundation model weights rather than pruning or distillation?",
+        "Where should I start reading on compression for model distribution as opposed to model compression for inference?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/#terms",
+  "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/",
+  "name": "Terminology in Lossless and Near-Lossless Compression for Foundation Models",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Compression ratio",
+      "description": "The percentage of the original data that remains after compression, so lower is better: compressing 1 GB down to 0.25 GB is a compression ratio of 25%.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Byte grouping",
+      "description": "A pre-compression transform for model files that groups together bytes from the same position across all parameters -- all first bytes, then all second bytes -- so that exponent bytes compress without interference from high-entropy mantissa bytes.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Tunable lossy compression",
+      "description": "Multiplying each floating-point parameter by a precision factor B=2^b, rounding to an integer, then compressing losslessly; decompression divides back, discarding only quantities smaller than 2^-b.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Clean models",
+      "description": "Base models whose two lower mantissa bytes are near-zero because training happened at lower precision, making them highly compressible; fine-tuning fills those bytes with entropy and destroys the compressibility.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Delta compression",
+      "description": "Storing a base model plus the compressed difference (XOR or subtraction) between it and a similar model, rather than storing each similar model in full.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/#terms"
+    }
   ]
 }
   </script>
@@ -82,6 +366,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -95,13 +380,101 @@
 </head>
 <body>
 <h1>Lossless and Near-Lossless Compression for Foundation Models</h1>
-<p class="meta">Moshik Hershcovitch, Leshem Choshen, Andrew Wood, Ilias Enmouri, Peter Chin, Swaminathan Sundararaman, Danny Harnik · CoRR · 2024</p>
+<p class="sub">rearranging a model file so the first byte of every parameter is stored together, then the second byte, and so on, before running a general-purpose compressor</p>
+<p class="meta">Moshik Hershcovitch, Leshem Choshen, Andrew Wood, Ilias Enmouri, Peter Chin, Swaminathan Sundararaman, Danny Harnik · arXiv · 2024</p>
 <ul class="links"><li><a href="https://arxiv.org/abs/2404.15198">arXiv</a></li><li><a href="https://arxiv.org/pdf/2404.15198">PDF</a></li><li><a href="https://arxiv.org/html/2404.15198">HTML</a></li><li><a href="https://huggingface.co/papers/2404.15198">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2404.15198">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2404.15198">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/269197564">Semantic Scholar</a></li><li><a href="https://doi.org/10.48550/arXiv.2404.15198">Publisher</a></li></ul>
+<h2>In one sentence</h2>
+<p>Standard lossless compressors, rearranged to group same-position bytes of every parameter together (byte grouping), cut popular Hugging Face models by 15-65% of their size, and a tunable lossy variant that trims sub-2^-b bits pushes savings further with no measurable accuracy loss.</p>
 <h2>Abstract</h2>
 <p>With the growth of model sizes and scale of their deployment, their sheer size burdens the infrastructure requiring more network and more storage to accommodate these. While there is a vast literature about reducing model sizes, we investigate a more traditional type of compression -- one that compresses the model to a smaller form and is coupled with a decompression algorithm that returns it to its original size -- namely lossless compression. Somewhat surprisingly, we show that such lossless compression can gain significant network and storage reduction on popular models, at times reducing over $50\%$ of the model size. We investigate the source of model compressibility, introduce compression variants tailored for models and categorize models to compressibility groups. We also introduce a tunable lossy compression technique that can further reduce size even on the less compressible models with little to no effect on the model accuracy. We estimate that these methods could save over an ExaByte per month of network traffic downloaded from a large model hub like HuggingFace.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How much smaller can a model file get with ordinary lossless compression?</dt>
+<dt>Can zstd or gzip actually shrink neural network weights?</dt>
+<dt>What compression ratio do Hugging Face models get with lossless compression?</dt>
+<dd>Zstd with byte grouping compresses widely downloaded Hugging Face models to compression ratios of 35.7% for T5-base, 47.0% for RoBERTa, 50.1% for CLIP and 71% for Mistral. Decompression restores the weights exactly.<br><span class="scope">Holds for: Zstd at default level 3 with byte grouping, on FP32, FP16 and BF16 checkpoints downloaded from Hugging Face in August 2023 (Mistral and FP16 models in March 2024); compression run on CPU only.</span></dd>
+<dd>Foundation models fall into 3 compressibility groups: FP32/FP16 models compressible only in the exponent byte, &quot;clean&quot; base models compressible in the exponent and both lower mantissa bytes, and BF16 models. The three groups reach compression ratios of ~80-85%, 35-50% and ~70% respectively.<br><span class="scope">Holds for: Categories drawn from highly downloaded Hugging Face models spanning several modalities, architectures and float formats; based on Zstd level 3 with byte grouping.</span></dd>
+<dt>Why do some checkpoints compress far better than others?</dt>
+<dt>What makes a model file compressible or incompressible?</dt>
+<dt>Which kinds of model checkpoints benefit most from compression?</dt>
+<dd>Foundation models fall into 3 compressibility groups: FP32/FP16 models compressible only in the exponent byte, &quot;clean&quot; base models compressible in the exponent and both lower mantissa bytes, and BF16 models. The three groups reach compression ratios of ~80-85%, 35-50% and ~70% respectively.<br><span class="scope">Holds for: Categories drawn from highly downloaded Hugging Face models spanning several modalities, architectures and float formats; based on Zstd level 3 with byte grouping.</span></dd>
+<dd>Fine-tuning destroys the compressibility of clean base models: RoBERTa drops from the 47.0% compression ratio of the base checkpoint to 80.7% after 1 epoch and 82.5% after 9 epochs of fine-tuning.<br><span class="scope">Holds for: RoBERTa FP32 fine-tuned on the Rotten Tomatoes dataset; the mechanism is that minuscule weight updates fill the previously zeroed lower mantissa bytes with entropy.</span></dd>
+<dt>What is byte grouping and how much does it help compression?</dt>
+<dt>Does rearranging bytes before compressing a model file improve the ratio?</dt>
+<dt>How much extra compression comes from grouping same-position bytes of parameters?</dt>
+<dd>Byte grouping before compression improves the compressed size of a model by 7-8.2% for exponent-only-compressible models, 19-27% for clean base models and 8.5-10% for BF16 models.<br><span class="scope">Holds for: Measured with Zstd; byte grouping requires knowing only the parameter type, not the model structure, so it works on a raw binary checkpoint.</span></dd>
+<dd>Without byte grouping LZ4 achieves almost no compression on models, reaching only a 95% compression ratio on RoBERTa. With byte grouping the same compressor reaches 56%, still behind Zstd&#x27;s 47.0%.<br><span class="scope">Holds for: RoBERTa FP32 checkpoint; LZ4 relies only on repetition removal, which fails on unstructured tensors, whereas Zstd and Zlib add entropy encoding.</span></dd>
+<dt>Does fine-tuning make a checkpoint harder to compress?</dt>
+<dt>Why is a fine-tuned model less compressible than the base model it came from?</dt>
+<dt>What happens to compressibility after a few epochs of fine-tuning RoBERTa?</dt>
+<dd>Fine-tuning destroys the compressibility of clean base models: RoBERTa drops from the 47.0% compression ratio of the base checkpoint to 80.7% after 1 epoch and 82.5% after 9 epochs of fine-tuning.<br><span class="scope">Holds for: RoBERTa FP32 fine-tuned on the Rotten Tomatoes dataset; the mechanism is that minuscule weight updates fill the previously zeroed lower mantissa bytes with entropy.</span></dd>
+<dt>Can I drop low-order weight bits to compress a checkpoint without losing accuracy?</dt>
+<dt>How far can precision be trimmed before model accuracy degrades?</dt>
+<dt>What precision factor is safe for near-lossless model compression?</dt>
+<dd>Tunable lossy compression at precision factor B=2^23 reduces the compressed size of FP32 models by a further 20%, taking wav2vec from a ~85% to a ~68% compression ratio. B=2^23 is the level at which FP32 arithmetic already introduces its own rounding error.<br><span class="scope">Holds for: FP32 models; B=2^23 is justified by FP32&#x27;s own 2^-23 rounding error and by Adam epsilon defaults of 1e-8/1e-7, not by an accuracy sweep on wav2vec itself. Layers with parameters outside [-1,1] are left uncompressed.</span></dd>
+<dd>Fine-tuned RoBERTa keeps accuracy near 90% down to a precision factor of B=2^6, with a slight rise just before the drop-off, while the compression ratio improves almost linearly to around 20%.<br><span class="scope">Holds for: RoBERTa fine-tuned on Rotten Tomatoes, single task and single fine-tuned model; on the clean base RoBERTa the same technique yields no benefit until B=2^18.</span></dd>
+<dd>T5 variants fine-tuned on CNN-DM, XSUM, SQuAD, ASQA, WikiAnswers and WMT22 En-Ru show no significant change in exact match, Rouge-L or sacreBLEU at precision factors B=2^24 and B=2^19. Compression ratios there are 70% and 56%, versus 85% with lossless compression alone.<br><span class="scope">Holds for: Only 2 precision values were evaluated because of the cost of fine-tuning; T5-base FP32 checkpoints.</span></dd>
+<dt>How much storage can I save by storing checkpoint diffs instead of full checkpoints?</dt>
+<dt>Is delta compression worth it for training checkpoints?</dt>
+<dt>What compression ratio do deltas between consecutive fine-tuning epochs achieve?</dt>
+<dd>Compressing the delta between consecutive fine-tuning epochs of RoBERTa reaches a 55% lossless compression ratio, versus nearly 83% for the same checkpoint standalone. Taking the delta against the base model instead of the previous epoch gives 65%.<br><span class="scope">Holds for: RoBERTa fine-tuned on Rotten Tomatoes, lossless Zstd with byte grouping; delta against a base model avoids maintaining long chains of deltas but compresses less well.</span></dd>
+<dd>Delta compression at precision factor B=2^23 reaches a 37% compression ratio between consecutive RoBERTa checkpoints and 49% against the base model, without affecting accuracy, and aggressive precision factors go below 10%.<br><span class="scope">Holds for: RoBERTa fine-tuned on Rotten Tomatoes with lossless Zstd and byte grouping underneath; accuracy checked on that one task only.</span></dd>
+<dt>Can several models fine-tuned from the same base be stored more cheaply together?</dt>
+<dt>Does delta compression help for sibling fine-tunes of one base model?</dt>
+<dt>How well do deltas between different task-specific RoBERTa variants compress?</dt>
+<dd>Three RoBERTa variants fine-tuned on tweets for irony, offensive-language and abuse detection compress to 85.7% standalone on average but to 56% on average when stored as pairwise deltas.<br><span class="scope">Holds for: cardiffnlp twitter-roberta-base irony/offensive/hate models, lossless Zstd with byte grouping; delta benefit deteriorates as models drift further apart in time.</span></dd>
+<dt>Does compressing a model actually make downloads faster, or does decompression eat the gain?</dt>
+<dt>What is the end-to-end upload and download time effect of compressing checkpoints?</dt>
+<dt>Is model compression worth the CPU cost on a fast network?</dt>
+<dd>Lossy compression at precision factor B=2^23 cuts wav2vec download time by almost 20% on a 30 MBps network and upload time by 16% on a 20 MBps link. Lossless compression saves only 1% of upload time on the same model.<br><span class="scope">Holds for: wav2vec, the least compressible category, via torch.save/torch.load on a cloud VM in the Milan region; the lossy implementation omitted the sign-bit optimization. On cached 120-130 MBps reads the edge is slight.</span></dd>
+<dt>Are quantized models already as small as they can get?</dt>
+<dt>Can a GPTQ or AWQ quantized checkpoint be compressed further?</dt>
+<dt>Does lossless compression still help after quantization?</dt>
+<dd>Off-the-shelf GPTQ and AWQ quantized versions of CapybaraHermes-2.5-Mistral-7B still compress losslessly to ratios between 85% and 91%, with byte grouping contributing 1-2%.<br><span class="scope">Holds for: 8-bit and 4-bit GPTQ and AWQ quantizations of one Mistral-7B derivative, compressed with Zstd at default level 3.</span></dd>
+<dt>How much network traffic could a model hub save by compressing downloads?</dt>
+<dt>What is the scale of bandwidth wasted serving uncompressed model weights?</dt>
+<dt>How many petabytes would compressing popular Hugging Face models save?</dt>
+<dd>Lossless compression of the top downloaded Hugging Face models would save PetaBytes of traffic per model per month, including 11.7 PB for wav2vec and 26.1 PB for Bloom. Summed across the hub the estimate is over an ExaByte per month.<br><span class="scope">Holds for: Estimate from download counts as of August 2023 (Mistral March 2024) multiplied by measured compression ratios; assumes compression is applied at the hub and does not model cache hierarchies.</span></dd>
+<dd>&quot;Lossless and Near-Lossless Compression for Foundation Models&quot; brings classical storage-and-network compression to model distribution, and argues it should be the default in communication with hubs such as Hugging Face. That direction is distinct from pruning, distillation and quantization, which shrink models irreversibly for inference speed.<br><span class="scope">Holds for: Framing as of 2024, with only one prior work found proposing compression, applied after two other model-compression steps. Covers stored and transferred model files, checkpoints, gradients and optimizer state, not inference-time speedups. The PyTorch save/load integration is intended for upstream contribution rather than merged.</span></dd>
+<dt>What should I read about reducing the storage and bandwidth cost of model checkpoints?</dt>
+<dt>Which paper studies lossless compression of foundation model weights rather than pruning or distillation?</dt>
+<dt>Where should I start reading on compression for model distribution as opposed to model compression for inference?</dt>
+<dd>&quot;Lossless and Near-Lossless Compression for Foundation Models&quot; brings classical storage-and-network compression to model distribution, and argues it should be the default in communication with hubs such as Hugging Face. That direction is distinct from pruning, distillation and quantization, which shrink models irreversibly for inference speed.<br><span class="scope">Holds for: Framing as of 2024, with only one prior work found proposing compression, applied after two other model-compression steps. Covers stored and transferred model files, checkpoints, gradients and optimizer state, not inference-time speedups. The PyTorch save/load integration is intended for upstream contribution rather than merged.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Zstd with byte grouping compresses widely downloaded Hugging Face models to compression ratios of 35.7% for T5-base, 47.0% for RoBERTa, 50.1% for CLIP and 71% for Mistral. Decompression restores the weights exactly. <span class="meta">(Table II)</span><br><span class="scope">Scope: Zstd at default level 3 with byte grouping, on FP32, FP16 and BF16 checkpoints downloaded from Hugging Face in August 2023 (Mistral and FP16 models in March 2024); compression run on CPU only.</span></li>
+<li>Foundation models fall into 3 compressibility groups: FP32/FP16 models compressible only in the exponent byte, &quot;clean&quot; base models compressible in the exponent and both lower mantissa bytes, and BF16 models. The three groups reach compression ratios of ~80-85%, 35-50% and ~70% respectively. <span class="meta">(Section III-B and Table II)</span><br><span class="scope">Scope: Categories drawn from highly downloaded Hugging Face models spanning several modalities, architectures and float formats; based on Zstd level 3 with byte grouping.</span></li>
+<li>Byte grouping before compression improves the compressed size of a model by 7-8.2% for exponent-only-compressible models, 19-27% for clean base models and 8.5-10% for BF16 models. <span class="meta">(Section III-B, &quot;The benefit of Byte Grouping&quot;)</span><br><span class="scope">Scope: Measured with Zstd; byte grouping requires knowing only the parameter type, not the model structure, so it works on a raw binary checkpoint.</span></li>
+<li>Without byte grouping LZ4 achieves almost no compression on models, reaching only a 95% compression ratio on RoBERTa. With byte grouping the same compressor reaches 56%, still behind Zstd&#x27;s 47.0%. <span class="meta">(Section III-A and Section III-B)</span><br><span class="scope">Scope: RoBERTa FP32 checkpoint; LZ4 relies only on repetition removal, which fails on unstructured tensors, whereas Zstd and Zlib add entropy encoding.</span></li>
+<li>Fine-tuning destroys the compressibility of clean base models: RoBERTa drops from the 47.0% compression ratio of the base checkpoint to 80.7% after 1 epoch and 82.5% after 9 epochs of fine-tuning. <span class="meta">(Table II)</span><br><span class="scope">Scope: RoBERTa FP32 fine-tuned on the Rotten Tomatoes dataset; the mechanism is that minuscule weight updates fill the previously zeroed lower mantissa bytes with entropy.</span></li>
+<li>Tunable lossy compression at precision factor B=2^23 reduces the compressed size of FP32 models by a further 20%, taking wav2vec from a ~85% to a ~68% compression ratio. B=2^23 is the level at which FP32 arithmetic already introduces its own rounding error. <span class="meta">(Section III-D)</span><br><span class="scope">Scope: FP32 models; B=2^23 is justified by FP32&#x27;s own 2^-23 rounding error and by Adam epsilon defaults of 1e-8/1e-7, not by an accuracy sweep on wav2vec itself. Layers with parameters outside [-1,1] are left uncompressed.</span></li>
+<li>Fine-tuned RoBERTa keeps accuracy near 90% down to a precision factor of B=2^6, with a slight rise just before the drop-off, while the compression ratio improves almost linearly to around 20%. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: RoBERTa fine-tuned on Rotten Tomatoes, single task and single fine-tuned model; on the clean base RoBERTa the same technique yields no benefit until B=2^18.</span></li>
+<li>T5 variants fine-tuned on CNN-DM, XSUM, SQuAD, ASQA, WikiAnswers and WMT22 En-Ru show no significant change in exact match, Rouge-L or sacreBLEU at precision factors B=2^24 and B=2^19. Compression ratios there are 70% and 56%, versus 85% with lossless compression alone. <span class="meta">(Section III-D)</span><br><span class="scope">Scope: Only 2 precision values were evaluated because of the cost of fine-tuning; T5-base FP32 checkpoints.</span></li>
+<li>Compressing the delta between consecutive fine-tuning epochs of RoBERTa reaches a 55% lossless compression ratio, versus nearly 83% for the same checkpoint standalone. Taking the delta against the base model instead of the previous epoch gives 65%. <span class="meta">(Figure 7 and Figure 8)</span><br><span class="scope">Scope: RoBERTa fine-tuned on Rotten Tomatoes, lossless Zstd with byte grouping; delta against a base model avoids maintaining long chains of deltas but compresses less well.</span></li>
+<li>Delta compression at precision factor B=2^23 reaches a 37% compression ratio between consecutive RoBERTa checkpoints and 49% against the base model, without affecting accuracy, and aggressive precision factors go below 10%. <span class="meta">(Figure 7 and Figure 8)</span><br><span class="scope">Scope: RoBERTa fine-tuned on Rotten Tomatoes with lossless Zstd and byte grouping underneath; accuracy checked on that one task only.</span></li>
+<li>Three RoBERTa variants fine-tuned on tweets for irony, offensive-language and abuse detection compress to 85.7% standalone on average but to 56% on average when stored as pairwise deltas. <span class="meta">(Section V-A)</span><br><span class="scope">Scope: cardiffnlp twitter-roberta-base irony/offensive/hate models, lossless Zstd with byte grouping; delta benefit deteriorates as models drift further apart in time.</span></li>
+<li>Lossy compression at precision factor B=2^23 cuts wav2vec download time by almost 20% on a 30 MBps network and upload time by 16% on a 20 MBps link. Lossless compression saves only 1% of upload time on the same model. <span class="meta">(Figure 5 and Figure 6)</span><br><span class="scope">Scope: wav2vec, the least compressible category, via torch.save/torch.load on a cloud VM in the Milan region; the lossy implementation omitted the sign-bit optimization. On cached 120-130 MBps reads the edge is slight.</span></li>
+<li>Off-the-shelf GPTQ and AWQ quantized versions of CapybaraHermes-2.5-Mistral-7B still compress losslessly to ratios between 85% and 91%, with byte grouping contributing 1-2%. <span class="meta">(Table III)</span><br><span class="scope">Scope: 8-bit and 4-bit GPTQ and AWQ quantizations of one Mistral-7B derivative, compressed with Zstd at default level 3.</span></li>
+<li>Lossless compression of the top downloaded Hugging Face models would save PetaBytes of traffic per model per month, including 11.7 PB for wav2vec and 26.1 PB for Bloom. Summed across the hub the estimate is over an ExaByte per month. <span class="meta">(Table I)</span><br><span class="scope">Scope: Estimate from download counts as of August 2023 (Mistral March 2024) multiplied by measured compression ratios; assumes compression is applied at the hub and does not model cache hierarchies.</span></li>
+<li>&quot;Lossless and Near-Lossless Compression for Foundation Models&quot; brings classical storage-and-network compression to model distribution, and argues it should be the default in communication with hubs such as Hugging Face. That direction is distinct from pruning, distillation and quantization, which shrink models irreversibly for inference speed.<br><span class="scope">Scope: Framing as of 2024, with only one prior work found proposing compression, applied after two other model-compression steps. Covers stored and transferred model files, checkpoints, gradients and optimizer state, not inference-time speedups. The PyTorch save/load integration is intended for upstream contribution rather than merged.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>Lossless compression of model weights is not model compression in the usual sense: the decompressed file is bit-identical and the model runs at its original size and speed, so nothing about inference throughput improves.</li>
+<li>A lower compression ratio is better, not worse: the ratio is the percentage of the original bytes that remain, so 47.0% means the file shrank by 53%.</li>
+<li>The reported ratios are not a property of models in general. Clean base models reduce by 50-65% while fine-tuned FP32 and BF16 checkpoints only reduce by roughly 15-30%.</li>
+<li>The slight accuracy rise observed just before the drop-off under aggressive precision trimming is reported as an unexpected phenomenon, not as a proposed way to improve models.</li>
+<li>Tunable lossy compression is not quantization: it produces a file that decompresses back to the original format and precision layout, and it can trim to arbitrary bit levels such as 2^-23 rather than to runnable widths like 16 or 8 bits.</li>
+<li>The claim that precision below 2^-23 can be discarded without accuracy loss was verified on RoBERTa/Rotten Tomatoes and on T5 fine-tunes at only 2 precision values, so it is a rule of thumb rather than a guarantee for arbitrary models.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Compression ratio</em></dt><dd>The percentage of the original data that remains after compression, so lower is better: compressing 1 GB down to 0.25 GB is a compression ratio of 25%.</dd>
+<dt><em>Byte grouping</em></dt><dd>A pre-compression transform for model files that groups together bytes from the same position across all parameters -- all first bytes, then all second bytes -- so that exponent bytes compress without interference from high-entropy mantissa bytes.</dd>
+<dt><em>Tunable lossy compression</em></dt><dd>Multiplying each floating-point parameter by a precision factor B=2^b, rounding to an integer, then compressing losslessly; decompression divides back, discarding only quantities smaller than 2^-b.</dd>
+<dt><em>Clean models</em></dt><dd>Base models whose two lower mantissa bytes are near-zero because training happened at lower precision, making them highly compressible; fine-tuning fills those bytes with entropy and destroys the compressibility.</dd>
+<dt><em>Delta compression</em></dt><dd>Storing a base model plus the compressed difference (XOR or subtraction) between it and a similar model, rather than storing each similar model in full.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@article{DBLP:journals/corr/abs-2404-15198,
-author       = {Moshik Hershcovitch and
+<pre>@article{DBLP:journals/corr/abs-2404-15198,author       = {Moshik Hershcovitch and
                   Leshem Choshen and
                   Andrew Wood and
                   Ilias Enmouri and

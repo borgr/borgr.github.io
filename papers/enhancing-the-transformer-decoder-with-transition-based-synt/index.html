@@ -9,7 +9,7 @@
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2022">
-  <meta name="citation_conference_title" content="Proceedings of the 26th Conference on Computational Natural Language Learning, CoNLL 2022, Abu Dhabi, United…">
+  <meta name="citation_conference_title" content="CoNLL 2022">
   <meta name="citation_doi" content="10.18653/V1/2022.CONLL-1.27">
   <meta name="citation_arxiv_id" content="2101.12640">
   <meta name="citation_abstract" content="Notwithstanding recent advances, syntactic generalization remains a challenge for text decoders. While some studies showed gains from incorporating source-side symbolic syntactic and semantic structure into text generation Transformers, very little work addressed the decoding of such structure. We propose a general approach for tree decoding using a transition-based approach. Examining the challenging test case of incorporating Universal Dependencies syntax into machine translation, we present substantial improvements on test sets that focus on syntactic generalization, while presenting improved or comparable performance on standard MT benchmarks. Further qualitative analysis addresses cases where syntactic generalization in the vanilla Transformer decoder is inadequate and demonstrates the advantages afforded by integrating syntactic information.">
@@ -35,10 +35,12 @@
   "datePublished": "2022",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 26th Conference on Computational Natural Language Learning, CoNLL 2022, Abu Dhabi, United…"
+    "name": "CoNLL 2022"
   },
   "identifier": "https://doi.org/10.18653/V1/2022.CONLL-1.27",
   "abstract": "Notwithstanding recent advances, syntactic generalization remains a challenge for text decoders. While some studies showed gains from incorporating source-side symbolic syntactic and semantic structure into text generation Transformers, very little work addressed the decoding of such structure. We propose a general approach for tree decoding using a transition-based approach. Examining the challenging test case of incorporating Universal Dependencies syntax into machine translation, we present substantial improvements on test sets that focus on syntactic generalization, while presenting improved or comparable performance on standard MT benchmarks. Further qualitative analysis addresses cases where syntactic generalization in the vanilla Transformer decoder is inadequate and demonstrates the advantages afforded by integrating syntactic information.",
+  "description": "A Transformer decoder that emits its output's Universal Dependencies tree as a sequence of arc-standard transitions and re-encodes the partially built graph — via a GCN or a dedicated parent-attention head — together with bidirectional attention over already-predicted tokens.",
+  "codeRepository": "https://github.com/borgr/nematus/tree/generation",
   "sameAs": [
     "https://aclanthology.org/2022.conll-1.27/",
     "https://ar5iv.labs.arxiv.org/html/2101.12640",
@@ -46,9 +48,283 @@
     "https://arxiv.org/pdf/2101.12640",
     "https://doi.org/10.18653/V1/2022.CONLL-1.27",
     "https://doi.org/10.18653/v1/2022.conll-1.27",
+    "https://github.com/borgr/nematus/tree/generation",
     "https://huggingface.co/papers/2101.12640",
     "https://www.alphaxiv.org/abs/2101.12640",
     "https://www.semanticscholar.org/paper/248810900"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Choshen and Abend's transition-based structural decoder generates target-side syntactic trees inside a Transformer decoder, rather than with an RNN or a string linearization as earlier target-side tree decoding did.",
+      "description": "Holds for: As of publication in 2022; the authors state they are not aware of a prior Transformer architecture supporting target-side tree or graph structure."
+    },
+    {
+      "@type": "Thing",
+      "name": "The transition-based decoding framework of Choshen and Abend generates any graph structure for which a transition system exists, with Universal Dependencies via arc-standard used as the demonstrated machine-translation test case.",
+      "description": "Holds for: Only projective UD parses were trained on and only UD was evaluated; fit to semantic formalisms is argued from the existence of their transition parsers, not measured."
+    },
+    {
+      "@type": "Thing",
+      "name": "On the Choshen and Abend syntactic challenge sets, the medium Parent decoder improves over the vanilla Transformer in 18 of 20 target settings and 19 of 20 source settings. The medium GCN decoder improves in 20 of 20 target and 19 of 20 source settings.",
+      "description": "Holds for: 4-layer, 256-dim models on En-De and De-En, WMT16 data; settings count BLEU and chrF+ on preposition-stranding, particle and reflexive phenomena in books and news domains, with training parses from UDPipe."
+    },
+    {
+      "@type": "Thing",
+      "name": "Scaling to a 6-layer model does not close the syntactic-generalization gap. The large Parent decoder still beats the vanilla Transformer in 18 of 20 challenge settings, with gains similar to or larger than at medium size.",
+      "description": "Holds for: En-De only, 6 decoder/encoder blocks, embedding size 512, 150K training steps; only Parent and Vanilla were trained at this size, GCN was not."
+    },
+    {
+      "@type": "Thing",
+      "name": "On the En-De target-side particle challenge set from books, the large Parent decoder reaches 8.37 BLEU and 33.78 chrF+ against the vanilla Transformer's 4.14 BLEU and 20.72 chrF+.",
+      "description": "Holds for: One challenge set: En-De, target side, particle verbs, books domain, 6-layer models; the largest single gap reported among the challenge sets."
+    },
+    {
+      "@type": "Thing",
+      "name": "On newstest 2013-15 the UD-based GCN and Parent decoders beat the vanilla Transformer at medium size in every setting tested, by 0.7-1.1 average BLEU and 1-2.4 chrF+, on En-De, De-En and En-Ru.",
+      "description": "Holds for: 4-layer models; En-De and De-En from WMT16, En-Ru from clean News Commentary. A sign test over the medium test sets finds GCN and Parent significantly better than vanilla."
+    },
+    {
+      "@type": "Thing",
+      "name": "At 6 layers on En-De the Parent decoder is only comparable to the vanilla Transformer on standard test sets, averaging 22.12 BLEU and 52.34 chrF+ against 22.39 BLEU and 52.47 chrF+. The same large Parent model still wins clearly on the syntactic challenge sets.",
+      "description": "Holds for: En-De, newstest 2013-15, one large model per condition; Parent is ahead on 2013 and 2014 chrF+ and behind on 2015. No large GCN and no other language pair at this size."
+    },
+    {
+      "@type": "Thing",
+      "name": "Training a vanilla Transformer on the linearized transition string lands consistently between the structure-unaware and the structure-aware decoders, showing that re-encoding the generated graph adds beyond merely emitting it as tokens.",
+      "description": "Holds for: En-De and De-En medium models on newstest 2013-15 and the challenge sets; differences between ablations are described as small but consistent."
+    },
+    {
+      "@type": "Thing",
+      "name": "Removing GCN gating hurts: the ungated variant scores below the unlabeled variant in 34 of 40 challenge settings. Dropping edge labels from the GCN has limited effect, and the unlabeled variant is as often as not better on the challenges.",
+      "description": "Holds for: Medium GCN decoders on En-De and De-En, encoding the decoder's self-generated parse rather than an external one. Labels remain available as transition token embeddings even in the unlabeled GCN."
+    },
+    {
+      "@type": "Thing",
+      "name": "Bidirectional attention in the decoder alone (BiTran), with no syntax and no new parameters, gives a small but consistent gain over the vanilla Transformer of up to 0.28 BLEU and 0.42 chrF+. BiTran is better on 10 of 12 test scores per language pair and on 26 of 40 challenge settings.",
+      "description": "Holds for: Medium models on En-De, De-En and En-Ru; adds no parameters or hyperparameters but blocks unidirectionality-based decoding speed-ups implemented in NEMATUS."
+    },
+    {
+      "@type": "Thing",
+      "name": "Training En-Ru on the full noisy crawled WMT20 data shrinks the syntactic decoders' chrF+ advantage to about 1 point, against 1.5-2.5 points on cleaner data. BLEU becomes somewhat worse than with clean training data.",
+      "description": "Holds for: En-Ru only, medium models, full WMT20 data after langID and alignment filtering versus clean News Commentary; described as preliminary, with more data rather than noise named as an alternative explanation."
+    },
+    {
+      "@type": "Thing",
+      "name": "On 99 hand-built German subject-verb-object sentences whose arguments can swap, the Parent decoder is more robust to the rare OVS order than the vanilla Transformer. A native-speaker annotator scored 13 vs 10 correct with both cases marked, 8 vs 5 with only the subject marked and 6 vs 6 with only the object marked.",
+      "description": "Holds for: Medium En-De models, 99 templated sentences over small noun and verb lists, one annotator; only word-order correctness was scored, with other errors such as verb choice disregarded."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/#faq",
+  "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/",
+  "name": "Questions answered by Enhancing the Transformer Decoder with Transition-based Syntax",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "how can a Transformer decoder generate a dependency tree along with the translation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Choshen and Abend's transition-based structural decoder generates target-side syntactic trees inside a Transformer decoder, rather than with an RNN or a string linearization as earlier target-side tree decoding did. Holds for: As of publication in 2022; the authors state they are not aware of a prior Transformer architecture supporting target-side tree or graph structure.\n\nThe transition-based decoding framework of Choshen and Abend generates any graph structure for which a transition system exists, with Universal Dependencies via arc-standard used as the demonstrated machine-translation test case. Holds for: Only projective UD parses were trained on and only UD was evaluated; fit to semantic formalisms is argued from the existence of their transition parsers, not measured.",
+        "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
+      },
+      "alternateName": [
+        "is there a way to decode syntactic structure with a Transformer instead of an RNN?",
+        "what work added target-side syntax to a Transformer decoder?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "does adding target-side syntax help machine translation on syntactically hard sentences?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On the Choshen and Abend syntactic challenge sets, the medium Parent decoder improves over the vanilla Transformer in 18 of 20 target settings and 19 of 20 source settings. The medium GCN decoder improves in 20 of 20 target and 19 of 20 source settings. Holds for: 4-layer, 256-dim models on En-De and De-En, WMT16 data; settings count BLEU and chrF+ on preposition-stranding, particle and reflexive phenomena in books and news domains, with training parses from UDPipe.\n\nOn the En-De target-side particle challenge set from books, the large Parent decoder reaches 8.37 BLEU and 33.78 chrF+ against the vanilla Transformer's 4.14 BLEU and 20.72 chrF+. Holds for: One challenge set: En-De, target side, particle verbs, books domain, 6-layer models; the largest single gap reported among the challenge sets.",
+        "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
+      },
+      "alternateName": [
+        "do syntax-aware decoders improve long-distance dependency translation?",
+        "how much does the structural decoder gain on syntactic challenge sets?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "can you just scale the Transformer up instead of adding syntax?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scaling to a 6-layer model does not close the syntactic-generalization gap. The large Parent decoder still beats the vanilla Transformer in 18 of 20 challenge settings, with gains similar to or larger than at medium size. Holds for: En-De only, 6 decoder/encoder blocks, embedding size 512, 150K training steps; only Parent and Vanilla were trained at this size, GCN was not.\n\nAt 6 layers on En-De the Parent decoder is only comparable to the vanilla Transformer on standard test sets, averaging 22.12 BLEU and 52.34 chrF+ against 22.39 BLEU and 52.47 chrF+. The same large Parent model still wins clearly on the syntactic challenge sets. Holds for: En-De, newstest 2013-15, one large model per condition; Parent is ahead on 2013 and 2014 chrF+ and behind on 2015. No large GCN and no other language pair at this size.",
+        "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
+      },
+      "alternateName": [
+        "do syntactic generalization gaps shrink with bigger translation models?",
+        "does the benefit of the Parent decoder disappear at larger model size?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "does the syntactic decoder also help on standard MT benchmarks like newstest?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On newstest 2013-15 the UD-based GCN and Parent decoders beat the vanilla Transformer at medium size in every setting tested, by 0.7-1.1 average BLEU and 1-2.4 chrF+, on En-De, De-En and En-Ru. Holds for: 4-layer models; En-De and De-En from WMT16, En-Ru from clean News Commentary. A sign test over the medium test sets finds GCN and Parent significantly better than vanilla.\n\nAt 6 layers on En-De the Parent decoder is only comparable to the vanilla Transformer on standard test sets, averaging 22.12 BLEU and 52.34 chrF+ against 22.39 BLEU and 52.47 chrF+. The same large Parent model still wins clearly on the syntactic challenge sets. Holds for: En-De, newstest 2013-15, one large model per condition; Parent is ahead on 2013 and 2014 chrF+ and behind on 2015. No large GCN and no other language pair at this size.",
+        "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
+      },
+      "alternateName": [
+        "what BLEU and chrF+ improvement does UD-based decoding give on WMT test sets?",
+        "does target-side syntax cost you general translation quality?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "is re-encoding the generated parse better than just linearizing syntax into the output string?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Training a vanilla Transformer on the linearized transition string lands consistently between the structure-unaware and the structure-aware decoders, showing that re-encoding the generated graph adds beyond merely emitting it as tokens. Holds for: En-De and De-En medium models on newstest 2013-15 and the challenge sets; differences between ablations are described as small but consistent.",
+        "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
+      },
+      "alternateName": [
+        "how does linearized syntax compare with graph-aware decoding in NMT?",
+        "what does the linearized-transitions ablation show?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "do GCN gates matter when encoding a self-generated parse?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Removing GCN gating hurts: the ungated variant scores below the unlabeled variant in 34 of 40 challenge settings. Dropping edge labels from the GCN has limited effect, and the unlabeled variant is as often as not better on the challenges. Holds for: Medium GCN decoders on En-De and De-En, encoding the decoder's self-generated parse rather than an external one. Labels remain available as transition token embeddings even in the unlabeled GCN.",
+        "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
+      },
+      "alternateName": [
+        "are dependency edge labels necessary for a syntax-aware decoder?",
+        "which parts of the GCN decoder actually contribute, according to the ablations?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "does letting a Transformer decoder attend to already-predicted future tokens help?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bidirectional attention in the decoder alone (BiTran), with no syntax and no new parameters, gives a small but consistent gain over the vanilla Transformer of up to 0.28 BLEU and 0.42 chrF+. BiTran is better on 10 of 12 test scores per language pair and on 26 of 40 challenge settings. Holds for: Medium models on En-De, De-En and En-Ru; adds no parameters or hyperparameters but blocks unidirectionality-based decoding speed-ups implemented in NEMATUS.",
+        "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
+      },
+      "alternateName": [
+        "how much does bidirectional decoder attention improve translation on its own?",
+        "what is BiTran and how well does it work?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "are syntax-aware decoders robust to noisy crawled training data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Training En-Ru on the full noisy crawled WMT20 data shrinks the syntactic decoders' chrF+ advantage to about 1 point, against 1.5-2.5 points on cleaner data. BLEU becomes somewhat worse than with clean training data. Holds for: En-Ru only, medium models, full WMT20 data after langID and alignment filtering versus clean News Commentary; described as preliminary, with more data rather than noise named as an alternative explanation.",
+        "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
+      },
+      "alternateName": [
+        "does the gain from UD-based decoding survive training on full noisy WMT data?",
+        "what happened on En-Ru with noisy data?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "can NMT models get German subject-object order right when case marking is ambiguous?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On 99 hand-built German subject-verb-object sentences whose arguments can swap, the Parent decoder is more robust to the rare OVS order than the vanilla Transformer. A native-speaker annotator scored 13 vs 10 correct with both cases marked, 8 vs 5 with only the subject marked and 6 vs 6 with only the object marked. Holds for: Medium En-De models, 99 templated sentences over small noun and verb lists, one annotator; only word-order correctness was scored, with other errors such as verb choice disregarded.",
+        "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
+      },
+      "alternateName": [
+        "does syntactic decoding help with free word order in German translation?",
+        "what did the manual analysis of German OVS sentences find?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "what should I read about incorporating syntax into neural machine translation decoders?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Choshen and Abend's transition-based structural decoder generates target-side syntactic trees inside a Transformer decoder, rather than with an RNN or a string linearization as earlier target-side tree decoding did. Holds for: As of publication in 2022; the authors state they are not aware of a prior Transformer architecture supporting target-side tree or graph structure.\n\nThe transition-based decoding framework of Choshen and Abend generates any graph structure for which a transition system exists, with Universal Dependencies via arc-standard used as the demonstrated machine-translation test case. Holds for: Only projective UD parses were trained on and only UD was evaluated; fit to semantic formalisms is argued from the existence of their transition parsers, not measured.",
+        "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
+      },
+      "alternateName": [
+        "which papers cover structure-aware text generation rather than source-side syntax?",
+        "where do I start reading on transition-based tree decoding for generation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "which is better for encoding the decoder's own parse, a GCN or a parent-attention head?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On the Choshen and Abend syntactic challenge sets, the medium Parent decoder improves over the vanilla Transformer in 18 of 20 target settings and 19 of 20 source settings. The medium GCN decoder improves in 20 of 20 target and 19 of 20 source settings. Holds for: 4-layer, 256-dim models on En-De and De-En, WMT16 data; settings count BLEU and chrF+ on preposition-stranding, particle and reflexive phenomena in books and news domains, with training parses from UDPipe.\n\nOn newstest 2013-15 the UD-based GCN and Parent decoders beat the vanilla Transformer at medium size in every setting tested, by 0.7-1.1 average BLEU and 1-2.4 chrF+, on En-De, De-En and En-Ru. Holds for: 4-layer models; En-De and De-En from WMT16, En-Ru from clean News Commentary. A sign test over the medium test sets finds GCN and Parent significantly better than vanilla.\n\nRemoving GCN gating hurts: the ungated variant scores below the unlabeled variant in 34 of 40 challenge settings. Dropping edge labels from the GCN has limited effect, and the unlabeled variant is as often as not better on the challenges. Holds for: Medium GCN decoders on En-De and De-En, encoding the decoder's self-generated parse rather than an external one. Labels remain available as transition token embeddings even in the unlabeled GCN.",
+        "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
+      },
+      "alternateName": [
+        "how do the two graph re-encoding variants compare in cost and accuracy?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/#terms",
+  "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/",
+  "name": "Terminology in Enhancing the Transformer Decoder with Transition-based Syntax",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Bidirectional Transformer (BiTran)",
+      "description": "A Transformer decoder whose attention mask lets a token's representation attend to all tokens generated so far, including ones after its own position, instead of only to preceding positions.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Parent decoder",
+      "description": "A syntax-aware Transformer decoder that dedicates one of its 8 attention heads to attend only to the self-generated dependency parent(s) of the current token, plus the token itself, adding no parameters.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "GCN decoder",
+      "description": "A syntax-aware Transformer decoder in which 2 labeled, gated graph convolutional layers sit above the embedding layer and encode the dependency graph the decoder has generated so far.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Structural transitions",
+      "description": "Vocabulary items added to the target side of an NMT model that build a dependency tree, adapting arc-standard parsing by replacing Shift with a subword-generating action and keeping Left-Arc and Right-Arc with 45 UD labels, for 90 new tokens.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Syntactic challenge sets",
+      "description": "Subsets of books and newstest corpora, filtered by a parser, in which two or more non-consecutive source or target words correspond to a single word in the other language, covering preposition stranding, particle verbs and reflexives.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Source versus target challenge direction",
+      "description": "A challenge set is 'source' when the lexical long-distance dependency appears in the input sentence and 'target' when it appears in the reference translation.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/#terms"
+    }
   ]
 }
   </script>
@@ -59,6 +335,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -72,13 +349,97 @@
 </head>
 <body>
 <h1>Enhancing the Transformer Decoder with Transition-based Syntax</h1>
-<p class="meta">Leshem Choshen, Omri Abend · Proceedings of the 26th Conference on Computational Natural Language Learning, CoNLL 2022, Abu Dhabi, United… · 2022</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2101.12640">arXiv</a></li><li><a href="https://arxiv.org/pdf/2101.12640">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2101.12640">HTML</a></li><li><a href="https://huggingface.co/papers/2101.12640">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2101.12640">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2022.CONLL-1.27">DOI</a></li><li><a href="https://aclanthology.org/2022.conll-1.27/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/248810900">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2022.conll-1.27">Publisher</a></li></ul>
+<p class="sub">a Transformer decoder that generates a dependency tree as a sequence of parser transitions and re-encodes the tree it has built so far</p>
+<p class="meta">Leshem Choshen, Omri Abend · CoNLL 2022 · 2022</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2101.12640">arXiv</a></li><li><a href="https://arxiv.org/pdf/2101.12640">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2101.12640">HTML</a></li><li><a href="https://huggingface.co/papers/2101.12640">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2101.12640">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2022.CONLL-1.27">DOI</a></li><li><a href="https://aclanthology.org/2022.conll-1.27/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/248810900">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2022.conll-1.27">Publisher</a></li><li><a href="https://github.com/borgr/nematus/tree/generation">Code</a></li></ul>
+<h2>In one sentence</h2>
+<p>A Transformer decoder that emits its output&#x27;s Universal Dependencies tree as a sequence of arc-standard transitions and re-encodes the partially built graph — via a GCN or a dedicated parent-attention head — together with bidirectional attention over already-predicted tokens.</p>
 <h2>Abstract</h2>
 <p>Notwithstanding recent advances, syntactic generalization remains a challenge for text decoders. While some studies showed gains from incorporating source-side symbolic syntactic and semantic structure into text generation Transformers, very little work addressed the decoding of such structure. We propose a general approach for tree decoding using a transition-based approach. Examining the challenging test case of incorporating Universal Dependencies syntax into machine translation, we present substantial improvements on test sets that focus on syntactic generalization, while presenting improved or comparable performance on standard MT benchmarks. Further qualitative analysis addresses cases where syntactic generalization in the vanilla Transformer decoder is inadequate and demonstrates the advantages afforded by integrating syntactic information.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>how can a Transformer decoder generate a dependency tree along with the translation?</dt>
+<dt>is there a way to decode syntactic structure with a Transformer instead of an RNN?</dt>
+<dt>what work added target-side syntax to a Transformer decoder?</dt>
+<dd>Choshen and Abend&#x27;s transition-based structural decoder generates target-side syntactic trees inside a Transformer decoder, rather than with an RNN or a string linearization as earlier target-side tree decoding did.<br><span class="scope">Holds for: As of publication in 2022; the authors state they are not aware of a prior Transformer architecture supporting target-side tree or graph structure.</span></dd>
+<dd>The transition-based decoding framework of Choshen and Abend generates any graph structure for which a transition system exists, with Universal Dependencies via arc-standard used as the demonstrated machine-translation test case.<br><span class="scope">Holds for: Only projective UD parses were trained on and only UD was evaluated; fit to semantic formalisms is argued from the existence of their transition parsers, not measured.</span></dd>
+<dt>does adding target-side syntax help machine translation on syntactically hard sentences?</dt>
+<dt>do syntax-aware decoders improve long-distance dependency translation?</dt>
+<dt>how much does the structural decoder gain on syntactic challenge sets?</dt>
+<dd>On the Choshen and Abend syntactic challenge sets, the medium Parent decoder improves over the vanilla Transformer in 18 of 20 target settings and 19 of 20 source settings. The medium GCN decoder improves in 20 of 20 target and 19 of 20 source settings.<br><span class="scope">Holds for: 4-layer, 256-dim models on En-De and De-En, WMT16 data; settings count BLEU and chrF+ on preposition-stranding, particle and reflexive phenomena in books and news domains, with training parses from UDPipe.</span></dd>
+<dd>On the En-De target-side particle challenge set from books, the large Parent decoder reaches 8.37 BLEU and 33.78 chrF+ against the vanilla Transformer&#x27;s 4.14 BLEU and 20.72 chrF+.<br><span class="scope">Holds for: One challenge set: En-De, target side, particle verbs, books domain, 6-layer models; the largest single gap reported among the challenge sets.</span></dd>
+<dt>can you just scale the Transformer up instead of adding syntax?</dt>
+<dt>do syntactic generalization gaps shrink with bigger translation models?</dt>
+<dt>does the benefit of the Parent decoder disappear at larger model size?</dt>
+<dd>Scaling to a 6-layer model does not close the syntactic-generalization gap. The large Parent decoder still beats the vanilla Transformer in 18 of 20 challenge settings, with gains similar to or larger than at medium size.<br><span class="scope">Holds for: En-De only, 6 decoder/encoder blocks, embedding size 512, 150K training steps; only Parent and Vanilla were trained at this size, GCN was not.</span></dd>
+<dd>At 6 layers on En-De the Parent decoder is only comparable to the vanilla Transformer on standard test sets, averaging 22.12 BLEU and 52.34 chrF+ against 22.39 BLEU and 52.47 chrF+. The same large Parent model still wins clearly on the syntactic challenge sets.<br><span class="scope">Holds for: En-De, newstest 2013-15, one large model per condition; Parent is ahead on 2013 and 2014 chrF+ and behind on 2015. No large GCN and no other language pair at this size.</span></dd>
+<dt>does the syntactic decoder also help on standard MT benchmarks like newstest?</dt>
+<dt>what BLEU and chrF+ improvement does UD-based decoding give on WMT test sets?</dt>
+<dt>does target-side syntax cost you general translation quality?</dt>
+<dd>On newstest 2013-15 the UD-based GCN and Parent decoders beat the vanilla Transformer at medium size in every setting tested, by 0.7-1.1 average BLEU and 1-2.4 chrF+, on En-De, De-En and En-Ru.<br><span class="scope">Holds for: 4-layer models; En-De and De-En from WMT16, En-Ru from clean News Commentary. A sign test over the medium test sets finds GCN and Parent significantly better than vanilla.</span></dd>
+<dd>At 6 layers on En-De the Parent decoder is only comparable to the vanilla Transformer on standard test sets, averaging 22.12 BLEU and 52.34 chrF+ against 22.39 BLEU and 52.47 chrF+. The same large Parent model still wins clearly on the syntactic challenge sets.<br><span class="scope">Holds for: En-De, newstest 2013-15, one large model per condition; Parent is ahead on 2013 and 2014 chrF+ and behind on 2015. No large GCN and no other language pair at this size.</span></dd>
+<dt>is re-encoding the generated parse better than just linearizing syntax into the output string?</dt>
+<dt>how does linearized syntax compare with graph-aware decoding in NMT?</dt>
+<dt>what does the linearized-transitions ablation show?</dt>
+<dd>Training a vanilla Transformer on the linearized transition string lands consistently between the structure-unaware and the structure-aware decoders, showing that re-encoding the generated graph adds beyond merely emitting it as tokens.<br><span class="scope">Holds for: En-De and De-En medium models on newstest 2013-15 and the challenge sets; differences between ablations are described as small but consistent.</span></dd>
+<dt>do GCN gates matter when encoding a self-generated parse?</dt>
+<dt>are dependency edge labels necessary for a syntax-aware decoder?</dt>
+<dt>which parts of the GCN decoder actually contribute, according to the ablations?</dt>
+<dd>Removing GCN gating hurts: the ungated variant scores below the unlabeled variant in 34 of 40 challenge settings. Dropping edge labels from the GCN has limited effect, and the unlabeled variant is as often as not better on the challenges.<br><span class="scope">Holds for: Medium GCN decoders on En-De and De-En, encoding the decoder&#x27;s self-generated parse rather than an external one. Labels remain available as transition token embeddings even in the unlabeled GCN.</span></dd>
+<dt>does letting a Transformer decoder attend to already-predicted future tokens help?</dt>
+<dt>how much does bidirectional decoder attention improve translation on its own?</dt>
+<dt>what is BiTran and how well does it work?</dt>
+<dd>Bidirectional attention in the decoder alone (BiTran), with no syntax and no new parameters, gives a small but consistent gain over the vanilla Transformer of up to 0.28 BLEU and 0.42 chrF+. BiTran is better on 10 of 12 test scores per language pair and on 26 of 40 challenge settings.<br><span class="scope">Holds for: Medium models on En-De, De-En and En-Ru; adds no parameters or hyperparameters but blocks unidirectionality-based decoding speed-ups implemented in NEMATUS.</span></dd>
+<dt>are syntax-aware decoders robust to noisy crawled training data?</dt>
+<dt>does the gain from UD-based decoding survive training on full noisy WMT data?</dt>
+<dt>what happened on En-Ru with noisy data?</dt>
+<dd>Training En-Ru on the full noisy crawled WMT20 data shrinks the syntactic decoders&#x27; chrF+ advantage to about 1 point, against 1.5-2.5 points on cleaner data. BLEU becomes somewhat worse than with clean training data.<br><span class="scope">Holds for: En-Ru only, medium models, full WMT20 data after langID and alignment filtering versus clean News Commentary; described as preliminary, with more data rather than noise named as an alternative explanation.</span></dd>
+<dt>can NMT models get German subject-object order right when case marking is ambiguous?</dt>
+<dt>does syntactic decoding help with free word order in German translation?</dt>
+<dt>what did the manual analysis of German OVS sentences find?</dt>
+<dd>On 99 hand-built German subject-verb-object sentences whose arguments can swap, the Parent decoder is more robust to the rare OVS order than the vanilla Transformer. A native-speaker annotator scored 13 vs 10 correct with both cases marked, 8 vs 5 with only the subject marked and 6 vs 6 with only the object marked.<br><span class="scope">Holds for: Medium En-De models, 99 templated sentences over small noun and verb lists, one annotator; only word-order correctness was scored, with other errors such as verb choice disregarded.</span></dd>
+<dt>what should I read about incorporating syntax into neural machine translation decoders?</dt>
+<dt>which papers cover structure-aware text generation rather than source-side syntax?</dt>
+<dt>where do I start reading on transition-based tree decoding for generation?</dt>
+<dd>Choshen and Abend&#x27;s transition-based structural decoder generates target-side syntactic trees inside a Transformer decoder, rather than with an RNN or a string linearization as earlier target-side tree decoding did.<br><span class="scope">Holds for: As of publication in 2022; the authors state they are not aware of a prior Transformer architecture supporting target-side tree or graph structure.</span></dd>
+<dd>The transition-based decoding framework of Choshen and Abend generates any graph structure for which a transition system exists, with Universal Dependencies via arc-standard used as the demonstrated machine-translation test case.<br><span class="scope">Holds for: Only projective UD parses were trained on and only UD was evaluated; fit to semantic formalisms is argued from the existence of their transition parsers, not measured.</span></dd>
+<dt>which is better for encoding the decoder&#x27;s own parse, a GCN or a parent-attention head?</dt>
+<dt>how do the two graph re-encoding variants compare in cost and accuracy?</dt>
+<dd>On the Choshen and Abend syntactic challenge sets, the medium Parent decoder improves over the vanilla Transformer in 18 of 20 target settings and 19 of 20 source settings. The medium GCN decoder improves in 20 of 20 target and 19 of 20 source settings.<br><span class="scope">Holds for: 4-layer, 256-dim models on En-De and De-En, WMT16 data; settings count BLEU and chrF+ on preposition-stranding, particle and reflexive phenomena in books and news domains, with training parses from UDPipe.</span></dd>
+<dd>On newstest 2013-15 the UD-based GCN and Parent decoders beat the vanilla Transformer at medium size in every setting tested, by 0.7-1.1 average BLEU and 1-2.4 chrF+, on En-De, De-En and En-Ru.<br><span class="scope">Holds for: 4-layer models; En-De and De-En from WMT16, En-Ru from clean News Commentary. A sign test over the medium test sets finds GCN and Parent significantly better than vanilla.</span></dd>
+<dd>Removing GCN gating hurts: the ungated variant scores below the unlabeled variant in 34 of 40 challenge settings. Dropping edge labels from the GCN has limited effect, and the unlabeled variant is as often as not better on the challenges.<br><span class="scope">Holds for: Medium GCN decoders on En-De and De-En, encoding the decoder&#x27;s self-generated parse rather than an external one. Labels remain available as transition token embeddings even in the unlabeled GCN.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Choshen and Abend&#x27;s transition-based structural decoder generates target-side syntactic trees inside a Transformer decoder, rather than with an RNN or a string linearization as earlier target-side tree decoding did.<br><span class="scope">Scope: As of publication in 2022; the authors state they are not aware of a prior Transformer architecture supporting target-side tree or graph structure.</span></li>
+<li>The transition-based decoding framework of Choshen and Abend generates any graph structure for which a transition system exists, with Universal Dependencies via arc-standard used as the demonstrated machine-translation test case.<br><span class="scope">Scope: Only projective UD parses were trained on and only UD was evaluated; fit to semantic formalisms is argued from the existence of their transition parsers, not measured.</span></li>
+<li>On the Choshen and Abend syntactic challenge sets, the medium Parent decoder improves over the vanilla Transformer in 18 of 20 target settings and 19 of 20 source settings. The medium GCN decoder improves in 20 of 20 target and 19 of 20 source settings. <span class="meta">(Table 1 and Section 6.1)</span><br><span class="scope">Scope: 4-layer, 256-dim models on En-De and De-En, WMT16 data; settings count BLEU and chrF+ on preposition-stranding, particle and reflexive phenomena in books and news domains, with training parses from UDPipe.</span></li>
+<li>Scaling to a 6-layer model does not close the syntactic-generalization gap. The large Parent decoder still beats the vanilla Transformer in 18 of 20 challenge settings, with gains similar to or larger than at medium size. <span class="meta">(Section 6.1, Tables 4 and 6)</span><br><span class="scope">Scope: En-De only, 6 decoder/encoder blocks, embedding size 512, 150K training steps; only Parent and Vanilla were trained at this size, GCN was not.</span></li>
+<li>On the En-De target-side particle challenge set from books, the large Parent decoder reaches 8.37 BLEU and 33.78 chrF+ against the vanilla Transformer&#x27;s 4.14 BLEU and 20.72 chrF+. <span class="meta">(Table 6)</span><br><span class="scope">Scope: One challenge set: En-De, target side, particle verbs, books domain, 6-layer models; the largest single gap reported among the challenge sets.</span></li>
+<li>On newstest 2013-15 the UD-based GCN and Parent decoders beat the vanilla Transformer at medium size in every setting tested, by 0.7-1.1 average BLEU and 1-2.4 chrF+, on En-De, De-En and En-Ru. <span class="meta">(Table 2 and Section 6.2)</span><br><span class="scope">Scope: 4-layer models; En-De and De-En from WMT16, En-Ru from clean News Commentary. A sign test over the medium test sets finds GCN and Parent significantly better than vanilla.</span></li>
+<li>At 6 layers on En-De the Parent decoder is only comparable to the vanilla Transformer on standard test sets, averaging 22.12 BLEU and 52.34 chrF+ against 22.39 BLEU and 52.47 chrF+. The same large Parent model still wins clearly on the syntactic challenge sets. <span class="meta">(Table 5)</span><br><span class="scope">Scope: En-De, newstest 2013-15, one large model per condition; Parent is ahead on 2013 and 2014 chrF+ and behind on 2015. No large GCN and no other language pair at this size.</span></li>
+<li>Training a vanilla Transformer on the linearized transition string lands consistently between the structure-unaware and the structure-aware decoders, showing that re-encoding the generated graph adds beyond merely emitting it as tokens. <span class="meta">(Section 6.3, Tables 2 and 9)</span><br><span class="scope">Scope: En-De and De-En medium models on newstest 2013-15 and the challenge sets; differences between ablations are described as small but consistent.</span></li>
+<li>Removing GCN gating hurts: the ungated variant scores below the unlabeled variant in 34 of 40 challenge settings. Dropping edge labels from the GCN has limited effect, and the unlabeled variant is as often as not better on the challenges. <span class="meta">(Section 6.3, Tables 7 and 8)</span><br><span class="scope">Scope: Medium GCN decoders on En-De and De-En, encoding the decoder&#x27;s self-generated parse rather than an external one. Labels remain available as transition token embeddings even in the unlabeled GCN.</span></li>
+<li>Bidirectional attention in the decoder alone (BiTran), with no syntax and no new parameters, gives a small but consistent gain over the vanilla Transformer of up to 0.28 BLEU and 0.42 chrF+. BiTran is better on 10 of 12 test scores per language pair and on 26 of 40 challenge settings. <span class="meta">(Section 6.3, Tables 2, 7, 8 and 9)</span><br><span class="scope">Scope: Medium models on En-De, De-En and En-Ru; adds no parameters or hyperparameters but blocks unidirectionality-based decoding speed-ups implemented in NEMATUS.</span></li>
+<li>Training En-Ru on the full noisy crawled WMT20 data shrinks the syntactic decoders&#x27; chrF+ advantage to about 1 point, against 1.5-2.5 points on cleaner data. BLEU becomes somewhat worse than with clean training data. <span class="meta">(Section 6.4 and Table 10)</span><br><span class="scope">Scope: En-Ru only, medium models, full WMT20 data after langID and alignment filtering versus clean News Commentary; described as preliminary, with more data rather than noise named as an alternative explanation.</span></li>
+<li>On 99 hand-built German subject-verb-object sentences whose arguments can swap, the Parent decoder is more robust to the rare OVS order than the vanilla Transformer. A native-speaker annotator scored 13 vs 10 correct with both cases marked, 8 vs 5 with only the subject marked and 6 vs 6 with only the object marked. <span class="meta">(Table 3 and Section 6.5)</span><br><span class="scope">Scope: Medium En-De models, 99 templated sentences over small noun and verb lists, one annotator; only word-order correctness was scored, with other errors such as verb choice disregarded.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>Improving syntactic challenge sets did not translate into higher standard benchmark scores at every model size: at 6 layers on En-De the Parent decoder is only comparable to the vanilla Transformer on newstest 2013-15, while still winning on the challenge sets.</li>
+<li>The finding that dropping GCN edge labels barely changes results is not evidence that syntactic labels are useless: the labels still enter the model as transition token embeddings, and in this GCN they only affect a bias term.</li>
+<li>The structural decoder does not consume a parse produced by an external parser at inference time; it generates the dependency tree itself as transitions and conditions on the tree it has built. External UDPipe parses are used to create training targets.</li>
+<li>The syntactic decoders are not shown to be a universal win: on full noisy crawled En-Ru data the chrF+ advantage narrows to about 1 point and BLEU is somewhat worse.</li>
+<li>Bidirectional decoder attention is not free in practice: although it adds no parameters or hyperparameters, it rules out decoding speed-ups that rely on unidirectional masking.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Bidirectional Transformer (BiTran)</em></dt><dd>A Transformer decoder whose attention mask lets a token&#x27;s representation attend to all tokens generated so far, including ones after its own position, instead of only to preceding positions.</dd>
+<dt><em>Parent decoder</em></dt><dd>A syntax-aware Transformer decoder that dedicates one of its 8 attention heads to attend only to the self-generated dependency parent(s) of the current token, plus the token itself, adding no parameters.</dd>
+<dt><em>GCN decoder</em></dt><dd>A syntax-aware Transformer decoder in which 2 labeled, gated graph convolutional layers sit above the embedding layer and encode the dependency graph the decoder has generated so far.</dd>
+<dt><em>Structural transitions</em></dt><dd>Vocabulary items added to the target side of an NMT model that build a dependency tree, adapting arc-standard parsing by replacing Shift with a subword-generating action and keeping Left-Arc and Right-Arc with 45 UD labels, for 90 new tokens.</dd>
+<dt><em>Syntactic challenge sets</em></dt><dd>Subsets of books and newstest corpora, filtered by a parser, in which two or more non-consecutive source or target words correspond to a single word in the other language, covering preposition stranding, particle verbs and reflexives.</dd>
+<dt><em>Source versus target challenge direction</em></dt><dd>A challenge set is &#x27;source&#x27; when the lexical long-distance dependency appears in the input sentence and &#x27;target&#x27; when it appears in the reference translation.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/conll/ChoshenA22,
-author       = {Leshem Choshen and
+<pre>@inproceedings{DBLP:conf/conll/ChoshenA22,author       = {Leshem Choshen and
                   Omri Abend},
   editor       = {Antske Fokkens and
                   Vivek Srikumar},

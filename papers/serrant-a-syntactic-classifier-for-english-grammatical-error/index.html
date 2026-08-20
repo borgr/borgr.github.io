@@ -11,6 +11,7 @@
   <meta name="citation_author" content="Dmitry Nikolaev">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2021">
+  <meta name="citation_doi" content="10.48550/arXiv.2104.02310">
   <meta name="citation_arxiv_id" content="2104.02310">
   <meta name="citation_abstract" content="SERRANT is a system and code for automatic classification of English grammatical errors that combines SErCl and ERRANT. SERRANT uses ERRANT&#x27;s annotations when they are informative and those provided by SErCl otherwise.">
   <script type="application/ld+json">
@@ -43,16 +44,285 @@
   "datePublished": "2021",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "CoRR"
+    "name": "arXiv"
   },
+  "identifier": "https://doi.org/10.48550/arXiv.2104.02310",
   "abstract": "SERRANT is a system and code for automatic classification of English grammatical errors that combines SErCl and ERRANT. SERRANT uses ERRANT's annotations when they are informative and those provided by SErCl otherwise.",
+  "description": "SERRANT is an automatic classifier of English grammatical error types that returns ERRANT's human-readable categories by default and substitutes SErCl's syntactic \"source-tag → target-tag\" types wherever ERRANT's label is uninformative, such as Other, Morph, or a POS-changing edit.",
+  "codeRepository": "https://github.com/matanel-oren/serrant",
   "sameAs": [
     "https://ar5iv.labs.arxiv.org/html/2104.02310",
     "https://arxiv.org/abs/2104.02310",
     "https://arxiv.org/pdf/2104.02310",
+    "https://github.com/matanel-oren/serrant",
     "https://huggingface.co/papers/2104.02310",
     "https://www.alphaxiv.org/abs/2104.02310",
     "https://www.semanticscholar.org/paper/233033934"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "SERRANT is a released system and code library that unifies the two existing automatic English grammatical-error-type classifiers, ERRANT and SErCl, into a single taxonomy and a single output format.",
+      "description": "Holds for: English only, as of the 2021 release; the library exposes ERRANT-only, SErCl-only and combined annotators, and the SErCl component compares POS tags rather than full morphological features."
+    },
+    {
+      "@type": "Thing",
+      "name": "SERRANT returns ERRANT's edit type in the default case, keeping ERRANT's R, M and U prefixes for replacement, missing and unnecessary edits. ERRANT's sub-classifications are preserved so users can group similar classes or ignore them.",
+      "description": "Holds for: Edits whose ERRANT type is judged informative; the 8 enumerated special cases of Section 2 override this default."
+    },
+    {
+      "@type": "Thing",
+      "name": "SERRANT replaces ERRANT's Other category, which signals failure to find an informative type, with SErCl's source-to-target syntactic type. Edits involving Intj, Num, Sym, X and Punct POS tags stay Other.",
+      "description": "Holds for: Proper nouns are also treated as unreliable because the parser uses Propn as a fallback for misspelled words, so only the Propn → Propn type is kept."
+    },
+    {
+      "@type": "Thing",
+      "name": "SERRANT replaces ERRANT's Morph type with SErCl types and re-exposes the lost information through a \"WC\" suffix. The suffix marks edits where the POS is unchanged but the lemma differs, so consume → eat becomes Verb:WC while eat → ate does not.",
+      "description": "Holds for: Unreliable POS tags listed for the Other case are excluded, but Adj → Propn and Propn → Adj edits such as China → Chinese are kept."
+    },
+    {
+      "@type": "Thing",
+      "name": "For ERRANT's Orth type, SERRANT substitutes SErCl's X → Propn annotation when a non-sentence-initial word is corrected into a proper noun, as in \"He founded apple\" → \"He founded Apple\". Such capitalisation can change morphosyntax or meaning.",
+      "description": "Holds for: Non-sentence-initial words changed into Propn only; other orthographic edits, such as a missing whitespace, keep ERRANT's Orth type."
+    },
+    {
+      "@type": "Thing",
+      "name": "SERRANT gives POS-changing edits an explicit source-to-target type instead of ERRANT's misleading label. A noun corrected to a verb becomes Noun → Verb rather than Verb:Form, and pronoun/determiner swaps such as these → their become Pron → Det or Det → Pron.",
+      "description": "Holds for: English edits classified with a UD parser; correctness of the source and target tags depends on the parser's POS assignment."
+    },
+    {
+      "@type": "Thing",
+      "name": "SERRANT breaks up ERRANT's Verb:Tense category, which lumps tense, aspect and mood together. It keeps Verb:Tense only for be, have or \"will\" forms, adds a \"Modal\" suffix when both wordforms are modal verbs, and otherwise falls back to SErCl's type.",
+      "description": "Holds for: The modal list has 9 members: can, could, may, might, shall, should, will, would and must; other tense, aspect and mood edits fall back to SErCl annotation."
+    },
+    {
+      "@type": "Thing",
+      "name": "SERRANT separates auxiliaries from main verbs, marking edits as Aux where SErCl would, whereas ERRANT's Verb type covers both Aux and Verb edits.",
+      "description": "Holds for: English edits; the distinction relies on the UD/spaCy analysis of the span."
+    },
+    {
+      "@type": "Thing",
+      "name": "SERRANT adds an \"MW\" suffix to mark edits where either the source or the correction spans multiple words. The suffix is added only when the edit does not already carry a named type such as Verb:Tense.",
+      "description": "Holds for: Multi-word edits after edit extraction; edits already assigned a named type are left without the suffix, and the Section 3 examples contain no multiword errors."
+    },
+    {
+      "@type": "Thing",
+      "name": "SERRANT addresses the fact that grammatical-error taxonomies always differ across datasets of different languages and mostly differ even across datasets of the same language. Automatic edit-type classifiers are therefore the instrument of choice whenever more than one dataset is used.",
+      "description": "Holds for: The unification SERRANT provides is between the 2 English classifiers ERRANT and SErCl; cross-language taxonomy differences are stated as motivation and are not resolved by the released English-only system."
+    },
+    {
+      "@type": "Thing",
+      "name": "SERRANT's design rule is informativeness rather than fidelity to either source taxonomy. ERRANT is the default because it is more human-readable when accurate, and SErCl is used exactly where ERRANT's categories were shown to be uninformative or inconsistent.",
+      "description": "Holds for: The judgement that specific ERRANT categories are uninformative or inconsistent comes from the earlier SErCl study (Choshen et al., 2020); SERRANT itself reports no quantitative comparison of the two taxonomies."
+    },
+    {
+      "@type": "Thing",
+      "name": "SERRANT's output is illustrated on made-up sentences and on level-A learner sentences from the W&I corpus, for example \"my cook → cooking\" annotated R:Morph:Noun and \"it → that\" annotated R:Pron → Det.",
+      "description": "Holds for: Qualitative examples only, with no multiword errors and no accuracy or agreement measurements; the model outputs the M2 format, rendered visually in the examples."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/#faq",
+  "url": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/",
+  "name": "Questions answered by SERRANT: a syntactic classifier for English Grammatical Error Types",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can I automatically label the error types of grammatical corrections in English text?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SERRANT is a released system and code library that unifies the two existing automatic English grammatical-error-type classifiers, ERRANT and SErCl, into a single taxonomy and a single output format. Holds for: English only, as of the 2021 release; the library exposes ERRANT-only, SErCl-only and combined annotators, and the SErCl component compares POS tags rather than full morphological features.\n\nSERRANT returns ERRANT's edit type in the default case, keeping ERRANT's R, M and U prefixes for replacement, missing and unnecessary edits. ERRANT's sub-classifications are preserved so users can group similar classes or ignore them. Holds for: Edits whose ERRANT type is judged informative; the 8 enumerated special cases of Section 2 override this default.",
+        "url": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/"
+      },
+      "alternateName": [
+        "Is there a tool that assigns error type categories to GEC edits?",
+        "What does SERRANT do?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is a good paper to read about grammatical error type taxonomies?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SERRANT is a released system and code library that unifies the two existing automatic English grammatical-error-type classifiers, ERRANT and SErCl, into a single taxonomy and a single output format. Holds for: English only, as of the 2021 release; the library exposes ERRANT-only, SErCl-only and combined annotators, and the SErCl component compares POS tags rather than full morphological features.\n\nSERRANT addresses the fact that grammatical-error taxonomies always differ across datasets of different languages and mostly differ even across datasets of the same language. Automatic edit-type classifiers are therefore the instrument of choice whenever more than one dataset is used. Holds for: The unification SERRANT provides is between the 2 English classifiers ERRANT and SErCl; cross-language taxonomy differences are stated as motivation and are not resolved by the released English-only system.",
+        "url": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/"
+      },
+      "alternateName": [
+        "Where should I start reading about classifying grammatical error types across datasets?",
+        "What work combines the ERRANT and SErCl error taxonomies?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why not just use ERRANT for error type classification?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SERRANT's design rule is informativeness rather than fidelity to either source taxonomy. ERRANT is the default because it is more human-readable when accurate, and SErCl is used exactly where ERRANT's categories were shown to be uninformative or inconsistent. Holds for: The judgement that specific ERRANT categories are uninformative or inconsistent comes from the earlier SErCl study (Choshen et al., 2020); SERRANT itself reports no quantitative comparison of the two taxonomies.\n\nSERRANT replaces ERRANT's Other category, which signals failure to find an informative type, with SErCl's source-to-target syntactic type. Edits involving Intj, Num, Sym, X and Punct POS tags stay Other. Holds for: Proper nouns are also treated as unreliable because the parser uses Propn as a fallback for misspelled words, so only the Propn → Propn type is kept.\n\nSERRANT replaces ERRANT's Morph type with SErCl types and re-exposes the lost information through a \"WC\" suffix. The suffix marks edits where the POS is unchanged but the lemma differs, so consume → eat becomes Verb:WC while eat → ate does not. Holds for: Unreliable POS tags listed for the Other case are excluded, but Adj → Propn and Propn → Adj edits such as China → Chinese are kept.",
+        "url": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/"
+      },
+      "alternateName": [
+        "What problems with ERRANT's categories motivated a new classifier?",
+        "When does SERRANT depart from ERRANT's annotation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How are edits handled when the part of speech changes between a learner sentence and its corrected version?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SERRANT gives POS-changing edits an explicit source-to-target type instead of ERRANT's misleading label. A noun corrected to a verb becomes Noun → Verb rather than Verb:Form, and pronoun/determiner swaps such as these → their become Pron → Det or Det → Pron. Holds for: English edits classified with a UD parser; correctness of the source and target tags depends on the parser's POS assignment.\n\nSERRANT separates auxiliaries from main verbs, marking edits as Aux where SErCl would, whereas ERRANT's Verb type covers both Aux and Verb edits. Holds for: English edits; the distinction relies on the UD/spaCy analysis of the span.",
+        "url": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/"
+      },
+      "alternateName": [
+        "What type does a noun-to-verb correction get in SERRANT?",
+        "Which classifier gives an explicit source-to-target tag for POS-changing grammatical errors?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How are tense, aspect and mood errors distinguished in English error annotation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SERRANT breaks up ERRANT's Verb:Tense category, which lumps tense, aspect and mood together. It keeps Verb:Tense only for be, have or \"will\" forms, adds a \"Modal\" suffix when both wordforms are modal verbs, and otherwise falls back to SErCl's type. Holds for: The modal list has 9 members: can, could, may, might, shall, should, will, would and must; other tense, aspect and mood edits fall back to SErCl annotation.",
+        "url": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/"
+      },
+      "alternateName": [
+        "Does any error type classifier separate modal verb errors from tense errors?",
+        "What replaces ERRANT's Verb:Tense category in SERRANT?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How is ERRANT's Morph error category refined?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SERRANT replaces ERRANT's Morph type with SErCl types and re-exposes the lost information through a \"WC\" suffix. The suffix marks edits where the POS is unchanged but the lemma differs, so consume → eat becomes Verb:WC while eat → ate does not. Holds for: Unreliable POS tags listed for the Other case are excluded, but Adj → Propn and Propn → Adj edits such as China → Chinese are kept.",
+        "url": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/"
+      },
+      "alternateName": [
+        "What does a WC suffix mean in an English grammatical error type label?",
+        "How is word-choice distinguished from morphosyntactic error in edit annotation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How are capitalisation errors involving proper nouns annotated?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For ERRANT's Orth type, SERRANT substitutes SErCl's X → Propn annotation when a non-sentence-initial word is corrected into a proper noun, as in \"He founded apple\" → \"He founded Apple\". Such capitalisation can change morphosyntax or meaning. Holds for: Non-sentence-initial words changed into Propn only; other orthographic edits, such as a missing whitespace, keep ERRANT's Orth type.",
+        "url": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/"
+      },
+      "alternateName": [
+        "Does SERRANT treat \"apple → Apple\" as an orthography error?",
+        "What happens to ERRANT's Orth type in SERRANT?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How are multi-word edits marked in SERRANT's error types?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SERRANT adds an \"MW\" suffix to mark edits where either the source or the correction spans multiple words. The suffix is added only when the edit does not already carry a named type such as Verb:Tense. Holds for: Multi-word edits after edit extraction; edits already assigned a named type are left without the suffix, and the Section 3 examples contain no multiword errors.",
+        "url": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/"
+      },
+      "alternateName": [
+        "What does the MW suffix mean in an English grammatical error type label?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does the SERRANT paper report accuracy numbers for its error type classifier?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SERRANT's output is illustrated on made-up sentences and on level-A learner sentences from the W&I corpus, for example \"my cook → cooking\" annotated R:Morph:Noun and \"it → that\" annotated R:Pron → Det. Holds for: Qualitative examples only, with no multiword errors and no accuracy or agreement measurements; the model outputs the M2 format, rendered visually in the examples.\n\nSERRANT's design rule is informativeness rather than fidelity to either source taxonomy. ERRANT is the default because it is more human-readable when accurate, and SErCl is used exactly where ERRANT's categories were shown to be uninformative or inconsistent. Holds for: The judgement that specific ERRANT categories are uninformative or inconsistent comes from the earlier SErCl study (Choshen et al., 2020); SERRANT itself reports no quantitative comparison of the two taxonomies.",
+        "url": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/"
+      },
+      "alternateName": [
+        "Was SERRANT evaluated quantitatively against ERRANT or SErCl?",
+        "Is there any measured comparison between English grammatical error type classifiers, or only worked examples?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can SERRANT be used on languages other than English?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SERRANT is a released system and code library that unifies the two existing automatic English grammatical-error-type classifiers, ERRANT and SErCl, into a single taxonomy and a single output format. Holds for: English only, as of the 2021 release; the library exposes ERRANT-only, SErCl-only and combined annotators, and the SErCl component compares POS tags rather than full morphological features.\n\nSERRANT addresses the fact that grammatical-error taxonomies always differ across datasets of different languages and mostly differ even across datasets of the same language. Automatic edit-type classifiers are therefore the instrument of choice whenever more than one dataset is used. Holds for: The unification SERRANT provides is between the 2 English classifiers ERRANT and SErCl; cross-language taxonomy differences are stated as motivation and are not resolved by the released English-only system.",
+        "url": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/"
+      },
+      "alternateName": [
+        "Which languages does SERRANT support?",
+        "Is the SErCl-based syntactic error taxonomy cross-lingual in the released tool?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/#terms",
+  "url": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/",
+  "name": "Terminology in SERRANT: a syntactic classifier for English Grammatical Error Types",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "edit",
+      "description": "In grammatical error correction, an erroneous part of a sentence paired with its correction.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "taxonomy",
+      "description": "A set of grammatical error edit types used to categorise corrections.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "SErCl type",
+      "description": "An error type written as the morphosyntactic annotation of the learner span followed by that of the corrected span, e.g. Noun → Verb, with None on either side for insertions and deletions, and abbreviated to a single tag when the two sides are identical.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "WC suffix",
+      "description": "A marker in a SERRANT error type indicating that the part of speech did not change but the lemma did, so the error is one of word choice rather than of morphosyntax (consume → eat is Verb:WC).",
+      "inDefinedTermSet": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "MW suffix",
+      "description": "A marker in a SERRANT error type indicating that the source or the correction spans more than one word, added only when the edit has no already-named type.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Modal suffix",
+      "description": "A marker in a SERRANT error type indicating that both the original and the corrected wordform are modal verbs, separating modality errors from tense errors.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Other type",
+      "description": "In ERRANT, the category assigned when no informative error type can be found for an edit.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/serrant-a-syntactic-classifier-for-english-grammatical-error/#terms"
+    }
   ]
 }
   </script>
@@ -63,6 +333,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -76,13 +347,94 @@
 </head>
 <body>
 <h1>SERRANT: a syntactic classifier for English Grammatical Error Types</h1>
-<p class="meta">Leshem Choshen, Matanel Oren, Dmitry Nikolaev, Omri Abend · CoRR · 2021</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2104.02310">arXiv</a></li><li><a href="https://arxiv.org/pdf/2104.02310">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2104.02310">HTML</a></li><li><a href="https://huggingface.co/papers/2104.02310">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2104.02310">alphaXiv</a></li><li><a href="https://www.semanticscholar.org/paper/233033934">Semantic Scholar</a></li></ul>
+<p class="sub">an automatic English grammatical-error-type classifier that falls back from ERRANT&#x27;s readable labels to SErCl&#x27;s &quot;what changed into what&quot; syntactic labels</p>
+<p class="meta">Leshem Choshen, Matanel Oren, Dmitry Nikolaev, Omri Abend · arXiv · 2021</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2104.02310">arXiv</a></li><li><a href="https://arxiv.org/pdf/2104.02310">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2104.02310">HTML</a></li><li><a href="https://huggingface.co/papers/2104.02310">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2104.02310">alphaXiv</a></li><li><a href="https://www.semanticscholar.org/paper/233033934">Semantic Scholar</a></li><li><a href="https://github.com/matanel-oren/serrant">Code</a></li></ul>
+<h2>In one sentence</h2>
+<p>SERRANT is an automatic classifier of English grammatical error types that returns ERRANT&#x27;s human-readable categories by default and substitutes SErCl&#x27;s syntactic &quot;source-tag → target-tag&quot; types wherever ERRANT&#x27;s label is uninformative, such as Other, Morph, or a POS-changing edit.</p>
 <h2>Abstract</h2>
 <p>SERRANT is a system and code for automatic classification of English grammatical errors that combines SErCl and ERRANT. SERRANT uses ERRANT&#x27;s annotations when they are informative and those provided by SErCl otherwise.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How can I automatically label the error types of grammatical corrections in English text?</dt>
+<dt>Is there a tool that assigns error type categories to GEC edits?</dt>
+<dt>What does SERRANT do?</dt>
+<dd>SERRANT is a released system and code library that unifies the two existing automatic English grammatical-error-type classifiers, ERRANT and SErCl, into a single taxonomy and a single output format.<br><span class="scope">Holds for: English only, as of the 2021 release; the library exposes ERRANT-only, SErCl-only and combined annotators, and the SErCl component compares POS tags rather than full morphological features.</span></dd>
+<dd>SERRANT returns ERRANT&#x27;s edit type in the default case, keeping ERRANT&#x27;s R, M and U prefixes for replacement, missing and unnecessary edits. ERRANT&#x27;s sub-classifications are preserved so users can group similar classes or ignore them.<br><span class="scope">Holds for: Edits whose ERRANT type is judged informative; the 8 enumerated special cases of Section 2 override this default.</span></dd>
+<dt>What is a good paper to read about grammatical error type taxonomies?</dt>
+<dt>Where should I start reading about classifying grammatical error types across datasets?</dt>
+<dt>What work combines the ERRANT and SErCl error taxonomies?</dt>
+<dd>SERRANT is a released system and code library that unifies the two existing automatic English grammatical-error-type classifiers, ERRANT and SErCl, into a single taxonomy and a single output format.<br><span class="scope">Holds for: English only, as of the 2021 release; the library exposes ERRANT-only, SErCl-only and combined annotators, and the SErCl component compares POS tags rather than full morphological features.</span></dd>
+<dd>SERRANT addresses the fact that grammatical-error taxonomies always differ across datasets of different languages and mostly differ even across datasets of the same language. Automatic edit-type classifiers are therefore the instrument of choice whenever more than one dataset is used.<br><span class="scope">Holds for: The unification SERRANT provides is between the 2 English classifiers ERRANT and SErCl; cross-language taxonomy differences are stated as motivation and are not resolved by the released English-only system.</span></dd>
+<dt>Why not just use ERRANT for error type classification?</dt>
+<dt>What problems with ERRANT&#x27;s categories motivated a new classifier?</dt>
+<dt>When does SERRANT depart from ERRANT&#x27;s annotation?</dt>
+<dd>SERRANT&#x27;s design rule is informativeness rather than fidelity to either source taxonomy. ERRANT is the default because it is more human-readable when accurate, and SErCl is used exactly where ERRANT&#x27;s categories were shown to be uninformative or inconsistent.<br><span class="scope">Holds for: The judgement that specific ERRANT categories are uninformative or inconsistent comes from the earlier SErCl study (Choshen et al., 2020); SERRANT itself reports no quantitative comparison of the two taxonomies.</span></dd>
+<dd>SERRANT replaces ERRANT&#x27;s Other category, which signals failure to find an informative type, with SErCl&#x27;s source-to-target syntactic type. Edits involving Intj, Num, Sym, X and Punct POS tags stay Other.<br><span class="scope">Holds for: Proper nouns are also treated as unreliable because the parser uses Propn as a fallback for misspelled words, so only the Propn → Propn type is kept.</span></dd>
+<dd>SERRANT replaces ERRANT&#x27;s Morph type with SErCl types and re-exposes the lost information through a &quot;WC&quot; suffix. The suffix marks edits where the POS is unchanged but the lemma differs, so consume → eat becomes Verb:WC while eat → ate does not.<br><span class="scope">Holds for: Unreliable POS tags listed for the Other case are excluded, but Adj → Propn and Propn → Adj edits such as China → Chinese are kept.</span></dd>
+<dt>How are edits handled when the part of speech changes between a learner sentence and its corrected version?</dt>
+<dt>What type does a noun-to-verb correction get in SERRANT?</dt>
+<dt>Which classifier gives an explicit source-to-target tag for POS-changing grammatical errors?</dt>
+<dd>SERRANT gives POS-changing edits an explicit source-to-target type instead of ERRANT&#x27;s misleading label. A noun corrected to a verb becomes Noun → Verb rather than Verb:Form, and pronoun/determiner swaps such as these → their become Pron → Det or Det → Pron.<br><span class="scope">Holds for: English edits classified with a UD parser; correctness of the source and target tags depends on the parser&#x27;s POS assignment.</span></dd>
+<dd>SERRANT separates auxiliaries from main verbs, marking edits as Aux where SErCl would, whereas ERRANT&#x27;s Verb type covers both Aux and Verb edits.<br><span class="scope">Holds for: English edits; the distinction relies on the UD/spaCy analysis of the span.</span></dd>
+<dt>How are tense, aspect and mood errors distinguished in English error annotation?</dt>
+<dt>Does any error type classifier separate modal verb errors from tense errors?</dt>
+<dt>What replaces ERRANT&#x27;s Verb:Tense category in SERRANT?</dt>
+<dd>SERRANT breaks up ERRANT&#x27;s Verb:Tense category, which lumps tense, aspect and mood together. It keeps Verb:Tense only for be, have or &quot;will&quot; forms, adds a &quot;Modal&quot; suffix when both wordforms are modal verbs, and otherwise falls back to SErCl&#x27;s type.<br><span class="scope">Holds for: The modal list has 9 members: can, could, may, might, shall, should, will, would and must; other tense, aspect and mood edits fall back to SErCl annotation.</span></dd>
+<dt>How is ERRANT&#x27;s Morph error category refined?</dt>
+<dt>What does a WC suffix mean in an English grammatical error type label?</dt>
+<dt>How is word-choice distinguished from morphosyntactic error in edit annotation?</dt>
+<dd>SERRANT replaces ERRANT&#x27;s Morph type with SErCl types and re-exposes the lost information through a &quot;WC&quot; suffix. The suffix marks edits where the POS is unchanged but the lemma differs, so consume → eat becomes Verb:WC while eat → ate does not.<br><span class="scope">Holds for: Unreliable POS tags listed for the Other case are excluded, but Adj → Propn and Propn → Adj edits such as China → Chinese are kept.</span></dd>
+<dt>How are capitalisation errors involving proper nouns annotated?</dt>
+<dt>Does SERRANT treat &quot;apple → Apple&quot; as an orthography error?</dt>
+<dt>What happens to ERRANT&#x27;s Orth type in SERRANT?</dt>
+<dd>For ERRANT&#x27;s Orth type, SERRANT substitutes SErCl&#x27;s X → Propn annotation when a non-sentence-initial word is corrected into a proper noun, as in &quot;He founded apple&quot; → &quot;He founded Apple&quot;. Such capitalisation can change morphosyntax or meaning.<br><span class="scope">Holds for: Non-sentence-initial words changed into Propn only; other orthographic edits, such as a missing whitespace, keep ERRANT&#x27;s Orth type.</span></dd>
+<dt>How are multi-word edits marked in SERRANT&#x27;s error types?</dt>
+<dt>What does the MW suffix mean in an English grammatical error type label?</dt>
+<dd>SERRANT adds an &quot;MW&quot; suffix to mark edits where either the source or the correction spans multiple words. The suffix is added only when the edit does not already carry a named type such as Verb:Tense.<br><span class="scope">Holds for: Multi-word edits after edit extraction; edits already assigned a named type are left without the suffix, and the Section 3 examples contain no multiword errors.</span></dd>
+<dt>Does the SERRANT paper report accuracy numbers for its error type classifier?</dt>
+<dt>Was SERRANT evaluated quantitatively against ERRANT or SErCl?</dt>
+<dt>Is there any measured comparison between English grammatical error type classifiers, or only worked examples?</dt>
+<dd>SERRANT&#x27;s output is illustrated on made-up sentences and on level-A learner sentences from the W&amp;I corpus, for example &quot;my cook → cooking&quot; annotated R:Morph:Noun and &quot;it → that&quot; annotated R:Pron → Det.<br><span class="scope">Holds for: Qualitative examples only, with no multiword errors and no accuracy or agreement measurements; the model outputs the M2 format, rendered visually in the examples.</span></dd>
+<dd>SERRANT&#x27;s design rule is informativeness rather than fidelity to either source taxonomy. ERRANT is the default because it is more human-readable when accurate, and SErCl is used exactly where ERRANT&#x27;s categories were shown to be uninformative or inconsistent.<br><span class="scope">Holds for: The judgement that specific ERRANT categories are uninformative or inconsistent comes from the earlier SErCl study (Choshen et al., 2020); SERRANT itself reports no quantitative comparison of the two taxonomies.</span></dd>
+<dt>Can SERRANT be used on languages other than English?</dt>
+<dt>Which languages does SERRANT support?</dt>
+<dt>Is the SErCl-based syntactic error taxonomy cross-lingual in the released tool?</dt>
+<dd>SERRANT is a released system and code library that unifies the two existing automatic English grammatical-error-type classifiers, ERRANT and SErCl, into a single taxonomy and a single output format.<br><span class="scope">Holds for: English only, as of the 2021 release; the library exposes ERRANT-only, SErCl-only and combined annotators, and the SErCl component compares POS tags rather than full morphological features.</span></dd>
+<dd>SERRANT addresses the fact that grammatical-error taxonomies always differ across datasets of different languages and mostly differ even across datasets of the same language. Automatic edit-type classifiers are therefore the instrument of choice whenever more than one dataset is used.<br><span class="scope">Holds for: The unification SERRANT provides is between the 2 English classifiers ERRANT and SErCl; cross-language taxonomy differences are stated as motivation and are not resolved by the released English-only system.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>SERRANT is a released system and code library that unifies the two existing automatic English grammatical-error-type classifiers, ERRANT and SErCl, into a single taxonomy and a single output format.<br><span class="scope">Scope: English only, as of the 2021 release; the library exposes ERRANT-only, SErCl-only and combined annotators, and the SErCl component compares POS tags rather than full morphological features.</span></li>
+<li>SERRANT returns ERRANT&#x27;s edit type in the default case, keeping ERRANT&#x27;s R, M and U prefixes for replacement, missing and unnecessary edits. ERRANT&#x27;s sub-classifications are preserved so users can group similar classes or ignore them. <span class="meta">(Section 2)</span><br><span class="scope">Scope: Edits whose ERRANT type is judged informative; the 8 enumerated special cases of Section 2 override this default.</span></li>
+<li>SERRANT replaces ERRANT&#x27;s Other category, which signals failure to find an informative type, with SErCl&#x27;s source-to-target syntactic type. Edits involving Intj, Num, Sym, X and Punct POS tags stay Other. <span class="meta">(Section 2, special case 1)</span><br><span class="scope">Scope: Proper nouns are also treated as unreliable because the parser uses Propn as a fallback for misspelled words, so only the Propn → Propn type is kept.</span></li>
+<li>SERRANT replaces ERRANT&#x27;s Morph type with SErCl types and re-exposes the lost information through a &quot;WC&quot; suffix. The suffix marks edits where the POS is unchanged but the lemma differs, so consume → eat becomes Verb:WC while eat → ate does not. <span class="meta">(Section 2, special case 2)</span><br><span class="scope">Scope: Unreliable POS tags listed for the Other case are excluded, but Adj → Propn and Propn → Adj edits such as China → Chinese are kept.</span></li>
+<li>For ERRANT&#x27;s Orth type, SERRANT substitutes SErCl&#x27;s X → Propn annotation when a non-sentence-initial word is corrected into a proper noun, as in &quot;He founded apple&quot; → &quot;He founded Apple&quot;. Such capitalisation can change morphosyntax or meaning. <span class="meta">(Section 2, special case 4)</span><br><span class="scope">Scope: Non-sentence-initial words changed into Propn only; other orthographic edits, such as a missing whitespace, keep ERRANT&#x27;s Orth type.</span></li>
+<li>SERRANT gives POS-changing edits an explicit source-to-target type instead of ERRANT&#x27;s misleading label. A noun corrected to a verb becomes Noun → Verb rather than Verb:Form, and pronoun/determiner swaps such as these → their become Pron → Det or Det → Pron. <span class="meta">(Section 2, special cases 6 and 7)</span><br><span class="scope">Scope: English edits classified with a UD parser; correctness of the source and target tags depends on the parser&#x27;s POS assignment.</span></li>
+<li>SERRANT breaks up ERRANT&#x27;s Verb:Tense category, which lumps tense, aspect and mood together. It keeps Verb:Tense only for be, have or &quot;will&quot; forms, adds a &quot;Modal&quot; suffix when both wordforms are modal verbs, and otherwise falls back to SErCl&#x27;s type. <span class="meta">(Section 2, special case 8)</span><br><span class="scope">Scope: The modal list has 9 members: can, could, may, might, shall, should, will, would and must; other tense, aspect and mood edits fall back to SErCl annotation.</span></li>
+<li>SERRANT separates auxiliaries from main verbs, marking edits as Aux where SErCl would, whereas ERRANT&#x27;s Verb type covers both Aux and Verb edits. <span class="meta">(Section 2, special case 5)</span><br><span class="scope">Scope: English edits; the distinction relies on the UD/spaCy analysis of the span.</span></li>
+<li>SERRANT adds an &quot;MW&quot; suffix to mark edits where either the source or the correction spans multiple words. The suffix is added only when the edit does not already carry a named type such as Verb:Tense. <span class="meta">(Section 2, special case 3)</span><br><span class="scope">Scope: Multi-word edits after edit extraction; edits already assigned a named type are left without the suffix, and the Section 3 examples contain no multiword errors.</span></li>
+<li>SERRANT addresses the fact that grammatical-error taxonomies always differ across datasets of different languages and mostly differ even across datasets of the same language. Automatic edit-type classifiers are therefore the instrument of choice whenever more than one dataset is used.<br><span class="scope">Scope: The unification SERRANT provides is between the 2 English classifiers ERRANT and SErCl; cross-language taxonomy differences are stated as motivation and are not resolved by the released English-only system.</span></li>
+<li>SERRANT&#x27;s design rule is informativeness rather than fidelity to either source taxonomy. ERRANT is the default because it is more human-readable when accurate, and SErCl is used exactly where ERRANT&#x27;s categories were shown to be uninformative or inconsistent.<br><span class="scope">Scope: The judgement that specific ERRANT categories are uninformative or inconsistent comes from the earlier SErCl study (Choshen et al., 2020); SERRANT itself reports no quantitative comparison of the two taxonomies.</span></li>
+<li>SERRANT&#x27;s output is illustrated on made-up sentences and on level-A learner sentences from the W&amp;I corpus, for example &quot;my cook → cooking&quot; annotated R:Morph:Noun and &quot;it → that&quot; annotated R:Pron → Det. <span class="meta">(Section 3)</span><br><span class="scope">Scope: Qualitative examples only, with no multiword errors and no accuracy or agreement measurements; the model outputs the M2 format, rendered visually in the examples.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>SERRANT is not a grammatical error correction system; it classifies the type of an already-given edit, or of an edit extracted automatically from a sentence and its correction.</li>
+<li>SERRANT is not cross-lingual despite building on SErCl&#x27;s cross-lingual syntactic taxonomy: the released library accepts English only.</li>
+<li>SERRANT does not discard ERRANT: ERRANT&#x27;s types are the default output and its sub-classifications are preserved, with SErCl used only for the enumerated uninformative cases.</li>
+<li>The SERRANT paper reports no accuracy, agreement or F-score comparison against ERRANT or SErCl; it describes the combination rules and gives qualitative examples.</li>
+<li>The SErCl component in the released library compares POS tags only, so an edit like book → books is typed Noun rather than Noun:Singular → Noun:Plural, even though the SErCl taxonomy as defined allows morphological features.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>edit</em></dt><dd>In grammatical error correction, an erroneous part of a sentence paired with its correction.</dd>
+<dt><em>taxonomy</em></dt><dd>A set of grammatical error edit types used to categorise corrections.</dd>
+<dt><em>SErCl type</em></dt><dd>An error type written as the morphosyntactic annotation of the learner span followed by that of the corrected span, e.g. Noun → Verb, with None on either side for insertions and deletions, and abbreviated to a single tag when the two sides are identical.</dd>
+<dt><em>WC suffix</em></dt><dd>A marker in a SERRANT error type indicating that the part of speech did not change but the lemma did, so the error is one of word choice rather than of morphosyntax (consume → eat is Verb:WC).</dd>
+<dt><em>MW suffix</em></dt><dd>A marker in a SERRANT error type indicating that the source or the correction spans more than one word, added only when the edit has no already-named type.</dd>
+<dt><em>Modal suffix</em></dt><dd>A marker in a SERRANT error type indicating that both the original and the corrected wordform are modal verbs, separating modality errors from tense errors.</dd>
+<dt><em>Other type</em></dt><dd>In ERRANT, the category assigned when no informative error type can be found for an edit.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@article{DBLP:journals/corr/abs-2104-02310,
-author       = {Leshem Choshen and
+<pre>@article{DBLP:journals/corr/abs-2104-02310,author       = {Leshem Choshen and
                   Matanel Oren and
                   Dmitry Nikolaev and
                   Omri Abend},

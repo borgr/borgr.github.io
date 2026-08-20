@@ -13,7 +13,6 @@
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Cheston Tan">
   <meta name="citation_publication_date" content="2025">
-  <meta name="citation_journal_title" content="arXiv preprint arXiv:2504.11442">
   <meta name="citation_doi" content="10.48550/arXiv.2504.11442">
   <meta name="citation_arxiv_id" content="2504.11442">
   <meta name="citation_abstract" content="TextArena is an open-source collection of competitive text-based games for training and evaluation of agentic behavior in Large Language Models (LLMs). It spans 57+ unique environments (including single-player, two-player, and multi-player setups) and allows for easy evaluation of model capabilities via an online-play system (against humans and other submitted models) with real-time TrueSkill scores. Traditional benchmarks rarely assess dynamic social skills such as negotiation, theory of mind, and deception, creating a gap that TextArena addresses. Designed with research, community and extensibility in mind, TextArena emphasizes ease of adding new games, adapting the framework, testing models, playing against the models, and training models. Detailed documentation of environments, games, leaderboard, and examples are available on https://github.com/LeonGuertler/TextArena and https://www.textarena.ai/.">
@@ -55,10 +54,11 @@
   "datePublished": "2025",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "arXiv preprint arXiv:2504.11442"
+    "name": "arXiv"
   },
   "identifier": "https://doi.org/10.48550/arXiv.2504.11442",
   "abstract": "TextArena is an open-source collection of competitive text-based games for training and evaluation of agentic behavior in Large Language Models (LLMs). It spans 57+ unique environments (including single-player, two-player, and multi-player setups) and allows for easy evaluation of model capabilities via an online-play system (against humans and other submitted models) with real-time TrueSkill scores. Traditional benchmarks rarely assess dynamic social skills such as negotiation, theory of mind, and deception, creating a gap that TextArena addresses. Designed with research, community and extensibility in mind, TextArena emphasizes ease of adding new games, adapting the framework, testing models, playing against the models, and training models. Detailed documentation of environments, games, leaderboard, and examples are available on https://github.com/LeonGuertler/TextArena and https://www.textarena.ai/.",
+  "description": "TextArena is an open-source, Gym-style collection of 57+ competitive text games — single-, two- and multi-player — that evaluates and trains LLM agents on social skills like negotiation, theory of mind and deception through relative, TrueSkill-rated online play against other models and humans.",
   "codeRepository": "https://github.com/LeonGuertler/TextArena",
   "sameAs": [
     "https://arxiv.org/abs/2504.11442",
@@ -68,7 +68,252 @@
     "https://github.com/LeonGuertler/TextArena",
     "https://huggingface.co/papers/2504.11442",
     "https://www.alphaxiv.org/abs/2504.11442",
-    "https://www.semanticscholar.org/paper/277786786"
+    "https://www.semanticscholar.org/paper/277786786",
+    "https://www.textarena.ai/",
+    "https://www.textarena.ai/",
+    "https://www.textarena.ai/leaderboard"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "TextArena's initial release ships 16 single-player, 47 two-player and 11 multi-player text-based environments. That is more in every category than the 8 prior game-based LLM benchmarks compared against, including SPIN-Bench (21/3/2) and GameBench (0/3/6).",
+      "description": "Holds for: Counts as of the paper's initial release; a footnote states the collection had grown to 74 games by publication, and some listed games are marked as not yet fully implemented."
+    },
+    {
+      "@type": "Thing",
+      "name": "TextArena is the only framework among the 9 compared game-based LLM benchmarks that supports all four of a Gym-compatible API, online evaluation, model-vs-model play and model-vs-human play.",
+      "description": "Holds for: Clembench, LMRL-Gym, GameBench, Game-theoretic LLM, LAMEN, GTBench, GameArena and SPIN-Bench as characterised by the authors, on those 4 capability dimensions only."
+    },
+    {
+      "@type": "Thing",
+      "name": "TextArena argues that relative, competitive-play rankings are a more sustainable evaluation paradigm than absolute benchmarks. Saturating scores on MMLU, HumanEval and ARC-AGI leave no headroom, while a ranking survives as long as models differ in capability.",
+      "description": "Holds for: An argument positioned against Chatbot Arena's human-preference voting, as of the April 2025 report; the two paradigms' validity is not empirically compared."
+    },
+    {
+      "@type": "Thing",
+      "name": "TextArena's online system had evaluated 283 models at the time of writing, including community submissions and 64 official models hosted by the platform for free play.",
+      "description": "Holds for: Counts as of the paper's writing on a live, continuously updating leaderboard; submissions are unrestricted, so entries can include repeated model variants."
+    },
+    {
+      "@type": "Thing",
+      "name": "TextArena rates models with TrueSkill (initialised at mu=25, sigma=25/3) rather than Elo, and reports that in the authors' experiments TrueSkill converged faster to a reliable skill estimate than Elo.",
+      "description": "Holds for: Online matches with varying player counts and team play; the convergence comparison is reported without numbers or a described protocol."
+    },
+    {
+      "@type": "Thing",
+      "name": "Human players in TextArena are pooled into a single leaderboard entry called \"Humanity\", giving frontier models a directly comparable opponent rating rather than a static human score.",
+      "description": "Holds for: Human ratings are aggregated collectively rather than per player, so the entry reflects the mixed skill of whoever chose to play online."
+    },
+    {
+      "@type": "Thing",
+      "name": "TextArena estimates a model's aptitude in each of 10 soft skills as a weighted average of its ratings on the environments tagged with that skill. Each environment carries up to 5 skill tags, among them Theory of Mind, Bluffing, Persuasion and Uncertainty Estimation.",
+      "description": "Holds for: Skill tags and weights are assigned by the authors, not measured; per-skill scores in the published radar figure are each normalised separately for presentation, so cross-skill magnitudes are not comparable."
+    },
+    {
+      "@type": "Thing",
+      "name": "TextArena's preliminary model rankings conflate playing skill with rule and format comprehension, and some reasoning models were observed revealing their own cards or hidden roles during play.",
+      "description": "Holds for: Preliminary rankings over a subset of models and games in a 5-page work-in-progress report; how much ranking variance the confound explains is not quantified."
+    },
+    {
+      "@type": "Thing",
+      "name": "TextArena positions competitive self-play in text games as a near-infinite reinforcement-learning data source with a difficulty curriculum that adapts as agents improve, aimed at multi-turn agentic reasoning rather than single-turn answer quality.",
+      "description": "Holds for: A stated design motivation and future direction as of the April 2025 report; the paper trains no models and reports no RL results."
+    },
+    {
+      "@type": "Thing",
+      "name": "TextArena targets dynamic social capabilities that static question-answering benchmarks such as MMLU and HumanEval do not probe. The environments are built to elicit negotiation, persuasion, deception and theory of mind in interactive multi-agent play.",
+      "description": "Holds for: Text-based games only, in English as released; what the environments are designed to elicit, not a validated measurement of these constructs."
+    },
+    {
+      "@type": "Thing",
+      "name": "TextArena keeps its interface close to OpenAI Gym with stackable wrappers, so a full two-model match across several games runs in about 10 lines of Python via ta.make, get_observation and step.",
+      "description": "Holds for: The offline API shown in the paper's example script; online play uses ta.make_online with model name, description and email, and the code setup may change over time."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/textarena/#faq",
+  "url": "https://borgr.github.io/papers/textarena/",
+  "name": "Questions answered by TextArena",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What benchmarks exist for evaluating LLMs by having them play games against each other?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TextArena argues that relative, competitive-play rankings are a more sustainable evaluation paradigm than absolute benchmarks. Saturating scores on MMLU, HumanEval and ARC-AGI leave no headroom, while a ranking survives as long as models differ in capability. Holds for: An argument positioned against Chatbot Arena's human-preference voting, as of the April 2025 report; the two paradigms' validity is not empirically compared.\n\nTextArena targets dynamic social capabilities that static question-answering benchmarks such as MMLU and HumanEval do not probe. The environments are built to elicit negotiation, persuasion, deception and theory of mind in interactive multi-agent play. Holds for: Text-based games only, in English as released; what the environments are designed to elicit, not a validated measurement of these constructs.\n\nTextArena's initial release ships 16 single-player, 47 two-player and 11 multi-player text-based environments. That is more in every category than the 8 prior game-based LLM benchmarks compared against, including SPIN-Bench (21/3/2) and GameBench (0/3/6). Holds for: Counts as of the paper's initial release; a footnote states the collection had grown to 74 games by publication, and some listed games are marked as not yet fully implemented.",
+        "url": "https://borgr.github.io/papers/textarena/"
+      },
+      "alternateName": [
+        "Where should I start reading about evaluating language-model agents through competitive gameplay?",
+        "What work argues that relative rankings beat static benchmarks for LLM evaluation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many game environments does TextArena include?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TextArena's initial release ships 16 single-player, 47 two-player and 11 multi-player text-based environments. That is more in every category than the 8 prior game-based LLM benchmarks compared against, including SPIN-Bench (21/3/2) and GameBench (0/3/6). Holds for: Counts as of the paper's initial release; a footnote states the collection had grown to 74 games by publication, and some listed games are marked as not yet fully implemented.\n\nTextArena is the only framework among the 9 compared game-based LLM benchmarks that supports all four of a Gym-compatible API, online evaluation, model-vs-model play and model-vs-human play. Holds for: Clembench, LMRL-Gym, GameBench, Game-theoretic LLM, LAMEN, GTBench, GameArena and SPIN-Bench as characterised by the authors, on those 4 capability dimensions only.",
+        "url": "https://borgr.github.io/papers/textarena/"
+      },
+      "alternateName": [
+        "How many single-, two- and multi-player text games are in TextArena?",
+        "Does a game benchmark for LLMs cover more environments than GTBench or SPIN-Bench?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How are models ranked in TextArena?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TextArena rates models with TrueSkill (initialised at mu=25, sigma=25/3) rather than Elo, and reports that in the authors' experiments TrueSkill converged faster to a reliable skill estimate than Elo. Holds for: Online matches with varying player counts and team play; the convergence comparison is reported without numbers or a described protocol.\n\nTextArena's online system had evaluated 283 models at the time of writing, including community submissions and 64 official models hosted by the platform for free play. Holds for: Counts as of the paper's writing on a live, continuously updating leaderboard; submissions are unrestricted, so entries can include repeated model variants.",
+        "url": "https://borgr.github.io/papers/textarena/"
+      },
+      "alternateName": [
+        "Why use TrueSkill instead of Elo for rating language models in games?",
+        "What rating system tracks LLM performance in competitive text games?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can I compare an LLM's game performance against human players?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Human players in TextArena are pooled into a single leaderboard entry called \"Humanity\", giving frontier models a directly comparable opponent rating rather than a static human score. Holds for: Human ratings are aggregated collectively rather than per player, so the entry reflects the mixed skill of whoever chose to play online.\n\nTextArena is the only framework among the 9 compared game-based LLM benchmarks that supports all four of a Gym-compatible API, online evaluation, model-vs-model play and model-vs-human play. Holds for: Clembench, LMRL-Gym, GameBench, Game-theoretic LLM, LAMEN, GTBench, GameArena and SPIN-Bench as characterised by the authors, on those 4 capability dimensions only.",
+        "url": "https://borgr.github.io/papers/textarena/"
+      },
+      "alternateName": [
+        "How does TextArena benchmark models against humans?",
+        "What does the \"Humanity\" entry on the TextArena leaderboard mean?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How can I measure whether a model is good at bluffing or theory of mind?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TextArena estimates a model's aptitude in each of 10 soft skills as a weighted average of its ratings on the environments tagged with that skill. Each environment carries up to 5 skill tags, among them Theory of Mind, Bluffing, Persuasion and Uncertainty Estimation. Holds for: Skill tags and weights are assigned by the authors, not measured; per-skill scores in the published radar figure are each normalised separately for presentation, so cross-skill magnitudes are not comparable.",
+        "url": "https://borgr.github.io/papers/textarena/"
+      },
+      "alternateName": [
+        "How does TextArena break down a model's score into soft skills?",
+        "What skill categories do text-game environments get tagged with?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is a model's ranking in text games confounded by whether it understands the rules?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TextArena's preliminary model rankings conflate playing skill with rule and format comprehension, and some reasoning models were observed revealing their own cards or hidden roles during play. Holds for: Preliminary rankings over a subset of models and games in a 5-page work-in-progress report; how much ranking variance the confound explains is not quantified.",
+        "url": "https://borgr.github.io/papers/textarena/"
+      },
+      "alternateName": [
+        "What are the limitations of the preliminary TextArena model rankings?",
+        "Do reasoning models leak their hidden roles when playing social deduction games?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can competitive text games be used as reinforcement-learning training data for LLMs?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TextArena positions competitive self-play in text games as a near-infinite reinforcement-learning data source with a difficulty curriculum that adapts as agents improve, aimed at multi-turn agentic reasoning rather than single-turn answer quality. Holds for: A stated design motivation and future direction as of the April 2025 report; the paper trains no models and reports no RL results.\n\nTextArena keeps its interface close to OpenAI Gym with stackable wrappers, so a full two-model match across several games runs in about 10 lines of Python via ta.make, get_observation and step. Holds for: The offline API shown in the paper's example script; online play uses ta.make_online with model name, description and email, and the code setup may change over time.",
+        "url": "https://borgr.github.io/papers/textarena/"
+      },
+      "alternateName": [
+        "Does TextArena support RL training with self-play?",
+        "Where do I get a difficulty curriculum for multi-turn agentic RL?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How hard is it to run an LLM-vs-LLM match in TextArena?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TextArena keeps its interface close to OpenAI Gym with stackable wrappers, so a full two-model match across several games runs in about 10 lines of Python via ta.make, get_observation and step. Holds for: The offline API shown in the paper's example script; online play uses ta.make_online with model name, description and email, and the code setup may change over time.\n\nTextArena is the only framework among the 9 compared game-based LLM benchmarks that supports all four of a Gym-compatible API, online evaluation, model-vs-model play and model-vs-human play. Holds for: Clembench, LMRL-Gym, GameBench, Game-theoretic LLM, LAMEN, GTBench, GameArena and SPIN-Bench as characterised by the authors, on those 4 capability dimensions only.",
+        "url": "https://borgr.github.io/papers/textarena/"
+      },
+      "alternateName": [
+        "Does TextArena use an OpenAI Gym-style API?",
+        "How do I plug my own model into a text-game environment?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many models have been evaluated on the TextArena leaderboard?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TextArena's online system had evaluated 283 models at the time of writing, including community submissions and 64 official models hosted by the platform for free play. Holds for: Counts as of the paper's writing on a live, continuously updating leaderboard; submissions are unrestricted, so entries can include repeated model variants.",
+        "url": "https://borgr.github.io/papers/textarena/"
+      },
+      "alternateName": [
+        "How many language models have been rated on a competitive text-game leaderboard?",
+        "How many models can I play games against for free online?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which social skills do static LLM benchmarks like MMLU fail to measure?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TextArena targets dynamic social capabilities that static question-answering benchmarks such as MMLU and HumanEval do not probe. The environments are built to elicit negotiation, persuasion, deception and theory of mind in interactive multi-agent play. Holds for: Text-based games only, in English as released; what the environments are designed to elicit, not a validated measurement of these constructs.\n\nTextArena argues that relative, competitive-play rankings are a more sustainable evaluation paradigm than absolute benchmarks. Saturating scores on MMLU, HumanEval and ARC-AGI leave no headroom, while a ranking survives as long as models differ in capability. Holds for: An argument positioned against Chatbot Arena's human-preference voting, as of the April 2025 report; the two paradigms' validity is not empirically compared.",
+        "url": "https://borgr.github.io/papers/textarena/"
+      },
+      "alternateName": [
+        "Why build game environments instead of harder question-answering benchmarks?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/textarena/#terms",
+  "url": "https://borgr.github.io/papers/textarena/",
+  "name": "Terminology in TextArena",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Humanity",
+      "description": "A single pooled leaderboard entry in TextArena representing all human players collectively, so that models can be rated against human play as if against one opponent.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/textarena/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Soft-skill profiling",
+      "description": "Estimating a model's aptitude in each of 10 named skill categories by taking a weighted average of its ratings across environments tagged with that skill.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/textarena/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Online play",
+      "description": "A mode in which a submitted model is matched over the network against other submitted models, platform-hosted models, or human players, with TrueSkill ratings updated after every match.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/textarena/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Relative evaluation",
+      "description": "Scoring models by outcomes against each other rather than against a fixed answer key, so that no maximum attainable score exists as long as models differ in capability.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/textarena/#terms"
+    }
   ]
 }
   </script>
@@ -79,6 +324,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -92,13 +338,92 @@
 </head>
 <body>
 <h1>TextArena</h1>
-<p class="meta">Leon Guertler, Bobby Cheng, Simon Yu, Bo Liu, Leshem Choshen, Cheston Tan · arXiv preprint arXiv:2504.11442 · 2025</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2504.11442">arXiv</a></li><li><a href="https://arxiv.org/pdf/2504.11442">PDF</a></li><li><a href="https://arxiv.org/html/2504.11442">HTML</a></li><li><a href="https://huggingface.co/papers/2504.11442">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2504.11442">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2504.11442">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/277786786">Semantic Scholar</a></li><li><a href="https://github.com/LeonGuertler/TextArena">Code</a></li></ul>
+<p class="sub">a suite of text-based games for benchmarking and training language-model agents through competitive play</p>
+<p class="meta">Leon Guertler, Bobby Cheng, Simon Yu, Bo Liu, Leshem Choshen, Cheston Tan · arXiv · 2025</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2504.11442">arXiv</a></li><li><a href="https://arxiv.org/pdf/2504.11442">PDF</a></li><li><a href="https://arxiv.org/html/2504.11442">HTML</a></li><li><a href="https://huggingface.co/papers/2504.11442">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2504.11442">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2504.11442">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/277786786">Semantic Scholar</a></li><li><a href="https://github.com/LeonGuertler/TextArena">Code</a></li><li><a href="https://www.textarena.ai/">Project page</a></li><li><a href="https://www.textarena.ai/">project page</a></li><li><a href="https://www.textarena.ai/leaderboard">Leaderboard</a></li></ul>
+<h2>In one sentence</h2>
+<p>TextArena is an open-source, Gym-style collection of 57+ competitive text games — single-, two- and multi-player — that evaluates and trains LLM agents on social skills like negotiation, theory of mind and deception through relative, TrueSkill-rated online play against other models and humans.</p>
 <h2>Abstract</h2>
 <p>TextArena is an open-source collection of competitive text-based games for training and evaluation of agentic behavior in Large Language Models (LLMs). It spans 57+ unique environments (including single-player, two-player, and multi-player setups) and allows for easy evaluation of model capabilities via an online-play system (against humans and other submitted models) with real-time TrueSkill scores. Traditional benchmarks rarely assess dynamic social skills such as negotiation, theory of mind, and deception, creating a gap that TextArena addresses. Designed with research, community and extensibility in mind, TextArena emphasizes ease of adding new games, adapting the framework, testing models, playing against the models, and training models. Detailed documentation of environments, games, leaderboard, and examples are available on https://github.com/LeonGuertler/TextArena and https://www.textarena.ai/.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What benchmarks exist for evaluating LLMs by having them play games against each other?</dt>
+<dt>Where should I start reading about evaluating language-model agents through competitive gameplay?</dt>
+<dt>What work argues that relative rankings beat static benchmarks for LLM evaluation?</dt>
+<dd>TextArena argues that relative, competitive-play rankings are a more sustainable evaluation paradigm than absolute benchmarks. Saturating scores on MMLU, HumanEval and ARC-AGI leave no headroom, while a ranking survives as long as models differ in capability.<br><span class="scope">Holds for: An argument positioned against Chatbot Arena&#x27;s human-preference voting, as of the April 2025 report; the two paradigms&#x27; validity is not empirically compared.</span></dd>
+<dd>TextArena targets dynamic social capabilities that static question-answering benchmarks such as MMLU and HumanEval do not probe. The environments are built to elicit negotiation, persuasion, deception and theory of mind in interactive multi-agent play.<br><span class="scope">Holds for: Text-based games only, in English as released; what the environments are designed to elicit, not a validated measurement of these constructs.</span></dd>
+<dd>TextArena&#x27;s initial release ships 16 single-player, 47 two-player and 11 multi-player text-based environments. That is more in every category than the 8 prior game-based LLM benchmarks compared against, including SPIN-Bench (21/3/2) and GameBench (0/3/6).<br><span class="scope">Holds for: Counts as of the paper&#x27;s initial release; a footnote states the collection had grown to 74 games by publication, and some listed games are marked as not yet fully implemented.</span></dd>
+<dt>How many game environments does TextArena include?</dt>
+<dt>How many single-, two- and multi-player text games are in TextArena?</dt>
+<dt>Does a game benchmark for LLMs cover more environments than GTBench or SPIN-Bench?</dt>
+<dd>TextArena&#x27;s initial release ships 16 single-player, 47 two-player and 11 multi-player text-based environments. That is more in every category than the 8 prior game-based LLM benchmarks compared against, including SPIN-Bench (21/3/2) and GameBench (0/3/6).<br><span class="scope">Holds for: Counts as of the paper&#x27;s initial release; a footnote states the collection had grown to 74 games by publication, and some listed games are marked as not yet fully implemented.</span></dd>
+<dd>TextArena is the only framework among the 9 compared game-based LLM benchmarks that supports all four of a Gym-compatible API, online evaluation, model-vs-model play and model-vs-human play.<br><span class="scope">Holds for: Clembench, LMRL-Gym, GameBench, Game-theoretic LLM, LAMEN, GTBench, GameArena and SPIN-Bench as characterised by the authors, on those 4 capability dimensions only.</span></dd>
+<dt>How are models ranked in TextArena?</dt>
+<dt>Why use TrueSkill instead of Elo for rating language models in games?</dt>
+<dt>What rating system tracks LLM performance in competitive text games?</dt>
+<dd>TextArena rates models with TrueSkill (initialised at mu=25, sigma=25/3) rather than Elo, and reports that in the authors&#x27; experiments TrueSkill converged faster to a reliable skill estimate than Elo.<br><span class="scope">Holds for: Online matches with varying player counts and team play; the convergence comparison is reported without numbers or a described protocol.</span></dd>
+<dd>TextArena&#x27;s online system had evaluated 283 models at the time of writing, including community submissions and 64 official models hosted by the platform for free play.<br><span class="scope">Holds for: Counts as of the paper&#x27;s writing on a live, continuously updating leaderboard; submissions are unrestricted, so entries can include repeated model variants.</span></dd>
+<dt>Can I compare an LLM&#x27;s game performance against human players?</dt>
+<dt>How does TextArena benchmark models against humans?</dt>
+<dt>What does the &quot;Humanity&quot; entry on the TextArena leaderboard mean?</dt>
+<dd>Human players in TextArena are pooled into a single leaderboard entry called &quot;Humanity&quot;, giving frontier models a directly comparable opponent rating rather than a static human score.<br><span class="scope">Holds for: Human ratings are aggregated collectively rather than per player, so the entry reflects the mixed skill of whoever chose to play online.</span></dd>
+<dd>TextArena is the only framework among the 9 compared game-based LLM benchmarks that supports all four of a Gym-compatible API, online evaluation, model-vs-model play and model-vs-human play.<br><span class="scope">Holds for: Clembench, LMRL-Gym, GameBench, Game-theoretic LLM, LAMEN, GTBench, GameArena and SPIN-Bench as characterised by the authors, on those 4 capability dimensions only.</span></dd>
+<dt>How can I measure whether a model is good at bluffing or theory of mind?</dt>
+<dt>How does TextArena break down a model&#x27;s score into soft skills?</dt>
+<dt>What skill categories do text-game environments get tagged with?</dt>
+<dd>TextArena estimates a model&#x27;s aptitude in each of 10 soft skills as a weighted average of its ratings on the environments tagged with that skill. Each environment carries up to 5 skill tags, among them Theory of Mind, Bluffing, Persuasion and Uncertainty Estimation.<br><span class="scope">Holds for: Skill tags and weights are assigned by the authors, not measured; per-skill scores in the published radar figure are each normalised separately for presentation, so cross-skill magnitudes are not comparable.</span></dd>
+<dt>Is a model&#x27;s ranking in text games confounded by whether it understands the rules?</dt>
+<dt>What are the limitations of the preliminary TextArena model rankings?</dt>
+<dt>Do reasoning models leak their hidden roles when playing social deduction games?</dt>
+<dd>TextArena&#x27;s preliminary model rankings conflate playing skill with rule and format comprehension, and some reasoning models were observed revealing their own cards or hidden roles during play.<br><span class="scope">Holds for: Preliminary rankings over a subset of models and games in a 5-page work-in-progress report; how much ranking variance the confound explains is not quantified.</span></dd>
+<dt>Can competitive text games be used as reinforcement-learning training data for LLMs?</dt>
+<dt>Does TextArena support RL training with self-play?</dt>
+<dt>Where do I get a difficulty curriculum for multi-turn agentic RL?</dt>
+<dd>TextArena positions competitive self-play in text games as a near-infinite reinforcement-learning data source with a difficulty curriculum that adapts as agents improve, aimed at multi-turn agentic reasoning rather than single-turn answer quality.<br><span class="scope">Holds for: A stated design motivation and future direction as of the April 2025 report; the paper trains no models and reports no RL results.</span></dd>
+<dd>TextArena keeps its interface close to OpenAI Gym with stackable wrappers, so a full two-model match across several games runs in about 10 lines of Python via ta.make, get_observation and step.<br><span class="scope">Holds for: The offline API shown in the paper&#x27;s example script; online play uses ta.make_online with model name, description and email, and the code setup may change over time.</span></dd>
+<dt>How hard is it to run an LLM-vs-LLM match in TextArena?</dt>
+<dt>Does TextArena use an OpenAI Gym-style API?</dt>
+<dt>How do I plug my own model into a text-game environment?</dt>
+<dd>TextArena keeps its interface close to OpenAI Gym with stackable wrappers, so a full two-model match across several games runs in about 10 lines of Python via ta.make, get_observation and step.<br><span class="scope">Holds for: The offline API shown in the paper&#x27;s example script; online play uses ta.make_online with model name, description and email, and the code setup may change over time.</span></dd>
+<dd>TextArena is the only framework among the 9 compared game-based LLM benchmarks that supports all four of a Gym-compatible API, online evaluation, model-vs-model play and model-vs-human play.<br><span class="scope">Holds for: Clembench, LMRL-Gym, GameBench, Game-theoretic LLM, LAMEN, GTBench, GameArena and SPIN-Bench as characterised by the authors, on those 4 capability dimensions only.</span></dd>
+<dt>How many models have been evaluated on the TextArena leaderboard?</dt>
+<dt>How many language models have been rated on a competitive text-game leaderboard?</dt>
+<dt>How many models can I play games against for free online?</dt>
+<dd>TextArena&#x27;s online system had evaluated 283 models at the time of writing, including community submissions and 64 official models hosted by the platform for free play.<br><span class="scope">Holds for: Counts as of the paper&#x27;s writing on a live, continuously updating leaderboard; submissions are unrestricted, so entries can include repeated model variants.</span></dd>
+<dt>Which social skills do static LLM benchmarks like MMLU fail to measure?</dt>
+<dt>Why build game environments instead of harder question-answering benchmarks?</dt>
+<dd>TextArena targets dynamic social capabilities that static question-answering benchmarks such as MMLU and HumanEval do not probe. The environments are built to elicit negotiation, persuasion, deception and theory of mind in interactive multi-agent play.<br><span class="scope">Holds for: Text-based games only, in English as released; what the environments are designed to elicit, not a validated measurement of these constructs.</span></dd>
+<dd>TextArena argues that relative, competitive-play rankings are a more sustainable evaluation paradigm than absolute benchmarks. Saturating scores on MMLU, HumanEval and ARC-AGI leave no headroom, while a ranking survives as long as models differ in capability.<br><span class="scope">Holds for: An argument positioned against Chatbot Arena&#x27;s human-preference voting, as of the April 2025 report; the two paradigms&#x27; validity is not empirically compared.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>TextArena&#x27;s initial release ships 16 single-player, 47 two-player and 11 multi-player text-based environments. That is more in every category than the 8 prior game-based LLM benchmarks compared against, including SPIN-Bench (21/3/2) and GameBench (0/3/6). <span class="meta">(Table 1)</span><br><span class="scope">Scope: Counts as of the paper&#x27;s initial release; a footnote states the collection had grown to 74 games by publication, and some listed games are marked as not yet fully implemented.</span></li>
+<li>TextArena is the only framework among the 9 compared game-based LLM benchmarks that supports all four of a Gym-compatible API, online evaluation, model-vs-model play and model-vs-human play. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Clembench, LMRL-Gym, GameBench, Game-theoretic LLM, LAMEN, GTBench, GameArena and SPIN-Bench as characterised by the authors, on those 4 capability dimensions only.</span></li>
+<li>TextArena argues that relative, competitive-play rankings are a more sustainable evaluation paradigm than absolute benchmarks. Saturating scores on MMLU, HumanEval and ARC-AGI leave no headroom, while a ranking survives as long as models differ in capability. <span class="meta">(Section 1)</span><br><span class="scope">Scope: An argument positioned against Chatbot Arena&#x27;s human-preference voting, as of the April 2025 report; the two paradigms&#x27; validity is not empirically compared.</span></li>
+<li>TextArena&#x27;s online system had evaluated 283 models at the time of writing, including community submissions and 64 official models hosted by the platform for free play. <span class="meta">(Section 4)</span><br><span class="scope">Scope: Counts as of the paper&#x27;s writing on a live, continuously updating leaderboard; submissions are unrestricted, so entries can include repeated model variants.</span></li>
+<li>TextArena rates models with TrueSkill (initialised at mu=25, sigma=25/3) rather than Elo, and reports that in the authors&#x27; experiments TrueSkill converged faster to a reliable skill estimate than Elo. <span class="meta">(Section 4)</span><br><span class="scope">Scope: Online matches with varying player counts and team play; the convergence comparison is reported without numbers or a described protocol.</span></li>
+<li>Human players in TextArena are pooled into a single leaderboard entry called &quot;Humanity&quot;, giving frontier models a directly comparable opponent rating rather than a static human score. <span class="meta">(Section 4)</span><br><span class="scope">Scope: Human ratings are aggregated collectively rather than per player, so the entry reflects the mixed skill of whoever chose to play online.</span></li>
+<li>TextArena estimates a model&#x27;s aptitude in each of 10 soft skills as a weighted average of its ratings on the environments tagged with that skill. Each environment carries up to 5 skill tags, among them Theory of Mind, Bluffing, Persuasion and Uncertainty Estimation. <span class="meta">(Figure 1, Table 3)</span><br><span class="scope">Scope: Skill tags and weights are assigned by the authors, not measured; per-skill scores in the published radar figure are each normalised separately for presentation, so cross-skill magnitudes are not comparable.</span></li>
+<li>TextArena&#x27;s preliminary model rankings conflate playing skill with rule and format comprehension, and some reasoning models were observed revealing their own cards or hidden roles during play. <span class="meta">(Figure 2)</span><br><span class="scope">Scope: Preliminary rankings over a subset of models and games in a 5-page work-in-progress report; how much ranking variance the confound explains is not quantified.</span></li>
+<li>TextArena positions competitive self-play in text games as a near-infinite reinforcement-learning data source with a difficulty curriculum that adapts as agents improve, aimed at multi-turn agentic reasoning rather than single-turn answer quality. <span class="meta">(Section 1, Section 6)</span><br><span class="scope">Scope: A stated design motivation and future direction as of the April 2025 report; the paper trains no models and reports no RL results.</span></li>
+<li>TextArena targets dynamic social capabilities that static question-answering benchmarks such as MMLU and HumanEval do not probe. The environments are built to elicit negotiation, persuasion, deception and theory of mind in interactive multi-agent play. <span class="meta">(Section 1, Section 3)</span><br><span class="scope">Scope: Text-based games only, in English as released; what the environments are designed to elicit, not a validated measurement of these constructs.</span></li>
+<li>TextArena keeps its interface close to OpenAI Gym with stackable wrappers, so a full two-model match across several games runs in about 10 lines of Python via ta.make, get_observation and step. <span class="meta">(Section 2, Appendix B)</span><br><span class="scope">Scope: The offline API shown in the paper&#x27;s example script; online play uses ta.make_online with model name, description and email, and the code setup may change over time.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>TextArena&#x27;s rankings are not pure measures of strategic ability: the paper states that game-play results are influenced both by a model&#x27;s ability to play the game and by its ability to understand the rules and output format.</li>
+<li>The 57+ environment count is not a count of fully working games at every stage: several games listed in the appendix tables are marked as not fully implemented, and the paper&#x27;s footnote reports the collection had already grown to 74 games by publication.</li>
+<li>TextArena&#x27;s soft-skill radar is not a validated psychometric measurement of theory of mind or persuasion; skills are hand-tagged per environment with weights, and each axis is normalised separately for presentation.</li>
+<li>The TextArena paper does not train any model on its games. RL via self-play is presented as a motivation and a future direction, not as a reported result.</li>
+<li>The rankings shown in the TextArena paper are explicitly preliminary and cover only a subset of models and games; the live TrueSkill leaderboard, not the paper&#x27;s figure, is the current record.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Humanity</em></dt><dd>A single pooled leaderboard entry in TextArena representing all human players collectively, so that models can be rated against human play as if against one opponent.</dd>
+<dt><em>Soft-skill profiling</em></dt><dd>Estimating a model&#x27;s aptitude in each of 10 named skill categories by taking a weighted average of its ratings across environments tagged with that skill.</dd>
+<dt><em>Online play</em></dt><dd>A mode in which a submitted model is matched over the network against other submitted models, platform-hosted models, or human players, with TrueSkill ratings updated after every match.</dd>
+<dt><em>Relative evaluation</em></dt><dd>Scoring models by outcomes against each other rather than against a fixed answer key, so that no maximum attainable score exists as long as models differ in capability.</dd>
+</dl>
 <h2>How to cite</h2>
 <pre>@article{guertler2025textarena,
-title={TextArena},
+  title={TextArena},
   author={Guertler, Leon and Cheng, Bobby and Yu, Simon and Liu, Bo and Choshen, Leshem and Tan, Cheston},
   journal={arXiv preprint arXiv:2504.11442},
   year={2025}

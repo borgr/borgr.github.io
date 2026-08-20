@@ -1,0 +1,99 @@
+# Q²: Evaluating Factual Consistency in Knowledge-Grounded Dialogues via Question Generation and Question Answering
+
+a reference-free metric that scores whether a dialogue response is factually consistent with its grounding knowledge, by generating questions from the response and answering them against the knowledge
+
+Authors: Or Honovich, Leshem Choshen, Roee Aharoni, Ella Neeman, Idan Szpektor, Omri Abend
+Venue: Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing, {EMNLP} 2021, Virtual Event / Punta Cana, Dominican Republic, 7-11 November, 2021 (2021)
+
+## What this paper shows
+Q² scores factual consistency in knowledge-grounded dialogue without reference responses: it generates questions from the model's response, answers them against the grounding knowledge, and compares the two answer spans with an NLI model instead of token overlap.
+
+## Claims, with scope
+- On manually annotated Wizard-of-Wikipedia responses, Q² averages 0.696 on consistent and 0.238 on inconsistent dodeca Dialogue outputs, and 0.756 versus 0.135 on MemNet outputs. Random samples fall in between, at 0.496 and 0.448.
+  Scope: 150 consistent and 150 inconsistent responses per system, annotated by 3 of the paper's authors on the WoW validation set; inconsistent examples were deliberately chosen to be clear and coherent.
+  Evidence: Table 2
+- An NLI-based answer-span comparison widens Q²'s gap between consistent and inconsistent Wizard-of-Wikipedia responses. For dodeca Dialogue outputs the scores are 0.696 versus 0.238 with NLI, against 0.516 versus 0.159 with token-level F1 matching.
+  Scope: WoW annotated responses; the NLI model is RoBERTa fine-tuned on SNLI, applied only to answer pairs that do not match exactly at the token level, with the question prepended to both premise and hypothesis.
+  Evidence: Table 2
+- Using an untuned response-level threshold of 0.5, Q² classifies Wizard-of-Wikipedia responses as consistent or inconsistent with 77.3% accuracy, against 73.1% for Q² without the NLI comparison and 65.3% for end-to-end NLI.
+  Scope: The 0.5 threshold was selected arbitrarily rather than tuned on a development split; measured on the annotated dodeca Dialogue and MemNet consistent/inconsistent examples.
+  Evidence: Section 5.1 and Table 3
+- In a bootstrapped system-level meta-evaluation on WoW, Q² reaches an average Spearman correlation of 0.9798 with human judgments, above end-to-end NLI (0.9216), knowledge overlap (0.878), BERTScore (0.8467) and BLEU (0.3051).
+  Scope: Simulated systems built by sampling 350 contexts with repetition from 244 dialogue contexts having both a consistent and an inconsistent response, with inconsistent proportions of 0.05 to 0.25, repeated 1000 times.
+  Evidence: Table 4
+- On Topical-Chat's "Uses Knowledge" human judgments, Q² obtains 0.4579 Spearman and 0.4698 Pearson correlation, above the best USR result (0.4468 Spearman, 0.3175 Pearson) and METEOR (0.3909, 0.3328).
+  Scope: 52 of the 60 annotated dialogue contexts, excluding the 8 where no knowledge was used, and 260 responses following the USR setting that drops the original human response.
+  Evidence: Table 5
+- Q² reaches 74.49% accuracy on the Dialogue NLI Test Gold split, above the end-to-end NLI baseline (67.42%) and the zero-shot InferSent baselines (47.03% for InferSent SNLI, 51.52% for hypothesis-only).
+  Scope: Zero-shot use of Q² with a 0.1 decision threshold tuned on the DNLI development set, neutral pairs treated as inconsistent, and no filtering of questions containing personal or possessive pronouns.
+  Evidence: Table 6
+- Swapping Q²'s T5-base question generator for T5-small, or its Albert-Xlarge QA model for Albert-base, barely changes the system-level correlation with human judgments: 0.9722 and 0.9797 respectively, against 0.9798 for the original pipeline.
+  Scope: WoW system-level bootstrap setting; question coverage drops slightly with smaller models (from about 92-95% to 88.67-92.67%), and the smaller QG model lowers absolute Q² scores while the smaller QA model raises them.
+  Evidence: Table 7 and Table 8
+- Replacing the grounding knowledge with knowledge from another turn of the same dialogue drops Q² to 0.02, with 91.02% of generated questions unanswerable. With knowledge from a different dialogue Q² drops to 0, with 99.61% unanswerable.
+  Scope: Adversarial check on WoW responses only, using randomly selected knowledge passages rather than model-generated hallucinations.
+  Evidence: Table 10
+- The Q² paper releases 1,088 Wizard-of-Wikipedia dialogue responses over 544 contexts, annotated for factual consistency against the grounding sentence, with Fleiss' kappa of 0.853 on a 100-response agreement sample.
+  Scope: Outputs of 2 systems (MemNet and dodeca Dialogue) on the WoW validation set, generated with beam size 10; the sample is not a random draw, and 34.2% of contexts were inconsistent for dodeca and 50.36% for MemNet.
+  Evidence: Section 4
+- Q² produces no valid questions for about 20% of randomly sampled Wizard-of-Wikipedia responses, versus around 6-8% of the annotated consistent and inconsistent responses, because general chit-chat yields fewer answerable factual questions.
+  Scope: WoW responses from MemNet and dodeca Dialogue; such cases fall back to an end-to-end NLI prediction, and unresolved pronouns referring to the dialogue history are a further cause of discarded questions.
+  Evidence: Section 5.4
+- Q² carries the question-generation/question-answering approach to factual-consistency evaluation over from abstractive summarization to knowledge-grounded dialogue. Dialogue responses mix grounded knowledge with chit-chat, opinions and questions to the user, which the summarization metrics of Durmus et al. and Wang et al. did not have to handle.
+  Scope: As of publication at EMNLP 2021, and to the authors' knowledge the first QG-QA metric applied to dialogue generation; concurrent work on grounded-dialogue evaluation includes the BEGIN benchmark of Dziri et al. (2021), which frames groundedness as NLI.
+  Evidence: Section 6
+- Q² is a reference-free dialogue metric whose intermediate output is itself the explanation. Alongside the score it emits the generated questions, the response answer spans and the knowledge-based answers, which can highlight potentially inconsistent spans.
+  Scope: Interpretability is argued from qualitative examples rather than a human study of explanation quality; the pipeline is slow, at roughly 1.5-2 hours on 4 CPUs per 150-response split.
+  Evidence: Section 5.4 and Appendix B
+
+## Common misreadings
+- A low Q² score does not always mean the response is unfaithful: questions generated for chit-chat or opinion spans, such as "What is purple?" answered by "my favorite color", get penalised even when the knowledge was used correctly.
+- The 0.5 response-level threshold that gives 77.3% accuracy on Wizard of Wikipedia was picked arbitrarily for demonstration, not tuned, and is not a recommended operating point.
+- The released Wizard-of-Wikipedia annotations are not an unbiased sample of system outputs: annotators kept collecting until 150 consistent and 150 inconsistent responses per system were found, skipped incoherent responses, and skipped consistent responses that were pure chit-chat.
+- Q² does not classify NLI-style entailment labels end-to-end; the NLI model is used only to compare short answer spans, with the question prepended for context, and end-to-end NLI serves solely as a fallback when no valid question survives filtering.
+- Q²'s reported gains over end-to-end NLI, overlap, BLEU and BERTScore are measured against those specific reference-free baselines on WoW, Topical-Chat and DNLI, not against the full space of later groundedness metrics.
+
+## Terminology
+- Question coverage: The percentage of dialogue responses for which at least one generated question survives filtering, so that the metric is computed from question answering rather than from the end-to-end NLI fallback.
+- Informative span: A named entity or noun phrase inside a generated dialogue response, marked with spaCy, that serves as the target answer for automatic question generation.
+- Question filtering: Discarding a generated question if answering it with the response as the input paragraph does not return the original answer span, or if it asks about personal statements via the pronouns "I", "you", "my" or "your".
+- End-to-end NLI baseline: Scoring a dialogue response by running an NLI model directly with the whole grounding knowledge as premise and the whole response as hypothesis, scoring 1 for entailment, 0 for contradiction and 0.5 for neutral.
+
+## Links
+- arXiv: https://arxiv.org/abs/2104.08202
+- PDF: https://arxiv.org/pdf/2104.08202
+- HTML: https://ar5iv.labs.arxiv.org/html/2104.08202
+- Hugging Face: https://huggingface.co/papers/2104.08202
+- alphaXiv: https://www.alphaxiv.org/abs/2104.08202
+- DOI: https://doi.org/10.18653/V1/2021.EMNLP-MAIN.619
+- ACL Anthology: https://aclanthology.org/2021.emnlp-main.619/
+- Semantic Scholar: https://www.semanticscholar.org/paper/233289483
+- Publisher: https://doi.org/10.18653/v1/2021.emnlp-main.619
+- Code: https://github.com/orhonovich/q-squared
+- dataset: https://github.com/orhonovich/q-squared/tree/main/third_party/data
+
+## How to cite
+@inproceedings{DBLP:conf/emnlp/HonovichCANSA21,author       = {Or Honovich and
+                  Leshem Choshen and
+                  Roee Aharoni and
+                  Ella Neeman and
+                  Idan Szpektor and
+                  Omri Abend},
+  editor       = {Marie{-}Francine Moens and
+                  Xuanjing Huang and
+                  Lucia Specia and
+                  Scott Wen{-}tau Yih},
+  title        = {Q\({}^{\mbox{2}}\): Evaluating Factual Consistency in Knowledge-Grounded
+                  Dialogues via Question Generation and Question Answering},
+  booktitle    = {Proceedings of the 2021 Conference on Empirical Methods in Natural
+                  Language Processing, {EMNLP} 2021, Virtual Event / Punta Cana, Dominican
+                  Republic, 7-11 November, 2021},
+  pages        = {7856--7870},
+  publisher    = {Association for Computational Linguistics},
+  year         = {2021},
+  url          = {https://doi.org/10.18653/v1/2021.emnlp-main.619},
+  doi          = {10.18653/V1/2021.EMNLP-MAIN.619},
+  timestamp    = {Fri, 16 Feb 2024 08:27:36 +0100},
+  biburl       = {https://dblp.org/rec/conf/emnlp/HonovichCANSA21.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}

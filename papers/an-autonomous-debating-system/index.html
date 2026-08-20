@@ -60,8 +60,9 @@
   <meta name="citation_author" content="Elad Venezian">
   <meta name="citation_author" content="Ranit Aharonov">
   <meta name="citation_publication_date" content="2021">
-  <meta name="citation_journal_title" content="Nat.">
+  <meta name="citation_journal_title" content="Nature">
   <meta name="citation_doi" content="10.1038/S41586-021-03215-W">
+  <meta name="citation_abstract" content="Artificial intelligence (AI) is defined as the ability of machines to perform tasks that are usually associated with intelligent beings. Argument and debate are fundamental capabilities of human intelligence, essential for a wide range of human activities, and common to all human societies. The development of computational argumentation technologies is therefore an important emerging discipline in AI research 1 . Here we present Project Debater, an autonomous debating system that can engage in a competitive debate with humans. We provide a complete description of the system&#x27;s architecture, a thorough and systematic evaluation of its operation across a wide range of debate topics, and a detailed account of the system&#x27;s performance in its public debut against three expert human debaters. We also highlight the fundamental differences between debating with humans as opposed to challenging humans in game competitions, the latter being the focus of classical &#x27;grand challenges&#x27; pursued by the AI research community over the past few decades. We suggest that such challenges lie in the &#x27;comfort zone&#x27; of AI, whereas debating with humans lies in a different territory, in which humans still prevail, and for which novel paradigms are required to make substantial progress.">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -288,13 +289,280 @@
   "datePublished": "2021",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Nat."
+    "name": "Nature"
   },
   "identifier": "https://doi.org/10.1038/S41586-021-03215-W",
+  "abstract": "Artificial intelligence (AI) is defined as the ability of machines to perform tasks that are usually associated with intelligent beings. Argument and debate are fundamental capabilities of human intelligence, essential for a wide range of human activities, and common to all human societies. The development of computational argumentation technologies is therefore an important emerging discipline in AI research 1 . Here we present Project Debater, an autonomous debating system that can engage in a competitive debate with humans. We provide a complete description of the system's architecture, a thorough and systematic evaluation of its operation across a wide range of debate topics, and a detailed account of the system's performance in its public debut against three expert human debaters. We also highlight the fundamental differences between debating with humans as opposed to challenging humans in game competitions, the latter being the focus of classical 'grand challenges' pursued by the AI research community over the past few decades. We suggest that such challenges lie in the 'comfort zone' of AI, whereas debating with humans lies in a different territory, in which humans still prevail, and for which novel paradigms are required to make substantial progress.",
+  "description": "Project Debater is an autonomous debating system that decomposes competitive debate into modular tasks — argument mining over 400 million news articles, a curated argument knowledge base, speech-to-text rebuttal and rule-based speech construction — and delivers spoken speeches against expert human debaters.",
   "sameAs": [
-    "https://doi.org/10.1038/S41586-021-03215-W",
     "https://doi.org/10.1038/s41586-021-03215-w",
-    "https://www.semanticscholar.org/paper/232305184"
+    "https://doi.org/10.1038/s41586-021-03215-w",
+    "https://early-access-program.debater.res.ibm.com/academic_use",
+    "https://www.research.ibm.com/artificial-intelligence/project-debater/",
+    "https://www.research.ibm.com/haifa/dept/vst/debating_data.shtml",
+    "https://www.semanticscholar.org/paper/232305184",
+    "https://www.youtube.com/watch?v=m3u-1yttrVw"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Project Debater's opening speeches score higher than a multi-document summarization system (Summit), a fine-tuned GPT-2 speech generator, GPT-2-generated arguments, ArgumenText-retrieved arguments and two human-curated argument baselines. The same speeches score lower than human expert debaters' speeches, both gaps being significant at P < 0.05.",
+      "description": "Holds for: Crowd annotators rating agreement with 'This speech is a good opening speech for supporting the topic' on a 1-5 scale, 15 annotators per speech, over 78 motions unseen during development; the two human-argument baselines cover only 23 and 77 motions."
+    },
+    {
+      "@type": "Thing",
+      "name": "Crowd annotators perceived Project Debater as demonstrating 'decent performance' in at least 64% of debate motions. The average score was 4 or higher for 50 of 78 motions, and above the neutral 3 for all but 3 motions.",
+      "description": "Holds for: 20 annotators per set reading 3 written speeches of unknown origin on a 1-5 agreement scale; only Project Debater's 2 speeches judged, against simple controls rather than a human debater."
+    },
+    {
+      "@type": "Thing",
+      "name": "Less than 18% of Project Debater's generated speech content is conventional canned text; the rest comes from mined arguments (41.8%), the argument knowledge base (27.0%), rebuttal (11.3%) and rebuttal leads (2.4%).",
+      "description": "Holds for: Relative distribution of word content across all speeches for the 78 motions of the first evaluation set."
+    },
+    {
+      "@type": "Thing",
+      "name": "Speech quality in Project Debater tracks how much content the system managed to produce. Motions scored 'high' averaged 1,496 words across the three speeches, 'medium' 1,155 words and 'low' 793 words, with the largest gap in mined arguments.",
+      "description": "Holds for: Independent evaluation set of 36 motions split by in-house annotator score into high (12, above 3.5), medium (11, between 3 and 3.5) and low (11, below 3); strict precision-oriented confidence thresholds filter content out."
+    },
+    {
+      "@type": "Thing",
+      "name": "Project Debater's extensive errors, in which one mistake such as off-topic argument-knowledge-base content recurs through a whole speech, occurred only in the lowest-scoring group of motions. Local errors appear in almost all motions, including the highest-scoring ones.",
+      "description": "Holds for: Manual in-depth analysis of the independent set of 36 motions, grouped by in-house annotator scores; local errors counted are wrong argument stance, off-topic units and units incoherent without context."
+    },
+    {
+      "@type": "Thing",
+      "name": "Project Debater engages in competitive debate with no end-to-end model. Four modules do the work: argument mining over an indexed corpus, a manually authored argument knowledge base, speech-to-text-driven rebuttal, and rule-based debate construction with clustering.",
+      "description": "Holds for: Architecture as deployed for a debate format of 4-minute opening and second speeches and 2-minute closings, with 15 minutes of preparation after the motion is announced; argument knowledge base texts are hand-authored or manually edited."
+    },
+    {
+      "@type": "Thing",
+      "name": "Project Debater's argument mining runs over a corpus of about 400 million newspaper articles from LexisNexis 2011-2018. The corpus is indexed offline by words, Wikipedia concepts, named entities and lexicon words, so claims and evidence for a new motion are retrieved at sentence level online.",
+      "description": "Holds for: The motion's topic must be discussed in this news corpus; motions whose topics are sparsely covered are the ones that yield low-scoring speeches."
+    },
+    {
+      "@type": "Thing",
+      "name": "Project Debater's public debut on 11 February 2019 debated debate champion H. Natarajan on whether preschool should be subsidized, a motion never included in the system's training data. The pre-debate audience vote was 79% in favour of subsidizing preschool and 13% against.",
+      "description": "Holds for: A single live event; the unbalanced pre-debate vote left Project Debater at most 21% of the audience to win over versus 87% for the human debater, which is why audience voting is not used as the system's evaluation metric."
+    },
+    {
+      "@type": "Thing",
+      "name": "Project Debater's authors argue that competitive debate lies outside the 'comfort zone' of classical AI grand challenges such as checkers, backgammon, chess, Jeopardy!, Go and StarCraft II. Debate has no clear winner, no enumerable moves, no room for strategies humans cannot follow, and no large body of structured training data.",
+      "description": "Holds for: A position argued in the paper's discussion rather than an experimental finding, contrasting debate with game competitions as of 2021; no claim is made that humans prevail on all real-world language tasks."
+    },
+    {
+      "@type": "Thing",
+      "name": "Project Debater is presented as a case study in 'composite AI': breaking a broad human cognitive activity into a collection of tangible narrow tasks. Solutions are built for each narrow task rather than seeking a single end-to-end model.",
+      "description": "Holds for: One system built between 2012 and 2019 for one task, competitive debate; the paper offers no evidence about whether end-to-end models could eventually do the task."
+    },
+    {
+      "@type": "Thing",
+      "name": "Context-dependent claim detection and context-dependent evidence detection were formulated in the course of Project Debater and have since become an active area of research in computational argumentation. Most of the system's underlying capabilities, including argument mining, are available as cloud services for academic research on request.",
+      "description": "Holds for: As stated by the authors in 2021; datasets built during development are released, the full system code is not, and academic access is by request through IBM's early-access programme."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/an-autonomous-debating-system/#faq",
+  "url": "https://borgr.github.io/papers/an-autonomous-debating-system/",
+  "name": "Questions answered by An autonomous debating system",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can an AI system hold a competitive debate against a human?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Project Debater's opening speeches score higher than a multi-document summarization system (Summit), a fine-tuned GPT-2 speech generator, GPT-2-generated arguments, ArgumenText-retrieved arguments and two human-curated argument baselines. The same speeches score lower than human expert debaters' speeches, both gaps being significant at P < 0.05. Holds for: Crowd annotators rating agreement with 'This speech is a good opening speech for supporting the topic' on a 1-5 scale, 15 annotators per speech, over 78 motions unseen during development; the two human-argument baselines cover only 23 and 77 motions.\n\nCrowd annotators perceived Project Debater as demonstrating 'decent performance' in at least 64% of debate motions. The average score was 4 or higher for 50 of 78 motions, and above the neutral 3 for all but 3 motions. Holds for: 20 annotators per set reading 3 written speeches of unknown origin on a 1-5 agreement scale; only Project Debater's 2 speeches judged, against simple controls rather than a human debater.\n\nProject Debater's public debut on 11 February 2019 debated debate champion H. Natarajan on whether preschool should be subsidized, a motion never included in the system's training data. The pre-debate audience vote was 79% in favour of subsidizing preschool and 13% against. Holds for: A single live event; the unbalanced pre-debate vote left Project Debater at most 21% of the audience to win over versus 87% for the human debater, which is why audience voting is not used as the system's evaluation metric.",
+        "url": "https://borgr.github.io/papers/an-autonomous-debating-system/"
+      },
+      "alternateName": [
+        "Has any computer program debated expert human debaters?",
+        "How well does Project Debater perform against human debaters?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How does Project Debater compare to GPT-2 or summarization systems at writing a debate speech?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Project Debater's opening speeches score higher than a multi-document summarization system (Summit), a fine-tuned GPT-2 speech generator, GPT-2-generated arguments, ArgumenText-retrieved arguments and two human-curated argument baselines. The same speeches score lower than human expert debaters' speeches, both gaps being significant at P < 0.05. Holds for: Crowd annotators rating agreement with 'This speech is a good opening speech for supporting the topic' on a 1-5 scale, 15 annotators per speech, over 78 motions unseen during development; the two human-argument baselines cover only 23 and 77 motions.",
+        "url": "https://borgr.github.io/papers/an-autonomous-debating-system/"
+      },
+      "alternateName": [
+        "What baselines were used to evaluate an automatically generated opening speech?",
+        "Does an argument-mining debate system beat a language model at speech generation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How often does an autonomous debating system produce an acceptable speech?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Crowd annotators perceived Project Debater as demonstrating 'decent performance' in at least 64% of debate motions. The average score was 4 or higher for 50 of 78 motions, and above the neutral 3 for all but 3 motions. Holds for: 20 annotators per set reading 3 written speeches of unknown origin on a 1-5 agreement scale; only Project Debater's 2 speeches judged, against simple controls rather than a human debater.",
+        "url": "https://borgr.github.io/papers/an-autonomous-debating-system/"
+      },
+      "alternateName": [
+        "What fraction of debate motions did Project Debater handle decently?",
+        "How was Project Debater's full-debate performance scored by annotators?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are the speeches of Project Debater just canned templates?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Less than 18% of Project Debater's generated speech content is conventional canned text; the rest comes from mined arguments (41.8%), the argument knowledge base (27.0%), rebuttal (11.3%) and rebuttal leads (2.4%). Holds for: Relative distribution of word content across all speeches for the 78 motions of the first evaluation set.\n\nProject Debater's argument mining runs over a corpus of about 400 million newspaper articles from LexisNexis 2011-2018. The corpus is indexed offline by words, Wikipedia concepts, named entities and lexicon words, so claims and evidence for a new motion are retrieved at sentence level online. Holds for: The motion's topic must be discussed in this news corpus; motions whose topics are sparsely covered are the ones that yield low-scoring speeches.",
+        "url": "https://borgr.github.io/papers/an-autonomous-debating-system/"
+      },
+      "alternateName": [
+        "How much of an automatically generated debate speech is boilerplate text?",
+        "Where does the content in Project Debater's speeches come from?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why do automatic debate speeches fail on some topics?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Speech quality in Project Debater tracks how much content the system managed to produce. Motions scored 'high' averaged 1,496 words across the three speeches, 'medium' 1,155 words and 'low' 793 words, with the largest gap in mined arguments. Holds for: Independent evaluation set of 36 motions split by in-house annotator score into high (12, above 3.5), medium (11, between 3 and 3.5) and low (11, below 3); strict precision-oriented confidence thresholds filter content out.\n\nProject Debater's extensive errors, in which one mistake such as off-topic argument-knowledge-base content recurs through a whole speech, occurred only in the lowest-scoring group of motions. Local errors appear in almost all motions, including the highest-scoring ones. Holds for: Manual in-depth analysis of the independent set of 36 motions, grouped by in-house annotator scores; local errors counted are wrong argument stance, off-topic units and units incoherent without context.",
+        "url": "https://borgr.github.io/papers/an-autonomous-debating-system/"
+      },
+      "alternateName": [
+        "What makes an autonomous debating system perform badly on a motion?",
+        "What kinds of errors does Project Debater make?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is the architecture of Project Debater?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Project Debater engages in competitive debate with no end-to-end model. Four modules do the work: argument mining over an indexed corpus, a manually authored argument knowledge base, speech-to-text-driven rebuttal, and rule-based debate construction with clustering. Holds for: Architecture as deployed for a debate format of 4-minute opening and second speeches and 2-minute closings, with 15 minutes of preparation after the motion is announced; argument knowledge base texts are hand-authored or manually edited.\n\nProject Debater's argument mining runs over a corpus of about 400 million newspaper articles from LexisNexis 2011-2018. The corpus is indexed offline by words, Wikipedia concepts, named entities and lexicon words, so claims and evidence for a new motion are retrieved at sentence level online. Holds for: The motion's topic must be discussed in this news corpus; motions whose topics are sparsely covered are the ones that yield low-scoring speeches.",
+        "url": "https://borgr.github.io/papers/an-autonomous-debating-system/"
+      },
+      "alternateName": [
+        "How is an autonomous debating system built without an end-to-end neural model?",
+        "What modules does a computational argumentation debate system need?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read first about computational argumentation and debate technologies?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Project Debater's authors argue that competitive debate lies outside the 'comfort zone' of classical AI grand challenges such as checkers, backgammon, chess, Jeopardy!, Go and StarCraft II. Debate has no clear winner, no enumerable moves, no room for strategies humans cannot follow, and no large body of structured training data. Holds for: A position argued in the paper's discussion rather than an experimental finding, contrasting debate with game competitions as of 2021; no claim is made that humans prevail on all real-world language tasks.\n\nProject Debater is presented as a case study in 'composite AI': breaking a broad human cognitive activity into a collection of tangible narrow tasks. Solutions are built for each narrow task rather than seeking a single end-to-end model. Holds for: One system built between 2012 and 2019 for one task, competitive debate; the paper offers no evidence about whether end-to-end models could eventually do the task.\n\nContext-dependent claim detection and context-dependent evidence detection were formulated in the course of Project Debater and have since become an active area of research in computational argumentation. Most of the system's underlying capabilities, including argument mining, are available as cloud services for academic research on request. Holds for: As stated by the authors in 2021; datasets built during development are released, the full system code is not, and academic access is by request through IBM's early-access programme.",
+        "url": "https://borgr.github.io/papers/an-autonomous-debating-system/"
+      },
+      "alternateName": [
+        "Which paper established autonomous debating as an AI challenge?",
+        "Is there a good paper on why debating is harder for AI than board games?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why is debate a harder AI grand challenge than chess or Go?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Project Debater's authors argue that competitive debate lies outside the 'comfort zone' of classical AI grand challenges such as checkers, backgammon, chess, Jeopardy!, Go and StarCraft II. Debate has no clear winner, no enumerable moves, no room for strategies humans cannot follow, and no large body of structured training data. Holds for: A position argued in the paper's discussion rather than an experimental finding, contrasting debate with game competitions as of 2021; no claim is made that humans prevail on all real-world language tasks.",
+        "url": "https://borgr.github.io/papers/an-autonomous-debating-system/"
+      },
+      "alternateName": [
+        "How does debating with humans differ from beating humans at games?",
+        "What does 'outside the AI comfort zone' mean for language tasks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are argument mining components from Project Debater available to researchers?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Context-dependent claim detection and context-dependent evidence detection were formulated in the course of Project Debater and have since become an active area of research in computational argumentation. Most of the system's underlying capabilities, including argument mining, are available as cloud services for academic research on request. Holds for: As stated by the authors in 2021; datasets built during development are released, the full system code is not, and academic access is by request through IBM's early-access programme.",
+        "url": "https://borgr.github.io/papers/an-autonomous-debating-system/"
+      },
+      "alternateName": [
+        "Which argumentation research tasks came out of the Project Debater effort?",
+        "Can I get access to IBM's debating technology datasets and services?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What motion did Project Debater debate in its 2019 public debut, and who won?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Project Debater's public debut on 11 February 2019 debated debate champion H. Natarajan on whether preschool should be subsidized, a motion never included in the system's training data. The pre-debate audience vote was 79% in favour of subsidizing preschool and 13% against. Holds for: A single live event; the unbalanced pre-debate vote left Project Debater at most 21% of the audience to win over versus 87% for the human debater, which is why audience voting is not used as the system's evaluation metric.",
+        "url": "https://borgr.github.io/papers/an-autonomous-debating-system/"
+      },
+      "alternateName": [
+        "Was the audience vote a fair measure of the IBM debating system's performance?",
+        "Did the debut debate topic appear in Project Debater's training data?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/an-autonomous-debating-system/#terms",
+  "url": "https://borgr.github.io/papers/an-autonomous-debating-system/",
+  "name": "Terminology in An autonomous debating system",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "motion",
+      "description": "The resolution being debated, announced at the start of a debate; in IBM's released cloud services the same thing is called a 'topic'.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/an-autonomous-debating-system/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "argument knowledge base (AKB)",
+      "description": "A manually authored or manually edited collection of principled arguments, counter-arguments, analogies, quotes and framings grouped into thematic classes, matched to a new debate resolution by a classifier so that content reusable across debates can be inserted into a speech.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/an-autonomous-debating-system/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "leads",
+      "description": "Claims that a debating system predicts its opponent might make, compiled in advance from argument mining, an argument knowledge base and iDebate, and then detected in the opponent's transcribed speech to trigger a prepared rebuttal.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/an-autonomous-debating-system/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "context-dependent claim detection",
+      "description": "The task of finding, in a large text corpus, concise statements that take a clear stance towards a given debate resolution, as opposed to detecting claims independently of any topic.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/an-autonomous-debating-system/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "context-dependent evidence detection",
+      "description": "The task of finding single sentences that support or contest a given debate resolution by indicating whether a relevant claim is true, rather than merely expressing a belief or claim.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/an-autonomous-debating-system/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "composite AI",
+      "description": "Tasks tied to broad human cognitive activities that require several skills applied simultaneously, contrasted with 'narrow AI' tasks that are individually well defined and amenable to end-to-end solutions.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/an-autonomous-debating-system/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "extensive error",
+      "description": "A speech-generation error in which the same type of mistake recurs throughout a whole speech and propagates across multiple content units, as opposed to a local error affecting one unit.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/an-autonomous-debating-system/#terms"
+    }
   ]
 }
   </script>
@@ -305,6 +573,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -318,11 +587,94 @@
 </head>
 <body>
 <h1>An autonomous debating system</h1>
-<p class="meta">Noam Slonim, Yonatan Bilu, Carlos Alzate, Roy Bar-Haim, Ben Bogin, Francesca Bonin, Leshem Choshen, Edo Cohen-Karlik, Lena Dankin, Lilach Edelstein, Liat Ein-Dor, Roni Friedman-Melamed, Assaf Gavron, Ariel Gera, Martin Gleize, Shai Gretz, Dan Gutfreund, Alon Halfon, Daniel Hershcovich, Ron Hoory, Yufang Hou, Shay Hummel, Michal Jacovi, Charles Jochim, Yoav Kantor, Yoav Katz, David Konopnicki, Zvi Kons, Lili Kotlerman, Dalia Krieger, Dan Lahav, Tamar Lavee, Ran Levy, Naftali Liberman, Yosi Mass, Amir Menczel, Shachar Mirkin, Guy Moshkowich, Shila Ofek-Koifman, Matan Orbach, Ella Rabinovich, Ruty Rinott, Slava Shechtman, Dafna Sheinwald, Eyal Shnarch, Ilya Shnayderman, Aya Soffer, Artem Spector, Benjamin Sznajder, Assaf Toledo, Orith Toledo-Ronen, Elad Venezian, Ranit Aharonov · Nat. · 2021</p>
-<ul class="links"><li><a href="https://doi.org/10.1038/S41586-021-03215-W">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/232305184">Semantic Scholar</a></li><li><a href="https://doi.org/10.1038/s41586-021-03215-w">Publisher</a></li></ul>
+<p class="sub">an autonomous system that prepares and delivers spoken debate speeches against human debaters</p>
+<p class="meta">Noam Slonim, Yonatan Bilu, Carlos Alzate, Roy Bar-Haim, Ben Bogin, Francesca Bonin, Leshem Choshen, Edo Cohen-Karlik, Lena Dankin, Lilach Edelstein, Liat Ein-Dor, Roni Friedman-Melamed, Assaf Gavron, Ariel Gera, Martin Gleize, Shai Gretz, Dan Gutfreund, Alon Halfon, Daniel Hershcovich, Ron Hoory, Yufang Hou, Shay Hummel, Michal Jacovi, Charles Jochim, Yoav Kantor, Yoav Katz, David Konopnicki, Zvi Kons, Lili Kotlerman, Dalia Krieger, Dan Lahav, Tamar Lavee, Ran Levy, Naftali Liberman, Yosi Mass, Amir Menczel, Shachar Mirkin, Guy Moshkowich, Shila Ofek-Koifman, Matan Orbach, Ella Rabinovich, Ruty Rinott, Slava Shechtman, Dafna Sheinwald, Eyal Shnarch, Ilya Shnayderman, Aya Soffer, Artem Spector, Benjamin Sznajder, Assaf Toledo, Orith Toledo-Ronen, Elad Venezian, Ranit Aharonov · Nature · 2021</p>
+<ul class="links"><li><a href="https://doi.org/10.1038/s41586-021-03215-w">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/232305184">Semantic Scholar</a></li><li><a href="https://doi.org/10.1038/s41586-021-03215-w">Publisher</a></li><li><a href="https://www.research.ibm.com/artificial-intelligence/project-debater/">project page</a></li><li><a href="https://www.youtube.com/watch?v=m3u-1yttrVw">debut debate video</a></li><li><a href="https://early-access-program.debater.res.ibm.com/academic_use">academic access to services</a></li><li><a href="https://www.research.ibm.com/haifa/dept/vst/debating_data.shtml">datasets</a></li></ul>
+<h2>In one sentence</h2>
+<p>Project Debater is an autonomous debating system that decomposes competitive debate into modular tasks — argument mining over 400 million news articles, a curated argument knowledge base, speech-to-text rebuttal and rule-based speech construction — and delivers spoken speeches against expert human debaters.</p>
+<h2>Abstract</h2>
+<p>Artificial intelligence (AI) is defined as the ability of machines to perform tasks that are usually associated with intelligent beings. Argument and debate are fundamental capabilities of human intelligence, essential for a wide range of human activities, and common to all human societies. The development of computational argumentation technologies is therefore an important emerging discipline in AI research 1 . Here we present Project Debater, an autonomous debating system that can engage in a competitive debate with humans. We provide a complete description of the system&#x27;s architecture, a thorough and systematic evaluation of its operation across a wide range of debate topics, and a detailed account of the system&#x27;s performance in its public debut against three expert human debaters. We also highlight the fundamental differences between debating with humans as opposed to challenging humans in game competitions, the latter being the focus of classical &#x27;grand challenges&#x27; pursued by the AI research community over the past few decades. We suggest that such challenges lie in the &#x27;comfort zone&#x27; of AI, whereas debating with humans lies in a different territory, in which humans still prevail, and for which novel paradigms are required to make substantial progress.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Can an AI system hold a competitive debate against a human?</dt>
+<dt>Has any computer program debated expert human debaters?</dt>
+<dt>How well does Project Debater perform against human debaters?</dt>
+<dd>Project Debater&#x27;s opening speeches score higher than a multi-document summarization system (Summit), a fine-tuned GPT-2 speech generator, GPT-2-generated arguments, ArgumenText-retrieved arguments and two human-curated argument baselines. The same speeches score lower than human expert debaters&#x27; speeches, both gaps being significant at P &lt; 0.05.<br><span class="scope">Holds for: Crowd annotators rating agreement with &#x27;This speech is a good opening speech for supporting the topic&#x27; on a 1-5 scale, 15 annotators per speech, over 78 motions unseen during development; the two human-argument baselines cover only 23 and 77 motions.</span></dd>
+<dd>Crowd annotators perceived Project Debater as demonstrating &#x27;decent performance&#x27; in at least 64% of debate motions. The average score was 4 or higher for 50 of 78 motions, and above the neutral 3 for all but 3 motions.<br><span class="scope">Holds for: 20 annotators per set reading 3 written speeches of unknown origin on a 1-5 agreement scale; only Project Debater&#x27;s 2 speeches judged, against simple controls rather than a human debater.</span></dd>
+<dd>Project Debater&#x27;s public debut on 11 February 2019 debated debate champion H. Natarajan on whether preschool should be subsidized, a motion never included in the system&#x27;s training data. The pre-debate audience vote was 79% in favour of subsidizing preschool and 13% against.<br><span class="scope">Holds for: A single live event; the unbalanced pre-debate vote left Project Debater at most 21% of the audience to win over versus 87% for the human debater, which is why audience voting is not used as the system&#x27;s evaluation metric.</span></dd>
+<dt>How does Project Debater compare to GPT-2 or summarization systems at writing a debate speech?</dt>
+<dt>What baselines were used to evaluate an automatically generated opening speech?</dt>
+<dt>Does an argument-mining debate system beat a language model at speech generation?</dt>
+<dd>Project Debater&#x27;s opening speeches score higher than a multi-document summarization system (Summit), a fine-tuned GPT-2 speech generator, GPT-2-generated arguments, ArgumenText-retrieved arguments and two human-curated argument baselines. The same speeches score lower than human expert debaters&#x27; speeches, both gaps being significant at P &lt; 0.05.<br><span class="scope">Holds for: Crowd annotators rating agreement with &#x27;This speech is a good opening speech for supporting the topic&#x27; on a 1-5 scale, 15 annotators per speech, over 78 motions unseen during development; the two human-argument baselines cover only 23 and 77 motions.</span></dd>
+<dt>How often does an autonomous debating system produce an acceptable speech?</dt>
+<dt>What fraction of debate motions did Project Debater handle decently?</dt>
+<dt>How was Project Debater&#x27;s full-debate performance scored by annotators?</dt>
+<dd>Crowd annotators perceived Project Debater as demonstrating &#x27;decent performance&#x27; in at least 64% of debate motions. The average score was 4 or higher for 50 of 78 motions, and above the neutral 3 for all but 3 motions.<br><span class="scope">Holds for: 20 annotators per set reading 3 written speeches of unknown origin on a 1-5 agreement scale; only Project Debater&#x27;s 2 speeches judged, against simple controls rather than a human debater.</span></dd>
+<dt>Are the speeches of Project Debater just canned templates?</dt>
+<dt>How much of an automatically generated debate speech is boilerplate text?</dt>
+<dt>Where does the content in Project Debater&#x27;s speeches come from?</dt>
+<dd>Less than 18% of Project Debater&#x27;s generated speech content is conventional canned text; the rest comes from mined arguments (41.8%), the argument knowledge base (27.0%), rebuttal (11.3%) and rebuttal leads (2.4%).<br><span class="scope">Holds for: Relative distribution of word content across all speeches for the 78 motions of the first evaluation set.</span></dd>
+<dd>Project Debater&#x27;s argument mining runs over a corpus of about 400 million newspaper articles from LexisNexis 2011-2018. The corpus is indexed offline by words, Wikipedia concepts, named entities and lexicon words, so claims and evidence for a new motion are retrieved at sentence level online.<br><span class="scope">Holds for: The motion&#x27;s topic must be discussed in this news corpus; motions whose topics are sparsely covered are the ones that yield low-scoring speeches.</span></dd>
+<dt>Why do automatic debate speeches fail on some topics?</dt>
+<dt>What makes an autonomous debating system perform badly on a motion?</dt>
+<dt>What kinds of errors does Project Debater make?</dt>
+<dd>Speech quality in Project Debater tracks how much content the system managed to produce. Motions scored &#x27;high&#x27; averaged 1,496 words across the three speeches, &#x27;medium&#x27; 1,155 words and &#x27;low&#x27; 793 words, with the largest gap in mined arguments.<br><span class="scope">Holds for: Independent evaluation set of 36 motions split by in-house annotator score into high (12, above 3.5), medium (11, between 3 and 3.5) and low (11, below 3); strict precision-oriented confidence thresholds filter content out.</span></dd>
+<dd>Project Debater&#x27;s extensive errors, in which one mistake such as off-topic argument-knowledge-base content recurs through a whole speech, occurred only in the lowest-scoring group of motions. Local errors appear in almost all motions, including the highest-scoring ones.<br><span class="scope">Holds for: Manual in-depth analysis of the independent set of 36 motions, grouped by in-house annotator scores; local errors counted are wrong argument stance, off-topic units and units incoherent without context.</span></dd>
+<dt>What is the architecture of Project Debater?</dt>
+<dt>How is an autonomous debating system built without an end-to-end neural model?</dt>
+<dt>What modules does a computational argumentation debate system need?</dt>
+<dd>Project Debater engages in competitive debate with no end-to-end model. Four modules do the work: argument mining over an indexed corpus, a manually authored argument knowledge base, speech-to-text-driven rebuttal, and rule-based debate construction with clustering.<br><span class="scope">Holds for: Architecture as deployed for a debate format of 4-minute opening and second speeches and 2-minute closings, with 15 minutes of preparation after the motion is announced; argument knowledge base texts are hand-authored or manually edited.</span></dd>
+<dd>Project Debater&#x27;s argument mining runs over a corpus of about 400 million newspaper articles from LexisNexis 2011-2018. The corpus is indexed offline by words, Wikipedia concepts, named entities and lexicon words, so claims and evidence for a new motion are retrieved at sentence level online.<br><span class="scope">Holds for: The motion&#x27;s topic must be discussed in this news corpus; motions whose topics are sparsely covered are the ones that yield low-scoring speeches.</span></dd>
+<dt>What should I read first about computational argumentation and debate technologies?</dt>
+<dt>Which paper established autonomous debating as an AI challenge?</dt>
+<dt>Is there a good paper on why debating is harder for AI than board games?</dt>
+<dd>Project Debater&#x27;s authors argue that competitive debate lies outside the &#x27;comfort zone&#x27; of classical AI grand challenges such as checkers, backgammon, chess, Jeopardy!, Go and StarCraft II. Debate has no clear winner, no enumerable moves, no room for strategies humans cannot follow, and no large body of structured training data.<br><span class="scope">Holds for: A position argued in the paper&#x27;s discussion rather than an experimental finding, contrasting debate with game competitions as of 2021; no claim is made that humans prevail on all real-world language tasks.</span></dd>
+<dd>Project Debater is presented as a case study in &#x27;composite AI&#x27;: breaking a broad human cognitive activity into a collection of tangible narrow tasks. Solutions are built for each narrow task rather than seeking a single end-to-end model.<br><span class="scope">Holds for: One system built between 2012 and 2019 for one task, competitive debate; the paper offers no evidence about whether end-to-end models could eventually do the task.</span></dd>
+<dd>Context-dependent claim detection and context-dependent evidence detection were formulated in the course of Project Debater and have since become an active area of research in computational argumentation. Most of the system&#x27;s underlying capabilities, including argument mining, are available as cloud services for academic research on request.<br><span class="scope">Holds for: As stated by the authors in 2021; datasets built during development are released, the full system code is not, and academic access is by request through IBM&#x27;s early-access programme.</span></dd>
+<dt>Why is debate a harder AI grand challenge than chess or Go?</dt>
+<dt>How does debating with humans differ from beating humans at games?</dt>
+<dt>What does &#x27;outside the AI comfort zone&#x27; mean for language tasks?</dt>
+<dd>Project Debater&#x27;s authors argue that competitive debate lies outside the &#x27;comfort zone&#x27; of classical AI grand challenges such as checkers, backgammon, chess, Jeopardy!, Go and StarCraft II. Debate has no clear winner, no enumerable moves, no room for strategies humans cannot follow, and no large body of structured training data.<br><span class="scope">Holds for: A position argued in the paper&#x27;s discussion rather than an experimental finding, contrasting debate with game competitions as of 2021; no claim is made that humans prevail on all real-world language tasks.</span></dd>
+<dt>Are argument mining components from Project Debater available to researchers?</dt>
+<dt>Which argumentation research tasks came out of the Project Debater effort?</dt>
+<dt>Can I get access to IBM&#x27;s debating technology datasets and services?</dt>
+<dd>Context-dependent claim detection and context-dependent evidence detection were formulated in the course of Project Debater and have since become an active area of research in computational argumentation. Most of the system&#x27;s underlying capabilities, including argument mining, are available as cloud services for academic research on request.<br><span class="scope">Holds for: As stated by the authors in 2021; datasets built during development are released, the full system code is not, and academic access is by request through IBM&#x27;s early-access programme.</span></dd>
+<dt>What motion did Project Debater debate in its 2019 public debut, and who won?</dt>
+<dt>Was the audience vote a fair measure of the IBM debating system&#x27;s performance?</dt>
+<dt>Did the debut debate topic appear in Project Debater&#x27;s training data?</dt>
+<dd>Project Debater&#x27;s public debut on 11 February 2019 debated debate champion H. Natarajan on whether preschool should be subsidized, a motion never included in the system&#x27;s training data. The pre-debate audience vote was 79% in favour of subsidizing preschool and 13% against.<br><span class="scope">Holds for: A single live event; the unbalanced pre-debate vote left Project Debater at most 21% of the audience to win over versus 87% for the human debater, which is why audience voting is not used as the system&#x27;s evaluation metric.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Project Debater&#x27;s opening speeches score higher than a multi-document summarization system (Summit), a fine-tuned GPT-2 speech generator, GPT-2-generated arguments, ArgumenText-retrieved arguments and two human-curated argument baselines. The same speeches score lower than human expert debaters&#x27; speeches, both gaps being significant at P &lt; 0.05. <span class="meta">(Figure 3a)</span><br><span class="scope">Scope: Crowd annotators rating agreement with &#x27;This speech is a good opening speech for supporting the topic&#x27; on a 1-5 scale, 15 annotators per speech, over 78 motions unseen during development; the two human-argument baselines cover only 23 and 77 motions.</span></li>
+<li>Crowd annotators perceived Project Debater as demonstrating &#x27;decent performance&#x27; in at least 64% of debate motions. The average score was 4 or higher for 50 of 78 motions, and above the neutral 3 for all but 3 motions. <span class="meta">(Figure 3b)</span><br><span class="scope">Scope: 20 annotators per set reading 3 written speeches of unknown origin on a 1-5 agreement scale; only Project Debater&#x27;s 2 speeches judged, against simple controls rather than a human debater.</span></li>
+<li>Less than 18% of Project Debater&#x27;s generated speech content is conventional canned text; the rest comes from mined arguments (41.8%), the argument knowledge base (27.0%), rebuttal (11.3%) and rebuttal leads (2.4%). <span class="meta">(Figure 4b)</span><br><span class="scope">Scope: Relative distribution of word content across all speeches for the 78 motions of the first evaluation set.</span></li>
+<li>Speech quality in Project Debater tracks how much content the system managed to produce. Motions scored &#x27;high&#x27; averaged 1,496 words across the three speeches, &#x27;medium&#x27; 1,155 words and &#x27;low&#x27; 793 words, with the largest gap in mined arguments. <span class="meta">(Figure 4a)</span><br><span class="scope">Scope: Independent evaluation set of 36 motions split by in-house annotator score into high (12, above 3.5), medium (11, between 3 and 3.5) and low (11, below 3); strict precision-oriented confidence thresholds filter content out.</span></li>
+<li>Project Debater&#x27;s extensive errors, in which one mistake such as off-topic argument-knowledge-base content recurs through a whole speech, occurred only in the lowest-scoring group of motions. Local errors appear in almost all motions, including the highest-scoring ones. <span class="meta">(The &#x27;In-depth analysis&#x27; section)</span><br><span class="scope">Scope: Manual in-depth analysis of the independent set of 36 motions, grouped by in-house annotator scores; local errors counted are wrong argument stance, off-topic units and units incoherent without context.</span></li>
+<li>Project Debater engages in competitive debate with no end-to-end model. Four modules do the work: argument mining over an indexed corpus, a manually authored argument knowledge base, speech-to-text-driven rebuttal, and rule-based debate construction with clustering. <span class="meta">(Figure 2 and the &#x27;System architecture&#x27; section)</span><br><span class="scope">Scope: Architecture as deployed for a debate format of 4-minute opening and second speeches and 2-minute closings, with 15 minutes of preparation after the motion is announced; argument knowledge base texts are hand-authored or manually edited.</span></li>
+<li>Project Debater&#x27;s argument mining runs over a corpus of about 400 million newspaper articles from LexisNexis 2011-2018. The corpus is indexed offline by words, Wikipedia concepts, named entities and lexicon words, so claims and evidence for a new motion are retrieved at sentence level online. <span class="meta">(The &#x27;Argument mining&#x27; section and Figure 2)</span><br><span class="scope">Scope: The motion&#x27;s topic must be discussed in this news corpus; motions whose topics are sparsely covered are the ones that yield low-scoring speeches.</span></li>
+<li>Project Debater&#x27;s public debut on 11 February 2019 debated debate champion H. Natarajan on whether preschool should be subsidized, a motion never included in the system&#x27;s training data. The pre-debate audience vote was 79% in favour of subsidizing preschool and 13% against. <span class="meta">(The introduction and the &#x27;Evaluation and results&#x27; section)</span><br><span class="scope">Scope: A single live event; the unbalanced pre-debate vote left Project Debater at most 21% of the audience to win over versus 87% for the human debater, which is why audience voting is not used as the system&#x27;s evaluation metric.</span></li>
+<li>Project Debater&#x27;s authors argue that competitive debate lies outside the &#x27;comfort zone&#x27; of classical AI grand challenges such as checkers, backgammon, chess, Jeopardy!, Go and StarCraft II. Debate has no clear winner, no enumerable moves, no room for strategies humans cannot follow, and no large body of structured training data.<br><span class="scope">Scope: A position argued in the paper&#x27;s discussion rather than an experimental finding, contrasting debate with game competitions as of 2021; no claim is made that humans prevail on all real-world language tasks.</span></li>
+<li>Project Debater is presented as a case study in &#x27;composite AI&#x27;: breaking a broad human cognitive activity into a collection of tangible narrow tasks. Solutions are built for each narrow task rather than seeking a single end-to-end model. <span class="meta">(The Discussion section)</span><br><span class="scope">Scope: One system built between 2012 and 2019 for one task, competitive debate; the paper offers no evidence about whether end-to-end models could eventually do the task.</span></li>
+<li>Context-dependent claim detection and context-dependent evidence detection were formulated in the course of Project Debater and have since become an active area of research in computational argumentation. Most of the system&#x27;s underlying capabilities, including argument mining, are available as cloud services for academic research on request.<br><span class="scope">Scope: As stated by the authors in 2021; datasets built during development are released, the full system code is not, and academic access is by request through IBM&#x27;s early-access programme.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>Project Debater is not reported as beating human debaters: its speeches score significantly lower than human expert speeches, and the paper&#x27;s conclusion is that debate is a territory where humans still prevail.</li>
+<li>The 64% &#x27;decent performance&#x27; figure comes from crowd annotators reading three written speeches, not from an audience vote in a live debate, and only two of the three speeches were assessed.</li>
+<li>The public debut against H. Natarajan is not the paper&#x27;s evaluation; the systematic evaluation is over 78 motions plus an independent set of 36, and the paper explicitly declines to treat the live audience vote as a reliable metric.</li>
+<li>Project Debater is not an end-to-end neural model: it is a modular pipeline of separately trained components plus rule-based construction, and the argument knowledge base texts are manually authored or manually edited.</li>
+<li>The argument knowledge base does not make the speeches formulaic: conventional canned text accounts for under 18% of speech content, with the majority mined from a news corpus.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>motion</em></dt><dd>The resolution being debated, announced at the start of a debate; in IBM&#x27;s released cloud services the same thing is called a &#x27;topic&#x27;.</dd>
+<dt><em>argument knowledge base (AKB)</em></dt><dd>A manually authored or manually edited collection of principled arguments, counter-arguments, analogies, quotes and framings grouped into thematic classes, matched to a new debate resolution by a classifier so that content reusable across debates can be inserted into a speech.</dd>
+<dt><em>leads</em></dt><dd>Claims that a debating system predicts its opponent might make, compiled in advance from argument mining, an argument knowledge base and iDebate, and then detected in the opponent&#x27;s transcribed speech to trigger a prepared rebuttal.</dd>
+<dt><em>context-dependent claim detection</em></dt><dd>The task of finding, in a large text corpus, concise statements that take a clear stance towards a given debate resolution, as opposed to detecting claims independently of any topic.</dd>
+<dt><em>context-dependent evidence detection</em></dt><dd>The task of finding single sentences that support or contest a given debate resolution by indicating whether a relevant claim is true, rather than merely expressing a belief or claim.</dd>
+<dt><em>composite AI</em></dt><dd>Tasks tied to broad human cognitive activities that require several skills applied simultaneously, contrasted with &#x27;narrow AI&#x27; tasks that are individually well defined and amenable to end-to-end solutions.</dd>
+<dt><em>extensive error</em></dt><dd>A speech-generation error in which the same type of mistake recurs throughout a whole speech and propagates across multiple content units, as opposed to a local error affecting one unit.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@article{DBLP:journals/nature/SlonimBABBBCCDE21,
-author       = {Noam Slonim and
+<pre>@article{DBLP:journals/nature/SlonimBABBBCCDE21,author       = {Noam Slonim and
                   Yonatan Bilu and
                   Carlos Alzate and
                   Roy Bar{-}Haim and

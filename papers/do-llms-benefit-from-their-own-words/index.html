@@ -8,7 +8,7 @@
   <meta name="citation_title" content="Do LLMs Benefit From Their Own Words?">
   <meta name="citation_author" content="Jenny Y. Huang">
   <meta name="citation_author" content="Leshem Choshen">
-  <meta name="citation_author" content="R. Astudillo">
+  <meta name="citation_author" content="Ramon Astudillo">
   <meta name="citation_author" content="Tamara Broderick">
   <meta name="citation_author" content="Jacob Andreas">
   <meta name="citation_publication_date" content="2026">
@@ -34,7 +34,7 @@
     },
     {
       "@type": "Person",
-      "name": "R. Astudillo"
+      "name": "Ramon Astudillo"
     },
     {
       "@type": "Person",
@@ -47,12 +47,9 @@
   ],
   "isAccessibleForFree": true,
   "datePublished": "2026",
-  "isPartOf": {
-    "@type": "Periodical",
-    "name": "arXiv.org"
-  },
   "identifier": "https://doi.org/10.48550/arXiv.2602.24287",
   "abstract": "Multi-turn interactions with large language models typically retain the assistant's own past responses in the conversation history. In this work, we revisit this design choice by asking whether large language models benefit from conditioning on their own prior responses. Using in-the-wild, multi-turn conversations, we compare standard (full-context) prompting with a user-turn-only prompting approach that omits all previous assistant responses, across three open reasoning models and one state-of-the-art model. To our surprise, we find that removing prior assistant responses does not affect response quality on a large fraction of turns. Omitting assistant-side history can reduce cumulative context lengths by up to 10x. To explain this result, we find that multi-turn conversations consist of a substantial proportion (36.4%) of self-contained prompts, and that many follow-up prompts provide sufficient instruction to be answered using only the current user turn and prior user turns. When analyzing cases where user-turn-only prompting substantially outperforms full context, we identify instances of context pollution, in which models over-condition on their previous responses, introducing errors, hallucinations, or stylistic artifacts that propagate across turns. Motivated by these findings, we design a context-filtering approach that selectively omits assistant-side context. Our findings suggest that selectively omitting assistant history can improve response quality while reducing memory consumption.",
+  "description": "Deleting all prior assistant responses from multi-turn chat histories on WildChat and ShareLM often leaves response quality unchanged while cutting cumulative context by 5-10x, because 36.4% of in-the-wild turns are self-contained and past responses can pollute later ones.",
   "sameAs": [
     "https://arxiv.org/abs/2602.24287",
     "https://arxiv.org/html/2602.24287",
@@ -61,6 +58,260 @@
     "https://huggingface.co/papers/2602.24287",
     "https://www.alphaxiv.org/abs/2602.24287",
     "https://www.semanticscholar.org/paper/286171698"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Omitting all prior assistant responses preserves average response quality for DeepSeek-R1-Distill-Llama-8B and GPT-OSS-20B, while Qwen3-4B and GPT-5.2 lose some quality relative to full context. Responses stay on-topic under omission for all four models.",
+      "description": "Holds for: 300 real-world multi-turn conversations sampled from WildChat and ShareLM, 5-10 rounds each, filtered to English technical chats; GPT-5 as pairwise LLM judge seeing prior user and assistant turns."
+    },
+    {
+      "@type": "Thing",
+      "name": "When the GPT-5 judge is shown only prior user-side turns, assistant-omitted responses match or beat full-context responses on both quality and on-topic dimensions for all four models. That reverses the full-context judge's preference for Qwen3-4B and GPT-5.2.",
+      "description": "Holds for: Same 300 WildChat and ShareLM conversations and same four models (Qwen3-4B, DeepSeek-R1-Distill-Llama-8B, GPT-OSS-20B, GPT-5.2); a judge without assistant history cannot resolve prompts that explicitly reference an earlier response."
+    },
+    {
+      "@type": "Thing",
+      "name": "Full-context histories grow to roughly 25,000-55,000 characters by round 8, whereas user-turn-only context stays near-constant at 5,000-10,000 characters, a 5 to 10x reduction in context usage.",
+      "description": "Holds for: Character counts over 5-10 round WildChat and ShareLM technical conversations; measured in characters rather than tokens, and does not include generated response length."
+    },
+    {
+      "@type": "Thing",
+      "name": "In real-world multi-turn chats, 36.4% of non-initial user turns are self-contained new asks, 30.5% are follow-ups with concrete feedback, and 33.1% are follow-ups referencing an earlier turn without actionable feedback.",
+      "description": "Holds for: GPT-5 as automated annotator over the sampled WildChat and ShareLM English technical conversations of 5-10 rounds; the 33.1% is an upper bound on assistant-dependence."
+    },
+    {
+      "@type": "Thing",
+      "name": "For Qwen3-4B and GPT-5.2, full-context and assistant-omitted prompting perform comparably on new-ask turns, while full context helps most on follow-up turns; assistant-omitted context still wins roughly 40% of follow-up comparisons for Qwen3-4B and 30% for GPT-5.2.",
+      "description": "Holds for: The two models for which uniform omission lowered overall quality; win rates averaged over the quality and on-topic dimensions, ties handled as in the pairwise judge protocol."
+    },
+    {
+      "@type": "Thing",
+      "name": "5 conversations in which assistant-omitted responses scored far above full context exhibit context pollution. The cases are UMAP arguments carried into t-SNE code, hallucinated book titles repeated across turns, a misattributed NBER citation, tutorial style overriding a reflection request, and a reversed temperature formula.",
+      "description": "Holds for: Cases surfaced by sorting rounds by 1-10 judge score gap (AO minus FC) and reviewing the largest positive gaps; illustrative, not a frequency estimate, and includes GPT-5.2 as well as smaller open models."
+    },
+    {
+      "@type": "Thing",
+      "name": "A per-turn classifier choosing between full and assistant-omitted context retains over 95% of full-context-only win-or-tie performance, and matches full-context-only at about 70% of the context consumption. It beats a heuristic that omits assistant history on all new-ask turns.",
+      "description": "Holds for: GPT-5.2 only; L1-regularized logistic regression over round metadata, prompt category and PCA-reduced text-embedding-3-large embeddings; ties counted as wins, and the heuristic baseline is measured on a 20% held-out subset so it may improve with more data."
+    },
+    {
+      "@type": "Thing",
+      "name": "Predicting whether the judge will prefer full context over assistant-omitted context is hard: the L1-regularized logistic regression reaches only a 5-fold cross-validated F1 of 0.6106 ± 0.0119. None of the top 20 features are significant at the 5% level.",
+      "description": "Holds for: GPT-5.2 responses on the sampled WildChat and ShareLM conversations; features are round metadata, prompt category, and 20 principal components each of prompt and history embeddings explaining 38.0% and 51.5% of variance."
+    },
+    {
+      "@type": "Thing",
+      "name": "Replacing each assistant response with a one-sentence self-summary improves response quality over full context for both DeepSeek-R1-Distill-Llama-8B and Qwen3-4B on both Lost-in-Conversation and WildChat. Fully omitting assistant turns helps on Lost-in-Conversation but is mixed on WildChat.",
+      "description": "Holds for: 2 models and 2 datasets, using an earlier pairwise judge pipeline that compared final responses only, so numbers are not directly comparable to the main-text 1-10 scoring runs."
+    },
+    {
+      "@type": "Thing",
+      "name": "The GPT-5 judge agreed with an author's manual verdict on 54 of 60 quality judgments (90.0%) and 55 of 60 on-topic judgments (91.7%).",
+      "description": "Holds for: 15 sampled judgments per model across the 4 models, annotated by one of the authors; no larger-scale or multi-annotator human study was run."
+    },
+    {
+      "@type": "Thing",
+      "name": "Huang et al.'s \"Do LLMs Benefit From Their Own Words?\" questions the default assumption of multi-turn chat and agentic context management that retaining a model's own past responses reliably helps. It tests that assumption on in-the-wild human-LLM logs rather than synthetic dialogues.",
+      "description": "Holds for: As of the February 2026 preprint; prior turn-level context-editing work such as ERGO evaluated on synthetic conversations, and earlier conversational-QA findings about irrelevant turns concerned human-human histories."
+    },
+    {
+      "@type": "Thing",
+      "name": "\"Do LLMs Benefit From Their Own Words?\" argues that in-the-wild multi-turn chat logs are weak benchmarks for long-context multi-turn reasoning, and calls for corpora curated for genuine multi-turn dependence. The reason is that a large share of turns in real chat logs do not depend on earlier assistant responses.",
+      "description": "Holds for: Argued from English technical (math and coding keyword) conversations of 5-10 rounds in WildChat and ShareLM; agentic settings with tool outputs and scratchpads are discussed but not measured."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/#faq",
+  "url": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/",
+  "name": "Questions answered by Do LLMs Benefit From Their Own Words?",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do language models actually need their own previous replies in the conversation history?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Omitting all prior assistant responses preserves average response quality for DeepSeek-R1-Distill-Llama-8B and GPT-OSS-20B, while Qwen3-4B and GPT-5.2 lose some quality relative to full context. Responses stay on-topic under omission for all four models. Holds for: 300 real-world multi-turn conversations sampled from WildChat and ShareLM, 5-10 rounds each, filtered to English technical chats; GPT-5 as pairwise LLM judge seeing prior user and assistant turns.\n\nWhen the GPT-5 judge is shown only prior user-side turns, assistant-omitted responses match or beat full-context responses on both quality and on-topic dimensions for all four models. That reverses the full-context judge's preference for Qwen3-4B and GPT-5.2. Holds for: Same 300 WildChat and ShareLM conversations and same four models (Qwen3-4B, DeepSeek-R1-Distill-Llama-8B, GPT-OSS-20B, GPT-5.2); a judge without assistant history cannot resolve prompts that explicitly reference an earlier response.",
+        "url": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/"
+      },
+      "alternateName": [
+        "Does deleting past assistant turns from a chat hurt answer quality?",
+        "What happens if you only keep the user turns in a multi-turn LLM conversation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much context can you save by dropping assistant replies from chat history?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Full-context histories grow to roughly 25,000-55,000 characters by round 8, whereas user-turn-only context stays near-constant at 5,000-10,000 characters, a 5 to 10x reduction in context usage. Holds for: Character counts over 5-10 round WildChat and ShareLM technical conversations; measured in characters rather than tokens, and does not include generated response length.",
+        "url": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/"
+      },
+      "alternateName": [
+        "How much does omitting assistant turns shrink the prompt in long conversations?",
+        "Is user-turn-only prompting cheaper in context length?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What fraction of turns in real chat logs depend on the previous assistant response?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In real-world multi-turn chats, 36.4% of non-initial user turns are self-contained new asks, 30.5% are follow-ups with concrete feedback, and 33.1% are follow-ups referencing an earlier turn without actionable feedback. Holds for: GPT-5 as automated annotator over the sampled WildChat and ShareLM English technical conversations of 5-10 rounds; the 33.1% is an upper bound on assistant-dependence.\n\n\"Do LLMs Benefit From Their Own Words?\" argues that in-the-wild multi-turn chat logs are weak benchmarks for long-context multi-turn reasoning, and calls for corpora curated for genuine multi-turn dependence. The reason is that a large share of turns in real chat logs do not depend on earlier assistant responses. Holds for: Argued from English technical (math and coding keyword) conversations of 5-10 rounds in WildChat and ShareLM; agentic settings with tool outputs and scratchpads are discussed but not measured.",
+        "url": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/"
+      },
+      "alternateName": [
+        "How many user prompts in WildChat conversations are self-contained?",
+        "Are real multi-turn conversations really multi-turn dependent?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which kinds of user prompts still need the assistant's earlier answer?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For Qwen3-4B and GPT-5.2, full-context and assistant-omitted prompting perform comparably on new-ask turns, while full context helps most on follow-up turns; assistant-omitted context still wins roughly 40% of follow-up comparisons for Qwen3-4B and 30% for GPT-5.2. Holds for: The two models for which uniform omission lowered overall quality; win rates averaged over the quality and on-topic dimensions, ties handled as in the pairwise judge protocol.\n\nIn real-world multi-turn chats, 36.4% of non-initial user turns are self-contained new asks, 30.5% are follow-ups with concrete feedback, and 33.1% are follow-ups referencing an earlier turn without actionable feedback. Holds for: GPT-5 as automated annotator over the sampled WildChat and ShareLM English technical conversations of 5-10 rounds; the 33.1% is an upper bound on assistant-dependence.",
+        "url": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/"
+      },
+      "alternateName": [
+        "Do follow-up prompts break when assistant history is removed?",
+        "Is omitting assistant history safer for new questions than for follow-ups?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is context pollution in multi-turn LLM conversations?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "5 conversations in which assistant-omitted responses scored far above full context exhibit context pollution. The cases are UMAP arguments carried into t-SNE code, hallucinated book titles repeated across turns, a misattributed NBER citation, tutorial style overriding a reflection request, and a reversed temperature formula. Holds for: Cases surfaced by sorting rounds by 1-10 judge score gap (AO minus FC) and reviewing the largest positive gaps; illustrative, not a frequency estimate, and includes GPT-5.2 as well as smaller open models.",
+        "url": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/"
+      },
+      "alternateName": [
+        "How do a model's own earlier mistakes propagate into later turns?",
+        "Can keeping past model outputs in context introduce new bugs or hallucinations?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can you learn when to keep and when to drop assistant history per turn?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A per-turn classifier choosing between full and assistant-omitted context retains over 95% of full-context-only win-or-tie performance, and matches full-context-only at about 70% of the context consumption. It beats a heuristic that omits assistant history on all new-ask turns. Holds for: GPT-5.2 only; L1-regularized logistic regression over round metadata, prompt category and PCA-reduced text-embedding-3-large embeddings; ties counted as wins, and the heuristic baseline is measured on a 20% held-out subset so it may improve with more data.\n\nPredicting whether the judge will prefer full context over assistant-omitted context is hard: the L1-regularized logistic regression reaches only a 5-fold cross-validated F1 of 0.6106 ± 0.0119. None of the top 20 features are significant at the 5% level. Holds for: GPT-5.2 responses on the sampled WildChat and ShareLM conversations; features are round metadata, prompt category, and 20 principal components each of prompt and history embeddings explaining 38.0% and 51.5% of variance.",
+        "url": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/"
+      },
+      "alternateName": [
+        "Does a classifier that selectively omits assistant responses save context without losing quality?",
+        "How well does adaptive context filtering of assistant turns work on GPT-5.2?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is summarizing past assistant responses better than keeping them verbatim?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Replacing each assistant response with a one-sentence self-summary improves response quality over full context for both DeepSeek-R1-Distill-Llama-8B and Qwen3-4B on both Lost-in-Conversation and WildChat. Fully omitting assistant turns helps on Lost-in-Conversation but is mixed on WildChat. Holds for: 2 models and 2 datasets, using an earlier pairwise judge pipeline that compared final responses only, so numbers are not directly comparable to the main-text 1-10 scoring runs.",
+        "url": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/"
+      },
+      "alternateName": [
+        "Does replacing model replies with one-sentence summaries help multi-turn quality?",
+        "How does summarized context compare with full context in multi-turn chat?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How reliable is the LLM-as-judge evaluation of full-context versus assistant-omitted responses?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The GPT-5 judge agreed with an author's manual verdict on 54 of 60 quality judgments (90.0%) and 55 of 60 on-topic judgments (91.7%). Holds for: 15 sampled judgments per model across the 4 models, annotated by one of the authors; no larger-scale or multi-annotator human study was run.\n\nWhen the GPT-5 judge is shown only prior user-side turns, assistant-omitted responses match or beat full-context responses on both quality and on-topic dimensions for all four models. That reverses the full-context judge's preference for Qwen3-4B and GPT-5.2. Holds for: Same 300 WildChat and ShareLM conversations and same four models (Qwen3-4B, DeepSeek-R1-Distill-Llama-8B, GPT-OSS-20B, GPT-5.2); a judge without assistant history cannot resolve prompts that explicitly reference an earlier response.",
+        "url": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/"
+      },
+      "alternateName": [
+        "Was the GPT-5 judge checked against human annotation?",
+        "Does judge context change which prompting configuration wins?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about context management in multi-turn chat and agents?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Huang et al.'s \"Do LLMs Benefit From Their Own Words?\" questions the default assumption of multi-turn chat and agentic context management that retaining a model's own past responses reliably helps. It tests that assumption on in-the-wild human-LLM logs rather than synthetic dialogues. Holds for: As of the February 2026 preprint; prior turn-level context-editing work such as ERGO evaluated on synthetic conversations, and earlier conversational-QA findings about irrelevant turns concerned human-human histories.\n\n\"Do LLMs Benefit From Their Own Words?\" argues that in-the-wild multi-turn chat logs are weak benchmarks for long-context multi-turn reasoning, and calls for corpora curated for genuine multi-turn dependence. The reason is that a large share of turns in real chat logs do not depend on earlier assistant responses. Holds for: Argued from English technical (math and coding keyword) conversations of 5-10 rounds in WildChat and ShareLM; agentic settings with tool outputs and scratchpads are discussed but not measured.",
+        "url": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/"
+      },
+      "alternateName": [
+        "Which paper questions whether keeping past model outputs in context is worth it?",
+        "Is there work on context pruning evaluated on real human-LLM conversations instead of synthetic ones?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are frontier models also misled by their own past responses, or just small models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Omitting all prior assistant responses preserves average response quality for DeepSeek-R1-Distill-Llama-8B and GPT-OSS-20B, while Qwen3-4B and GPT-5.2 lose some quality relative to full context. Responses stay on-topic under omission for all four models. Holds for: 300 real-world multi-turn conversations sampled from WildChat and ShareLM, 5-10 rounds each, filtered to English technical chats; GPT-5 as pairwise LLM judge seeing prior user and assistant turns.\n\n5 conversations in which assistant-omitted responses scored far above full context exhibit context pollution. The cases are UMAP arguments carried into t-SNE code, hallucinated book titles repeated across turns, a misattributed NBER citation, tutorial style overriding a reflection request, and a reversed temperature formula. Holds for: Cases surfaced by sorting rounds by 1-10 judge score gap (AO minus FC) and reviewing the largest positive gaps; illustrative, not a frequency estimate, and includes GPT-5.2 as well as smaller open models.",
+        "url": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/"
+      },
+      "alternateName": [
+        "Does GPT-5.2 suffer from over-conditioning on its earlier turns?",
+        "Which models were tested for the effect of removing assistant history?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/#terms",
+  "url": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/",
+  "name": "Terminology in Do LLMs Benefit From Their Own Words?",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Assistant-Omitted (AO) context",
+      "description": "A prompting configuration in which every past assistant response in a multi-turn conversation is replaced by the placeholder \"[Response provided]\", so the model conditions only on prior user turns while the alternating user/assistant structure is preserved.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "context pollution",
+      "description": "The phenomenon in which a language model over-conditions on its own earlier responses, so errors, hallucinations or stylistic artifacts introduced in one turn propagate into later turns.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "New Ask",
+      "description": "A non-initial user turn that introduces a fully self-contained request, understandable without any prior conversation round.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Follow-up with Feedback",
+      "description": "A user turn that gives concrete, actionable feedback on a prior assistant response, such as \"use Python instead of Java for the code example\".",
+      "inDefinedTermSet": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Follow-up without Feedback",
+      "description": "A user turn that refers to an earlier conversation round without any concrete instruction for revision, such as \"reflect on your response\".",
+      "inDefinedTermSet": "https://borgr.github.io/papers/do-llms-benefit-from-their-own-words/#terms"
+    }
   ]
 }
   </script>
@@ -71,6 +322,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -84,10 +336,101 @@
 </head>
 <body>
 <h1>Do LLMs Benefit From Their Own Words?</h1>
-<p class="meta">Jenny Y. Huang, Leshem Choshen, R. Astudillo, Tamara Broderick, Jacob Andreas · arXiv.org · 2026</p>
+<p class="sub">when a model&#x27;s own earlier response carries errors, hallucinations or style into later turns</p>
+<p class="meta">Jenny Y. Huang, Leshem Choshen, Ramon Astudillo, Tamara Broderick, Jacob Andreas · 2026</p>
 <ul class="links"><li><a href="https://arxiv.org/abs/2602.24287">arXiv</a></li><li><a href="https://arxiv.org/pdf/2602.24287">PDF</a></li><li><a href="https://arxiv.org/html/2602.24287">HTML</a></li><li><a href="https://huggingface.co/papers/2602.24287">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2602.24287">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2602.24287">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/286171698">Semantic Scholar</a></li></ul>
+<h2>In one sentence</h2>
+<p>Deleting all prior assistant responses from multi-turn chat histories on WildChat and ShareLM often leaves response quality unchanged while cutting cumulative context by 5-10x, because 36.4% of in-the-wild turns are self-contained and past responses can pollute later ones.</p>
 <h2>Abstract</h2>
 <p>Multi-turn interactions with large language models typically retain the assistant&#x27;s own past responses in the conversation history. In this work, we revisit this design choice by asking whether large language models benefit from conditioning on their own prior responses. Using in-the-wild, multi-turn conversations, we compare standard (full-context) prompting with a user-turn-only prompting approach that omits all previous assistant responses, across three open reasoning models and one state-of-the-art model. To our surprise, we find that removing prior assistant responses does not affect response quality on a large fraction of turns. Omitting assistant-side history can reduce cumulative context lengths by up to 10x. To explain this result, we find that multi-turn conversations consist of a substantial proportion (36.4%) of self-contained prompts, and that many follow-up prompts provide sufficient instruction to be answered using only the current user turn and prior user turns. When analyzing cases where user-turn-only prompting substantially outperforms full context, we identify instances of context pollution, in which models over-condition on their previous responses, introducing errors, hallucinations, or stylistic artifacts that propagate across turns. Motivated by these findings, we design a context-filtering approach that selectively omits assistant-side context. Our findings suggest that selectively omitting assistant history can improve response quality while reducing memory consumption.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Do language models actually need their own previous replies in the conversation history?</dt>
+<dt>Does deleting past assistant turns from a chat hurt answer quality?</dt>
+<dt>What happens if you only keep the user turns in a multi-turn LLM conversation?</dt>
+<dd>Omitting all prior assistant responses preserves average response quality for DeepSeek-R1-Distill-Llama-8B and GPT-OSS-20B, while Qwen3-4B and GPT-5.2 lose some quality relative to full context. Responses stay on-topic under omission for all four models.<br><span class="scope">Holds for: 300 real-world multi-turn conversations sampled from WildChat and ShareLM, 5-10 rounds each, filtered to English technical chats; GPT-5 as pairwise LLM judge seeing prior user and assistant turns.</span></dd>
+<dd>When the GPT-5 judge is shown only prior user-side turns, assistant-omitted responses match or beat full-context responses on both quality and on-topic dimensions for all four models. That reverses the full-context judge&#x27;s preference for Qwen3-4B and GPT-5.2.<br><span class="scope">Holds for: Same 300 WildChat and ShareLM conversations and same four models (Qwen3-4B, DeepSeek-R1-Distill-Llama-8B, GPT-OSS-20B, GPT-5.2); a judge without assistant history cannot resolve prompts that explicitly reference an earlier response.</span></dd>
+<dt>How much context can you save by dropping assistant replies from chat history?</dt>
+<dt>How much does omitting assistant turns shrink the prompt in long conversations?</dt>
+<dt>Is user-turn-only prompting cheaper in context length?</dt>
+<dd>Full-context histories grow to roughly 25,000-55,000 characters by round 8, whereas user-turn-only context stays near-constant at 5,000-10,000 characters, a 5 to 10x reduction in context usage.<br><span class="scope">Holds for: Character counts over 5-10 round WildChat and ShareLM technical conversations; measured in characters rather than tokens, and does not include generated response length.</span></dd>
+<dt>What fraction of turns in real chat logs depend on the previous assistant response?</dt>
+<dt>How many user prompts in WildChat conversations are self-contained?</dt>
+<dt>Are real multi-turn conversations really multi-turn dependent?</dt>
+<dd>In real-world multi-turn chats, 36.4% of non-initial user turns are self-contained new asks, 30.5% are follow-ups with concrete feedback, and 33.1% are follow-ups referencing an earlier turn without actionable feedback.<br><span class="scope">Holds for: GPT-5 as automated annotator over the sampled WildChat and ShareLM English technical conversations of 5-10 rounds; the 33.1% is an upper bound on assistant-dependence.</span></dd>
+<dd>&quot;Do LLMs Benefit From Their Own Words?&quot; argues that in-the-wild multi-turn chat logs are weak benchmarks for long-context multi-turn reasoning, and calls for corpora curated for genuine multi-turn dependence. The reason is that a large share of turns in real chat logs do not depend on earlier assistant responses.<br><span class="scope">Holds for: Argued from English technical (math and coding keyword) conversations of 5-10 rounds in WildChat and ShareLM; agentic settings with tool outputs and scratchpads are discussed but not measured.</span></dd>
+<dt>Which kinds of user prompts still need the assistant&#x27;s earlier answer?</dt>
+<dt>Do follow-up prompts break when assistant history is removed?</dt>
+<dt>Is omitting assistant history safer for new questions than for follow-ups?</dt>
+<dd>For Qwen3-4B and GPT-5.2, full-context and assistant-omitted prompting perform comparably on new-ask turns, while full context helps most on follow-up turns; assistant-omitted context still wins roughly 40% of follow-up comparisons for Qwen3-4B and 30% for GPT-5.2.<br><span class="scope">Holds for: The two models for which uniform omission lowered overall quality; win rates averaged over the quality and on-topic dimensions, ties handled as in the pairwise judge protocol.</span></dd>
+<dd>In real-world multi-turn chats, 36.4% of non-initial user turns are self-contained new asks, 30.5% are follow-ups with concrete feedback, and 33.1% are follow-ups referencing an earlier turn without actionable feedback.<br><span class="scope">Holds for: GPT-5 as automated annotator over the sampled WildChat and ShareLM English technical conversations of 5-10 rounds; the 33.1% is an upper bound on assistant-dependence.</span></dd>
+<dt>What is context pollution in multi-turn LLM conversations?</dt>
+<dt>How do a model&#x27;s own earlier mistakes propagate into later turns?</dt>
+<dt>Can keeping past model outputs in context introduce new bugs or hallucinations?</dt>
+<dd>5 conversations in which assistant-omitted responses scored far above full context exhibit context pollution. The cases are UMAP arguments carried into t-SNE code, hallucinated book titles repeated across turns, a misattributed NBER citation, tutorial style overriding a reflection request, and a reversed temperature formula.<br><span class="scope">Holds for: Cases surfaced by sorting rounds by 1-10 judge score gap (AO minus FC) and reviewing the largest positive gaps; illustrative, not a frequency estimate, and includes GPT-5.2 as well as smaller open models.</span></dd>
+<dt>Can you learn when to keep and when to drop assistant history per turn?</dt>
+<dt>Does a classifier that selectively omits assistant responses save context without losing quality?</dt>
+<dt>How well does adaptive context filtering of assistant turns work on GPT-5.2?</dt>
+<dd>A per-turn classifier choosing between full and assistant-omitted context retains over 95% of full-context-only win-or-tie performance, and matches full-context-only at about 70% of the context consumption. It beats a heuristic that omits assistant history on all new-ask turns.<br><span class="scope">Holds for: GPT-5.2 only; L1-regularized logistic regression over round metadata, prompt category and PCA-reduced text-embedding-3-large embeddings; ties counted as wins, and the heuristic baseline is measured on a 20% held-out subset so it may improve with more data.</span></dd>
+<dd>Predicting whether the judge will prefer full context over assistant-omitted context is hard: the L1-regularized logistic regression reaches only a 5-fold cross-validated F1 of 0.6106 ± 0.0119. None of the top 20 features are significant at the 5% level.<br><span class="scope">Holds for: GPT-5.2 responses on the sampled WildChat and ShareLM conversations; features are round metadata, prompt category, and 20 principal components each of prompt and history embeddings explaining 38.0% and 51.5% of variance.</span></dd>
+<dt>Is summarizing past assistant responses better than keeping them verbatim?</dt>
+<dt>Does replacing model replies with one-sentence summaries help multi-turn quality?</dt>
+<dt>How does summarized context compare with full context in multi-turn chat?</dt>
+<dd>Replacing each assistant response with a one-sentence self-summary improves response quality over full context for both DeepSeek-R1-Distill-Llama-8B and Qwen3-4B on both Lost-in-Conversation and WildChat. Fully omitting assistant turns helps on Lost-in-Conversation but is mixed on WildChat.<br><span class="scope">Holds for: 2 models and 2 datasets, using an earlier pairwise judge pipeline that compared final responses only, so numbers are not directly comparable to the main-text 1-10 scoring runs.</span></dd>
+<dt>How reliable is the LLM-as-judge evaluation of full-context versus assistant-omitted responses?</dt>
+<dt>Was the GPT-5 judge checked against human annotation?</dt>
+<dt>Does judge context change which prompting configuration wins?</dt>
+<dd>The GPT-5 judge agreed with an author&#x27;s manual verdict on 54 of 60 quality judgments (90.0%) and 55 of 60 on-topic judgments (91.7%).<br><span class="scope">Holds for: 15 sampled judgments per model across the 4 models, annotated by one of the authors; no larger-scale or multi-annotator human study was run.</span></dd>
+<dd>When the GPT-5 judge is shown only prior user-side turns, assistant-omitted responses match or beat full-context responses on both quality and on-topic dimensions for all four models. That reverses the full-context judge&#x27;s preference for Qwen3-4B and GPT-5.2.<br><span class="scope">Holds for: Same 300 WildChat and ShareLM conversations and same four models (Qwen3-4B, DeepSeek-R1-Distill-Llama-8B, GPT-OSS-20B, GPT-5.2); a judge without assistant history cannot resolve prompts that explicitly reference an earlier response.</span></dd>
+<dt>What should I read about context management in multi-turn chat and agents?</dt>
+<dt>Which paper questions whether keeping past model outputs in context is worth it?</dt>
+<dt>Is there work on context pruning evaluated on real human-LLM conversations instead of synthetic ones?</dt>
+<dd>Huang et al.&#x27;s &quot;Do LLMs Benefit From Their Own Words?&quot; questions the default assumption of multi-turn chat and agentic context management that retaining a model&#x27;s own past responses reliably helps. It tests that assumption on in-the-wild human-LLM logs rather than synthetic dialogues.<br><span class="scope">Holds for: As of the February 2026 preprint; prior turn-level context-editing work such as ERGO evaluated on synthetic conversations, and earlier conversational-QA findings about irrelevant turns concerned human-human histories.</span></dd>
+<dd>&quot;Do LLMs Benefit From Their Own Words?&quot; argues that in-the-wild multi-turn chat logs are weak benchmarks for long-context multi-turn reasoning, and calls for corpora curated for genuine multi-turn dependence. The reason is that a large share of turns in real chat logs do not depend on earlier assistant responses.<br><span class="scope">Holds for: Argued from English technical (math and coding keyword) conversations of 5-10 rounds in WildChat and ShareLM; agentic settings with tool outputs and scratchpads are discussed but not measured.</span></dd>
+<dt>Are frontier models also misled by their own past responses, or just small models?</dt>
+<dt>Does GPT-5.2 suffer from over-conditioning on its earlier turns?</dt>
+<dt>Which models were tested for the effect of removing assistant history?</dt>
+<dd>Omitting all prior assistant responses preserves average response quality for DeepSeek-R1-Distill-Llama-8B and GPT-OSS-20B, while Qwen3-4B and GPT-5.2 lose some quality relative to full context. Responses stay on-topic under omission for all four models.<br><span class="scope">Holds for: 300 real-world multi-turn conversations sampled from WildChat and ShareLM, 5-10 rounds each, filtered to English technical chats; GPT-5 as pairwise LLM judge seeing prior user and assistant turns.</span></dd>
+<dd>5 conversations in which assistant-omitted responses scored far above full context exhibit context pollution. The cases are UMAP arguments carried into t-SNE code, hallucinated book titles repeated across turns, a misattributed NBER citation, tutorial style overriding a reflection request, and a reversed temperature formula.<br><span class="scope">Holds for: Cases surfaced by sorting rounds by 1-10 judge score gap (AO minus FC) and reviewing the largest positive gaps; illustrative, not a frequency estimate, and includes GPT-5.2 as well as smaller open models.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Omitting all prior assistant responses preserves average response quality for DeepSeek-R1-Distill-Llama-8B and GPT-OSS-20B, while Qwen3-4B and GPT-5.2 lose some quality relative to full context. Responses stay on-topic under omission for all four models. <span class="meta">(Figure 2)</span><br><span class="scope">Scope: 300 real-world multi-turn conversations sampled from WildChat and ShareLM, 5-10 rounds each, filtered to English technical chats; GPT-5 as pairwise LLM judge seeing prior user and assistant turns.</span></li>
+<li>When the GPT-5 judge is shown only prior user-side turns, assistant-omitted responses match or beat full-context responses on both quality and on-topic dimensions for all four models. That reverses the full-context judge&#x27;s preference for Qwen3-4B and GPT-5.2. <span class="meta">(Figure 9)</span><br><span class="scope">Scope: Same 300 WildChat and ShareLM conversations and same four models (Qwen3-4B, DeepSeek-R1-Distill-Llama-8B, GPT-OSS-20B, GPT-5.2); a judge without assistant history cannot resolve prompts that explicitly reference an earlier response.</span></li>
+<li>Full-context histories grow to roughly 25,000-55,000 characters by round 8, whereas user-turn-only context stays near-constant at 5,000-10,000 characters, a 5 to 10x reduction in context usage. <span class="meta">(Figure 6 (Section 2.2))</span><br><span class="scope">Scope: Character counts over 5-10 round WildChat and ShareLM technical conversations; measured in characters rather than tokens, and does not include generated response length.</span></li>
+<li>In real-world multi-turn chats, 36.4% of non-initial user turns are self-contained new asks, 30.5% are follow-ups with concrete feedback, and 33.1% are follow-ups referencing an earlier turn without actionable feedback. <span class="meta">(Section 2.3)</span><br><span class="scope">Scope: GPT-5 as automated annotator over the sampled WildChat and ShareLM English technical conversations of 5-10 rounds; the 33.1% is an upper bound on assistant-dependence.</span></li>
+<li>For Qwen3-4B and GPT-5.2, full-context and assistant-omitted prompting perform comparably on new-ask turns, while full context helps most on follow-up turns; assistant-omitted context still wins roughly 40% of follow-up comparisons for Qwen3-4B and 30% for GPT-5.2. <span class="meta">(Figure 3 (Section 2.4))</span><br><span class="scope">Scope: The two models for which uniform omission lowered overall quality; win rates averaged over the quality and on-topic dimensions, ties handled as in the pairwise judge protocol.</span></li>
+<li>5 conversations in which assistant-omitted responses scored far above full context exhibit context pollution. The cases are UMAP arguments carried into t-SNE code, hallucinated book titles repeated across turns, a misattributed NBER citation, tutorial style overriding a reflection request, and a reversed temperature formula. <span class="meta">(Table 1 (full annotations in Appendix A.12))</span><br><span class="scope">Scope: Cases surfaced by sorting rounds by 1-10 judge score gap (AO minus FC) and reviewing the largest positive gaps; illustrative, not a frequency estimate, and includes GPT-5.2 as well as smaller open models.</span></li>
+<li>A per-turn classifier choosing between full and assistant-omitted context retains over 95% of full-context-only win-or-tie performance, and matches full-context-only at about 70% of the context consumption. It beats a heuristic that omits assistant history on all new-ask turns. <span class="meta">(Figure 5 (Section 3.2))</span><br><span class="scope">Scope: GPT-5.2 only; L1-regularized logistic regression over round metadata, prompt category and PCA-reduced text-embedding-3-large embeddings; ties counted as wins, and the heuristic baseline is measured on a 20% held-out subset so it may improve with more data.</span></li>
+<li>Predicting whether the judge will prefer full context over assistant-omitted context is hard: the L1-regularized logistic regression reaches only a 5-fold cross-validated F1 of 0.6106 ± 0.0119. None of the top 20 features are significant at the 5% level. <span class="meta">(Table 2 (Appendix A.13))</span><br><span class="scope">Scope: GPT-5.2 responses on the sampled WildChat and ShareLM conversations; features are round metadata, prompt category, and 20 principal components each of prompt and history embeddings explaining 38.0% and 51.5% of variance.</span></li>
+<li>Replacing each assistant response with a one-sentence self-summary improves response quality over full context for both DeepSeek-R1-Distill-Llama-8B and Qwen3-4B on both Lost-in-Conversation and WildChat. Fully omitting assistant turns helps on Lost-in-Conversation but is mixed on WildChat. <span class="meta">(Figure 7)</span><br><span class="scope">Scope: 2 models and 2 datasets, using an earlier pairwise judge pipeline that compared final responses only, so numbers are not directly comparable to the main-text 1-10 scoring runs.</span></li>
+<li>The GPT-5 judge agreed with an author&#x27;s manual verdict on 54 of 60 quality judgments (90.0%) and 55 of 60 on-topic judgments (91.7%). <span class="meta">(Appendix A.6)</span><br><span class="scope">Scope: 15 sampled judgments per model across the 4 models, annotated by one of the authors; no larger-scale or multi-annotator human study was run.</span></li>
+<li>Huang et al.&#x27;s &quot;Do LLMs Benefit From Their Own Words?&quot; questions the default assumption of multi-turn chat and agentic context management that retaining a model&#x27;s own past responses reliably helps. It tests that assumption on in-the-wild human-LLM logs rather than synthetic dialogues.<br><span class="scope">Scope: As of the February 2026 preprint; prior turn-level context-editing work such as ERGO evaluated on synthetic conversations, and earlier conversational-QA findings about irrelevant turns concerned human-human histories.</span></li>
+<li>&quot;Do LLMs Benefit From Their Own Words?&quot; argues that in-the-wild multi-turn chat logs are weak benchmarks for long-context multi-turn reasoning, and calls for corpora curated for genuine multi-turn dependence. The reason is that a large share of turns in real chat logs do not depend on earlier assistant responses.<br><span class="scope">Scope: Argued from English technical (math and coding keyword) conversations of 5-10 rounds in WildChat and ShareLM; agentic settings with tool outputs and scratchpads are discussed but not measured.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>Omitting assistant history is not shown to be universally free: for Qwen3-4B and GPT-5.2, uniformly dropping assistant responses lowers average judged quality under a judge that sees the full history.</li>
+<li>The 36.4% figure counts non-initial user turns classified as self-contained new asks by a GPT-5 annotator on filtered English technical conversations from WildChat and ShareLM; it is not a claim about all chat traffic.</li>
+<li>The context-pollution cases in Table 1 were surfaced by sorting for the largest score gaps favouring assistant-omitted context, so they establish that the failure mode exists and reaches GPT-5.2, not how often it occurs.</li>
+<li>The adaptive omission strategy is not a strong predictive model: its 5-fold cross-validated F1 is 0.6106 and no individual feature is significant, so its context savings come from a weak signal rather than a reliable per-turn prediction.</li>
+<li>The 5 to 10x reduction is in cumulative context characters over conversation rounds, not a measured speedup or dollar cost saving.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Assistant-Omitted (AO) context</em></dt><dd>A prompting configuration in which every past assistant response in a multi-turn conversation is replaced by the placeholder &quot;[Response provided]&quot;, so the model conditions only on prior user turns while the alternating user/assistant structure is preserved.</dd>
+<dt><em>context pollution</em></dt><dd>The phenomenon in which a language model over-conditions on its own earlier responses, so errors, hallucinations or stylistic artifacts introduced in one turn propagate into later turns.</dd>
+<dt><em>New Ask</em></dt><dd>A non-initial user turn that introduces a fully self-contained request, understandable without any prior conversation round.</dd>
+<dt><em>Follow-up with Feedback</em></dt><dd>A user turn that gives concrete, actionable feedback on a prior assistant response, such as &quot;use Python instead of Java for the code example&quot;.</dd>
+<dt><em>Follow-up without Feedback</em></dt><dd>A user turn that refers to an earlier conversation round without any concrete instruction for revision, such as &quot;reflect on your response&quot;.</dd>
+</dl>
+<h2>How to cite</h2>
+<pre>@misc{huang2026llmsbenefitwords,
+      title={Do LLMs Benefit From Their Own Words?}, 
+      author={Jenny Y. Huang and Leshem Choshen and Ramon Astudillo and Tamara Broderick and Jacob Andreas},
+      year={2026},
+      eprint={2602.24287},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2602.24287}, 
+}</pre>
 <h2>References</h2>
 <p>See the full reference list in the <a href="https://arxiv.org/html/2602.24287">paper</a>.</p>
 <footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>

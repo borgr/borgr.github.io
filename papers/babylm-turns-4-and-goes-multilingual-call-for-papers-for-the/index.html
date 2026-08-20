@@ -14,10 +14,10 @@
   <meta name="citation_author" content="Aaron Mueller">
   <meta name="citation_author" content="Suchir Salhan">
   <meta name="citation_author" content="Raj Sanjay Shah">
-  <meta name="citation_author" content="A. Warstadt">
-  <meta name="citation_author" content="E. Wilcox">
+  <meta name="citation_author" content="Alex Warstadt">
+  <meta name="citation_author" content="Ethan Gotlieb Wilcox">
   <meta name="citation_publication_date" content="2026">
-  <meta name="citation_doi" content="10.48550/arXiv.2602.20092">
+  <meta name="citation_doi" content="10.48550/ARXIV.2602.20092">
   <meta name="citation_arxiv_id" content="2602.20092">
   <meta name="citation_abstract" content="The goal of the BabyLM is to stimulate new research connections between cognitive modeling and language model pretraining. We invite contributions in this vein to the BabyLM Workshop, which will also include the 4th iteration of the BabyLM Challenge. As in previous years, the challenge features two ``standard&#x27;&#x27;tracks (Strict and Strict-Small), in which participants must train language models on under 100M or 10M words of data, respectively. This year, we move beyond our previous English-only pretraining datasets with a new Multilingual track, focusing on English, Dutch, and Chinese. For the workshop, we call for papers related to the overall theme of BabyLM, which includes training efficiency, small-scale training datasets, cognitive modeling, model evaluation, and architecture innovation.">
   <script type="application/ld+json">
@@ -63,31 +63,344 @@
     },
     {
       "@type": "Person",
-      "name": "A. Warstadt"
+      "name": "Alex Warstadt"
     },
     {
       "@type": "Person",
-      "name": "E. Wilcox"
+      "name": "Ethan Gotlieb Wilcox"
     }
   ],
   "isAccessibleForFree": true,
   "datePublished": "2026",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "arXiv.org"
+    "name": "arXiv"
   },
-  "identifier": "https://doi.org/10.48550/arXiv.2602.20092",
+  "identifier": "https://doi.org/10.48550/ARXIV.2602.20092",
   "abstract": "The goal of the BabyLM is to stimulate new research connections between cognitive modeling and language model pretraining. We invite contributions in this vein to the BabyLM Workshop, which will also include the 4th iteration of the BabyLM Challenge. As in previous years, the challenge features two ``standard''tracks (Strict and Strict-Small), in which participants must train language models on under 100M or 10M words of data, respectively. This year, we move beyond our previous English-only pretraining datasets with a new Multilingual track, focusing on English, Dutch, and Chinese. For the workshop, we call for papers related to the overall theme of BabyLM, which includes training efficiency, small-scale training datasets, cognitive modeling, model evaluation, and architecture innovation.",
+  "description": "The 2026 BabyLM Challenge keeps the Strict (100M words) and Strict-Small (10M words) pretraining tracks, folds the former Multimodal and Interaction tracks into them, and adds a Multilingual track where participants build their own English/Dutch/Chinese mixture of 100M byte-premium-adjusted words.",
   "codeRepository": "https://github.com/babylm-org/babylm-eval",
   "sameAs": [
     "https://arxiv.org/abs/2602.20092",
     "https://arxiv.org/html/2602.20092",
     "https://arxiv.org/pdf/2602.20092",
+    "https://babylm.github.io/",
+    "https://babylm.github.io/",
+    "https://doi.org/10.48550/ARXIV.2602.20092",
     "https://doi.org/10.48550/arXiv.2602.20092",
+    "https://github.com/babylm",
     "https://github.com/babylm-org/babylm-eval",
+    "https://huggingface.co/BabyLM-community",
     "https://huggingface.co/papers/2602.20092",
+    "https://huggingface.co/spaces/BabyLM-community/BabyLM-Leaderboard-2026",
     "https://www.alphaxiv.org/abs/2602.20092",
     "https://www.semanticscholar.org/paper/285973452"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "The 2026 BabyLM Challenge introduces a Multilingual track covering English, Dutch and Chinese, replacing the English-only pretraining setup of the first three BabyLM editions.",
+      "description": "Holds for: 3 languages only, chosen from the 45 languages of BabyBabelLM because they have broad evaluation data; other languages are workshop topics, not track languages."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2026 BabyLM Multilingual track lets participants build any custom mixture of English, Dutch and Chinese totalling 100M words. Per-language counts are adjusted by Byte Premium: English 1.0, Dutch 1.0516, Chinese 0.9894.",
+      "description": "Holds for: The Multilingual competition track; in practice 100MB of English text is treated as equivalent to 105MB of Dutch and 98.9MB of Chinese parallel data."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2026 BabyLM Multilingual track pairs English with Dutch as a typologically similar same-script language and with Chinese as a typologically distant different-script language. Cross-lingual transfer can therefore be studied in both regimes.",
+      "description": "Holds for: Rationale for the 3 competition languages; English is retained to allow direct comparison with the Strict and Strict-Small tracks."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2026 BabyLM Challenge removes the standalone Multimodal and Interaction tracks and subsumes them into Strict and Strict-Small. The stated reasons are too few submissions, no Interaction entry beating the Strict submissions, and no Multimodal entry beating the organizers' baselines.",
+      "description": "Holds for: Paired image-text data and training-time feedback from an external teacher model are still allowed inside Strict and Strict-Small, subject to those tracks' word budgets."
+    },
+    {
+      "@type": "Thing",
+      "name": "Under the 2026 BabyLM rules a Strict submission model may see at most 100M word tokens, including text generated by external models. It may itself generate at most 100M word tokens for the external model, scalar RL rewards are capped at 100M, and every limit becomes 10M for Strict-Small.",
+      "description": "Holds for: External models must come from a predetermined list on the BabyLM website but may themselves be finetuned freely; distillation is barred unless the external model's own training word count is charged against the submission budget."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2026 BabyLM Challenge caps total data exposure, counting repeated passes, at 100M words for Strict-Small and 1B words for all other tracks. That is roughly 10 epochs over the standard BabyLM corpora, quantified in whitespace-separated input words.",
+      "description": "Holds for: Leaderboard-eligible competition checkpoints; participants may train longer and report it, and workshop papers are exempt. Byte-Premium-adjusted in the Multilingual track."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2026 BabyLM Challenge requires intermediate checkpoints on the HuggingFace Hub every 1M words up to 10M words, then every 10M words up to 100M words. For tracks other than Strict-Small, checkpoints continue every 100M words up to 1B words.",
+      "description": "Holds for: Required for competition entries so that learning efficiency and acquisition dynamics can be evaluated; the exact checkpoint-level metrics are announced with the evaluation pipeline release."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM organizers limit data exposure rather than compute in the 2026 challenge. Their stated grounds are that BabyLM submissions are unlikely to exceed the computation available to a child and that requiring FLOP accounting would deter participation.",
+      "description": "Holds for: The organizers' design rationale for the 2026 challenge; the data-exposure limit is acknowledged not to remove the advantage of well-funded groups, which can still afford more hyperparameter search and prototyping."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2026 BabyLM training data is a detoxified revision of the 2024/2025 corpus. It follows analysis finding the BabyLM corpus more toxic and hateful than corpora used for larger models such as BERT, contrary to its child-aligned disposition.",
+      "description": "Holds for: Detoxification follows Trhlik et al. (2026); released as a 100M-word Strict set, a 10M-word Strict-Small set and a 100M-word plus image Multimodal set, and participants may swap in their own data."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2026 BabyLM Strict corpus totals 100M words, with CHILDES child-directed speech the largest component at 28.4M words, followed by Project Gutenberg children's stories at 25.5M and OpenSubtitles at 21.8M.",
+      "description": "Holds for: Text-only Strict dataset composition; the multimodal variant reallocates the budget, adding 27M words of Localized Narratives and 23M of Conceptual Captions with 2.9M images in total."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2026 BabyLM baselines for Strict and Strict-Small are GPT-BERT, GPT-2 Small and a SimPO-based preference-optimization model carried over from the 2025 Interaction track. GPT-BERT and GPT-2 Small are adapted to the Multilingual track by subsampling equal Byte-Premium-adjusted word counts per language.",
+      "description": "Holds for: The multilingual baselines are described by the organizers as deliberately naive: equal language ratios and plain BPE tokenization, leaving data ratios, tokenization and architecture as the intended axes of participant contribution."
+    },
+    {
+      "@type": "Thing",
+      "name": "BabyLM 2026 evaluation combines zero-shot sequence-probability comparisons with finetuning-based tasks in English, Dutch and Chinese. A set of hidden tasks is released shortly before the submission deadline to test generalization to unseen multilingual phenomena and domains.",
+      "description": "Holds for: Evaluation pipeline builds on the 2025 challenge repository; the full task list is announced with the baseline release rather than in the call for papers."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM Workshop calls for papers on data-efficient architectures, data curation, cognitively and linguistically inspired modeling and evaluation, small models, multimodality, teacher-model interaction, and bilingualism. Its 2026 theme is going beyond English.",
+      "description": "Holds for: Workshop submissions are independent of the competition: entering a track is not a prerequisite, and workshop papers are exempt from the epoch and checkpoint requirements. Papers up to 8 pages, double-blind, at EMNLP 2026 in Budapest."
+    },
+    {
+      "@type": "Thing",
+      "name": "BabyLM is a recurring workshop and shared task, in its fourth iteration in 2026, connecting cognitive modeling of child language acquisition with sample-efficient language model pretraining. Its challenge tracks cap training data at human-scale amounts of 100M or 10M words.",
+      "description": "Holds for: As of the 2026 call for papers; prior iterations are documented in Warstadt et al. (2023), Hu et al. (2024) and Charpentier et al. (2025)."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/#faq",
+  "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/",
+  "name": "Questions answered by BabyLM Turns 4 and Goes Multilingual: Call for Papers for the 2026 BabyLM Workshop",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the BabyLM Challenge and why does it exist?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BabyLM is a recurring workshop and shared task, in its fourth iteration in 2026, connecting cognitive modeling of child language acquisition with sample-efficient language model pretraining. Its challenge tracks cap training data at human-scale amounts of 100M or 10M words. Holds for: As of the 2026 call for papers; prior iterations are documented in Warstadt et al. (2023), Hu et al. (2024) and Charpentier et al. (2025).\n\nThe BabyLM Workshop calls for papers on data-efficient architectures, data curation, cognitively and linguistically inspired modeling and evaluation, small models, multimodality, teacher-model interaction, and bilingualism. Its 2026 theme is going beyond English. Holds for: Workshop submissions are independent of the competition: entering a track is not a prerequisite, and workshop papers are exempt from the epoch and checkpoint requirements. Papers up to 8 pages, double-blind, at EMNLP 2026 in Budapest.",
+        "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/"
+      },
+      "alternateName": [
+        "Where should I start reading about cognitively plausible, data-efficient language model pretraining?",
+        "What shared task connects child language acquisition to LM pretraining?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is new in the 2026 BabyLM Challenge compared to earlier years?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2026 BabyLM Challenge introduces a Multilingual track covering English, Dutch and Chinese, replacing the English-only pretraining setup of the first three BabyLM editions. Holds for: 3 languages only, chosen from the 45 languages of BabyBabelLM because they have broad evaluation data; other languages are workshop topics, not track languages.\n\nThe 2026 BabyLM Multilingual track pairs English with Dutch as a typologically similar same-script language and with Chinese as a typologically distant different-script language. Cross-lingual transfer can therefore be studied in both regimes. Holds for: Rationale for the 3 competition languages; English is retained to allow direct comparison with the Strict and Strict-Small tracks.",
+        "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/"
+      },
+      "alternateName": [
+        "Which languages does BabyLM cover now that it is no longer English-only?",
+        "Is there a multilingual shared task for pretraining on child-scale data?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many words am I allowed to train on in the BabyLM multilingual track?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2026 BabyLM Multilingual track lets participants build any custom mixture of English, Dutch and Chinese totalling 100M words. Per-language counts are adjusted by Byte Premium: English 1.0, Dutch 1.0516, Chinese 0.9894. Holds for: The Multilingual competition track; in practice 100MB of English text is treated as equivalent to 105MB of Dutch and 98.9MB of Chinese parallel data.",
+        "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/"
+      },
+      "alternateName": [
+        "How does BabyLM make word budgets comparable across English, Dutch and Chinese?",
+        "What is the Byte Premium adjustment used for language data budgets?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why were the BabyLM Multimodal and Interaction tracks discontinued?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2026 BabyLM Challenge removes the standalone Multimodal and Interaction tracks and subsumes them into Strict and Strict-Small. The stated reasons are too few submissions, no Interaction entry beating the Strict submissions, and no Multimodal entry beating the organizers' baselines. Holds for: Paired image-text data and training-time feedback from an external teacher model are still allowed inside Strict and Strict-Small, subject to those tracks' word budgets.\n\nUnder the 2026 BabyLM rules a Strict submission model may see at most 100M word tokens, including text generated by external models. It may itself generate at most 100M word tokens for the external model, scalar RL rewards are capped at 100M, and every limit becomes 10M for Strict-Small. Holds for: External models must come from a predetermined list on the BabyLM website but may themselves be finetuned freely; distillation is barred unless the external model's own training word count is charged against the submission budget.",
+        "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/"
+      },
+      "alternateName": [
+        "Can I still submit a multimodal or teacher-interaction model to BabyLM in 2026?",
+        "Did image-text data or teacher feedback help in an earlier round of the child-scale pretraining competition?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What are the rules for using a teacher or external model during BabyLM training?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Under the 2026 BabyLM rules a Strict submission model may see at most 100M word tokens, including text generated by external models. It may itself generate at most 100M word tokens for the external model, scalar RL rewards are capped at 100M, and every limit becomes 10M for Strict-Small. Holds for: External models must come from a predetermined list on the BabyLM website but may themselves be finetuned freely; distillation is barred unless the external model's own training word count is charged against the submission budget.",
+        "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/"
+      },
+      "alternateName": [
+        "Is knowledge distillation allowed in the BabyLM Challenge?",
+        "How are synthetic data and generated tokens counted against a 100M word pretraining budget?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is there an epoch limit in the BabyLM Challenge?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2026 BabyLM Challenge caps total data exposure, counting repeated passes, at 100M words for Strict-Small and 1B words for all other tracks. That is roughly 10 epochs over the standard BabyLM corpora, quantified in whitespace-separated input words. Holds for: Leaderboard-eligible competition checkpoints; participants may train longer and report it, and workshop papers are exempt. Byte-Premium-adjusted in the Multilingual track.",
+        "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/"
+      },
+      "alternateName": [
+        "How much total data exposure does the 2026 BabyLM Challenge allow?",
+        "How many passes over a 100M-word pretraining corpus does a child-scale competition permit?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which intermediate checkpoints must a BabyLM submission upload?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2026 BabyLM Challenge requires intermediate checkpoints on the HuggingFace Hub every 1M words up to 10M words, then every 10M words up to 100M words. For tracks other than Strict-Small, checkpoints continue every 100M words up to 1B words. Holds for: Required for competition entries so that learning efficiency and acquisition dynamics can be evaluated; the exact checkpoint-level metrics are announced with the evaluation pipeline release.",
+        "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/"
+      },
+      "alternateName": [
+        "What is the BabyLM checkpoint submission schedule?",
+        "Why would a pretraining competition ask participants for intermediate training checkpoints?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why does BabyLM limit training data rather than compute or FLOPs?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM organizers limit data exposure rather than compute in the 2026 challenge. Their stated grounds are that BabyLM submissions are unlikely to exceed the computation available to a child and that requiring FLOP accounting would deter participation. Holds for: The organizers' design rationale for the 2026 challenge; the data-exposure limit is acknowledged not to remove the advantage of well-funded groups, which can still afford more hyperparameter search and prototyping.",
+        "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/"
+      },
+      "alternateName": [
+        "Is there a compute budget in the BabyLM Challenge?",
+        "Why would a shared task cap words seen instead of capping FLOPs?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is the BabyLM training corpus toxic, and was anything done about it?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2026 BabyLM training data is a detoxified revision of the 2024/2025 corpus. It follows analysis finding the BabyLM corpus more toxic and hateful than corpora used for larger models such as BERT, contrary to its child-aligned disposition. Holds for: Detoxification follows Trhlik et al. (2026); released as a 100M-word Strict set, a 10M-word Strict-Small set and a 100M-word plus image Multimodal set, and participants may swap in their own data.",
+        "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/"
+      },
+      "alternateName": [
+        "What changed in the 2026 BabyLM training dataset?",
+        "Has a child-directed pretraining corpus been detoxified?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What data makes up the 100M-word BabyLM Strict corpus?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2026 BabyLM Strict corpus totals 100M words, with CHILDES child-directed speech the largest component at 28.4M words, followed by Project Gutenberg children's stories at 25.5M and OpenSubtitles at 21.8M. Holds for: Text-only Strict dataset composition; the multimodal variant reallocates the budget, adding 27M words of Localized Narratives and 23M of Conceptual Captions with 2.9M images in total.",
+        "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/"
+      },
+      "alternateName": [
+        "How much CHILDES data is in the BabyLM pretraining dataset?",
+        "Which corpora make up a 100M-word child-directed pretraining dataset?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What baseline models does the 2026 BabyLM Challenge provide?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2026 BabyLM baselines for Strict and Strict-Small are GPT-BERT, GPT-2 Small and a SimPO-based preference-optimization model carried over from the 2025 Interaction track. GPT-BERT and GPT-2 Small are adapted to the Multilingual track by subsampling equal Byte-Premium-adjusted word counts per language. Holds for: The multilingual baselines are described by the organizers as deliberately naive: equal language ratios and plain BPE tokenization, leaving data ratios, tokenization and architecture as the intended axes of participant contribution.",
+        "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/"
+      },
+      "alternateName": [
+        "Which model do I have to beat in the BabyLM Strict track?",
+        "What are the baselines for a 100M-word multilingual pretraining competition?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How are BabyLM submissions evaluated in 2026?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BabyLM 2026 evaluation combines zero-shot sequence-probability comparisons with finetuning-based tasks in English, Dutch and Chinese. A set of hidden tasks is released shortly before the submission deadline to test generalization to unseen multilingual phenomena and domains. Holds for: Evaluation pipeline builds on the 2025 challenge repository; the full task list is announced with the baseline release rather than in the call for papers.",
+        "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/"
+      },
+      "alternateName": [
+        "Are there hidden evaluation tasks in the BabyLM Challenge?",
+        "Does evaluation of small pretrained models use zero-shot probability comparisons or finetuning?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What topics can I submit to the BabyLM workshop without entering the competition?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM Workshop calls for papers on data-efficient architectures, data curation, cognitively and linguistically inspired modeling and evaluation, small models, multimodality, teacher-model interaction, and bilingualism. Its 2026 theme is going beyond English. Holds for: Workshop submissions are independent of the competition: entering a track is not a prerequisite, and workshop papers are exempt from the epoch and checkpoint requirements. Papers up to 8 pages, double-blind, at EMNLP 2026 in Budapest.",
+        "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/"
+      },
+      "alternateName": [
+        "Do I have to enter a BabyLM competition track to submit a paper?",
+        "When and where is the 2026 workshop on data-efficient, cognitively inspired language modeling held?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/#terms",
+  "url": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/",
+  "name": "Terminology in BabyLM Turns 4 and Goes Multilingual: Call for Papers for the 2026 BabyLM Workshop",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Strict track",
+      "description": "BabyLM competition track in which the submitted language model may be exposed to no more than 100M word tokens of training data, counting text generated by external models.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Strict-Small track",
+      "description": "BabyLM competition track in which the submitted language model may be exposed to no more than 10M word tokens of training data.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Byte Premium",
+      "description": "A per-language factor that rescales word or data budgets by the UTF-8 encoded size needed to express a fixed amount of content, relative to English at 1.0; Dutch is 1.0516 and Chinese is 0.9894 in the 2026 BabyLM Multilingual track.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "submission model",
+      "description": "In the BabyLM Challenge, the participant's competition entry, as distinct from an external model used only inside its training pipeline and not submitted.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "external model",
+      "description": "In the BabyLM Challenge, a secondary model drawn from a predetermined list on the BabyLM website that may generate data or feedback for the submission model, but whose tokenizer, weights, hidden states and output distributions may not be revealed to it.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babylm-turns-4-and-goes-multilingual-call-for-papers-for-the/#terms"
+    }
   ]
 }
   </script>
@@ -98,6 +411,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -111,10 +425,127 @@
 </head>
 <body>
 <h1>BabyLM Turns 4 and Goes Multilingual: Call for Papers for the 2026 BabyLM Workshop</h1>
-<p class="meta">Leshem Choshen, Ryan Cotterell, Mustafa Omer Gul, Jaap Jumelet, Tal Linzen, Aaron Mueller, Suchir Salhan, Raj Sanjay Shah, A. Warstadt, E. Wilcox · arXiv.org · 2026</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2602.20092">arXiv</a></li><li><a href="https://arxiv.org/pdf/2602.20092">PDF</a></li><li><a href="https://arxiv.org/html/2602.20092">HTML</a></li><li><a href="https://huggingface.co/papers/2602.20092">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2602.20092">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2602.20092">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/285973452">Semantic Scholar</a></li><li><a href="https://github.com/babylm-org/babylm-eval">Code</a></li></ul>
+<p class="sub">a shared task on pretraining language models on child-scale amounts of English, Dutch and Chinese text</p>
+<p class="meta">Leshem Choshen, Ryan Cotterell, Mustafa Omer Gul, Jaap Jumelet, Tal Linzen, Aaron Mueller, Suchir Salhan, Raj Sanjay Shah, Alex Warstadt, Ethan Gotlieb Wilcox · arXiv · 2026</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2602.20092">arXiv</a></li><li><a href="https://arxiv.org/pdf/2602.20092">PDF</a></li><li><a href="https://arxiv.org/html/2602.20092">HTML</a></li><li><a href="https://huggingface.co/papers/2602.20092">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2602.20092">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2602.20092">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/285973452">Semantic Scholar</a></li><li><a href="https://doi.org/10.48550/arXiv.2602.20092">Publisher</a></li><li><a href="https://github.com/babylm-org/babylm-eval">Code</a></li><li><a href="https://babylm.github.io/">Project page</a></li><li><a href="https://babylm.github.io/">website</a></li><li><a href="https://huggingface.co/spaces/BabyLM-community/BabyLM-Leaderboard-2026">Leaderboard</a></li><li><a href="https://huggingface.co/BabyLM-community">datasets</a></li><li><a href="https://github.com/babylm">github_org</a></li></ul>
+<h2>In one sentence</h2>
+<p>The 2026 BabyLM Challenge keeps the Strict (100M words) and Strict-Small (10M words) pretraining tracks, folds the former Multimodal and Interaction tracks into them, and adds a Multilingual track where participants build their own English/Dutch/Chinese mixture of 100M byte-premium-adjusted words.</p>
 <h2>Abstract</h2>
 <p>The goal of the BabyLM is to stimulate new research connections between cognitive modeling and language model pretraining. We invite contributions in this vein to the BabyLM Workshop, which will also include the 4th iteration of the BabyLM Challenge. As in previous years, the challenge features two ``standard&#x27;&#x27;tracks (Strict and Strict-Small), in which participants must train language models on under 100M or 10M words of data, respectively. This year, we move beyond our previous English-only pretraining datasets with a new Multilingual track, focusing on English, Dutch, and Chinese. For the workshop, we call for papers related to the overall theme of BabyLM, which includes training efficiency, small-scale training datasets, cognitive modeling, model evaluation, and architecture innovation.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What is the BabyLM Challenge and why does it exist?</dt>
+<dt>Where should I start reading about cognitively plausible, data-efficient language model pretraining?</dt>
+<dt>What shared task connects child language acquisition to LM pretraining?</dt>
+<dd>BabyLM is a recurring workshop and shared task, in its fourth iteration in 2026, connecting cognitive modeling of child language acquisition with sample-efficient language model pretraining. Its challenge tracks cap training data at human-scale amounts of 100M or 10M words.<br><span class="scope">Holds for: As of the 2026 call for papers; prior iterations are documented in Warstadt et al. (2023), Hu et al. (2024) and Charpentier et al. (2025).</span></dd>
+<dd>The BabyLM Workshop calls for papers on data-efficient architectures, data curation, cognitively and linguistically inspired modeling and evaluation, small models, multimodality, teacher-model interaction, and bilingualism. Its 2026 theme is going beyond English.<br><span class="scope">Holds for: Workshop submissions are independent of the competition: entering a track is not a prerequisite, and workshop papers are exempt from the epoch and checkpoint requirements. Papers up to 8 pages, double-blind, at EMNLP 2026 in Budapest.</span></dd>
+<dt>What is new in the 2026 BabyLM Challenge compared to earlier years?</dt>
+<dt>Which languages does BabyLM cover now that it is no longer English-only?</dt>
+<dt>Is there a multilingual shared task for pretraining on child-scale data?</dt>
+<dd>The 2026 BabyLM Challenge introduces a Multilingual track covering English, Dutch and Chinese, replacing the English-only pretraining setup of the first three BabyLM editions.<br><span class="scope">Holds for: 3 languages only, chosen from the 45 languages of BabyBabelLM because they have broad evaluation data; other languages are workshop topics, not track languages.</span></dd>
+<dd>The 2026 BabyLM Multilingual track pairs English with Dutch as a typologically similar same-script language and with Chinese as a typologically distant different-script language. Cross-lingual transfer can therefore be studied in both regimes.<br><span class="scope">Holds for: Rationale for the 3 competition languages; English is retained to allow direct comparison with the Strict and Strict-Small tracks.</span></dd>
+<dt>How many words am I allowed to train on in the BabyLM multilingual track?</dt>
+<dt>How does BabyLM make word budgets comparable across English, Dutch and Chinese?</dt>
+<dt>What is the Byte Premium adjustment used for language data budgets?</dt>
+<dd>The 2026 BabyLM Multilingual track lets participants build any custom mixture of English, Dutch and Chinese totalling 100M words. Per-language counts are adjusted by Byte Premium: English 1.0, Dutch 1.0516, Chinese 0.9894.<br><span class="scope">Holds for: The Multilingual competition track; in practice 100MB of English text is treated as equivalent to 105MB of Dutch and 98.9MB of Chinese parallel data.</span></dd>
+<dt>Why were the BabyLM Multimodal and Interaction tracks discontinued?</dt>
+<dt>Can I still submit a multimodal or teacher-interaction model to BabyLM in 2026?</dt>
+<dt>Did image-text data or teacher feedback help in an earlier round of the child-scale pretraining competition?</dt>
+<dd>The 2026 BabyLM Challenge removes the standalone Multimodal and Interaction tracks and subsumes them into Strict and Strict-Small. The stated reasons are too few submissions, no Interaction entry beating the Strict submissions, and no Multimodal entry beating the organizers&#x27; baselines.<br><span class="scope">Holds for: Paired image-text data and training-time feedback from an external teacher model are still allowed inside Strict and Strict-Small, subject to those tracks&#x27; word budgets.</span></dd>
+<dd>Under the 2026 BabyLM rules a Strict submission model may see at most 100M word tokens, including text generated by external models. It may itself generate at most 100M word tokens for the external model, scalar RL rewards are capped at 100M, and every limit becomes 10M for Strict-Small.<br><span class="scope">Holds for: External models must come from a predetermined list on the BabyLM website but may themselves be finetuned freely; distillation is barred unless the external model&#x27;s own training word count is charged against the submission budget.</span></dd>
+<dt>What are the rules for using a teacher or external model during BabyLM training?</dt>
+<dt>Is knowledge distillation allowed in the BabyLM Challenge?</dt>
+<dt>How are synthetic data and generated tokens counted against a 100M word pretraining budget?</dt>
+<dd>Under the 2026 BabyLM rules a Strict submission model may see at most 100M word tokens, including text generated by external models. It may itself generate at most 100M word tokens for the external model, scalar RL rewards are capped at 100M, and every limit becomes 10M for Strict-Small.<br><span class="scope">Holds for: External models must come from a predetermined list on the BabyLM website but may themselves be finetuned freely; distillation is barred unless the external model&#x27;s own training word count is charged against the submission budget.</span></dd>
+<dt>Is there an epoch limit in the BabyLM Challenge?</dt>
+<dt>How much total data exposure does the 2026 BabyLM Challenge allow?</dt>
+<dt>How many passes over a 100M-word pretraining corpus does a child-scale competition permit?</dt>
+<dd>The 2026 BabyLM Challenge caps total data exposure, counting repeated passes, at 100M words for Strict-Small and 1B words for all other tracks. That is roughly 10 epochs over the standard BabyLM corpora, quantified in whitespace-separated input words.<br><span class="scope">Holds for: Leaderboard-eligible competition checkpoints; participants may train longer and report it, and workshop papers are exempt. Byte-Premium-adjusted in the Multilingual track.</span></dd>
+<dt>Which intermediate checkpoints must a BabyLM submission upload?</dt>
+<dt>What is the BabyLM checkpoint submission schedule?</dt>
+<dt>Why would a pretraining competition ask participants for intermediate training checkpoints?</dt>
+<dd>The 2026 BabyLM Challenge requires intermediate checkpoints on the HuggingFace Hub every 1M words up to 10M words, then every 10M words up to 100M words. For tracks other than Strict-Small, checkpoints continue every 100M words up to 1B words.<br><span class="scope">Holds for: Required for competition entries so that learning efficiency and acquisition dynamics can be evaluated; the exact checkpoint-level metrics are announced with the evaluation pipeline release.</span></dd>
+<dt>Why does BabyLM limit training data rather than compute or FLOPs?</dt>
+<dt>Is there a compute budget in the BabyLM Challenge?</dt>
+<dt>Why would a shared task cap words seen instead of capping FLOPs?</dt>
+<dd>The BabyLM organizers limit data exposure rather than compute in the 2026 challenge. Their stated grounds are that BabyLM submissions are unlikely to exceed the computation available to a child and that requiring FLOP accounting would deter participation.<br><span class="scope">Holds for: The organizers&#x27; design rationale for the 2026 challenge; the data-exposure limit is acknowledged not to remove the advantage of well-funded groups, which can still afford more hyperparameter search and prototyping.</span></dd>
+<dt>Is the BabyLM training corpus toxic, and was anything done about it?</dt>
+<dt>What changed in the 2026 BabyLM training dataset?</dt>
+<dt>Has a child-directed pretraining corpus been detoxified?</dt>
+<dd>The 2026 BabyLM training data is a detoxified revision of the 2024/2025 corpus. It follows analysis finding the BabyLM corpus more toxic and hateful than corpora used for larger models such as BERT, contrary to its child-aligned disposition.<br><span class="scope">Holds for: Detoxification follows Trhlik et al. (2026); released as a 100M-word Strict set, a 10M-word Strict-Small set and a 100M-word plus image Multimodal set, and participants may swap in their own data.</span></dd>
+<dt>What data makes up the 100M-word BabyLM Strict corpus?</dt>
+<dt>How much CHILDES data is in the BabyLM pretraining dataset?</dt>
+<dt>Which corpora make up a 100M-word child-directed pretraining dataset?</dt>
+<dd>The 2026 BabyLM Strict corpus totals 100M words, with CHILDES child-directed speech the largest component at 28.4M words, followed by Project Gutenberg children&#x27;s stories at 25.5M and OpenSubtitles at 21.8M.<br><span class="scope">Holds for: Text-only Strict dataset composition; the multimodal variant reallocates the budget, adding 27M words of Localized Narratives and 23M of Conceptual Captions with 2.9M images in total.</span></dd>
+<dt>What baseline models does the 2026 BabyLM Challenge provide?</dt>
+<dt>Which model do I have to beat in the BabyLM Strict track?</dt>
+<dt>What are the baselines for a 100M-word multilingual pretraining competition?</dt>
+<dd>The 2026 BabyLM baselines for Strict and Strict-Small are GPT-BERT, GPT-2 Small and a SimPO-based preference-optimization model carried over from the 2025 Interaction track. GPT-BERT and GPT-2 Small are adapted to the Multilingual track by subsampling equal Byte-Premium-adjusted word counts per language.<br><span class="scope">Holds for: The multilingual baselines are described by the organizers as deliberately naive: equal language ratios and plain BPE tokenization, leaving data ratios, tokenization and architecture as the intended axes of participant contribution.</span></dd>
+<dt>How are BabyLM submissions evaluated in 2026?</dt>
+<dt>Are there hidden evaluation tasks in the BabyLM Challenge?</dt>
+<dt>Does evaluation of small pretrained models use zero-shot probability comparisons or finetuning?</dt>
+<dd>BabyLM 2026 evaluation combines zero-shot sequence-probability comparisons with finetuning-based tasks in English, Dutch and Chinese. A set of hidden tasks is released shortly before the submission deadline to test generalization to unseen multilingual phenomena and domains.<br><span class="scope">Holds for: Evaluation pipeline builds on the 2025 challenge repository; the full task list is announced with the baseline release rather than in the call for papers.</span></dd>
+<dt>What topics can I submit to the BabyLM workshop without entering the competition?</dt>
+<dt>Do I have to enter a BabyLM competition track to submit a paper?</dt>
+<dt>When and where is the 2026 workshop on data-efficient, cognitively inspired language modeling held?</dt>
+<dd>The BabyLM Workshop calls for papers on data-efficient architectures, data curation, cognitively and linguistically inspired modeling and evaluation, small models, multimodality, teacher-model interaction, and bilingualism. Its 2026 theme is going beyond English.<br><span class="scope">Holds for: Workshop submissions are independent of the competition: entering a track is not a prerequisite, and workshop papers are exempt from the epoch and checkpoint requirements. Papers up to 8 pages, double-blind, at EMNLP 2026 in Budapest.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>The 2026 BabyLM Challenge introduces a Multilingual track covering English, Dutch and Chinese, replacing the English-only pretraining setup of the first three BabyLM editions. <span class="meta">(Section 4.1)</span><br><span class="scope">Scope: 3 languages only, chosen from the 45 languages of BabyBabelLM because they have broad evaluation data; other languages are workshop topics, not track languages.</span></li>
+<li>The 2026 BabyLM Multilingual track lets participants build any custom mixture of English, Dutch and Chinese totalling 100M words. Per-language counts are adjusted by Byte Premium: English 1.0, Dutch 1.0516, Chinese 0.9894. <span class="meta">(Section 4.1)</span><br><span class="scope">Scope: The Multilingual competition track; in practice 100MB of English text is treated as equivalent to 105MB of Dutch and 98.9MB of Chinese parallel data.</span></li>
+<li>The 2026 BabyLM Multilingual track pairs English with Dutch as a typologically similar same-script language and with Chinese as a typologically distant different-script language. Cross-lingual transfer can therefore be studied in both regimes. <span class="meta">(Section 4.1)</span><br><span class="scope">Scope: Rationale for the 3 competition languages; English is retained to allow direct comparison with the Strict and Strict-Small tracks.</span></li>
+<li>The 2026 BabyLM Challenge removes the standalone Multimodal and Interaction tracks and subsumes them into Strict and Strict-Small. The stated reasons are too few submissions, no Interaction entry beating the Strict submissions, and no Multimodal entry beating the organizers&#x27; baselines. <span class="meta">(Section 1 and Section 4.1)</span><br><span class="scope">Scope: Paired image-text data and training-time feedback from an external teacher model are still allowed inside Strict and Strict-Small, subject to those tracks&#x27; word budgets.</span></li>
+<li>Under the 2026 BabyLM rules a Strict submission model may see at most 100M word tokens, including text generated by external models. It may itself generate at most 100M word tokens for the external model, scalar RL rewards are capped at 100M, and every limit becomes 10M for Strict-Small. <span class="meta">(Section 4.1)</span><br><span class="scope">Scope: External models must come from a predetermined list on the BabyLM website but may themselves be finetuned freely; distillation is barred unless the external model&#x27;s own training word count is charged against the submission budget.</span></li>
+<li>The 2026 BabyLM Challenge caps total data exposure, counting repeated passes, at 100M words for Strict-Small and 1B words for all other tracks. That is roughly 10 epochs over the standard BabyLM corpora, quantified in whitespace-separated input words. <span class="meta">(Section 4.2)</span><br><span class="scope">Scope: Leaderboard-eligible competition checkpoints; participants may train longer and report it, and workshop papers are exempt. Byte-Premium-adjusted in the Multilingual track.</span></li>
+<li>The 2026 BabyLM Challenge requires intermediate checkpoints on the HuggingFace Hub every 1M words up to 10M words, then every 10M words up to 100M words. For tracks other than Strict-Small, checkpoints continue every 100M words up to 1B words. <span class="meta">(Section 4.2)</span><br><span class="scope">Scope: Required for competition entries so that learning efficiency and acquisition dynamics can be evaluated; the exact checkpoint-level metrics are announced with the evaluation pipeline release.</span></li>
+<li>The BabyLM organizers limit data exposure rather than compute in the 2026 challenge. Their stated grounds are that BabyLM submissions are unlikely to exceed the computation available to a child and that requiring FLOP accounting would deter participation. <span class="meta">(Section 4.2)</span><br><span class="scope">Scope: The organizers&#x27; design rationale for the 2026 challenge; the data-exposure limit is acknowledged not to remove the advantage of well-funded groups, which can still afford more hyperparameter search and prototyping.</span></li>
+<li>The 2026 BabyLM training data is a detoxified revision of the 2024/2025 corpus. It follows analysis finding the BabyLM corpus more toxic and hateful than corpora used for larger models such as BERT, contrary to its child-aligned disposition. <span class="meta">(Section 4.3 and Table 1)</span><br><span class="scope">Scope: Detoxification follows Trhlik et al. (2026); released as a 100M-word Strict set, a 10M-word Strict-Small set and a 100M-word plus image Multimodal set, and participants may swap in their own data.</span></li>
+<li>The 2026 BabyLM Strict corpus totals 100M words, with CHILDES child-directed speech the largest component at 28.4M words, followed by Project Gutenberg children&#x27;s stories at 25.5M and OpenSubtitles at 21.8M. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Text-only Strict dataset composition; the multimodal variant reallocates the budget, adding 27M words of Localized Narratives and 23M of Conceptual Captions with 2.9M images in total.</span></li>
+<li>The 2026 BabyLM baselines for Strict and Strict-Small are GPT-BERT, GPT-2 Small and a SimPO-based preference-optimization model carried over from the 2025 Interaction track. GPT-BERT and GPT-2 Small are adapted to the Multilingual track by subsampling equal Byte-Premium-adjusted word counts per language. <span class="meta">(Section 4.5)</span><br><span class="scope">Scope: The multilingual baselines are described by the organizers as deliberately naive: equal language ratios and plain BPE tokenization, leaving data ratios, tokenization and architecture as the intended axes of participant contribution.</span></li>
+<li>BabyLM 2026 evaluation combines zero-shot sequence-probability comparisons with finetuning-based tasks in English, Dutch and Chinese. A set of hidden tasks is released shortly before the submission deadline to test generalization to unseen multilingual phenomena and domains. <span class="meta">(Section 4.4)</span><br><span class="scope">Scope: Evaluation pipeline builds on the 2025 challenge repository; the full task list is announced with the baseline release rather than in the call for papers.</span></li>
+<li>The BabyLM Workshop calls for papers on data-efficient architectures, data curation, cognitively and linguistically inspired modeling and evaluation, small models, multimodality, teacher-model interaction, and bilingualism. Its 2026 theme is going beyond English. <span class="meta">(Section 3.1 and Section 2)</span><br><span class="scope">Scope: Workshop submissions are independent of the competition: entering a track is not a prerequisite, and workshop papers are exempt from the epoch and checkpoint requirements. Papers up to 8 pages, double-blind, at EMNLP 2026 in Budapest.</span></li>
+<li>BabyLM is a recurring workshop and shared task, in its fourth iteration in 2026, connecting cognitive modeling of child language acquisition with sample-efficient language model pretraining. Its challenge tracks cap training data at human-scale amounts of 100M or 10M words.<br><span class="scope">Scope: As of the 2026 call for papers; prior iterations are documented in Warstadt et al. (2023), Hu et al. (2024) and Charpentier et al. (2025).</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The 2026 BabyLM Multilingual track is not a 45-language task: BabyBabelLM supplies cognitively plausible data for 45 languages, but the competition track evaluates only English, Dutch and Chinese.</li>
+<li>Dropping the Multimodal and Interaction tracks does not mean image-text data or teacher-model feedback is banned; both remain permitted inside the Strict and Strict-Small tracks under those tracks&#x27; word budgets.</li>
+<li>The 100M and 10M word figures are upper bounds on data exposure, not required training set sizes: models trained on less data are eligible.</li>
+<li>The BabyLM epoch and checkpoint requirements bind competition entries only; workshop papers may train for longer and are not required to release intermediate checkpoints.</li>
+<li>The finding that no 2025 Interaction submission beat the Strict submissions is a statement about the entries received in that round, not evidence that interactive or multimodal training cannot help at BabyLM scale — the organizers explicitly still invite such work.</li>
+<li>Multilingual word budgets in BabyLM are not counted per language in raw words: per-language counts are rescaled by Byte Premium, so equal nominal budgets correspond to different byte sizes.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Strict track</em></dt><dd>BabyLM competition track in which the submitted language model may be exposed to no more than 100M word tokens of training data, counting text generated by external models.</dd>
+<dt><em>Strict-Small track</em></dt><dd>BabyLM competition track in which the submitted language model may be exposed to no more than 10M word tokens of training data.</dd>
+<dt><em>Byte Premium</em></dt><dd>A per-language factor that rescales word or data budgets by the UTF-8 encoded size needed to express a fixed amount of content, relative to English at 1.0; Dutch is 1.0516 and Chinese is 0.9894 in the 2026 BabyLM Multilingual track.</dd>
+<dt><em>submission model</em></dt><dd>In the BabyLM Challenge, the participant&#x27;s competition entry, as distinct from an external model used only inside its training pipeline and not submitted.</dd>
+<dt><em>external model</em></dt><dd>In the BabyLM Challenge, a secondary model drawn from a predetermined list on the BabyLM website that may generate data or feedback for the submission model, but whose tokenizer, weights, hidden states and output distributions may not be revealed to it.</dd>
+</dl>
+<h2>How to cite</h2>
+<pre>@article{choshen2026babylm,
+  author       = {Leshem Choshen and
+                  Ryan Cotterell and
+                  Mustafa Omer Gul and
+                  Jaap Jumelet and
+                  Tal Linzen and
+                  Aaron Mueller and
+                  Suchir Salhan and
+                  Raj Sanjay Shah and
+                  Alex Warstadt and
+                  Ethan Gotlieb Wilcox},
+  title        = {BabyLM Turns 4 and Goes Multilingual: Call for Papers for the 2026
+                  BabyLM Workshop},
+  journal      = {CoRR},
+  volume       = {abs/2602.20092},
+  year         = {2026},
+  url          = {https://doi.org/10.48550/arXiv.2602.20092},
+  doi          = {10.48550/ARXIV.2602.20092},
+  eprinttype   = {arXiv},
+  eprint       = {2602.20092},
+  timestamp    = {Sun, 29 Mar 2026 00:00:00 +0100},
+  biburl       = {https://dblp.org/rec/journals/corr/abs-2602-20092.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}</pre>
 <h2>References</h2>
 <p>See the full reference list in the <a href="https://arxiv.org/html/2602.20092">paper</a>.</p>
 <footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>

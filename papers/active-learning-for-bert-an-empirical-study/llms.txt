@@ -3,8 +3,60 @@
 Authors: Liat Ein-Dor, Alon Halfon, Ariel Gera, Eyal Shnarch, Lena Dankin, Leshem Choshen, Marina Danilevsky, Ranit Aharonov, Yoav Katz, Noam Slonim
 Venue: Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing, {EMNLP} 2020, Online, November 16-20, 2020 (2020)
 
-## Abstract
-Real world scenarios present a challenge for text classification, since labels are usually expensive and the data is often characterized by class imbalance. Active Learning (AL) is a ubiquitous paradigm to cope with data scarcity. Recently, pre-trained NLP models, and BERT in particular, are receiving massive attention due to their outstanding performance in various NLP tasks. However, the use of AL with deep pre-trained models has so far received little consideration. Here, we present a large-scale empirical study on active learning techniques for BERT-based classification, addressing a diverse set of AL strategies and datasets. We focus on practical scenarios of binary text classification, where the annotation budget is very small, and the data is often skewed. Our results demonstrate that AL can boost BERT performance, especially in the most realistic scenario in which the initial set of labeled examples is created using keyword-based queries, resulting in a biased sample of the minority class. We release our research framework, aiming to facilitate future research along the lines explored here.
+## What this paper shows
+A 2,520-run study of 7 active learning strategies on top of BERT for binary text classification with a 100-example seed and 50-example batches, showing the largest gains in the realistic case where the seed comes from a keyword query over a rare positive class.
+
+## Claims, with scope
+- Active learning strategies on top of BERT improve F1 over a random-selection baseline by 4-8% on average in the imbalanced-practical scenario. In that scenario the initial labeled seed of 100 examples is drawn from a keyword query.
+  Scope: Binary classification on 4 datasets with a queryable positive class (ISEAR fear, TREC location, Wiki attack, AG's News-imb world); BERT-base, 5 iterations of 50 labels, dev set used for model selection.
+  Evidence: Section 4
+- All 6 non-random active learning strategies tested with BERT beat random selection significantly in both imbalanced scenarios, with Wilcoxon p < 10^-2 after Bonferroni correction. In the balanced scenario EGL and Perceptron Ensemble show no significant gain.
+  Scope: 10 binary datasets split across 14 dataset-scenario combinations, 5 seeds x 5 iterations per strategy; p-values computed over all (strategy, random) result pairs; accuracy used for balanced, F1 for imbalanced scenarios.
+  Evidence: Table 3
+- No single active learning strategy consistently outperforms the others when paired with BERT: pairwise Wilcoxon tests across the 3 scenarios find no significant performance difference between any pair of the 7 strategies.
+  Scope: Least Confidence, Monte Carlo Dropout, Perceptron Ensemble, EGL, Core-Set, DAL and Random on binary tasks, 100-example seed plus 5 batches of 50; larger budgets and multi-class tasks untested.
+  Evidence: Section 4
+- When BERT is seeded with a biased keyword-query sample of the minority class, the F1 gain from active learning is dominated entirely by rising recall. In the unbiased imbalanced seeding the gain comes mostly from precision.
+  Scope: The 4 imbalanced-practical datasets versus the 6 imbalanced datasets, BERT-base, F1 at the default 0.5 threshold; precision and recall curves are in Appendix Figures 4 and 5.
+  Evidence: Section 4
+- A keyword-query seed gives BERT a worse initial F1 than an unbiased sample of positives. After several active learning iterations of 50 labels each, the two seeding regimes converge to similar classification performance.
+  Scope: Compared at iteration 0 versus later iterations on the datasets run in both imbalanced and imbalanced-practical scenarios; simple string-match queries whose own recall is low.
+  Evidence: Figure 1
+- For datasets whose positive class prior is at or below 15%, a random seed of 100 labeled instances led to unstable BERT fine-tuning runs. The study handled this by adding 100 further instances weakly labeled as negative.
+  Scope: BERT-base fine-tuned for 5 epochs at learning rate 5e-5, batch size 50, maximum sequence length 100 tokens; observed on the 6 skewed datasets, with the instability data not shown in the paper.
+  Evidence: Section 3.2
+- Discriminative Active Learning selects the most diverse and the most representative batches of the 7 strategies compared using BERT [CLS] representations. Greedy Core-Set scores low on representativeness except in the imbalanced-practical scenario.
+  Scope: Measured on the first 50-example batch after the initial BERT model, averaged over datasets and seeds per scenario; diversity per Zhdanov (2019) and representativeness from inverse KNN-density with K=10 on Euclidean [CLS] distances.
+  Evidence: Figure 2
+- Batches chosen by different active learning strategies over the same BERT model overlap little: expected pairwise batch overlap does not exceed 15%, with the highest overlap between EGL and Least Confidence.
+  Scope: 50-example batches from the same unlabeled pool and the same trained BERT model, across 7 strategies and 14 dataset-scenario combinations; combining low-overlap strategies untested.
+  Evidence: Section 5
+- Per-iteration batch selection cost with BERT differs by orders of magnitude across strategies: assuming 7,000 unlabeled examples, random selection takes under 1 second and EGL 1,106 seconds. Dropout takes 840 seconds, Perceptron Ensemble 370, DAL 167, Core-Set 98 and Least Confidence 84.
+  Scope: Selection time only, excluding BERT fine-tuning; Intel Xeon E5-2699 v4 CPUs with a single Nvidia Tesla K80 GPU per run; dominated by BERT inference for every strategy except random.
+  Evidence: Table 2
+- "Active Learning for BERT: An Empirical Study" is a systematic empirical comparison of classical and deep active learning strategies on top of BERT for text classification. It covers 10 binary datasets and 2,520 fine-tuning runs.
+  Scope: As of EMNLP 2020: earlier deep-AL work on text either used non-BERT models or applied a narrow set of strategies to one or two tasks with specific BERT variants; binary classification only, English datasets, BERT-base.
+  Evidence: Section 2
+- The imbalanced-practical setting introduced in "Active Learning for BERT: An Empirical Study" is a low-resource evaluation protocol where the labeled seed comes from a simple keyword query. It replaces the usual assumption of an unbiased sample of the rare positive class.
+  Scope: Applied to 4 datasets for which a simple string or sub-string match query with enough hits could be written; the queries are deliberately naive and better queries are likely to exist.
+  Evidence: Section 3.2
+- "Active Learning for BERT: An Empirical Study" releases an open-source low-resource text classification framework with the 10 datasets, implementations of the 7 active learning strategies and an automatic evaluation harness. New AL strategies can be plugged in.
+  Scope: Framework as released at publication in 2020, built around BERT-base and binary classification tasks; released at github.com/IBM/low-resource-text-classification-framework.
+  Evidence: Section 3.6
+
+## Common misreadings
+- The 4-8% F1 gain from active learning is an average over the imbalanced-practical scenario only; in the balanced scenario the gains are smaller and EGL and Perceptron Ensemble are not significantly better than random selection at all.
+- The study does not identify a best acquisition function: pairwise significance tests find no strategy reliably better than any other, so citing it as evidence for Core-Set, DAL or least confidence specifically is a misreading.
+- Findings cover binary classification with BERT-base and a budget of a 100-example seed plus 5 batches of 50 actively selected labels; multi-class tasks, regression, larger budgets and later BERT variants were not tested.
+- The keyword queries used to build the biased seed are deliberately simple string matches with low recall, not tuned retrieval systems, so the reported initial F1 is not a bound on what query-based bootstrapping can achieve.
+- Runtimes in the study are batch-selection times, not end-to-end iteration costs, and exclude BERT fine-tuning.
+
+## Terminology
+- imbalanced-practical scenario: An active learning setup for a rare target class in which the initial labeled seed is drawn from the results of a simple keyword query, yielding a positive-enriched but biased sample, rather than from an unbiased sample of positives.
+- imbalanced scenario: An active learning setup for a target class with prior at or below 15% in which the initial seed's 100 fully labeled examples are drawn at random from the dataset's positives, assumed available via high-precision heuristics.
+- Perceptron Ensemble (PE): An uncertainty-sampling strategy that averages the predictions of 10 perceptrons trained on the [CLS] vectors of a fine-tuned BERT model, used as a cheap substitute for an ensemble of full BERT models.
+- Representativeness of a batch: One over the average KNN-density of the batch's instances, where density is the mean Euclidean distance from an instance to its K=10 nearest neighbours in the unlabeled pool in [CLS] representation space; low values indicate outlier selection.
+- Diversity of a batch: The inverse of the average, over all unlabeled instances, of the minimum Euclidean distance from that instance to any member of the selected batch in [CLS] representation space.
 
 ## Links
 - DOI: https://doi.org/10.18653/V1/2020.EMNLP-MAIN.638
@@ -13,8 +65,7 @@ Real world scenarios present a challenge for text classification, since labels a
 - Publisher: https://doi.org/10.18653/v1/2020.emnlp-main.638
 
 ## How to cite
-@inproceedings{DBLP:conf/emnlp/Ein-DorHGSDCDAK20,
-author       = {Liat Ein{-}Dor and
+@inproceedings{DBLP:conf/emnlp/Ein-DorHGSDCDAK20,author       = {Liat Ein{-}Dor and
                   Alon Halfon and
                   Ariel Gera and
                   Eyal Shnarch and

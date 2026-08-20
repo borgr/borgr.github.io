@@ -1,10 +1,58 @@
 # CommonLID: Re-evaluating State-of-the-Art Language Identification Performance on Web Data
 
-Authors: Pedro Ortiz Suarez, Laurie Burchell, Catherine Arnett, Rafael Mosquera-G\'omez, Sara Hincapie-Monsalve, Thom Vaughan, Damian Stewart, Malte Ostendorff, Idris Abdulmumin, Vukosi Marivate, others
-Venue: arXiv preprint arXiv:2601.18026 (2026)
+a human-annotated language identification benchmark built from Common Crawl web text
 
-## Abstract
-Language identification (LID) is a fundamental step in curating multilingual corpora. However, LID models still perform poorly for many languages, especially on the noisy and heterogeneous web data often used to train multilingual language models. In this paper, we introduce CommonLID, a community-driven, human-annotated LID benchmark for the web domain, covering 109 languages. Many of the included languages have been previously under-served, making CommonLID a key resource for developing more representative high-quality text corpora. We show CommonLID's value by using it, alongside five other common evaluation sets, to test eight popular LID models. We analyse our results to situate our contribution and to provide an overview of the state of the art. In particular, we highlight that existing evaluations overestimate LID accuracy for many languages in the web domain. We make CommonLID and the code used to create it available under an open, permissive license.
+Authors: Pedro Ortiz Suarez, Laurie Burchell, Catherine Arnett, Rafael Mosquera-Gómez, Sara Hincapie-Monsalve, Thom Vaughan, Damian Stewart, Malte Ostendorff, Idris Abdulmumin, Vukosi Marivate, Shamsuddeen Hassan Muhammad, Atnafu Lambebo Tonja, Hend Al-Khalifa, Nadia Ghezaiel Hammouda, Verrah Otiende, Tack Hwa Wong, Jakhongir Saydaliev, Melika Nobakhtian, Muhammad Ravi Shulthan Habibi, Chalamalasetti Kranti, Carol Muchemi, Khang Nguyen, Faisal Muhammad Adam, Luis Frentzen Salim, Reem Alqifari, Cynthia Amol, Joseph Marvin Imperial, Ilker Kesen, Ahmad Mustafid, Pavel Stepachev, Leshem Choshen, David Anugraha, Hamada Nayel, Seid Muhie Yimam, Vallerie Alexandra Putra, My Chiffon Nguyen, Azmine Toushik Wasi, Gouthami Vadithya, Rob van der Goot, Lanwenn ar C'horr, Karan Dua, Andrew Yates, Mithil Bangera, Yeshil Bangera, Hitesh Laxmichand Patel, Shu Okabe, Fenal Ashokbhai Ilasariya, Dmitry Gaynullin, Genta Indra Winata, Yiyuan Li, Juan Pablo Martínez, Amit Agarwal, Ikhlasul Akmal Hanif, Raia Abu Ahmad, Esther Adenuga, Filbert Aurelian Tjiaranata, Weerayut Buaphet, Michael Anugraha, Sowmya Vajjala, Benjamin Rice, Azril Hafizi Amirudin, Jesujoba O. Alabi, Srikant Panda, Yassine Toughrai, Bruhan Kyomuhendo, Daniel Ruffinelli, Akshata A, Manuel Goulão, Ej Zhou, Ingrid Gabriela Franco Ramirez, Cristina Aggazzotti, Konstantin Dobler, Jun Kevin, Quentin Pagès, Nicholas Andrews, Nuhu Ibrahim, Mattes Ruckdeschel, Amr Keleg, Mike Zhang, Casper Muziri, Saron Samuel, Sotaro Takeshita, Kun Kerdthaisong, Luca Foppiano, Rasul Dent, Tommaso Green, Ahmad Mustapha Wali, Kamohelo Makaaka, Vicky Feliren, Inshirah Idris, Hande Celikkanat, Abdulhamid Abubakar, Jean Maillard, Benoît Sagot, Thibault Clérice, Kenton Murray, Sarah Luger
+Venue: Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), {ACL} 2026, San Diego, California, United States, July 2-7, 2026 (2026)
+
+## What this paper shows
+CommonLID is a community-annotated, line-level language identification benchmark of 373,230 lines of Common Crawl web text in 109 language varieties, built to show that existing clean-domain LID evaluations overestimate accuracy on the web.
+
+## Claims, with scope
+- CommonLID contains 373,230 lines of Common Crawl web text with a mean line length of 215.5 characters, covering 109 language varieties, 78 of which have more than 100 lines.
+  Scope: Line-level labels from over 80 volunteer annotators; class sizes are uneven, from 43,189 lines for Uzbek to 4 varieties with a single line.
+  Evidence: Section 4.3
+- CommonLID is a community-driven, human-annotated language identification benchmark for the web domain, released under an open permissive license, aimed at languages previously under-served by LID evaluation data.
+  Scope: As of publication in 2026; covers 109 language varieties sampled from Common Crawl and MADLAD-400, and annotates text originally written in the target language rather than translations.
+- On CommonLID, the eight tested LID models reach macro-F1 scores between 43.5 and 68.6 over the languages each model covers, well below their scores on FLORES+, where GlotLID reaches 96.5.
+  Scope: Macro-averaged F1 over the subset of language varieties each model supports; input text is normalised by lowercasing and stripping non-word characters before prediction.
+  Evidence: Table 1
+- High scores on the UDHR and Bible LID evaluation sets partly reflect overlap with LID training data. pyFranc is trained on UDHR and scores 95.9 macro-F1 there, and GlotLID, which uses Bible text for most long-tail languages, scores 93.0 on Bibles.
+  Scope: Exact training data is undisclosed for several tested models, so overlap is inferred from published descriptions rather than measured; the argument concerns long-tail languages, where training and test data are most similar.
+  Evidence: Table 1 and Section 6.1
+- No LID model among AfroLID, CLD2, fasttext, FUN-LangID, pyFranc, CLD3, GlotLID and OpenLID-v2 exceeds 75% macro-F1 across all six evaluation datasets, even when scored only on the languages it covers.
+  Scope: FLORES+, SmolSent, UDHR-LID, Bibles, social media and CommonLID; the SmolSent, Bible and social media splits were down-sampled to 300 lines per class.
+  Evidence: Table 1 and Section 7
+- Restricted to languages every model supports, GlotLID has the best F1 and false positive rate in all three comparison groups. On the 76 core languages it reaches 91.6 F1 at 0.1% FPR, against 84.7 F1 for CLD2 and 61.6 for CLD3.
+  Scope: All test data combined; the 76-language core set excludes AfroLID, which shares only Afrikaans with the other models. Columns are not comparable to each other because each covers a different language set.
+  Evidence: Table 2
+- GlotLID beats zero-shot GPT-4o-mini, GPT-4o, GPT-5-mini and GPT-5 at language identification on all three language subsets. The gap widens for lower-resource languages: 93.5 versus 91.8 F1 for GPT-5 on the 76 core languages, but 90.6 versus 66.6 F1 on the 294 African languages.
+  Scope: Zero-shot prompting via DSPy without optimisation on a down-sampled combination of the six test sets (15k samples); GPT models were accessed through OpenAI and require far more compute than GlotLID.
+  Evidence: Table 3
+- CLD2 and GlotLID sit on the Pareto frontier of speed against accuracy for LID, with CLD2 processing 43,735 samples/s and GlotLID 3,127 samples/s, while AfroLID manages 66 samples/s.
+  Scope: Measured on FLORES+ on a 14-core Apple M4 Pro with 64GB RAM using PyTorch MPS where possible; gCLD3 was measured on an AMD EPYC 7351P Linux machine.
+  Evidence: Figure 2 and Table 8
+- Of the 67,625 CommonLID lines annotated by more than one annotator, 3.2% received differing labels, falling to 2.3% once mislabelled English boilerplate is excluded. Arabic macro/micro-language pairs account for 1,218 of the disagreements.
+  Scope: Only 12.9% of the 523,154 lines in the pre-filter dataset were multiply annotated, so this is not a full inter-annotator agreement study; statistics are computed after short-span filtering but before the other quality filters.
+  Evidence: Section 4.2
+- CommonLID's evaluation shows that LID models cannot be ranked by a single number, because each model supports a different label set. Scoring over a whole test set rewards coverage, while scoring only over covered languages rewards specialisation.
+  Scope: Argued from eight models whose coverage ranges from 99 to 1,868 languages and from six evaluation sets; the paper reports both scoring modes rather than proposing a single fair metric.
+- CommonLID's annotation pool was pre-selected using fastText, OpenLID, GlotLID and MADLAD-400, so it only contains web text that at least one existing LID system already recognised. Coverage is therefore biased toward those models' languages and registers.
+  Scope: Samples drawn from WET files of the CC-MAIN-2024-22 and CC-MAIN-2025-05 crawls, up to 6,000 documents per language, plus 4,000 per language from MADLAD-400; three of the selection models are also among the eight evaluated.
+  Evidence: Section 3 and Limitations
+
+## Common misreadings
+- GlotLID scoring highest in the head-to-head comparisons does not mean language identification is solved: no tested model exceeds 75% macro-F1 across all six evaluation datasets, and most models fall in the 60s on CommonLID.
+- CommonLID's 109 language varieties are not uniformly usable: 4 varieties contain a single line and only 78 have more than 100 lines, so per-language results for the smallest classes are not meaningful.
+- The 2.3% annotator disagreement figure in CommonLID is not a full inter-annotator agreement study; only 12.9% of lines were labelled by more than one annotator, because volunteer native speakers were unavailable for many languages.
+- CommonLID does not sample web text at random: candidate documents were pre-selected by fastText, OpenLID, GlotLID and MADLAD-400, so text in languages no existing LID model recognises is absent by construction.
+- GPT-5 approaching GlotLID on the 76 core languages does not generalise to low-resource settings: on the 294-language African subset GPT-5 trails GlotLID by roughly 24 F1 points.
+
+## Terminology
+- all vs. cov. scoring: Two macro-F1 modes for a LID model: 'all' averages over every language in the evaluation set, scoring zero for languages the model cannot output, while 'cov.' averages only over the languages the model supports.
+- core languages: The set of 76 language varieties supported by every LID model compared except AfroLID, used to make direct model-to-model comparison possible.
+- line-level LID: Assigning one language label to each newline-delimited line of a web document rather than to the whole document or to individual words.
+- long tail: The many languages for which almost the only available LID training data is religious text, chiefly Bible translations.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2601.18026
@@ -12,13 +60,33 @@ Language identification (LID) is a fundamental step in curating multilingual cor
 - HTML: https://arxiv.org/html/2601.18026
 - Hugging Face: https://huggingface.co/papers/2601.18026
 - alphaXiv: https://www.alphaxiv.org/abs/2601.18026
-- DOI: https://doi.org/10.48550/arXiv.2601.18026
+- DOI: https://doi.org/10.18653/V1/2026.ACL-LONG.1527
 - Semantic Scholar: https://www.semanticscholar.org/paper/285049960
+- Publisher: https://doi.org/10.18653/v1/2026.acl-long.1527
+- Code: https://github.com/commoncrawl/commonlid-eval
+- Project page: https://huggingface.co/datasets/commoncrawl/CommonLID
+- dataset: https://huggingface.co/datasets/commoncrawl/CommonLID
 
 ## How to cite
-@article{suarez2026commonlid,
-title={CommonLID: Re-evaluating State-of-the-Art Language Identification Performance on Web Data},
-  author={Suarez, Pedro Ortiz and Burchell, Laurie and Arnett, Catherine and Mosquera-G{\'o}mez, Rafael and Hincapie-Monsalve, Sara and Vaughan, Thom and Stewart, Damian and Ostendorff, Malte and Abdulmumin, Idris and Marivate, Vukosi and others},
-  journal={arXiv preprint arXiv:2601.18026},
-  year={2026}
+@inproceedings{suarez2026commonlid,
+      title={CommonLID: Re-evaluating State-of-the-Art Language Identification Performance on Web Data}, 
+      author={Pedro Ortiz Suarez and Laurie Burchell and Catherine Arnett and Rafael Mosquera-Gómez and Sara Hincapie-Monsalve and Thom Vaughan and Damian Stewart and Malte Ostendorff and Idris Abdulmumin and Vukosi Marivate and Shamsuddeen Hassan Muhammad and Atnafu Lambebo Tonja and Hend Al-Khalifa and Nadia Ghezaiel Hammouda and Verrah Otiende and Tack Hwa Wong and Jakhongir Saydaliev and Melika Nobakhtian and Muhammad Ravi Shulthan Habibi and Chalamalasetti Kranti and Carol Muchemi and Khang Nguyen and Faisal Muhammad Adam and Luis Frentzen Salim and Reem Alqifari and Cynthia Amol and Joseph Marvin Imperial and Ilker Kesen and Ahmad Mustafid and Pavel Stepachev and Leshem Choshen and David Anugraha and Hamada Nayel and Seid Muhie Yimam and Vallerie Alexandra Putra and My Chiffon Nguyen and Azmine Toushik Wasi and Gouthami Vadithya and Rob van der Goot and Lanwenn ar C'horr and Karan Dua and Andrew Yates and Mithil Bangera and Yeshil Bangera and Hitesh Laxmichand Patel and Shu Okabe and Fenal Ashokbhai Ilasariya and Dmitry Gaynullin and Genta Indra Winata and Yiyuan Li and Juan Pablo Martínez and Amit Agarwal and Ikhlasul Akmal Hanif and Raia Abu Ahmad and Esther Adenuga and Filbert Aurelian Tjiaranata and Weerayut Buaphet and Michael Anugraha and Sowmya Vajjala and Benjamin Rice and Azril Hafizi Amirudin and Jesujoba O. Alabi and Srikant Panda and Yassine Toughrai and Bruhan Kyomuhendo and Daniel Ruffinelli and Akshata A and Manuel Goulão and Ej Zhou and Ingrid Gabriela Franco Ramirez and Cristina Aggazzotti and Konstantin Dobler and Jun Kevin and Quentin Pagès and Nicholas Andrews and Nuhu Ibrahim and Mattes Ruckdeschel and Amr Keleg and Mike Zhang and Casper Muziri and Saron Samuel and Sotaro Takeshita and Kun Kerdthaisong and Luca Foppiano and Rasul Dent and Tommaso Green and Ahmad Mustapha Wali and Kamohelo Makaaka and Vicky Feliren and Inshirah Idris and Hande Celikkanat and Abdulhamid Abubakar and Jean Maillard and Benoît Sagot and Thibault Clérice and Kenton Murray and Sarah Luger},
+      year={2026},
+      eprint={2601.18026},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+  url           = {https://doi.org/10.18653/v1/2026.acl-long.1527},
+  editor        = {Maria Liakata and
+                  Viviane P. Moreira and
+                  Jiajun Zhang and
+                  David Jurgens},
+  booktitle     = {Proceedings of the 64th Annual Meeting of the Association for Computational
+                  Linguistics (Volume 1: Long Papers), {ACL} 2026, San Diego, California,
+                  United States, July 2-7, 2026},
+  pages         = {33063--33080},
+  publisher     = {Association for Computational Linguistics},
+  doi           = {10.18653/V1/2026.ACL-LONG.1527},
+  timestamp     = {Mon, 03 Aug 2026 01:00:00 +0200},
+  biburl        = {https://dblp.org/rec/conf/acl/SuarezBAMMVSOAM26.bib},
+  bibsource     = {dblp computer science bibliography, https://dblp.org}
 }

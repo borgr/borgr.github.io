@@ -3,8 +3,70 @@
 Authors: Leshem Choshen, Elad Venezian, Shachar Don-Yehiya, Noam Slonim, Yoav Katz
 Venue: Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing, {EMNLP} 2023, Singapore, December 6-10, 2023 (2023)
 
-## Abstract
-Previous studies observed that finetuned models may be better base models than the vanilla pretrained model. Such a model, finetuned on some source dataset, may provide a better starting point for a new finetuning process on a desired target dataset. Here, we perform a systematic analysis of this intertraining scheme, over a wide range of English classification tasks. Surprisingly, our analysis suggests that the potential intertraining gain can be analyzed independently for the target dataset under consideration, and for a base model being considered as a starting point. This is in contrast to current perception that the alignment between the target dataset and the source dataset used to generate the base model is a major factor in determining intertraining success. We analyze different aspects that contribute to each. Furthermore, we leverage our analysis to propose a practical and efficient approach to determine if and how to select a base model in real-world settings. Last, we release an updating ranking of best models in the HuggingFace hub per architecture https://ibm.github.io/model-recycling/.
+## What this paper shows
+A systematic study of intertraining over 22 English classification datasets and 66 off-the-shelf HuggingFace checkpoints, showing that base-model quality and target sensitivity can be assessed independently — so a single MNLI linear probe ranks base models without knowing the target task.
+
+## Claims, with scope
+- Intertraining gain can be analyzed as a per-base-model effect plus a per-target effect, so a base model can be chosen without knowing the target dataset. This reverses the common assumption that source-target task alignment is the main determinant of intertraining success.
+  Scope: 22 English classification datasets used both as sources and targets with RoBERTa-base, replicated with BERT and T5; source-target interaction is secondary rather than zero.
+  Evidence: Figure 1 and Section 5
+- A regressor with one coefficient per base model and two per target predicts intertraining gain with MSE 4.2 on the 22-source-by-22-target in-house experiment, versus 9.6 (sigma 0.9) with randomly shuffled gains. It has too few parameters to model any source-target interaction explicitly.
+  Scope: RoBERTa-base in-house sources and targets, gains averaged over 5 seeds, fit by SGD minimising MSE. Base-model-only and target-only regressors reach MSE 10.4 and 8.2 against a shuffled baseline of 10.8.
+  Evidence: Section 5
+- Most finetuned models are worse starting points than the vanilla pretrained model: only about 1 in 6 intermediate models yields a positive intertraining gain on a target dataset.
+  Scope: RoBERTa-base models finetuned on 22 English classification sources, used as starting points on the same 22 targets, 5 seeds each.
+  Evidence: Section 4 and Figure 1
+- Ranking base models by the gain of a linear probe trained on MNLI predicts their average finetuning gain over target datasets. Correlation is Spearman 0.46 and Pearson 0.78 in the in-house experiment, and Figure 2 shows the same relation for off-the-shelf models on 14 General targets.
+  Scope: RoBERTa-base in-house sources and 66 off-the-shelf HuggingFace models; only the classification head is trained during probing. MNLI is not unique as probing dataset.
+  Evidence: Figure 2 and Section 4.2
+- Finetuning only the top 3 statically ranked base models instead of all 66 off-the-shelf models costs at most 1.62 accuracy points of the available max-gain. That worst case is over 14 General targets, where the average loss is 0.34 points.
+  Scope: RoBERTa-base off-the-shelf models ranked target-independently by MNLI linear probing; the single top-ranked model loses 2.33 points on average and 12.0 at worst. In-house: 0.2 average, 1.15 max for top 3.
+  Evidence: Table 1
+- Whether a target dataset can benefit from intertraining at all is predictable from the gain of a single MNLI-based intermediate model. That single gain correlates with the max-gain over all models at Spearman 0.90 and Pearson 0.94 on 14 General targets.
+  Scope: RoBERTa-base off-the-shelf models on 14 General targets; in-house models on 22 targets give Spearman 0.89 and Pearson 0.99. Requires finetuning one model on the target.
+  Evidence: Section 4.1
+- Sources sharing the target's task or domain give higher average gain than unrelated sources, but the effect is small. Average gain is 0.63 for NLI sources on NLI targets and 0.53 for Twitter sources on Twitter targets, while NLI sources give a larger 1.26 on the diverse General targets.
+  Scope: RoBERTa-base in-house intermediate models, averages over the General, NLI and Twitter dataset groups; General sources give negative average gain on all 3 target groups.
+  Evidence: Table 2
+- Intertraining gains are far from symmetric. A source A that helps target B does not imply source B helps target A, which bounds how much of the gain any symmetric source-target similarity measure can explain.
+  Scope: 22-by-22 in-house RoBERTa gain matrix, decomposed into symmetric and skew-symmetric parts; dataset sizes differ, so full symmetry would not be expected even under strong similarity effects.
+  Evidence: Section 5 and Appendix G
+- More source training data amplifies whatever direction the source pushes in: gains grow with source size for good sources (ANLI, MNLI) and shrink for bad ones (MultiRC, QQP). Source size correlates with average source gain at Pearson 0.75.
+  Scope: RoBERTa-base, 4 in-house sources with source training limited to 50-3200 samples, evaluated on the General targets; the 0.75 correlation is across the 22 in-house sources.
+  Evidence: Figure 3 and Section 6.1
+- Intertraining gain shrinks as the target's own training set grows, making intertraining most valuable in few-shot target settings; for 3 targets the gain follows a U-shape, turning negative before rising back toward zero.
+  Scope: RoBERTa-base, General sources and General targets subsampled to between 50 and 1600 training examples. No significant correlation between target size and target average gain across the full in-house experiment.
+  Evidence: Figure 4 and Section 6.1
+- Source-task accuracy does not predict intertraining quality. 20 RoBERTa models finetuned on MNLI with different seeds score between 86.5 and 87.5 on MNLI test yet range from 74.5 to 79 in average General target score, with no correlation.
+  Scope: RoBERTa-base, MNLI as source, General datasets as targets, differences arising from random seeds alone; hyperparameter choices such as weight decay produce similar disconnects.
+  Evidence: Section 6.2 and Figure 11
+- BERT models that generalize better out-of-domain also make better base models: 12 'good'-basin MNLI models give 3.65 average gain on General targets versus 2.16 for 12 'bad'-basin models.
+  Scope: BERT models finetuned on MNLI taken from Juneja et al. (2022); good/bad labels come from that prior work's loss-basin analysis, not from new clustering.
+  Evidence: Section 6.2
+- Which source dataset makes a good base model does not transfer across architectures, as average source gains do not correlate between RoBERTa, BERT and T5. Target sensitivity does transfer, with pairwise Pearson 0.6-0.94 across architectures.
+  Scope: In-house models/targets experiment repeated with RoBERTa, BERT-base-uncased and T5 on English classification datasets; MNLI is the exception, giving the highest gain in all 3 architectures.
+  Evidence: Section 6.3
+- The model-recycling site at ibm.github.io/model-recycling publishes a continuously updated ranking of the best HuggingFace base models per architecture for intertraining, so practitioners can pick a starting point without rerunning the ranking.
+  Scope: Static target-independent rankings by average intertraining gain on English classification targets; RoBERTa-base and T5-small lists also appear in the paper, and site contents change over time.
+  Evidence: Section 8, Table 4 and Table 5
+- Among off-the-shelf HuggingFace models, several outperform the well-known MNLI source: STS-B-based RoBERTa models and Quora-based T5 models rank at the top. A RoBERTa finetuned only on STS-B matches the massively multitask MUPPET model.
+  Scope: 66 off-the-shelf RoBERTa-base models and 25 T5-small models as base models on the General targets; top RoBERTa gains are 2.8-3.0 points. No in-house source among the 22 beat MNLI.
+  Evidence: Table 4, Table 5 and Appendix E
+
+## Common misreadings
+- Intertraining is not a free win: most finetuned checkpoints degrade target performance relative to the plain pretrained model, so picking an arbitrary finetuned model is worse than doing nothing.
+- The finding that source-target similarity matters little does not mean interaction is absent: sources sharing the target's task or domain do give somewhat higher average gain, the effect is just secondary to which base model is chosen.
+- A high score on the source dataset is not evidence that a checkpoint will be a good starting point; MNLI models with nearly identical source accuracy differ widely in the gain they give on new targets.
+- Rankings of source datasets found for RoBERTa should not be reused for BERT or T5, since average source gains do not correlate across architectures; MNLI is the exception that does well in all three.
+
+## Terminology
+- intertraining: Finetuning a model on a source dataset and then using that finetuned model, rather than the vanilla pretrained model, as the starting point for finetuning on a target dataset.
+- intermediate model: A model finetuned on some source dataset and then used as the base model (starting point) for finetuning on a different target dataset.
+- intertraining gain: The target-test accuracy obtained by finetuning from an intermediate model minus the accuracy obtained by finetuning from the vanilla pretrained model on the same target; may be negative.
+- max-gain: The largest intertraining gain achievable on a target by finetuning every available intermediate model and keeping the best, used as the ceiling that cheaper selection strategies are measured against.
+- lost gain: The difference between the max-gain on a target and the gain obtained from the best of the n top-ranked base models, quantifying what a cheap target-independent ranking gives up.
+- intertraining-sensitive target: A target dataset whose accuracy changes substantially depending on which base model is used as the finetuning starting point, as opposed to targets that are largely indifferent to base model choice.
+- static ranking: An ordering of candidate base models computed once, independently of any target dataset, and reused for every new target.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2211.00107
@@ -15,10 +77,11 @@ Previous studies observed that finetuned models may be better base models than t
 - DOI: https://doi.org/10.18653/V1/2023.EMNLP-MAIN.90
 - Semantic Scholar: https://www.semanticscholar.org/paper/253244554
 - Publisher: https://doi.org/10.18653/v1/2023.emnlp-main.90
+- Project page: https://ibm.github.io/model-recycling/
+- project page: https://ibm.github.io/model-recycling/
 
 ## How to cite
-@inproceedings{DBLP:conf/emnlp/ChoshenVDSK23,
-author       = {Leshem Choshen and
+@inproceedings{DBLP:conf/emnlp/ChoshenVDSK23,author       = {Leshem Choshen and
                   Elad Venezian and
                   Shachar Don{-}Yehiya and
                   Noam Slonim and

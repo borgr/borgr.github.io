@@ -8,14 +8,14 @@
   <meta name="citation_title" content="Learning to combine Grammatical Error Corrections">
   <meta name="citation_author" content="Yoav Kantor">
   <meta name="citation_author" content="Yoav Katz">
-  <meta name="citation_author" content="\textbf\emphLeshem Choshen*">
+  <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Edo Cohen-Karlik">
   <meta name="citation_author" content="Naftali Liberman">
   <meta name="citation_author" content="Assaf Toledo">
   <meta name="citation_author" content="Amir Menczel">
   <meta name="citation_author" content="Noam Slonim">
   <meta name="citation_publication_date" content="2019">
-  <meta name="citation_conference_title" content="Proceedings of the Fourteenth Workshop on Innovative Use of NLP for Building Educational Applications…">
+  <meta name="citation_conference_title" content="BEA@ACL 2019">
   <meta name="citation_doi" content="10.18653/V1/W19-4414">
   <meta name="citation_arxiv_id" content="1906.03897">
   <meta name="citation_abstract" content="The field of Grammatical Error Correction (GEC) has produced various systems to deal with focused phenomena or general text editing. We propose an automatic way to combine black-box systems. Our method automatically detects the strength of a system or the combination of several systems per error type, improving precision and recall while optimizing F-score directly. We show consistent improvement over the best standalone system in all the configurations tested. This approach also outperforms average ensembling of different RNN models with random initializations. In addition, we analyze the use of BERT for GEC - reporting promising results on this end. We also present a spellchecker created for this task which outperforms standard spellcheckers tested on the task of spellchecking. This paper describes a system submission to Building Educational Applications 2019 Shared Task: Grammatical Error Correction. Combining the output of top BEA 2019 shared task systems using our approach, currently holds the highest reported score in the open phase of the BEA 2019 shared task, improving F-0.5 score by 3.7 points over the best result reported.">
@@ -37,7 +37,8 @@
     },
     {
       "@type": "Person",
-      "name": "\\textbf\\emphLeshem Choshen*"
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
     },
     {
       "@type": "Person",
@@ -64,10 +65,11 @@
   "datePublished": "2019",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the Fourteenth Workshop on Innovative Use of NLP for Building Educational Applications…"
+    "name": "BEA@ACL 2019"
   },
   "identifier": "https://doi.org/10.18653/V1/W19-4414",
   "abstract": "The field of Grammatical Error Correction (GEC) has produced various systems to deal with focused phenomena or general text editing. We propose an automatic way to combine black-box systems. Our method automatically detects the strength of a system or the combination of several systems per error type, improving precision and recall while optimizing F-score directly. We show consistent improvement over the best standalone system in all the configurations tested. This approach also outperforms average ensembling of different RNN models with random initializations. In addition, we analyze the use of BERT for GEC - reporting promising results on this end. We also present a spellchecker created for this task which outperforms standard spellcheckers tested on the task of spellchecking. This paper describes a system submission to Building Educational Applications 2019 Shared Task: Grammatical Error Correction. Combining the output of top BEA 2019 shared task systems using our approach, currently holds the highest reported score in the open phase of the BEA 2019 shared task, improving F-0.5 score by 3.7 points over the best result reported.",
+  "description": "A black-box combination method for Grammatical Error Correction that splits two systems' edits into agreed and disagreed subsets, then solves a convex program per error type to pick which subsets to keep so that F-0.5 is maximized directly.",
   "sameAs": [
     "https://aclanthology.org/W19-4414/",
     "https://ar5iv.labs.arxiv.org/html/1906.03897",
@@ -78,6 +80,296 @@
     "https://huggingface.co/papers/1906.03897",
     "https://www.alphaxiv.org/abs/1906.03897",
     "https://www.semanticscholar.org/paper/182953063"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Combining four released BEA 2019 shared task system outputs as black boxes reaches F-0.5 72.84 on the test set, a 3.7 point gain over the best standalone system (UEDIN-MS, 69.47). Combining only UEDIN-MS with Kakao&Brain reaches 73.18.",
+      "description": "Holds for: BEA 2019 shared task test set, open phase; selection variables fitted on the entire shared task dev set; the four systems were UEDIN-MS, Kakao&Brain, Shuyao and CAMB-CUED, whose outputs the teams released after the test phase."
+    },
+    {
+      "@type": "Thing",
+      "name": "Combining BEA 2019 shared task systems raises precision from 72.28 to 78.74 on the test set, a 6.5 point improvement over the best standalone system, while recall falls from 60.12 to 56.04.",
+      "description": "Holds for: BEA 2019 test set, 4 combined systems (UEDIN-MS, Kakao&Brain, Shuyao, CAMB-CUED); optimization targets F-0.5, which weights precision over recall."
+    },
+    {
+      "@type": "Thing",
+      "name": "Combining 4 RNN Nematus models by error-type edit selection reaches F-0.5 0.3508 against 0.3122 for Nematus's built-in average ensembling of the same 4 models, a gain of almost 4 points.",
+      "description": "Holds for: 4 RNN-based Nematus models differing only in random initialization, scored on one random half of the W&I dev set with selection variables fitted on the other half."
+    },
+    {
+      "@type": "Thing",
+      "name": "Iteratively combining 4 Nematus models, a spellchecker and a BERT-based system raises F-0.5 from 0.3429 for the best standalone Nematus to 0.4051. Precision and recall improve together, from 0.4839 to 0.5029 and from 0.1583 to 0.2278.",
+      "description": "Holds for: W&I dev set, restricted track submission; the spellchecker alone scores F-0.5 0.1242 and the BERT system 0.0135, yet both still add to the combination."
+    },
+    {
+      "@type": "Thing",
+      "name": "Adding LanguageTool, Grammarly and JamSpell as black boxes to the restricted-track combination raises F-0.5 from 0.4051 to 0.4375, about 9 points above the best standalone off-the-shelf system (Grammarly, 0.3612).",
+      "description": "Holds for: W&I dev set; Grammarly outputs were collected manually through its free web interface taking the top suggestion per correction, since it exposes no programmatic API."
+    },
+    {
+      "@type": "Thing",
+      "name": "Discarding a single system's predictions on error types where it performs poorly gives small F-0.5 gains. LanguageTool rises from 0.2107 to 0.2355, Grammarly from 0.3627 to 0.3754 and Nematus from 0.373 to 0.3761.",
+      "description": "Holds for: W&I dev set, filtering fitted on one random half and reported on the other; gains are minor for the two stronger systems and largest for the weakest one."
+    },
+    {
+      "@type": "Thing",
+      "name": "Edits proposed by both Nematus and Grammarly are far more precise than edits from either alone: for R:OTHER, precision is 0.67 on common edits versus 0.17 and 0.28 standalone. The optimizer therefore keeps only the agreed edits for that error type.",
+      "description": "Holds for: W&I dev set, the 10 most frequent error types over the Nematus–Grammarly pair; agreement does not help every type, and for R:PUNCT and R:VERB:TENSE the intersection subset is dropped entirely."
+    },
+    {
+      "@type": "Thing",
+      "name": "Combining Nematus with Grammarly gives an average F-0.5 improvement of 6.2 points over the better of the two systems. The standard deviation across 10 different random dev-set fold partitions is 0.28 points.",
+      "description": "Holds for: W&I dev set split randomly in two, selection variables fitted on one half and scored on the other, repeated over 10 partitions."
+    },
+    {
+      "@type": "Thing",
+      "name": "A heuristic spellchecker built from Gutenberg word counts, a LibreOffice dictionary and Levenshtein-distance-1 candidates reaches F-0.5 0.6378 on R:SPELL edits, above Norvig (0.5882), JamSpell (0.5599) and Enchant (0.3544).",
+      "description": "Holds for: R:SPELL error category only on the W&I dev set; over all error categories the same spellchecker scores F-0.5 0.1198, below JamSpell's 0.1593."
+    },
+    {
+      "@type": "Thing",
+      "name": "Iteratively querying BERT as a masked language model to propose GEC edits scores F-0.5 0.0135 as a standalone system. Confidence thresholds between 0.6 and 0.98 gave unsatisfying results, and fine-tuning the masked LM on synthetic errors did not help.",
+      "description": "Holds for: W&I dev set; the submitted variant was restricted to replacement edits inside predefined interchangeable word sets, ignoring insertions and deletions and excluding R:PUNCT; the system still contributed when combined with others."
+    },
+    {
+      "@type": "Thing",
+      "name": "Nematus trained on synthetic errors generated over in-domain W&I gold sentences reaches F-0.5 0.1919, close to the 0.232 obtained from the real W&I train set. 7,000,000 synthetic Gutenberg sentences reach only 0.1294.",
+      "description": "Holds for: W&I dev set; errors were generated by applying W&I corrections backwards while matching the observed distribution of edits per sentence; more Gutenberg data did not help (650,000 sentences scored 0.1483)."
+    },
+    {
+      "@type": "Thing",
+      "name": "Adding Lang8, FCE and NUCLE to W&I training data only helps Nematus when W&I is upsampled 10 times. F-0.5 goes from 0.232 (W&I alone) to 0.225 (plus Lang8 and FCE) to 0.333 (upsampled W&I plus all three).",
+      "description": "Holds for: Transformer Nematus with the WMT17 recommended hyperparameters, evaluated on the W&I dev set under the BEA 2019 restricted-track data."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BEA 2019 system paper 'Learning to combine Grammatical Error Corrections' introduces automatic, system-agnostic combination for Grammatical Error Correction. It learns per error type which systems' edits to keep from outputs alone, not from model internals or hand-written pipelines.",
+      "description": "Holds for: As of 2019; earlier GEC combination work existed but was ad-hoc — pipelining, per-phenomenon assignment, or rescoring hybrids tailored to the specific systems used — and required manual adjustment for each new set of systems."
+    },
+    {
+      "@type": "Thing",
+      "name": "Framing GEC system combination as a convex program over per-error-type edit-subset selection variables makes it possible to optimize the corpus-level F-beta score directly, using only M2 edit files from each system.",
+      "description": "Holds for: Requires a dev set with gold M2 annotations from the same distribution as the test data, and an error-type classifier such as ERRANT; combining more than 2 systems is iterative."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/#faq",
+  "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/",
+  "name": "Questions answered by Learning to combine Grammatical Error Corrections",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can I combine the outputs of several grammatical error correction systems?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BEA 2019 system paper 'Learning to combine Grammatical Error Corrections' introduces automatic, system-agnostic combination for Grammatical Error Correction. It learns per error type which systems' edits to keep from outputs alone, not from model internals or hand-written pipelines. Holds for: As of 2019; earlier GEC combination work existed but was ad-hoc — pipelining, per-phenomenon assignment, or rescoring hybrids tailored to the specific systems used — and required manual adjustment for each new set of systems.\n\nFraming GEC system combination as a convex program over per-error-type edit-subset selection variables makes it possible to optimize the corpus-level F-beta score directly, using only M2 edit files from each system. Holds for: Requires a dev set with gold M2 annotations from the same distribution as the test data, and an error-type classifier such as ERRANT; combining more than 2 systems is iterative.",
+        "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
+      },
+      "alternateName": [
+        "Is there a way to merge GEC system outputs without access to their internals?",
+        "What should I read about combining grammar correction systems as black boxes?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does combining GEC systems actually beat the best single system?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Combining four released BEA 2019 shared task system outputs as black boxes reaches F-0.5 72.84 on the test set, a 3.7 point gain over the best standalone system (UEDIN-MS, 69.47). Combining only UEDIN-MS with Kakao&Brain reaches 73.18. Holds for: BEA 2019 shared task test set, open phase; selection variables fitted on the entire shared task dev set; the four systems were UEDIN-MS, Kakao&Brain, Shuyao and CAMB-CUED, whose outputs the teams released after the test phase.\n\nCombining BEA 2019 shared task systems raises precision from 72.28 to 78.74 on the test set, a 6.5 point improvement over the best standalone system, while recall falls from 60.12 to 56.04. Holds for: BEA 2019 test set, 4 combined systems (UEDIN-MS, Kakao&Brain, Shuyao, CAMB-CUED); optimization targets F-0.5, which weights precision over recall.",
+        "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
+      },
+      "alternateName": [
+        "How much does black-box combination improve F-0.5 on the BEA 2019 shared task?",
+        "What was the top score in the BEA 2019 open phase?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is learned edit selection better than average ensembling for neural GEC models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Combining 4 RNN Nematus models by error-type edit selection reaches F-0.5 0.3508 against 0.3122 for Nematus's built-in average ensembling of the same 4 models, a gain of almost 4 points. Holds for: 4 RNN-based Nematus models differing only in random initialization, scored on one random half of the W&I dev set with selection variables fitted on the other half.",
+        "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
+      },
+      "alternateName": [
+        "How does combining Nematus RNN models compare with Nematus's built-in ensemble?",
+        "Does ensembling hurt recall in grammatical error correction?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does combining GEC systems improve precision at the cost of recall?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Iteratively combining 4 Nematus models, a spellchecker and a BERT-based system raises F-0.5 from 0.3429 for the best standalone Nematus to 0.4051. Precision and recall improve together, from 0.4839 to 0.5029 and from 0.1583 to 0.2278. Holds for: W&I dev set, restricted track submission; the spellchecker alone scores F-0.5 0.1242 and the BERT system 0.0135, yet both still add to the combination.\n\nAdding LanguageTool, Grammarly and JamSpell as black boxes to the restricted-track combination raises F-0.5 from 0.4051 to 0.4375, about 9 points above the best standalone off-the-shelf system (Grammarly, 0.3612). Holds for: W&I dev set; Grammarly outputs were collected manually through its free web interface taking the top suggestion per correction, since it exposes no programmatic API.",
+        "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
+      },
+      "alternateName": [
+        "Can adding a weak grammar correction system still help a combination?",
+        "What happens when a spellchecker and a BERT-based corrector are combined with Nematus models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do commercial tools like Grammarly help when combined with a research GEC system?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Adding LanguageTool, Grammarly and JamSpell as black boxes to the restricted-track combination raises F-0.5 from 0.4051 to 0.4375, about 9 points above the best standalone off-the-shelf system (Grammarly, 0.3612). Holds for: W&I dev set; Grammarly outputs were collected manually through its free web interface taking the top suggestion per correction, since it exposes no programmatic API.",
+        "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
+      },
+      "alternateName": [
+        "Is there value in adding off-the-shelf grammar checkers to a neural GEC system?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can filtering a single GEC system's error types improve its score?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Discarding a single system's predictions on error types where it performs poorly gives small F-0.5 gains. LanguageTool rises from 0.2107 to 0.2355, Grammarly from 0.3627 to 0.3754 and Nematus from 0.373 to 0.3761. Holds for: W&I dev set, filtering fitted on one random half and reported on the other; gains are minor for the two stronger systems and largest for the weakest one.",
+        "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
+      },
+      "alternateName": [
+        "Does throwing away predictions on error types a corrector is bad at help?",
+        "How large is the gain from error-type filtering of one grammar correction system?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are grammar corrections that two systems agree on more likely to be right?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Edits proposed by both Nematus and Grammarly are far more precise than edits from either alone: for R:OTHER, precision is 0.67 on common edits versus 0.17 and 0.28 standalone. The optimizer therefore keeps only the agreed edits for that error type. Holds for: W&I dev set, the 10 most frequent error types over the Nematus–Grammarly pair; agreement does not help every type, and for R:PUNCT and R:VERB:TENSE the intersection subset is dropped entirely.",
+        "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
+      },
+      "alternateName": [
+        "How much more precise are edits proposed by both Nematus and Grammarly?",
+        "Should I keep only the corrections that multiple systems propose?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How stable is the gain from combining two GEC systems across dev-set splits?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Combining Nematus with Grammarly gives an average F-0.5 improvement of 6.2 points over the better of the two systems. The standard deviation across 10 different random dev-set fold partitions is 0.28 points. Holds for: W&I dev set split randomly in two, selection variables fitted on one half and scored on the other, repeated over 10 partitions.",
+        "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
+      },
+      "alternateName": [
+        "Does the improvement from combining Nematus and Grammarly depend on how the dev set is split?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which spellchecker is best for correcting spelling errors in learner English?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A heuristic spellchecker built from Gutenberg word counts, a LibreOffice dictionary and Levenshtein-distance-1 candidates reaches F-0.5 0.6378 on R:SPELL edits, above Norvig (0.5882), JamSpell (0.5599) and Enchant (0.3544). Holds for: R:SPELL error category only on the W&I dev set; over all error categories the same spellchecker scores F-0.5 0.1198, below JamSpell's 0.1593.",
+        "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
+      },
+      "alternateName": [
+        "How does a simple frequency-plus-edit-distance spellchecker compare to JamSpell and Norvig?",
+        "Does a good spellchecker also give a good overall grammatical error correction score?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does BERT work well as a standalone grammatical error corrector?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Iteratively querying BERT as a masked language model to propose GEC edits scores F-0.5 0.0135 as a standalone system. Confidence thresholds between 0.6 and 0.98 gave unsatisfying results, and fine-tuning the masked LM on synthetic errors did not help. Holds for: W&I dev set; the submitted variant was restricted to replacement edits inside predefined interchangeable word sets, ignoring insertions and deletions and excluding R:PUNCT; the system still contributed when combined with others.",
+        "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
+      },
+      "alternateName": [
+        "Can a masked language model be queried iteratively to fix grammar errors?",
+        "What went wrong when BERT was applied directly to GEC?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does synthetic error generation replace real annotated GEC data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nematus trained on synthetic errors generated over in-domain W&I gold sentences reaches F-0.5 0.1919, close to the 0.232 obtained from the real W&I train set. 7,000,000 synthetic Gutenberg sentences reach only 0.1294. Holds for: W&I dev set; errors were generated by applying W&I corrections backwards while matching the observed distribution of edits per sentence; more Gutenberg data did not help (650,000 sentences scored 0.1483).",
+        "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
+      },
+      "alternateName": [
+        "Does the domain of synthetic grammatical errors matter more than the amount?",
+        "How well does a GEC model trained only on artificially corrupted text do?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does adding Lang8, FCE and NUCLE help a transformer GEC model?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Adding Lang8, FCE and NUCLE to W&I training data only helps Nematus when W&I is upsampled 10 times. F-0.5 goes from 0.232 (W&I alone) to 0.225 (plus Lang8 and FCE) to 0.333 (upsampled W&I plus all three). Holds for: Transformer Nematus with the WMT17 recommended hyperparameters, evaluated on the W&I dev set under the BEA 2019 restricted-track data.",
+        "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
+      },
+      "alternateName": [
+        "Why upsample the in-domain W&I training set when training a GEC system?",
+        "What training data mix worked best for Nematus on the W&I dev set?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/#terms",
+  "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/",
+  "name": "Terminology in Learning to combine Grammatical Error Corrections",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "selection variable",
+      "description": "A value between 0 and 1 per (error type, edit subset) pair in the combination method, giving the probability that an edit of that error type falling in that subset is kept in the merged output; in practice rounded to 0 or 1.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "edit subset",
+      "description": "A partition of two systems' proposed corrections into edits unique to system 1, edits unique to system 2, and edits both systems propose, so that every edit belongs to exactly one subset.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "iterative combination",
+      "description": "Extending pairwise system combination to N systems by combining two systems, then treating that merged output as a system to combine with the next, which avoids the tiny statistics of 2^N subsets but can overfit the development set.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "M2 file",
+      "description": "The standard Grammatical Error Correction annotation format listing, for each source sentence, the corrections applied to it, and sufficient to compare a system's edits against gold edits.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "black-box combination",
+      "description": "Merging grammatical error correction systems using only their corrected output text, with no access to model parameters, probabilities or training data.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/#terms"
+    }
   ]
 }
   </script>
@@ -88,6 +380,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -101,15 +394,99 @@
 </head>
 <body>
 <h1>Learning to combine Grammatical Error Corrections</h1>
-<p class="meta">Yoav Kantor, Yoav Katz, \textbf\emphLeshem Choshen*, Edo Cohen-Karlik, Naftali Liberman, Assaf Toledo, Amir Menczel, Noam Slonim · Proceedings of the Fourteenth Workshop on Innovative Use of NLP for Building Educational Applications… · 2019</p>
+<p class="meta">Yoav Kantor, Yoav Katz, Leshem Choshen, Edo Cohen-Karlik, Naftali Liberman, Assaf Toledo, Amir Menczel, Noam Slonim · BEA@ACL 2019 · 2019</p>
 <ul class="links"><li><a href="https://arxiv.org/abs/1906.03897">arXiv</a></li><li><a href="https://arxiv.org/pdf/1906.03897">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/1906.03897">HTML</a></li><li><a href="https://huggingface.co/papers/1906.03897">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/1906.03897">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/W19-4414">DOI</a></li><li><a href="https://aclanthology.org/W19-4414/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/182953063">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/w19-4414">Publisher</a></li></ul>
+<h2>In one sentence</h2>
+<p>A black-box combination method for Grammatical Error Correction that splits two systems&#x27; edits into agreed and disagreed subsets, then solves a convex program per error type to pick which subsets to keep so that F-0.5 is maximized directly.</p>
 <h2>Abstract</h2>
 <p>The field of Grammatical Error Correction (GEC) has produced various systems to deal with focused phenomena or general text editing. We propose an automatic way to combine black-box systems. Our method automatically detects the strength of a system or the combination of several systems per error type, improving precision and recall while optimizing F-score directly. We show consistent improvement over the best standalone system in all the configurations tested. This approach also outperforms average ensembling of different RNN models with random initializations. In addition, we analyze the use of BERT for GEC - reporting promising results on this end. We also present a spellchecker created for this task which outperforms standard spellcheckers tested on the task of spellchecking. This paper describes a system submission to Building Educational Applications 2019 Shared Task: Grammatical Error Correction. Combining the output of top BEA 2019 shared task systems using our approach, currently holds the highest reported score in the open phase of the BEA 2019 shared task, improving F-0.5 score by 3.7 points over the best result reported.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How can I combine the outputs of several grammatical error correction systems?</dt>
+<dt>Is there a way to merge GEC system outputs without access to their internals?</dt>
+<dt>What should I read about combining grammar correction systems as black boxes?</dt>
+<dd>The BEA 2019 system paper &#x27;Learning to combine Grammatical Error Corrections&#x27; introduces automatic, system-agnostic combination for Grammatical Error Correction. It learns per error type which systems&#x27; edits to keep from outputs alone, not from model internals or hand-written pipelines.<br><span class="scope">Holds for: As of 2019; earlier GEC combination work existed but was ad-hoc — pipelining, per-phenomenon assignment, or rescoring hybrids tailored to the specific systems used — and required manual adjustment for each new set of systems.</span></dd>
+<dd>Framing GEC system combination as a convex program over per-error-type edit-subset selection variables makes it possible to optimize the corpus-level F-beta score directly, using only M2 edit files from each system.<br><span class="scope">Holds for: Requires a dev set with gold M2 annotations from the same distribution as the test data, and an error-type classifier such as ERRANT; combining more than 2 systems is iterative.</span></dd>
+<dt>Does combining GEC systems actually beat the best single system?</dt>
+<dt>How much does black-box combination improve F-0.5 on the BEA 2019 shared task?</dt>
+<dt>What was the top score in the BEA 2019 open phase?</dt>
+<dd>Combining four released BEA 2019 shared task system outputs as black boxes reaches F-0.5 72.84 on the test set, a 3.7 point gain over the best standalone system (UEDIN-MS, 69.47). Combining only UEDIN-MS with Kakao&amp;Brain reaches 73.18.<br><span class="scope">Holds for: BEA 2019 shared task test set, open phase; selection variables fitted on the entire shared task dev set; the four systems were UEDIN-MS, Kakao&amp;Brain, Shuyao and CAMB-CUED, whose outputs the teams released after the test phase.</span></dd>
+<dd>Combining BEA 2019 shared task systems raises precision from 72.28 to 78.74 on the test set, a 6.5 point improvement over the best standalone system, while recall falls from 60.12 to 56.04.<br><span class="scope">Holds for: BEA 2019 test set, 4 combined systems (UEDIN-MS, Kakao&amp;Brain, Shuyao, CAMB-CUED); optimization targets F-0.5, which weights precision over recall.</span></dd>
+<dt>Is learned edit selection better than average ensembling for neural GEC models?</dt>
+<dt>How does combining Nematus RNN models compare with Nematus&#x27;s built-in ensemble?</dt>
+<dt>Does ensembling hurt recall in grammatical error correction?</dt>
+<dd>Combining 4 RNN Nematus models by error-type edit selection reaches F-0.5 0.3508 against 0.3122 for Nematus&#x27;s built-in average ensembling of the same 4 models, a gain of almost 4 points.<br><span class="scope">Holds for: 4 RNN-based Nematus models differing only in random initialization, scored on one random half of the W&amp;I dev set with selection variables fitted on the other half.</span></dd>
+<dt>Does combining GEC systems improve precision at the cost of recall?</dt>
+<dt>Can adding a weak grammar correction system still help a combination?</dt>
+<dt>What happens when a spellchecker and a BERT-based corrector are combined with Nematus models?</dt>
+<dd>Iteratively combining 4 Nematus models, a spellchecker and a BERT-based system raises F-0.5 from 0.3429 for the best standalone Nematus to 0.4051. Precision and recall improve together, from 0.4839 to 0.5029 and from 0.1583 to 0.2278.<br><span class="scope">Holds for: W&amp;I dev set, restricted track submission; the spellchecker alone scores F-0.5 0.1242 and the BERT system 0.0135, yet both still add to the combination.</span></dd>
+<dd>Adding LanguageTool, Grammarly and JamSpell as black boxes to the restricted-track combination raises F-0.5 from 0.4051 to 0.4375, about 9 points above the best standalone off-the-shelf system (Grammarly, 0.3612).<br><span class="scope">Holds for: W&amp;I dev set; Grammarly outputs were collected manually through its free web interface taking the top suggestion per correction, since it exposes no programmatic API.</span></dd>
+<dt>Do commercial tools like Grammarly help when combined with a research GEC system?</dt>
+<dt>Is there value in adding off-the-shelf grammar checkers to a neural GEC system?</dt>
+<dd>Adding LanguageTool, Grammarly and JamSpell as black boxes to the restricted-track combination raises F-0.5 from 0.4051 to 0.4375, about 9 points above the best standalone off-the-shelf system (Grammarly, 0.3612).<br><span class="scope">Holds for: W&amp;I dev set; Grammarly outputs were collected manually through its free web interface taking the top suggestion per correction, since it exposes no programmatic API.</span></dd>
+<dt>Can filtering a single GEC system&#x27;s error types improve its score?</dt>
+<dt>Does throwing away predictions on error types a corrector is bad at help?</dt>
+<dt>How large is the gain from error-type filtering of one grammar correction system?</dt>
+<dd>Discarding a single system&#x27;s predictions on error types where it performs poorly gives small F-0.5 gains. LanguageTool rises from 0.2107 to 0.2355, Grammarly from 0.3627 to 0.3754 and Nematus from 0.373 to 0.3761.<br><span class="scope">Holds for: W&amp;I dev set, filtering fitted on one random half and reported on the other; gains are minor for the two stronger systems and largest for the weakest one.</span></dd>
+<dt>Are grammar corrections that two systems agree on more likely to be right?</dt>
+<dt>How much more precise are edits proposed by both Nematus and Grammarly?</dt>
+<dt>Should I keep only the corrections that multiple systems propose?</dt>
+<dd>Edits proposed by both Nematus and Grammarly are far more precise than edits from either alone: for R:OTHER, precision is 0.67 on common edits versus 0.17 and 0.28 standalone. The optimizer therefore keeps only the agreed edits for that error type.<br><span class="scope">Holds for: W&amp;I dev set, the 10 most frequent error types over the Nematus–Grammarly pair; agreement does not help every type, and for R:PUNCT and R:VERB:TENSE the intersection subset is dropped entirely.</span></dd>
+<dt>How stable is the gain from combining two GEC systems across dev-set splits?</dt>
+<dt>Does the improvement from combining Nematus and Grammarly depend on how the dev set is split?</dt>
+<dd>Combining Nematus with Grammarly gives an average F-0.5 improvement of 6.2 points over the better of the two systems. The standard deviation across 10 different random dev-set fold partitions is 0.28 points.<br><span class="scope">Holds for: W&amp;I dev set split randomly in two, selection variables fitted on one half and scored on the other, repeated over 10 partitions.</span></dd>
+<dt>Which spellchecker is best for correcting spelling errors in learner English?</dt>
+<dt>How does a simple frequency-plus-edit-distance spellchecker compare to JamSpell and Norvig?</dt>
+<dt>Does a good spellchecker also give a good overall grammatical error correction score?</dt>
+<dd>A heuristic spellchecker built from Gutenberg word counts, a LibreOffice dictionary and Levenshtein-distance-1 candidates reaches F-0.5 0.6378 on R:SPELL edits, above Norvig (0.5882), JamSpell (0.5599) and Enchant (0.3544).<br><span class="scope">Holds for: R:SPELL error category only on the W&amp;I dev set; over all error categories the same spellchecker scores F-0.5 0.1198, below JamSpell&#x27;s 0.1593.</span></dd>
+<dt>Does BERT work well as a standalone grammatical error corrector?</dt>
+<dt>Can a masked language model be queried iteratively to fix grammar errors?</dt>
+<dt>What went wrong when BERT was applied directly to GEC?</dt>
+<dd>Iteratively querying BERT as a masked language model to propose GEC edits scores F-0.5 0.0135 as a standalone system. Confidence thresholds between 0.6 and 0.98 gave unsatisfying results, and fine-tuning the masked LM on synthetic errors did not help.<br><span class="scope">Holds for: W&amp;I dev set; the submitted variant was restricted to replacement edits inside predefined interchangeable word sets, ignoring insertions and deletions and excluding R:PUNCT; the system still contributed when combined with others.</span></dd>
+<dt>Does synthetic error generation replace real annotated GEC data?</dt>
+<dt>Does the domain of synthetic grammatical errors matter more than the amount?</dt>
+<dt>How well does a GEC model trained only on artificially corrupted text do?</dt>
+<dd>Nematus trained on synthetic errors generated over in-domain W&amp;I gold sentences reaches F-0.5 0.1919, close to the 0.232 obtained from the real W&amp;I train set. 7,000,000 synthetic Gutenberg sentences reach only 0.1294.<br><span class="scope">Holds for: W&amp;I dev set; errors were generated by applying W&amp;I corrections backwards while matching the observed distribution of edits per sentence; more Gutenberg data did not help (650,000 sentences scored 0.1483).</span></dd>
+<dt>Does adding Lang8, FCE and NUCLE help a transformer GEC model?</dt>
+<dt>Why upsample the in-domain W&amp;I training set when training a GEC system?</dt>
+<dt>What training data mix worked best for Nematus on the W&amp;I dev set?</dt>
+<dd>Adding Lang8, FCE and NUCLE to W&amp;I training data only helps Nematus when W&amp;I is upsampled 10 times. F-0.5 goes from 0.232 (W&amp;I alone) to 0.225 (plus Lang8 and FCE) to 0.333 (upsampled W&amp;I plus all three).<br><span class="scope">Holds for: Transformer Nematus with the WMT17 recommended hyperparameters, evaluated on the W&amp;I dev set under the BEA 2019 restricted-track data.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Combining four released BEA 2019 shared task system outputs as black boxes reaches F-0.5 72.84 on the test set, a 3.7 point gain over the best standalone system (UEDIN-MS, 69.47). Combining only UEDIN-MS with Kakao&amp;Brain reaches 73.18. <span class="meta">(Table 10)</span><br><span class="scope">Scope: BEA 2019 shared task test set, open phase; selection variables fitted on the entire shared task dev set; the four systems were UEDIN-MS, Kakao&amp;Brain, Shuyao and CAMB-CUED, whose outputs the teams released after the test phase.</span></li>
+<li>Combining BEA 2019 shared task systems raises precision from 72.28 to 78.74 on the test set, a 6.5 point improvement over the best standalone system, while recall falls from 60.12 to 56.04. <span class="meta">(Table 10)</span><br><span class="scope">Scope: BEA 2019 test set, 4 combined systems (UEDIN-MS, Kakao&amp;Brain, Shuyao, CAMB-CUED); optimization targets F-0.5, which weights precision over recall.</span></li>
+<li>Combining 4 RNN Nematus models by error-type edit selection reaches F-0.5 0.3508 against 0.3122 for Nematus&#x27;s built-in average ensembling of the same 4 models, a gain of almost 4 points. <span class="meta">(Table 9)</span><br><span class="scope">Scope: 4 RNN-based Nematus models differing only in random initialization, scored on one random half of the W&amp;I dev set with selection variables fitted on the other half.</span></li>
+<li>Iteratively combining 4 Nematus models, a spellchecker and a BERT-based system raises F-0.5 from 0.3429 for the best standalone Nematus to 0.4051. Precision and recall improve together, from 0.4839 to 0.5029 and from 0.1583 to 0.2278. <span class="meta">(Table 7)</span><br><span class="scope">Scope: W&amp;I dev set, restricted track submission; the spellchecker alone scores F-0.5 0.1242 and the BERT system 0.0135, yet both still add to the combination.</span></li>
+<li>Adding LanguageTool, Grammarly and JamSpell as black boxes to the restricted-track combination raises F-0.5 from 0.4051 to 0.4375, about 9 points above the best standalone off-the-shelf system (Grammarly, 0.3612). <span class="meta">(Table 8)</span><br><span class="scope">Scope: W&amp;I dev set; Grammarly outputs were collected manually through its free web interface taking the top suggestion per correction, since it exposes no programmatic API.</span></li>
+<li>Discarding a single system&#x27;s predictions on error types where it performs poorly gives small F-0.5 gains. LanguageTool rises from 0.2107 to 0.2355, Grammarly from 0.3627 to 0.3754 and Nematus from 0.373 to 0.3761. <span class="meta">(Table 6)</span><br><span class="scope">Scope: W&amp;I dev set, filtering fitted on one random half and reported on the other; gains are minor for the two stronger systems and largest for the weakest one.</span></li>
+<li>Edits proposed by both Nematus and Grammarly are far more precise than edits from either alone: for R:OTHER, precision is 0.67 on common edits versus 0.17 and 0.28 standalone. The optimizer therefore keeps only the agreed edits for that error type. <span class="meta">(Table 1)</span><br><span class="scope">Scope: W&amp;I dev set, the 10 most frequent error types over the Nematus–Grammarly pair; agreement does not help every type, and for R:PUNCT and R:VERB:TENSE the intersection subset is dropped entirely.</span></li>
+<li>Combining Nematus with Grammarly gives an average F-0.5 improvement of 6.2 points over the better of the two systems. The standard deviation across 10 different random dev-set fold partitions is 0.28 points. <span class="meta">(Section 5.4)</span><br><span class="scope">Scope: W&amp;I dev set split randomly in two, selection variables fitted on one half and scored on the other, repeated over 10 partitions.</span></li>
+<li>A heuristic spellchecker built from Gutenberg word counts, a LibreOffice dictionary and Levenshtein-distance-1 candidates reaches F-0.5 0.6378 on R:SPELL edits, above Norvig (0.5882), JamSpell (0.5599) and Enchant (0.3544). <span class="meta">(Table 3)</span><br><span class="scope">Scope: R:SPELL error category only on the W&amp;I dev set; over all error categories the same spellchecker scores F-0.5 0.1198, below JamSpell&#x27;s 0.1593.</span></li>
+<li>Iteratively querying BERT as a masked language model to propose GEC edits scores F-0.5 0.0135 as a standalone system. Confidence thresholds between 0.6 and 0.98 gave unsatisfying results, and fine-tuning the masked LM on synthetic errors did not help. <span class="meta">(Table 7)</span><br><span class="scope">Scope: W&amp;I dev set; the submitted variant was restricted to replacement edits inside predefined interchangeable word sets, ignoring insertions and deletions and excluding R:PUNCT; the system still contributed when combined with others.</span></li>
+<li>Nematus trained on synthetic errors generated over in-domain W&amp;I gold sentences reaches F-0.5 0.1919, close to the 0.232 obtained from the real W&amp;I train set. 7,000,000 synthetic Gutenberg sentences reach only 0.1294. <span class="meta">(Table 5)</span><br><span class="scope">Scope: W&amp;I dev set; errors were generated by applying W&amp;I corrections backwards while matching the observed distribution of edits per sentence; more Gutenberg data did not help (650,000 sentences scored 0.1483).</span></li>
+<li>Adding Lang8, FCE and NUCLE to W&amp;I training data only helps Nematus when W&amp;I is upsampled 10 times. F-0.5 goes from 0.232 (W&amp;I alone) to 0.225 (plus Lang8 and FCE) to 0.333 (upsampled W&amp;I plus all three). <span class="meta">(Table 4)</span><br><span class="scope">Scope: Transformer Nematus with the WMT17 recommended hyperparameters, evaluated on the W&amp;I dev set under the BEA 2019 restricted-track data.</span></li>
+<li>The BEA 2019 system paper &#x27;Learning to combine Grammatical Error Corrections&#x27; introduces automatic, system-agnostic combination for Grammatical Error Correction. It learns per error type which systems&#x27; edits to keep from outputs alone, not from model internals or hand-written pipelines. <span class="meta">(Section 4)</span><br><span class="scope">Scope: As of 2019; earlier GEC combination work existed but was ad-hoc — pipelining, per-phenomenon assignment, or rescoring hybrids tailored to the specific systems used — and required manual adjustment for each new set of systems.</span></li>
+<li>Framing GEC system combination as a convex program over per-error-type edit-subset selection variables makes it possible to optimize the corpus-level F-beta score directly, using only M2 edit files from each system. <span class="meta">(Section 4)</span><br><span class="scope">Scope: Requires a dev set with gold M2 annotations from the same distribution as the test data, and an error-type classifier such as ERRANT; combining more than 2 systems is iterative.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The spellchecker described in &#x27;Learning to combine Grammatical Error Corrections&#x27; is better only at spelling: it wins on R:SPELL edits (F-0.5 0.6378) but scores below JamSpell when all error categories are measured (0.1198 vs 0.1593).</li>
+<li>The BERT-based corrector is a negative result, not a working GEC system — as a standalone corrector it reaches F-0.5 0.0135, and the value reported for it is that combination can still extract signal from such a weak component.</li>
+<li>The combination method does not require access to model probabilities, logits or training data; it operates on M2 edit files produced by each system, which is why commercial tools reached only through a web interface can be included.</li>
+<li>The 3.7 point F-0.5 gain reported for combining BEA 2019 shared task systems is a gain over the best single participating system, not over an existing combination baseline.</li>
+<li>Combining more systems is not monotonically better: combining all 4 released shared task systems scores F-0.5 72.84, slightly below the 73.18 obtained by combining just the two strongest.</li>
+<li>Synthetic error generation did not match training on real annotated data — synthetic in-domain W&amp;I data reached F-0.5 0.1919 against 0.232 for the real W&amp;I train set, and the paper did not enter the low-resource track.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>selection variable</em></dt><dd>A value between 0 and 1 per (error type, edit subset) pair in the combination method, giving the probability that an edit of that error type falling in that subset is kept in the merged output; in practice rounded to 0 or 1.</dd>
+<dt><em>edit subset</em></dt><dd>A partition of two systems&#x27; proposed corrections into edits unique to system 1, edits unique to system 2, and edits both systems propose, so that every edit belongs to exactly one subset.</dd>
+<dt><em>iterative combination</em></dt><dd>Extending pairwise system combination to N systems by combining two systems, then treating that merged output as a system to combine with the next, which avoids the tiny statistics of 2^N subsets but can overfit the development set.</dd>
+<dt><em>M2 file</em></dt><dd>The standard Grammatical Error Correction annotation format listing, for each source sentence, the corrections applied to it, and sufficient to compare a system&#x27;s edits against gold edits.</dd>
+<dt><em>black-box combination</em></dt><dd>Merging grammatical error correction systems using only their corrected output text, with no access to model parameters, probabilities or training data.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/bea/KantorKCCLTMS19,
-author       = {Yoav Kantor and
+<pre>@inproceedings{DBLP:conf/bea/KantorKCCLTMS19,author       = {Yoav Kantor and
                   Yoav Katz and
-                  	\textbf{\emph{Leshem Choshen*}} and
+                  Leshem Choshen and
                   Edo Cohen{-}Karlik and
                   Naftali Liberman and
                   Assaf Toledo and

@@ -1,10 +1,64 @@
 # Unitxt: Flexible, Shareable and Reusable Data Preparation and Evaluation for Generative AI
 
+a Python library for modular, shareable prompt construction and evaluation of generative language models
+
 Authors: Elron Bandel, Yotam Perlitz, Elad Venezian, Roni Friedman, Ofir Arviv, Matan Orbach, Shachar Don-Yehiya, Dafna Sheinwald, Ariel Gera, Leshem Choshen, Michal Shmueli-Scheuer, Yoav Katz
 Venue: Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 3: System Demonstrations) (2024)
 
-## Abstract
-In the dynamic landscape of generative NLP, traditional text processing pipelines limit research flexibility and reproducibility, as they are tailored to specific dataset, task, and model combinations. The escalating complexity, involving system prompts, model-specific formats, instructions, and more, calls for a shift to a structured, modular, and customizable solution.Addressing this need, we present Unitxt, an innovative library for customizable textual data preparation and evaluation tailored to generative language models. Unitxt natively integrates with common libraries like HuggingFace and LM-eval-harness and deconstructs processing flows into modular components, enabling easy customization and sharing between practitioners. These components encompass model-specific formats, task prompts, and many other comprehensive dataset processing definitions. The Unitxt Catalog centralizes these components, fostering collaboration and exploration in modern textual data workflows. Beyond being a tool, Unitxt is a community-driven platform, empowering users to build, share, and advance their pipelines collaboratively. Join the Unitxt community at https://github.com/IBM/unitxt
+## What this paper shows
+Unitxt decomposes LLM data preparation and evaluation into shareable components — resources, task, template, format and extensions — combined by a declarative "recipe" that produces a HuggingFace dataset of ready-to-send prompts and metric-ready targets.
+
+## Claims, with scope
+- A Unitxt recipe specifies a dataset card, template, system prompt, format and number of in-context demonstrations in one declarative string. Loading it yields a dataset whose every instance already holds fully prepared model-input text and a metric-ready target.
+  Scope: Textual (multilingual) data for generative language models; loading is via unitxt.load_dataset, and the recipe covers loading, verbalization, formatting and metric configuration. As described in the January 2024 release.
+  Evidence: Section 3
+- The open-source Unitxt Catalog supports more than 100K possible pipeline configurations, obtained by mixing and matching cards, tasks, templates, formats and extensions.
+  Scope: Combinatorial recipe configurations in the open catalog as of January 2024, not distinct datasets; private catalogs can add proprietary artifacts.
+  Evidence: Section 2
+- Integrating Unitxt into LM-eval-harness required no code changes on the data side and about 30 lines of code to register Unitxt metrics. A Unitxt recipe becomes an LM-eval-harness task through a one-line change in the task YAML.
+  Scope: LM-eval-harness as of the version used in January 2024; the data-side integration works because Unitxt recipes load as standard HuggingFace datasets, and the existing LM-eval-harness API is preserved.
+  Evidence: Appendix A and Figure 4
+- The Unitxt data-preparation pipeline emits a HuggingFace dataset that can be saved or pushed to the hub, so Unitxt can be dropped into existing HuggingFace-based codebases without rewriting downstream code.
+  Scope: The data-preparation pipeline output format; raw data and metrics arrive through Unitxt resource APIs covering HuggingFace Hub, local files and cloud storage.
+  Evidence: Section 4.4.1
+- In Unitxt, templates, datasets and tasks are not exclusively tied: one task can use many templates and one template can serve many datasets. In PromptSource, by contrast, each prompt is bound to a single dataset.
+  Scope: Unitxt tasks whose interface fixes input and output field names and types, so any metric accepting those fields applies; templates and datasets drawn from the open catalog.
+  Evidence: Section 4.2
+- Unitxt templates own de-verbalization as well as verbalization, first standardizing model output text by taking the first non-empty line, lowercasing and stripping whitespace. The output is then cast to the task's type, turning "2.43" or "two and a half" into a float for sentence similarity.
+  Scope: Generative model predictions evaluated through the Unitxt evaluation pipeline; the task-specific cast depends on the verbalization the template defines and on its in-context demonstrations.
+  Evidence: Section 4.2 and Section 4.4.2
+- Unitxt metrics report confidence intervals alongside scores using a built-in statistical bootstrap mechanism.
+  Scope: Metrics run through the Unitxt evaluation pipeline; the authors state that coverage of generative-task metrics still needs improvement.
+  Evidence: Section 4.4.2 and Section 8
+- Unitxt Extensions insert augmentations at any point between two operators in the data-preparation pipeline, including random whitespace, spelling mistakes, synonym replacement, and label-noising that randomizes demonstration labels.
+  Scope: Extensions are independent units reusable across datasets, tasks, templates and formats, and custom ones can be added to the Catalog; back-translation for multilinguality is named as not yet supported.
+  Evidence: Section 4.2 and Section 8
+- The Unitxt exploration UI walks a user from task to dataset to template and previews the generated prompt with optional system prompt, response schema and number of shots. It also runs the example on a preset model such as flan-t5-base and exports the equivalent code.
+  Scope: Preview and single-example execution on pre-set models; the UI targets recipe creation and catalog exploration rather than full-scale benchmark runs.
+  Evidence: Section 5 and Figure 3
+- Unitxt is a library for prompt-level data preparation and evaluation that separates system prompts, task instructions, verbalizations and model-specific formats into independently shareable components. The authors argue that decomposition was missing from earlier pipeline frameworks.
+  Scope: Positioning as of the January 2024 release, against Datasets/Evaluate, Tasksource, PromptSource, SeqIO and the pipelines inside OpenCompass, HELM and LM-eval-harness; a comparison of design properties, not a benchmark.
+  Evidence: Section 6
+- Unitxt is usable as a standalone data-preparation and evaluation layer rather than a full evaluation harness, which is what lets it be embedded inside other frameworks including LM-eval-harness instead of replacing them.
+  Scope: Contrast drawn with evaluation frameworks whose pipelines are coupled to their inference engine; reflects the design as described at NAACL 2024 demo track.
+  Evidence: Section 6 and Appendix A
+- Unitxt was already in use as a core LLM utility by multiple IBM teams for both evaluation and training, across classification, extraction, summarization, generation, question answering, code and bias tasks.
+  Scope: Internal adoption reported by the authors as of January 2024, without usage counts or per-team detail; open-source community adoption was at an early stage.
+  Evidence: Section 2
+
+## Common misreadings
+- Unitxt is not an evaluation harness or inference engine: it prepares prompts and computes metrics, and is meant to be embedded in frameworks such as LM-eval-harness rather than replace them.
+- The 100K+ figure counts combinatorial pipeline configurations reachable by mixing catalog ingredients, not 100K datasets or 100K benchmarks.
+- The NAACL 2024 demo paper reports no accuracy or speed comparison against other data-preparation libraries; its claims are about modularity, reuse and integration cost, not model performance.
+
+## Terminology
+- Recipe: A declarative Unitxt specification naming the resources, task, template, format and extensions for a data pipeline, loadable as a dataset in one call.
+- Data-Task Card: A Unitxt artifact describing where raw data is loaded from and how its fields, values and splits are standardized into a task's input and output interface.
+- Task (in Unitxt): An NLP task defined by a fixed interface — named and typed input and output fields — plus the evaluation metrics for it, so that any metric accepting those fields can be applied.
+- Template (in Unitxt): A component that verbalizes standardized input and target fields into text and also de-verbalizes model predictions back into the task's expected type.
+- Format (in Unitxt): A component holding formatting requirements independent of the data or task: system prompts, special tokens, user/agent prefixes and the placement of in-context demonstrations.
+- Extensions (in Unitxt): Optional operators insertable anywhere in the data-preparation pipeline, such as input augmentation or label-noising of in-context demonstrations.
+- Unitxt Catalog: The shared store of Unitxt artifacts — recipes, data-task cards, templates, operators, formats and metrics — with an open version plus optional private catalogs for proprietary artifacts.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2401.14019
@@ -16,11 +70,13 @@ In the dynamic landscape of generative NLP, traditional text processing pipeline
 - ACL Anthology: https://aclanthology.org/2024.naacl-demo.21/
 - Semantic Scholar: https://www.semanticscholar.org/paper/267212037
 - Publisher: https://aclanthology.org/2024.naacl-demo.21
-- Code: https://github.com/ibm/unitxt
+- Code: https://github.com/IBM/unitxt
+- paper: https://aclanthology.org/2024.naacl-demo.21
+- ui: https://bit.ly/unitxt-explore
+- Talk: https://bit.ly/unitxt-video
 
 ## How to cite
-@inproceedings{bandel2024unitxt,
-title = "Unitxt: Flexible, Shareable and Reusable Data Preparation and Evaluation for Generative {AI}",
+@inproceedings{bandel2024unitxt,title = "Unitxt: Flexible, Shareable and Reusable Data Preparation and Evaluation for Generative {AI}",
     author = "Bandel, Elron  and
       Perlitz, Yotam  and
       Venezian, Elad  and

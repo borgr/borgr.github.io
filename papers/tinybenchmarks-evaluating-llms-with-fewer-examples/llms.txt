@@ -1,24 +1,84 @@
 # tinyBenchmarks: evaluating LLMs with fewer examples
 
+100-example curated subsets of popular LLM benchmarks, plus an item-response-theory estimator that corrects the score
+
 Authors: Felipe Maia Polo, Lucas Weber, Leshem Choshen, Yuekai Sun, Gongjun Xu, Mikhail Yurochkin
 Venue: Forty-first International Conference on Machine Learning, {ICML} 2024, Vienna, Austria, July 21-27, 2024 (2024)
 
-## Abstract
-The versatility of large language models (LLMs) led to the creation of diverse benchmarks that thoroughly test a variety of language models' abilities. These benchmarks consist of tens of thousands of examples making evaluation of LLMs very expensive. In this paper, we investigate strategies to reduce the number of evaluations needed to assess the performance of an LLM on several key benchmarks. For example, we show that to accurately estimate the performance of an LLM on MMLU, a popular multiple-choice QA benchmark consisting of 14K examples, it is sufficient to evaluate this LLM on 100 curated examples. We release evaluation tools and tiny versions of popular benchmarks: Open LLM Leaderboard, MMLU, HELM, and AlpacaEval 2.0. Our empirical analysis demonstrates that these tools and tiny benchmarks are sufficient to reliably and efficiently reproduce the original evaluation results.
+## What this paper shows
+tinyBenchmarks curates 100 examples per scenario by clustering item-response-theory embeddings of benchmark examples, and corrects the resulting score with an IRT-based estimator, reproducing full-benchmark LLM performance on MMLU, the Open LLM Leaderboard, HELM Lite and AlpacaEval 2.0 within about 2%.
+
+## Claims, with scope
+- Evaluating an LLM on 100 curated MMLU examples estimates its accuracy on all 14K MMLU examples to within 1.9% on average, for recent LLMs released between December 30th and January 18th.
+  Scope: MMLU accuracy for LLMs held out by release date, with the IRT++ (gp-IRT) strategy; needs correctness data from 395 previously evaluated Open LLM Leaderboard models.
+  Evidence: Figure 1
+- 100 curated examples per scenario estimate LLM performance within about 2% average error on the Open LLM Leaderboard, MMLU, HELM Lite and AlpacaEval 2.0. That is 600 of 29K, 100 of 14K, 1000 of 10K and 100 of 805 examples respectively.
+  Scope: Both random and by-date train-test splits of the evaluated LLMs, for the best strategies (IRT anchor points and gp-IRT); test LLMs are dominated by base and instruction-tuned models, with error averaged over 5 restarts.
+  Evidence: Figure 3
+- Curated subsets cut MMLU evaluation cost by a factor of 140, from 14K examples down to 100. On the Open LLM Leaderboard even 30 examples per scenario suffice, a factor of 160 from 29K down to 180.
+  Scope: Cost counted as examples evaluated, with estimation error staying within 2%; the 30-per-scenario figure is for the 6-scenario Leaderboard average, not a single scenario.
+  Evidence: Figure 3
+- On a hand-picked test set of 40 specialized LLMs fine-tuned for domains such as math or coding, MMLU estimates from correctness-clustered anchor points degrade markedly. IRT-embedding anchor points are only slightly affected.
+  Scope: MMLU only, with 40 specialized models tested against a train set of base and instruction-tuned LLMs drawn from the 428 collected Open LLM Leaderboard models.
+  Evidence: Figure 5
+- Across 99 test LLMs on MMLU with 100 examples, the IRT++ estimation error never exceeds 4%, except for one LLM with extremely low true accuracy. The error is slightly lower for more capable models.
+  Scope: Random train-test split of the 395 Open LLM Leaderboard models, MMLU accuracy, IRT++ strategy with 100 examples; average error over these models is 2%.
+  Evidence: Figure 6
+- The gp-IRT correction ("++") always improves or matches the vanilla estimate that just averages the selected examples, across all four benchmarks and both train-test splits. It adds only a few seconds of CPU time.
+  Scope: Vanilla random, correctness-anchor and IRT-anchor estimators on the Open LLM Leaderboard, MMLU, HELM Lite and AlpacaEval 2.0; needs a pre-fitted IRT model, whose fitting cost is excluded.
+  Evidence: Figure 3
+- Stratified random sampling needs far more examples to match IRT++ at 100 examples: 400 per task (2400 total) on the Open LLM Leaderboard and 200 on AlpacaEval 2.0. On MMLU it needs more than 400.
+  Scope: Random train-test split of LLMs, so no distribution shift between train and test models; comparison made at equal estimation error.
+  Evidence: Figure 12
+- IRT++ estimation error stays close to the main results when the test set is enlarged to the most recent 75% of models. That is about 3 months of future LLMs for the Open LLM Leaderboard and MMLU, and 6 months for AlpacaEval 2.0.
+  Scope: Ablation with 75% of models held out by date, versus roughly 3 weeks and 2 months of future models in the main experiments; measured as average estimation error and standard deviation across test LLMs.
+  Evidence: Figure 11
+- The same IRT-based estimators predict how an LLM performs under unseen prompt templates, tested on 8 LLaMA models evaluated on 750 ANLI examples wrapped in 15 promptsource instruction templates.
+  Scope: ANLI only, with vanilla and Alpaca-instruction-tuned LLaMA at 7B, 13B, 30B and 65B; splits hold out the 65B models and rotate templates in 2-fold cross-validation.
+  Evidence: Figure 7
+- Selecting MMLU examples adaptively with an IRT variant improves estimation over a pre-selected fixed subset, but the implementation takes over 5 minutes to run, versus seconds for the fixed tiny subsets.
+  Scope: Preliminary results on MMLU, with additional benchmarks in Figure 16; the runtime is for the paper's own implementation, not a lower bound on adaptive testing generally.
+  Evidence: Figure 8
+- tinyMMLU's 100 example weights are much more uniform than those of correctness-based anchor points, as measured by effective sample size, which is what makes it robust to LLMs with unusual correctness patterns.
+  Scope: Comparison of the two anchor-selection methods on MMLU with 100 anchor points; the highest-weighted subjects in tinyMMLU are high school psychology, elementary mathematics and professional law.
+  Evidence: Figure 9
+- tinyBenchmarks introduces item response theory as a performance estimator for efficient LLM benchmarking, rather than only as a tool for ranking models or characterising item difficulty.
+  Scope: As of ICML 2024 publication; earlier IRT work on language models covered ability measurement, benchmark saturation and adaptive testing without a full-benchmark score estimator.
+- tinyBenchmarks releases 100-example versions of MMLU, the six Open LLM Leaderboard scenarios, AlpacaEval 2.0 and HELM Lite, plus a pip-installable package with pre-trained IRT parameters. A new LLM's full-benchmark score can then be estimated on CPU in seconds.
+  Scope: Tiny datasets built from correctness data collected in January 2024 from 395 Open LLM Leaderboard models, 37 HELM Lite models and 100 AlpacaEval 2.0 models; the authors recommend periodically refreshing the curated examples and IRT parameters as LLMs change.
+- The p-IRT estimator is proved to converge in probability to the best mean-squared-error approximation of an LLM's full-scenario score as the number of observed examples grows.
+  Scope: Assumes a consistent ability estimate, known true example parameters, and uniformly norm-bounded example discrimination vectors; asymptotic in the number of observed examples.
+  Evidence: Section 4.2
+
+## Common misreadings
+- The roughly 2% figure is an average estimation error across evaluated LLMs, not a guarantee for any single model: on MMLU with 100 examples, errors up to 4% occur, and a model with extremely low accuracy exceeded that.
+- tinyBenchmarks does not work from scratch on an arbitrary new benchmark: the anchor points and IRT parameters are fitted from publicly available correctness data for hundreds of LLMs already evaluated on the full benchmark.
+- The 100 curated examples are not simply the hardest or most discriminative questions; they are examples closest to K-Means centroids of IRT example embeddings, each carrying a weight equal to its cluster's share of the scenario.
+- IRT-based estimation is not claimed to survive severe distribution shift: models that fail simple questions while answering complicated ones correctly break the correctness patterns, and the authors recommend periodically refitting on data from newer LLMs.
+- The gp-IRT tool is not a replacement for evaluating a model; it corrects the score obtained from the small evaluated subset, and its improvement over the raw weighted average depends on having a pre-fitted IRT model for that benchmark.
+
+## Terminology
+- anchor points: Examples selected as cluster centroids of an embedding of benchmark items, each weighted by the fraction of the scenario's items assigned to its cluster, so that a weighted average over the anchors approximates the full-scenario score.
+- p-IRT: An estimator of an LLM's full-scenario benchmark score that sums the observed correctness on the evaluated examples and the item-response-theory predicted probabilities of correctness on the unevaluated ones.
+- gp-IRT: An estimator of an LLM's benchmark score formed as a convex combination of the raw weighted average over evaluated examples and the p-IRT estimate, with the weight set from an estimate of IRT bias and of sampling variance so that more examples shift weight toward the raw data.
+- correctness: The per-example score a benchmark's harness assigns an LLM, either binary (incorrect/correct) or a bounded degree of correctness in [0,1]; item response theory is applied after thresholding the bounded case into a binary variable.
+- IRT++: The variant of an example-selection strategy in which the score computed on the selected examples is further adjusted by the gp-IRT estimator, as opposed to the "vanilla" variant that reports the weighted average of selected examples directly.
+- effective sample size (ESS): A measure of inequality among example weights, where an ESS of 0.50 informally means the weighted average is influenced by only 50% of uniformly weighted examples.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2402.14992
 - PDF: https://arxiv.org/pdf/2402.14992
 - HTML: https://arxiv.org/html/2402.14992
-- Hugging Face: https://huggingface.co/papers/2402.14992
+- Hugging Face: https://huggingface.co/tinyBenchmarks
 - alphaXiv: https://www.alphaxiv.org/abs/2402.14992
-- DOI: https://doi.org/10.48550/ARXIV.2402.14992
+- DOI: https://doi.org/10.48550/arXiv.2402.14992
 - Semantic Scholar: https://www.semanticscholar.org/paper/267897919
 - Publisher: https://openreview.net/forum?id=qAml3FpfhG
+- Code: https://github.com/felipemaiapolo/tinyBenchmarks
+- Demo: https://github.com/felipemaiapolo/tinyBenchmarks/blob/main/tinyBenchmarks_MMLU_demo.ipynb
 
 ## How to cite
-@inproceedings{DBLP:conf/icml/PoloWCSXY24,
-author       = {Felipe Maia Polo and
+@inproceedings{DBLP:conf/icml/PoloWCSXY24,author       = {Felipe Maia Polo and
                   Lucas Weber and
                   Leshem Choshen and
                   Yuekai Sun and

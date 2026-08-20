@@ -11,7 +11,7 @@
   <meta name="citation_author" content="Daphna Weinshall">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2022">
-  <meta name="citation_conference_title" content="Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long…">
+  <meta name="citation_conference_title" content="ACL 2022">
   <meta name="citation_doi" content="10.18653/V1/2022.ACL-LONG.568">
   <meta name="citation_arxiv_id" content="2109.06096">
   <meta name="citation_abstract" content="The learning trajectories of linguistic phenomena in humans provide insight into linguistic representation, beyond what can be gleaned from inspecting the behavior of an adult speaker. To apply a similar approach to analyze neural language models (NLM), it is first necessary to establish that different models are similar enough in the generalizations they make. In this paper, we show that NLMs with different initialization, architecture, and training data acquire linguistic phenomena in a similar order, despite their different end performance. These findings suggest that there is some mutual inductive bias that underlies these models’ learning of linguistic phenomena. Taking inspiration from psycholinguistics, we argue that studying this inductive bias is an opportunity to study the linguistic representation implicit in NLMs.Leveraging these findings, we compare the relative performance on different phenomena at varying learning stages with simpler reference models. Results suggest that NLMs exhibit consistent “developmental” stages. Moreover, we find the learning trajectory to be approximately one-dimensional: given an NLM with a certain overall performance, it is possible to predict what linguistic generalizations it has already acquired.Initial analysis of these stages presents phenomena clusters (notably morphological ones), whose performance progresses in unison, suggesting a potential link between the generalizations behind them.">
@@ -45,10 +45,12 @@
   "datePublished": "2022",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long…"
+    "name": "ACL 2022"
   },
   "identifier": "https://doi.org/10.18653/V1/2022.ACL-LONG.568",
   "abstract": "The learning trajectories of linguistic phenomena in humans provide insight into linguistic representation, beyond what can be gleaned from inspecting the behavior of an adult speaker. To apply a similar approach to analyze neural language models (NLM), it is first necessary to establish that different models are similar enough in the generalizations they make. In this paper, we show that NLMs with different initialization, architecture, and training data acquire linguistic phenomena in a similar order, despite their different end performance. These findings suggest that there is some mutual inductive bias that underlies these models’ learning of linguistic phenomena. Taking inspiration from psycholinguistics, we argue that studying this inductive bias is an opportunity to study the linguistic representation implicit in NLMs.Leveraging these findings, we compare the relative performance on different phenomena at varying learning stages with simpler reference models. Results suggest that NLMs exhibit consistent “developmental” stages. Moreover, we find the learning trajectory to be approximately one-dimensional: given an NLM with a certain overall performance, it is possible to predict what linguistic generalizations it has already acquired.Initial analysis of these stages presents phenomena clusters (notably morphological ones), whose performance progresses in unison, suggesting a potential link between the generalizations behind them.",
+  "description": "Neural language models with different random seeds, sizes, architectures and training corpora acquire English grammatical phenomena in nearly the same order, so a model's overall BLiMP accuracy alone predicts which generalizations it has already made.",
+  "codeRepository": "https://github.com/borgr/ordert",
   "sameAs": [
     "https://aclanthology.org/2022.acl-long.568/",
     "https://ar5iv.labs.arxiv.org/html/2109.06096",
@@ -56,9 +58,301 @@
     "https://arxiv.org/pdf/2109.06096",
     "https://doi.org/10.18653/V1/2022.ACL-LONG.568",
     "https://doi.org/10.18653/v1/2022.acl-long.568",
+    "https://github.com/borgr/ordert",
     "https://huggingface.co/papers/2109.06096",
     "https://www.alphaxiv.org/abs/2109.06096",
     "https://www.semanticscholar.org/paper/237491997"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "GPT2-tiny instances trained from 4 different random initializations have extremely high correlation between their BLiMP performance vectors, already high after 10K steps and staying high through training.",
+      "description": "Holds for: GPT2-tiny (width 512, 4 layers, 4 attention heads) trained on WikiBooks and evaluated on the 67 English BLiMP challenges; correlation is 0 at step 0 and rises during the 10K warm-up steps."
+    },
+    {
+      "@type": "Thing",
+      "name": "Changing the training corpus of GPT2-tiny shifts its grammar-learning order more than changing the random seed does, but the correlation between differently-trained instances rises with more training steps.",
+      "description": "Holds for: GPT2-tiny trained on WikiBooks, openWebText, openSubtitles and newsCrawl, compared over the 67 BLiMP challenges."
+    },
+    {
+      "@type": "Thing",
+      "name": "When compared at equal development-set perplexity rather than equal step count, GPT2-small and GPT2-tiny correlate above 0.9 in their BLiMP performance vectors throughout training.",
+      "description": "Holds for: GPT2-small (width 768, 12 layers) versus GPT2-tiny, both trained on WikiBooks; TransformerXL only compared qualitatively because its perplexity uses a different vocabulary."
+    },
+    {
+      "@type": "Thing",
+      "name": "GPT2-small and GPT2-tiny agree on which individual BLiMP minimal pairs they get right at an average Fleiss kappa of 0.83. The consistency of learning order therefore holds within phenomena, not only across them.",
+      "description": "Holds for: Binary per-minimal-pair decisions averaged over training steps and the 67 challenges; only 2 phenomena fall as low as the 0.5-0.6 kappa range."
+    },
+    {
+      "@type": "Thing",
+      "name": "Correlation between GPT2-tiny's trajectory and a fixed GPT2-small checkpoint peaks exactly where their average BLiMP accuracy matches, reaching above 0.9, and falls off as the accuracy gap widens in either direction.",
+      "description": "Holds for: Static GPT2-small checkpoints compared against the full GPT2-tiny training trajectory, whose best overall BLiMP score is 67; the same peak-at-equal-performance pattern recurs for fully trained off-the-shelf NLMs."
+    },
+    {
+      "@type": "Thing",
+      "name": "Fully trained off-the-shelf neural LMs correlate 0.6-0.8 with GPT2-tiny's BLiMP performance vector. GPT2-tiny is more similar to an LSTM than to TransformerXL, and least similar to GPT2-large, so architecture type does not explain the ordering.",
+      "description": "Holds for: Off-the-shelf LSTM, TransformerXL and GPT2-large accuracies as reported in the BLiMP paper, correlated against GPT2-tiny checkpoints trained on WikiBooks; the ordering survives retraining GPT2-tiny on openWebText."
+    },
+    {
+      "@type": "Thing",
+      "name": "The equal-performance rule fails for 5-gram LMs: matching a 5-gram model's overall BLiMP accuracy neither yields high correlation with GPT2-tiny nor marks the point of highest correlation.",
+      "description": "Holds for: KenLM 5-gram models trained on WikiBooks and on GigaWord, compared against the GPT2-tiny training trajectory over the 67 BLiMP challenges."
+    },
+    {
+      "@type": "Thing",
+      "name": "Early in training GPT2-tiny correlates better with order-agnostic bag-of-words and Window-5 ablations than with n-gram LMs, and the ranking reverses later, when the order-sensitive n-grams correlate better.",
+      "description": "Holds for: BOW and Window-5 ablations of GPT2-tiny (positional weights removed, attention replaced by averaging) and 2-5 gram KenLM models, all on WikiBooks."
+    },
+    {
+      "@type": "Thing",
+      "name": "A unigram LM with no context at all perfectly classifies 7 BLiMP challenges and reaches 98.1% accuracy on another, while scoring 0% on 8. Some syntactic and semantic BLiMP challenges are thus solvable by frequency heuristics.",
+      "description": "Holds for: Unigram LM defined by word frequency in WikiBooks, with sentence probability length-normalized, evaluated on the 67 BLiMP challenges; GPT2-tiny succeeds from the outset on 6 of the 8 that unigram solves."
+    },
+    {
+      "@type": "Thing",
+      "name": "GPT2-tiny's BLiMP difficulty profile becomes steadily more similar to human difficulty as training proceeds, but the correlation saturates below 0.5, indicating the model leans on features human annotators do not use.",
+      "description": "Holds for: Human per-challenge accuracies as reported in the BLiMP paper, correlated against GPT2-tiny checkpoints; all tested neural LMs correlate with GPT2-tiny better than humans do."
+    },
+    {
+      "@type": "Thing",
+      "name": "BLiMP morphology challenges follow similar gradual learning curves in GPT2-tiny and reach a median accuracy of 0.85. Syntax-semantics challenges plateau near chance, and the broad semantics and syntax fields show no prototypical curve.",
+      "description": "Holds for: Learning curves of GPT2-tiny on the 67 BLiMP challenges grouped by the dataset's 4 fields; chance accuracy on minimal pairs is 50%."
+    },
+    {
+      "@type": "Thing",
+      "name": "Spectral clustering of GPT2-tiny's BLiMP learning curves isolates a cluster whose accuracy starts high and drops toward 0 with training. Affected challenges include 'principle A case 1', which a simple lexical-preference rule solves perfectly.",
+      "description": "Holds for: Spectral clustering with 10 clusters and sklearn defaults on GPT2-tiny learning curves; the deterioration is consistent with early NLMs behaving like n-gram models, and may reflect BLiMP artifacts as much as over-generalization."
+    },
+    {
+      "@type": "Thing",
+      "name": "Clusters of BLiMP challenges that GPT2-tiny learns in unison usually share a field but mix super-phenomena, so the categorization induced by learning trajectories only partly matches BLiMP's linguistic categorization.",
+      "description": "Holds for: 10 spectral clusters over GPT2-tiny learning curves on the 67 BLiMP challenges; stated cautiously by the authors, and one cluster has no shared prominent field."
+    },
+    {
+      "@type": "Thing",
+      "name": "The Grammar-Learning Trajectories of Neural Language Models imports the psycholinguistic study of acquisition order into NLP. Its argument is that a shared learning order makes training dynamics evidence about the linguistic representations neural LMs build.",
+      "description": "Holds for: English grammar only, measured behaviorally on BLiMP minimal pairs rather than by probing internal representations; earlier order-of-learning work of this kind was mostly in computer vision classification."
+    },
+    {
+      "@type": "Thing",
+      "name": "The Grammar-Learning Trajectories of Neural Language Models gives a practical licence for small-scale grammar-learning experiments. Because learning order is stable across seed, size, architecture and corpus, findings on one small NLM are expected to replicate on others.",
+      "description": "Holds for: The neural LMs tested (GPT2 tiny/small/large, TransformerXL, LSTM) on English BLiMP; explicitly not inherently different architectures such as 5-gram models, and future models with different inductive biases may differ."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/#faq",
+  "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/",
+  "name": "Questions answered by The Grammar-Learning Trajectories of Neural Language Models",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do language models learn grammar in the same order regardless of random seed?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GPT2-tiny instances trained from 4 different random initializations have extremely high correlation between their BLiMP performance vectors, already high after 10K steps and staying high through training. Holds for: GPT2-tiny (width 512, 4 layers, 4 attention heads) trained on WikiBooks and evaluated on the 67 English BLiMP challenges; correlation is 0 at step 0 and rises during the 10K warm-up steps.\n\nGPT2-small and GPT2-tiny agree on which individual BLiMP minimal pairs they get right at an average Fleiss kappa of 0.83. The consistency of learning order therefore holds within phenomena, not only across them. Holds for: Binary per-minimal-pair decisions averaged over training steps and the 67 challenges; only 2 phenomena fall as low as the 0.5-0.6 kappa range.",
+        "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/"
+      },
+      "alternateName": [
+        "Does initialization change which linguistic phenomena a language model learns first?",
+        "How consistent is grammar acquisition order across differently seeded transformers?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does architecture or model size change the order in which grammatical phenomena are acquired?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "When compared at equal development-set perplexity rather than equal step count, GPT2-small and GPT2-tiny correlate above 0.9 in their BLiMP performance vectors throughout training. Holds for: GPT2-small (width 768, 12 layers) versus GPT2-tiny, both trained on WikiBooks; TransformerXL only compared qualitatively because its perplexity uses a different vocabulary.\n\nCorrelation between GPT2-tiny's trajectory and a fixed GPT2-small checkpoint peaks exactly where their average BLiMP accuracy matches, reaching above 0.9, and falls off as the accuracy gap widens in either direction. Holds for: Static GPT2-small checkpoints compared against the full GPT2-tiny training trajectory, whose best overall BLiMP score is 67; the same peak-at-equal-performance pattern recurs for fully trained off-the-shelf NLMs.",
+        "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/"
+      },
+      "alternateName": [
+        "Do bigger and smaller GPT2 models learn linguistic phenomena in the same order?",
+        "How do you compare learning trajectories of models that train at different speeds?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can you predict which grammatical generalizations a language model has made just from its overall accuracy?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Correlation between GPT2-tiny's trajectory and a fixed GPT2-small checkpoint peaks exactly where their average BLiMP accuracy matches, reaching above 0.9, and falls off as the accuracy gap widens in either direction. Holds for: Static GPT2-small checkpoints compared against the full GPT2-tiny training trajectory, whose best overall BLiMP score is 67; the same peak-at-equal-performance pattern recurs for fully trained off-the-shelf NLMs.\n\nFully trained off-the-shelf neural LMs correlate 0.6-0.8 with GPT2-tiny's BLiMP performance vector. GPT2-tiny is more similar to an LSTM than to TransformerXL, and least similar to GPT2-large, so architecture type does not explain the ordering. Holds for: Off-the-shelf LSTM, TransformerXL and GPT2-large accuracies as reported in the BLiMP paper, correlated against GPT2-tiny checkpoints trained on WikiBooks; the ordering survives retraining GPT2-tiny on openWebText.",
+        "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/"
+      },
+      "alternateName": [
+        "Is the grammar-learning trajectory of neural language models one-dimensional?",
+        "If two language models have the same benchmark score, do they make the same errors?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does training data determine what grammar a language model learns first?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Changing the training corpus of GPT2-tiny shifts its grammar-learning order more than changing the random seed does, but the correlation between differently-trained instances rises with more training steps. Holds for: GPT2-tiny trained on WikiBooks, openWebText, openSubtitles and newsCrawl, compared over the 67 BLiMP challenges.\n\nFully trained off-the-shelf neural LMs correlate 0.6-0.8 with GPT2-tiny's BLiMP performance vector. GPT2-tiny is more similar to an LSTM than to TransformerXL, and least similar to GPT2-large, so architecture type does not explain the ordering. Holds for: Off-the-shelf LSTM, TransformerXL and GPT2-large accuracies as reported in the BLiMP paper, correlated against GPT2-tiny checkpoints trained on WikiBooks; the ordering survives retraining GPT2-tiny on openWebText.",
+        "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/"
+      },
+      "alternateName": [
+        "How much does the choice of corpus affect grammar-learning order in language models?",
+        "Is the similarity between language models just an artifact of overlapping training corpora?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do n-gram models follow the same grammar-learning trajectory as neural language models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The equal-performance rule fails for 5-gram LMs: matching a 5-gram model's overall BLiMP accuracy neither yields high correlation with GPT2-tiny nor marks the point of highest correlation. Holds for: KenLM 5-gram models trained on WikiBooks and on GigaWord, compared against the GPT2-tiny training trajectory over the 67 BLiMP challenges.",
+        "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/"
+      },
+      "alternateName": [
+        "Does the equal-performance-implies-equal-generalization finding hold for non-neural language models?",
+        "Do 5-gram language models share the biases of transformers on BLiMP?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do language models use word order early in training or only later?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Early in training GPT2-tiny correlates better with order-agnostic bag-of-words and Window-5 ablations than with n-gram LMs, and the ranking reverses later, when the order-sensitive n-grams correlate better. Holds for: BOW and Window-5 ablations of GPT2-tiny (positional weights removed, attention replaced by averaging) and 2-5 gram KenLM models, all on WikiBooks.\n\nA unigram LM with no context at all perfectly classifies 7 BLiMP challenges and reaches 98.1% accuracy on another, while scoring 0% on 8. Some syntactic and semantic BLiMP challenges are thus solvable by frequency heuristics. Holds for: Unigram LM defined by word frequency in WikiBooks, with sentence probability length-normalized, evaluated on the 67 BLiMP challenges; GPT2-tiny succeeds from the outset on 6 of the 8 that unigram solves.",
+        "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/"
+      },
+      "alternateName": [
+        "When during training does a transformer stop behaving like a bag of words?",
+        "What does a neural language model rely on in its earliest grammar learning?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can BLiMP challenges be solved without any context?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A unigram LM with no context at all perfectly classifies 7 BLiMP challenges and reaches 98.1% accuracy on another, while scoring 0% on 8. Some syntactic and semantic BLiMP challenges are thus solvable by frequency heuristics. Holds for: Unigram LM defined by word frequency in WikiBooks, with sentence probability length-normalized, evaluated on the 67 BLiMP challenges; GPT2-tiny succeeds from the outset on 6 of the 8 that unigram solves.\n\nSpectral clustering of GPT2-tiny's BLiMP learning curves isolates a cluster whose accuracy starts high and drops toward 0 with training. Affected challenges include 'principle A case 1', which a simple lexical-preference rule solves perfectly. Holds for: Spectral clustering with 10 clusters and sklearn defaults on GPT2-tiny learning curves; the deterioration is consistent with early NLMs behaving like n-gram models, and may reflect BLiMP artifacts as much as over-generalization.",
+        "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/"
+      },
+      "alternateName": [
+        "Are some BLiMP minimal pairs solvable by frequency heuristics alone?",
+        "How well does a unigram language model do on the BLiMP grammar benchmark?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do neural language models find the same grammatical phenomena hard that humans do?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GPT2-tiny's BLiMP difficulty profile becomes steadily more similar to human difficulty as training proceeds, but the correlation saturates below 0.5, indicating the model leans on features human annotators do not use. Holds for: Human per-challenge accuracies as reported in the BLiMP paper, correlated against GPT2-tiny checkpoints; all tested neural LMs correlate with GPT2-tiny better than humans do.",
+        "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/"
+      },
+      "alternateName": [
+        "How closely does model difficulty on BLiMP track human difficulty?",
+        "Does a language model become more human-like in its grammatical errors as it trains?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which categories of grammatical phenomena are learned together by language models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BLiMP morphology challenges follow similar gradual learning curves in GPT2-tiny and reach a median accuracy of 0.85. Syntax-semantics challenges plateau near chance, and the broad semantics and syntax fields show no prototypical curve. Holds for: Learning curves of GPT2-tiny on the 67 BLiMP challenges grouped by the dataset's 4 fields; chance accuracy on minimal pairs is 50%.\n\nClusters of BLiMP challenges that GPT2-tiny learns in unison usually share a field but mix super-phenomena, so the categorization induced by learning trajectories only partly matches BLiMP's linguistic categorization. Holds for: 10 spectral clusters over GPT2-tiny learning curves on the 67 BLiMP challenges; stated cautiously by the authors, and one cluster has no shared prominent field.",
+        "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/"
+      },
+      "alternateName": [
+        "Are morphology phenomena acquired in unison by neural language models?",
+        "Do linguistic categories in BLiMP match how models actually learn?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can a language model get worse on a grammatical phenomenon as training continues?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Spectral clustering of GPT2-tiny's BLiMP learning curves isolates a cluster whose accuracy starts high and drops toward 0 with training. Affected challenges include 'principle A case 1', which a simple lexical-preference rule solves perfectly. Holds for: Spectral clustering with 10 clusters and sklearn defaults on GPT2-tiny learning curves; the deterioration is consistent with early NLMs behaving like n-gram models, and may reflect BLiMP artifacts as much as over-generalization.",
+        "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/"
+      },
+      "alternateName": [
+        "Why does accuracy on some BLiMP challenges drop during training?",
+        "Are there phenomena where more training hurts grammatical judgments?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about how language models acquire grammar over training?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Grammar-Learning Trajectories of Neural Language Models imports the psycholinguistic study of acquisition order into NLP. Its argument is that a shared learning order makes training dynamics evidence about the linguistic representations neural LMs build. Holds for: English grammar only, measured behaviorally on BLiMP minimal pairs rather than by probing internal representations; earlier order-of-learning work of this kind was mostly in computer vision classification.\n\nThe Grammar-Learning Trajectories of Neural Language Models gives a practical licence for small-scale grammar-learning experiments. Because learning order is stable across seed, size, architecture and corpus, findings on one small NLM are expected to replicate on others. Holds for: The neural LMs tested (GPT2 tiny/small/large, TransformerXL, LSTM) on English BLiMP; explicitly not inherently different architectures such as 5-gram models, and future models with different inductive biases may differ.",
+        "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/"
+      },
+      "alternateName": [
+        "Which paper connects psycholinguistic acquisition order to neural language model training dynamics?",
+        "Where does research on learning trajectories of linguistic phenomena in NLP start?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is it safe to run grammar-learning experiments on a small language model and expect them to replicate on larger ones?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Grammar-Learning Trajectories of Neural Language Models gives a practical licence for small-scale grammar-learning experiments. Because learning order is stable across seed, size, architecture and corpus, findings on one small NLM are expected to replicate on others. Holds for: The neural LMs tested (GPT2 tiny/small/large, TransformerXL, LSTM) on English BLiMP; explicitly not inherently different architectures such as 5-gram models, and future models with different inductive biases may differ.\n\nWhen compared at equal development-set perplexity rather than equal step count, GPT2-small and GPT2-tiny correlate above 0.9 in their BLiMP performance vectors throughout training. Holds for: GPT2-small (width 768, 12 layers) versus GPT2-tiny, both trained on WikiBooks; TransformerXL only compared qualitatively because its perplexity uses a different vocabulary.",
+        "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/"
+      },
+      "alternateName": [
+        "Do results about linguistic generalization transfer from tiny models to bigger ones?",
+        "Why would anyone study grammar acquisition using a 4-layer transformer?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/#terms",
+  "url": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/",
+  "name": "Terminology in The Grammar-Learning Trajectories of Neural Language Models",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "performance vector",
+      "description": "For a language model checkpoint, the 67-dimensional vector of its accuracies on each BLiMP challenge; similarity between two models is the Pearson correlation of their performance vectors, so models count as similar when they rank phenomena the same way even at different absolute accuracy.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "BOW (ablation)",
+      "description": "A GPT2-tiny variant made agnostic to word order by removing the positional weights and replacing attention weights with a simple average over preceding tokens.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Window-5",
+      "description": "A GPT2-tiny variant that ignores word order and additionally attends only to the last 5 preceding words.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "super-phenomena",
+      "description": "The 13 mid-level groupings of BLiMP's 67 grammatical challenges, sitting between individual challenges and the 4 broad fields of syntax, semantics, syntax-semantics and morphology.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/the-grammar-learning-trajectories-of-neural-language-models/#terms"
+    }
   ]
 }
   </script>
@@ -69,6 +363,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -82,13 +377,105 @@
 </head>
 <body>
 <h1>The Grammar-Learning Trajectories of Neural Language Models</h1>
-<p class="meta">Leshem Choshen, Guy Hacohen, Daphna Weinshall, Omri Abend · Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long… · 2022</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2109.06096">arXiv</a></li><li><a href="https://arxiv.org/pdf/2109.06096">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2109.06096">HTML</a></li><li><a href="https://huggingface.co/papers/2109.06096">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2109.06096">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2022.ACL-LONG.568">DOI</a></li><li><a href="https://aclanthology.org/2022.acl-long.568/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/237491997">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2022.acl-long.568">Publisher</a></li></ul>
+<p class="meta">Leshem Choshen, Guy Hacohen, Daphna Weinshall, Omri Abend · ACL 2022 · 2022</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2109.06096">arXiv</a></li><li><a href="https://arxiv.org/pdf/2109.06096">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2109.06096">HTML</a></li><li><a href="https://huggingface.co/papers/2109.06096">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2109.06096">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2022.ACL-LONG.568">DOI</a></li><li><a href="https://aclanthology.org/2022.acl-long.568/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/237491997">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2022.acl-long.568">Publisher</a></li><li><a href="https://github.com/borgr/ordert">Code</a></li></ul>
+<h2>In one sentence</h2>
+<p>Neural language models with different random seeds, sizes, architectures and training corpora acquire English grammatical phenomena in nearly the same order, so a model&#x27;s overall BLiMP accuracy alone predicts which generalizations it has already made.</p>
 <h2>Abstract</h2>
 <p>The learning trajectories of linguistic phenomena in humans provide insight into linguistic representation, beyond what can be gleaned from inspecting the behavior of an adult speaker. To apply a similar approach to analyze neural language models (NLM), it is first necessary to establish that different models are similar enough in the generalizations they make. In this paper, we show that NLMs with different initialization, architecture, and training data acquire linguistic phenomena in a similar order, despite their different end performance. These findings suggest that there is some mutual inductive bias that underlies these models’ learning of linguistic phenomena. Taking inspiration from psycholinguistics, we argue that studying this inductive bias is an opportunity to study the linguistic representation implicit in NLMs.Leveraging these findings, we compare the relative performance on different phenomena at varying learning stages with simpler reference models. Results suggest that NLMs exhibit consistent “developmental” stages. Moreover, we find the learning trajectory to be approximately one-dimensional: given an NLM with a certain overall performance, it is possible to predict what linguistic generalizations it has already acquired.Initial analysis of these stages presents phenomena clusters (notably morphological ones), whose performance progresses in unison, suggesting a potential link between the generalizations behind them.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Do language models learn grammar in the same order regardless of random seed?</dt>
+<dt>Does initialization change which linguistic phenomena a language model learns first?</dt>
+<dt>How consistent is grammar acquisition order across differently seeded transformers?</dt>
+<dd>GPT2-tiny instances trained from 4 different random initializations have extremely high correlation between their BLiMP performance vectors, already high after 10K steps and staying high through training.<br><span class="scope">Holds for: GPT2-tiny (width 512, 4 layers, 4 attention heads) trained on WikiBooks and evaluated on the 67 English BLiMP challenges; correlation is 0 at step 0 and rises during the 10K warm-up steps.</span></dd>
+<dd>GPT2-small and GPT2-tiny agree on which individual BLiMP minimal pairs they get right at an average Fleiss kappa of 0.83. The consistency of learning order therefore holds within phenomena, not only across them.<br><span class="scope">Holds for: Binary per-minimal-pair decisions averaged over training steps and the 67 challenges; only 2 phenomena fall as low as the 0.5-0.6 kappa range.</span></dd>
+<dt>Does architecture or model size change the order in which grammatical phenomena are acquired?</dt>
+<dt>Do bigger and smaller GPT2 models learn linguistic phenomena in the same order?</dt>
+<dt>How do you compare learning trajectories of models that train at different speeds?</dt>
+<dd>When compared at equal development-set perplexity rather than equal step count, GPT2-small and GPT2-tiny correlate above 0.9 in their BLiMP performance vectors throughout training.<br><span class="scope">Holds for: GPT2-small (width 768, 12 layers) versus GPT2-tiny, both trained on WikiBooks; TransformerXL only compared qualitatively because its perplexity uses a different vocabulary.</span></dd>
+<dd>Correlation between GPT2-tiny&#x27;s trajectory and a fixed GPT2-small checkpoint peaks exactly where their average BLiMP accuracy matches, reaching above 0.9, and falls off as the accuracy gap widens in either direction.<br><span class="scope">Holds for: Static GPT2-small checkpoints compared against the full GPT2-tiny training trajectory, whose best overall BLiMP score is 67; the same peak-at-equal-performance pattern recurs for fully trained off-the-shelf NLMs.</span></dd>
+<dt>Can you predict which grammatical generalizations a language model has made just from its overall accuracy?</dt>
+<dt>Is the grammar-learning trajectory of neural language models one-dimensional?</dt>
+<dt>If two language models have the same benchmark score, do they make the same errors?</dt>
+<dd>Correlation between GPT2-tiny&#x27;s trajectory and a fixed GPT2-small checkpoint peaks exactly where their average BLiMP accuracy matches, reaching above 0.9, and falls off as the accuracy gap widens in either direction.<br><span class="scope">Holds for: Static GPT2-small checkpoints compared against the full GPT2-tiny training trajectory, whose best overall BLiMP score is 67; the same peak-at-equal-performance pattern recurs for fully trained off-the-shelf NLMs.</span></dd>
+<dd>Fully trained off-the-shelf neural LMs correlate 0.6-0.8 with GPT2-tiny&#x27;s BLiMP performance vector. GPT2-tiny is more similar to an LSTM than to TransformerXL, and least similar to GPT2-large, so architecture type does not explain the ordering.<br><span class="scope">Holds for: Off-the-shelf LSTM, TransformerXL and GPT2-large accuracies as reported in the BLiMP paper, correlated against GPT2-tiny checkpoints trained on WikiBooks; the ordering survives retraining GPT2-tiny on openWebText.</span></dd>
+<dt>Does training data determine what grammar a language model learns first?</dt>
+<dt>How much does the choice of corpus affect grammar-learning order in language models?</dt>
+<dt>Is the similarity between language models just an artifact of overlapping training corpora?</dt>
+<dd>Changing the training corpus of GPT2-tiny shifts its grammar-learning order more than changing the random seed does, but the correlation between differently-trained instances rises with more training steps.<br><span class="scope">Holds for: GPT2-tiny trained on WikiBooks, openWebText, openSubtitles and newsCrawl, compared over the 67 BLiMP challenges.</span></dd>
+<dd>Fully trained off-the-shelf neural LMs correlate 0.6-0.8 with GPT2-tiny&#x27;s BLiMP performance vector. GPT2-tiny is more similar to an LSTM than to TransformerXL, and least similar to GPT2-large, so architecture type does not explain the ordering.<br><span class="scope">Holds for: Off-the-shelf LSTM, TransformerXL and GPT2-large accuracies as reported in the BLiMP paper, correlated against GPT2-tiny checkpoints trained on WikiBooks; the ordering survives retraining GPT2-tiny on openWebText.</span></dd>
+<dt>Do n-gram models follow the same grammar-learning trajectory as neural language models?</dt>
+<dt>Does the equal-performance-implies-equal-generalization finding hold for non-neural language models?</dt>
+<dt>Do 5-gram language models share the biases of transformers on BLiMP?</dt>
+<dd>The equal-performance rule fails for 5-gram LMs: matching a 5-gram model&#x27;s overall BLiMP accuracy neither yields high correlation with GPT2-tiny nor marks the point of highest correlation.<br><span class="scope">Holds for: KenLM 5-gram models trained on WikiBooks and on GigaWord, compared against the GPT2-tiny training trajectory over the 67 BLiMP challenges.</span></dd>
+<dt>Do language models use word order early in training or only later?</dt>
+<dt>When during training does a transformer stop behaving like a bag of words?</dt>
+<dt>What does a neural language model rely on in its earliest grammar learning?</dt>
+<dd>Early in training GPT2-tiny correlates better with order-agnostic bag-of-words and Window-5 ablations than with n-gram LMs, and the ranking reverses later, when the order-sensitive n-grams correlate better.<br><span class="scope">Holds for: BOW and Window-5 ablations of GPT2-tiny (positional weights removed, attention replaced by averaging) and 2-5 gram KenLM models, all on WikiBooks.</span></dd>
+<dd>A unigram LM with no context at all perfectly classifies 7 BLiMP challenges and reaches 98.1% accuracy on another, while scoring 0% on 8. Some syntactic and semantic BLiMP challenges are thus solvable by frequency heuristics.<br><span class="scope">Holds for: Unigram LM defined by word frequency in WikiBooks, with sentence probability length-normalized, evaluated on the 67 BLiMP challenges; GPT2-tiny succeeds from the outset on 6 of the 8 that unigram solves.</span></dd>
+<dt>Can BLiMP challenges be solved without any context?</dt>
+<dt>Are some BLiMP minimal pairs solvable by frequency heuristics alone?</dt>
+<dt>How well does a unigram language model do on the BLiMP grammar benchmark?</dt>
+<dd>A unigram LM with no context at all perfectly classifies 7 BLiMP challenges and reaches 98.1% accuracy on another, while scoring 0% on 8. Some syntactic and semantic BLiMP challenges are thus solvable by frequency heuristics.<br><span class="scope">Holds for: Unigram LM defined by word frequency in WikiBooks, with sentence probability length-normalized, evaluated on the 67 BLiMP challenges; GPT2-tiny succeeds from the outset on 6 of the 8 that unigram solves.</span></dd>
+<dd>Spectral clustering of GPT2-tiny&#x27;s BLiMP learning curves isolates a cluster whose accuracy starts high and drops toward 0 with training. Affected challenges include &#x27;principle A case 1&#x27;, which a simple lexical-preference rule solves perfectly.<br><span class="scope">Holds for: Spectral clustering with 10 clusters and sklearn defaults on GPT2-tiny learning curves; the deterioration is consistent with early NLMs behaving like n-gram models, and may reflect BLiMP artifacts as much as over-generalization.</span></dd>
+<dt>Do neural language models find the same grammatical phenomena hard that humans do?</dt>
+<dt>How closely does model difficulty on BLiMP track human difficulty?</dt>
+<dt>Does a language model become more human-like in its grammatical errors as it trains?</dt>
+<dd>GPT2-tiny&#x27;s BLiMP difficulty profile becomes steadily more similar to human difficulty as training proceeds, but the correlation saturates below 0.5, indicating the model leans on features human annotators do not use.<br><span class="scope">Holds for: Human per-challenge accuracies as reported in the BLiMP paper, correlated against GPT2-tiny checkpoints; all tested neural LMs correlate with GPT2-tiny better than humans do.</span></dd>
+<dt>Which categories of grammatical phenomena are learned together by language models?</dt>
+<dt>Are morphology phenomena acquired in unison by neural language models?</dt>
+<dt>Do linguistic categories in BLiMP match how models actually learn?</dt>
+<dd>BLiMP morphology challenges follow similar gradual learning curves in GPT2-tiny and reach a median accuracy of 0.85. Syntax-semantics challenges plateau near chance, and the broad semantics and syntax fields show no prototypical curve.<br><span class="scope">Holds for: Learning curves of GPT2-tiny on the 67 BLiMP challenges grouped by the dataset&#x27;s 4 fields; chance accuracy on minimal pairs is 50%.</span></dd>
+<dd>Clusters of BLiMP challenges that GPT2-tiny learns in unison usually share a field but mix super-phenomena, so the categorization induced by learning trajectories only partly matches BLiMP&#x27;s linguistic categorization.<br><span class="scope">Holds for: 10 spectral clusters over GPT2-tiny learning curves on the 67 BLiMP challenges; stated cautiously by the authors, and one cluster has no shared prominent field.</span></dd>
+<dt>Can a language model get worse on a grammatical phenomenon as training continues?</dt>
+<dt>Why does accuracy on some BLiMP challenges drop during training?</dt>
+<dt>Are there phenomena where more training hurts grammatical judgments?</dt>
+<dd>Spectral clustering of GPT2-tiny&#x27;s BLiMP learning curves isolates a cluster whose accuracy starts high and drops toward 0 with training. Affected challenges include &#x27;principle A case 1&#x27;, which a simple lexical-preference rule solves perfectly.<br><span class="scope">Holds for: Spectral clustering with 10 clusters and sklearn defaults on GPT2-tiny learning curves; the deterioration is consistent with early NLMs behaving like n-gram models, and may reflect BLiMP artifacts as much as over-generalization.</span></dd>
+<dt>What should I read about how language models acquire grammar over training?</dt>
+<dt>Which paper connects psycholinguistic acquisition order to neural language model training dynamics?</dt>
+<dt>Where does research on learning trajectories of linguistic phenomena in NLP start?</dt>
+<dd>The Grammar-Learning Trajectories of Neural Language Models imports the psycholinguistic study of acquisition order into NLP. Its argument is that a shared learning order makes training dynamics evidence about the linguistic representations neural LMs build.<br><span class="scope">Holds for: English grammar only, measured behaviorally on BLiMP minimal pairs rather than by probing internal representations; earlier order-of-learning work of this kind was mostly in computer vision classification.</span></dd>
+<dd>The Grammar-Learning Trajectories of Neural Language Models gives a practical licence for small-scale grammar-learning experiments. Because learning order is stable across seed, size, architecture and corpus, findings on one small NLM are expected to replicate on others.<br><span class="scope">Holds for: The neural LMs tested (GPT2 tiny/small/large, TransformerXL, LSTM) on English BLiMP; explicitly not inherently different architectures such as 5-gram models, and future models with different inductive biases may differ.</span></dd>
+<dt>Is it safe to run grammar-learning experiments on a small language model and expect them to replicate on larger ones?</dt>
+<dt>Do results about linguistic generalization transfer from tiny models to bigger ones?</dt>
+<dt>Why would anyone study grammar acquisition using a 4-layer transformer?</dt>
+<dd>The Grammar-Learning Trajectories of Neural Language Models gives a practical licence for small-scale grammar-learning experiments. Because learning order is stable across seed, size, architecture and corpus, findings on one small NLM are expected to replicate on others.<br><span class="scope">Holds for: The neural LMs tested (GPT2 tiny/small/large, TransformerXL, LSTM) on English BLiMP; explicitly not inherently different architectures such as 5-gram models, and future models with different inductive biases may differ.</span></dd>
+<dd>When compared at equal development-set perplexity rather than equal step count, GPT2-small and GPT2-tiny correlate above 0.9 in their BLiMP performance vectors throughout training.<br><span class="scope">Holds for: GPT2-small (width 768, 12 layers) versus GPT2-tiny, both trained on WikiBooks; TransformerXL only compared qualitatively because its perplexity uses a different vocabulary.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>GPT2-tiny instances trained from 4 different random initializations have extremely high correlation between their BLiMP performance vectors, already high after 10K steps and staying high through training. <span class="meta">(Figure 1)</span><br><span class="scope">Scope: GPT2-tiny (width 512, 4 layers, 4 attention heads) trained on WikiBooks and evaluated on the 67 English BLiMP challenges; correlation is 0 at step 0 and rises during the 10K warm-up steps.</span></li>
+<li>Changing the training corpus of GPT2-tiny shifts its grammar-learning order more than changing the random seed does, but the correlation between differently-trained instances rises with more training steps. <span class="meta">(Figure 1)</span><br><span class="scope">Scope: GPT2-tiny trained on WikiBooks, openWebText, openSubtitles and newsCrawl, compared over the 67 BLiMP challenges.</span></li>
+<li>When compared at equal development-set perplexity rather than equal step count, GPT2-small and GPT2-tiny correlate above 0.9 in their BLiMP performance vectors throughout training. <span class="meta">(Figure 12)</span><br><span class="scope">Scope: GPT2-small (width 768, 12 layers) versus GPT2-tiny, both trained on WikiBooks; TransformerXL only compared qualitatively because its perplexity uses a different vocabulary.</span></li>
+<li>GPT2-small and GPT2-tiny agree on which individual BLiMP minimal pairs they get right at an average Fleiss kappa of 0.83. The consistency of learning order therefore holds within phenomena, not only across them. <span class="meta">(Appendix D)</span><br><span class="scope">Scope: Binary per-minimal-pair decisions averaged over training steps and the 67 challenges; only 2 phenomena fall as low as the 0.5-0.6 kappa range.</span></li>
+<li>Correlation between GPT2-tiny&#x27;s trajectory and a fixed GPT2-small checkpoint peaks exactly where their average BLiMP accuracy matches, reaching above 0.9, and falls off as the accuracy gap widens in either direction. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: Static GPT2-small checkpoints compared against the full GPT2-tiny training trajectory, whose best overall BLiMP score is 67; the same peak-at-equal-performance pattern recurs for fully trained off-the-shelf NLMs.</span></li>
+<li>Fully trained off-the-shelf neural LMs correlate 0.6-0.8 with GPT2-tiny&#x27;s BLiMP performance vector. GPT2-tiny is more similar to an LSTM than to TransformerXL, and least similar to GPT2-large, so architecture type does not explain the ordering. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: Off-the-shelf LSTM, TransformerXL and GPT2-large accuracies as reported in the BLiMP paper, correlated against GPT2-tiny checkpoints trained on WikiBooks; the ordering survives retraining GPT2-tiny on openWebText.</span></li>
+<li>The equal-performance rule fails for 5-gram LMs: matching a 5-gram model&#x27;s overall BLiMP accuracy neither yields high correlation with GPT2-tiny nor marks the point of highest correlation. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: KenLM 5-gram models trained on WikiBooks and on GigaWord, compared against the GPT2-tiny training trajectory over the 67 BLiMP challenges.</span></li>
+<li>Early in training GPT2-tiny correlates better with order-agnostic bag-of-words and Window-5 ablations than with n-gram LMs, and the ranking reverses later, when the order-sensitive n-grams correlate better. <span class="meta">(Figure 5)</span><br><span class="scope">Scope: BOW and Window-5 ablations of GPT2-tiny (positional weights removed, attention replaced by averaging) and 2-5 gram KenLM models, all on WikiBooks.</span></li>
+<li>A unigram LM with no context at all perfectly classifies 7 BLiMP challenges and reaches 98.1% accuracy on another, while scoring 0% on 8. Some syntactic and semantic BLiMP challenges are thus solvable by frequency heuristics. <span class="meta">(Section 4)</span><br><span class="scope">Scope: Unigram LM defined by word frequency in WikiBooks, with sentence probability length-normalized, evaluated on the 67 BLiMP challenges; GPT2-tiny succeeds from the outset on 6 of the 8 that unigram solves.</span></li>
+<li>GPT2-tiny&#x27;s BLiMP difficulty profile becomes steadily more similar to human difficulty as training proceeds, but the correlation saturates below 0.5, indicating the model leans on features human annotators do not use. <span class="meta">(Figure 5)</span><br><span class="scope">Scope: Human per-challenge accuracies as reported in the BLiMP paper, correlated against GPT2-tiny checkpoints; all tested neural LMs correlate with GPT2-tiny better than humans do.</span></li>
+<li>BLiMP morphology challenges follow similar gradual learning curves in GPT2-tiny and reach a median accuracy of 0.85. Syntax-semantics challenges plateau near chance, and the broad semantics and syntax fields show no prototypical curve. <span class="meta">(Figure 7)</span><br><span class="scope">Scope: Learning curves of GPT2-tiny on the 67 BLiMP challenges grouped by the dataset&#x27;s 4 fields; chance accuracy on minimal pairs is 50%.</span></li>
+<li>Spectral clustering of GPT2-tiny&#x27;s BLiMP learning curves isolates a cluster whose accuracy starts high and drops toward 0 with training. Affected challenges include &#x27;principle A case 1&#x27;, which a simple lexical-preference rule solves perfectly. <span class="meta">(Figure 8)</span><br><span class="scope">Scope: Spectral clustering with 10 clusters and sklearn defaults on GPT2-tiny learning curves; the deterioration is consistent with early NLMs behaving like n-gram models, and may reflect BLiMP artifacts as much as over-generalization.</span></li>
+<li>Clusters of BLiMP challenges that GPT2-tiny learns in unison usually share a field but mix super-phenomena, so the categorization induced by learning trajectories only partly matches BLiMP&#x27;s linguistic categorization. <span class="meta">(Figure 8)</span><br><span class="scope">Scope: 10 spectral clusters over GPT2-tiny learning curves on the 67 BLiMP challenges; stated cautiously by the authors, and one cluster has no shared prominent field.</span></li>
+<li>The Grammar-Learning Trajectories of Neural Language Models imports the psycholinguistic study of acquisition order into NLP. Its argument is that a shared learning order makes training dynamics evidence about the linguistic representations neural LMs build. <span class="meta">(Section 1)</span><br><span class="scope">Scope: English grammar only, measured behaviorally on BLiMP minimal pairs rather than by probing internal representations; earlier order-of-learning work of this kind was mostly in computer vision classification.</span></li>
+<li>The Grammar-Learning Trajectories of Neural Language Models gives a practical licence for small-scale grammar-learning experiments. Because learning order is stable across seed, size, architecture and corpus, findings on one small NLM are expected to replicate on others. <span class="meta">(Section 3.7)</span><br><span class="scope">Scope: The neural LMs tested (GPT2 tiny/small/large, TransformerXL, LSTM) on English BLiMP; explicitly not inherently different architectures such as 5-gram models, and future models with different inductive biases may differ.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>Consistent learning order does not mean the models converge to similar parameters or representations: the comparison is purely behavioral, over accuracies on BLiMP challenges, and models with completely different internal representations can produce identical performance vectors.</li>
+<li>The one-dimensional trajectory finding is about neural language models, not language models in general — 5-gram LMs with the same overall BLiMP accuracy do not correlate best with a neural LM at that accuracy.</li>
+<li>High correlation across models does not imply high performance: GPT2-tiny&#x27;s best overall BLiMP score is 67, and several phenomena stay at or below chance for the whole of training.</li>
+<li>Declining accuracy on some BLiMP challenges over training is not necessarily over-generalization in the child-language sense; the paper notes it may equally reflect biases in the BLiMP challenges, several of which are solvable by a simple lexical preference rule.</li>
+<li>The claim of shared learning order is established for English grammar as operationalized by BLiMP minimal pairs, and no other language or task is tested.</li>
+<li>A correlation of under 0.5 with human difficulty is reported as a saturation point, not as evidence that models and humans find the same phenomena hard.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>performance vector</em></dt><dd>For a language model checkpoint, the 67-dimensional vector of its accuracies on each BLiMP challenge; similarity between two models is the Pearson correlation of their performance vectors, so models count as similar when they rank phenomena the same way even at different absolute accuracy.</dd>
+<dt><em>BOW (ablation)</em></dt><dd>A GPT2-tiny variant made agnostic to word order by removing the positional weights and replacing attention weights with a simple average over preceding tokens.</dd>
+<dt><em>Window-5</em></dt><dd>A GPT2-tiny variant that ignores word order and additionally attends only to the last 5 preceding words.</dd>
+<dt><em>super-phenomena</em></dt><dd>The 13 mid-level groupings of BLiMP&#x27;s 67 grammatical challenges, sitting between individual challenges and the 4 broad fields of syntax, semantics, syntax-semantics and morphology.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/acl/ChoshenHWA22,
-author       = {Leshem Choshen and
+<pre>@inproceedings{DBLP:conf/acl/ChoshenHWA22,author       = {Leshem Choshen and
                   Guy Hacohen and
                   Daphna Weinshall and
                   Omri Abend},

@@ -1,10 +1,66 @@
 # Global MMLU: Understanding and Addressing Cultural and Linguistic Biases in Multilingual Evaluation
 
-Authors: Shivalika Singh, Angelika Romanou, Cl\'ementine Fourrier, David Ifeoluwa Adelani, Jian Gang Ngui, Daniel Vila-Suero, Peerat Limkonchotiwat, Kelly Marchisio, Wei Qi Leong, Yosephine Susanto, Raymond Ng, Shayne Longpre, Sebastian Ruder, Wei-Yin Ko, Antoine Bosselut, Alice Oh, Andre Martins, Leshem Choshen, Daphne Ippolito, Enzo Ferrante, Marzieh Fadaee, Beyza Ermis, Sara Hooker
+a 42-language MMLU test set with human-verified translations and questions labelled as culturally sensitive or culturally agnostic
+
+Authors: Shivalika Singh, Angelika Romanou, Clémentine Fourrier, David Ifeoluwa Adelani, Jian Gang Ngui, Daniel Vila-Suero, Peerat Limkonchotiwat, Kelly Marchisio, Wei Qi Leong, Yosephine Susanto, Raymond Ng, Shayne Longpre, Sebastian Ruder, Wei-Yin Ko, Antoine Bosselut, Alice Oh, Andre Martins, Leshem Choshen, Daphne Ippolito, Enzo Ferrante, Marzieh Fadaee, Beyza Ermis, Sara Hooker
 Venue: Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) (2025)
 
-## Abstract
-Reliable multilingual evaluation is difficult, and culturally appropriate evaluation is even harder to achieve.A common practice to fill this gap is to machine-translate English evaluation sets. However, translation introduces language bias and carries over cultural and regional assumptions from the original questions {--} often testing knowledge irrelevant to the target audience. In this work, we highlight the extent and impact of these biases and present a multilingual evaluation framework that aims to mitigate them through improved translations and annotation practices.Through a large-scale study involving professional and community translators and annotators, we show that state-of-the-art models excel primarily by learning Western-centric concepts. Notably, we find that model rankings on the full MMLU change when evaluated on a subset of questions explicitly marked as culturally sensitive.We release Global MMLU, a multilingual extension of MMLU across 42 languages, featuring improved translation quality, expanded language coverage, and designated subsets labeled as culturally sensitive and culturally agnostic to enable a more comprehensive and equitable benchmark for evaluating language models across diverse linguistic and cultural contexts.
+## What this paper shows
+Global-MMLU re-annotates MMLU for the cultural, geographic and dialect knowledge its questions require and releases a 42-language test set with human-verified translations, so multilingual results can be reported separately on culturally-sensitive and culturally-agnostic subsets.
+
+## Claims, with scope
+- 28% of MMLU questions require culturally sensitive knowledge, meaning cultural, geographic or dialect-specific knowledge, to be answered correctly. Geographic knowledge accounts for 54.7% of those questions and cultural knowledge for 32.7%.
+  Scope: Based on a uniform sample of 2,850 English MMLU questions (50 per each of 57 subjects), labelled by majority vote among at least 3 of 200 professional and community annotators.
+  Evidence: Section 2.2
+- Among MMLU questions tagged as needing cultural knowledge, 86.5% require Western cultural knowledge, while the next largest category, South Asian culture, accounts for only 4%.
+  Scope: English MMLU sample of 2,850 questions; percentages are over samples with a single culture tag, excluding untagged and multi-tag samples.
+  Evidence: Figure 4 and Section 2.2
+- For MMLU questions requiring geographic knowledge, 84.9% concern North America or Europe, split as 64.5% North America and 20.4% Europe. Of the Western-culture questions, 73.9% specifically require knowledge about the United States.
+  Scope: English MMLU sample of 2,850 questions; region and country shares computed over samples with a single region or country tag.
+  Evidence: Figure 4, Figure 5 and Section 2.2
+- Cultural sensitivity in MMLU is concentrated in the humanities: 68% of Humanities questions are culturally sensitive, versus 30 of 950 STEM samples (3.15%). All World Religions and Moral Scenarios samples contain at least one cultural, regional or dialect reference.
+  Scope: English MMLU annotated sample of 2,850 questions, 50 per subject, with subject categories following Hendrycks et al. and Medical and Business split out of 'Other'. 12 of the 57 subjects contained no culturally sensitive samples.
+  Evidence: Figure 3, Figure 6 and Section 2.2
+- Model rankings shift far more on the culturally-sensitive MMLU subset than on the culturally-agnostic one. Averaged across languages and 14 models, CA rankings show 3.4 rank changes and 3.7 position shifts against the annotated MMLU sample, CS rankings 5.7 and 7.3.
+  Scope: 14 models from 9 families (including GPT-4o and Claude 3.5 Sonnet) evaluated 5-shot with lm-evaluation-harness; ranks measured against the uniform MMLU Annotated subsample, across the 42 Global-MMLU languages.
+  Evidence: Section 4.2 and Table 2
+- Accuracy variability across languages grows sharply for lower-resource languages. The average standard deviation rises from 3.21 (CA) and 3.86 (CS) on high-resource languages to 6.37 and 6.78 on low-resource languages, increases of 98% and 75%.
+  Scope: 14 evaluated models, 5-shot; low-resource languages include machine-translated data, so part of the variance may reflect translation quality rather than model capability.
+  Evidence: Section 4.2 and Figure 10
+- Average model accuracy is higher on the culturally-sensitive MMLU subset than on the culturally-agnostic one: 54.8% versus 51.3% for small models and 66.8% versus 61.6% for large models. CS questions come mostly from Social Sciences and Humanities, while CA retains the harder STEM and Medical subjects.
+  Scope: 14 models, 5-shot, averaged across languages; small models are Aya Expanse 8B, Gemma2 9B, SEA-LION v3 9B, Llama 3.1 8B, Mistral Nemo 12B, Qwen2.5 7B and large models are Llama 3.1 70B and Command R+.
+  Evidence: Section 4.2 and Figure 9
+- Claude 3.5 Sonnet and GPT-4o score significantly higher on machine-translated than on human-translated culturally-sensitive Yoruba data, while models generally do better on human-translated data for high-resource French; Aya Expanse 32B is the only model consistent across both.
+  Scope: Compares human- versus machine-translated CS subsets for exactly 3 languages -- French (high), Korean (mid), Yoruba (low resource).
+  Evidence: Figure 11
+- Google Translate achieves higher ChrF++ scores than GPT-3.5-Turbo across all MMLU subject categories and with lower deviation across languages, measured against professional human translations from MMMLU.
+  Scope: Restricted to languages overlapping between the two machine-translated sets and human-translated MMMLU; GPT-3.5-Turbo is the system used for the widely adopted 26-language translated MMLU.
+  Evidence: Figure 7 and Appendix D.1
+- Human review changed a substantial share of the machine-translated MMLU: 7,565 edits were made, 36.9% of reviewed samples. Professional annotators edited 789 samples per language (38.5%) and community contributors 362 per language (17.7%).
+  Scope: Edits cover 4 professionally annotated gold languages (Arabic, French, Hindi, Spanish) and 11 community-translated languages; differing edit rates reflect annotator time and resources, not translation quality across languages.
+  Evidence: Figure 8 and Section 3.1
+- Global-MMLU covers all 14K MMLU samples in 42 languages, 589,764 samples in total, combining professional translations with post-edits, community translations and machine translation. It ships 792 English culturally-sensitive and 2,058 culturally-agnostic annotated questions, extended to the other 41 languages.
+  Scope: Cultural sensitivity labels were assigned on the English source and propagated to translations, so they capture bias in the original questions rather than artefacts of any particular translation. Released under a permissive license.
+  Evidence: Section 3.2 and Table 4
+- Global-MMLU is a reference point for the argument that machine-translating an English benchmark yields multilinguality without multiculturality, and provides the culturally-sensitive and culturally-agnostic subsets needed to report multilingual LLM evaluations separately.
+  Scope: As of publication in 2025; concerns knowledge-style multiple-choice evaluation derived from English MMLU, covering 42 of the world's roughly 7,000 languages and no dialect variation.
+- Identifying whether benchmark questions are culturally sensitive does not make a dataset culturally inclusive. Global-MMLU flags gaps in non-Western representation but still derives all its questions from English MMLU rather than from locally authored material.
+  Scope: Stated as a limitation of the Global-MMLU release; achieving inclusion would require integrating culturally grounded knowledge sourced in-language, which the dataset does not do.
+  Evidence: Section 7
+
+## Common misreadings
+- Higher accuracy on the culturally-sensitive subset does not mean models handle cultural knowledge well: CS questions come disproportionately from Social Sciences and Humanities, where models score higher, while the culturally-agnostic subset keeps the harder STEM and Medical subjects.
+- The culturally-sensitive labels describe bias in the original English MMLU questions, not translation errors; dialect annotation was performed on the English source and does not measure artefacts introduced during translation.
+- Global-MMLU is not a culturally inclusive benchmark: it flags which questions assume Western knowledge but its questions are still translations of English MMLU rather than locally authored exam material.
+- Differences in edit rates between professional (38.5%) and community (17.7%) annotators reflect available time and resources, not the translation quality of the languages involved.
+- Models scoring higher on machine-translated than human-translated low-resource data is not evidence that machine translation is a better test set; it indicates the machine-translated distribution resembles those models' own training data.
+
+## Terminology
+- Culturally-Sensitive (CS): An MMLU question whose correct answer depends on cultural, geographic or dialect-specific knowledge, assigned by majority vote of annotators labelling the original English question.
+- Culturally-Agnostic (CA): An MMLU question that requires none of cultural, geographic or dialect-specific knowledge to answer correctly, serving as a baseline subset for cross-language comparison.
+- MMLU Annotated (MA): A uniform random subsample of 2,850 MMLU questions, 50 from each of the 57 subjects, annotated in English for cultural, geographic, dialect and temporal knowledge and used as the reference for model rankings.
+- transMMLU: Collective term for versions of MMLU produced by machine-translating the English dataset into other languages and used as-is for multilingual evaluation.
+- Gold Set: The 4 languages -- Arabic, French, Hindi and Spanish -- whose machine translations were reviewed and post-edited by compensated professional annotators.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2412.03304
@@ -15,10 +71,12 @@ Reliable multilingual evaluation is difficult, and culturally appropriate evalua
 - DOI: https://doi.org/10.18653/v1/2025.acl-long.919
 - Semantic Scholar: https://www.semanticscholar.org/paper/274464561
 - Publisher: https://aclanthology.org/2025.acl-long.919/
+- Project page: https://hf.co/datasets/CohereForAI/Global-MMLU
+- dataset: https://hf.co/datasets/CohereForAI/Global-MMLU
 
 ## How to cite
 @inproceedings{singh2024global,
-title = "Global {MMLU}: Understanding and Addressing Cultural and Linguistic Biases in Multilingual Evaluation",
+    title = "Global {MMLU}: Understanding and Addressing Cultural and Linguistic Biases in Multilingual Evaluation",
     author = "Singh, Shivalika  and
       Romanou, Angelika  and
       Fourrier, Cl{\'e}mentine  and

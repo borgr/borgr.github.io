@@ -1,0 +1,119 @@
+# Findings of the BabyLM Challenge: Sample-Efficient Pretraining on Developmentally Plausible Corpora
+
+shared task on pretraining language models with as little text as a child hears
+
+Authors: Alex Warstadt, Aaron Mueller, Leshem Choshen, Ethan Wilcox, Chengxu Zhuang, Juan Ciro, Rafael Mosquera, Bhargavi Paranjabe, Adina Williams, Tal Linzen, Ryan Cotterell
+Venue: Proceedings of the BabyLM Challenge at the 27th Conference on Computational Natural Language Learning (2023)
+
+## What this paper shows
+The BabyLM Challenge is a shared task in which participants pretrain language models on a fixed 10M- or 100M-word developmentally plausible corpus, and in its 2023 first iteration the winning LTG-BERT-based submission outscored Llama 2 and RoBERTa-base in aggregate while most curriculum-learning attempts failed.
+
+## Claims, with scope
+- ELC-BERT, trained on 100M words in the BabyLM Strict track, reached an aggregate score of 0.74. That is above the Llama 2 skyline at 0.71, trained on 2T tokens, and above RoBERTa-base at 0.70 trained on its full corpus.
+  Scope: (Super)GLUE was the one task where ELC-BERT did not beat the skylines, at 0.78 against Llama 2's 0.84; Llama 2 was evaluated on (Super)GLUE by in-context learning.
+  Evidence: Table 2
+- Curriculum learning was the most popular BabyLM 2023 approach, attempted by 13 of 31 teams (41.9%), and the majority of those attempts produced no consistent improvement across the BabyLM evaluation tasks.
+  Scope: Curricula ranking by surprisal, lexical frequency, length, syntactic complexity, dataset difficulty, vocabulary size and objective difficulty, on the 10M-word and 100M-word English BabyLM corpora.
+  Evidence: Section 7.4
+- The two top BabyLM Strict-track systems, ELC-BERT at 0.74 aggregate and Boot-BERT at 0.70, both build on the LTG-BERT encoder architecture. The participants' own baselines indicate the backbone rather than their added modifications drove most of the gain.
+  Scope: Encoder-only masked language models on 100M-word and 10M-word English BabyLM corpora, trained for hundreds to thousands of epochs; ELC-BERT used over 450 epochs in Strict and over 2000 in Strict-Small.
+  Evidence: Table 2
+- BabyLM Strict-track models trained on 100M words did not outperform Strict-Small models trained on 10M words by a large margin. Only 2 Strict-track models achieved higher GLUE scores than the best Strict-Small model.
+  Scope: 162 submitted models across the three 2023 tracks, evaluated on the vocabulary-filtered BabyLM versions of BLiMP, BLiMP Supplement, (Super)GLUE and MSGS; the Strict corpus is 98.04M words and Strict-Small 9.96M.
+  Evidence: Section 7.1
+- BabyLM Loose-track models, which could add unlimited non-linguistic data to a 100M-word text budget, tended to score lower in aggregate than Strict-Small models limited to 10M words of text.
+  Scope: 20 Loose-track models from 8 participants in 2023; few multimodal submissions were received, and one text-and-audio system (WhisBERT) was reported undertrained.
+  Evidence: Section 7.1
+- The best BabyLM 2023 submission came within about 3% of reported human performance on BLiMP, despite training on at most 100M words.
+  Scope: Zero-shot minimal-pair accuracy on the vocabulary-filtered BLiMP used in the challenge; human performance is the figure reported by Warstadt et al. (2020a).
+  Evidence: Section 7.1
+- MSGS Matthews correlations for BabyLM 2023 systems were largely negative, showing that models trained on 10M-100M words prefer surface features over linguistic ones in ambiguous contexts. ELC-BERT was the exception, at -0.01 in Strict-Small and -0.10 in Strict against Llama 2's -0.24.
+  Scope: Six ambiguous MSGS subtasks under finetuned evaluation; macro-average MCC for the top systems per track plus baselines and skylines. Llama 2 was fully finetuned on MSGS.
+  Evidence: Table 8
+- On the Hypernym test suite of the BLiMP Supplement, every BabyLM 2023 system and both skylines scored near chance, between 0.45 and 0.50 accuracy.
+  Scope: Zero-shot minimal-pair scoring on 860 semi-automatically templated lexical-entailment items phrased as logical statements.
+  Evidence: Table 9
+- The Turn-Taking suite of the BLiMP Supplement separated BabyLM 2023 systems sharply, with ELC-BERT (Strict) reaching 0.92 against RoBERTa's 0.73 and Llama 2's 0.83, while some systems scored near chance.
+  Scope: 280 templated dialogue minimal pairs on indexical pronoun choice across a speaker change, scored zero-shot; transcribed dialogue is a large share of the BabyLM corpus.
+  Evidence: Table 9
+- On the optional age-of-acquisition prediction task, no BabyLM 2023 Strict-Small submission beat the OPT-125M baseline's mean average deviation of 2.03 months, with the best submissions at 2.05.
+  Scope: 7 of 31 teams (22.6%) evaluated on AoA prediction, almost all in Strict-Small; MAD in months across cross-validation folds.
+  Evidence: Table 11
+- Reducing context length or using single sentences as training examples, and distilling a student from a teacher trained on the same corpus, were the BabyLM 2023 modifications that most consistently improved scores.
+  Scope: Based on hand-coding 162 submitted models into 9 approach categories and on participants' own controlled comparisons, not on organizer-run ablations; English BabyLM corpora of 10M and 100M words.
+  Evidence: Section 7.4
+- The BabyLM Challenge established a shared task and public leaderboard for pretraining language models on developmentally plausible budgets of 10M or 100M words. It supplied a fixed corpus of child-directed speech, dialogue and children's literature plus a common evaluation pipeline.
+  Scope: First iteration, 2023, English only, 31 papers and 162 models across the Strict, Strict-Small and Loose tracks; earlier data-limited work existed (LTG-BERT, BabyBERTa, MiniPile) but not as a community shared task with a common corpus and leaderboard.
+- The BabyLM 2023 rules capped training data but not compute, and the winning Strict submission consumed roughly as many training samples as BERT despite a training set only about 3% as large.
+  Scope: The 2023 iteration's rules, under which repeated epochs did not count against the word budget; the organizers flag compute efficiency as a target for future iterations.
+  Evidence: Section 8
+- A BabyLM 2023 submission awarded for outstanding evaluation found that models scoring better on the BabyLM benchmark tasks were not better at predicting human reading difficulty.
+  Scope: Decoder-only GPT-style models trained by Steuer et al. (2023) on BabyLM data; a single submission's finding, not an organizer-run meta-analysis across all 162 models.
+  Evidence: Section 7.3
+
+## Common misreadings
+- ELC-BERT beating the Llama 2 and RoBERTa-base skylines on the BabyLM aggregate score is not a win on every task: Llama 2 scored higher on (Super)GLUE (0.84 vs 0.78), and the aggregate weights zero-shot grammar and MSGS at 70% combined.
+- The BabyLM Challenge's data budget is not a compute budget. Repeated epochs cost nothing under the 2023 rules, and the winning Strict submission trained for over 450 epochs, so its results do not show that sample-efficient pretraining is cheap.
+- Curriculum learning being largely unsuccessful in BabyLM 2023 is a finding about the specific curricula submitted — surprisal, frequency, length, syntactic complexity, vocabulary growth — not a proof that no data ordering can help; the Loose-track winner used dataset-level ordering and one linguistically motivated curriculum found improvements.
+- Near-chance Hypernym scores in the BLiMP Supplement do not establish that language models lack knowledge of lexical entailment: the items are unnatural logical statements out of domain for the models, and there is no a priori reason logically invalid statements should be less probable.
+- BabyLM (Super)GLUE and MSGS numbers are not comparable to published GLUE or MSGS results, because evaluation examples containing words appearing fewer than twice in the Strict-Small corpus were filtered out.
+- Loose-track models scoring below Strict-Small models is not evidence that multimodal training hurts language learning in general; few multimodal submissions were received, and one text-and-audio system was reported undertrained.
+
+## Terminology
+- Strict track: BabyLM Challenge track requiring models to train exclusively on the released 100M-word English corpus of child-directed speech, dialogue and children's literature.
+- Strict-Small track: BabyLM Challenge track requiring models to train exclusively on a 10M-word subsample of the released BabyLM corpus, roughly the linguistic input of a child's first two to five years.
+- Loose track: BabyLM Challenge track allowing unlimited non-linguistic data (audio, images, code, music) and expert annotations alongside a 100M-word text budget that covers all language data used for any model in the pipeline.
+- skyline: In the BabyLM Challenge, a reference model trained on its full unrestricted corpus — RoBERTa-base and Llama 2 70B — run through the same evaluation pipeline to bound what large-scale pretraining achieves.
+- BLiMP Supplement: Five minimal-pair test suites released for the BabyLM Challenge covering phenomena BLiMP omits: hypernymy, subject-auxiliary inversion, turn-taking, and easy and tricky question-answer congruence.
+- MSGS: Mixed Signals Generalization Set: a finetuning benchmark whose training labels are ambiguous between a syntactic and a surface generalization, scored by Matthews correlation with the syntactic generalization, so 1 means systematic linguistic bias and -1 systematic surface bias.
+- age-of-acquisition prediction: Task converting a language model's average word surprisals into predicted ages at which children acquire those words, scored by mean average deviation in months from measured child acquisition ages.
+
+## Links
+- arXiv: https://arxiv.org/abs/2504.08165
+- PDF: https://arxiv.org/pdf/2504.08165
+- HTML: https://arxiv.org/html/2504.08165
+- Hugging Face: https://huggingface.co/papers/2504.08165
+- alphaXiv: https://www.alphaxiv.org/abs/2504.08165
+- DOI: https://doi.org/10.18653/v1/2023.conll-babylm.1
+- Semantic Scholar: https://www.semanticscholar.org/paper/266182457
+- Publisher: https://aclanthology.org/2023.conll-babylm.1
+- Project page: https://dynabench.org/babylm
+- anthology: http://aclanthology.org/2023.conll-babylm.1/
+- Leaderboard: https://dynabench.org/babylm
+- Data: https://github.com/babylm/babylm_data_preprocessing
+- evaluation_pipeline: https://github.com/babylm/evaluation-pipeline
+- submissions: https://github.com/babylm/submissions2023
+
+## How to cite
+@inproceedings{warstadt2023findings,title = "Findings of the {B}aby{LM} Challenge: Sample-Efficient Pretraining on Developmentally Plausible Corpora",
+    author = "Warstadt, Alex  and
+      Mueller, Aaron  and
+      Choshen, Leshem  and
+      Wilcox, Ethan  and
+      Zhuang, Chengxu  and
+      Ciro, Juan  and
+      Mosquera, Rafael  and
+      Paranjabe, Bhargavi  and
+      Williams, Adina  and
+      Linzen, Tal  and
+      Cotterell, Ryan",
+    editor = "Warstadt, Alex  and
+      Mueller, Aaron  and
+      Choshen, Leshem  and
+      Wilcox, Ethan  and
+      Zhuang, Chengxu  and
+      Ciro, Juan  and
+      Mosquera, Rafael  and
+      Paranjabe, Bhargavi  and
+      Williams, Adina  and
+      Linzen, Tal  and
+      Cotterell, Ryan",
+    booktitle = "Proceedings of the BabyLM Challenge at the 27th Conference on Computational Natural Language Learning",
+    month = dec,
+    year = "2023",
+    address = "Singapore",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.conll-babylm.1",
+    doi = "10.18653/v1/2023.conll-babylm.1",
+    pages = "1--34",
+}

@@ -1,10 +1,64 @@
 # Corpus Wide Argument Mining - A Working Solution
 
+iteratively hand-labeling a classifier's own top-ranked predictions to build a balanced training set when relevant examples are rare
+
 Authors: Liat Ein-Dor, Eyal Shnarch, Lena Dankin, Alon Halfon, Benjamin Sznajder, Ariel Gera, Carlos Alzate, Martin Gleize, Leshem Choshen, Yufang Hou, Yonatan Bilu, Ranit Aharonov, Noam Slonim
 Venue: The Thirty-Fourth {AAAI} Conference on Artificial Intelligence, {AAAI} 2020, The Thirty-Second Innovative Applications of Artificial Intelligence Conference, {IAAI} 2020, The Tenth {AAAI} Symposium on Educational Advances in Artificial Intelligence, {EAAI} 2020, New York, NY, USA, February 7-12, 2020 (2020)
 
-## Abstract
-One of the main tasks in argument mining is the retrieval of argumentative content pertaining to a given topic. Most previous work addressed this task by retrieving a relatively small number of relevant documents as the initial source for such content. This line of research yielded moderate success, which is of limited use in a real-world system. Furthermore, for such a system to yield a comprehensive set of relevant arguments, over a wide range of topics, it requires leveraging a large and diverse corpus in an appropriate manner. Here we present a first end-to-end high-precision, corpus-wide argument mining system. This is made possible by combining sentence-level queries over an appropriate indexing of a very large corpus of newspaper articles, with an iterative annotation scheme. This scheme addresses the inherent label bias in the data and pinpoints the regions of the sample space whose manual labeling is required to obtain high-precision among top-ranked candidates.
+## What this paper shows
+Corpus-wide argument mining becomes practical by combining sentence-level queries over an index of ~400 million newspaper articles with Retrospective Labeling — repeatedly annotating the classifier's own top predictions — yielding 95% precision on the top 40 retrieved evidence sentences per motion.
+
+## Claims, with scope
+- An end-to-end evidence retrieval system over a 400-million-article newspaper corpus reaches over 90% precision on the top 20 candidates per motion. The best model, BERT S+M, reaches 95% precision on the top 40.
+  Scope: 100 held-out motions; retrieval limited to sentences matching the Study/Expert Evidence queries and near-duplicate sentences removed; estimated positive prior among query-retrieved sentences is 0.3.
+  Evidence: Figure 2
+- Sentence-level retrieval over the newspaper corpus does not collapse into document retrieval. The top 20 and top 40 ranked candidates per motion come from an average of 18.03 and 36.07 different documents respectively.
+  Scope: Measured on the very large newspaper corpus, where near-duplicates were filtered; the diversity figures come from the BA MaskS ranking, and Figure 3 reports document and journal counts for BERT S+M.
+  Evidence: Figure 3
+- On the BlendNet sentence-classification benchmark, retraining the same BiLSTM-plus-attention architecture on the newspaper-corpus dataset raises accuracy from 0.74 to 0.78, and BERT S+M reaches 0.84.
+  Scope: Wikipedia-sentence benchmark of a prior evidence-detection work; motions overlapping the training and development sets were excluded and models retrained for this evaluation.
+  Evidence: Table 1
+- Masking the topic token helps the BiLSTM architecture but hurts BERT: BERT MaskS+M reaches 0.82 accuracy on BlendNet while unmasked BERT S+M reaches 0.84.
+  Scope: BlendNet accuracy at a 0.5 decision threshold; masking replaces Wikified topic mentions with a single token.
+  Evidence: Table 1
+- Iterative retrospective labeling produced a dataset of 198,457 manually labeled sentence-motion pairs over the 400-million-article newspaper corpus, of which 33.5% are positive evidence examples.
+  Scope: 192 train and 47 development motions; top 40 predictions per motion and evidence type annotated per iteration by 10 crowd annotators, gold label by majority; Cohen's Kappa 0.47.
+  Evidence: Section 4
+- A matching Wikipedia evidence dataset of 29,429 labeled sentences, 23% of them positive, was released at http://ibm.biz/debater-datasets.
+  Scope: Same train and development motions as the newspaper dataset; top 20 ranked predictions per motion annotated.
+  Evidence: Section 4
+- Models trained on the 154K-pair newspaper-corpus training set outperform models trained on the 22K-pair Wikipedia training set even when tested on the Wikipedia benchmark. Top-k precision on Wikipedia is nonetheless well below that on the newspaper corpus.
+  Scope: 100 test motions, precision of top k candidates; the model ranking order is identical across both benchmarks, and scores on Wikipedia top-k predictions are lower (t-test p=3.19e-9 at k=20). Precisions are not comparable across the two benchmarks.
+  Evidence: Figure 4
+- An evidence-trained BERT S+M classifier on the UKP-TUDA argumentativeness benchmark gives precision 0.88 at recall 0.16 with a 0.5 threshold. At a threshold of 0.002 it gives precision 0.66 and recall 0.75 (F1 0.70), against 0.65/0.67/0.67 for a classifier trained directly for that task.
+  Scope: Zero-adaptation transfer: the model was trained only on query-retrieved Study and Expert Evidence, whereas UKP-TUDA labels any sentence with a clear stance as positive, which is why recall at the default threshold is low.
+  Evidence: Figure 5
+- Among UKP-TUDA sentences scored below the 0.5 threshold, argumentative sentences receive a mean score of 7.3e-2 versus 1.5e-2 for non-argumentative ones, showing that an evidence-trained ranker still prefers argumentative text.
+  Scope: UKP-TUDA benchmark sentences below the decision threshold, with the difference significant by t-test; a manual check of 20 sentences above and 20 below the threshold found 14 versus 2 to be Study or Expert Evidence.
+  Evidence: Section 7.3
+- Corpus Wide Argument Mining - A Working Solution presents an end-to-end, high-precision argument retrieval system over a corpus of roughly 400 million newspaper and journal articles. That corpus is about 50 times larger than the Wikipedia corpora used by earlier sentence-level argument mining work.
+  Scope: As of AAAI 2020; retrieval targets Study Evidence and Expert Evidence for motions whose topic is a Wikipedia title, and precision is measured on top-ranked candidates rather than over the full corpus.
+- Retrospective Labeling, introduced in Corpus Wide Argument Mining - A Working Solution, is a precision-oriented active-learning strategy for class-imbalanced retrieval. Repeatedly hand-labeling a classifier's top-ranked predictions both enriches positives and surfaces the hard negatives that limit top-k precision.
+  Scope: Demonstrated only for evidence retrieval from newspaper and Wikipedia corpora; intended for retrieval tasks where precision is the metric and positive examples are scarce, and it requires substantial ongoing annotation effort.
+- Corpus Wide Argument Mining - A Working Solution argues that sentence-level topic-relevant argument retrieval can be tackled with fully supervised learning rather than weak supervision. The large balanced labeled set this needs is bootstrapped from query-retrieved sentences.
+  Scope: The queries used to restrict the search space play a role similar to weak-supervision rules; arguments in sentences that do not match any query, or that do not mention the topic explicitly, are missed by design.
+
+## Common misreadings
+- The 95% precision figure is precision among the top 40 ranked candidates per motion, not precision over all evidence sentences in the corpus, and it says nothing about recall.
+- Retrospective Labeling is not label propagation or pseudo-labeling: the top predictions selected for labeling are annotated manually, and no automatic similarity between arguments is computed.
+- The low 0.16 recall on the UKP-TUDA benchmark is not a failure of the model but a definitional mismatch: the model is trained to find Study and Expert Evidence, while the benchmark labels any sentence with a clear stance as positive.
+- Precision numbers on the newspaper-corpus benchmark and the Wikipedia benchmark are not comparable, because Wikipedia may simply not contain k relevant sentences for a given motion.
+- Masking the topic is not universally helpful: it improves the BiLSTM-with-attention models but degrades BERT, whose best configuration uses unmasked sentences plus the motion.
+
+## Terminology
+- Motion: A high-level claim implying a clearly positive or negative stance towards a debate topic, optionally naming a policy or action to be taken, such as 'ban the sale of violent video games'.
+- Evidence: A single sentence that clearly supports or contests a motion while providing an indication of whether a belief or claim is true, rather than merely asserting a belief or claim.
+- Study Evidence: Evidence that presents a quantitative analysis of data in support of or against a motion.
+- Expert Evidence: Evidence consisting of testimony by a relevant expert or authority on the motion's topic.
+- Sentence-Level (SL) approach: Argument retrieval that indexes and queries individual sentences of a corpus directly, instead of first retrieving topic-relevant documents and then mining arguments inside them.
+- Retrospective Labeling: An iterative annotation scheme in which a classifier's highest-scoring predictions are manually labeled and added to the training set, enriching the data with positives and with hard negatives near the decision region that matters for top-k precision.
+- MaskS: An input variant in which the topic mention inside a candidate sentence is replaced by a single special token, giving a uniform representation across surface forms and across topics.
+- S+M: An input variant in which the classifier receives both the unmasked candidate sentence and the motion text, so the model judges evidence for an explicit motion rather than an implicit one.
 
 ## Links
 - arXiv: https://arxiv.org/abs/1911.10763
@@ -17,8 +71,7 @@ One of the main tasks in argument mining is the retrieval of argumentative conte
 - Publisher: https://doi.org/10.1609/aaai.v34i05.6270
 
 ## How to cite
-@inproceedings{DBLP:conf/aaai/Ein-DorSDHSGAGC20,
-author       = {Liat Ein{-}Dor and
+@inproceedings{DBLP:conf/aaai/Ein-DorSDHSGAGC20,author       = {Liat Ein{-}Dor and
                   Eyal Shnarch and
                   Lena Dankin and
                   Alon Halfon and

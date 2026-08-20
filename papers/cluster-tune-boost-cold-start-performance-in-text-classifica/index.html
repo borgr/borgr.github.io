@@ -14,7 +14,7 @@
   <meta name="citation_author" content="Ranit Aharonov">
   <meta name="citation_author" content="Noam Slonim">
   <meta name="citation_publication_date" content="2022">
-  <meta name="citation_conference_title" content="Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long…">
+  <meta name="citation_conference_title" content="ACL 2022">
   <meta name="citation_doi" content="10.18653/V1/2022.ACL-LONG.526">
   <meta name="citation_arxiv_id" content="2203.10581">
   <meta name="citation_abstract" content="In real-world scenarios, a text classification task often begins with a cold start, when labeled data is scarce. In such cases, the common practice of fine-tuning pre-trained models, such as BERT, for a target classification task, is prone to produce poor performance. We suggest a method to boost the performance of such models by adding an intermediate unsupervised classification task, between the pre-training and fine-tuning phases. As such an intermediate task, we perform clustering and train the pre-trained model on predicting the cluster labels.We test this hypothesis on various data sets, and show that this additional classification phase can significantly improve performance, mainly for topical classification tasks, when the number of labeled instances available for fine-tuning is only a couple of dozen to a few hundred.">
@@ -60,10 +60,12 @@
   "datePublished": "2022",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long…"
+    "name": "ACL 2022"
   },
   "identifier": "https://doi.org/10.18653/V1/2022.ACL-LONG.526",
   "abstract": "In real-world scenarios, a text classification task often begins with a cold start, when labeled data is scarce. In such cases, the common practice of fine-tuning pre-trained models, such as BERT, for a target classification task, is prone to produce poor performance. We suggest a method to boost the performance of such models by adding an intermediate unsupervised classification task, between the pre-training and fine-tuning phases. As such an intermediate task, we perform clustering and train the pre-trained model on predicting the cluster labels.We test this hypothesis on various data sets, and show that this additional classification phase can significantly improve performance, mainly for topical classification tasks, when the number of labeled instances available for fine-tuning is only a couple of dozen to a few hundred.",
+  "description": "Cluster & Tune inserts an unsupervised intermediate phase between pre-training and fine-tuning: cluster the unlabeled target-domain training data with sequential Information Bottleneck over bag-of-words, then train BERT to predict the cluster label before fine-tuning on the few available labels.",
+  "codeRepository": "https://github.com/IBM/intermediate-training-using-clustering",
   "sameAs": [
     "https://aclanthology.org/2022.acl-long.526/",
     "https://ar5iv.labs.arxiv.org/html/2203.10581",
@@ -71,9 +73,276 @@
     "https://arxiv.org/pdf/2203.10581",
     "https://doi.org/10.18653/V1/2022.ACL-LONG.526",
     "https://doi.org/10.18653/v1/2022.acl-long.526",
+    "https://github.com/IBM/intermediate-training-using-clustering",
+    "https://github.com/IBM/sib",
     "https://huggingface.co/papers/2203.10581",
     "https://www.alphaxiv.org/abs/2203.10581",
     "https://www.semanticscholar.org/paper/247594392"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Inter-training BERT to predict 50 sIB cluster labels raises average accuracy on 6 topical datasets from 26.9% to 49.6% with only 64 labeled fine-tuning examples. That is a 110% relative accuracy gain and a 33% error reduction over plain BERT fine-tuning.",
+      "description": "Holds for: BERT-BASE (110M), 64 fine-tuning examples (128 for 20 newsgroups), 5 repetitions; no dev set, 50 clusters and 1 inter-training epoch fixed for all datasets."
+    },
+    {
+      "@type": "Thing",
+      "name": "On the 3 non-topical datasets (SMS spam, Subjectivity, Polarity) cluster-based inter-training raises average accuracy only from 82.6% to 85.4% at 64 labeled examples, a 3% relative gain. Polarity shows 0% gain, and results stay comparable to plain BERT rather than worse.",
+      "description": "Holds for: Sentiment, subjectivity and spam tasks whose distinction is stylistic rather than topical; BERT-BASE, 64 labeled examples, sIB clustering over stemmed bag-of-words with 50 clusters."
+    },
+    {
+      "@type": "Thing",
+      "name": "The accuracy gain of cluster-based inter-training over plain BERT fine-tuning is statistically significant for labeling budgets up to 512 examples, and not significant beyond 512. Bonferroni-corrected paired-t-test p-values run from 1×10⁻⁶ at 64 samples to 9×10⁻³ at 512.",
+      "description": "Holds for: Paired t-tests pooling all 9 datasets and 5 repetitions per labeling budget; budgets tested from 64 to 1024 examples with BERT-BASE."
+    },
+    {
+      "@type": "Thing",
+      "name": "Clustering as the intermediate task beats continued MLM pre-training on the same target corpus for labeling budgets of 64, 128 and 192 examples, with no significant difference at 256 or above. Bonferroni-corrected p-values are 8×10⁻⁵, 3×10⁻³ and 4×10⁻².",
+      "description": "Holds for: BERT_IT:MLM baseline trained 30 epochs with replication rate 5 on the same unlabeled train set; comparison pools all 9 datasets and 5 repetitions per budget."
+    },
+    {
+      "@type": "Thing",
+      "name": "Running MLM inter-training and then cluster-label inter-training in sequence outperforms either intermediate task alone on topical datasets, showing the two phases are complementary at the cost of added runtime.",
+      "description": "Holds for: Topical datasets, labeling budgets 64-1024, BERT-BASE, sIB clustering over bag-of-words; the paper reports no p-values for this specific pairwise comparison."
+    },
+    {
+      "@type": "Thing",
+      "name": "The benefit of cluster-based inter-training tracks the normalized mutual information between the 50-cluster partition and the target labels. Datasets with NMI near zero show no clear gain, and the 3 datasets with the lowest NMI are exactly those where inter-training did not help.",
+      "description": "Holds for: 9 datasets, NMI computed over the full train set between sIB cluster labels and gold labels, error reduction measured at 64 fine-tuning samples; a correlation across 9 datasets, not a per-dataset predictive rule."
+    },
+    {
+      "@type": "Thing",
+      "name": "sIB clustering over stemmed bag-of-words representations gives better downstream accuracy after inter-training than K-means or Hartigan's K-means over averaged GloVe embeddings on most of the datasets tested.",
+      "description": "Holds for: 50 clusters, 1 inter-training epoch, sIB with 10 restarts and 15 iterations and a 10K-word vocabulary; \"most cases\" rather than all, and no significance test reported for this comparison."
+    },
+    {
+      "@type": "Thing",
+      "name": "The gains of cluster-based inter-training do not come merely from bag-of-words information. Multinomial Naive Bayes and SVM classifiers over BOW or GloVe representations, trained on the same labeled samples, were all inferior to the cluster-inter-trained BERT.",
+      "description": "Holds for: 4 reference settings (NB_BOW, NB_GloVe, SVM_BOW, SVM_GloVe) on the same 9 datasets and the same 5 label samplings per budget."
+    },
+    {
+      "@type": "Thing",
+      "name": "Using the 50 sIB clusters directly as a classifier is generally not on par with cluster-based BERT inter-training, though it is surprisingly effective where NMI is high and the budget small. Each cluster is labeled from a budget-proportional sample and each test example takes its nearest cluster's dominant label.",
+      "description": "Holds for: Heuristic guarantees at least 1 labeled instance per cluster; evaluated on the same 9 datasets and budgets from 64 to 1024."
+    },
+    {
+      "@type": "Thing",
+      "name": "After cluster-label inter-training, BERT's [CLS] embeddings place same-class examples closer together in every dataset tested, measured by a permutation-normalized Euclidean distance to class centroids. t-SNE plots of topical datasets show visibly cleaner class separation.",
+      "description": "Holds for: Embeddings over the full train set, gold labels used only for measurement; normalization uses a permutation test with 1000 repetitions. The visual separation is qualitative and clearest on topical data such as DBpedia, unlike Polarity."
+    },
+    {
+      "@type": "Thing",
+      "name": "The clustering step for the intermediate task takes only a few seconds. The single inter-training epoch takes five and a half minutes for the largest 15K-instance train set on one Tesla V100-PCIE-16GB GPU.",
+      "description": "Holds for: BERT-BASE, batch size 64, max sequence length 128, learning rate 3×10⁻⁵; datasets of 3.9K to 15K training instances."
+    },
+    {
+      "@type": "Thing",
+      "name": "Cluster & Tune introduces unsupervised text clustering as an intermediate training task for cold-start text classification, transferring to NLP the computer-vision practice of using cluster assignments as pseudo-labels for representation learning.",
+      "description": "Holds for: As of publication at ACL 2022; earlier NLP work used clustering mainly for non-transfer purposes. Demonstrated for English single-label text classification with BERT-BASE only."
+    },
+    {
+      "@type": "Thing",
+      "name": "Cluster & Tune requires no additional labeled data and no per-task design, since the pseudo-labels come from clustering the unlabeled target-domain corpus. It is therefore an alternative to supervised intermediate tasks that need labeled data from another task.",
+      "description": "Holds for: Requires an unlabeled corpus of the target domain on the order of several thousand examples; hyperparameters (50 clusters, 1 epoch) were fixed a priori rather than tuned per dataset, and no dev set is assumed."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/#faq",
+  "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/",
+  "name": "Questions answered by Cluster & Tune: Boost Cold Start Performance in Text Classification",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can I improve text classification accuracy when I only have a few dozen labeled examples?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Inter-training BERT to predict 50 sIB cluster labels raises average accuracy on 6 topical datasets from 26.9% to 49.6% with only 64 labeled fine-tuning examples. That is a 110% relative accuracy gain and a 33% error reduction over plain BERT fine-tuning. Holds for: BERT-BASE (110M), 64 fine-tuning examples (128 for 20 newsgroups), 5 repetitions; no dev set, 50 clusters and 1 inter-training epoch fixed for all datasets.\n\nThe accuracy gain of cluster-based inter-training over plain BERT fine-tuning is statistically significant for labeling budgets up to 512 examples, and not significant beyond 512. Bonferroni-corrected paired-t-test p-values run from 1×10⁻⁶ at 64 samples to 9×10⁻³ at 512. Holds for: Paired t-tests pooling all 9 datasets and 5 repetitions per labeling budget; budgets tested from 64 to 1024 examples with BERT-BASE.",
+        "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
+      },
+      "alternateName": [
+        "What helps BERT fine-tuning in a cold-start setting with scarce labels?",
+        "How much does clustering-based inter-training help with 64 labeled examples?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is clustering better than continued MLM pre-training on domain data as an intermediate task?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Clustering as the intermediate task beats continued MLM pre-training on the same target corpus for labeling budgets of 64, 128 and 192 examples, with no significant difference at 256 or above. Bonferroni-corrected p-values are 8×10⁻⁵, 3×10⁻³ and 4×10⁻². Holds for: BERT_IT:MLM baseline trained 30 epochs with replication rate 5 on the same unlabeled train set; comparison pools all 9 datasets and 5 repetitions per budget.\n\nRunning MLM inter-training and then cluster-label inter-training in sequence outperforms either intermediate task alone on topical datasets, showing the two phases are complementary at the cost of added runtime. Holds for: Topical datasets, labeling budgets 64-1024, BERT-BASE, sIB clustering over bag-of-words; the paper reports no p-values for this specific pairwise comparison.",
+        "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
+      },
+      "alternateName": [
+        "Does further pre-training with masked language modeling beat training on cluster labels?",
+        "Should I do domain-adaptive MLM or cluster prediction before fine-tuning BERT?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "When does cluster-based inter-training fail to help text classification?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On the 3 non-topical datasets (SMS spam, Subjectivity, Polarity) cluster-based inter-training raises average accuracy only from 82.6% to 85.4% at 64 labeled examples, a 3% relative gain. Polarity shows 0% gain, and results stay comparable to plain BERT rather than worse. Holds for: Sentiment, subjectivity and spam tasks whose distinction is stylistic rather than topical; BERT-BASE, 64 labeled examples, sIB clustering over stemmed bag-of-words with 50 clusters.\n\nThe benefit of cluster-based inter-training tracks the normalized mutual information between the 50-cluster partition and the target labels. Datasets with NMI near zero show no clear gain, and the 3 datasets with the lowest NMI are exactly those where inter-training did not help. Holds for: 9 datasets, NMI computed over the full train set between sIB cluster labels and gold labels, error reduction measured at 64 fine-tuning samples; a correlation across 9 datasets, not a per-dataset predictive rule.",
+        "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
+      },
+      "alternateName": [
+        "Does Cluster & Tune work for sentiment analysis or spam detection?",
+        "Why does clustering-based pre-finetuning help topical tasks but not stylistic ones?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which clustering algorithm should be used to generate pseudo-labels for intermediate training?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "sIB clustering over stemmed bag-of-words representations gives better downstream accuracy after inter-training than K-means or Hartigan's K-means over averaged GloVe embeddings on most of the datasets tested. Holds for: 50 clusters, 1 inter-training epoch, sIB with 10 restarts and 15 iterations and a 10K-word vocabulary; \"most cases\" rather than all, and no significance test reported for this comparison.",
+        "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
+      },
+      "alternateName": [
+        "Is sequential Information Bottleneck over bag-of-words better than K-means over GloVe for inter-training?",
+        "Does the choice of clustering method matter for BERT_IT:CLUST?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Could a simple bag-of-words classifier match cluster-based BERT inter-training in low-label settings?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The gains of cluster-based inter-training do not come merely from bag-of-words information. Multinomial Naive Bayes and SVM classifiers over BOW or GloVe representations, trained on the same labeled samples, were all inferior to the cluster-inter-trained BERT. Holds for: 4 reference settings (NB_BOW, NB_GloVe, SVM_BOW, SVM_GloVe) on the same 9 datasets and the same 5 label samplings per budget.\n\nUsing the 50 sIB clusters directly as a classifier is generally not on par with cluster-based BERT inter-training, though it is surprisingly effective where NMI is high and the budget small. Each cluster is labeled from a budget-proportional sample and each test example takes its nearest cluster's dominant label. Holds for: Heuristic guarantees at least 1 labeled instance per cluster; evaluated on the same 9 datasets and budgets from 64 to 1024.",
+        "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
+      },
+      "alternateName": [
+        "Do Naive Bayes and SVM baselines explain the gains from clustering-based inter-training?",
+        "Is a nearest-cluster label-propagation classifier as good as inter-trained BERT?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What changes in BERT's sentence embeddings after training on cluster labels?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "After cluster-label inter-training, BERT's [CLS] embeddings place same-class examples closer together in every dataset tested, measured by a permutation-normalized Euclidean distance to class centroids. t-SNE plots of topical datasets show visibly cleaner class separation. Holds for: Embeddings over the full train set, gold labels used only for measurement; normalization uses a permutation test with 1000 repetitions. The visual separation is qualitative and clearest on topical data such as DBpedia, unlike Polarity.",
+        "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
+      },
+      "alternateName": [
+        "Does inter-training on clusters make same-class representations closer together?",
+        "Is there evidence that cluster inter-training gives a better starting point for fine-tuning?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How expensive is it to add a clustering-based intermediate training phase?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The clustering step for the intermediate task takes only a few seconds. The single inter-training epoch takes five and a half minutes for the largest 15K-instance train set on one Tesla V100-PCIE-16GB GPU. Holds for: BERT-BASE, batch size 64, max sequence length 128, learning rate 3×10⁻⁵; datasets of 3.9K to 15K training instances.",
+        "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
+      },
+      "alternateName": [
+        "What is the runtime cost of Cluster & Tune?",
+        "How long does one inter-training epoch over cluster labels take on a single GPU?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about using unsupervised clustering as pseudo-labels for NLP transfer learning?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cluster & Tune introduces unsupervised text clustering as an intermediate training task for cold-start text classification, transferring to NLP the computer-vision practice of using cluster assignments as pseudo-labels for representation learning. Holds for: As of publication at ACL 2022; earlier NLP work used clustering mainly for non-transfer purposes. Demonstrated for English single-label text classification with BERT-BASE only.\n\nCluster & Tune requires no additional labeled data and no per-task design, since the pseudo-labels come from clustering the unlabeled target-domain corpus. It is therefore an alternative to supervised intermediate tasks that need labeled data from another task. Holds for: Requires an unlabeled corpus of the target domain on the order of several thousand examples; hyperparameters (50 clusters, 1 epoch) were fixed a priori rather than tuned per dataset, and no dev set is assumed.",
+        "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
+      },
+      "alternateName": [
+        "Which paper introduced clustering as an intermediate task between pre-training and fine-tuning for text classification?",
+        "Where should I start reading about cold-start text classification with pre-trained language models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Up to what labeling budget does the clustering intermediate phase still pay off?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The accuracy gain of cluster-based inter-training over plain BERT fine-tuning is statistically significant for labeling budgets up to 512 examples, and not significant beyond 512. Bonferroni-corrected paired-t-test p-values run from 1×10⁻⁶ at 64 samples to 9×10⁻³ at 512. Holds for: Paired t-tests pooling all 9 datasets and 5 repetitions per labeling budget; budgets tested from 64 to 1024 examples with BERT-BASE.\n\nInter-training BERT to predict 50 sIB cluster labels raises average accuracy on 6 topical datasets from 26.9% to 49.6% with only 64 labeled fine-tuning examples. That is a 110% relative accuracy gain and a 33% error reduction over plain BERT fine-tuning. Holds for: BERT-BASE (110M), 64 fine-tuning examples (128 for 20 newsgroups), 5 repetitions; no dev set, 50 clusters and 1 inter-training epoch fixed for all datasets.",
+        "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
+      },
+      "alternateName": [
+        "Does the benefit of cluster-based inter-training disappear with more labeled data?",
+        "At how many labeled examples do the gains from cluster pseudo-labels become insignificant?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need extra labeled data from another task to use clustering as an intermediate task?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cluster & Tune requires no additional labeled data and no per-task design, since the pseudo-labels come from clustering the unlabeled target-domain corpus. It is therefore an alternative to supervised intermediate tasks that need labeled data from another task. Holds for: Requires an unlabeled corpus of the target domain on the order of several thousand examples; hyperparameters (50 clusters, 1 epoch) were fixed a priori rather than tuned per dataset, and no dev set is assumed.\n\nThe clustering step for the intermediate task takes only a few seconds. The single inter-training epoch takes five and a half minutes for the largest 15K-instance train set on one Tesla V100-PCIE-16GB GPU. Holds for: BERT-BASE, batch size 64, max sequence length 128, learning rate 3×10⁻⁵; datasets of 3.9K to 15K training instances.",
+        "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
+      },
+      "alternateName": [
+        "What data does Cluster & Tune require beyond the few target-task labels?",
+        "Can the intermediate phase be run without any annotation at all?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/#terms",
+  "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/",
+  "name": "Terminology in Cluster & Tune: Boost Cold Start Performance in Text Classification",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "inter-training",
+      "description": "An intermediate training phase inserted between a model's general pre-training and its supervised fine-tuning, which sees the target-task corpus or domain but none of its labeled instances.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "BERT_IT:CLUST",
+      "description": "BERT inter-trained as a 50-way classifier predicting sequential-Information-Bottleneck cluster assignments of the unlabeled target-domain train set, with the cluster-prediction head discarded before fine-tuning.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "BERT_IT:MLM",
+      "description": "BERT further pre-trained with masked language modeling on the unlabeled target-domain corpus before fine-tuning, also known as adaptive or further pre-training.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "topical dataset",
+      "description": "A classification dataset whose classes reflect a high-level distinction about what a text is about, such as sports versus economics, as opposed to non-topical datasets whose classes turn on style, fine details or negation.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Normalized Embeddings' Distance (NED)",
+      "description": "The average Euclidean distance of instance embeddings from their own class centroid, divided by the expected value of that distance under random permutations of the class labels.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "cold start",
+      "description": "The situation at the beginning of a text classification project in which unlabeled data from the target domain is available but labeled examples number only a couple of dozen to a few hundred.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/#terms"
+    }
   ]
 }
   </script>
@@ -84,6 +353,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -97,13 +367,95 @@
 </head>
 <body>
 <h1>Cluster &amp; Tune: Boost Cold Start Performance in Text Classification</h1>
-<p class="meta">Eyal Shnarch, Ariel Gera, Alon Halfon, Lena Dankin, Leshem Choshen, Ranit Aharonov, Noam Slonim · Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long… · 2022</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2203.10581">arXiv</a></li><li><a href="https://arxiv.org/pdf/2203.10581">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2203.10581">HTML</a></li><li><a href="https://huggingface.co/papers/2203.10581">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2203.10581">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2022.ACL-LONG.526">DOI</a></li><li><a href="https://aclanthology.org/2022.acl-long.526/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/247594392">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2022.acl-long.526">Publisher</a></li></ul>
+<p class="sub">BERT inter-trained to predict unsupervised cluster labels before fine-tuning on scarce labeled data</p>
+<p class="meta">Eyal Shnarch, Ariel Gera, Alon Halfon, Lena Dankin, Leshem Choshen, Ranit Aharonov, Noam Slonim · ACL 2022 · 2022</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2203.10581">arXiv</a></li><li><a href="https://arxiv.org/pdf/2203.10581">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2203.10581">HTML</a></li><li><a href="https://huggingface.co/papers/2203.10581">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2203.10581">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2022.ACL-LONG.526">DOI</a></li><li><a href="https://aclanthology.org/2022.acl-long.526/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/247594392">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2022.acl-long.526">Publisher</a></li><li><a href="https://github.com/IBM/intermediate-training-using-clustering">Code</a></li><li><a href="https://github.com/IBM/sib">sib_implementation</a></li></ul>
+<h2>In one sentence</h2>
+<p>Cluster &amp; Tune inserts an unsupervised intermediate phase between pre-training and fine-tuning: cluster the unlabeled target-domain training data with sequential Information Bottleneck over bag-of-words, then train BERT to predict the cluster label before fine-tuning on the few available labels.</p>
 <h2>Abstract</h2>
 <p>In real-world scenarios, a text classification task often begins with a cold start, when labeled data is scarce. In such cases, the common practice of fine-tuning pre-trained models, such as BERT, for a target classification task, is prone to produce poor performance. We suggest a method to boost the performance of such models by adding an intermediate unsupervised classification task, between the pre-training and fine-tuning phases. As such an intermediate task, we perform clustering and train the pre-trained model on predicting the cluster labels.We test this hypothesis on various data sets, and show that this additional classification phase can significantly improve performance, mainly for topical classification tasks, when the number of labeled instances available for fine-tuning is only a couple of dozen to a few hundred.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How can I improve text classification accuracy when I only have a few dozen labeled examples?</dt>
+<dt>What helps BERT fine-tuning in a cold-start setting with scarce labels?</dt>
+<dt>How much does clustering-based inter-training help with 64 labeled examples?</dt>
+<dd>Inter-training BERT to predict 50 sIB cluster labels raises average accuracy on 6 topical datasets from 26.9% to 49.6% with only 64 labeled fine-tuning examples. That is a 110% relative accuracy gain and a 33% error reduction over plain BERT fine-tuning.<br><span class="scope">Holds for: BERT-BASE (110M), 64 fine-tuning examples (128 for 20 newsgroups), 5 repetitions; no dev set, 50 clusters and 1 inter-training epoch fixed for all datasets.</span></dd>
+<dd>The accuracy gain of cluster-based inter-training over plain BERT fine-tuning is statistically significant for labeling budgets up to 512 examples, and not significant beyond 512. Bonferroni-corrected paired-t-test p-values run from 1×10⁻⁶ at 64 samples to 9×10⁻³ at 512.<br><span class="scope">Holds for: Paired t-tests pooling all 9 datasets and 5 repetitions per labeling budget; budgets tested from 64 to 1024 examples with BERT-BASE.</span></dd>
+<dt>Is clustering better than continued MLM pre-training on domain data as an intermediate task?</dt>
+<dt>Does further pre-training with masked language modeling beat training on cluster labels?</dt>
+<dt>Should I do domain-adaptive MLM or cluster prediction before fine-tuning BERT?</dt>
+<dd>Clustering as the intermediate task beats continued MLM pre-training on the same target corpus for labeling budgets of 64, 128 and 192 examples, with no significant difference at 256 or above. Bonferroni-corrected p-values are 8×10⁻⁵, 3×10⁻³ and 4×10⁻².<br><span class="scope">Holds for: BERT_IT:MLM baseline trained 30 epochs with replication rate 5 on the same unlabeled train set; comparison pools all 9 datasets and 5 repetitions per budget.</span></dd>
+<dd>Running MLM inter-training and then cluster-label inter-training in sequence outperforms either intermediate task alone on topical datasets, showing the two phases are complementary at the cost of added runtime.<br><span class="scope">Holds for: Topical datasets, labeling budgets 64-1024, BERT-BASE, sIB clustering over bag-of-words; the paper reports no p-values for this specific pairwise comparison.</span></dd>
+<dt>When does cluster-based inter-training fail to help text classification?</dt>
+<dt>Does Cluster &amp; Tune work for sentiment analysis or spam detection?</dt>
+<dt>Why does clustering-based pre-finetuning help topical tasks but not stylistic ones?</dt>
+<dd>On the 3 non-topical datasets (SMS spam, Subjectivity, Polarity) cluster-based inter-training raises average accuracy only from 82.6% to 85.4% at 64 labeled examples, a 3% relative gain. Polarity shows 0% gain, and results stay comparable to plain BERT rather than worse.<br><span class="scope">Holds for: Sentiment, subjectivity and spam tasks whose distinction is stylistic rather than topical; BERT-BASE, 64 labeled examples, sIB clustering over stemmed bag-of-words with 50 clusters.</span></dd>
+<dd>The benefit of cluster-based inter-training tracks the normalized mutual information between the 50-cluster partition and the target labels. Datasets with NMI near zero show no clear gain, and the 3 datasets with the lowest NMI are exactly those where inter-training did not help.<br><span class="scope">Holds for: 9 datasets, NMI computed over the full train set between sIB cluster labels and gold labels, error reduction measured at 64 fine-tuning samples; a correlation across 9 datasets, not a per-dataset predictive rule.</span></dd>
+<dt>Which clustering algorithm should be used to generate pseudo-labels for intermediate training?</dt>
+<dt>Is sequential Information Bottleneck over bag-of-words better than K-means over GloVe for inter-training?</dt>
+<dt>Does the choice of clustering method matter for BERT_IT:CLUST?</dt>
+<dd>sIB clustering over stemmed bag-of-words representations gives better downstream accuracy after inter-training than K-means or Hartigan&#x27;s K-means over averaged GloVe embeddings on most of the datasets tested.<br><span class="scope">Holds for: 50 clusters, 1 inter-training epoch, sIB with 10 restarts and 15 iterations and a 10K-word vocabulary; &quot;most cases&quot; rather than all, and no significance test reported for this comparison.</span></dd>
+<dt>Could a simple bag-of-words classifier match cluster-based BERT inter-training in low-label settings?</dt>
+<dt>Do Naive Bayes and SVM baselines explain the gains from clustering-based inter-training?</dt>
+<dt>Is a nearest-cluster label-propagation classifier as good as inter-trained BERT?</dt>
+<dd>The gains of cluster-based inter-training do not come merely from bag-of-words information. Multinomial Naive Bayes and SVM classifiers over BOW or GloVe representations, trained on the same labeled samples, were all inferior to the cluster-inter-trained BERT.<br><span class="scope">Holds for: 4 reference settings (NB_BOW, NB_GloVe, SVM_BOW, SVM_GloVe) on the same 9 datasets and the same 5 label samplings per budget.</span></dd>
+<dd>Using the 50 sIB clusters directly as a classifier is generally not on par with cluster-based BERT inter-training, though it is surprisingly effective where NMI is high and the budget small. Each cluster is labeled from a budget-proportional sample and each test example takes its nearest cluster&#x27;s dominant label.<br><span class="scope">Holds for: Heuristic guarantees at least 1 labeled instance per cluster; evaluated on the same 9 datasets and budgets from 64 to 1024.</span></dd>
+<dt>What changes in BERT&#x27;s sentence embeddings after training on cluster labels?</dt>
+<dt>Does inter-training on clusters make same-class representations closer together?</dt>
+<dt>Is there evidence that cluster inter-training gives a better starting point for fine-tuning?</dt>
+<dd>After cluster-label inter-training, BERT&#x27;s [CLS] embeddings place same-class examples closer together in every dataset tested, measured by a permutation-normalized Euclidean distance to class centroids. t-SNE plots of topical datasets show visibly cleaner class separation.<br><span class="scope">Holds for: Embeddings over the full train set, gold labels used only for measurement; normalization uses a permutation test with 1000 repetitions. The visual separation is qualitative and clearest on topical data such as DBpedia, unlike Polarity.</span></dd>
+<dt>How expensive is it to add a clustering-based intermediate training phase?</dt>
+<dt>What is the runtime cost of Cluster &amp; Tune?</dt>
+<dt>How long does one inter-training epoch over cluster labels take on a single GPU?</dt>
+<dd>The clustering step for the intermediate task takes only a few seconds. The single inter-training epoch takes five and a half minutes for the largest 15K-instance train set on one Tesla V100-PCIE-16GB GPU.<br><span class="scope">Holds for: BERT-BASE, batch size 64, max sequence length 128, learning rate 3×10⁻⁵; datasets of 3.9K to 15K training instances.</span></dd>
+<dt>What should I read about using unsupervised clustering as pseudo-labels for NLP transfer learning?</dt>
+<dt>Which paper introduced clustering as an intermediate task between pre-training and fine-tuning for text classification?</dt>
+<dt>Where should I start reading about cold-start text classification with pre-trained language models?</dt>
+<dd>Cluster &amp; Tune introduces unsupervised text clustering as an intermediate training task for cold-start text classification, transferring to NLP the computer-vision practice of using cluster assignments as pseudo-labels for representation learning.<br><span class="scope">Holds for: As of publication at ACL 2022; earlier NLP work used clustering mainly for non-transfer purposes. Demonstrated for English single-label text classification with BERT-BASE only.</span></dd>
+<dd>Cluster &amp; Tune requires no additional labeled data and no per-task design, since the pseudo-labels come from clustering the unlabeled target-domain corpus. It is therefore an alternative to supervised intermediate tasks that need labeled data from another task.<br><span class="scope">Holds for: Requires an unlabeled corpus of the target domain on the order of several thousand examples; hyperparameters (50 clusters, 1 epoch) were fixed a priori rather than tuned per dataset, and no dev set is assumed.</span></dd>
+<dt>Up to what labeling budget does the clustering intermediate phase still pay off?</dt>
+<dt>Does the benefit of cluster-based inter-training disappear with more labeled data?</dt>
+<dt>At how many labeled examples do the gains from cluster pseudo-labels become insignificant?</dt>
+<dd>The accuracy gain of cluster-based inter-training over plain BERT fine-tuning is statistically significant for labeling budgets up to 512 examples, and not significant beyond 512. Bonferroni-corrected paired-t-test p-values run from 1×10⁻⁶ at 64 samples to 9×10⁻³ at 512.<br><span class="scope">Holds for: Paired t-tests pooling all 9 datasets and 5 repetitions per labeling budget; budgets tested from 64 to 1024 examples with BERT-BASE.</span></dd>
+<dd>Inter-training BERT to predict 50 sIB cluster labels raises average accuracy on 6 topical datasets from 26.9% to 49.6% with only 64 labeled fine-tuning examples. That is a 110% relative accuracy gain and a 33% error reduction over plain BERT fine-tuning.<br><span class="scope">Holds for: BERT-BASE (110M), 64 fine-tuning examples (128 for 20 newsgroups), 5 repetitions; no dev set, 50 clusters and 1 inter-training epoch fixed for all datasets.</span></dd>
+<dt>Do I need extra labeled data from another task to use clustering as an intermediate task?</dt>
+<dt>What data does Cluster &amp; Tune require beyond the few target-task labels?</dt>
+<dt>Can the intermediate phase be run without any annotation at all?</dt>
+<dd>Cluster &amp; Tune requires no additional labeled data and no per-task design, since the pseudo-labels come from clustering the unlabeled target-domain corpus. It is therefore an alternative to supervised intermediate tasks that need labeled data from another task.<br><span class="scope">Holds for: Requires an unlabeled corpus of the target domain on the order of several thousand examples; hyperparameters (50 clusters, 1 epoch) were fixed a priori rather than tuned per dataset, and no dev set is assumed.</span></dd>
+<dd>The clustering step for the intermediate task takes only a few seconds. The single inter-training epoch takes five and a half minutes for the largest 15K-instance train set on one Tesla V100-PCIE-16GB GPU.<br><span class="scope">Holds for: BERT-BASE, batch size 64, max sequence length 128, learning rate 3×10⁻⁵; datasets of 3.9K to 15K training instances.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Inter-training BERT to predict 50 sIB cluster labels raises average accuracy on 6 topical datasets from 26.9% to 49.6% with only 64 labeled fine-tuning examples. That is a 110% relative accuracy gain and a 33% error reduction over plain BERT fine-tuning. <span class="meta">(Table 2)</span><br><span class="scope">Scope: BERT-BASE (110M), 64 fine-tuning examples (128 for 20 newsgroups), 5 repetitions; no dev set, 50 clusters and 1 inter-training epoch fixed for all datasets.</span></li>
+<li>On the 3 non-topical datasets (SMS spam, Subjectivity, Polarity) cluster-based inter-training raises average accuracy only from 82.6% to 85.4% at 64 labeled examples, a 3% relative gain. Polarity shows 0% gain, and results stay comparable to plain BERT rather than worse. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Sentiment, subjectivity and spam tasks whose distinction is stylistic rather than topical; BERT-BASE, 64 labeled examples, sIB clustering over stemmed bag-of-words with 50 clusters.</span></li>
+<li>The accuracy gain of cluster-based inter-training over plain BERT fine-tuning is statistically significant for labeling budgets up to 512 examples, and not significant beyond 512. Bonferroni-corrected paired-t-test p-values run from 1×10⁻⁶ at 64 samples to 9×10⁻³ at 512. <span class="meta">(Table 3)</span><br><span class="scope">Scope: Paired t-tests pooling all 9 datasets and 5 repetitions per labeling budget; budgets tested from 64 to 1024 examples with BERT-BASE.</span></li>
+<li>Clustering as the intermediate task beats continued MLM pre-training on the same target corpus for labeling budgets of 64, 128 and 192 examples, with no significant difference at 256 or above. Bonferroni-corrected p-values are 8×10⁻⁵, 3×10⁻³ and 4×10⁻². <span class="meta">(Table 3)</span><br><span class="scope">Scope: BERT_IT:MLM baseline trained 30 epochs with replication rate 5 on the same unlabeled train set; comparison pools all 9 datasets and 5 repetitions per budget.</span></li>
+<li>Running MLM inter-training and then cluster-label inter-training in sequence outperforms either intermediate task alone on topical datasets, showing the two phases are complementary at the cost of added runtime. <span class="meta">(Figure 2)</span><br><span class="scope">Scope: Topical datasets, labeling budgets 64-1024, BERT-BASE, sIB clustering over bag-of-words; the paper reports no p-values for this specific pairwise comparison.</span></li>
+<li>The benefit of cluster-based inter-training tracks the normalized mutual information between the 50-cluster partition and the target labels. Datasets with NMI near zero show no clear gain, and the 3 datasets with the lowest NMI are exactly those where inter-training did not help. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: 9 datasets, NMI computed over the full train set between sIB cluster labels and gold labels, error reduction measured at 64 fine-tuning samples; a correlation across 9 datasets, not a per-dataset predictive rule.</span></li>
+<li>sIB clustering over stemmed bag-of-words representations gives better downstream accuracy after inter-training than K-means or Hartigan&#x27;s K-means over averaged GloVe embeddings on most of the datasets tested. <span class="meta">(Figure 6, Appendix C)</span><br><span class="scope">Scope: 50 clusters, 1 inter-training epoch, sIB with 10 restarts and 15 iterations and a 10K-word vocabulary; &quot;most cases&quot; rather than all, and no significance test reported for this comparison.</span></li>
+<li>The gains of cluster-based inter-training do not come merely from bag-of-words information. Multinomial Naive Bayes and SVM classifiers over BOW or GloVe representations, trained on the same labeled samples, were all inferior to the cluster-inter-trained BERT. <span class="meta">(Figure 5, Appendix B)</span><br><span class="scope">Scope: 4 reference settings (NB_BOW, NB_GloVe, SVM_BOW, SVM_GloVe) on the same 9 datasets and the same 5 label samplings per budget.</span></li>
+<li>Using the 50 sIB clusters directly as a classifier is generally not on par with cluster-based BERT inter-training, though it is surprisingly effective where NMI is high and the budget small. Each cluster is labeled from a budget-proportional sample and each test example takes its nearest cluster&#x27;s dominant label. <span class="meta">(Figure 5, Appendix B)</span><br><span class="scope">Scope: Heuristic guarantees at least 1 labeled instance per cluster; evaluated on the same 9 datasets and budgets from 64 to 1024.</span></li>
+<li>After cluster-label inter-training, BERT&#x27;s [CLS] embeddings place same-class examples closer together in every dataset tested, measured by a permutation-normalized Euclidean distance to class centroids. t-SNE plots of topical datasets show visibly cleaner class separation. <span class="meta">(Figure 3, Section 5.3)</span><br><span class="scope">Scope: Embeddings over the full train set, gold labels used only for measurement; normalization uses a permutation test with 1000 repetitions. The visual separation is qualitative and clearest on topical data such as DBpedia, unlike Polarity.</span></li>
+<li>The clustering step for the intermediate task takes only a few seconds. The single inter-training epoch takes five and a half minutes for the largest 15K-instance train set on one Tesla V100-PCIE-16GB GPU. <span class="meta">(Section 3.2)</span><br><span class="scope">Scope: BERT-BASE, batch size 64, max sequence length 128, learning rate 3×10⁻⁵; datasets of 3.9K to 15K training instances.</span></li>
+<li>Cluster &amp; Tune introduces unsupervised text clustering as an intermediate training task for cold-start text classification, transferring to NLP the computer-vision practice of using cluster assignments as pseudo-labels for representation learning. <span class="meta">(Section 6)</span><br><span class="scope">Scope: As of publication at ACL 2022; earlier NLP work used clustering mainly for non-transfer purposes. Demonstrated for English single-label text classification with BERT-BASE only.</span></li>
+<li>Cluster &amp; Tune requires no additional labeled data and no per-task design, since the pseudo-labels come from clustering the unlabeled target-domain corpus. It is therefore an alternative to supervised intermediate tasks that need labeled data from another task. <span class="meta">(Section 2)</span><br><span class="scope">Scope: Requires an unlabeled corpus of the target domain on the order of several thousand examples; hyperparameters (50 clusters, 1 epoch) were fixed a priori rather than tuned per dataset, and no dev set is assumed.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>Cluster-based inter-training is not a general accuracy boost for text classification: on non-topical tasks such as Polarity, Subjectivity and SMS spam the average relative gain at 64 labels is 3%, and the advantage over plain BERT fine-tuning is not statistically significant above 512 labeled examples.</li>
+<li>The number of clusters is not meant to match the number of target classes: setting it equal to the number of classes gave inferior accuracy, and 50 clusters was used for all 9 datasets regardless of their 2 to 20 classes.</li>
+<li>Cluster &amp; Tune is not a label-free classifier. The clustering phase produces pseudo-labels for inter-training only, and a final supervised fine-tuning phase on real target-task labels is still required.</li>
+<li>The method does not replace continued MLM pre-training. Running MLM inter-training first and cluster inter-training second outperformed either one alone on topical datasets.</li>
+<li>The clustering pseudo-labels are not tailored to the target task; they are generated independently of it, so no knowledge of the target label set is assumed when producing them.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>inter-training</em></dt><dd>An intermediate training phase inserted between a model&#x27;s general pre-training and its supervised fine-tuning, which sees the target-task corpus or domain but none of its labeled instances.</dd>
+<dt><em>BERT_IT:CLUST</em></dt><dd>BERT inter-trained as a 50-way classifier predicting sequential-Information-Bottleneck cluster assignments of the unlabeled target-domain train set, with the cluster-prediction head discarded before fine-tuning.</dd>
+<dt><em>BERT_IT:MLM</em></dt><dd>BERT further pre-trained with masked language modeling on the unlabeled target-domain corpus before fine-tuning, also known as adaptive or further pre-training.</dd>
+<dt><em>topical dataset</em></dt><dd>A classification dataset whose classes reflect a high-level distinction about what a text is about, such as sports versus economics, as opposed to non-topical datasets whose classes turn on style, fine details or negation.</dd>
+<dt><em>Normalized Embeddings&#x27; Distance (NED)</em></dt><dd>The average Euclidean distance of instance embeddings from their own class centroid, divided by the expected value of that distance under random permutations of the class labels.</dd>
+<dt><em>cold start</em></dt><dd>The situation at the beginning of a text classification project in which unlabeled data from the target domain is available but labeled examples number only a couple of dozen to a few hundred.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/acl/ShnarchGHDCAS22,
-author       = {Eyal Shnarch and
+<pre>@inproceedings{DBLP:conf/acl/ShnarchGHDCAS22,author       = {Eyal Shnarch and
                   Ariel Gera and
                   Alon Halfon and
                   Lena Dankin and

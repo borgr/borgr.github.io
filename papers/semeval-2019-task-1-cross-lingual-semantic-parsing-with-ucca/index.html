@@ -13,7 +13,7 @@
   <meta name="citation_author" content="Ari Rappoport">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2019">
-  <meta name="citation_conference_title" content="Proceedings of the 13th International Workshop on Semantic Evaluation, SemEval@NAACL-HLT 2019, Minneapolis…">
+  <meta name="citation_conference_title" content="SemEval 2019">
   <meta name="citation_doi" content="10.18653/V1/S19-2001">
   <meta name="citation_arxiv_id" content="1903.02953">
   <meta name="citation_abstract" content="We present the SemEval 2019 shared task on Universal Conceptual Cognitive Annotation (UCCA) parsing in English, German and French, and discuss the participating systems and results. UCCA is a cross-linguistically applicable framework for semantic representation, which builds on extensive typological work and supports rapid annotation. UCCA poses a challenge for existing parsing techniques, as it exhibits reentrancy (resulting in DAG structures), discontinuous structures and non-terminal nodes corresponding to complex semantic units. The shared task has yielded improvements over the state-of-the-art baseline in all languages and settings. Full results can be found in the task’s website https://competitions.codalab.org/competitions/19160.">
@@ -55,10 +55,11 @@
   "datePublished": "2019",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 13th International Workshop on Semantic Evaluation, SemEval@NAACL-HLT 2019, Minneapolis…"
+    "name": "SemEval 2019"
   },
   "identifier": "https://doi.org/10.18653/V1/S19-2001",
   "abstract": "We present the SemEval 2019 shared task on Universal Conceptual Cognitive Annotation (UCCA) parsing in English, German and French, and discuss the participating systems and results. UCCA is a cross-linguistically applicable framework for semantic representation, which builds on extensive typological work and supports rapid annotation. UCCA poses a challenge for existing parsing techniques, as it exhibits reentrancy (resulting in DAG structures), discontinuous structures and non-terminal nodes corresponding to complex semantic units. The shared task has yielded improvements over the state-of-the-art baseline in all languages and settings. Full results can be found in the task’s website https://competitions.codalab.org/competitions/19160.",
+  "description": "SemEval-2019 Task 1 is a shared task on parsing text into UCCA semantic graphs in English, German and French, with 8 submitted systems, a French track containing only 15 training sentences, and the TUPA transition-based parser as baseline.",
   "sameAs": [
     "https://aclanthology.org/S19-2001/",
     "https://ar5iv.labs.arxiv.org/html/1903.02953",
@@ -69,6 +70,256 @@
     "https://huggingface.co/papers/1903.02953",
     "https://www.alphaxiv.org/abs/1903.02953",
     "https://www.semanticscholar.org/paper/71145584"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "On the English-Wiki in-domain track of SemEval-2019 Task 1, HLT@SUDA reached 77.4 labeled F1 over all edges in the closed track and 80.5 in the open track. The TUPA baseline scored 72.8 and 73.5 in those tracks.",
+      "description": "Holds for: Labeled F1 over primary and remote edges together, English Wikipedia UCCA corpus test set; the open-track score uses BERT, which the closed track disallowed."
+    },
+    {
+      "@type": "Thing",
+      "name": "German-20K UCCA parsing reached 83.2 labeled F1 in the closed track and 84.9 in the open track (HLT@SUDA), above the TUPA baseline's 73.1 and 79.1.",
+      "description": "Holds for: German Twenty Thousand Leagues corpus, 5,211 training sentences; open track allowed any external resource."
+    },
+    {
+      "@type": "Thing",
+      "name": "With only 15 annotated French training sentences, the best system in the French-20K track reached 75.2 labeled F1, versus 48.7 for the TUPA baseline (HLT@SUDA, second place; CUNY-PekingU ranked first).",
+      "description": "Holds for: French Twenty Thousand Leagues corpus, open track only; English and German UCCA annotation, multilingual embeddings and unannotated English-French parallel text were permitted."
+    },
+    {
+      "@type": "Thing",
+      "name": "At least one submitted system beat the TUPA baseline in every one of the 7 competitions of SemEval-2019 Task 1, spanning English in-domain, English out-of-domain, German and French settings.",
+      "description": "Holds for: 4 settings times 2 tracks minus the French closed track; CUNY-PekingU was disqualified from the open tracks after using evaluation data in training."
+    },
+    {
+      "@type": "Thing",
+      "name": "Moving from in-domain English Wikipedia to out-of-domain 20K Leagues text costs the best UCCA parser about 4 to 5 labeled F1. HLT@SUDA scores 72.7 closed and 76.7 open on English-20K, versus 77.4 and 80.5 on English-Wiki.",
+      "description": "Holds for: Both settings train on English Wikipedia UCCA; the out-of-domain test set is 492 sentences of literary prose."
+    },
+    {
+      "@type": "Thing",
+      "name": "Remote edges in UCCA remain far harder to parse than primary edges. The best English-Wiki closed-track system scores 52.2 labeled F1 on remote edges against 77.9 on primary edges.",
+      "description": "Holds for: English Wikipedia closed track; several submitted systems (DANGNT@UIT.VNU-HCM, GCN-Sem, UC Davis) produced no remote edges at all and score 0 there."
+    },
+    {
+      "@type": "Thing",
+      "name": "Across all tracks of SemEval-2019 Task 1, Relator edges were the easiest UCCA category to parse and Ground edges the hardest. The best labeled F1 reaches 93 on Relators, while several systems score 0 on Ground.",
+      "description": "Holds for: Per-category labeled F1 for the 8 submitted systems plus the TUPA baseline; Ground is 0.03% to 0.57% of edges in the corpora."
+    },
+    {
+      "@type": "Thing",
+      "name": "The winning HLT@SUDA system's largest per-category advantage was on Parallel Scene and Linker edges, indicating that identifying Scene boundaries separated it most from the other UCCA parsers.",
+      "description": "Holds for: Per-category labeled F1 comparison across tracks; HLT@SUDA converts UCCA graphs to constituency trees and uses BERT in the open tracks."
+    },
+    {
+      "@type": "Thing",
+      "name": "The top-scoring approach in 6 of the 7 tracks of SemEval-2019 Task 1 converted UCCA graphs into constituency trees rather than parsing the DAG directly with a transition system. Remote and discontinuous edges were recovered by classification in a multi-task framework.",
+      "description": "Holds for: HLT@SUDA took first place in the 6 English and German tracks and second in the French open track, where CUNY-PekingU's TUPA ensemble ranked first."
+    },
+    {
+      "@type": "Thing",
+      "name": "The UCCA corpora used in SemEval-2019 Task 1 are sparse in the structures that make parsing hard: remote edges are 2.60% to 3.21% of all edges. Discontinuous non-terminals range from 1.71% in English-Wiki to 8.87% in German-20K, and reentrant non-terminals from 0.31% to 1.84%.",
+      "description": "Holds for: English-Wiki, English-20K, French-20K and German-20K corpora, UCCA foundational layer only, with Time and Quantifier labels replaced by Adverbial and Elaborator."
+    },
+    {
+      "@type": "Thing",
+      "name": "SemEval-2019 Task 1 established a public multilingual benchmark for UCCA semantic parsing. It released the English Wikipedia and English, French and German Twenty Thousand Leagues corpora, an official evaluation script, and a cross-lingual low-resource French track.",
+      "description": "Holds for: UCCA foundational layer only, the only layer with annotated corpora as of 2019; English, German and French; before the task TUPA was the only available UCCA parser."
+    },
+    {
+      "@type": "Thing",
+      "name": "SemEval-2019 Task 1 provides evidence that cross-lingual transfer is an effective route to UCCA parsing in languages with almost no annotation, exploiting UCCA's tendency to be preserved under translation. The task is a starting point for work on low-resource semantic parsing.",
+      "description": "Holds for: Demonstrated for French with 15 training sentences and helped German as well; the source languages were English and German, and the target corpus was a translation of the same book, so results may not extend to typologically distant languages or unrelated domains."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/#faq",
+  "url": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/",
+  "name": "Questions answered by SemEval-2019 Task 1: Cross-lingual Semantic Parsing with UCCA",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a good benchmark for multilingual semantic parsing into graph representations?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SemEval-2019 Task 1 established a public multilingual benchmark for UCCA semantic parsing. It released the English Wikipedia and English, French and German Twenty Thousand Leagues corpora, an official evaluation script, and a cross-lingual low-resource French track. Holds for: UCCA foundational layer only, the only layer with annotated corpora as of 2019; English, German and French; before the task TUPA was the only available UCCA parser.\n\nSemEval-2019 Task 1 provides evidence that cross-lingual transfer is an effective route to UCCA parsing in languages with almost no annotation, exploiting UCCA's tendency to be preserved under translation. The task is a starting point for work on low-resource semantic parsing. Holds for: Demonstrated for French with 15 training sentences and helped German as well; the source languages were English and German, and the target corpus was a translation of the same book, so results may not extend to typologically distant languages or unrelated domains.",
+        "url": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/"
+      },
+      "alternateName": [
+        "Where should I start reading about UCCA parsing?",
+        "Which shared task evaluated cross-lingual UCCA semantic parsing?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How well can parsers produce UCCA graphs for English?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On the English-Wiki in-domain track of SemEval-2019 Task 1, HLT@SUDA reached 77.4 labeled F1 over all edges in the closed track and 80.5 in the open track. The TUPA baseline scored 72.8 and 73.5 in those tracks. Holds for: Labeled F1 over primary and remote edges together, English Wikipedia UCCA corpus test set; the open-track score uses BERT, which the closed track disallowed.\n\nAt least one submitted system beat the TUPA baseline in every one of the 7 competitions of SemEval-2019 Task 1, spanning English in-domain, English out-of-domain, German and French settings. Holds for: 4 settings times 2 tracks minus the French closed track; CUNY-PekingU was disqualified from the open tracks after using evaluation data in training.",
+        "url": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/"
+      },
+      "alternateName": [
+        "What were the best English UCCA parsing scores in SemEval-2019 Task 1?",
+        "How much did submitted systems beat the TUPA baseline on English Wikipedia?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can you parse semantics in a language with almost no annotated training data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "With only 15 annotated French training sentences, the best system in the French-20K track reached 75.2 labeled F1, versus 48.7 for the TUPA baseline (HLT@SUDA, second place; CUNY-PekingU ranked first). Holds for: French Twenty Thousand Leagues corpus, open track only; English and German UCCA annotation, multilingual embeddings and unannotated English-French parallel text were permitted.\n\nSemEval-2019 Task 1 provides evidence that cross-lingual transfer is an effective route to UCCA parsing in languages with almost no annotation, exploiting UCCA's tendency to be preserved under translation. The task is a starting point for work on low-resource semantic parsing. Holds for: Demonstrated for French with 15 training sentences and helped German as well; the source languages were English and German, and the target corpus was a translation of the same book, so results may not extend to typologically distant languages or unrelated domains.",
+        "url": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/"
+      },
+      "alternateName": [
+        "How well did French UCCA parsing work with only 15 training sentences?",
+        "Does cross-lingual transfer help low-resource semantic parsing?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much does out-of-domain text hurt UCCA parsers?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Moving from in-domain English Wikipedia to out-of-domain 20K Leagues text costs the best UCCA parser about 4 to 5 labeled F1. HLT@SUDA scores 72.7 closed and 76.7 open on English-20K, versus 77.4 and 80.5 on English-Wiki. Holds for: Both settings train on English Wikipedia UCCA; the out-of-domain test set is 492 sentences of literary prose.",
+        "url": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/"
+      },
+      "alternateName": [
+        "What is the in-domain versus out-of-domain gap for English UCCA parsing?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why are reentrancies and DAG structures hard for semantic parsers?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Remote edges in UCCA remain far harder to parse than primary edges. The best English-Wiki closed-track system scores 52.2 labeled F1 on remote edges against 77.9 on primary edges. Holds for: English Wikipedia closed track; several submitted systems (DANGNT@UIT.VNU-HCM, GCN-Sem, UC Davis) produced no remote edges at all and score 0 there.\n\nThe UCCA corpora used in SemEval-2019 Task 1 are sparse in the structures that make parsing hard: remote edges are 2.60% to 3.21% of all edges. Discontinuous non-terminals range from 1.71% in English-Wiki to 8.87% in German-20K, and reentrant non-terminals from 0.31% to 1.84%. Holds for: English-Wiki, English-20K, French-20K and German-20K corpora, UCCA foundational layer only, with Time and Quantifier labels replaced by Adverbial and Elaborator.",
+        "url": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/"
+      },
+      "alternateName": [
+        "How well do UCCA parsers handle remote edges?",
+        "Did any SemEval-2019 Task 1 systems simply skip remote edges?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which UCCA semantic categories are hardest to predict?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Across all tracks of SemEval-2019 Task 1, Relator edges were the easiest UCCA category to parse and Ground edges the hardest. The best labeled F1 reaches 93 on Relators, while several systems score 0 on Ground. Holds for: Per-category labeled F1 for the 8 submitted systems plus the TUPA baseline; Ground is 0.03% to 0.57% of edges in the corpora.",
+        "url": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/"
+      },
+      "alternateName": [
+        "What did per-category F1 in SemEval-2019 Task 1 show about Ground and Relator edges?",
+        "Is the Process versus State distinction hard for parsers?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What parsing architecture won SemEval-2019 Task 1?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The top-scoring approach in 6 of the 7 tracks of SemEval-2019 Task 1 converted UCCA graphs into constituency trees rather than parsing the DAG directly with a transition system. Remote and discontinuous edges were recovered by classification in a multi-task framework. Holds for: HLT@SUDA took first place in the 6 English and German tracks and second in the French open track, where CUNY-PekingU's TUPA ensemble ranked first.\n\nThe winning HLT@SUDA system's largest per-category advantage was on Parallel Scene and Linker edges, indicating that identifying Scene boundaries separated it most from the other UCCA parsers. Holds for: Per-category labeled F1 comparison across tracks; HLT@SUDA converts UCCA graphs to constituency trees and uses BERT in the open tracks.",
+        "url": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/"
+      },
+      "alternateName": [
+        "Is it better to convert semantic graphs to constituency trees than to parse them directly?",
+        "What did the HLT@SUDA UCCA parser do differently from the other systems?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How large are the UCCA annotated corpora, and how frequent are discontinuous and reentrant structures?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The UCCA corpora used in SemEval-2019 Task 1 are sparse in the structures that make parsing hard: remote edges are 2.60% to 3.21% of all edges. Discontinuous non-terminals range from 1.71% in English-Wiki to 8.87% in German-20K, and reentrant non-terminals from 0.31% to 1.84%. Holds for: English-Wiki, English-20K, French-20K and German-20K corpora, UCCA foundational layer only, with Time and Quantifier labels replaced by Adverbial and Elaborator.\n\nGerman-20K UCCA parsing reached 83.2 labeled F1 in the closed track and 84.9 in the open track (HLT@SUDA), above the TUPA baseline's 73.1 and 79.1. Holds for: German Twenty Thousand Leagues corpus, 5,211 training sentences; open track allowed any external resource.",
+        "url": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/"
+      },
+      "alternateName": [
+        "What fraction of UCCA edges are remote?",
+        "How much German UCCA training data was available for SemEval-2019 Task 1?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between the open and closed tracks in SemEval-2019 Task 1?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On the English-Wiki in-domain track of SemEval-2019 Task 1, HLT@SUDA reached 77.4 labeled F1 over all edges in the closed track and 80.5 in the open track. The TUPA baseline scored 72.8 and 73.5 in those tracks. Holds for: Labeled F1 over primary and remote edges together, English Wikipedia UCCA corpus test set; the open-track score uses BERT, which the closed track disallowed.\n\nGerman-20K UCCA parsing reached 83.2 labeled F1 in the closed track and 84.9 in the open track (HLT@SUDA), above the TUPA baseline's 73.1 and 79.1. Holds for: German Twenty Thousand Leagues corpus, 5,211 training sentences; open track allowed any external resource.",
+        "url": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/"
+      },
+      "alternateName": [
+        "Which external resources were UCCA parsers allowed to use?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/#terms",
+  "url": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/",
+  "name": "Terminology in SemEval-2019 Task 1: Cross-lingual Semantic Parsing with UCCA",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "UCCA",
+      "description": "Universal Conceptual Cognitive Annotation, a cross-linguistically applicable semantic representation scheme that encodes utterances as directed acyclic graphs whose terminals are tokens and whose non-terminals are semantic units.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Scene",
+      "description": "In UCCA, the basic unit of analysis: a state, action, movement or other relation evolving in time, containing one main relation marked Process or State plus one or more Participants.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "remote edge",
+      "description": "In UCCA, an edge that lets a unit participate in more than one super-ordinate relation, creating reentrancy and turning the otherwise tree-shaped annotation into a directed acyclic graph.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "closed track",
+      "description": "A SemEval-2019 Task 1 submission setting restricted to the distributed gold UCCA annotation in the target language plus spaCy automatic annotations and fastText embeddings.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "open track",
+      "description": "A SemEval-2019 Task 1 submission setting permitting any additional resource, including UCCA annotation in other languages and pretrained models such as BERT or ELMo, provided no extra gold annotation of the same text is used.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "TUPA",
+      "description": "A transition-based DAG parser with a BiLSTM classifier, the only UCCA parser available when SemEval-2019 Task 1 was announced and its official baseline.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "cross-lingual parsing",
+      "description": "In SemEval-2019 Task 1, parsing text in one language into a meaning representation using annotated resources from other languages, as opposed to producing a representation whose labels are in another language.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-task-1-cross-lingual-semantic-parsing-with-ucca/#terms"
+    }
   ]
 }
   </script>
@@ -79,6 +330,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -92,13 +344,89 @@
 </head>
 <body>
 <h1>SemEval-2019 Task 1: Cross-lingual Semantic Parsing with UCCA</h1>
-<p class="meta">Daniel Hershcovich, Zohar Aizenbud, Leshem Choshen, Elior Sulem, Ari Rappoport, Omri Abend · Proceedings of the 13th International Workshop on Semantic Evaluation, SemEval@NAACL-HLT 2019, Minneapolis… · 2019</p>
+<p class="meta">Daniel Hershcovich, Zohar Aizenbud, Leshem Choshen, Elior Sulem, Ari Rappoport, Omri Abend · SemEval 2019 · 2019</p>
 <ul class="links"><li><a href="https://arxiv.org/abs/1903.02953">arXiv</a></li><li><a href="https://arxiv.org/pdf/1903.02953">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/1903.02953">HTML</a></li><li><a href="https://huggingface.co/papers/1903.02953">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/1903.02953">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/S19-2001">DOI</a></li><li><a href="https://aclanthology.org/S19-2001/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/71145584">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/s19-2001">Publisher</a></li></ul>
+<h2>In one sentence</h2>
+<p>SemEval-2019 Task 1 is a shared task on parsing text into UCCA semantic graphs in English, German and French, with 8 submitted systems, a French track containing only 15 training sentences, and the TUPA transition-based parser as baseline.</p>
 <h2>Abstract</h2>
 <p>We present the SemEval 2019 shared task on Universal Conceptual Cognitive Annotation (UCCA) parsing in English, German and French, and discuss the participating systems and results. UCCA is a cross-linguistically applicable framework for semantic representation, which builds on extensive typological work and supports rapid annotation. UCCA poses a challenge for existing parsing techniques, as it exhibits reentrancy (resulting in DAG structures), discontinuous structures and non-terminal nodes corresponding to complex semantic units. The shared task has yielded improvements over the state-of-the-art baseline in all languages and settings. Full results can be found in the task’s website https://competitions.codalab.org/competitions/19160.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What is a good benchmark for multilingual semantic parsing into graph representations?</dt>
+<dt>Where should I start reading about UCCA parsing?</dt>
+<dt>Which shared task evaluated cross-lingual UCCA semantic parsing?</dt>
+<dd>SemEval-2019 Task 1 established a public multilingual benchmark for UCCA semantic parsing. It released the English Wikipedia and English, French and German Twenty Thousand Leagues corpora, an official evaluation script, and a cross-lingual low-resource French track.<br><span class="scope">Holds for: UCCA foundational layer only, the only layer with annotated corpora as of 2019; English, German and French; before the task TUPA was the only available UCCA parser.</span></dd>
+<dd>SemEval-2019 Task 1 provides evidence that cross-lingual transfer is an effective route to UCCA parsing in languages with almost no annotation, exploiting UCCA&#x27;s tendency to be preserved under translation. The task is a starting point for work on low-resource semantic parsing.<br><span class="scope">Holds for: Demonstrated for French with 15 training sentences and helped German as well; the source languages were English and German, and the target corpus was a translation of the same book, so results may not extend to typologically distant languages or unrelated domains.</span></dd>
+<dt>How well can parsers produce UCCA graphs for English?</dt>
+<dt>What were the best English UCCA parsing scores in SemEval-2019 Task 1?</dt>
+<dt>How much did submitted systems beat the TUPA baseline on English Wikipedia?</dt>
+<dd>On the English-Wiki in-domain track of SemEval-2019 Task 1, HLT@SUDA reached 77.4 labeled F1 over all edges in the closed track and 80.5 in the open track. The TUPA baseline scored 72.8 and 73.5 in those tracks.<br><span class="scope">Holds for: Labeled F1 over primary and remote edges together, English Wikipedia UCCA corpus test set; the open-track score uses BERT, which the closed track disallowed.</span></dd>
+<dd>At least one submitted system beat the TUPA baseline in every one of the 7 competitions of SemEval-2019 Task 1, spanning English in-domain, English out-of-domain, German and French settings.<br><span class="scope">Holds for: 4 settings times 2 tracks minus the French closed track; CUNY-PekingU was disqualified from the open tracks after using evaluation data in training.</span></dd>
+<dt>Can you parse semantics in a language with almost no annotated training data?</dt>
+<dt>How well did French UCCA parsing work with only 15 training sentences?</dt>
+<dt>Does cross-lingual transfer help low-resource semantic parsing?</dt>
+<dd>With only 15 annotated French training sentences, the best system in the French-20K track reached 75.2 labeled F1, versus 48.7 for the TUPA baseline (HLT@SUDA, second place; CUNY-PekingU ranked first).<br><span class="scope">Holds for: French Twenty Thousand Leagues corpus, open track only; English and German UCCA annotation, multilingual embeddings and unannotated English-French parallel text were permitted.</span></dd>
+<dd>SemEval-2019 Task 1 provides evidence that cross-lingual transfer is an effective route to UCCA parsing in languages with almost no annotation, exploiting UCCA&#x27;s tendency to be preserved under translation. The task is a starting point for work on low-resource semantic parsing.<br><span class="scope">Holds for: Demonstrated for French with 15 training sentences and helped German as well; the source languages were English and German, and the target corpus was a translation of the same book, so results may not extend to typologically distant languages or unrelated domains.</span></dd>
+<dt>How much does out-of-domain text hurt UCCA parsers?</dt>
+<dt>What is the in-domain versus out-of-domain gap for English UCCA parsing?</dt>
+<dd>Moving from in-domain English Wikipedia to out-of-domain 20K Leagues text costs the best UCCA parser about 4 to 5 labeled F1. HLT@SUDA scores 72.7 closed and 76.7 open on English-20K, versus 77.4 and 80.5 on English-Wiki.<br><span class="scope">Holds for: Both settings train on English Wikipedia UCCA; the out-of-domain test set is 492 sentences of literary prose.</span></dd>
+<dt>Why are reentrancies and DAG structures hard for semantic parsers?</dt>
+<dt>How well do UCCA parsers handle remote edges?</dt>
+<dt>Did any SemEval-2019 Task 1 systems simply skip remote edges?</dt>
+<dd>Remote edges in UCCA remain far harder to parse than primary edges. The best English-Wiki closed-track system scores 52.2 labeled F1 on remote edges against 77.9 on primary edges.<br><span class="scope">Holds for: English Wikipedia closed track; several submitted systems (DANGNT@UIT.VNU-HCM, GCN-Sem, UC Davis) produced no remote edges at all and score 0 there.</span></dd>
+<dd>The UCCA corpora used in SemEval-2019 Task 1 are sparse in the structures that make parsing hard: remote edges are 2.60% to 3.21% of all edges. Discontinuous non-terminals range from 1.71% in English-Wiki to 8.87% in German-20K, and reentrant non-terminals from 0.31% to 1.84%.<br><span class="scope">Holds for: English-Wiki, English-20K, French-20K and German-20K corpora, UCCA foundational layer only, with Time and Quantifier labels replaced by Adverbial and Elaborator.</span></dd>
+<dt>Which UCCA semantic categories are hardest to predict?</dt>
+<dt>What did per-category F1 in SemEval-2019 Task 1 show about Ground and Relator edges?</dt>
+<dt>Is the Process versus State distinction hard for parsers?</dt>
+<dd>Across all tracks of SemEval-2019 Task 1, Relator edges were the easiest UCCA category to parse and Ground edges the hardest. The best labeled F1 reaches 93 on Relators, while several systems score 0 on Ground.<br><span class="scope">Holds for: Per-category labeled F1 for the 8 submitted systems plus the TUPA baseline; Ground is 0.03% to 0.57% of edges in the corpora.</span></dd>
+<dt>What parsing architecture won SemEval-2019 Task 1?</dt>
+<dt>Is it better to convert semantic graphs to constituency trees than to parse them directly?</dt>
+<dt>What did the HLT@SUDA UCCA parser do differently from the other systems?</dt>
+<dd>The top-scoring approach in 6 of the 7 tracks of SemEval-2019 Task 1 converted UCCA graphs into constituency trees rather than parsing the DAG directly with a transition system. Remote and discontinuous edges were recovered by classification in a multi-task framework.<br><span class="scope">Holds for: HLT@SUDA took first place in the 6 English and German tracks and second in the French open track, where CUNY-PekingU&#x27;s TUPA ensemble ranked first.</span></dd>
+<dd>The winning HLT@SUDA system&#x27;s largest per-category advantage was on Parallel Scene and Linker edges, indicating that identifying Scene boundaries separated it most from the other UCCA parsers.<br><span class="scope">Holds for: Per-category labeled F1 comparison across tracks; HLT@SUDA converts UCCA graphs to constituency trees and uses BERT in the open tracks.</span></dd>
+<dt>How large are the UCCA annotated corpora, and how frequent are discontinuous and reentrant structures?</dt>
+<dt>What fraction of UCCA edges are remote?</dt>
+<dt>How much German UCCA training data was available for SemEval-2019 Task 1?</dt>
+<dd>The UCCA corpora used in SemEval-2019 Task 1 are sparse in the structures that make parsing hard: remote edges are 2.60% to 3.21% of all edges. Discontinuous non-terminals range from 1.71% in English-Wiki to 8.87% in German-20K, and reentrant non-terminals from 0.31% to 1.84%.<br><span class="scope">Holds for: English-Wiki, English-20K, French-20K and German-20K corpora, UCCA foundational layer only, with Time and Quantifier labels replaced by Adverbial and Elaborator.</span></dd>
+<dd>German-20K UCCA parsing reached 83.2 labeled F1 in the closed track and 84.9 in the open track (HLT@SUDA), above the TUPA baseline&#x27;s 73.1 and 79.1.<br><span class="scope">Holds for: German Twenty Thousand Leagues corpus, 5,211 training sentences; open track allowed any external resource.</span></dd>
+<dt>What is the difference between the open and closed tracks in SemEval-2019 Task 1?</dt>
+<dt>Which external resources were UCCA parsers allowed to use?</dt>
+<dd>On the English-Wiki in-domain track of SemEval-2019 Task 1, HLT@SUDA reached 77.4 labeled F1 over all edges in the closed track and 80.5 in the open track. The TUPA baseline scored 72.8 and 73.5 in those tracks.<br><span class="scope">Holds for: Labeled F1 over primary and remote edges together, English Wikipedia UCCA corpus test set; the open-track score uses BERT, which the closed track disallowed.</span></dd>
+<dd>German-20K UCCA parsing reached 83.2 labeled F1 in the closed track and 84.9 in the open track (HLT@SUDA), above the TUPA baseline&#x27;s 73.1 and 79.1.<br><span class="scope">Holds for: German Twenty Thousand Leagues corpus, 5,211 training sentences; open track allowed any external resource.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>On the English-Wiki in-domain track of SemEval-2019 Task 1, HLT@SUDA reached 77.4 labeled F1 over all edges in the closed track and 80.5 in the open track. The TUPA baseline scored 72.8 and 73.5 in those tracks. <span class="meta">(Table 4)</span><br><span class="scope">Scope: Labeled F1 over primary and remote edges together, English Wikipedia UCCA corpus test set; the open-track score uses BERT, which the closed track disallowed.</span></li>
+<li>German-20K UCCA parsing reached 83.2 labeled F1 in the closed track and 84.9 in the open track (HLT@SUDA), above the TUPA baseline&#x27;s 73.1 and 79.1. <span class="meta">(Table 4)</span><br><span class="scope">Scope: German Twenty Thousand Leagues corpus, 5,211 training sentences; open track allowed any external resource.</span></li>
+<li>With only 15 annotated French training sentences, the best system in the French-20K track reached 75.2 labeled F1, versus 48.7 for the TUPA baseline (HLT@SUDA, second place; CUNY-PekingU ranked first). <span class="meta">(Table 4)</span><br><span class="scope">Scope: French Twenty Thousand Leagues corpus, open track only; English and German UCCA annotation, multilingual embeddings and unannotated English-French parallel text were permitted.</span></li>
+<li>At least one submitted system beat the TUPA baseline in every one of the 7 competitions of SemEval-2019 Task 1, spanning English in-domain, English out-of-domain, German and French settings. <span class="meta">(Table 4)</span><br><span class="scope">Scope: 4 settings times 2 tracks minus the French closed track; CUNY-PekingU was disqualified from the open tracks after using evaluation data in training.</span></li>
+<li>Moving from in-domain English Wikipedia to out-of-domain 20K Leagues text costs the best UCCA parser about 4 to 5 labeled F1. HLT@SUDA scores 72.7 closed and 76.7 open on English-20K, versus 77.4 and 80.5 on English-Wiki. <span class="meta">(Table 4)</span><br><span class="scope">Scope: Both settings train on English Wikipedia UCCA; the out-of-domain test set is 492 sentences of literary prose.</span></li>
+<li>Remote edges in UCCA remain far harder to parse than primary edges. The best English-Wiki closed-track system scores 52.2 labeled F1 on remote edges against 77.9 on primary edges. <span class="meta">(Table 4)</span><br><span class="scope">Scope: English Wikipedia closed track; several submitted systems (DANGNT@UIT.VNU-HCM, GCN-Sem, UC Davis) produced no remote edges at all and score 0 there.</span></li>
+<li>Across all tracks of SemEval-2019 Task 1, Relator edges were the easiest UCCA category to parse and Ground edges the hardest. The best labeled F1 reaches 93 on Relators, while several systems score 0 on Ground. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: Per-category labeled F1 for the 8 submitted systems plus the TUPA baseline; Ground is 0.03% to 0.57% of edges in the corpora.</span></li>
+<li>The winning HLT@SUDA system&#x27;s largest per-category advantage was on Parallel Scene and Linker edges, indicating that identifying Scene boundaries separated it most from the other UCCA parsers. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: Per-category labeled F1 comparison across tracks; HLT@SUDA converts UCCA graphs to constituency trees and uses BERT in the open tracks.</span></li>
+<li>The top-scoring approach in 6 of the 7 tracks of SemEval-2019 Task 1 converted UCCA graphs into constituency trees rather than parsing the DAG directly with a transition system. Remote and discontinuous edges were recovered by classification in a multi-task framework. <span class="meta">(Table 4)</span><br><span class="scope">Scope: HLT@SUDA took first place in the 6 English and German tracks and second in the French open track, where CUNY-PekingU&#x27;s TUPA ensemble ranked first.</span></li>
+<li>The UCCA corpora used in SemEval-2019 Task 1 are sparse in the structures that make parsing hard: remote edges are 2.60% to 3.21% of all edges. Discontinuous non-terminals range from 1.71% in English-Wiki to 8.87% in German-20K, and reentrant non-terminals from 0.31% to 1.84%. <span class="meta">(Table 3)</span><br><span class="scope">Scope: English-Wiki, English-20K, French-20K and German-20K corpora, UCCA foundational layer only, with Time and Quantifier labels replaced by Adverbial and Elaborator.</span></li>
+<li>SemEval-2019 Task 1 established a public multilingual benchmark for UCCA semantic parsing. It released the English Wikipedia and English, French and German Twenty Thousand Leagues corpora, an official evaluation script, and a cross-lingual low-resource French track.<br><span class="scope">Scope: UCCA foundational layer only, the only layer with annotated corpora as of 2019; English, German and French; before the task TUPA was the only available UCCA parser.</span></li>
+<li>SemEval-2019 Task 1 provides evidence that cross-lingual transfer is an effective route to UCCA parsing in languages with almost no annotation, exploiting UCCA&#x27;s tendency to be preserved under translation. The task is a starting point for work on low-resource semantic parsing.<br><span class="scope">Scope: Demonstrated for French with 15 training sentences and helped German as well; the source languages were English and German, and the target corpus was a translation of the same book, so results may not extend to typologically distant languages or unrelated domains.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The 75.2 labeled F1 on French does not mean a parser learned UCCA from 15 sentences alone: the French track was open-only, and the winning systems used English and German UCCA annotation, multilingual embeddings, and the parallel English-French text.</li>
+<li>The high German scores are not evidence that German is easier than English; the German-20K setting has 5,211 in-domain training sentences and is evaluated on the same literary corpus, whereas the comparable English out-of-domain setting trains on Wikipedia.</li>
+<li>A system reporting 0 remote-edge F1 in Table 4 did not fail at reentrancy detection; DANGNT@UIT.VNU-HCM and GCN-Sem deliberately ignored remote edges and never produce them.</li>
+<li>CUNY-PekingU&#x27;s first place in the French open track stands, but its open-track results in other tracks were disqualified after it was discovered that some evaluation data had been used for training.</li>
+<li>SemEval-2019 Task 1 covers only UCCA&#x27;s foundational layer, not the full multi-layer scheme; it was the only layer with annotated corpora at the time.</li>
+<li>GCN-Sem&#x27;s relatively low official scores should not be read as the model failing at semantic parsing, since its scores on the UCCA test sets converted to bi-lexical CoNLL-U were rather high, implicating the lossy conversion.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>UCCA</em></dt><dd>Universal Conceptual Cognitive Annotation, a cross-linguistically applicable semantic representation scheme that encodes utterances as directed acyclic graphs whose terminals are tokens and whose non-terminals are semantic units.</dd>
+<dt><em>Scene</em></dt><dd>In UCCA, the basic unit of analysis: a state, action, movement or other relation evolving in time, containing one main relation marked Process or State plus one or more Participants.</dd>
+<dt><em>remote edge</em></dt><dd>In UCCA, an edge that lets a unit participate in more than one super-ordinate relation, creating reentrancy and turning the otherwise tree-shaped annotation into a directed acyclic graph.</dd>
+<dt><em>closed track</em></dt><dd>A SemEval-2019 Task 1 submission setting restricted to the distributed gold UCCA annotation in the target language plus spaCy automatic annotations and fastText embeddings.</dd>
+<dt><em>open track</em></dt><dd>A SemEval-2019 Task 1 submission setting permitting any additional resource, including UCCA annotation in other languages and pretrained models such as BERT or ELMo, provided no extra gold annotation of the same text is used.</dd>
+<dt><em>TUPA</em></dt><dd>A transition-based DAG parser with a BiLSTM classifier, the only UCCA parser available when SemEval-2019 Task 1 was announced and its official baseline.</dd>
+<dt><em>cross-lingual parsing</em></dt><dd>In SemEval-2019 Task 1, parsing text in one language into a meaning representation using annotated resources from other languages, as opposed to producing a representation whose labels are in another language.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/semeval/HershcovichACSR19,
-author       = {Daniel Hershcovich and
+<pre>@inproceedings{DBLP:conf/semeval/HershcovichACSR19,author       = {Daniel Hershcovich and
                   Zohar Aizenbud and
                   Leshem Choshen and
                   Elior Sulem and

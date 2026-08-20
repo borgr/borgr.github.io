@@ -16,7 +16,7 @@
   <meta name="citation_author" content="Michal Shmueli-Scheuer">
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_publication_date" content="2024">
-  <meta name="citation_conference_title" content="Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational…">
+  <meta name="citation_conference_title" content="NAACL 2024">
   <meta name="citation_doi" content="10.18653/V1/2024.NAACL-LONG.139">
   <meta name="citation_arxiv_id" content="2308.11696">
   <meta name="citation_abstract" content="The increasing versatility of language models (LMs) has given rise to a new class of benchmarks that comprehensively assess a broad range of capabilities. Such benchmarks are associated with massive computational costs, extending to thousands of GPU hours per model. However, the efficiency aspect of these evaluation efforts had raised little discussion in the literature.In this work, we present the problem of Efficient Benchmarking, namely, intelligently reducing the computation costs of LM evaluation without compromising reliability. Using the HELM benchmark as a test case, we investigate how different benchmark design choices affect the computation-reliability trade-off. We propose to evaluate the reliability of such decisions, by using a new measure – Decision Impact on Reliability, DIoR for short.We find, for example, that a benchmark leader may change by merely removing a low-ranked model from the benchmark, and observe that a correct benchmark ranking can be obtained by considering only a fraction of the evaluation examples.Based on our findings, we outline a set of concrete recommendations for efficient benchmark design and utilization practices. To take a step further, we use our findings to propose an evaluation algorithm, that, when applied to the HELM benchmark, leads to dramatic cost savings with minimal loss of benchmark reliability, often reducing computation by x100 or more.">
@@ -70,20 +70,269 @@
   "datePublished": "2024",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational…"
+    "name": "NAACL 2024"
   },
   "identifier": "https://doi.org/10.18653/V1/2024.NAACL-LONG.139",
   "abstract": "The increasing versatility of language models (LMs) has given rise to a new class of benchmarks that comprehensively assess a broad range of capabilities. Such benchmarks are associated with massive computational costs, extending to thousands of GPU hours per model. However, the efficiency aspect of these evaluation efforts had raised little discussion in the literature.In this work, we present the problem of Efficient Benchmarking, namely, intelligently reducing the computation costs of LM evaluation without compromising reliability. Using the HELM benchmark as a test case, we investigate how different benchmark design choices affect the computation-reliability trade-off. We propose to evaluate the reliability of such decisions, by using a new measure – Decision Impact on Reliability, DIoR for short.We find, for example, that a benchmark leader may change by merely removing a low-ranked model from the benchmark, and observe that a correct benchmark ranking can be obtained by considering only a fraction of the evaluation examples.Based on our findings, we outline a set of concrete recommendations for efficient benchmark design and utilization practices. To take a step further, we use our findings to propose an evaluation algorithm, that, when applied to the HELM benchmark, leads to dramatic cost savings with minimal loss of benchmark reliability, often reducing computation by x100 or more.",
+  "description": "Efficient Benchmarking treats the compute cost of LM evaluation as a design variable, measures how each benchmark design choice affects ranking stability with a new Decision Impact on Reliability (DIoR) measure, and shows that on HELM most compute can be cut by dropping examples rather than datasets.",
   "sameAs": [
     "https://aclanthology.org/2024.naacl-long.139/",
     "https://arxiv.org/abs/2308.11696",
     "https://arxiv.org/html/2308.11696",
     "https://arxiv.org/pdf/2308.11696",
+    "https://crfm-helm.readthedocs.io/en/latest/get_helm_rank/",
+    "https://crfm.stanford.edu/helm/v0.2.2/?group=core_scenarios",
     "https://doi.org/10.18653/V1/2024.NAACL-LONG.139",
     "https://doi.org/10.18653/v1/2024.naacl-long.139",
     "https://huggingface.co/papers/2308.11696",
     "https://www.alphaxiv.org/abs/2308.11696",
     "https://www.semanticscholar.org/paper/261076362"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Efficient Benchmarking names the problem of cutting the computation cost of language-model evaluation without losing reliability. It argues that benchmark design choices should be judged by their measured effect on reliability rather than by intuition.",
+      "description": "Holds for: Framing introduced in 2024; the accompanying empirical study covers only the HELM benchmark, and other benchmarks and decisions such as prompt templates were left to future work."
+    },
+    {
+      "@type": "Thing",
+      "name": "DIoR (Decision Impact on Reliability) scores a benchmark design decision by the reliability of the rankings it produces. The score is the lower bound of a bootstrap 95% confidence interval on a similarity meta-metric between rankings from alternative instantiations of the decision.",
+      "description": "Holds for: Requires a distribution of plausible alternative instantiations of the decision, such as resampled datasets or examples, and a meta-metric such as Kendall tau."
+    },
+    {
+      "@type": "Thing",
+      "name": "On HELM, the choice of evaluation examples is highly reliable while the choice of the 16 scenarios and 40 subscenarios supports only low reliability. Cutting compute by dropping examples is therefore sound, and dropping datasets is not.",
+      "description": "Holds for: 37 models on HELM v0.2.2 over 16 core scenarios, 40 subscenarios and 65K examples; reliability estimated by bootstrap resampling 1K times, assuming other equally valid dataset choices exist."
+    },
+    {
+      "@type": "Thing",
+      "name": "HELM model ranks stay nearly identical when the number of examples per scenario is reduced 10x, and a 400x reduction still clusters models into the same small groups seen at full compute.",
+      "description": "Holds for: 37 models on HELM v0.2.2, ranking by Mean Win Rate over 16 core scenarios; concerns rank groups rather than exact rank of any single model."
+    },
+    {
+      "@type": "Thing",
+      "name": "With a bare minimum of HELM examples models already collapse into equivalence classes of about 2-5 models. A few hundred examples reach separation into groups of roughly 2, the finest resolution the full benchmark ever achieves.",
+      "description": "Holds for: 37 models on HELM v0.2.2; per-model rank error ranges from 6 to 2 ranks (Figure 6), so adjacent-rank distinctions remain unreliable even at full compute."
+    },
+    {
+      "@type": "Thing",
+      "name": "Distinguishing HELM models three ranks apart to an average error rate under 5% needs only 1/4 of the benchmark's computation. For clusters of 10 or 20 adjacent models a hundredth of the cost or less suffices, while clusters of size 2 switch places even with all examples.",
+      "description": "Holds for: 37 models on HELM v0.2.2; error rate is the probability that the first and last model of a rank cluster switch places under a different random choice of examples, averaged over 1K iterations and over the top 5 models as the top model."
+    },
+    {
+      "@type": "Thing",
+      "name": "Identifying the single best model on HELM is unreliable even at full compute, while the full-ranking and model-quality objectives are reliable. Claims about which model is top should therefore not be drawn from HELM's bottom-line score.",
+      "description": "Holds for: 37 models on HELM v0.2.2 with the best-model meta-metric defined as the probability of a rank switch between the top two models, repeated 5 times each time removing the current top model."
+    },
+    {
+      "@type": "Thing",
+      "name": "Treating each HELM subscenario as a standalone scenario cuts the error rate between top pairs of models from 22% to 14%. Aggregating the 40 subscenarios into 16 scenarios therefore costs reliability.",
+      "description": "Holds for: 37 models on HELM v0.2.2 with Mean Win Rate aggregation; Kendall tau correlations between subscenario rankings are no higher within a scenario than across scenarios."
+    },
+    {
+      "@type": "Thing",
+      "name": "Sampling a different few-shot prompt for each evaluated HELM example raises reliability over running every example against all 3 prompt sets. Under the uniform scheme more than half of the compute can be saved at no cost to reliability.",
+      "description": "Holds for: Fixed budget of 3K inference calls on HELM subscenarios that varied their in-context examples; only 3 prompt sets were available, so the effect is likely underestimated and no bootstrap over prompts was possible."
+    },
+    {
+      "@type": "Thing",
+      "name": "HELM's Mean Win Rate aggregation lets a benchmark leader change when a low-ranked model is added. The top two models, davinci2 and Cohere XXL, switch places depending only on whether Cohere Medium is included in the comparison.",
+      "description": "Holds for: HELM v0.2.2 scores with Mean Win Rate as the bottom-line metric; follows from the comparative nature of win-rate aggregation, and applies to any benchmark that releases several similar sizes of a model."
+    },
+    {
+      "@type": "Thing",
+      "name": "Flash-HELM reproduces HELM ranks within the required rank resolution while reducing computation by up to 200x. It assigns each rank tier a required resolution and escalates sub-sample size from 20 through 1000 examples only as needed.",
+      "description": "Holds for: Evaluated on the 7 models newly introduced in HELM v0.2.3; tier resolutions were fitted on the 37 models of HELM v0.2.2, and the reference is HELM's reported ranks rather than a true ranking."
+    },
+    {
+      "@type": "Thing",
+      "name": "Evaluating a single model on the HELM benchmark can cost $10K or more than 4K GPU hours, which is why the compute side of benchmark design is worth studying at all.",
+      "description": "Holds for: Cost reported for HELM by Liang et al. (2022) and cited as of 2023-2024; shifts with hardware and inference pricing."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/#faq",
+  "url": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/",
+  "name": "Questions answered by Efficient Benchmarking (of Language Models)",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can I make language model benchmark evaluation cheaper without making it unreliable?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Efficient Benchmarking names the problem of cutting the computation cost of language-model evaluation without losing reliability. It argues that benchmark design choices should be judged by their measured effect on reliability rather than by intuition. Holds for: Framing introduced in 2024; the accompanying empirical study covers only the HELM benchmark, and other benchmarks and decisions such as prompt templates were left to future work.\n\nEvaluating a single model on the HELM benchmark can cost $10K or more than 4K GPU hours, which is why the compute side of benchmark design is worth studying at all. Holds for: Cost reported for HELM by Liang et al. (2022) and cited as of 2023-2024; shifts with hardware and inference pricing.",
+        "url": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/"
+      },
+      "alternateName": [
+        "What is efficient benchmarking of language models?",
+        "Is there research on the compute cost of running LM benchmarks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Should I cut compute on a benchmark by using fewer datasets or fewer examples?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On HELM, the choice of evaluation examples is highly reliable while the choice of the 16 scenarios and 40 subscenarios supports only low reliability. Cutting compute by dropping examples is therefore sound, and dropping datasets is not. Holds for: 37 models on HELM v0.2.2 over 16 core scenarios, 40 subscenarios and 65K examples; reliability estimated by bootstrap resampling 1K times, assuming other equally valid dataset choices exist.\n\nHELM model ranks stay nearly identical when the number of examples per scenario is reduced 10x, and a 400x reduction still clusters models into the same small groups seen at full compute. Holds for: 37 models on HELM v0.2.2, ranking by Mean Win Rate over 16 core scenarios; concerns rank groups rather than exact rank of any single model.",
+        "url": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/"
+      },
+      "alternateName": [
+        "Is dropping tasks a good way to shrink an evaluation suite?",
+        "Which is safer to reduce in HELM, scenarios or examples?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many evaluation examples do I actually need to rank language models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "HELM model ranks stay nearly identical when the number of examples per scenario is reduced 10x, and a 400x reduction still clusters models into the same small groups seen at full compute. Holds for: 37 models on HELM v0.2.2, ranking by Mean Win Rate over 16 core scenarios; concerns rank groups rather than exact rank of any single model.\n\nDistinguishing HELM models three ranks apart to an average error rate under 5% needs only 1/4 of the benchmark's computation. For clusters of 10 or 20 adjacent models a hundredth of the cost or less suffices, while clusters of size 2 switch places even with all examples. Holds for: 37 models on HELM v0.2.2; error rate is the probability that the first and last model of a rank cluster switch places under a different random choice of examples, averaged over 1K iterations and over the top 5 models as the top model.\n\nWith a bare minimum of HELM examples models already collapse into equivalence classes of about 2-5 models. A few hundred examples reach separation into groups of roughly 2, the finest resolution the full benchmark ever achieves. Holds for: 37 models on HELM v0.2.2; per-model rank error ranges from 6 to 2 ranks (Figure 6), so adjacent-rank distinctions remain unreliable even at full compute.",
+        "url": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/"
+      },
+      "alternateName": [
+        "Do HELM model rankings change if only a small sample of evaluation examples is used?",
+        "How much can HELM compute be reduced before ranks move?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can a benchmark reliably tell which language model is best?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Identifying the single best model on HELM is unreliable even at full compute, while the full-ranking and model-quality objectives are reliable. Claims about which model is top should therefore not be drawn from HELM's bottom-line score. Holds for: 37 models on HELM v0.2.2 with the best-model meta-metric defined as the probability of a rank switch between the top two models, repeated 5 times each time removing the current top model.\n\nWith a bare minimum of HELM examples models already collapse into equivalence classes of about 2-5 models. A few hundred examples reach separation into groups of roughly 2, the finest resolution the full benchmark ever achieves. Holds for: 37 models on HELM v0.2.2; per-model rank error ranges from 6 to 2 ranks (Figure 6), so adjacent-rank distinctions remain unreliable even at full compute.",
+        "url": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/"
+      },
+      "alternateName": [
+        "Is the top of the HELM leaderboard trustworthy?",
+        "Are small rank differences between LMs on a benchmark meaningful?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How do you measure whether a benchmark design decision is reliable?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DIoR (Decision Impact on Reliability) scores a benchmark design decision by the reliability of the rankings it produces. The score is the lower bound of a bootstrap 95% confidence interval on a similarity meta-metric between rankings from alternative instantiations of the decision. Holds for: Requires a distribution of plausible alternative instantiations of the decision, such as resampled datasets or examples, and a meta-metric such as Kendall tau.",
+        "url": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/"
+      },
+      "alternateName": [
+        "What does DIoR measure and how is it computed?",
+        "Is there a statistic for benchmark reliability like p-values are for significance?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is it bad to group datasets into task categories when aggregating benchmark scores?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Treating each HELM subscenario as a standalone scenario cuts the error rate between top pairs of models from 22% to 14%. Aggregating the 40 subscenarios into 16 scenarios therefore costs reliability. Holds for: 37 models on HELM v0.2.2 with Mean Win Rate aggregation; Kendall tau correlations between subscenario rankings are no higher within a scenario than across scenarios.",
+        "url": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/"
+      },
+      "alternateName": [
+        "Does aggregating subscenarios into scenarios hurt reliability?",
+        "Should benchmark scores be averaged over task groups or over individual datasets?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is the best way to spend a fixed inference budget across few-shot prompts and examples?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sampling a different few-shot prompt for each evaluated HELM example raises reliability over running every example against all 3 prompt sets. Under the uniform scheme more than half of the compute can be saved at no cost to reliability. Holds for: Fixed budget of 3K inference calls on HELM subscenarios that varied their in-context examples; only 3 prompt sets were available, so the effect is likely underestimated and no bootstrap over prompts was possible.",
+        "url": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/"
+      },
+      "alternateName": [
+        "Should each example be run with every prompt, or should prompts be sampled per example?",
+        "How should prompt variation be sampled in a benchmark?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can mean win rate leaderboards be gamed by submitting extra weak models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "HELM's Mean Win Rate aggregation lets a benchmark leader change when a low-ranked model is added. The top two models, davinci2 and Cohere XXL, switch places depending only on whether Cohere Medium is included in the comparison. Holds for: HELM v0.2.2 scores with Mean Win Rate as the bottom-line metric; follows from the comparative nature of win-rate aggregation, and applies to any benchmark that releases several similar sizes of a model.",
+        "url": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/"
+      },
+      "alternateName": [
+        "Does adding a low-ranked model change who leads a benchmark?",
+        "What are the problems with win-rate aggregation in LM benchmarks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is Flash-HELM and how much compute does it save?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Flash-HELM reproduces HELM ranks within the required rank resolution while reducing computation by up to 200x. It assigns each rank tier a required resolution and escalates sub-sample size from 20 through 1000 examples only as needed. Holds for: Evaluated on the 7 models newly introduced in HELM v0.2.3; tier resolutions were fitted on the 37 models of HELM v0.2.2, and the reference is HELM's reported ranks rather than a true ranking.",
+        "url": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/"
+      },
+      "alternateName": [
+        "Is there a cheap version of HELM that still gives correct ranks?",
+        "How can a new model be ranked against a leaderboard without running the full benchmark?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/#terms",
+  "url": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/",
+  "name": "Terminology in Efficient Benchmarking (of Language Models)",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "DIoR",
+      "description": "Decision Impact on Reliability: the lower bound of a 95% confidence interval on a similarity meta-metric between benchmark outcomes computed under randomly resampled instantiations of a design decision, such as which datasets or examples are used.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Reliability (of a benchmark)",
+      "description": "The degree to which a benchmark's answer stays consistent under different equally valid random decisions about its composition, as distinct from validity, which is whether the benchmark answers the intended question.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Scenario / subscenario (HELM)",
+      "description": "In HELM, a subscenario is an individual dataset with its own scoring function and few-shot prompts, and a scenario is a group of subscenarios weighted together as one unit in the bottom-line score.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Mean Win Rate (MWR)",
+      "description": "A Borda-count-style benchmark score that averages, over scenarios, the fraction of other evaluated models a given model beats, rather than reporting an absolute task score.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Rank resolution",
+      "description": "The number of ranking positions within which a model's benchmark rank can be trusted, used to set how large an evaluation sub-sample a model in a given rank tier requires.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Objective (of a benchmark)",
+      "description": "The specific question a benchmark is meant to answer, such as obtaining a full model ranking, identifying the best model, or measuring absolute model quality, each of which has its own reliability requirements.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/efficient-benchmarking-of-language-models/#terms"
+    }
   ]
 }
   </script>
@@ -94,6 +343,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -107,13 +357,88 @@
 </head>
 <body>
 <h1>Efficient Benchmarking (of Language Models)</h1>
-<p class="meta">Yotam Perlitz, Elron Bandel, Ariel Gera, Ofir Arviv, Liat Ein-Dor, Eyal Shnarch, Noam Slonim, Michal Shmueli-Scheuer, Leshem Choshen · Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational… · 2024</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2308.11696">arXiv</a></li><li><a href="https://arxiv.org/pdf/2308.11696">PDF</a></li><li><a href="https://arxiv.org/html/2308.11696">HTML</a></li><li><a href="https://huggingface.co/papers/2308.11696">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2308.11696">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2024.NAACL-LONG.139">DOI</a></li><li><a href="https://aclanthology.org/2024.naacl-long.139/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/261076362">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2024.naacl-long.139">Publisher</a></li></ul>
+<p class="sub">a cheap tier-based version of the HELM benchmark that spends more compute only on models near the top of the ranking</p>
+<p class="meta">Yotam Perlitz, Elron Bandel, Ariel Gera, Ofir Arviv, Liat Ein-Dor, Eyal Shnarch, Noam Slonim, Michal Shmueli-Scheuer, Leshem Choshen · NAACL 2024 · 2024</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2308.11696">arXiv</a></li><li><a href="https://arxiv.org/pdf/2308.11696">PDF</a></li><li><a href="https://arxiv.org/html/2308.11696">HTML</a></li><li><a href="https://huggingface.co/papers/2308.11696">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2308.11696">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2024.NAACL-LONG.139">DOI</a></li><li><a href="https://aclanthology.org/2024.naacl-long.139/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/261076362">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2024.naacl-long.139">Publisher</a></li><li><a href="https://crfm-helm.readthedocs.io/en/latest/get_helm_rank/">helm-rank-docs</a></li><li><a href="https://crfm.stanford.edu/helm/v0.2.2/?group=core_scenarios">helm-v022-results</a></li></ul>
+<h2>In one sentence</h2>
+<p>Efficient Benchmarking treats the compute cost of LM evaluation as a design variable, measures how each benchmark design choice affects ranking stability with a new Decision Impact on Reliability (DIoR) measure, and shows that on HELM most compute can be cut by dropping examples rather than datasets.</p>
 <h2>Abstract</h2>
 <p>The increasing versatility of language models (LMs) has given rise to a new class of benchmarks that comprehensively assess a broad range of capabilities. Such benchmarks are associated with massive computational costs, extending to thousands of GPU hours per model. However, the efficiency aspect of these evaluation efforts had raised little discussion in the literature.In this work, we present the problem of Efficient Benchmarking, namely, intelligently reducing the computation costs of LM evaluation without compromising reliability. Using the HELM benchmark as a test case, we investigate how different benchmark design choices affect the computation-reliability trade-off. We propose to evaluate the reliability of such decisions, by using a new measure – Decision Impact on Reliability, DIoR for short.We find, for example, that a benchmark leader may change by merely removing a low-ranked model from the benchmark, and observe that a correct benchmark ranking can be obtained by considering only a fraction of the evaluation examples.Based on our findings, we outline a set of concrete recommendations for efficient benchmark design and utilization practices. To take a step further, we use our findings to propose an evaluation algorithm, that, when applied to the HELM benchmark, leads to dramatic cost savings with minimal loss of benchmark reliability, often reducing computation by x100 or more.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How can I make language model benchmark evaluation cheaper without making it unreliable?</dt>
+<dt>What is efficient benchmarking of language models?</dt>
+<dt>Is there research on the compute cost of running LM benchmarks?</dt>
+<dd>Efficient Benchmarking names the problem of cutting the computation cost of language-model evaluation without losing reliability. It argues that benchmark design choices should be judged by their measured effect on reliability rather than by intuition.<br><span class="scope">Holds for: Framing introduced in 2024; the accompanying empirical study covers only the HELM benchmark, and other benchmarks and decisions such as prompt templates were left to future work.</span></dd>
+<dd>Evaluating a single model on the HELM benchmark can cost $10K or more than 4K GPU hours, which is why the compute side of benchmark design is worth studying at all.<br><span class="scope">Holds for: Cost reported for HELM by Liang et al. (2022) and cited as of 2023-2024; shifts with hardware and inference pricing.</span></dd>
+<dt>Should I cut compute on a benchmark by using fewer datasets or fewer examples?</dt>
+<dt>Is dropping tasks a good way to shrink an evaluation suite?</dt>
+<dt>Which is safer to reduce in HELM, scenarios or examples?</dt>
+<dd>On HELM, the choice of evaluation examples is highly reliable while the choice of the 16 scenarios and 40 subscenarios supports only low reliability. Cutting compute by dropping examples is therefore sound, and dropping datasets is not.<br><span class="scope">Holds for: 37 models on HELM v0.2.2 over 16 core scenarios, 40 subscenarios and 65K examples; reliability estimated by bootstrap resampling 1K times, assuming other equally valid dataset choices exist.</span></dd>
+<dd>HELM model ranks stay nearly identical when the number of examples per scenario is reduced 10x, and a 400x reduction still clusters models into the same small groups seen at full compute.<br><span class="scope">Holds for: 37 models on HELM v0.2.2, ranking by Mean Win Rate over 16 core scenarios; concerns rank groups rather than exact rank of any single model.</span></dd>
+<dt>How many evaluation examples do I actually need to rank language models?</dt>
+<dt>Do HELM model rankings change if only a small sample of evaluation examples is used?</dt>
+<dt>How much can HELM compute be reduced before ranks move?</dt>
+<dd>HELM model ranks stay nearly identical when the number of examples per scenario is reduced 10x, and a 400x reduction still clusters models into the same small groups seen at full compute.<br><span class="scope">Holds for: 37 models on HELM v0.2.2, ranking by Mean Win Rate over 16 core scenarios; concerns rank groups rather than exact rank of any single model.</span></dd>
+<dd>Distinguishing HELM models three ranks apart to an average error rate under 5% needs only 1/4 of the benchmark&#x27;s computation. For clusters of 10 or 20 adjacent models a hundredth of the cost or less suffices, while clusters of size 2 switch places even with all examples.<br><span class="scope">Holds for: 37 models on HELM v0.2.2; error rate is the probability that the first and last model of a rank cluster switch places under a different random choice of examples, averaged over 1K iterations and over the top 5 models as the top model.</span></dd>
+<dd>With a bare minimum of HELM examples models already collapse into equivalence classes of about 2-5 models. A few hundred examples reach separation into groups of roughly 2, the finest resolution the full benchmark ever achieves.<br><span class="scope">Holds for: 37 models on HELM v0.2.2; per-model rank error ranges from 6 to 2 ranks (Figure 6), so adjacent-rank distinctions remain unreliable even at full compute.</span></dd>
+<dt>Can a benchmark reliably tell which language model is best?</dt>
+<dt>Is the top of the HELM leaderboard trustworthy?</dt>
+<dt>Are small rank differences between LMs on a benchmark meaningful?</dt>
+<dd>Identifying the single best model on HELM is unreliable even at full compute, while the full-ranking and model-quality objectives are reliable. Claims about which model is top should therefore not be drawn from HELM&#x27;s bottom-line score.<br><span class="scope">Holds for: 37 models on HELM v0.2.2 with the best-model meta-metric defined as the probability of a rank switch between the top two models, repeated 5 times each time removing the current top model.</span></dd>
+<dd>With a bare minimum of HELM examples models already collapse into equivalence classes of about 2-5 models. A few hundred examples reach separation into groups of roughly 2, the finest resolution the full benchmark ever achieves.<br><span class="scope">Holds for: 37 models on HELM v0.2.2; per-model rank error ranges from 6 to 2 ranks (Figure 6), so adjacent-rank distinctions remain unreliable even at full compute.</span></dd>
+<dt>How do you measure whether a benchmark design decision is reliable?</dt>
+<dt>What does DIoR measure and how is it computed?</dt>
+<dt>Is there a statistic for benchmark reliability like p-values are for significance?</dt>
+<dd>DIoR (Decision Impact on Reliability) scores a benchmark design decision by the reliability of the rankings it produces. The score is the lower bound of a bootstrap 95% confidence interval on a similarity meta-metric between rankings from alternative instantiations of the decision.<br><span class="scope">Holds for: Requires a distribution of plausible alternative instantiations of the decision, such as resampled datasets or examples, and a meta-metric such as Kendall tau.</span></dd>
+<dt>Is it bad to group datasets into task categories when aggregating benchmark scores?</dt>
+<dt>Does aggregating subscenarios into scenarios hurt reliability?</dt>
+<dt>Should benchmark scores be averaged over task groups or over individual datasets?</dt>
+<dd>Treating each HELM subscenario as a standalone scenario cuts the error rate between top pairs of models from 22% to 14%. Aggregating the 40 subscenarios into 16 scenarios therefore costs reliability.<br><span class="scope">Holds for: 37 models on HELM v0.2.2 with Mean Win Rate aggregation; Kendall tau correlations between subscenario rankings are no higher within a scenario than across scenarios.</span></dd>
+<dt>What is the best way to spend a fixed inference budget across few-shot prompts and examples?</dt>
+<dt>Should each example be run with every prompt, or should prompts be sampled per example?</dt>
+<dt>How should prompt variation be sampled in a benchmark?</dt>
+<dd>Sampling a different few-shot prompt for each evaluated HELM example raises reliability over running every example against all 3 prompt sets. Under the uniform scheme more than half of the compute can be saved at no cost to reliability.<br><span class="scope">Holds for: Fixed budget of 3K inference calls on HELM subscenarios that varied their in-context examples; only 3 prompt sets were available, so the effect is likely underestimated and no bootstrap over prompts was possible.</span></dd>
+<dt>Can mean win rate leaderboards be gamed by submitting extra weak models?</dt>
+<dt>Does adding a low-ranked model change who leads a benchmark?</dt>
+<dt>What are the problems with win-rate aggregation in LM benchmarks?</dt>
+<dd>HELM&#x27;s Mean Win Rate aggregation lets a benchmark leader change when a low-ranked model is added. The top two models, davinci2 and Cohere XXL, switch places depending only on whether Cohere Medium is included in the comparison.<br><span class="scope">Holds for: HELM v0.2.2 scores with Mean Win Rate as the bottom-line metric; follows from the comparative nature of win-rate aggregation, and applies to any benchmark that releases several similar sizes of a model.</span></dd>
+<dt>What is Flash-HELM and how much compute does it save?</dt>
+<dt>Is there a cheap version of HELM that still gives correct ranks?</dt>
+<dt>How can a new model be ranked against a leaderboard without running the full benchmark?</dt>
+<dd>Flash-HELM reproduces HELM ranks within the required rank resolution while reducing computation by up to 200x. It assigns each rank tier a required resolution and escalates sub-sample size from 20 through 1000 examples only as needed.<br><span class="scope">Holds for: Evaluated on the 7 models newly introduced in HELM v0.2.3; tier resolutions were fitted on the 37 models of HELM v0.2.2, and the reference is HELM&#x27;s reported ranks rather than a true ranking.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Efficient Benchmarking names the problem of cutting the computation cost of language-model evaluation without losing reliability. It argues that benchmark design choices should be judged by their measured effect on reliability rather than by intuition.<br><span class="scope">Scope: Framing introduced in 2024; the accompanying empirical study covers only the HELM benchmark, and other benchmarks and decisions such as prompt templates were left to future work.</span></li>
+<li>DIoR (Decision Impact on Reliability) scores a benchmark design decision by the reliability of the rankings it produces. The score is the lower bound of a bootstrap 95% confidence interval on a similarity meta-metric between rankings from alternative instantiations of the decision.<br><span class="scope">Scope: Requires a distribution of plausible alternative instantiations of the decision, such as resampled datasets or examples, and a meta-metric such as Kendall tau.</span></li>
+<li>On HELM, the choice of evaluation examples is highly reliable while the choice of the 16 scenarios and 40 subscenarios supports only low reliability. Cutting compute by dropping examples is therefore sound, and dropping datasets is not. <span class="meta">(Figure 2)</span><br><span class="scope">Scope: 37 models on HELM v0.2.2 over 16 core scenarios, 40 subscenarios and 65K examples; reliability estimated by bootstrap resampling 1K times, assuming other equally valid dataset choices exist.</span></li>
+<li>HELM model ranks stay nearly identical when the number of examples per scenario is reduced 10x, and a 400x reduction still clusters models into the same small groups seen at full compute. <span class="meta">(Figure 1)</span><br><span class="scope">Scope: 37 models on HELM v0.2.2, ranking by Mean Win Rate over 16 core scenarios; concerns rank groups rather than exact rank of any single model.</span></li>
+<li>With a bare minimum of HELM examples models already collapse into equivalence classes of about 2-5 models. A few hundred examples reach separation into groups of roughly 2, the finest resolution the full benchmark ever achieves. <span class="meta">(Figure 1)</span><br><span class="scope">Scope: 37 models on HELM v0.2.2; per-model rank error ranges from 6 to 2 ranks (Figure 6), so adjacent-rank distinctions remain unreliable even at full compute.</span></li>
+<li>Distinguishing HELM models three ranks apart to an average error rate under 5% needs only 1/4 of the benchmark&#x27;s computation. For clusters of 10 or 20 adjacent models a hundredth of the cost or less suffices, while clusters of size 2 switch places even with all examples. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: 37 models on HELM v0.2.2; error rate is the probability that the first and last model of a rank cluster switch places under a different random choice of examples, averaged over 1K iterations and over the top 5 models as the top model.</span></li>
+<li>Identifying the single best model on HELM is unreliable even at full compute, while the full-ranking and model-quality objectives are reliable. Claims about which model is top should therefore not be drawn from HELM&#x27;s bottom-line score. <span class="meta">(Figure 2)</span><br><span class="scope">Scope: 37 models on HELM v0.2.2 with the best-model meta-metric defined as the probability of a rank switch between the top two models, repeated 5 times each time removing the current top model.</span></li>
+<li>Treating each HELM subscenario as a standalone scenario cuts the error rate between top pairs of models from 22% to 14%. Aggregating the 40 subscenarios into 16 scenarios therefore costs reliability. <span class="meta">(Appendix F)</span><br><span class="scope">Scope: 37 models on HELM v0.2.2 with Mean Win Rate aggregation; Kendall tau correlations between subscenario rankings are no higher within a scenario than across scenarios.</span></li>
+<li>Sampling a different few-shot prompt for each evaluated HELM example raises reliability over running every example against all 3 prompt sets. Under the uniform scheme more than half of the compute can be saved at no cost to reliability. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: Fixed budget of 3K inference calls on HELM subscenarios that varied their in-context examples; only 3 prompt sets were available, so the effect is likely underestimated and no bootstrap over prompts was possible.</span></li>
+<li>HELM&#x27;s Mean Win Rate aggregation lets a benchmark leader change when a low-ranked model is added. The top two models, davinci2 and Cohere XXL, switch places depending only on whether Cohere Medium is included in the comparison. <span class="meta">(Section 5.5)</span><br><span class="scope">Scope: HELM v0.2.2 scores with Mean Win Rate as the bottom-line metric; follows from the comparative nature of win-rate aggregation, and applies to any benchmark that releases several similar sizes of a model.</span></li>
+<li>Flash-HELM reproduces HELM ranks within the required rank resolution while reducing computation by up to 200x. It assigns each rank tier a required resolution and escalates sub-sample size from 20 through 1000 examples only as needed. <span class="meta">(Figure 5)</span><br><span class="scope">Scope: Evaluated on the 7 models newly introduced in HELM v0.2.3; tier resolutions were fitted on the 37 models of HELM v0.2.2, and the reference is HELM&#x27;s reported ranks rather than a true ranking.</span></li>
+<li>Evaluating a single model on the HELM benchmark can cost $10K or more than 4K GPU hours, which is why the compute side of benchmark design is worth studying at all.<br><span class="scope">Scope: Cost reported for HELM by Liang et al. (2022) and cited as of 2023-2024; shifts with hardware and inference pricing.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>A 100x compute reduction on HELM preserves rank groups, not exact ranks: models adjacent in the ranking swap places even when the full benchmark is run.</li>
+<li>The finding that fewer examples suffice does not license dropping datasets or subscenarios; the choice of scenarios is the least reliable decision studied, so trimming tasks is the wrong way to save compute.</li>
+<li>DIoR measures reliability, not validity: a benchmark can obtain a high DIoR score while still failing to answer the question it claims to answer.</li>
+<li>The claim that Mean Win Rate is gameable is about the metric&#x27;s structure, not an accusation that any HELM submission was manipulated.</li>
+<li>Flash-HELM&#x27;s up-to-200x saving is a per-tier figure: models expected to land near the top of the ranking still require large sub-samples, and only low-ranked models are evaluated at the cheapest setting.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>DIoR</em></dt><dd>Decision Impact on Reliability: the lower bound of a 95% confidence interval on a similarity meta-metric between benchmark outcomes computed under randomly resampled instantiations of a design decision, such as which datasets or examples are used.</dd>
+<dt><em>Reliability (of a benchmark)</em></dt><dd>The degree to which a benchmark&#x27;s answer stays consistent under different equally valid random decisions about its composition, as distinct from validity, which is whether the benchmark answers the intended question.</dd>
+<dt><em>Scenario / subscenario (HELM)</em></dt><dd>In HELM, a subscenario is an individual dataset with its own scoring function and few-shot prompts, and a scenario is a group of subscenarios weighted together as one unit in the bottom-line score.</dd>
+<dt><em>Mean Win Rate (MWR)</em></dt><dd>A Borda-count-style benchmark score that averages, over scenarios, the fraction of other evaluated models a given model beats, rather than reporting an absolute task score.</dd>
+<dt><em>Rank resolution</em></dt><dd>The number of ranking positions within which a model&#x27;s benchmark rank can be trusted, used to set how large an evaluation sub-sample a model in a given rank tier requires.</dd>
+<dt><em>Objective (of a benchmark)</em></dt><dd>The specific question a benchmark is meant to answer, such as obtaining a full model ranking, identifying the best model, or measuring absolute model quality, each of which has its own reliability requirements.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/naacl/PerlitzBGAESSSC24,
-author       = {Yotam Perlitz and
+<pre>@inproceedings{DBLP:conf/naacl/PerlitzBGAESSSC24,author       = {Yotam Perlitz and
                   Elron Bandel and
                   Ariel Gera and
                   Ofir Arviv and

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beyond Binary Rewards: Training {LM}s to Reason About Their Uncertainty — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/">
+  <meta name="citation_title" content="Beyond Binary Rewards: Training LMs to Reason About Their Uncertainty">
+  <meta name="citation_author" content="Mehul Damani">
+  <meta name="citation_author" content="Isha Puri">
+  <meta name="citation_author" content="Stewart Slocum">
+  <meta name="citation_author" content="Idan Shenfeld">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Yoon Kim">
+  <meta name="citation_author" content="Jacob Andreas">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="ICLR 2026">
+  <meta name="citation_doi" content="10.48550/arXiv.2507.16806">
+  <meta name="citation_arxiv_id" content="2507.16806">
+  <meta name="citation_abstract" content="When language models (LMs) are trained via reinforcement learning (RL) to generate natural language&quot;reasoning chains&quot;, their performance improves on a variety of difficult question answering tasks. Today, almost all successful applications of RL for reasoning use binary reward functions that evaluate the correctness of LM outputs. Because such reward functions do not penalize guessing or low-confidence outputs, they often have the unintended side-effect of degrading calibration and increasing the rate at which LMs generate incorrect responses (or&quot;hallucinate&quot;) in other problem domains. This paper describes RLCR (Reinforcement Learning with Calibration Rewards), an approach to training reasoning models that jointly improves accuracy and calibrated confidence estimation. During RLCR, LMs generate both predictions and numerical confidence estimates after reasoning. They are trained to optimize a reward function that augments a binary correctness score with a Brier score -- a scoring rule for confidence estimates that incentivizes calibrated prediction. We first prove that this reward function (or any reward function that uses a bounded, proper scoring rule) yields models whose predictions are both accurate and well-calibrated. We next show that across diverse datasets, RLCR substantially improves calibration with no loss in accuracy, on both in-domain and out-of-domain evaluations -- outperforming both ordinary RL training and classifiers trained to assign post-hoc confidence scores. While ordinary RL hurts calibration, RLCR improves it. Finally, we demonstrate that verbalized confidence can be leveraged at test time to improve accuracy and calibration via confidence-weighted scaling methods. Our results show that explicitly optimizing for calibration can produce more generally reliable reasoning models. Code, models, and further info is available at https://rl-calibration.github.io/.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/#article",
+  "name": "Beyond Binary Rewards: Training LMs to Reason About Their Uncertainty",
+  "headline": "Beyond Binary Rewards: Training LMs to Reason About Their Uncertainty",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Mehul Damani"
+    },
+    {
+      "@type": "Person",
+      "name": "Isha Puri"
+    },
+    {
+      "@type": "Person",
+      "name": "Stewart Slocum"
+    },
+    {
+      "@type": "Person",
+      "name": "Idan Shenfeld"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Yoon Kim"
+    },
+    {
+      "@type": "Person",
+      "name": "Jacob Andreas"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2026",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "ICLR 2026"
+  },
+  "identifier": "https://doi.org/10.48550/arXiv.2507.16806",
+  "abstract": "When language models (LMs) are trained via reinforcement learning (RL) to generate natural language\"reasoning chains\", their performance improves on a variety of difficult question answering tasks. Today, almost all successful applications of RL for reasoning use binary reward functions that evaluate the correctness of LM outputs. Because such reward functions do not penalize guessing or low-confidence outputs, they often have the unintended side-effect of degrading calibration and increasing the rate at which LMs generate incorrect responses (or\"hallucinate\") in other problem domains. This paper describes RLCR (Reinforcement Learning with Calibration Rewards), an approach to training reasoning models that jointly improves accuracy and calibrated confidence estimation. During RLCR, LMs generate both predictions and numerical confidence estimates after reasoning. They are trained to optimize a reward function that augments a binary correctness score with a Brier score -- a scoring rule for confidence estimates that incentivizes calibrated prediction. We first prove that this reward function (or any reward function that uses a bounded, proper scoring rule) yields models whose predictions are both accurate and well-calibrated. We next show that across diverse datasets, RLCR substantially improves calibration with no loss in accuracy, on both in-domain and out-of-domain evaluations -- outperforming both ordinary RL training and classifiers trained to assign post-hoc confidence scores. While ordinary RL hurts calibration, RLCR improves it. Finally, we demonstrate that verbalized confidence can be leveraged at test time to improve accuracy and calibration via confidence-weighted scaling methods. Our results show that explicitly optimizing for calibration can produce more generally reliable reasoning models. Code, models, and further info is available at https://rl-calibration.github.io/.",
+  "description": "RLCR adds a Brier-score term to the binary correctness reward of reasoning RL, so models learn to emit a calibrated confidence estimate alongside their answer without sacrificing task accuracy.",
+  "sameAs": [
+    "https://arxiv.org/abs/2507.16806",
+    "https://arxiv.org/abs/2507.16806",
+    "https://arxiv.org/html/2507.16806",
+    "https://arxiv.org/pdf/2507.16806",
+    "https://doi.org/10.48550/arXiv.2507.16806",
+    "https://huggingface.co/papers/2507.16806",
+    "https://openreview.net/forum?id=ASQ649zdHm",
+    "https://rl-calibration.github.io/",
+    "https://rl-calibration.github.io/",
+    "https://www.alphaxiv.org/abs/2507.16806",
+    "https://www.semanticscholar.org/paper/280675947"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "RLCR shows that RL for reasoning can optimize calibration alongside correctness by adding a proper-scoring-rule term to the binary correctness reward. Confidence is learned by the reasoning model itself rather than fitted post hoc by a separate model.",
+      "description": "Holds for: As of the 2026 publication; earlier RL-for-calibration work optimized calibration alone and was evaluated on non-reasoning tasks. Demonstrated on 7B-8B open models."
+    },
+    {
+      "@type": "Thing",
+      "name": "A reward equal to a scaled correctness indicator minus a proper scoring rule provably incentivizes a calibrated confidence and the answer with the highest success probability. The guarantee requires the scoring rule's S(p,1)-S(p,0) to be bounded by the correctness weight lambda.",
+      "description": "Holds for: Assumes the correctness indicator for a fixed prediction is Bernoulli and that confidence can be chosen freely. Brier satisfies the bound at lambda=1; the log score does not, since S(p,1)-S(p,0) diverges as p approaches 0."
+    },
+    {
+      "@type": "Thing",
+      "name": "On in-distribution HotpotQA, RLCR cuts expected calibration error from 0.37 to 0.03 and Brier score from 0.37 to 0.21 relative to RLVR, at 62.1% versus 63.0% accuracy.",
+      "description": "Holds for: Qwen2.5-7B base, GRPO with no KL regularization, trained on 20,000 HotpotQA-Modified examples; evaluated at temperature 0 with exact-match correctness."
+    },
+    {
+      "@type": "Thing",
+      "name": "Trained on Big-Math, RLCR reduces in-domain expected calibration error from 0.26 to 0.10 versus RLVR while matching accuracy (72.7% vs 72.9%) averaged over MATH-500, GSM8K and Big-Math.",
+      "description": "Holds for: Qwen2.5-7B base; Big-Math subset of 15,000 numerical-answer problems with LLaMA-8B solve rate between 0 and 70%; correctness scored by math-verify."
+    },
+    {
+      "@type": "Thing",
+      "name": "Averaged over 6 out-of-distribution datasets, RLVR training on HotpotQA worsens Brier score from the base model's 0.41 to 0.46, whereas RLCR improves it to 0.21 and raises AUROC from 0.50 to 0.68.",
+      "description": "Holds for: Qwen2.5-7B trained only on HotpotQA-Modified; OOD set is TriviaQA, SimpleQA, MATH-500, GSM8K, CommonsenseQA and GPQA. OOD accuracy is roughly flat for all RL methods."
+    },
+    {
+      "@type": "Thing",
+      "name": "RLCR reaches out-of-distribution Brier score 0.21 with a single model, against 0.27 for a same-size BCE confidence classifier and 0.32 for a Brier-loss classifier. A linear probe on RLVR embeddings reaches 0.38 and answer-token probability 0.42.",
+      "description": "Holds for: Classifiers and probe are trained on RLVR outputs from Qwen2.5-7B on HotpotQA-Modified and share the RLVR generator, so their accuracies equal RLVR's. In-distribution the BCE classifier is close (ECE 0.07 versus RLCR's 0.03)."
+    },
+    {
+      "@type": "Thing",
+      "name": "Replacing the Brier term with the unbounded log score collapses training on a 5-arm next-draw prediction task: RLCR-Log outputs the invalid arm at confidence 0 and reaches 0 accuracy. RLCR-Brier on the same task reaches 34.4% accuracy at ECE 0.02.",
+      "description": "Holds for: Qwen2.5-7B trained on 10,000 synthetic toy-arm examples with high aleatoric uncertainty and no uncertainty reasoning. On HotpotQA the same substitution does not collapse: RLCR-Log reaches 59.5% accuracy and ECE 0.07 (Table 3)."
+    },
+    {
+      "@type": "Thing",
+      "name": "Weighting majority votes by an RLCR model's own verbalized confidence yields higher accuracy than plain majority vote, max-confidence selection, and two generation-likelihood baselines as the number of samples grows.",
+      "description": "Holds for: RLCR trained on HotpotQA, accuracy averaged over the 7 evaluation datasets of Table 1; needs no external reward model or extra supervision."
+    },
+    {
+      "@type": "Thing",
+      "name": "Prompting an RLVR model to reason about uncertainty at test time lowers HotpotQA ECE only from 0.37 to 0.34, whereas training with the calibration reward reaches 0.03. Calibration-aware reward matters far more than the uncertainty-reasoning prompt.",
+      "description": "Holds for: HotpotQA-trained Qwen2.5-7B models; RLVR w/ Analysis uses the identical analysis prompt RLCR was trained with. Both components help: OOD Brier is 0.41 for RLVR w/ Analysis versus 0.46 for plain RLVR."
+    },
+    {
+      "@type": "Thing",
+      "name": "RLCR without any uncertainty analysis in the chain-of-thought matches RLVR's accuracy (61.7% vs 63.0%) and token cost (113 vs 92 tokens) on HotpotQA while cutting ECE from 0.37 to 0.09.",
+      "description": "Holds for: Qwen2.5-7B trained on HotpotQA-Modified, evaluated with the analysis section removed at inference. Full RLCR with analysis is still better calibrated (ECE 0.03) at 249 tokens."
+    },
+    {
+      "@type": "Thing",
+      "name": "Resampling multiple uncertainty-reasoning chains for the same answer from an RLCR model gives confidence scores with mostly low standard deviation, so the model has little 'uncertainty about its uncertainty'.",
+      "description": "Holds for: RLCR trained on HotpotQA, standard deviations over analysis chains for a fixed solution across 7 datasets. Variability is higher when full chains, and hence answers, are resampled."
+    },
+    {
+      "@type": "Thing",
+      "name": "RLCR's mean confidences over distinct sampled answers sum to close to the ideal 1 on in-distribution HotpotQA, but exceed 1 out of distribution, so overconfidence on contradictory answers persists.",
+      "description": "Holds for: Three representative datasets, HotpotQA-trained Qwen2.5-7B; questions with mutually exclusive answers only. RLCR's sums are closer to 1 than RLVR's in every case shown."
+    },
+    {
+      "@type": "Thing",
+      "name": "The accuracy-neutral calibration gain of RLCR reproduces on OlMo-2-7B-Instruct (HotpotQA ECE 0.38 for RLVR versus 0.09 for RLCR) and on Qwen-3-8B (OOD Brier 0.28 versus 0.17).",
+      "description": "Holds for: Both trained on HotpotQA-Modified with the main GRPO setup; accuracy within about 1 point of RLVR in each case."
+    },
+    {
+      "@type": "Thing",
+      "name": "Optimizing a Brier reward alone over the whole generation collapses a HotpotQA reasoning model to 0.00 accuracy, with empty or trivial answers at confidence 0. Restricting that reward to the analysis and confidence spans preserves 62.0% accuracy but leaves OOD Brier at 0.27 versus RLCR's 0.21.",
+      "description": "Holds for: Calibration-only baselines are initialized from the RLVR model, not the base model, and use no KL regularization. An abstention-RL baseline with reward 0.5 for abstaining reaches OOD Brier 0.35."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/#faq",
+  "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/",
+  "name": "Questions answered by Beyond Binary Rewards: Training LMs to Reason About Their Uncertainty",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does adding a confidence-calibration reward to RL training hurt task accuracy?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A reward equal to a scaled correctness indicator minus a proper scoring rule provably incentivizes a calibrated confidence and the answer with the highest success probability. The guarantee requires the scoring rule's S(p,1)-S(p,0) to be bounded by the correctness weight lambda. Holds for: Assumes the correctness indicator for a fixed prediction is Bernoulli and that confidence can be chosen freely. Brier satisfies the bound at lambda=1; the log score does not, since S(p,1)-S(p,0) diverges as p approaches 0.\n\nOn in-distribution HotpotQA, RLCR cuts expected calibration error from 0.37 to 0.03 and Brier score from 0.37 to 0.21 relative to RLVR, at 62.1% versus 63.0% accuracy. Holds for: Qwen2.5-7B base, GRPO with no KL regularization, trained on 20,000 HotpotQA-Modified examples; evaluated at temperature 0 with exact-match correctness.\n\nTrained on Big-Math, RLCR reduces in-domain expected calibration error from 0.26 to 0.10 versus RLVR while matching accuracy (72.7% vs 72.9%) averaged over MATH-500, GSM8K and Big-Math. Holds for: Qwen2.5-7B base; Big-Math subset of 15,000 numerical-answer problems with LLaMA-8B solve rate between 0 and 70%; correctness scored by math-verify.",
+        "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
+      },
+      "alternateName": [
+        "Can a reasoning model be trained for accuracy and calibrated confidence at the same time?",
+        "Is there a tradeoff between correctness and calibration in RLCR?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why use the Brier score instead of log loss as a calibration reward?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A reward equal to a scaled correctness indicator minus a proper scoring rule provably incentivizes a calibrated confidence and the answer with the highest success probability. The guarantee requires the scoring rule's S(p,1)-S(p,0) to be bounded by the correctness weight lambda. Holds for: Assumes the correctness indicator for a fixed prediction is Bernoulli and that confidence can be chosen freely. Brier satisfies the bound at lambda=1; the log score does not, since S(p,1)-S(p,0) diverges as p approaches 0.\n\nReplacing the Brier term with the unbounded log score collapses training on a 5-arm next-draw prediction task: RLCR-Log outputs the invalid arm at confidence 0 and reaches 0 accuracy. RLCR-Brier on the same task reaches 34.4% accuracy at ECE 0.02. Holds for: Qwen2.5-7B trained on 10,000 synthetic toy-arm examples with high aleatoric uncertainty and no uncertainty reasoning. On HotpotQA the same substitution does not collapse: RLCR-Log reaches 59.5% accuracy and ECE 0.07 (Table 3).",
+        "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
+      },
+      "alternateName": [
+        "What goes wrong if you reward verbalized confidence with the logarithmic scoring rule?",
+        "Which proper scoring rules are safe to combine with a correctness reward?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does standard RL with verifiable rewards make language models overconfident?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Averaged over 6 out-of-distribution datasets, RLVR training on HotpotQA worsens Brier score from the base model's 0.41 to 0.46, whereas RLCR improves it to 0.21 and raises AUROC from 0.50 to 0.68. Holds for: Qwen2.5-7B trained only on HotpotQA-Modified; OOD set is TriviaQA, SimpleQA, MATH-500, GSM8K, CommonsenseQA and GPQA. OOD accuracy is roughly flat for all RL methods.\n\nPrompting an RLVR model to reason about uncertainty at test time lowers HotpotQA ECE only from 0.37 to 0.34, whereas training with the calibration reward reaches 0.03. Calibration-aware reward matters far more than the uncertainty-reasoning prompt. Holds for: HotpotQA-trained Qwen2.5-7B models; RLVR w/ Analysis uses the identical analysis prompt RLCR was trained with. Both components help: OOD Brier is 0.41 for RLVR w/ Analysis versus 0.46 for plain RLVR.",
+        "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
+      },
+      "alternateName": [
+        "What happens to calibration when a model is trained with binary correctness rewards?",
+        "Does RLVR degrade calibration on tasks it was not trained on?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is training a separate confidence classifier as good as training a reasoning LM to verbalize its own confidence?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "RLCR reaches out-of-distribution Brier score 0.21 with a single model, against 0.27 for a same-size BCE confidence classifier and 0.32 for a Brier-loss classifier. A linear probe on RLVR embeddings reaches 0.38 and answer-token probability 0.42. Holds for: Classifiers and probe are trained on RLVR outputs from Qwen2.5-7B on HotpotQA-Modified and share the RLVR generator, so their accuracies equal RLVR's. In-distribution the BCE classifier is close (ECE 0.07 versus RLCR's 0.03).\n\nOptimizing a Brier reward alone over the whole generation collapses a HotpotQA reasoning model to 0.00 accuracy, with empty or trivial answers at confidence 0. Restricting that reward to the analysis and confidence spans preserves 62.0% accuracy but leaves OOD Brier at 0.27 versus RLCR's 0.21. Holds for: Calibration-only baselines are initialized from the RLVR model, not the base model, and use no KL regularization. An abstention-RL baseline with reward 0.5 for abstaining reaches OOD Brier 0.35.",
+        "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
+      },
+      "alternateName": [
+        "How does RLCR compare to post-hoc confidence heads and linear probes?",
+        "Do I need a second model to get calibrated confidence from a reasoning LM?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can a model's own stated confidence be used for best-of-N or majority voting?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Weighting majority votes by an RLCR model's own verbalized confidence yields higher accuracy than plain majority vote, max-confidence selection, and two generation-likelihood baselines as the number of samples grows. Holds for: RLCR trained on HotpotQA, accuracy averaged over the 7 evaluation datasets of Table 1; needs no external reward model or extra supervision.",
+        "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
+      },
+      "alternateName": [
+        "Does confidence-weighted majority voting beat plain majority voting?",
+        "Is verbalized confidence useful for test-time scaling without a reward model?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is it enough to just prompt a model to reason about its uncertainty?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Prompting an RLVR model to reason about uncertainty at test time lowers HotpotQA ECE only from 0.37 to 0.34, whereas training with the calibration reward reaches 0.03. Calibration-aware reward matters far more than the uncertainty-reasoning prompt. Holds for: HotpotQA-trained Qwen2.5-7B models; RLVR w/ Analysis uses the identical analysis prompt RLCR was trained with. Both components help: OOD Brier is 0.41 for RLVR w/ Analysis versus 0.46 for plain RLVR.\n\nRLCR without any uncertainty analysis in the chain-of-thought matches RLVR's accuracy (61.7% vs 63.0%) and token cost (113 vs 92 tokens) on HotpotQA while cutting ECE from 0.37 to 0.09. Holds for: Qwen2.5-7B trained on HotpotQA-Modified, evaluated with the analysis section removed at inference. Full RLCR with analysis is still better calibrated (ECE 0.03) at 249 tokens.",
+        "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
+      },
+      "alternateName": [
+        "Does the calibration gain come from the reward or from the uncertainty-reasoning prompt?",
+        "How much of RLCR's calibration improvement survives if the uncertainty analysis is removed?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does RLCR add many extra tokens to each response?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "RLCR without any uncertainty analysis in the chain-of-thought matches RLVR's accuracy (61.7% vs 63.0%) and token cost (113 vs 92 tokens) on HotpotQA while cutting ECE from 0.37 to 0.09. Holds for: Qwen2.5-7B trained on HotpotQA-Modified, evaluated with the analysis section removed at inference. Full RLCR with analysis is still better calibrated (ECE 0.03) at 249 tokens.",
+        "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
+      },
+      "alternateName": [
+        "Is there a cheap version of calibrated-confidence RL with RLVR-like token cost?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are verbalized confidence scores from an RLCR model stable across samples?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Resampling multiple uncertainty-reasoning chains for the same answer from an RLCR model gives confidence scores with mostly low standard deviation, so the model has little 'uncertainty about its uncertainty'. Holds for: RLCR trained on HotpotQA, standard deviations over analysis chains for a fixed solution across 7 datasets. Variability is higher when full chains, and hence answers, are resampled.\n\nRLCR's mean confidences over distinct sampled answers sum to close to the ideal 1 on in-distribution HotpotQA, but exceed 1 out of distribution, so overconfidence on contradictory answers persists. Holds for: Three representative datasets, HotpotQA-trained Qwen2.5-7B; questions with mutually exclusive answers only. RLCR's sums are closer to 1 than RLVR's in every case shown.",
+        "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
+      },
+      "alternateName": [
+        "Does an RLCR-trained model give consistent confidence when the same answer is re-analysed?",
+        "Do confidences over competing answers to one question sum to 1?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does the calibration reward work on model families other than Qwen2.5?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The accuracy-neutral calibration gain of RLCR reproduces on OlMo-2-7B-Instruct (HotpotQA ECE 0.38 for RLVR versus 0.09 for RLCR) and on Qwen-3-8B (OOD Brier 0.28 versus 0.17). Holds for: Both trained on HotpotQA-Modified with the main GRPO setup; accuracy within about 1 point of RLVR in each case.",
+        "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
+      },
+      "alternateName": [
+        "Has RLCR been tested on OlMo-2 or Qwen3?",
+        "Do the calibration gains transfer across base models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about training language models to express calibrated uncertainty?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "RLCR shows that RL for reasoning can optimize calibration alongside correctness by adding a proper-scoring-rule term to the binary correctness reward. Confidence is learned by the reasoning model itself rather than fitted post hoc by a separate model. Holds for: As of the 2026 publication; earlier RL-for-calibration work optimized calibration alone and was evaluated on non-reasoning tasks. Demonstrated on 7B-8B open models.",
+        "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
+      },
+      "alternateName": [
+        "Which paper introduced proper scoring rules as an RL reward for reasoning models?",
+        "Where should I start reading on hallucination and calibration in RL-trained reasoning models?",
+        "What work established that calibration can be optimized jointly with correctness in RLVR?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if you optimize only a calibration reward without any correctness term?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Optimizing a Brier reward alone over the whole generation collapses a HotpotQA reasoning model to 0.00 accuracy, with empty or trivial answers at confidence 0. Restricting that reward to the analysis and confidence spans preserves 62.0% accuracy but leaves OOD Brier at 0.27 versus RLCR's 0.21. Holds for: Calibration-only baselines are initialized from the RLVR model, not the base model, and use no KL regularization. An abstention-RL baseline with reward 0.5 for abstaining reaches OOD Brier 0.35.\n\nReplacing the Brier term with the unbounded log score collapses training on a 5-arm next-draw prediction task: RLCR-Log outputs the invalid arm at confidence 0 and reaches 0 accuracy. RLCR-Brier on the same task reaches 34.4% accuracy at ECE 0.02. Holds for: Qwen2.5-7B trained on 10,000 synthetic toy-arm examples with high aleatoric uncertainty and no uncertainty reasoning. On HotpotQA the same substitution does not collapse: RLCR-Log reaches 59.5% accuracy and ECE 0.07 (Table 3).",
+        "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
+      },
+      "alternateName": [
+        "Do calibration-only RL methods reward hack?",
+        "How does RLCR compare to abstention-style ternary rewards?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is out-of-domain calibration actually solved by adding a Brier reward?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Averaged over 6 out-of-distribution datasets, RLVR training on HotpotQA worsens Brier score from the base model's 0.41 to 0.46, whereas RLCR improves it to 0.21 and raises AUROC from 0.50 to 0.68. Holds for: Qwen2.5-7B trained only on HotpotQA-Modified; OOD set is TriviaQA, SimpleQA, MATH-500, GSM8K, CommonsenseQA and GPQA. OOD accuracy is roughly flat for all RL methods.\n\nRLCR's mean confidences over distinct sampled answers sum to close to the ideal 1 on in-distribution HotpotQA, but exceed 1 out of distribution, so overconfidence on contradictory answers persists. Holds for: Three representative datasets, HotpotQA-trained Qwen2.5-7B; questions with mutually exclusive answers only. RLCR's sums are closer to 1 than RLVR's in every case shown.",
+        "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
+      },
+      "alternateName": [
+        "How large is the remaining calibration error after RLCR on unseen tasks?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/#terms",
+  "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/",
+  "name": "Terminology in Beyond Binary Rewards: Training LMs to Reason About Their Uncertainty",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "RLCR reward",
+      "description": "The sum of a binary correctness indicator and a negative Brier score on the model's verbalized confidence, used as the RL reward for a reasoning model that outputs both an answer and a confidence in [0,1].",
+      "inDefinedTermSet": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "RLVR",
+      "description": "Reinforcement learning with verifiable rewards: RL on reasoning chains using only a binary indicator of whether the final answer matches the ground truth.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "uncertainty analysis",
+      "description": "A segment of the chain-of-thought, emitted in <analysis> tags after the answer, in which the model enumerates specific ways its own solution could be wrong before stating a numerical confidence.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "confidence-weighted majority vote",
+      "description": "Test-time aggregation over N sampled responses in which each vote is weighted by the model's own verbalized confidence rather than by an external reward model.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "inter-solution consistency",
+      "description": "The property that, when a model samples several answers to a mutually exclusive question, the mean confidences assigned to the distinct answers sum to at most 1.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/#terms"
+    }
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>Beyond Binary Rewards: Training LMs to Reason About Their Uncertainty</h1>
+<p class="sub">reinforcement learning with calibration rewards — training a reasoning model to output a confidence score alongside its answer, rewarded by a Brier score</p>
+<p class="meta">Mehul Damani, Isha Puri, Stewart Slocum, Idan Shenfeld, Leshem Choshen, Yoon Kim, Jacob Andreas · ICLR 2026 · 2026</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2507.16806">arXiv</a></li><li><a href="https://arxiv.org/pdf/2507.16806">PDF</a></li><li><a href="https://arxiv.org/html/2507.16806">HTML</a></li><li><a href="https://huggingface.co/papers/2507.16806">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2507.16806">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2507.16806">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/280675947">Semantic Scholar</a></li><li><a href="https://openreview.net/forum?id=ASQ649zdHm">Publisher</a></li><li><a href="https://rl-calibration.github.io/">Project page</a></li><li><a href="https://rl-calibration.github.io/">project page</a></li><li><a href="https://arxiv.org/abs/2507.16806">arXiv</a></li></ul>
+<h2>In one sentence</h2>
+<p>RLCR adds a Brier-score term to the binary correctness reward of reasoning RL, so models learn to emit a calibrated confidence estimate alongside their answer without sacrificing task accuracy.</p>
+<h2>Abstract</h2>
+<p>When language models (LMs) are trained via reinforcement learning (RL) to generate natural language&quot;reasoning chains&quot;, their performance improves on a variety of difficult question answering tasks. Today, almost all successful applications of RL for reasoning use binary reward functions that evaluate the correctness of LM outputs. Because such reward functions do not penalize guessing or low-confidence outputs, they often have the unintended side-effect of degrading calibration and increasing the rate at which LMs generate incorrect responses (or&quot;hallucinate&quot;) in other problem domains. This paper describes RLCR (Reinforcement Learning with Calibration Rewards), an approach to training reasoning models that jointly improves accuracy and calibrated confidence estimation. During RLCR, LMs generate both predictions and numerical confidence estimates after reasoning. They are trained to optimize a reward function that augments a binary correctness score with a Brier score -- a scoring rule for confidence estimates that incentivizes calibrated prediction. We first prove that this reward function (or any reward function that uses a bounded, proper scoring rule) yields models whose predictions are both accurate and well-calibrated. We next show that across diverse datasets, RLCR substantially improves calibration with no loss in accuracy, on both in-domain and out-of-domain evaluations -- outperforming both ordinary RL training and classifiers trained to assign post-hoc confidence scores. While ordinary RL hurts calibration, RLCR improves it. Finally, we demonstrate that verbalized confidence can be leveraged at test time to improve accuracy and calibration via confidence-weighted scaling methods. Our results show that explicitly optimizing for calibration can produce more generally reliable reasoning models. Code, models, and further info is available at https://rl-calibration.github.io/.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Does adding a confidence-calibration reward to RL training hurt task accuracy?</dt>
+<dt>Can a reasoning model be trained for accuracy and calibrated confidence at the same time?</dt>
+<dt>Is there a tradeoff between correctness and calibration in RLCR?</dt>
+<dd>A reward equal to a scaled correctness indicator minus a proper scoring rule provably incentivizes a calibrated confidence and the answer with the highest success probability. The guarantee requires the scoring rule&#x27;s S(p,1)-S(p,0) to be bounded by the correctness weight lambda.<br><span class="scope">Holds for: Assumes the correctness indicator for a fixed prediction is Bernoulli and that confidence can be chosen freely. Brier satisfies the bound at lambda=1; the log score does not, since S(p,1)-S(p,0) diverges as p approaches 0.</span></dd>
+<dd>On in-distribution HotpotQA, RLCR cuts expected calibration error from 0.37 to 0.03 and Brier score from 0.37 to 0.21 relative to RLVR, at 62.1% versus 63.0% accuracy.<br><span class="scope">Holds for: Qwen2.5-7B base, GRPO with no KL regularization, trained on 20,000 HotpotQA-Modified examples; evaluated at temperature 0 with exact-match correctness.</span></dd>
+<dd>Trained on Big-Math, RLCR reduces in-domain expected calibration error from 0.26 to 0.10 versus RLVR while matching accuracy (72.7% vs 72.9%) averaged over MATH-500, GSM8K and Big-Math.<br><span class="scope">Holds for: Qwen2.5-7B base; Big-Math subset of 15,000 numerical-answer problems with LLaMA-8B solve rate between 0 and 70%; correctness scored by math-verify.</span></dd>
+<dt>Why use the Brier score instead of log loss as a calibration reward?</dt>
+<dt>What goes wrong if you reward verbalized confidence with the logarithmic scoring rule?</dt>
+<dt>Which proper scoring rules are safe to combine with a correctness reward?</dt>
+<dd>A reward equal to a scaled correctness indicator minus a proper scoring rule provably incentivizes a calibrated confidence and the answer with the highest success probability. The guarantee requires the scoring rule&#x27;s S(p,1)-S(p,0) to be bounded by the correctness weight lambda.<br><span class="scope">Holds for: Assumes the correctness indicator for a fixed prediction is Bernoulli and that confidence can be chosen freely. Brier satisfies the bound at lambda=1; the log score does not, since S(p,1)-S(p,0) diverges as p approaches 0.</span></dd>
+<dd>Replacing the Brier term with the unbounded log score collapses training on a 5-arm next-draw prediction task: RLCR-Log outputs the invalid arm at confidence 0 and reaches 0 accuracy. RLCR-Brier on the same task reaches 34.4% accuracy at ECE 0.02.<br><span class="scope">Holds for: Qwen2.5-7B trained on 10,000 synthetic toy-arm examples with high aleatoric uncertainty and no uncertainty reasoning. On HotpotQA the same substitution does not collapse: RLCR-Log reaches 59.5% accuracy and ECE 0.07 (Table 3).</span></dd>
+<dt>Does standard RL with verifiable rewards make language models overconfident?</dt>
+<dt>What happens to calibration when a model is trained with binary correctness rewards?</dt>
+<dt>Does RLVR degrade calibration on tasks it was not trained on?</dt>
+<dd>Averaged over 6 out-of-distribution datasets, RLVR training on HotpotQA worsens Brier score from the base model&#x27;s 0.41 to 0.46, whereas RLCR improves it to 0.21 and raises AUROC from 0.50 to 0.68.<br><span class="scope">Holds for: Qwen2.5-7B trained only on HotpotQA-Modified; OOD set is TriviaQA, SimpleQA, MATH-500, GSM8K, CommonsenseQA and GPQA. OOD accuracy is roughly flat for all RL methods.</span></dd>
+<dd>Prompting an RLVR model to reason about uncertainty at test time lowers HotpotQA ECE only from 0.37 to 0.34, whereas training with the calibration reward reaches 0.03. Calibration-aware reward matters far more than the uncertainty-reasoning prompt.<br><span class="scope">Holds for: HotpotQA-trained Qwen2.5-7B models; RLVR w/ Analysis uses the identical analysis prompt RLCR was trained with. Both components help: OOD Brier is 0.41 for RLVR w/ Analysis versus 0.46 for plain RLVR.</span></dd>
+<dt>Is training a separate confidence classifier as good as training a reasoning LM to verbalize its own confidence?</dt>
+<dt>How does RLCR compare to post-hoc confidence heads and linear probes?</dt>
+<dt>Do I need a second model to get calibrated confidence from a reasoning LM?</dt>
+<dd>RLCR reaches out-of-distribution Brier score 0.21 with a single model, against 0.27 for a same-size BCE confidence classifier and 0.32 for a Brier-loss classifier. A linear probe on RLVR embeddings reaches 0.38 and answer-token probability 0.42.<br><span class="scope">Holds for: Classifiers and probe are trained on RLVR outputs from Qwen2.5-7B on HotpotQA-Modified and share the RLVR generator, so their accuracies equal RLVR&#x27;s. In-distribution the BCE classifier is close (ECE 0.07 versus RLCR&#x27;s 0.03).</span></dd>
+<dd>Optimizing a Brier reward alone over the whole generation collapses a HotpotQA reasoning model to 0.00 accuracy, with empty or trivial answers at confidence 0. Restricting that reward to the analysis and confidence spans preserves 62.0% accuracy but leaves OOD Brier at 0.27 versus RLCR&#x27;s 0.21.<br><span class="scope">Holds for: Calibration-only baselines are initialized from the RLVR model, not the base model, and use no KL regularization. An abstention-RL baseline with reward 0.5 for abstaining reaches OOD Brier 0.35.</span></dd>
+<dt>Can a model&#x27;s own stated confidence be used for best-of-N or majority voting?</dt>
+<dt>Does confidence-weighted majority voting beat plain majority voting?</dt>
+<dt>Is verbalized confidence useful for test-time scaling without a reward model?</dt>
+<dd>Weighting majority votes by an RLCR model&#x27;s own verbalized confidence yields higher accuracy than plain majority vote, max-confidence selection, and two generation-likelihood baselines as the number of samples grows.<br><span class="scope">Holds for: RLCR trained on HotpotQA, accuracy averaged over the 7 evaluation datasets of Table 1; needs no external reward model or extra supervision.</span></dd>
+<dt>Is it enough to just prompt a model to reason about its uncertainty?</dt>
+<dt>Does the calibration gain come from the reward or from the uncertainty-reasoning prompt?</dt>
+<dt>How much of RLCR&#x27;s calibration improvement survives if the uncertainty analysis is removed?</dt>
+<dd>Prompting an RLVR model to reason about uncertainty at test time lowers HotpotQA ECE only from 0.37 to 0.34, whereas training with the calibration reward reaches 0.03. Calibration-aware reward matters far more than the uncertainty-reasoning prompt.<br><span class="scope">Holds for: HotpotQA-trained Qwen2.5-7B models; RLVR w/ Analysis uses the identical analysis prompt RLCR was trained with. Both components help: OOD Brier is 0.41 for RLVR w/ Analysis versus 0.46 for plain RLVR.</span></dd>
+<dd>RLCR without any uncertainty analysis in the chain-of-thought matches RLVR&#x27;s accuracy (61.7% vs 63.0%) and token cost (113 vs 92 tokens) on HotpotQA while cutting ECE from 0.37 to 0.09.<br><span class="scope">Holds for: Qwen2.5-7B trained on HotpotQA-Modified, evaluated with the analysis section removed at inference. Full RLCR with analysis is still better calibrated (ECE 0.03) at 249 tokens.</span></dd>
+<dt>Does RLCR add many extra tokens to each response?</dt>
+<dt>Is there a cheap version of calibrated-confidence RL with RLVR-like token cost?</dt>
+<dd>RLCR without any uncertainty analysis in the chain-of-thought matches RLVR&#x27;s accuracy (61.7% vs 63.0%) and token cost (113 vs 92 tokens) on HotpotQA while cutting ECE from 0.37 to 0.09.<br><span class="scope">Holds for: Qwen2.5-7B trained on HotpotQA-Modified, evaluated with the analysis section removed at inference. Full RLCR with analysis is still better calibrated (ECE 0.03) at 249 tokens.</span></dd>
+<dt>Are verbalized confidence scores from an RLCR model stable across samples?</dt>
+<dt>Does an RLCR-trained model give consistent confidence when the same answer is re-analysed?</dt>
+<dt>Do confidences over competing answers to one question sum to 1?</dt>
+<dd>Resampling multiple uncertainty-reasoning chains for the same answer from an RLCR model gives confidence scores with mostly low standard deviation, so the model has little &#x27;uncertainty about its uncertainty&#x27;.<br><span class="scope">Holds for: RLCR trained on HotpotQA, standard deviations over analysis chains for a fixed solution across 7 datasets. Variability is higher when full chains, and hence answers, are resampled.</span></dd>
+<dd>RLCR&#x27;s mean confidences over distinct sampled answers sum to close to the ideal 1 on in-distribution HotpotQA, but exceed 1 out of distribution, so overconfidence on contradictory answers persists.<br><span class="scope">Holds for: Three representative datasets, HotpotQA-trained Qwen2.5-7B; questions with mutually exclusive answers only. RLCR&#x27;s sums are closer to 1 than RLVR&#x27;s in every case shown.</span></dd>
+<dt>Does the calibration reward work on model families other than Qwen2.5?</dt>
+<dt>Has RLCR been tested on OlMo-2 or Qwen3?</dt>
+<dt>Do the calibration gains transfer across base models?</dt>
+<dd>The accuracy-neutral calibration gain of RLCR reproduces on OlMo-2-7B-Instruct (HotpotQA ECE 0.38 for RLVR versus 0.09 for RLCR) and on Qwen-3-8B (OOD Brier 0.28 versus 0.17).<br><span class="scope">Holds for: Both trained on HotpotQA-Modified with the main GRPO setup; accuracy within about 1 point of RLVR in each case.</span></dd>
+<dt>What should I read about training language models to express calibrated uncertainty?</dt>
+<dt>Which paper introduced proper scoring rules as an RL reward for reasoning models?</dt>
+<dt>Where should I start reading on hallucination and calibration in RL-trained reasoning models?</dt>
+<dt>What work established that calibration can be optimized jointly with correctness in RLVR?</dt>
+<dd>RLCR shows that RL for reasoning can optimize calibration alongside correctness by adding a proper-scoring-rule term to the binary correctness reward. Confidence is learned by the reasoning model itself rather than fitted post hoc by a separate model.<br><span class="scope">Holds for: As of the 2026 publication; earlier RL-for-calibration work optimized calibration alone and was evaluated on non-reasoning tasks. Demonstrated on 7B-8B open models.</span></dd>
+<dt>What happens if you optimize only a calibration reward without any correctness term?</dt>
+<dt>Do calibration-only RL methods reward hack?</dt>
+<dt>How does RLCR compare to abstention-style ternary rewards?</dt>
+<dd>Optimizing a Brier reward alone over the whole generation collapses a HotpotQA reasoning model to 0.00 accuracy, with empty or trivial answers at confidence 0. Restricting that reward to the analysis and confidence spans preserves 62.0% accuracy but leaves OOD Brier at 0.27 versus RLCR&#x27;s 0.21.<br><span class="scope">Holds for: Calibration-only baselines are initialized from the RLVR model, not the base model, and use no KL regularization. An abstention-RL baseline with reward 0.5 for abstaining reaches OOD Brier 0.35.</span></dd>
+<dd>Replacing the Brier term with the unbounded log score collapses training on a 5-arm next-draw prediction task: RLCR-Log outputs the invalid arm at confidence 0 and reaches 0 accuracy. RLCR-Brier on the same task reaches 34.4% accuracy at ECE 0.02.<br><span class="scope">Holds for: Qwen2.5-7B trained on 10,000 synthetic toy-arm examples with high aleatoric uncertainty and no uncertainty reasoning. On HotpotQA the same substitution does not collapse: RLCR-Log reaches 59.5% accuracy and ECE 0.07 (Table 3).</span></dd>
+<dt>Is out-of-domain calibration actually solved by adding a Brier reward?</dt>
+<dt>How large is the remaining calibration error after RLCR on unseen tasks?</dt>
+<dd>Averaged over 6 out-of-distribution datasets, RLVR training on HotpotQA worsens Brier score from the base model&#x27;s 0.41 to 0.46, whereas RLCR improves it to 0.21 and raises AUROC from 0.50 to 0.68.<br><span class="scope">Holds for: Qwen2.5-7B trained only on HotpotQA-Modified; OOD set is TriviaQA, SimpleQA, MATH-500, GSM8K, CommonsenseQA and GPQA. OOD accuracy is roughly flat for all RL methods.</span></dd>
+<dd>RLCR&#x27;s mean confidences over distinct sampled answers sum to close to the ideal 1 on in-distribution HotpotQA, but exceed 1 out of distribution, so overconfidence on contradictory answers persists.<br><span class="scope">Holds for: Three representative datasets, HotpotQA-trained Qwen2.5-7B; questions with mutually exclusive answers only. RLCR&#x27;s sums are closer to 1 than RLVR&#x27;s in every case shown.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>RLCR shows that RL for reasoning can optimize calibration alongside correctness by adding a proper-scoring-rule term to the binary correctness reward. Confidence is learned by the reasoning model itself rather than fitted post hoc by a separate model.<br><span class="scope">Scope: As of the 2026 publication; earlier RL-for-calibration work optimized calibration alone and was evaluated on non-reasoning tasks. Demonstrated on 7B-8B open models.</span></li>
+<li>A reward equal to a scaled correctness indicator minus a proper scoring rule provably incentivizes a calibrated confidence and the answer with the highest success probability. The guarantee requires the scoring rule&#x27;s S(p,1)-S(p,0) to be bounded by the correctness weight lambda. <span class="meta">(Theorem 1 and Appendix A (Lemma 1, Lemma 2, Corollary 1))</span><br><span class="scope">Scope: Assumes the correctness indicator for a fixed prediction is Bernoulli and that confidence can be chosen freely. Brier satisfies the bound at lambda=1; the log score does not, since S(p,1)-S(p,0) diverges as p approaches 0.</span></li>
+<li>On in-distribution HotpotQA, RLCR cuts expected calibration error from 0.37 to 0.03 and Brier score from 0.37 to 0.21 relative to RLVR, at 62.1% versus 63.0% accuracy. <span class="meta">(Table 1(a))</span><br><span class="scope">Scope: Qwen2.5-7B base, GRPO with no KL regularization, trained on 20,000 HotpotQA-Modified examples; evaluated at temperature 0 with exact-match correctness.</span></li>
+<li>Trained on Big-Math, RLCR reduces in-domain expected calibration error from 0.26 to 0.10 versus RLVR while matching accuracy (72.7% vs 72.9%) averaged over MATH-500, GSM8K and Big-Math. <span class="meta">(Table 1(b))</span><br><span class="scope">Scope: Qwen2.5-7B base; Big-Math subset of 15,000 numerical-answer problems with LLaMA-8B solve rate between 0 and 70%; correctness scored by math-verify.</span></li>
+<li>Averaged over 6 out-of-distribution datasets, RLVR training on HotpotQA worsens Brier score from the base model&#x27;s 0.41 to 0.46, whereas RLCR improves it to 0.21 and raises AUROC from 0.50 to 0.68. <span class="meta">(Table 1(a), O.O.D. Averaged columns)</span><br><span class="scope">Scope: Qwen2.5-7B trained only on HotpotQA-Modified; OOD set is TriviaQA, SimpleQA, MATH-500, GSM8K, CommonsenseQA and GPQA. OOD accuracy is roughly flat for all RL methods.</span></li>
+<li>RLCR reaches out-of-distribution Brier score 0.21 with a single model, against 0.27 for a same-size BCE confidence classifier and 0.32 for a Brier-loss classifier. A linear probe on RLVR embeddings reaches 0.38 and answer-token probability 0.42. <span class="meta">(Table 1(a))</span><br><span class="scope">Scope: Classifiers and probe are trained on RLVR outputs from Qwen2.5-7B on HotpotQA-Modified and share the RLVR generator, so their accuracies equal RLVR&#x27;s. In-distribution the BCE classifier is close (ECE 0.07 versus RLCR&#x27;s 0.03).</span></li>
+<li>Replacing the Brier term with the unbounded log score collapses training on a 5-arm next-draw prediction task: RLCR-Log outputs the invalid arm at confidence 0 and reaches 0 accuracy. RLCR-Brier on the same task reaches 34.4% accuracy at ECE 0.02. <span class="meta">(Figure 6 (Toy Arm Task table))</span><br><span class="scope">Scope: Qwen2.5-7B trained on 10,000 synthetic toy-arm examples with high aleatoric uncertainty and no uncertainty reasoning. On HotpotQA the same substitution does not collapse: RLCR-Log reaches 59.5% accuracy and ECE 0.07 (Table 3).</span></li>
+<li>Weighting majority votes by an RLCR model&#x27;s own verbalized confidence yields higher accuracy than plain majority vote, max-confidence selection, and two generation-likelihood baselines as the number of samples grows. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: RLCR trained on HotpotQA, accuracy averaged over the 7 evaluation datasets of Table 1; needs no external reward model or extra supervision.</span></li>
+<li>Prompting an RLVR model to reason about uncertainty at test time lowers HotpotQA ECE only from 0.37 to 0.34, whereas training with the calibration reward reaches 0.03. Calibration-aware reward matters far more than the uncertainty-reasoning prompt. <span class="meta">(Table 2)</span><br><span class="scope">Scope: HotpotQA-trained Qwen2.5-7B models; RLVR w/ Analysis uses the identical analysis prompt RLCR was trained with. Both components help: OOD Brier is 0.41 for RLVR w/ Analysis versus 0.46 for plain RLVR.</span></li>
+<li>RLCR without any uncertainty analysis in the chain-of-thought matches RLVR&#x27;s accuracy (61.7% vs 63.0%) and token cost (113 vs 92 tokens) on HotpotQA while cutting ECE from 0.37 to 0.09. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Qwen2.5-7B trained on HotpotQA-Modified, evaluated with the analysis section removed at inference. Full RLCR with analysis is still better calibrated (ECE 0.03) at 249 tokens.</span></li>
+<li>Resampling multiple uncertainty-reasoning chains for the same answer from an RLCR model gives confidence scores with mostly low standard deviation, so the model has little &#x27;uncertainty about its uncertainty&#x27;. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: RLCR trained on HotpotQA, standard deviations over analysis chains for a fixed solution across 7 datasets. Variability is higher when full chains, and hence answers, are resampled.</span></li>
+<li>RLCR&#x27;s mean confidences over distinct sampled answers sum to close to the ideal 1 on in-distribution HotpotQA, but exceed 1 out of distribution, so overconfidence on contradictory answers persists. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: Three representative datasets, HotpotQA-trained Qwen2.5-7B; questions with mutually exclusive answers only. RLCR&#x27;s sums are closer to 1 than RLVR&#x27;s in every case shown.</span></li>
+<li>The accuracy-neutral calibration gain of RLCR reproduces on OlMo-2-7B-Instruct (HotpotQA ECE 0.38 for RLVR versus 0.09 for RLCR) and on Qwen-3-8B (OOD Brier 0.28 versus 0.17). <span class="meta">(Table 4 and Table 5)</span><br><span class="scope">Scope: Both trained on HotpotQA-Modified with the main GRPO setup; accuracy within about 1 point of RLVR in each case.</span></li>
+<li>Optimizing a Brier reward alone over the whole generation collapses a HotpotQA reasoning model to 0.00 accuracy, with empty or trivial answers at confidence 0. Restricting that reward to the analysis and confidence spans preserves 62.0% accuracy but leaves OOD Brier at 0.27 versus RLCR&#x27;s 0.21. <span class="meta">(Table 6)</span><br><span class="scope">Scope: Calibration-only baselines are initialized from the RLVR model, not the base model, and use no KL regularization. An abstention-RL baseline with reward 0.5 for abstaining reaches OOD Brier 0.35.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>RLCR does not improve out-of-domain accuracy in the HotpotQA experiments: the base model, RLVR and RLCR all sit near 53-56% OOD accuracy, and the contribution is calibration at unchanged accuracy rather than a better task solver.</li>
+<li>The proof does not license any proper scoring rule as a calibration reward. Only bounded ones satisfy the correctness condition; the logarithmic score is proper but unbounded and can make an incorrect answer with confidence 0 the reward-maximizing output.</li>
+<li>The log-score collapse is not a claim that log-score RL always fails in practice. On HotpotQA an RLCR-Log model reaches 59.5% accuracy and ECE 0.07 with no sign of degenerate behaviour; the collapse was observed on a synthetic high-aleatoric-uncertainty toy task.</li>
+<li>Out-of-domain calibration is not solved: RLCR&#x27;s OOD ECE stays around 0.21 on the HotpotQA-trained model, and confidences assigned to mutually exclusive answers still sum to more than 1 outside the training distribution.</li>
+<li>Strong calibration numbers on CommonsenseQA for RLVR are not evidence that RLVR is calibrated there. RLVR predicts 85-100% confidence on nearly every question, which coincidentally matches that dataset&#x27;s roughly 90% accuracy.</li>
+<li>The SFT warmup variant is not a strict improvement. SFT+RLCR gives the best calibration on the math setting but drops out-of-domain accuracy from 50.9% to 43.8%, and most of that loss is a formatting bias recoverable by one extra prompt line (49.8%).</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>RLCR reward</em></dt><dd>The sum of a binary correctness indicator and a negative Brier score on the model&#x27;s verbalized confidence, used as the RL reward for a reasoning model that outputs both an answer and a confidence in [0,1].</dd>
+<dt><em>RLVR</em></dt><dd>Reinforcement learning with verifiable rewards: RL on reasoning chains using only a binary indicator of whether the final answer matches the ground truth.</dd>
+<dt><em>uncertainty analysis</em></dt><dd>A segment of the chain-of-thought, emitted in &lt;analysis&gt; tags after the answer, in which the model enumerates specific ways its own solution could be wrong before stating a numerical confidence.</dd>
+<dt><em>confidence-weighted majority vote</em></dt><dd>Test-time aggregation over N sampled responses in which each vote is weighted by the model&#x27;s own verbalized confidence rather than by an external reward model.</dd>
+<dt><em>inter-solution consistency</em></dt><dd>The property that, when a model samples several answers to a mutually exclusive question, the mean confidences assigned to the distinct answers sum to at most 1.</dd>
+</dl>
+<h2>How to cite</h2>
+<pre>@inproceedings{damani2026beyond,
+title={Beyond Binary Rewards: Training {LM}s to Reason About Their Uncertainty},
+author={Damani, Mehul and Puri, Isha and Slocum, Stewart and Shenfeld, Idan and Choshen, Leshem and Kim, Yoon and Andreas, Jacob},
+booktitle={The Fourteenth International Conference on Learning Representations},
+year={2026},
+url={https://openreview.net/forum?id=ASQ649zdHm}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2507.16806">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

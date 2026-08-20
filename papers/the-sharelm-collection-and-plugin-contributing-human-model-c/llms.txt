@@ -1,0 +1,92 @@
+# The ShareLM Collection and Plugin: Contributing Human-Model Chats for the Benefit of the Community
+
+a unified collection of human-with-LLM chat datasets plus a Chrome extension for donating your own chats
+
+Authors: Shachar Don-Yehiya, Leshem Choshen, Omri Abend
+Venue: Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 3: System Demonstrations) (2025)
+
+## What this paper shows
+ShareLM is a unified collection of human-model conversation datasets and a Chrome extension that lets any user donate their own chats from most chat platforms, with thumbs-up/down rating and a 24-hour delayed upload so unwanted conversations can be deleted before they leave local storage.
+
+## Claims, with scope
+- The ShareLM collection unifies publicly released human-model conversation datasets into one format and contains over 2.3M conversations from over 40 different models. Its constituents include HH-RLHF, PRISM, WildChat and Chatbot Arena, plus conversations donated through the ShareLM plugin.
+  Scope: Size as reported at publication in 2025; the collection grows over time. WildChat and Chatbot Arena are gated datasets requiring the user to accept their own terms of use, and the constituent datasets keep their original licenses.
+  Evidence: Section 2
+- The ShareLM plugin holds each recorded conversation in the browser's local database for 24 hours before posting it to the server. A user can review and delete a conversation in that window, before it ever leaves their own storage.
+  Scope: Chrome extension; deletion within the window is local, whereas removal after a dataset release is requested through a contact form and cannot undo copies already downloaded. A "Publish Now" button bypasses the delay.
+  Evidence: Section 3.2 and Section 4.3
+- The ShareLM plugin records chats by matching elements in the web page XML rather than calling a model API, which makes it independent of any single model or serving platform. At publication it supported Gradio demos, ChatUI and ChatGPT.
+  Scope: Support is per web interface and needs a small code addition per new interface; unlike ShareGPT and Collective Cognition, which were ChatGPT-only.
+  Evidence: Section 3.2 and Section 7
+- The ShareLM plugin collects thumbs-up/down feedback at two granularities: for a whole conversation from the popup after the fact, and for each individual model response at the time of interaction.
+  Scope: Per-response rating was available for the ChatUI interface only at publication; rating is voluntary, so many collected conversations carry no feedback.
+  Evidence: Section 5, Figure 1 and Figure 4
+- In a user study of 10 participants who installed and used the ShareLM plugin, 9 of 10 rated the installation experience 5 out of 5, for an average of 4.8. Average scores were 4.7 for first-time use and 4.7 for the UI.
+  Scope: 10 participants, self-reported 1-5 ratings, no control condition; one participant complained that refresh time is long. Participants reported using open models only 2.7 on average on a 1-5 frequency scale.
+  Evidence: Section 6
+- Half of the 10 participants in the ShareLM user study reported using the plugin popup to rate or delete some of their conversations. The review-before-upload control is therefore exercised rather than ignored.
+  Scope: 10 participants in a short experimentation session, self-reported; no measurement of how many conversations were actually deleted in the wild.
+  Evidence: Section 6
+- ShareLM runs a server-side anonymization script over donated conversation content to strip names, addresses and phone numbers. Alongside the text it collects only the URL, a GMT timestamp and a random user ID, with no IP address, local time or browser type.
+  Scope: The paper states explicitly that no shared text should be assumed fully anonymous, and asks users to avoid sending identifying content in the first place; demographic fields (age, country, gender) are optional and user-supplied.
+  Evidence: Section 3.2 and Appendix A
+- ShareLM argues that open human-model conversation datasets are usually treated as static one-time collections rather than living artifacts. It offers instead a continuously growing collection fed by an end-user browser plugin.
+  Scope: Positioning as of publication in 2025, relative to ShareGPT, Collective Cognition, Chatbot Arena and crowdsourced one-time datasets; the paper notes the plugin's user base is still not large.
+  Evidence: Section 1 and Section 7
+- ShareLM is a reference point for data-donation design in NLP, placing conversation collection on the user's side of the interaction. The user can pause recording, rate, delete and request removal of their own chats.
+  Scope: Design principles and a demo system as of publication in 2025; scaling depends on individual users installing an extension, and the paper notes that a model-serving entity collecting data would scale more easily.
+  Evidence: Section 3.1 and Limitations
+- Conversations donated through the ShareLM plugin are released on Hugging Face as part of the ShareLM collection, under the most permissive license allowed by the specific model. The code and Chrome extension are openly available.
+  Scope: Releases were validated manually before upload at publication, with full automation planned; per-model license terms bound what can be released.
+  Evidence: Section 3.2 and Section 8
+
+## Common misreadings
+- ShareLM is not a single newly crowdsourced dataset: most of its 2.3M conversations come from previously released datasets such as HH-RLHF, PRISM, WildChat and Chatbot Arena, unified into one format, with the plugin's own donations added on top.
+- The 24-hour delayed upload does not guarantee erasure after release: once a dataset version is public, a removal request cannot retract copies already downloaded.
+- The server-side anonymization script is an extra precaution, not a guarantee; the paper states explicitly that no shared text should be assumed fully anonymous.
+- The user study with 10 participants measures usability of the extension, not the quality, diversity or representativeness of the conversations collected.
+- Per-response thumbs-up/down rating was not available on every supported interface at publication, only on ChatUI; whole-conversation rating is what works everywhere.
+- The plugin is not restricted to open-source models it hosts itself: it acts as a mediator on top of whatever chat web interface the user visits, and records nothing when the interface is unsupported or recording is paused.
+
+## Terminology
+- ShareLM collection: A set of publicly released human-with-LLM conversation datasets converted to a single schema (conversation_id, conversation, model_name, user_id, timestamp, source, user_metadata, conversation_metadata), together with conversations donated through the ShareLM Chrome extension.
+- Delayed upload: Keeping recorded conversations in the browser's local database for 24 hours before sending them to a server, so the user can review, rate or delete them before they leave their own machine.
+- Recording banner: A thin strip at the top of a supported chat page indicating that the current conversation is being recorded, with a button to pause sharing.
+- Living artifact: A dataset designed to keep growing with new user contributions over time, as opposed to a one-time collected static dataset that ages as models and user preferences change.
+
+## Links
+- arXiv: https://arxiv.org/abs/2408.08291
+- PDF: https://arxiv.org/pdf/2408.08291
+- HTML: https://arxiv.org/html/2408.08291
+- Hugging Face: https://huggingface.co/papers/2408.08291
+- alphaXiv: https://www.alphaxiv.org/abs/2408.08291
+- DOI: https://doi.org/10.18653/v1/2025.acl-demo.17
+- Semantic Scholar: https://www.semanticscholar.org/paper/271874373
+- Publisher: https://aclanthology.org/2025.acl-demo.17/
+- Code: https://github.com/shachardon/share-lm
+- Project page: https://huggingface.co/datasets/shachardon/ShareLM
+- plugin: https://chromewebstore.google.com/detail/sharelm-share-your-chat-c/nldoebkdaiidhceaphmipeclmlcbljmh
+- dataset: https://huggingface.co/datasets/shachardon/ShareLM
+- paper: https://aclanthology.org/2025.acl-demo.17/
+- project_page: https://sharelm.github.io/
+
+## How to cite
+@inproceedings{don-yehiya-etal-2025-sharelm,
+    title = "The {S}hare{LM} Collection and Plugin: Contributing Human-Model Chats for the Benefit of the Community",
+    author = "Don-Yehiya, Shachar  and
+      Choshen, Leshem  and
+      Abend, Omri",
+    editor = "Mishra, Pushkar  and
+      Muresan, Smaranda  and
+      Yu, Tao",
+    booktitle = "Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 3: System Demonstrations)",
+    month = jul,
+    year = "2025",
+    address = "Vienna, Austria",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.acl-demo.17/",
+    doi = "10.18653/v1/2025.acl-demo.17",
+    pages = "167--177",
+    ISBN = "979-8-89176-253-4",
+    abstract = "Human-model conversations provide a window into users' real-world scenarios, behavior, and needs, and thus are a valuable resource for model development and research. While for-profit companies collect user data through the APIs of their models, using it internally to improve their own models, the open source and research community lags behind. We introduce the ShareLM collection, a unified set of human conversations with large language models, and its accompanying plugin, a Web extension for voluntarily contributing user-model conversations. Where few platforms share their chats, the ShareLM plugin adds this functionality, thus, allowing users to share conversations from most platforms. The plugin allows the user to rate their conversations, both at the conversation and the response levels, and delete conversations they prefer to keep private before they ever leave the user{'}s local storage."
+}

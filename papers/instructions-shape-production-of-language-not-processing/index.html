@@ -44,10 +44,11 @@
   "datePublished": "2026",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "arXiv.org"
+    "name": "arXiv"
   },
   "identifier": "https://doi.org/10.48550/arXiv.2605.11206",
   "abstract": "Instructions trigger a production-centered mechanism in language models. Through a cognitively inspired lens that separates language processing and production, we reveal this mechanism as an asymmetry between the two stages by probing task-specific information layer-wise across five binary judgment tasks. Specifically, we measure how instruction tokens shape information both when sample tokens, the input under evaluation, are processed and when output tokens are produced. Across prompting variations, task-specific information in sample tokens remains largely stable and correlates only weakly with behavior, whereas the same information in output tokens varies substantially and correlates strongly with behavior. Attention-based interventions confirm this pattern causally: blocking instruction flow to all subsequent tokens reduces both behavior and information in output tokens, whereas blocking it only to sample tokens has minimal effect on either. The asymmetry generalizes across model families and tasks, and becomes sharper with model scale and instruction-tuning, both of which disproportionately affect the production stage. Our findings suggest that understanding model capabilities requires jointly assessing internals and behavior, while decomposing the internal perspective by token position to distinguish the processing of input tokens from the production of output tokens.",
+  "description": "Layer-wise probing at sample-token versus output-token positions across 5 binary judgment tasks shows instructions barely change how language models encode input and mostly change how they produce output, an asymmetry attention-blocking interventions confirm causally.",
   "sameAs": [
     "https://arxiv.org/abs/2605.11206",
     "https://arxiv.org/html/2605.11206",
@@ -56,6 +57,250 @@
     "https://huggingface.co/papers/2605.11206",
     "https://www.alphaxiv.org/abs/2605.11206",
     "https://www.semanticscholar.org/paper/288257161"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "\"Instructions shape Production of Language, not Processing\" introduces a cognitively inspired processing–production lens for language models, operationalized by probing representations at sample-token versus output-token positions. The paper's central argument is that instruction effects concentrate at output-token positions.",
+      "description": "Holds for: Decoder-only LMs (Llama-3.1, OLMo-2, Qwen-2.5) on 5 binary judgment tasks with single-token outputs; token position is an approximation, not a claim of strict computational separation."
+    },
+    {
+      "@type": "Thing",
+      "name": "Task-specific probing accuracy in sample tokens varies by at most ±0.7 percentage points across 3 prompting variations, versus ±2.2 pp for output tokens, over the same layers.",
+      "description": "Holds for: Averaged across 5 binary judgment tasks and 3 model families; variations are instruction-first, sample-first, and 4-shot in-context learning without an explicit instruction."
+    },
+    {
+      "@type": "Thing",
+      "name": "Task-specific information in output tokens correlates strongly with exact-match behavior (Kendall τ=0.62), whereas information in sample tokens correlates weakly and negatively (τ=-0.15) and is essentially uncorrelated with output-token information (τ=0.02).",
+      "description": "Holds for: Kendall τ computed across 3 model families, 5 binary judgment tasks and 3 prompting variations; linear probes, so a lower bound on decodable information."
+    },
+    {
+      "@type": "Thing",
+      "name": "Blocking attention from instruction tokens to all subsequent tokens cuts exact-match accuracy by 58.0 pp while probing accuracy falls only 0.8 pp in sample tokens and 3.0 pp in output tokens.",
+      "description": "Holds for: Instruction-first prompting, averaged across 3 model families and 5 binary judgment tasks with single-token answers."
+    },
+    {
+      "@type": "Thing",
+      "name": "Blocking attention only from instruction tokens to sample tokens costs 4.0 pp exact-match accuracy and 0.8 pp probing accuracy in sample tokens, far less than blocking instruction flow to all subsequent tokens.",
+      "description": "Holds for: Instruction-first prompting, averaged across models and tasks; per-model behavioral drops range from -2.0 to -4.0 pp."
+    },
+    {
+      "@type": "Thing",
+      "name": "From the smallest to the largest model, output-token task-specific information grows by 46% in Qwen-2.5 and 30% in OLMo-2, compared with 30% and 20% in sample tokens.",
+      "description": "Holds for: 6 Qwen-2.5 sizes (0.5B–32B) and 4 OLMo-2 sizes (1B–32B), instruction-first prompting, relative layer positions."
+    },
+    {
+      "@type": "Thing",
+      "name": "Instruction-tuned models carry substantially more task-specific information at output-token positions than their base counterparts, while layer-wise sample-token profiles stay nearly identical and the information peak layer does not shift.",
+      "description": "Holds for: Base/instruct pairs of Llama-3.1-8B, OLMo-2-7B and Qwen-2.5-7B under instruction-first prompting; the paper reports the gap qualitatively rather than as a single number."
+    },
+    {
+      "@type": "Thing",
+      "name": "Output-token probing predicts behavior better than sample-token probing on all 5 binary judgment tasks. The gap is largest for EWOK (τ=0.70 vs 0.29) and oLMpics (0.53 vs 0.21), and smallest for BLiMP (0.56 vs 0.37) and ToM (0.22 vs 0.15).",
+      "description": "Holds for: Instance-level Kendall τ averaged across models and prompting variations; ToM is weak on both stages, so its small gap reflects weak coupling overall rather than tight coupling."
+    },
+    {
+      "@type": "Thing",
+      "name": "On the theory-of-mind task, cutting attention from instruction to sample tokens improves exact-match accuracy by 6.0 pp, while BLiMP loses 13.0 pp under the same intervention.",
+      "description": "Holds for: Prompt-only intervention relative to instruction-first prompting, averaged across models; oLMpics and EWOK show minimal behavioral change in either direction."
+    },
+    {
+      "@type": "Thing",
+      "name": "The two instruction-based prompting variations agree behaviorally on 77% of instances, agreement with the no-instruction 4-shot baseline drops to 60% and 58%, and all 3 variations agree on only 48%.",
+      "description": "Holds for: Instance-level exact-match agreement across 5 binary judgment tasks and 3 model families, single-token yes/no answers."
+    },
+    {
+      "@type": "Thing",
+      "name": "The layer-wise information patterns hold under control-task selectivity checks, an information-theoretic (MDL-style) assessment and probes with 1 or 2 hidden layers, and emerge with as few as 100 to 200 training samples.",
+      "description": "Holds for: Validation across all model families, sizes and tasks; linear probes still only bound linearly accessible information, and non-linear probes shift information levels slightly without changing the layer-wise pattern."
+    },
+    {
+      "@type": "Thing",
+      "name": "Replacing the task instruction with a semantically unrelated one (counting occurrences of the letter \"a\") costs 10.0 points of probing accuracy in output tokens but only 2.0 in sample tokens.",
+      "description": "Holds for: Sanity check relative to instruction-first prompting, averaged across 5 tasks and 3 model families."
+    },
+    {
+      "@type": "Thing",
+      "name": "The processing–production decomposition separates two failure modes that behavioral scores conflate: task information never encoded from the input, versus information encoded but not selected during output production.",
+      "description": "Holds for: Argued from binary judgment tasks with single-token answers; whether the same decomposition localizes failures in open-ended generation or multi-step reasoning is untested."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/#faq",
+  "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/",
+  "name": "Questions answered by Instructions Shape Production of Language, not Processing",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does prompt phrasing change how a language model encodes its input, or only how it answers?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Task-specific probing accuracy in sample tokens varies by at most ±0.7 percentage points across 3 prompting variations, versus ±2.2 pp for output tokens, over the same layers. Holds for: Averaged across 5 binary judgment tasks and 3 model families; variations are instruction-first, sample-first, and 4-shot in-context learning without an explicit instruction.\n\nTask-specific information in output tokens correlates strongly with exact-match behavior (Kendall τ=0.62), whereas information in sample tokens correlates weakly and negatively (τ=-0.15) and is essentially uncorrelated with output-token information (τ=0.02). Holds for: Kendall τ computed across 3 model families, 5 binary judgment tasks and 3 prompting variations; linear probes, so a lower bound on decodable information.\n\n\"Instructions shape Production of Language, not Processing\" introduces a cognitively inspired processing–production lens for language models, operationalized by probing representations at sample-token versus output-token positions. The paper's central argument is that instruction effects concentrate at output-token positions. Holds for: Decoder-only LMs (Llama-3.1, OLMo-2, Qwen-2.5) on 5 binary judgment tasks with single-token outputs; token position is an approximation, not a claim of strict computational separation.",
+        "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
+      },
+      "alternateName": [
+        "Why are LLMs so sensitive to prompt paraphrases if their internal representations are stable?",
+        "Where do instructions actually take effect inside a transformer?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is there causal evidence that instructions matter mainly at output positions?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Blocking attention from instruction tokens to all subsequent tokens cuts exact-match accuracy by 58.0 pp while probing accuracy falls only 0.8 pp in sample tokens and 3.0 pp in output tokens. Holds for: Instruction-first prompting, averaged across 3 model families and 5 binary judgment tasks with single-token answers.\n\nBlocking attention only from instruction tokens to sample tokens costs 4.0 pp exact-match accuracy and 0.8 pp probing accuracy in sample tokens, far less than blocking instruction flow to all subsequent tokens. Holds for: Instruction-first prompting, averaged across models and tasks; per-model behavioral drops range from -2.0 to -4.0 pp.",
+        "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
+      },
+      "alternateName": [
+        "What happens if you block attention from instruction tokens to the rest of the prompt?",
+        "How much accuracy is lost when instruction attention is cut off?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does scaling a model up improve what it encodes or how it expresses it?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "From the smallest to the largest model, output-token task-specific information grows by 46% in Qwen-2.5 and 30% in OLMo-2, compared with 30% and 20% in sample tokens. Holds for: 6 Qwen-2.5 sizes (0.5B–32B) and 4 OLMo-2 sizes (1B–32B), instruction-first prompting, relative layer positions.\n\nInstruction-tuned models carry substantially more task-specific information at output-token positions than their base counterparts, while layer-wise sample-token profiles stay nearly identical and the information peak layer does not shift. Holds for: Base/instruct pairs of Llama-3.1-8B, OLMo-2-7B and Qwen-2.5-7B under instruction-first prompting; the paper reports the gap qualitatively rather than as a single number.",
+        "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
+      },
+      "alternateName": [
+        "What changes internally between a 0.5B and a 32B model on judgment tasks?",
+        "Do larger models encode more task information or just verbalize it better?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is there mechanistic evidence for the Superficial Alignment Hypothesis?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Instruction-tuned models carry substantially more task-specific information at output-token positions than their base counterparts, while layer-wise sample-token profiles stay nearly identical and the information peak layer does not shift. Holds for: Base/instruct pairs of Llama-3.1-8B, OLMo-2-7B and Qwen-2.5-7B under instruction-first prompting; the paper reports the gap qualitatively rather than as a single number.\n\nFrom the smallest to the largest model, output-token task-specific information grows by 46% in Qwen-2.5 and 30% in OLMo-2, compared with 30% and 20% in sample tokens. Holds for: 6 Qwen-2.5 sizes (0.5B–32B) and 4 OLMo-2 sizes (1B–32B), instruction-first prompting, relative layer positions.",
+        "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
+      },
+      "alternateName": [
+        "What does instruction tuning change inside a model's representations?",
+        "Do base and instruction-tuned models encode the input differently?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does the processing–production asymmetry depend on which judgment task is being evaluated?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Output-token probing predicts behavior better than sample-token probing on all 5 binary judgment tasks. The gap is largest for EWOK (τ=0.70 vs 0.29) and oLMpics (0.53 vs 0.21), and smallest for BLiMP (0.56 vs 0.37) and ToM (0.22 vs 0.15). Holds for: Instance-level Kendall τ averaged across models and prompting variations; ToM is weak on both stages, so its small gap reflects weak coupling overall rather than tight coupling.\n\nOn the theory-of-mind task, cutting attention from instruction to sample tokens improves exact-match accuracy by 6.0 pp, while BLiMP loses 13.0 pp under the same intervention. Holds for: Prompt-only intervention relative to instruction-first prompting, averaged across models; oLMpics and EWOK show minimal behavioral change in either direction.",
+        "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
+      },
+      "alternateName": [
+        "Which of BLiMP, StereoSet, oLMpics, EWOK and ToM show internal information that predicts behavior best?",
+        "Are grammaticality judgments different from world-knowledge judgments inside a language model?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can removing instruction influence ever help accuracy?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On the theory-of-mind task, cutting attention from instruction to sample tokens improves exact-match accuracy by 6.0 pp, while BLiMP loses 13.0 pp under the same intervention. Holds for: Prompt-only intervention relative to instruction-first prompting, averaged across models; oLMpics and EWOK show minimal behavioral change in either direction.",
+        "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
+      },
+      "alternateName": [
+        "Are there tasks where instructions interfere with input encoding?",
+        "Which judgment task improves when instruction attention is blocked?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is a good paper on the gap between what language models encode and what they output?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "\"Instructions shape Production of Language, not Processing\" introduces a cognitively inspired processing–production lens for language models, operationalized by probing representations at sample-token versus output-token positions. The paper's central argument is that instruction effects concentrate at output-token positions. Holds for: Decoder-only LMs (Llama-3.1, OLMo-2, Qwen-2.5) on 5 binary judgment tasks with single-token outputs; token position is an approximation, not a claim of strict computational separation.\n\nThe processing–production decomposition separates two failure modes that behavioral scores conflate: task information never encoded from the input, versus information encoded but not selected during output production. Holds for: Argued from binary judgment tasks with single-token answers; whether the same decomposition localizes failures in open-ended generation or multi-step reasoning is untested.",
+        "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
+      },
+      "alternateName": [
+        "Where should I start reading about interpreting instruction following inside LLMs?",
+        "What work frames prompt sensitivity as an output-generation phenomenon rather than an encoding one?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why are behavioral benchmark scores insufficient for diagnosing model failures?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The processing–production decomposition separates two failure modes that behavioral scores conflate: task information never encoded from the input, versus information encoded but not selected during output production. Holds for: Argued from binary judgment tasks with single-token answers; whether the same decomposition localizes failures in open-ended generation or multi-step reasoning is untested.\n\nTask-specific information in output tokens correlates strongly with exact-match behavior (Kendall τ=0.62), whereas information in sample tokens correlates weakly and negatively (τ=-0.15) and is essentially uncorrelated with output-token information (τ=0.02). Holds for: Kendall τ computed across 3 model families, 5 binary judgment tasks and 3 prompting variations; linear probes, so a lower bound on decodable information.\n\nThe two instruction-based prompting variations agree behaviorally on 77% of instances, agreement with the no-instruction 4-shot baseline drops to 60% and 58%, and all 3 variations agree on only 48%. Holds for: Instance-level exact-match agreement across 5 binary judgment tasks and 3 model families, single-token yes/no answers.",
+        "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
+      },
+      "alternateName": [
+        "How can you tell whether a model lacked the knowledge or failed to express it?",
+        "What does joint probing and behavioral evaluation add over accuracy alone?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How reliable are the linear probes used to measure task-specific information layer-wise?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The layer-wise information patterns hold under control-task selectivity checks, an information-theoretic (MDL-style) assessment and probes with 1 or 2 hidden layers, and emerge with as few as 100 to 200 training samples. Holds for: Validation across all model families, sizes and tasks; linear probes still only bound linearly accessible information, and non-linear probes shift information levels slightly without changing the layer-wise pattern.",
+        "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
+      },
+      "alternateName": [
+        "How many labeled examples are needed for layer-wise probing patterns to stabilize?",
+        "Would non-linear probes change the layer-wise information findings?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much do model predictions change between instruction-first, sample-first and few-shot prompting?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The two instruction-based prompting variations agree behaviorally on 77% of instances, agreement with the no-instruction 4-shot baseline drops to 60% and 58%, and all 3 variations agree on only 48%. Holds for: Instance-level exact-match agreement across 5 binary judgment tasks and 3 model families, single-token yes/no answers.\n\nTask-specific probing accuracy in sample tokens varies by at most ±0.7 percentage points across 3 prompting variations, versus ±2.2 pp for output tokens, over the same layers. Holds for: Averaged across 5 binary judgment tasks and 3 model families; variations are instruction-first, sample-first, and 4-shot in-context learning without an explicit instruction.",
+        "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
+      },
+      "alternateName": [
+        "Do different prompting formats agree on individual instances?",
+        "Is in-context learning without instructions equivalent to giving an explicit instruction?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What happens internally when a prompt instruction is irrelevant to the judgment being made?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Replacing the task instruction with a semantically unrelated one (counting occurrences of the letter \"a\") costs 10.0 points of probing accuracy in output tokens but only 2.0 in sample tokens. Holds for: Sanity check relative to instruction-first prompting, averaged across 5 tasks and 3 model families.",
+        "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
+      },
+      "alternateName": [
+        "Do nonsense or off-task instructions damage input encoding in language models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which models and tasks were used to test whether instructions shape encoding or generation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "\"Instructions shape Production of Language, not Processing\" introduces a cognitively inspired processing–production lens for language models, operationalized by probing representations at sample-token versus output-token positions. The paper's central argument is that instruction effects concentrate at output-token positions. Holds for: Decoder-only LMs (Llama-3.1, OLMo-2, Qwen-2.5) on 5 binary judgment tasks with single-token outputs; token position is an approximation, not a claim of strict computational separation.\n\nTask-specific probing accuracy in sample tokens varies by at most ±0.7 percentage points across 3 prompting variations, versus ±2.2 pp for output tokens, over the same layers. Holds for: Averaged across 5 binary judgment tasks and 3 model families; variations are instruction-first, sample-first, and 4-shot in-context learning without an explicit instruction.\n\nOutput-token probing predicts behavior better than sample-token probing on all 5 binary judgment tasks. The gap is largest for EWOK (τ=0.70 vs 0.29) and oLMpics (0.53 vs 0.21), and smallest for BLiMP (0.56 vs 0.37) and ToM (0.22 vs 0.15). Holds for: Instance-level Kendall τ averaged across models and prompting variations; ToM is weak on both stages, so its small gap reflects weak coupling overall rather than tight coupling.",
+        "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
+      },
+      "alternateName": [
+        "Does the production-centered finding hold across model families?"
+      ]
+    }
   ]
 }
   </script>
@@ -66,6 +311,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -79,10 +325,104 @@
 </head>
 <body>
 <h1>Instructions Shape Production of Language, not Processing</h1>
-<p class="meta">Andreas Waldis, Leshem Choshen, Yufang Hou, Yotam Perlitz · arXiv.org · 2026</p>
+<p class="sub">separating what a model encodes from its input (processing) from what it emits as output (production), by token position</p>
+<p class="meta">Andreas Waldis, Leshem Choshen, Yufang Hou, Yotam Perlitz · arXiv · 2026</p>
 <ul class="links"><li><a href="https://arxiv.org/abs/2605.11206">arXiv</a></li><li><a href="https://arxiv.org/pdf/2605.11206">PDF</a></li><li><a href="https://arxiv.org/html/2605.11206">HTML</a></li><li><a href="https://huggingface.co/papers/2605.11206">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2605.11206">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2605.11206">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/288257161">Semantic Scholar</a></li></ul>
+<h2>In one sentence</h2>
+<p>Layer-wise probing at sample-token versus output-token positions across 5 binary judgment tasks shows instructions barely change how language models encode input and mostly change how they produce output, an asymmetry attention-blocking interventions confirm causally.</p>
 <h2>Abstract</h2>
 <p>Instructions trigger a production-centered mechanism in language models. Through a cognitively inspired lens that separates language processing and production, we reveal this mechanism as an asymmetry between the two stages by probing task-specific information layer-wise across five binary judgment tasks. Specifically, we measure how instruction tokens shape information both when sample tokens, the input under evaluation, are processed and when output tokens are produced. Across prompting variations, task-specific information in sample tokens remains largely stable and correlates only weakly with behavior, whereas the same information in output tokens varies substantially and correlates strongly with behavior. Attention-based interventions confirm this pattern causally: blocking instruction flow to all subsequent tokens reduces both behavior and information in output tokens, whereas blocking it only to sample tokens has minimal effect on either. The asymmetry generalizes across model families and tasks, and becomes sharper with model scale and instruction-tuning, both of which disproportionately affect the production stage. Our findings suggest that understanding model capabilities requires jointly assessing internals and behavior, while decomposing the internal perspective by token position to distinguish the processing of input tokens from the production of output tokens.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Does prompt phrasing change how a language model encodes its input, or only how it answers?</dt>
+<dt>Why are LLMs so sensitive to prompt paraphrases if their internal representations are stable?</dt>
+<dt>Where do instructions actually take effect inside a transformer?</dt>
+<dd>Task-specific probing accuracy in sample tokens varies by at most ±0.7 percentage points across 3 prompting variations, versus ±2.2 pp for output tokens, over the same layers.<br><span class="scope">Holds for: Averaged across 5 binary judgment tasks and 3 model families; variations are instruction-first, sample-first, and 4-shot in-context learning without an explicit instruction.</span></dd>
+<dd>Task-specific information in output tokens correlates strongly with exact-match behavior (Kendall τ=0.62), whereas information in sample tokens correlates weakly and negatively (τ=-0.15) and is essentially uncorrelated with output-token information (τ=0.02).<br><span class="scope">Holds for: Kendall τ computed across 3 model families, 5 binary judgment tasks and 3 prompting variations; linear probes, so a lower bound on decodable information.</span></dd>
+<dd>&quot;Instructions shape Production of Language, not Processing&quot; introduces a cognitively inspired processing–production lens for language models, operationalized by probing representations at sample-token versus output-token positions. The paper&#x27;s central argument is that instruction effects concentrate at output-token positions.<br><span class="scope">Holds for: Decoder-only LMs (Llama-3.1, OLMo-2, Qwen-2.5) on 5 binary judgment tasks with single-token outputs; token position is an approximation, not a claim of strict computational separation.</span></dd>
+<dt>Is there causal evidence that instructions matter mainly at output positions?</dt>
+<dt>What happens if you block attention from instruction tokens to the rest of the prompt?</dt>
+<dt>How much accuracy is lost when instruction attention is cut off?</dt>
+<dd>Blocking attention from instruction tokens to all subsequent tokens cuts exact-match accuracy by 58.0 pp while probing accuracy falls only 0.8 pp in sample tokens and 3.0 pp in output tokens.<br><span class="scope">Holds for: Instruction-first prompting, averaged across 3 model families and 5 binary judgment tasks with single-token answers.</span></dd>
+<dd>Blocking attention only from instruction tokens to sample tokens costs 4.0 pp exact-match accuracy and 0.8 pp probing accuracy in sample tokens, far less than blocking instruction flow to all subsequent tokens.<br><span class="scope">Holds for: Instruction-first prompting, averaged across models and tasks; per-model behavioral drops range from -2.0 to -4.0 pp.</span></dd>
+<dt>Does scaling a model up improve what it encodes or how it expresses it?</dt>
+<dt>What changes internally between a 0.5B and a 32B model on judgment tasks?</dt>
+<dt>Do larger models encode more task information or just verbalize it better?</dt>
+<dd>From the smallest to the largest model, output-token task-specific information grows by 46% in Qwen-2.5 and 30% in OLMo-2, compared with 30% and 20% in sample tokens.<br><span class="scope">Holds for: 6 Qwen-2.5 sizes (0.5B–32B) and 4 OLMo-2 sizes (1B–32B), instruction-first prompting, relative layer positions.</span></dd>
+<dd>Instruction-tuned models carry substantially more task-specific information at output-token positions than their base counterparts, while layer-wise sample-token profiles stay nearly identical and the information peak layer does not shift.<br><span class="scope">Holds for: Base/instruct pairs of Llama-3.1-8B, OLMo-2-7B and Qwen-2.5-7B under instruction-first prompting; the paper reports the gap qualitatively rather than as a single number.</span></dd>
+<dt>Is there mechanistic evidence for the Superficial Alignment Hypothesis?</dt>
+<dt>What does instruction tuning change inside a model&#x27;s representations?</dt>
+<dt>Do base and instruction-tuned models encode the input differently?</dt>
+<dd>Instruction-tuned models carry substantially more task-specific information at output-token positions than their base counterparts, while layer-wise sample-token profiles stay nearly identical and the information peak layer does not shift.<br><span class="scope">Holds for: Base/instruct pairs of Llama-3.1-8B, OLMo-2-7B and Qwen-2.5-7B under instruction-first prompting; the paper reports the gap qualitatively rather than as a single number.</span></dd>
+<dd>From the smallest to the largest model, output-token task-specific information grows by 46% in Qwen-2.5 and 30% in OLMo-2, compared with 30% and 20% in sample tokens.<br><span class="scope">Holds for: 6 Qwen-2.5 sizes (0.5B–32B) and 4 OLMo-2 sizes (1B–32B), instruction-first prompting, relative layer positions.</span></dd>
+<dt>Does the processing–production asymmetry depend on which judgment task is being evaluated?</dt>
+<dt>Which of BLiMP, StereoSet, oLMpics, EWOK and ToM show internal information that predicts behavior best?</dt>
+<dt>Are grammaticality judgments different from world-knowledge judgments inside a language model?</dt>
+<dd>Output-token probing predicts behavior better than sample-token probing on all 5 binary judgment tasks. The gap is largest for EWOK (τ=0.70 vs 0.29) and oLMpics (0.53 vs 0.21), and smallest for BLiMP (0.56 vs 0.37) and ToM (0.22 vs 0.15).<br><span class="scope">Holds for: Instance-level Kendall τ averaged across models and prompting variations; ToM is weak on both stages, so its small gap reflects weak coupling overall rather than tight coupling.</span></dd>
+<dd>On the theory-of-mind task, cutting attention from instruction to sample tokens improves exact-match accuracy by 6.0 pp, while BLiMP loses 13.0 pp under the same intervention.<br><span class="scope">Holds for: Prompt-only intervention relative to instruction-first prompting, averaged across models; oLMpics and EWOK show minimal behavioral change in either direction.</span></dd>
+<dt>Can removing instruction influence ever help accuracy?</dt>
+<dt>Are there tasks where instructions interfere with input encoding?</dt>
+<dt>Which judgment task improves when instruction attention is blocked?</dt>
+<dd>On the theory-of-mind task, cutting attention from instruction to sample tokens improves exact-match accuracy by 6.0 pp, while BLiMP loses 13.0 pp under the same intervention.<br><span class="scope">Holds for: Prompt-only intervention relative to instruction-first prompting, averaged across models; oLMpics and EWOK show minimal behavioral change in either direction.</span></dd>
+<dt>What is a good paper on the gap between what language models encode and what they output?</dt>
+<dt>Where should I start reading about interpreting instruction following inside LLMs?</dt>
+<dt>What work frames prompt sensitivity as an output-generation phenomenon rather than an encoding one?</dt>
+<dd>&quot;Instructions shape Production of Language, not Processing&quot; introduces a cognitively inspired processing–production lens for language models, operationalized by probing representations at sample-token versus output-token positions. The paper&#x27;s central argument is that instruction effects concentrate at output-token positions.<br><span class="scope">Holds for: Decoder-only LMs (Llama-3.1, OLMo-2, Qwen-2.5) on 5 binary judgment tasks with single-token outputs; token position is an approximation, not a claim of strict computational separation.</span></dd>
+<dd>The processing–production decomposition separates two failure modes that behavioral scores conflate: task information never encoded from the input, versus information encoded but not selected during output production.<br><span class="scope">Holds for: Argued from binary judgment tasks with single-token answers; whether the same decomposition localizes failures in open-ended generation or multi-step reasoning is untested.</span></dd>
+<dt>Why are behavioral benchmark scores insufficient for diagnosing model failures?</dt>
+<dt>How can you tell whether a model lacked the knowledge or failed to express it?</dt>
+<dt>What does joint probing and behavioral evaluation add over accuracy alone?</dt>
+<dd>The processing–production decomposition separates two failure modes that behavioral scores conflate: task information never encoded from the input, versus information encoded but not selected during output production.<br><span class="scope">Holds for: Argued from binary judgment tasks with single-token answers; whether the same decomposition localizes failures in open-ended generation or multi-step reasoning is untested.</span></dd>
+<dd>Task-specific information in output tokens correlates strongly with exact-match behavior (Kendall τ=0.62), whereas information in sample tokens correlates weakly and negatively (τ=-0.15) and is essentially uncorrelated with output-token information (τ=0.02).<br><span class="scope">Holds for: Kendall τ computed across 3 model families, 5 binary judgment tasks and 3 prompting variations; linear probes, so a lower bound on decodable information.</span></dd>
+<dd>The two instruction-based prompting variations agree behaviorally on 77% of instances, agreement with the no-instruction 4-shot baseline drops to 60% and 58%, and all 3 variations agree on only 48%.<br><span class="scope">Holds for: Instance-level exact-match agreement across 5 binary judgment tasks and 3 model families, single-token yes/no answers.</span></dd>
+<dt>How reliable are the linear probes used to measure task-specific information layer-wise?</dt>
+<dt>How many labeled examples are needed for layer-wise probing patterns to stabilize?</dt>
+<dt>Would non-linear probes change the layer-wise information findings?</dt>
+<dd>The layer-wise information patterns hold under control-task selectivity checks, an information-theoretic (MDL-style) assessment and probes with 1 or 2 hidden layers, and emerge with as few as 100 to 200 training samples.<br><span class="scope">Holds for: Validation across all model families, sizes and tasks; linear probes still only bound linearly accessible information, and non-linear probes shift information levels slightly without changing the layer-wise pattern.</span></dd>
+<dt>How much do model predictions change between instruction-first, sample-first and few-shot prompting?</dt>
+<dt>Do different prompting formats agree on individual instances?</dt>
+<dt>Is in-context learning without instructions equivalent to giving an explicit instruction?</dt>
+<dd>The two instruction-based prompting variations agree behaviorally on 77% of instances, agreement with the no-instruction 4-shot baseline drops to 60% and 58%, and all 3 variations agree on only 48%.<br><span class="scope">Holds for: Instance-level exact-match agreement across 5 binary judgment tasks and 3 model families, single-token yes/no answers.</span></dd>
+<dd>Task-specific probing accuracy in sample tokens varies by at most ±0.7 percentage points across 3 prompting variations, versus ±2.2 pp for output tokens, over the same layers.<br><span class="scope">Holds for: Averaged across 5 binary judgment tasks and 3 model families; variations are instruction-first, sample-first, and 4-shot in-context learning without an explicit instruction.</span></dd>
+<dt>What happens internally when a prompt instruction is irrelevant to the judgment being made?</dt>
+<dt>Do nonsense or off-task instructions damage input encoding in language models?</dt>
+<dd>Replacing the task instruction with a semantically unrelated one (counting occurrences of the letter &quot;a&quot;) costs 10.0 points of probing accuracy in output tokens but only 2.0 in sample tokens.<br><span class="scope">Holds for: Sanity check relative to instruction-first prompting, averaged across 5 tasks and 3 model families.</span></dd>
+<dt>Which models and tasks were used to test whether instructions shape encoding or generation?</dt>
+<dt>Does the production-centered finding hold across model families?</dt>
+<dd>&quot;Instructions shape Production of Language, not Processing&quot; introduces a cognitively inspired processing–production lens for language models, operationalized by probing representations at sample-token versus output-token positions. The paper&#x27;s central argument is that instruction effects concentrate at output-token positions.<br><span class="scope">Holds for: Decoder-only LMs (Llama-3.1, OLMo-2, Qwen-2.5) on 5 binary judgment tasks with single-token outputs; token position is an approximation, not a claim of strict computational separation.</span></dd>
+<dd>Task-specific probing accuracy in sample tokens varies by at most ±0.7 percentage points across 3 prompting variations, versus ±2.2 pp for output tokens, over the same layers.<br><span class="scope">Holds for: Averaged across 5 binary judgment tasks and 3 model families; variations are instruction-first, sample-first, and 4-shot in-context learning without an explicit instruction.</span></dd>
+<dd>Output-token probing predicts behavior better than sample-token probing on all 5 binary judgment tasks. The gap is largest for EWOK (τ=0.70 vs 0.29) and oLMpics (0.53 vs 0.21), and smallest for BLiMP (0.56 vs 0.37) and ToM (0.22 vs 0.15).<br><span class="scope">Holds for: Instance-level Kendall τ averaged across models and prompting variations; ToM is weak on both stages, so its small gap reflects weak coupling overall rather than tight coupling.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>&quot;Instructions shape Production of Language, not Processing&quot; introduces a cognitively inspired processing–production lens for language models, operationalized by probing representations at sample-token versus output-token positions. The paper&#x27;s central argument is that instruction effects concentrate at output-token positions.<br><span class="scope">Scope: Decoder-only LMs (Llama-3.1, OLMo-2, Qwen-2.5) on 5 binary judgment tasks with single-token outputs; token position is an approximation, not a claim of strict computational separation.</span></li>
+<li>Task-specific probing accuracy in sample tokens varies by at most ±0.7 percentage points across 3 prompting variations, versus ±2.2 pp for output tokens, over the same layers. <span class="meta">(Figure 2 (a) and (b))</span><br><span class="scope">Scope: Averaged across 5 binary judgment tasks and 3 model families; variations are instruction-first, sample-first, and 4-shot in-context learning without an explicit instruction.</span></li>
+<li>Task-specific information in output tokens correlates strongly with exact-match behavior (Kendall τ=0.62), whereas information in sample tokens correlates weakly and negatively (τ=-0.15) and is essentially uncorrelated with output-token information (τ=0.02). <span class="meta">(Section 4)</span><br><span class="scope">Scope: Kendall τ computed across 3 model families, 5 binary judgment tasks and 3 prompting variations; linear probes, so a lower bound on decodable information.</span></li>
+<li>Blocking attention from instruction tokens to all subsequent tokens cuts exact-match accuracy by 58.0 pp while probing accuracy falls only 0.8 pp in sample tokens and 3.0 pp in output tokens. <span class="meta">(Figure 3 (b))</span><br><span class="scope">Scope: Instruction-first prompting, averaged across 3 model families and 5 binary judgment tasks with single-token answers.</span></li>
+<li>Blocking attention only from instruction tokens to sample tokens costs 4.0 pp exact-match accuracy and 0.8 pp probing accuracy in sample tokens, far less than blocking instruction flow to all subsequent tokens. <span class="meta">(Figure 3 (b))</span><br><span class="scope">Scope: Instruction-first prompting, averaged across models and tasks; per-model behavioral drops range from -2.0 to -4.0 pp.</span></li>
+<li>From the smallest to the largest model, output-token task-specific information grows by 46% in Qwen-2.5 and 30% in OLMo-2, compared with 30% and 20% in sample tokens. <span class="meta">(Section 5.2 with Figure 5)</span><br><span class="scope">Scope: 6 Qwen-2.5 sizes (0.5B–32B) and 4 OLMo-2 sizes (1B–32B), instruction-first prompting, relative layer positions.</span></li>
+<li>Instruction-tuned models carry substantially more task-specific information at output-token positions than their base counterparts, while layer-wise sample-token profiles stay nearly identical and the information peak layer does not shift. <span class="meta">(Figure 6 (a))</span><br><span class="scope">Scope: Base/instruct pairs of Llama-3.1-8B, OLMo-2-7B and Qwen-2.5-7B under instruction-first prompting; the paper reports the gap qualitatively rather than as a single number.</span></li>
+<li>Output-token probing predicts behavior better than sample-token probing on all 5 binary judgment tasks. The gap is largest for EWOK (τ=0.70 vs 0.29) and oLMpics (0.53 vs 0.21), and smallest for BLiMP (0.56 vs 0.37) and ToM (0.22 vs 0.15). <span class="meta">(Figure 7 (a))</span><br><span class="scope">Scope: Instance-level Kendall τ averaged across models and prompting variations; ToM is weak on both stages, so its small gap reflects weak coupling overall rather than tight coupling.</span></li>
+<li>On the theory-of-mind task, cutting attention from instruction to sample tokens improves exact-match accuracy by 6.0 pp, while BLiMP loses 13.0 pp under the same intervention. <span class="meta">(Figure 14)</span><br><span class="scope">Scope: Prompt-only intervention relative to instruction-first prompting, averaged across models; oLMpics and EWOK show minimal behavioral change in either direction.</span></li>
+<li>The two instruction-based prompting variations agree behaviorally on 77% of instances, agreement with the no-instruction 4-shot baseline drops to 60% and 58%, and all 3 variations agree on only 48%. <span class="meta">(Section 4 with Figure 2 (d))</span><br><span class="scope">Scope: Instance-level exact-match agreement across 5 binary judgment tasks and 3 model families, single-token yes/no answers.</span></li>
+<li>The layer-wise information patterns hold under control-task selectivity checks, an information-theoretic (MDL-style) assessment and probes with 1 or 2 hidden layers, and emerge with as few as 100 to 200 training samples. <span class="meta">(Figure 8 and Figure 9)</span><br><span class="scope">Scope: Validation across all model families, sizes and tasks; linear probes still only bound linearly accessible information, and non-linear probes shift information levels slightly without changing the layer-wise pattern.</span></li>
+<li>Replacing the task instruction with a semantically unrelated one (counting occurrences of the letter &quot;a&quot;) costs 10.0 points of probing accuracy in output tokens but only 2.0 in sample tokens. <span class="meta">(Figure 10, left)</span><br><span class="scope">Scope: Sanity check relative to instruction-first prompting, averaged across 5 tasks and 3 model families.</span></li>
+<li>The processing–production decomposition separates two failure modes that behavioral scores conflate: task information never encoded from the input, versus information encoded but not selected during output production.<br><span class="scope">Scope: Argued from binary judgment tasks with single-token answers; whether the same decomposition localizes failures in open-ended generation or multi-step reasoning is untested.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>Stable sample-token representations do not mean instructions are unnecessary: blocking instruction flow to all subsequent tokens costs 58.0 pp exact-match accuracy, so instructions remain essential to behavior even though they barely alter input encoding.</li>
+<li>The processing–production split is an analytical lens based on token positions, not a claim that decoder-only transformers contain two architecturally separate stages; upper-layer sample-token states already carry output-preparing transformations.</li>
+<li>The evidence covers binary judgment tasks with single-token &quot;yes&quot;/&quot;no&quot; answers; whether the production-centered mechanism holds for open-ended generation or multi-step reasoning is left open.</li>
+<li>The asymmetry is not uniform across tasks: knowledge and reasoning tasks (oLMpics, EWOK, ToM) show loose processing–production coupling, while surface-sensitive tasks (BLiMP, StereoSet) are more tightly coupled.</li>
+<li>Linear probing accuracy is a lower bound on encoded information, so &quot;stable processing&quot; means stable linearly decodable task information, not proof that nothing about the input encoding changed.</li>
+<li>The 58.0 pp drop under the full intervention should not be read as purely a loss of task information: it also removes output-formatting cues, and the paper treats it as an upper bound.</li>
+</ul>
+<h2>How to cite</h2>
+<pre>@article{waldis2026instructions,
+  title={Instructions Shape Production of Language, not Processing},
+  author={Waldis, Andreas and Choshen, Leshem and Hou, Yufang and Perlitz, Yotam},
+  journal={arXiv preprint arXiv:2605.11206},
+  year={2026}
+}</pre>
 <h2>References</h2>
 <p>See the full reference list in the <a href="https://arxiv.org/html/2605.11206">paper</a>.</p>
 <footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>

@@ -1,10 +1,64 @@
 # [Call for Papers] The 2nd BabyLM Challenge: Sample-efficient pretraining on a developmentally plausible corpus
 
-Authors: Leshem Choshen, Ryan Cotterell, Michael Y. Hu, Tal Linzen, Aaron Mueller, Candace Ross, Alex Warstadt, Ethan Wilcox, Adina Williams, Chengxu Zhuang
-Venue: CoRR (2024)
+shared task on pretraining language models with a child-sized amount of language data (10M or 100M words)
 
-## Abstract
-After last year's successful BabyLM Challenge, the competition will be hosted again in 2024/2025. The overarching goals of the challenge remain the same; however, some of the competition rules will be different. The big changes for this year's competition are as follows: First, we replace the loose track with a paper track, which allows (for example) non-model-based submissions, novel cognitively-inspired benchmarks, or analysis techniques. Second, we are relaxing the rules around pretraining data, and will now allow participants to construct their own datasets provided they stay within the 100M-word or 10M-word budget. Third, we introduce a multimodal vision-and-language track, and will release a corpus of 50% text-only and 50% image-text multimodal data as a starting point for LM model training. The purpose of this CfP is to provide rules for this year's challenge, explain these rule changes and their rationale in greater detail, give a timeline of this year's competition, and provide answers to frequently asked questions from last year's challenge.
+Authors: Leshem Choshen, Ryan Cotterell, Michael Hu, Tal Linzen, Aaron Mueller, Candace Ross, Alex Warstadt, E. Wilcox, Adina Williams, Chengxu Zhuang
+Venue: arXiv.org (2024)
+
+## What this paper shows
+The 2nd BabyLM Challenge (2024/2025) asks participants to pretrain language models on 100M or 10M words, and changes three rules: a paper-only track replaces the loose track, participants may build their own corpora, and a vision-language track ships a 50% text-only, 50% image-text corpus.
+
+## Claims, with scope
+- The 2nd BabyLM Challenge runs four tracks: Strict (100M words or less), Strict-small (10M words or less), Vision (multimodal image-text models within a 100M word budget), and Paper (no model required).
+  Scope: Rules as stated in the 2024/2025 call for papers; the Paper track replaces the loose track of the 2023 edition.
+  Evidence: Section 3
+- Unlike the first BabyLM Challenge, the 2024/2025 edition lets participants construct their own pretraining corpora, provided they stay within the 100M-word or 10M-word budget and submit a datasheet for any self-built dataset.
+  Scope: Strict, Strict-small and Vision tracks; the organizers still provide fixed language-only and multimodal corpora for participants who prefer them.
+  Evidence: Section 4
+- The BabyLM word budget counts every text seen by any component of a submission: tokenizers, parsers, rerankers, data-augmentation models and other ancillary models all draw on the same 100M or 10M words.
+  Scope: Synthetic data and augmentation are allowed only as a closed system, where the augmenting model's own training text also counts; audio and other linguistic modalities count, non-linguistic ones do not.
+  Evidence: Section 7
+- The Vision track's suggested corpus totals 100M words: 50M words of text-only data downsampled from the 100M text corpus, plus 50M words of paired image-text data covering roughly 2.9M images. The paired half is 27M words from Localized Narratives and 23M from Conceptual Captions 3M.
+  Scope: Word counts are approximate; the Localized Narratives portion uses the MS-COCO and Open Images subsets, and the CC3M portion uses only image-caption pairs whose images were still valid in January 2024.
+  Evidence: Table 1
+- The updated 100M-word text-only BabyLM corpus drops the QED portion of the 2023 dataset in favour of a larger CHILDES share of 29M words. The remaining sources keep their previous relative proportions: 26M words of children's Project Gutenberg text, 20M of OpenSubtitles, 15M of Simple English Wikipedia, 8M of BNC dialogue and 1M of Switchboard.
+  Scope: Strict-track word counts, which are approximate; QED was replaced because on inspection its quality was poorer than hoped.
+  Evidence: Table 1
+- The 2nd BabyLM Challenge baselines are built from the previous year's winning submissions rather than trained naively. The Strict and Strict-small baselines are GPT-2, LTG-BERT and Contextualizer, and the Vision baselines are GIT and Flamingo.
+  Scope: Baselines as announced in the call for papers; final released checkpoints and their scores are not reported in the call.
+  Evidence: Section 5.1
+- The BabyLM Challenge places no limit on the number of training epochs or on hyperparameters. The organizers report that in their internal results over-training beyond a couple of epochs gives minor gains at most.
+  Scope: The internal-results statement is an unquantified organizer observation; the stated rationale also covers engineering practice at these data scales and human re-access to linguistic memories.
+  Evidence: Section 7
+- Submissions to the BabyLM Challenge must be able to assign a (pseudo) log-likelihood to a string of text and to be fine-tuned for classification, but need not be able to generate sequences.
+  Scope: The 2024 evaluation pipeline is built on catwalk so that models outside the HuggingFace transformers library can be submitted; Vision-track models must score text conditioned on an image.
+  Evidence: Section 5
+- BabyLM runs its own review process with acceptance based on soundness alone, planning to reject only submissions that make incorrect or unjustified claims. Papers are archival and may be up to 8 pages, with dual submission allowed but not dual publication.
+  Scope: Review policy as stated for the 2024/2025 edition; the presentation venue and formatting requirements were not yet finalized at the time of the call.
+  Evidence: Section 6.3
+- The BabyLM organizers report that submissions to the first challenge did not gain from non-linguistic grounding, and invite the 2024/2025 vision-language track partly to revisit that question.
+  Scope: A summary statement about the 2023 edition's submissions, concerning non-linguistic grounding signals rather than multimodal training in general.
+  Evidence: Section 7
+- The BabyLM Challenge is a recurring shared task that reorients pretraining research toward sample efficiency by capping training data at a developmentally plausible 10M or 100M words. A stated goal is making pretraining research feasible on a university budget.
+  Scope: A shared-task call for papers, not an empirical study; the rationale is argued at greater length in the 2023 call and proceedings introduction by Warstadt et al. Second edition, run in 2024/2025.
+  Evidence: Section 1
+- The 2nd BabyLM Challenge's paper-only track opens the shared task to non-model submissions, such as novel cognitively-inspired evaluation metrics and in-depth analyses of individual BabyLM models. Best-paper selection in that track is not driven by evaluation scores.
+  Scope: The paper track replaces the loose track used in the 2023 edition; papers may still include a model and report its scores.
+  Evidence: Section 3
+
+## Common misreadings
+- The 2nd BabyLM Challenge does not require using the organizers' corpus: participants may build any dataset they like as long as it stays within the 100M-word or 10M-word budget and comes with a datasheet.
+- The 100M-word cap in the BabyLM Challenge is not a cap on tokens seen during training. Multiple epochs and augmentation are allowed; what is capped is the total amount of distinct text any component of the system learned from.
+- The Vision track of the 2nd BabyLM Challenge is not evaluated on multimodal tasks alone — its submissions are also run on the language-only evaluation suite.
+- The organizers' remark that the first challenge's submissions did not benefit from non-linguistic grounding is not a conclusion that grounding cannot help; the vision-language track exists to encourage further work on exactly that question.
+- The Strict-small track's 10M-word budget is a separate track, not a smaller warm-up for Strict; a paper may enter several tracks with different models.
+
+## Terminology
+- Strict track: BabyLM Challenge track for language models pretrained on 100M words of text or less, evaluated on language-only tasks.
+- Strict-small track: BabyLM Challenge track for language models pretrained on 10M words of text or less, evaluated on language-only tasks.
+- Vision track: BabyLM Challenge track for multimodal image-text models trained within a 100M word budget, which must be able to assign (pseudo) log-likelihoods to text conditioned on an image and are evaluated on both language-only and multimodal tasks.
+- Paper track: BabyLM Challenge track for submissions that need not include a competition model, such as new cognitively-inspired evaluation metrics or analyses of an existing BabyLM model.
+- Developmentally plausible corpus: a pretraining corpus whose size and composition approximate the language input a human child receives, on the order of 10M to 100M words drawn from sources such as child-directed speech, dialogue, subtitles and children's books.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2404.06214
@@ -12,33 +66,10 @@ After last year's successful BabyLM Challenge, the competition will be hosted ag
 - HTML: https://arxiv.org/html/2404.06214
 - Hugging Face: https://huggingface.co/papers/2404.06214
 - alphaXiv: https://www.alphaxiv.org/abs/2404.06214
-- DOI: https://doi.org/10.48550/ARXIV.2404.06214
+- DOI: https://doi.org/10.48550/arXiv.2404.06214
 - Semantic Scholar: https://www.semanticscholar.org/paper/269009968
-- Publisher: https://doi.org/10.48550/arXiv.2404.06214
 - Code: https://github.com/babylm/evaluation-pipeline-2024
-
-## How to cite
-@article{DBLP:journals/corr/abs-2404-06214,
-  author       = {Leshem Choshen and
-                  Ryan Cotterell and
-                  Michael Y. Hu and
-                  Tal Linzen and
-                  Aaron Mueller and
-                  Candace Ross and
-                  Alex Warstadt and
-                  Ethan Wilcox and
-                  Adina Williams and
-                  Chengxu Zhuang},
-  title        = {[Call for Papers] The 2nd BabyLM Challenge: Sample-efficient pretraining
-                  on a developmentally plausible corpus},
-  journal      = {CoRR},
-  volume       = {abs/2404.06214},
-  year         = {2024},
-  url          = {https://doi.org/10.48550/arXiv.2404.06214},
-  doi          = {10.48550/ARXIV.2404.06214},
-  eprinttype    = {arXiv},
-  eprint       = {2404.06214},
-  timestamp    = {Wed, 15 May 2024 01:00:00 +0200},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-2404-06214.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
-}
+- Project page: https://babylm.github.io/
+- website: https://babylm.github.io/
+- Data: https://osf.io/ad7qg/
+- submissions spreadsheet: https://docs.google.com/spreadsheets/d/182IjCUiaVYSuJq9GAwZeeb-50bxBlY4qEMOdiCh6i-g/edit?usp=sharing

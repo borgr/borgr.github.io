@@ -9,6 +9,7 @@
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Idan Amit">
   <meta name="citation_publication_date" content="2021">
+  <meta name="citation_doi" content="10.48550/arXiv.2108.10763">
   <meta name="citation_arxiv_id" content="2108.10763">
   <meta name="citation_abstract" content="We present ComSum, a data set of 7 million commit messages for text summarization. When documenting commits, software code changes, both a message and its summary are posted. We gather and filter those to curate developers&#x27; work summarization data set. Along with its growing size, practicality and challenging language domain, the data set benefits from the living field of empirical software engineering. As commits follow a typology, we propose to not only evaluate outputs by Rouge, but by their meaning preservation.">
   <script type="application/ld+json">
@@ -33,16 +34,305 @@
   "datePublished": "2021",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "CoRR"
+    "name": "arXiv"
   },
+  "identifier": "https://doi.org/10.48550/arXiv.2108.10763",
   "abstract": "We present ComSum, a data set of 7 million commit messages for text summarization. When documenting commits, software code changes, both a message and its summary are posted. We gather and filter those to curate developers' work summarization data set. Along with its growing size, practicality and challenging language domain, the data set benefits from the living field of empirical software engineering. As commits follow a typology, we propose to not only evaluate outputs by Rouge, but by their meaning preservation.",
+  "description": "ComSum turns 7.5 million Git commits into a text summarization dataset by pairing each commit message with its one-line subject, and adds a meaning-preservation evaluation based on the corrective/adaptive/refactor commit taxonomy instead of Rouge alone.",
+  "codeRepository": "https://github.com/evidencebp/comsum",
   "sameAs": [
     "https://ar5iv.labs.arxiv.org/html/2108.10763",
     "https://arxiv.org/abs/2108.10763",
     "https://arxiv.org/pdf/2108.10763",
+    "https://figshare.com/articles/dataset/CumSum_data_set/14711370",
+    "https://github.com/evidencebp/comsum",
     "https://huggingface.co/papers/2108.10763",
     "https://www.alphaxiv.org/abs/2108.10763",
-    "https://www.semanticscholar.org/paper/237263579"
+    "https://www.semanticscholar.org/paper/237263579",
+    "https://zenodo.org/badge/latestdoi/384742703"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "ComSum contains 7,540,026 commit-message/subject pairs drawn from 19,720 GitHub projects and 317,423 authors. The average message has 494 characters, the average subject 53, an average compression ratio of 11.08.",
+      "description": "Holds for: Commits pushed to GitHub before 2021 and indexed in the BigQuery GitHub schema; projects required at least 50 commits during 2020, and each message must be at least 100 characters longer than its subject."
+    },
+    {
+      "@type": "Thing",
+      "name": "ComSum is the most abstractive of the summarization datasets it is compared with, at a coverage of 0.27 and a density of 0.89. XSum scores 0.66 and 1.09, and BOOKSUM Paragraph 0.5 and 0.92.",
+      "description": "Holds for: Coverage and density as defined by Grusky et al. (2018); comparison set is Arxiv/PubMed, BigPatent, CNN/DM, Newsroom, XSum and BOOKSUM Paragraph."
+    },
+    {
+      "@type": "Thing",
+      "name": "ComSum commit messages have a vocabulary of over 2M types in the validation set alone and 19M overall, against the 1.4M reported for the NYTimes dataset. The summary vocabulary is 0.5M and 3.9M against NYTimes' 0.3M.",
+      "description": "Holds for: Validation-set figures are size-matched for fairness against news datasets; vocabulary counted as unfiltered surface types, which in the commit domain includes identifiers, version numbers and hashes."
+    },
+    {
+      "@type": "Thing",
+      "name": "Fine-tuned BART reaches RougeL 27.2 on the ComSum test set against 14.9 for zero-shot BART. The gain suggests the dataset is large enough to partly overcome the domain shift from BART's Wikipedia and Books pretraining.",
+      "description": "Holds for: BART fine-tuned with max source length 512, target length 128, learning rate 1e-4, batch size 256, trained for 1 week on 4 Nvidia M60 GPUs; heuristic baselines computed on 10k samples."
+    },
+    {
+      "@type": "Thing",
+      "name": "ComSum is harder for BART than news summarization benchmarks are: BART reaches RougeL 44.2 on CNN/Daily Mail and 27.2 on XSum. On ComSum it reaches 33.2 on the train set and 27.2 on the test set.",
+      "description": "Holds for: Single BART configuration, no error bars because training was repeated only once; CNN/DM and XSum figures are the ones reported by Lewis et al. (2020) rather than re-run."
+    },
+    {
+      "@type": "Thing",
+      "name": "Copying the commit message instead of summarizing it scores only RougeL 12.0 on ComSum, and picking a random sentence from the message scores 13.6. Extraction from the input is far from a good commit summary.",
+      "description": "Holds for: Heuristic baselines on 10k training-set samples; the Subject-and-Message upper reference reaches 29.5 RougeL but is not usable for prediction because it includes the gold summary."
+    },
+    {
+      "@type": "Thing",
+      "name": "A subject borrowed from a related commit by the same author in the same project within a week scores RougeL 14.6 on ComSum, rising to 15.5 when both commits are bug fixes. Topic and author style are therefore not substitutes for the summary.",
+      "description": "Holds for: Related-commit and Related-Fix baselines computed on the training split, 10k samples; pairing requires same author, same project and a one-week window."
+    },
+    {
+      "@type": "Thing",
+      "name": "Splitting ComSum by repository rather than by commit costs fine-tuned BART about 6 RougeL points, while the split-by-commit drop is about 1 point. The gap is therefore domain shift between repositories rather than memorization.",
+      "description": "Holds for: Comparison between the main repository-level split and the minor commit-level split; the test set is also more abstractive, with coverage 0.25 versus 0.31 and density 0.86 versus 0.99."
+    },
+    {
+      "@type": "Thing",
+      "name": "BART changes a ComSum commit's meaning in 10% of corrective cases, 16% of refactor cases and 35% of adaptive cases. Those rates are measured on messages that carry a distractor core term but are not of the matching commit type.",
+      "description": "Holds for: Meaning judged by the commit classifiers of Amit and Feitelson (93% accuracy for corrective and refactoring, 65% for adaptive), applied to both message and summary."
+    },
+    {
+      "@type": "Thing",
+      "name": "BART's highest meaning-preservation precision on any commit concept tested on ComSum is 75%. A quarter or more of summaries therefore drop the concept expressed in the message even when Rouge scores are high.",
+      "description": "Holds for: Precision-like metric P(concept(model(message))) given P(concept(message)) over corrective, adaptive and refactor concepts, estimated with automatic commit classifiers rather than human labels."
+    },
+    {
+      "@type": "Thing",
+      "name": "In manual labeling of 100 ComSum samples, 80% of commit subjects were proper summaries of their message. Filtering merge commits and administrative messages raises that to about 90% on the labeled sample.",
+      "description": "Holds for: Two authors labeled independently with 82% initial agreement, rising to 99% after protocol tuning; the administrative-message heuristic has 98.9% precision and about 75% recall."
+    },
+    {
+      "@type": "Thing",
+      "name": "Rouge trends on the corrective, refactor and adaptive ComSum test subsets match the general test set, with fine-tuned BART at RougeL 26.2 to 26.9 against 14.3 to 16.0 for zero-shot BART.",
+      "description": "Holds for: Typed test subsets built from the commit-type classifiers; results are for BART, zero-shot BART and the Random Message Sentence heuristic only."
+    },
+    {
+      "@type": "Thing",
+      "name": "ComSum introduces software commit messages as a summarization domain and argues the pairing is natural because Git and GitHub already present the one-line subject as a summary of the longer message.",
+      "description": "Holds for: English-language commits, which are about 99% of the sampled commits; the domain is specific to software development, so gains on ComSum need not transfer to news or literary summarization."
+    },
+    {
+      "@type": "Thing",
+      "name": "ComSum proposes evaluating summarizers by whether the output preserves the commit's type in Swanson's corrective/adaptive/perfective taxonomy, a domain-grounded alternative to word-overlap scores like Rouge.",
+      "description": "Holds for: Applicable where an automatic, high-agreement classifier for the meaning aspect exists; for commits, human agreement on bug classification is 95%."
+    },
+    {
+      "@type": "Thing",
+      "name": "ComSum ships both a frozen static release and the extraction code and SQL queries, so the same pipeline can rebuild a larger dataset from later commits or with different filtering choices.",
+      "description": "Holds for: As of the 2021 release; regeneration depends on the BigQuery GitHub schema, from which projects can disappear, so a regenerated dataset will not match the frozen one."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/#faq",
+  "url": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/",
+  "name": "Questions answered by ComSum: Commit Messages Summarization and Meaning Preservation",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is there a large dataset for summarizing software commit messages?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ComSum contains 7,540,026 commit-message/subject pairs drawn from 19,720 GitHub projects and 317,423 authors. The average message has 494 characters, the average subject 53, an average compression ratio of 11.08. Holds for: Commits pushed to GitHub before 2021 and indexed in the BigQuery GitHub schema; projects required at least 50 commits during 2020, and each message must be at least 100 characters longer than its subject.\n\nComSum introduces software commit messages as a summarization domain and argues the pairing is natural because Git and GitHub already present the one-line subject as a summary of the longer message. Holds for: English-language commits, which are about 99% of the sampled commits; the domain is specific to software development, so gains on ComSum need not transfer to news or literary summarization.",
+        "url": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/"
+      },
+      "alternateName": [
+        "What data can I train a summarizer on for git commits?",
+        "How big is ComSum and where does the data come from?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which summarization datasets are the most abstractive?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ComSum is the most abstractive of the summarization datasets it is compared with, at a coverage of 0.27 and a density of 0.89. XSum scores 0.66 and 1.09, and BOOKSUM Paragraph 0.5 and 0.92. Holds for: Coverage and density as defined by Grusky et al. (2018); comparison set is Arxiv/PubMed, BigPatent, CNN/DM, Newsroom, XSum and BOOKSUM Paragraph.\n\nComSum commit messages have a vocabulary of over 2M types in the validation set alone and 19M overall, against the 1.4M reported for the NYTimes dataset. The summary vocabulary is 0.5M and 3.9M against NYTimes' 0.3M. Holds for: Validation-set figures are size-matched for fairness against news datasets; vocabulary counted as unfiltered surface types, which in the commit domain includes identifiers, version numbers and hashes.",
+        "url": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/"
+      },
+      "alternateName": [
+        "Is commit message summarization more abstractive than news summarization?",
+        "How does ComSum compare to XSum and CNN/DM on coverage and density?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How well do pretrained summarizers do on commit messages?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fine-tuned BART reaches RougeL 27.2 on the ComSum test set against 14.9 for zero-shot BART. The gain suggests the dataset is large enough to partly overcome the domain shift from BART's Wikipedia and Books pretraining. Holds for: BART fine-tuned with max source length 512, target length 128, learning rate 1e-4, batch size 256, trained for 1 week on 4 Nvidia M60 GPUs; heuristic baselines computed on 10k samples.\n\nComSum is harder for BART than news summarization benchmarks are: BART reaches RougeL 44.2 on CNN/Daily Mail and 27.2 on XSum. On ComSum it reaches 33.2 on the train set and 27.2 on the test set. Holds for: Single BART configuration, no error bars because training was repeated only once; CNN/DM and XSum figures are the ones reported by Lewis et al. (2020) rather than re-run.",
+        "url": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/"
+      },
+      "alternateName": [
+        "What Rouge score does BART get on ComSum?",
+        "Does fine-tuning help on commit message summarization?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can you just copy the commit message as its summary?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Copying the commit message instead of summarizing it scores only RougeL 12.0 on ComSum, and picking a random sentence from the message scores 13.6. Extraction from the input is far from a good commit summary. Holds for: Heuristic baselines on 10k training-set samples; the Subject-and-Message upper reference reaches 29.5 RougeL but is not usable for prediction because it includes the gold summary.\n\nA subject borrowed from a related commit by the same author in the same project within a week scores RougeL 14.6 on ComSum, rising to 15.5 when both commits are bug fixes. Topic and author style are therefore not substitutes for the summary. Holds for: Related-commit and Related-Fix baselines computed on the training split, 10k samples; pairing requires same author, same project and a one-week window.",
+        "url": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/"
+      },
+      "alternateName": [
+        "Do extractive heuristics work for commit summarization?",
+        "How strong are trivial baselines on commit message summarization?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does splitting a summarization dataset by repository change results?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Splitting ComSum by repository rather than by commit costs fine-tuned BART about 6 RougeL points, while the split-by-commit drop is about 1 point. The gap is therefore domain shift between repositories rather than memorization. Holds for: Comparison between the main repository-level split and the minor commit-level split; the test set is also more abstractive, with coverage 0.25 versus 0.31 and density 0.86 versus 0.99.",
+        "url": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/"
+      },
+      "alternateName": [
+        "Why is the ComSum test set harder than its train set?",
+        "Is the train-test gap on ComSum memorization or domain shift?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How often do neural summarizers change the meaning of what they summarize?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BART changes a ComSum commit's meaning in 10% of corrective cases, 16% of refactor cases and 35% of adaptive cases. Those rates are measured on messages that carry a distractor core term but are not of the matching commit type. Holds for: Meaning judged by the commit classifiers of Amit and Feitelson (93% accuracy for corrective and refactoring, 65% for adaptive), applied to both message and summary.\n\nBART's highest meaning-preservation precision on any commit concept tested on ComSum is 75%. A quarter or more of summaries therefore drop the concept expressed in the message even when Rouge scores are high. Holds for: Precision-like metric P(concept(model(message))) given P(concept(message)) over corrective, adaptive and refactor concepts, estimated with automatic commit classifiers rather than human labels.",
+        "url": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/"
+      },
+      "alternateName": [
+        "Do summarization models preserve whether a commit is a bug fix or a refactor?",
+        "How much does BART alter commit meaning on distractor cases?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How can I evaluate summaries beyond Rouge?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ComSum proposes evaluating summarizers by whether the output preserves the commit's type in Swanson's corrective/adaptive/perfective taxonomy, a domain-grounded alternative to word-overlap scores like Rouge. Holds for: Applicable where an automatic, high-agreement classifier for the meaning aspect exists; for commits, human agreement on bug classification is 95%.\n\nBART's highest meaning-preservation precision on any commit concept tested on ComSum is 75%. A quarter or more of summaries therefore drop the concept expressed in the message even when Rouge scores are high. Holds for: Precision-like metric P(concept(model(message))) given P(concept(message)) over corrective, adaptive and refactor concepts, estimated with automatic commit classifiers rather than human labels.",
+        "url": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/"
+      },
+      "alternateName": [
+        "What work proposes meaning preservation as a summarization metric?",
+        "Where should I start reading about domain-grounded summarization evaluation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are git commit subjects actually summaries of their messages?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In manual labeling of 100 ComSum samples, 80% of commit subjects were proper summaries of their message. Filtering merge commits and administrative messages raises that to about 90% on the labeled sample. Holds for: Two authors labeled independently with 82% initial agreement, rising to 99% after protocol tuning; the administrative-message heuristic has 98.9% precision and about 75% recall.",
+        "url": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/"
+      },
+      "alternateName": [
+        "How reliable is using the commit subject line as a reference summary?",
+        "What fraction of commit subjects are genuine summaries?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do results on ComSum hold across commit types?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rouge trends on the corrective, refactor and adaptive ComSum test subsets match the general test set, with fine-tuned BART at RougeL 26.2 to 26.9 against 14.3 to 16.0 for zero-shot BART. Holds for: Typed test subsets built from the commit-type classifiers; results are for BART, zero-shot BART and the Random Message Sentence heuristic only.",
+        "url": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/"
+      },
+      "alternateName": [
+        "Does summarization quality differ for bug fixes versus refactoring commits?",
+        "What are the Rouge scores on the corrective and refactor subsets of ComSum?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can a commit summarization dataset be regenerated with more recent data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ComSum ships both a frozen static release and the extraction code and SQL queries, so the same pipeline can rebuild a larger dataset from later commits or with different filtering choices. Holds for: As of the 2021 release; regeneration depends on the BigQuery GitHub schema, from which projects can disappear, so a regenerated dataset will not match the frozen one.",
+        "url": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/"
+      },
+      "alternateName": [
+        "Is ComSum reproducible and extensible?",
+        "How do I build my own version of a commit summarization dataset?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What are good NLP datasets in the software engineering domain?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ComSum introduces software commit messages as a summarization domain and argues the pairing is natural because Git and GitHub already present the one-line subject as a summary of the longer message. Holds for: English-language commits, which are about 99% of the sampled commits; the domain is specific to software development, so gains on ComSum need not transfer to news or literary summarization.\n\nComSum proposes evaluating summarizers by whether the output preserves the commit's type in Swanson's corrective/adaptive/perfective taxonomy, a domain-grounded alternative to word-overlap scores like Rouge. Holds for: Applicable where an automatic, high-agreement classifier for the meaning aspect exists; for commits, human agreement on bug classification is 95%.",
+        "url": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/"
+      },
+      "alternateName": [
+        "Which paper introduced commit messages as a summarization task?",
+        "Where should I start reading about NLP for programming artifacts?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/#terms",
+  "url": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/",
+  "name": "Terminology in ComSum: Commit Messages Summarization and Meaning Preservation",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Core term",
+      "description": "A word whose appearance in a commit message is indicative of a commit concept, such as 'bug', 'bugfix', 'error', 'fail' or 'fix' for the corrective concept.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Meaning preservation (commit summarization)",
+      "description": "The requirement that a generated commit summary carry the same commit type as the source message, measured as the probability that the summary is classified into a concept given that the message is.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Corrective / adaptive / perfective",
+      "description": "Swanson's 1976 commit taxonomy, in which a change is a bug fix (corrective), an added feature (adaptive), or refactoring and documentation improvement (perfective).",
+      "inDefinedTermSet": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Corrective Commit Probability (CCP)",
+      "description": "The estimated share of a project's commits that fix bugs; a negative estimate is treated as a sign that a repository is not a software project.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Not Preserved",
+      "description": "The share of generated summaries whose commit meaning changed, computed as the sum of the Core-and-Concept and Not-Core-and-Concept cases on messages that carry a distractor core term without belonging to that concept.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/comsum-commit-messages-summarization-and-meaning-preservatio/#terms"
+    }
   ]
 }
   </script>
@@ -53,6 +343,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -66,13 +357,100 @@
 </head>
 <body>
 <h1>ComSum: Commit Messages Summarization and Meaning Preservation</h1>
-<p class="meta">Leshem Choshen, Idan Amit · CoRR · 2021</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2108.10763">arXiv</a></li><li><a href="https://arxiv.org/pdf/2108.10763">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2108.10763">HTML</a></li><li><a href="https://huggingface.co/papers/2108.10763">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2108.10763">alphaXiv</a></li><li><a href="https://www.semanticscholar.org/paper/237263579">Semantic Scholar</a></li></ul>
+<p class="sub">a summarization dataset built from Git commit messages and their one-line subjects</p>
+<p class="meta">Leshem Choshen, Idan Amit · arXiv · 2021</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2108.10763">arXiv</a></li><li><a href="https://arxiv.org/pdf/2108.10763">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2108.10763">HTML</a></li><li><a href="https://huggingface.co/papers/2108.10763">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2108.10763">alphaXiv</a></li><li><a href="https://www.semanticscholar.org/paper/237263579">Semantic Scholar</a></li><li><a href="https://github.com/evidencebp/comsum">Code</a></li><li><a href="https://figshare.com/articles/dataset/CumSum_data_set/14711370">dataset</a></li><li><a href="https://zenodo.org/badge/latestdoi/384742703">zenodo</a></li></ul>
+<h2>In one sentence</h2>
+<p>ComSum turns 7.5 million Git commits into a text summarization dataset by pairing each commit message with its one-line subject, and adds a meaning-preservation evaluation based on the corrective/adaptive/refactor commit taxonomy instead of Rouge alone.</p>
 <h2>Abstract</h2>
 <p>We present ComSum, a data set of 7 million commit messages for text summarization. When documenting commits, software code changes, both a message and its summary are posted. We gather and filter those to curate developers&#x27; work summarization data set. Along with its growing size, practicality and challenging language domain, the data set benefits from the living field of empirical software engineering. As commits follow a typology, we propose to not only evaluate outputs by Rouge, but by their meaning preservation.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Is there a large dataset for summarizing software commit messages?</dt>
+<dt>What data can I train a summarizer on for git commits?</dt>
+<dt>How big is ComSum and where does the data come from?</dt>
+<dd>ComSum contains 7,540,026 commit-message/subject pairs drawn from 19,720 GitHub projects and 317,423 authors. The average message has 494 characters, the average subject 53, an average compression ratio of 11.08.<br><span class="scope">Holds for: Commits pushed to GitHub before 2021 and indexed in the BigQuery GitHub schema; projects required at least 50 commits during 2020, and each message must be at least 100 characters longer than its subject.</span></dd>
+<dd>ComSum introduces software commit messages as a summarization domain and argues the pairing is natural because Git and GitHub already present the one-line subject as a summary of the longer message.<br><span class="scope">Holds for: English-language commits, which are about 99% of the sampled commits; the domain is specific to software development, so gains on ComSum need not transfer to news or literary summarization.</span></dd>
+<dt>Which summarization datasets are the most abstractive?</dt>
+<dt>Is commit message summarization more abstractive than news summarization?</dt>
+<dt>How does ComSum compare to XSum and CNN/DM on coverage and density?</dt>
+<dd>ComSum is the most abstractive of the summarization datasets it is compared with, at a coverage of 0.27 and a density of 0.89. XSum scores 0.66 and 1.09, and BOOKSUM Paragraph 0.5 and 0.92.<br><span class="scope">Holds for: Coverage and density as defined by Grusky et al. (2018); comparison set is Arxiv/PubMed, BigPatent, CNN/DM, Newsroom, XSum and BOOKSUM Paragraph.</span></dd>
+<dd>ComSum commit messages have a vocabulary of over 2M types in the validation set alone and 19M overall, against the 1.4M reported for the NYTimes dataset. The summary vocabulary is 0.5M and 3.9M against NYTimes&#x27; 0.3M.<br><span class="scope">Holds for: Validation-set figures are size-matched for fairness against news datasets; vocabulary counted as unfiltered surface types, which in the commit domain includes identifiers, version numbers and hashes.</span></dd>
+<dt>How well do pretrained summarizers do on commit messages?</dt>
+<dt>What Rouge score does BART get on ComSum?</dt>
+<dt>Does fine-tuning help on commit message summarization?</dt>
+<dd>Fine-tuned BART reaches RougeL 27.2 on the ComSum test set against 14.9 for zero-shot BART. The gain suggests the dataset is large enough to partly overcome the domain shift from BART&#x27;s Wikipedia and Books pretraining.<br><span class="scope">Holds for: BART fine-tuned with max source length 512, target length 128, learning rate 1e-4, batch size 256, trained for 1 week on 4 Nvidia M60 GPUs; heuristic baselines computed on 10k samples.</span></dd>
+<dd>ComSum is harder for BART than news summarization benchmarks are: BART reaches RougeL 44.2 on CNN/Daily Mail and 27.2 on XSum. On ComSum it reaches 33.2 on the train set and 27.2 on the test set.<br><span class="scope">Holds for: Single BART configuration, no error bars because training was repeated only once; CNN/DM and XSum figures are the ones reported by Lewis et al. (2020) rather than re-run.</span></dd>
+<dt>Can you just copy the commit message as its summary?</dt>
+<dt>Do extractive heuristics work for commit summarization?</dt>
+<dt>How strong are trivial baselines on commit message summarization?</dt>
+<dd>Copying the commit message instead of summarizing it scores only RougeL 12.0 on ComSum, and picking a random sentence from the message scores 13.6. Extraction from the input is far from a good commit summary.<br><span class="scope">Holds for: Heuristic baselines on 10k training-set samples; the Subject-and-Message upper reference reaches 29.5 RougeL but is not usable for prediction because it includes the gold summary.</span></dd>
+<dd>A subject borrowed from a related commit by the same author in the same project within a week scores RougeL 14.6 on ComSum, rising to 15.5 when both commits are bug fixes. Topic and author style are therefore not substitutes for the summary.<br><span class="scope">Holds for: Related-commit and Related-Fix baselines computed on the training split, 10k samples; pairing requires same author, same project and a one-week window.</span></dd>
+<dt>Does splitting a summarization dataset by repository change results?</dt>
+<dt>Why is the ComSum test set harder than its train set?</dt>
+<dt>Is the train-test gap on ComSum memorization or domain shift?</dt>
+<dd>Splitting ComSum by repository rather than by commit costs fine-tuned BART about 6 RougeL points, while the split-by-commit drop is about 1 point. The gap is therefore domain shift between repositories rather than memorization.<br><span class="scope">Holds for: Comparison between the main repository-level split and the minor commit-level split; the test set is also more abstractive, with coverage 0.25 versus 0.31 and density 0.86 versus 0.99.</span></dd>
+<dt>How often do neural summarizers change the meaning of what they summarize?</dt>
+<dt>Do summarization models preserve whether a commit is a bug fix or a refactor?</dt>
+<dt>How much does BART alter commit meaning on distractor cases?</dt>
+<dd>BART changes a ComSum commit&#x27;s meaning in 10% of corrective cases, 16% of refactor cases and 35% of adaptive cases. Those rates are measured on messages that carry a distractor core term but are not of the matching commit type.<br><span class="scope">Holds for: Meaning judged by the commit classifiers of Amit and Feitelson (93% accuracy for corrective and refactoring, 65% for adaptive), applied to both message and summary.</span></dd>
+<dd>BART&#x27;s highest meaning-preservation precision on any commit concept tested on ComSum is 75%. A quarter or more of summaries therefore drop the concept expressed in the message even when Rouge scores are high.<br><span class="scope">Holds for: Precision-like metric P(concept(model(message))) given P(concept(message)) over corrective, adaptive and refactor concepts, estimated with automatic commit classifiers rather than human labels.</span></dd>
+<dt>How can I evaluate summaries beyond Rouge?</dt>
+<dt>What work proposes meaning preservation as a summarization metric?</dt>
+<dt>Where should I start reading about domain-grounded summarization evaluation?</dt>
+<dd>ComSum proposes evaluating summarizers by whether the output preserves the commit&#x27;s type in Swanson&#x27;s corrective/adaptive/perfective taxonomy, a domain-grounded alternative to word-overlap scores like Rouge.<br><span class="scope">Holds for: Applicable where an automatic, high-agreement classifier for the meaning aspect exists; for commits, human agreement on bug classification is 95%.</span></dd>
+<dd>BART&#x27;s highest meaning-preservation precision on any commit concept tested on ComSum is 75%. A quarter or more of summaries therefore drop the concept expressed in the message even when Rouge scores are high.<br><span class="scope">Holds for: Precision-like metric P(concept(model(message))) given P(concept(message)) over corrective, adaptive and refactor concepts, estimated with automatic commit classifiers rather than human labels.</span></dd>
+<dt>Are git commit subjects actually summaries of their messages?</dt>
+<dt>How reliable is using the commit subject line as a reference summary?</dt>
+<dt>What fraction of commit subjects are genuine summaries?</dt>
+<dd>In manual labeling of 100 ComSum samples, 80% of commit subjects were proper summaries of their message. Filtering merge commits and administrative messages raises that to about 90% on the labeled sample.<br><span class="scope">Holds for: Two authors labeled independently with 82% initial agreement, rising to 99% after protocol tuning; the administrative-message heuristic has 98.9% precision and about 75% recall.</span></dd>
+<dt>Do results on ComSum hold across commit types?</dt>
+<dt>Does summarization quality differ for bug fixes versus refactoring commits?</dt>
+<dt>What are the Rouge scores on the corrective and refactor subsets of ComSum?</dt>
+<dd>Rouge trends on the corrective, refactor and adaptive ComSum test subsets match the general test set, with fine-tuned BART at RougeL 26.2 to 26.9 against 14.3 to 16.0 for zero-shot BART.<br><span class="scope">Holds for: Typed test subsets built from the commit-type classifiers; results are for BART, zero-shot BART and the Random Message Sentence heuristic only.</span></dd>
+<dt>Can a commit summarization dataset be regenerated with more recent data?</dt>
+<dt>Is ComSum reproducible and extensible?</dt>
+<dt>How do I build my own version of a commit summarization dataset?</dt>
+<dd>ComSum ships both a frozen static release and the extraction code and SQL queries, so the same pipeline can rebuild a larger dataset from later commits or with different filtering choices.<br><span class="scope">Holds for: As of the 2021 release; regeneration depends on the BigQuery GitHub schema, from which projects can disappear, so a regenerated dataset will not match the frozen one.</span></dd>
+<dt>What are good NLP datasets in the software engineering domain?</dt>
+<dt>Which paper introduced commit messages as a summarization task?</dt>
+<dt>Where should I start reading about NLP for programming artifacts?</dt>
+<dd>ComSum introduces software commit messages as a summarization domain and argues the pairing is natural because Git and GitHub already present the one-line subject as a summary of the longer message.<br><span class="scope">Holds for: English-language commits, which are about 99% of the sampled commits; the domain is specific to software development, so gains on ComSum need not transfer to news or literary summarization.</span></dd>
+<dd>ComSum proposes evaluating summarizers by whether the output preserves the commit&#x27;s type in Swanson&#x27;s corrective/adaptive/perfective taxonomy, a domain-grounded alternative to word-overlap scores like Rouge.<br><span class="scope">Holds for: Applicable where an automatic, high-agreement classifier for the meaning aspect exists; for commits, human agreement on bug classification is 95%.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>ComSum contains 7,540,026 commit-message/subject pairs drawn from 19,720 GitHub projects and 317,423 authors. The average message has 494 characters, the average subject 53, an average compression ratio of 11.08. <span class="meta">(Section 4)</span><br><span class="scope">Scope: Commits pushed to GitHub before 2021 and indexed in the BigQuery GitHub schema; projects required at least 50 commits during 2020, and each message must be at least 100 characters longer than its subject.</span></li>
+<li>ComSum is the most abstractive of the summarization datasets it is compared with, at a coverage of 0.27 and a density of 0.89. XSum scores 0.66 and 1.09, and BOOKSUM Paragraph 0.5 and 0.92. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Coverage and density as defined by Grusky et al. (2018); comparison set is Arxiv/PubMed, BigPatent, CNN/DM, Newsroom, XSum and BOOKSUM Paragraph.</span></li>
+<li>ComSum commit messages have a vocabulary of over 2M types in the validation set alone and 19M overall, against the 1.4M reported for the NYTimes dataset. The summary vocabulary is 0.5M and 3.9M against NYTimes&#x27; 0.3M. <span class="meta">(Section 2)</span><br><span class="scope">Scope: Validation-set figures are size-matched for fairness against news datasets; vocabulary counted as unfiltered surface types, which in the commit domain includes identifiers, version numbers and hashes.</span></li>
+<li>Fine-tuned BART reaches RougeL 27.2 on the ComSum test set against 14.9 for zero-shot BART. The gain suggests the dataset is large enough to partly overcome the domain shift from BART&#x27;s Wikipedia and Books pretraining. <span class="meta">(Table 2)</span><br><span class="scope">Scope: BART fine-tuned with max source length 512, target length 128, learning rate 1e-4, batch size 256, trained for 1 week on 4 Nvidia M60 GPUs; heuristic baselines computed on 10k samples.</span></li>
+<li>ComSum is harder for BART than news summarization benchmarks are: BART reaches RougeL 44.2 on CNN/Daily Mail and 27.2 on XSum. On ComSum it reaches 33.2 on the train set and 27.2 on the test set. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Single BART configuration, no error bars because training was repeated only once; CNN/DM and XSum figures are the ones reported by Lewis et al. (2020) rather than re-run.</span></li>
+<li>Copying the commit message instead of summarizing it scores only RougeL 12.0 on ComSum, and picking a random sentence from the message scores 13.6. Extraction from the input is far from a good commit summary. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Heuristic baselines on 10k training-set samples; the Subject-and-Message upper reference reaches 29.5 RougeL but is not usable for prediction because it includes the gold summary.</span></li>
+<li>A subject borrowed from a related commit by the same author in the same project within a week scores RougeL 14.6 on ComSum, rising to 15.5 when both commits are bug fixes. Topic and author style are therefore not substitutes for the summary. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Related-commit and Related-Fix baselines computed on the training split, 10k samples; pairing requires same author, same project and a one-week window.</span></li>
+<li>Splitting ComSum by repository rather than by commit costs fine-tuned BART about 6 RougeL points, while the split-by-commit drop is about 1 point. The gap is therefore domain shift between repositories rather than memorization. <span class="meta">(Section 5)</span><br><span class="scope">Scope: Comparison between the main repository-level split and the minor commit-level split; the test set is also more abstractive, with coverage 0.25 versus 0.31 and density 0.86 versus 0.99.</span></li>
+<li>BART changes a ComSum commit&#x27;s meaning in 10% of corrective cases, 16% of refactor cases and 35% of adaptive cases. Those rates are measured on messages that carry a distractor core term but are not of the matching commit type. <span class="meta">(Table 4)</span><br><span class="scope">Scope: Meaning judged by the commit classifiers of Amit and Feitelson (93% accuracy for corrective and refactoring, 65% for adaptive), applied to both message and summary.</span></li>
+<li>BART&#x27;s highest meaning-preservation precision on any commit concept tested on ComSum is 75%. A quarter or more of summaries therefore drop the concept expressed in the message even when Rouge scores are high. <span class="meta">(Section 6)</span><br><span class="scope">Scope: Precision-like metric P(concept(model(message))) given P(concept(message)) over corrective, adaptive and refactor concepts, estimated with automatic commit classifiers rather than human labels.</span></li>
+<li>In manual labeling of 100 ComSum samples, 80% of commit subjects were proper summaries of their message. Filtering merge commits and administrative messages raises that to about 90% on the labeled sample. <span class="meta">(Section 3.2)</span><br><span class="scope">Scope: Two authors labeled independently with 82% initial agreement, rising to 99% after protocol tuning; the administrative-message heuristic has 98.9% precision and about 75% recall.</span></li>
+<li>Rouge trends on the corrective, refactor and adaptive ComSum test subsets match the general test set, with fine-tuned BART at RougeL 26.2 to 26.9 against 14.3 to 16.0 for zero-shot BART. <span class="meta">(Table 3)</span><br><span class="scope">Scope: Typed test subsets built from the commit-type classifiers; results are for BART, zero-shot BART and the Random Message Sentence heuristic only.</span></li>
+<li>ComSum introduces software commit messages as a summarization domain and argues the pairing is natural because Git and GitHub already present the one-line subject as a summary of the longer message. <span class="meta">(Appendix B)</span><br><span class="scope">Scope: English-language commits, which are about 99% of the sampled commits; the domain is specific to software development, so gains on ComSum need not transfer to news or literary summarization.</span></li>
+<li>ComSum proposes evaluating summarizers by whether the output preserves the commit&#x27;s type in Swanson&#x27;s corrective/adaptive/perfective taxonomy, a domain-grounded alternative to word-overlap scores like Rouge. <span class="meta">(Section 6)</span><br><span class="scope">Scope: Applicable where an automatic, high-agreement classifier for the meaning aspect exists; for commits, human agreement on bug classification is 95%.</span></li>
+<li>ComSum ships both a frozen static release and the extraction code and SQL queries, so the same pipeline can rebuild a larger dataset from later commits or with different filtering choices.<br><span class="scope">Scope: As of the 2021 release; regeneration depends on the BigQuery GitHub schema, from which projects can disappear, so a regenerated dataset will not match the frozen one.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>ComSum&#x27;s high Rouge numbers for fine-tuned BART do not mean the summaries are factually correct: manual inspection found hallucinated terms, names and version numbers, such as &quot;Merge pull request #14&quot; for #1110.</li>
+<li>The meaning-preservation figures in ComSum are estimated with automatic commit classifiers, not human judgments, so cross-concept comparisons must account for classifier accuracy — 93% for corrective and refactoring but 65% for adaptive.</li>
+<li>ComSum is not a filtered-clean corpus: merge commits, administrative messages and generic subjects are deliberately left in, with 429K merge commits listed and filtering code provided, so users must apply the optional filters themselves.</li>
+<li>ComSum&#x27;s release is not a moving target by accident: a static frozen version limited to pre-2021 commits is published for reproducibility alongside the extraction code, and a regenerated version will differ because projects can be deleted from the index.</li>
+<li>Improvements on ComSum should not be assumed to transfer to other summarization domains, since bugs and refactoring have no analogue outside software development.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Core term</em></dt><dd>A word whose appearance in a commit message is indicative of a commit concept, such as &#x27;bug&#x27;, &#x27;bugfix&#x27;, &#x27;error&#x27;, &#x27;fail&#x27; or &#x27;fix&#x27; for the corrective concept.</dd>
+<dt><em>Meaning preservation (commit summarization)</em></dt><dd>The requirement that a generated commit summary carry the same commit type as the source message, measured as the probability that the summary is classified into a concept given that the message is.</dd>
+<dt><em>Corrective / adaptive / perfective</em></dt><dd>Swanson&#x27;s 1976 commit taxonomy, in which a change is a bug fix (corrective), an added feature (adaptive), or refactoring and documentation improvement (perfective).</dd>
+<dt><em>Corrective Commit Probability (CCP)</em></dt><dd>The estimated share of a project&#x27;s commits that fix bugs; a negative estimate is treated as a sign that a repository is not a software project.</dd>
+<dt><em>Not Preserved</em></dt><dd>The share of generated summaries whose commit meaning changed, computed as the sum of the Core-and-Concept and Not-Core-and-Concept cases on messages that carry a distractor core term without belonging to that concept.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@article{DBLP:journals/corr/abs-2108-10763,
-author       = {Leshem Choshen and
+<pre>@article{DBLP:journals/corr/abs-2108-10763,author       = {Leshem Choshen and
                   Idan Amit},
   title        = {ComSum: Commit Messages Summarization and Meaning Preservation},
   journal      = {CoRR},

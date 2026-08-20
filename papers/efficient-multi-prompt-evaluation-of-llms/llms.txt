@@ -1,10 +1,67 @@
 # Efficient multi-prompt evaluation of LLMs
 
-Authors: Felipe Maia Polo, Ronald Xu, Lucas Weber, M\'\irian Silva, Onkar Bhardwaj, Leshem Choshen, Allysson Flavio Melo de Oliveira, Yuekai Sun, Mikhail Yurochkin
+estimating an LLM's whole performance distribution over many prompt templates from a single-prompt-sized evaluation budget
+
+Authors: Felipe Maia Polo, Ronald Xu, Lucas Weber, Mírian Silva, Onkar Bhardwaj, Leshem Choshen, Allysson Flavio Melo de Oliveira, Yuekai Sun, Mikhail Yurochkin
 Venue: The Thirty-eighth Annual Conference on Neural Information Processing Systems (2024)
 
-## Abstract
-Most popular benchmarks for comparing LLMs rely on a limited set of prompt templates, which may not fully capture the LLMs' abilities and can affect the reproducibility of results on leaderboards. Many recent works empirically verify prompt sensitivity and advocate for changes in LLM evaluation. In this paper, we consider the problem of estimating the performance distribution across many prompt variants instead of finding a single prompt to evaluate with. We introduce PromptEval, a method for estimating performance across a large set of prompts borrowing strength across prompts and examples to produce accurate estimates under practical evaluation budgets. The resulting distribution can be used to obtain performance quantiles to construct various robust performance metrics (e.g., top 95% quantile or median). We prove that PromptEval consistently estimates the performance distribution and demonstrate its efficacy empirically on three prominent LLM benchmarks: MMLU, BIG-bench Hard, and LMentry; for example, PromptEval can accurately estimate performance quantiles across 100 prompt templates on MMLU with a budget equivalent to two single-prompt evaluations. Moreover, we show how PromptEval can be useful in LLM-as-a-judge and best prompt identification applications.
+## What this paper shows
+PromptEval fits an Item Response Theory model over prompt templates and examples, borrowing strength across both to estimate an LLM's full performance distribution across 100+ prompts — and its quantiles — for the cost of 2 to 4 single-prompt evaluations.
+
+## Claims, with scope
+- PromptEval estimates performance quantiles across 100 MMLU prompt templates with a budget of 1 to 4 times a single-prompt MMLU evaluation. A brute-force sweep would need 100 full evaluations.
+  Scope: MMLU with 57 subjects and ~14k examples, 15 open-source LLMs, 100 generated templates per task, estimation done within each task; errors averaged over tasks, LLMs and 5 sampling seeds.
+  Evidence: Figure 1
+- PromptEval estimates the whole performance distribution across prompt templates with a much lower Wasserstein-1 error than the natural baseline of averaging observed correctness per template, on MMLU, BIG-bench Hard and LMentry.
+  Scope: Budgets of 200, 400, 800 and 1600 total evaluations, which are 0.81% (MMLU), 1.15% (BBH) and 0.88% (LMentry) of all prompt-by-example evaluations; all methods sampled with the same two-way balanced sampler.
+  Evidence: Figure 2
+- Central quantiles such as the median of the across-prompt performance distribution are estimated accurately by PromptEval with 200 evaluations, giving more than 100x compute saving in most cases. Extreme quantiles like the 5th and 95th need larger budgets.
+  Scope: MMLU, BBH and LMentry; quantiles 5/25/50/75/95 evaluated at budgets of 200 to 1600 evaluations; the 100x figure is relative to fully evaluating every template on every example.
+  Evidence: Figure 3
+- Even the covariate-free Rasch version of PromptEval beats per-template averaging on both distribution and quantile estimation, and adding prompt covariates improves it further, with pre-trained sentence-transformer embeddings robust across all three benchmarks.
+  Scope: MMLU, BBH and LMentry; discrete hand-coded template covariates fail to help on LMentry; fine-tuned BERT embeddings help most for extreme quantiles at small budgets on MMLU but require full evaluation data from a held-out set of LLMs to train.
+  Evidence: Figure 2, Figure 3
+- PromptEval's estimators of the across-prompt performance distribution and its quantiles are proved consistent as the numbers of prompts and examples grow. The quantile error goes to 0 in probability for every p, and so does the Wasserstein-1 distance between estimated and true distribution.
+  Scope: Proved for linear/affine prompt and example functions with uniformly bounded covariates, a correctly specified Bernoulli model with a consistent maximum-likelihood estimator, and a number of unseen examples per prompt growing fast enough relative to the number of prompts.
+  Evidence: Theorem 4.4 in Section 4
+- On AlpacaEval 2.0 with 100 prompt templates given to a GPT-4o-mini judge, the ranking of 4 similarly capable LLMs changes under 36% of the judge templates.
+  Scope: Cohere Command, Qwen1.5-7B-Chat, Mistral-7B-Instruct-v0.2 and LLaMa-2-70B-Chat; only the judge's prompt varies.
+  Evidence: Section 6.1
+- PromptEval reconstructs the distribution of LLM-as-a-judge scores over 100 judge prompt templates from about 2% of the evaluations (1.6k of 80.5k), with much lower Wasserstein-1 error than per-template averaging.
+  Scope: AlpacaEval 2.0 with GPT-4o-mini as judge and 4 evaluated LLMs; AlpacaEval scores binarized at a threshold of 1/2 to fit the model, but not binarized at test time.
+  Evidence: Figure 4
+- For best-prompt identification on MMLU, BBH and LMentry, PromptEval attains lower regret than the TRIPLE-GSE baseline for each of the 3 covariate types: one-hot, discrete features and embeddings. It also beats TRIPLE-GSE with an MLP performance predictor.
+  Scope: Fixed, predefined candidate template pools only, not dynamically generated prompts; PromptEval is coupled with a sequential-elimination bandit; regret is the best template's performance minus the chosen template's performance.
+  Evidence: Figure 5, Figures 13-15
+- On MMLU, most LLMs show an average max-minus-min accuracy spread of around 10% across 100 prompt templates at the subject level. Spreads averaged over all 57 subjects are small, and Llama-3-70B-Instruct stays the best model under every template.
+  Scope: 15 open-source LLMs; 100 templates generated by swapping separators, spaces and operators, so no semantic rewrites; spread measured within individual MMLU subjects.
+  Evidence: Figure 6, Appendix K
+- No prompt template is broadly best on MMLU: Kendall's W across LLMs ranking templates is at most about 0.25 within any subject. Within a single model, only Gemma-7B-it (0.45) and Mistral-7B-v0.1 (0.35) show appreciable agreement across subjects.
+  Scope: 15 open-source LLMs and 57 MMLU subjects with 100 templates; Kendall's W ranges from 0 (no agreement) to 1 (perfect agreement); the remaining 13 models fall below 0.29.
+  Evidence: Table 1, Figure 17
+- Cutting the pool of prompt templates by a factor of 5, for example to 20 variations on MMLU, leaves PromptEval ahead of per-template averaging but narrows the gap. The method's advantage therefore grows with the number of templates evaluated.
+  Scope: Same budgets and benchmarks as the main experiments, with 20% of each task's prompt variations retained at random.
+  Evidence: Figure 10
+- PromptEval reframes prompt-sensitive LLM evaluation as estimating the whole distribution of performance over a pool of prompt templates, rather than searching for one prompt to report. Leaderboards can then quote robust statistics such as the median or the 95% quantile.
+  Scope: Assumes a predefined pool of templates is given; choosing that pool and handling dynamically generated prompt candidates are left open, as stated in Appendix A.
+  Evidence: Section 1, Section 8
+- The PromptEval paper contributes a large-scale prompt-sensitivity study of 15 open-source LLMs on MMLU across 100 prompt templates, with the evaluation data released. Prior sensitivity analyses had covered SuperNaturalInstructions, BIG-bench and LMentry but not MMLU.
+  Scope: As of publication in 2024; covers 15 open-source models and MMLU's 57 subjects with templates generated by feature swaps, so it does not speak to closed API models or to semantically rewritten instructions.
+  Evidence: Section 7, Appendix J
+
+## Common misreadings
+- PromptEval does not select or engineer prompts: it assumes a predefined pool of templates is given and estimates performance over that pool, so deciding which templates belong in the pool remains an open problem.
+- The "2 to 4 single-prompt evaluations" budget is not the cost of estimating everything equally well — central quantiles such as the median are accurate at the smallest budget while the 5th and 95th quantiles need more evaluations.
+- MMLU's relatively small prompt spread when averaged over all 57 subjects does not mean MMLU is prompt-insensitive: within individual subjects most LLMs show around 10% max-minus-min accuracy spread.
+- Gemma-7B-it's Kendall's W of 0.45 does not mean a universally good prompt template exists — agreement across different LLMs within a subject reaches only about 0.25, so template preferences do not transfer between models.
+- The consistency result covers linear/affine covariate functions under a correctly specified model; it is not a guarantee for the fine-tuned BERT embedding variant or for arbitrary neural parameterizations.
+
+## Terminology
+- PromptEval: A procedure that fits a Bernoulli/IRT correctness model on a sparse sample of prompt-template-by-example evaluations, predicts every template's score with the X-pIRT estimator, and returns the empirical distribution and quantile function of scores across the template pool.
+- X-pIRT: An extension of the Performance-IRT estimator in which prompt and example parameters are functions of covariates (template embeddings or discrete text features) rather than free per-item parameters; a template's score is the average of its observed correctness scores and its model-predicted correctness on unseen examples.
+- Two-way balanced sampling: A sampling scheme for choosing which prompt-example pairs to evaluate under a fixed budget, which repeatedly picks the least-evaluated prompt template and then its least-evaluated example, so every template and every example is observed a roughly equal number of times.
+- Performance spread: The difference between the best and worst accuracy an LLM attains over a set of prompt templates on the same task, used as a measure of prompt sensitivity.
+- Kendall's W: A rank-agreement coefficient from 0 (no agreement) to 1 (perfect agreement), used to measure whether different subjects or different LLMs order prompt templates the same way.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2405.17202
@@ -12,13 +69,16 @@ Most popular benchmarks for comparing LLMs rely on a limited set of prompt templ
 - HTML: https://arxiv.org/html/2405.17202
 - Hugging Face: https://huggingface.co/papers/2405.17202
 - alphaXiv: https://www.alphaxiv.org/abs/2405.17202
-- DOI: https://doi.org/10.48550/ARXIV.2405.17202
+- DOI: https://doi.org/10.48550/arXiv.2405.17202
 - Semantic Scholar: https://www.semanticscholar.org/paper/270062938
-- Publisher: https://doi.org/10.48550/arXiv.2405.17202
+- Code: https://github.com/felipemaiapolo/prompteval
+- Data: https://huggingface.co/PromptEval
+- Demo: https://github.com/felipemaiapolo/prompteval/blob/main/notebooks/PromptEval_demo.ipynb
+- integration: https://github.com/microsoft/promptbench
 
 ## How to cite
 @inproceedings{poloefficient,
-title={Efficient multi-prompt evaluation of LLMs},
+  title={Efficient multi-prompt evaluation of LLMs},
   author={Polo, Felipe Maia and Xu, Ronald and Weber, Lucas and Silva, M{\'\i}rian and Bhardwaj, Onkar and Choshen, Leshem and de Oliveira, Allysson Flavio Melo and Sun, Yuekai and Yurochkin, Mikhail},
   booktitle={The Thirty-eighth Annual Conference on Neural Information Processing Systems},
   year={2024},

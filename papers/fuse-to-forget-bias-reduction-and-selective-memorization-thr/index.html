@@ -9,8 +9,9 @@
   <meta name="citation_author" content="Kerem Zaman">
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Shashank Srivastava">
-  <meta name="citation_publication_date" content="2023">
-  <meta name="citation_doi" content="10.48550/ARXIV.2311.07682">
+  <meta name="citation_publication_date" content="2024">
+  <meta name="citation_conference_title" content="EMNLP 2024">
+  <meta name="citation_doi" content="10.18653/V1/2024.EMNLP-MAIN.1045">
   <meta name="citation_arxiv_id" content="2311.07682">
   <meta name="citation_abstract" content="Model fusion research aims to aggregate the knowledge of multiple individual models to enhance performance by combining their weights. In this work, we study the inverse problem: investigating whether model fusion can be used to reduce unwanted knowledge. We investigate the effects of model fusion in three scenarios: the learning of shortcuts, social biases, and memorization of training data in fine-tuned language models. Through experiments covering classification and generation tasks, our analysis highlights that shared knowledge among models is enhanced during model fusion, while unshared knowledge is usually forgotten. Based on this observation, we demonstrate the potential of model fusion as a debiasing tool and showcase its efficacy in addressing privacy concerns associated with language models.">
   <script type="application/ld+json">
@@ -36,25 +37,316 @@
     }
   ],
   "isAccessibleForFree": true,
-  "datePublished": "2023",
+  "datePublished": "2024",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "CoRR"
+    "name": "EMNLP 2024"
   },
-  "identifier": "https://doi.org/10.48550/ARXIV.2311.07682",
+  "identifier": "https://doi.org/10.18653/V1/2024.EMNLP-MAIN.1045",
   "abstract": "Model fusion research aims to aggregate the knowledge of multiple individual models to enhance performance by combining their weights. In this work, we study the inverse problem: investigating whether model fusion can be used to reduce unwanted knowledge. We investigate the effects of model fusion in three scenarios: the learning of shortcuts, social biases, and memorization of training data in fine-tuned language models. Through experiments covering classification and generation tasks, our analysis highlights that shared knowledge among models is enhanced during model fusion, while unshared knowledge is usually forgotten. Based on this observation, we demonstrate the potential of model fusion as a debiasing tool and showcase its efficacy in addressing privacy concerns associated with language models.",
+  "description": "Fuse to Forget shows that averaging the weights of fine-tuned language models preserves knowledge the models share and erodes knowledge they do not, turning simple weight averaging into a debiasing and memorization-reduction tool.",
   "codeRepository": "https://github.com/keremzaman/fusetoforget",
   "sameAs": [
     "https://aclanthology.org/2024.emnlp-main.1045/",
     "https://arxiv.org/abs/2311.07682",
     "https://arxiv.org/html/2311.07682",
     "https://arxiv.org/pdf/2311.07682",
-    "https://doi.org/10.48550/ARXIV.2311.07682",
-    "https://doi.org/10.48550/arXiv.2311.07682",
+    "https://doi.org/10.18653/V1/2024.EMNLP-MAIN.1045",
+    "https://doi.org/10.18653/v1/2024.emnlp-main.1045",
     "https://github.com/keremzaman/fusetoforget",
     "https://huggingface.co/papers/2311.07682",
     "https://www.alphaxiv.org/abs/2311.07682",
     "https://www.semanticscholar.org/paper/265158134"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Fuse to Forget studies model fusion as a forgetting mechanism rather than an accumulation mechanism. Its claim is that weight averaging preserves knowledge shared across the fused models while unshared knowledge is degraded or lost.",
+      "description": "Holds for: Simple weighted averaging of parameters, on fine-tuned BERT-base and GPT-2 in sentiment classification, tweet classification and language modeling; task arithmetic and TIES were not tested."
+    },
+    {
+      "@type": "Thing",
+      "name": "Interpolating between two BERT-base sentiment classifiers that each learned a different synthetic shortcut drops shortcut accuracy on both synthetic validation sets midway along the path. Accuracy on the original SST2 task is preserved throughout.",
+      "description": "Holds for: SST2 with synthetic shortcuts injected into roughly 20% of the training data; shown for the Ordered Pair vs Token-in-Context and Ordered Pair vs Single Token pairs, both trained until shortcut accuracy exceeded 0.95."
+    },
+    {
+      "@type": "Thing",
+      "name": "When two BERT-base models share the Token-in-Context shortcut but differ in learning OR versus Ordered Pair, interpolation forgets the unshared shortcuts. The shared shortcut survives with only a small accuracy drop.",
+      "description": "Holds for: SST2 with two shortcuts injected per instance in the synthetic split, one shared and one unshared; single model pair, BERT-base only."
+    },
+    {
+      "@type": "Thing",
+      "name": "Averaging the weights of 6 BERT-base models, each trained with a different synthetic shortcut, drives shortcut accuracy on every shortcut validation set to around chance level. The fused model still beats the individual models on the original SST2 validation sets with statistical significance.",
+      "description": "Holds for: SST2, 6 shortcut types, uniform weight averaging; original-task numbers are averages over each model's corresponding validation set. The full model trained on the combined data instead learns all 6 shortcuts."
+    },
+    {
+      "@type": "Thing",
+      "name": "Interpolating from a gender-biased to an age-biased BERT-base tweet classifier reduces Demographic Parity and TPR-GAP by approximately 60% while keeping accuracy high, with the introduction reporting reductions of up to 68%.",
+      "description": "Holds for: PAN16 tweet classification, each biased model trained on a subset skewed 80/20 on one protected attribute and balanced on the other; picking the interpolation coefficient uses demographic annotations at evaluation time."
+    },
+    {
+      "@type": "Thing",
+      "name": "Fusing an age-biased and a gender-biased BERT-base classifier lowers Demographic Parity on the age-biased task from .185 to .063 and TPR-GAP from .088 to .028. That beats INLP (.076 DP, .041 TPR-GAP) and LEACE (.206 DP, .100 TPR-GAP) at comparable accuracy (.871 versus .877).",
+      "description": "Holds for: PAN16, BERT-base fine-tuned 2 epochs, INLP with 200 logistic classifiers; fusion coefficients chosen as 0.3 for age and 0.4 for gender bias. On gender bias the full model trained on combined data reaches a lower DP (.033) than fusion (.047)."
+    },
+    {
+      "@type": "Thing",
+      "name": "Weight-averaging two differently biased classifiers needs no demographic annotations during training and no series of trained probing classifiers, unlike INLP with its 200 logistic classifiers. Annotations are needed only to evaluate or to pick which models to fuse.",
+      "description": "Holds for: PAN16 tweet classification with age and gender as protected attributes; the procedure does require access to two models whose biases differ, and it introduces a new mixed bias from combining them."
+    },
+    {
+      "@type": "Thing",
+      "name": "Averaging 3 GPT-2 models fine-tuned on different 3K-article CNN-DM subsets raises the Average Likelihood Ratio on each model's own training data from 0.22 to about 0.66. The ALR on the 1K shared subset stays at 0.24, so only unshared memorized text is forgotten.",
+      "description": "Holds for: GPT-2 fine-tuned 10 epochs, batch size 16, learning rate 0.001, on CNN-DM subsets of 3K articles with 1K shared; higher ALR means less memorization. The full model trained on the combined data keeps a much lower ALR of 0.32 on all subsets."
+    },
+    {
+      "@type": "Thing",
+      "name": "The fused GPT-2 model reaches 30.63 validation perplexity on CNN-DM, better than each of the 3 individual fine-tuned models at 35.25-35.81. It remains worse than the base GPT-2 (23.50) and the full model trained on combined data (27.45).",
+      "description": "Holds for: GPT-2 fine-tuned 10 epochs on 3K-article CNN-DM subsets; all fine-tuned and fused models are overfitted relative to the un-fine-tuned base model."
+    },
+    {
+      "@type": "Thing",
+      "name": "Fusing more GPT-2 models weakens memorization of unshared training data: ALR on a seed model's own data rises from 0.485 for 2 fused models to 0.656 for 3 and 0.758 for 4. Validation perplexity falls from 31.60 to 30.15 over the same range.",
+      "description": "Holds for: GPT-2, CNN-DM subsets of 3K articles each with 1K shared, so total training data grows with the number of fused models; when total data is held fixed instead, perplexity worsens as more models are fused."
+    },
+    {
+      "@type": "Thing",
+      "name": "Weights carrying shared task knowledge overlap more across differently-shortcut BERT-base models than weights carrying unshared shortcut knowledge. Fisher overlap is .8077 versus .6877 for the TiC-OP pair and .7746 versus .6819 for the TiC-ST pair.",
+      "description": "Holds for: Empirical diagonal Fisher information computed over 200 SST2 validation examples, with label-reversed shortcut copies used to isolate shortcut knowledge; 2 model pairs chosen to minimize shortcut overlap."
+    },
+    {
+      "@type": "Thing",
+      "name": "The memorization pattern replicates on BERT-base: fusing 4 models raises ALR on unshared training data to 0.234 from 0.150 for the individual models, while the shared subset stays better memorized at 0.174.",
+      "description": "Holds for: BERT-base fine-tuned 20 epochs, learning rate 3e-4, on CNN-DM subsets of 3000 articles with 1000 shared and no sequence packing; masked-language-model energy approximated over 10 sampled masking subsets."
+    },
+    {
+      "@type": "Thing",
+      "name": "Training on the combined datasets is competitive with fusion for social biases, where pooling the data changes label-attribute ratios. It is not competitive for shortcuts or memorization, where the combined model learns every shortcut and memorizes every subset.",
+      "description": "Holds for: SST2 with injected shortcuts, PAN16 age/gender bias, and CNN-DM memorization with GPT-2; combined training helps only when pooling the data changes label-feature correlations, and it requires access to all the raw training data."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/#faq",
+  "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/",
+  "name": "Questions answered by Fuse to Forget: Bias Reduction and Selective Memorization through Model Fusion",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What happens to a model's skills when you average the weights of several fine-tuned models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fuse to Forget studies model fusion as a forgetting mechanism rather than an accumulation mechanism. Its claim is that weight averaging preserves knowledge shared across the fused models while unshared knowledge is degraded or lost. Holds for: Simple weighted averaging of parameters, on fine-tuned BERT-base and GPT-2 in sentiment classification, tweet classification and language modeling; task arithmetic and TIES were not tested.\n\nInterpolating between two BERT-base sentiment classifiers that each learned a different synthetic shortcut drops shortcut accuracy on both synthetic validation sets midway along the path. Accuracy on the original SST2 task is preserved throughout. Holds for: SST2 with synthetic shortcuts injected into roughly 20% of the training data; shown for the Ordered Pair vs Token-in-Context and Ordered Pair vs Single Token pairs, both trained until shortcut accuracy exceeded 0.95.\n\nWhen two BERT-base models share the Token-in-Context shortcut but differ in learning OR versus Ordered Pair, interpolation forgets the unshared shortcuts. The shared shortcut survives with only a small accuracy drop. Holds for: SST2 with two shortcuts injected per instance in the synthetic split, one shared and one unshared; single model pair, BERT-base only.",
+        "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
+      },
+      "alternateName": [
+        "Does weight averaging keep all the knowledge of the fine-tuned models being merged?",
+        "Which knowledge survives model fusion and which is lost?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can averaging model weights remove spurious shortcuts learned during fine-tuning?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Averaging the weights of 6 BERT-base models, each trained with a different synthetic shortcut, drives shortcut accuracy on every shortcut validation set to around chance level. The fused model still beats the individual models on the original SST2 validation sets with statistical significance. Holds for: SST2, 6 shortcut types, uniform weight averaging; original-task numbers are averages over each model's corresponding validation set. The full model trained on the combined data instead learns all 6 shortcuts.\n\nInterpolating between two BERT-base sentiment classifiers that each learned a different synthetic shortcut drops shortcut accuracy on both synthetic validation sets midway along the path. Accuracy on the original SST2 task is preserved throughout. Holds for: SST2 with synthetic shortcuts injected into roughly 20% of the training data; shown for the Ordered Pair vs Token-in-Context and Ordered Pair vs Single Token pairs, both trained until shortcut accuracy exceeded 0.95.",
+        "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
+      },
+      "alternateName": [
+        "Does merging classifiers that learned different shortcuts get rid of those shortcuts?",
+        "How much shortcut accuracy is left after fusing 6 models with different shortcuts?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can model merging be used as a debiasing method for text classifiers?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Interpolating from a gender-biased to an age-biased BERT-base tweet classifier reduces Demographic Parity and TPR-GAP by approximately 60% while keeping accuracy high, with the introduction reporting reductions of up to 68%. Holds for: PAN16 tweet classification, each biased model trained on a subset skewed 80/20 on one protected attribute and balanced on the other; picking the interpolation coefficient uses demographic annotations at evaluation time.\n\nFusing an age-biased and a gender-biased BERT-base classifier lowers Demographic Parity on the age-biased task from .185 to .063 and TPR-GAP from .088 to .028. That beats INLP (.076 DP, .041 TPR-GAP) and LEACE (.206 DP, .100 TPR-GAP) at comparable accuracy (.871 versus .877). Holds for: PAN16, BERT-base fine-tuned 2 epochs, INLP with 200 logistic classifiers; fusion coefficients chosen as 0.3 for age and 0.4 for gender bias. On gender bias the full model trained on combined data reaches a lower DP (.033) than fusion (.047).",
+        "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
+      },
+      "alternateName": [
+        "How much does averaging a gender-biased and an age-biased model reduce bias?",
+        "Does weight averaging reduce demographic parity gaps without hurting accuracy?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How does weight averaging compare to INLP and LEACE for debiasing?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fusing an age-biased and a gender-biased BERT-base classifier lowers Demographic Parity on the age-biased task from .185 to .063 and TPR-GAP from .088 to .028. That beats INLP (.076 DP, .041 TPR-GAP) and LEACE (.206 DP, .100 TPR-GAP) at comparable accuracy (.871 versus .877). Holds for: PAN16, BERT-base fine-tuned 2 epochs, INLP with 200 logistic classifiers; fusion coefficients chosen as 0.3 for age and 0.4 for gender bias. On gender bias the full model trained on combined data reaches a lower DP (.033) than fusion (.047).\n\nWeight-averaging two differently biased classifiers needs no demographic annotations during training and no series of trained probing classifiers, unlike INLP with its 200 logistic classifiers. Annotations are needed only to evaluate or to pick which models to fuse. Holds for: PAN16 tweet classification with age and gender as protected attributes; the procedure does require access to two models whose biases differ, and it introduces a new mixed bias from combining them.",
+        "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
+      },
+      "alternateName": [
+        "Is model fusion better than nullspace projection for removing social bias?",
+        "Which debiasing method gives the lowest TPR-GAP on PAN16 tweet classification?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does debiasing by model fusion require demographic labels?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Weight-averaging two differently biased classifiers needs no demographic annotations during training and no series of trained probing classifiers, unlike INLP with its 200 logistic classifiers. Annotations are needed only to evaluate or to pick which models to fuse. Holds for: PAN16 tweet classification with age and gender as protected attributes; the procedure does require access to two models whose biases differ, and it introduces a new mixed bias from combining them.",
+        "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
+      },
+      "alternateName": [
+        "Do I need protected-attribute annotations to remove bias by averaging weights?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can model merging reduce memorization of training data in language models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Averaging 3 GPT-2 models fine-tuned on different 3K-article CNN-DM subsets raises the Average Likelihood Ratio on each model's own training data from 0.22 to about 0.66. The ALR on the 1K shared subset stays at 0.24, so only unshared memorized text is forgotten. Holds for: GPT-2 fine-tuned 10 epochs, batch size 16, learning rate 0.001, on CNN-DM subsets of 3K articles with 1K shared; higher ALR means less memorization. The full model trained on the combined data keeps a much lower ALR of 0.32 on all subsets.\n\nThe memorization pattern replicates on BERT-base: fusing 4 models raises ALR on unshared training data to 0.234 from 0.150 for the individual models, while the shared subset stays better memorized at 0.174. Holds for: BERT-base fine-tuned 20 epochs, learning rate 3e-4, on CNN-DM subsets of 3000 articles with 1000 shared and no sequence packing; masked-language-model energy approximated over 10 sampled masking subsets.",
+        "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
+      },
+      "alternateName": [
+        "Does averaging fine-tuned GPT-2 models make them forget their training examples?",
+        "How can weight averaging help with privacy and training-data leakage?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does fusing several fine-tuned models improve validation perplexity?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The fused GPT-2 model reaches 30.63 validation perplexity on CNN-DM, better than each of the 3 individual fine-tuned models at 35.25-35.81. It remains worse than the base GPT-2 (23.50) and the full model trained on combined data (27.45). Holds for: GPT-2 fine-tuned 10 epochs on 3K-article CNN-DM subsets; all fine-tuned and fused models are overfitted relative to the un-fine-tuned base model.",
+        "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
+      },
+      "alternateName": [
+        "Is a merged GPT-2 better at generalizing than the individual fine-tuned models it was averaged from?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What happens as you increase the number of models being averaged?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fusing more GPT-2 models weakens memorization of unshared training data: ALR on a seed model's own data rises from 0.485 for 2 fused models to 0.656 for 3 and 0.758 for 4. Validation perplexity falls from 31.60 to 30.15 over the same range. Holds for: GPT-2, CNN-DM subsets of 3K articles each with 1K shared, so total training data grows with the number of fused models; when total data is held fixed instead, perplexity worsens as more models are fused.",
+        "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
+      },
+      "alternateName": [
+        "Does forgetting get stronger with more merged models?",
+        "How many models should be fused to reduce memorization?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why does simple weight averaging preserve some knowledge and destroy other knowledge?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Weights carrying shared task knowledge overlap more across differently-shortcut BERT-base models than weights carrying unshared shortcut knowledge. Fisher overlap is .8077 versus .6877 for the TiC-OP pair and .7746 versus .6819 for the TiC-ST pair. Holds for: Empirical diagonal Fisher information computed over 200 SST2 validation examples, with label-reversed shortcut copies used to isolate shortcut knowledge; 2 model pairs chosen to minimize shortcut overlap.",
+        "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
+      },
+      "alternateName": [
+        "Is there evidence that shared and unshared skills live in different weights?",
+        "What does Fisher information say about which weights encode shared knowledge?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is it better to merge separately trained models or just train on the combined data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Training on the combined datasets is competitive with fusion for social biases, where pooling the data changes label-attribute ratios. It is not competitive for shortcuts or memorization, where the combined model learns every shortcut and memorizes every subset. Holds for: SST2 with injected shortcuts, PAN16 age/gender bias, and CNN-DM memorization with GPT-2; combined training helps only when pooling the data changes label-feature correlations, and it requires access to all the raw training data.\n\nAveraging the weights of 6 BERT-base models, each trained with a different synthetic shortcut, drives shortcut accuracy on every shortcut validation set to around chance level. The fused model still beats the individual models on the original SST2 validation sets with statistical significance. Holds for: SST2, 6 shortcut types, uniform weight averaging; original-task numbers are averages over each model's corresponding validation set. The full model trained on the combined data instead learns all 6 shortcuts.",
+        "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
+      },
+      "alternateName": [
+        "When does training on the pooled dataset beat weight averaging?",
+        "Does a model trained on all the data also lose the shortcuts?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What paper should I read about the downsides or forgetting effects of model merging?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fuse to Forget studies model fusion as a forgetting mechanism rather than an accumulation mechanism. Its claim is that weight averaging preserves knowledge shared across the fused models while unshared knowledge is degraded or lost. Holds for: Simple weighted averaging of parameters, on fine-tuned BERT-base and GPT-2 in sentiment classification, tweet classification and language modeling; task arithmetic and TIES were not tested.",
+        "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
+      },
+      "alternateName": [
+        "Which work studies model fusion as a way to remove unwanted knowledge rather than add capability?",
+        "Where can I start reading about using weight averaging for bias and privacy?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do the forgetting findings hold for both classification and generation models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The memorization pattern replicates on BERT-base: fusing 4 models raises ALR on unshared training data to 0.234 from 0.150 for the individual models, while the shared subset stays better memorized at 0.174. Holds for: BERT-base fine-tuned 20 epochs, learning rate 3e-4, on CNN-DM subsets of 3000 articles with 1000 shared and no sequence packing; masked-language-model energy approximated over 10 sampled masking subsets.\n\nFuse to Forget studies model fusion as a forgetting mechanism rather than an accumulation mechanism. Its claim is that weight averaging preserves knowledge shared across the fused models while unshared knowledge is degraded or lost. Holds for: Simple weighted averaging of parameters, on fine-tuned BERT-base and GPT-2 in sentiment classification, tweet classification and language modeling; task arithmetic and TIES were not tested.",
+        "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
+      },
+      "alternateName": [
+        "Were the fusion results replicated on more than one architecture?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/#terms",
+  "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/",
+  "name": "Terminology in Fuse to Forget: Bias Reduction and Selective Memorization through Model Fusion",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Average Likelihood Ratio (ALR)",
+      "description": "A memorization metric averaging, over a dataset, the exponentiated ratio between a reference (un-fine-tuned) model's likelihood of a sample and the fine-tuned model's likelihood; lower values mean stronger memorization, and it avoids the threshold needed by membership-inference recall.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "knowledge utilization function",
+      "description": "A performance metric such as accuracy or BLEU evaluated on a dataset curated to probe one specific latent skill, used as a measurable proxy for knowledge that is embedded in model weights and not directly observable.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "shared versus unshared knowledge",
+      "description": "Knowledge is shared when several models being fused score similarly on the dataset probing it, and unshared when their scores diverge, so that one model has the skill and another does not.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Fisher overlap",
+      "description": "One minus the squared Fréchet distance between two networks' empirical diagonal Fisher information matrices normalized to unit trace, where zero means the two networks use non-overlapping sets of weights for the probed knowledge.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Token in Context (TiC) shortcut",
+      "description": "A synthetic labelling rule in which the label is set by which of two special tokens co-occurs with a designated context token in the input.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "full model",
+      "description": "A single model fine-tuned on the union of the datasets used by the individually fine-tuned models, serving as the combined-data baseline against which a weight-averaged fused model is compared.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/#terms"
+    }
   ]
 }
   </script>
@@ -65,6 +357,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -78,27 +371,121 @@
 </head>
 <body>
 <h1>Fuse to Forget: Bias Reduction and Selective Memorization through Model Fusion</h1>
-<p class="meta">Kerem Zaman, Leshem Choshen, Shashank Srivastava · CoRR · 2023</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2311.07682">arXiv</a></li><li><a href="https://arxiv.org/pdf/2311.07682">PDF</a></li><li><a href="https://arxiv.org/html/2311.07682">HTML</a></li><li><a href="https://huggingface.co/papers/2311.07682">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2311.07682">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2311.07682">DOI</a></li><li><a href="https://aclanthology.org/2024.emnlp-main.1045/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/265158134">Semantic Scholar</a></li><li><a href="https://doi.org/10.48550/arXiv.2311.07682">Publisher</a></li><li><a href="https://github.com/keremzaman/fusetoforget">Code</a></li></ul>
+<p class="sub">averaging the weights of models with different biases so the biases they do not share get forgotten</p>
+<p class="meta">Kerem Zaman, Leshem Choshen, Shashank Srivastava · EMNLP 2024 · 2024</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2311.07682">arXiv</a></li><li><a href="https://arxiv.org/pdf/2311.07682">PDF</a></li><li><a href="https://arxiv.org/html/2311.07682">HTML</a></li><li><a href="https://huggingface.co/papers/2311.07682">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2311.07682">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2024.EMNLP-MAIN.1045">DOI</a></li><li><a href="https://aclanthology.org/2024.emnlp-main.1045/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/265158134">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2024.emnlp-main.1045">Publisher</a></li><li><a href="https://github.com/keremzaman/fusetoforget">Code</a></li></ul>
+<h2>In one sentence</h2>
+<p>Fuse to Forget shows that averaging the weights of fine-tuned language models preserves knowledge the models share and erodes knowledge they do not, turning simple weight averaging into a debiasing and memorization-reduction tool.</p>
 <h2>Abstract</h2>
 <p>Model fusion research aims to aggregate the knowledge of multiple individual models to enhance performance by combining their weights. In this work, we study the inverse problem: investigating whether model fusion can be used to reduce unwanted knowledge. We investigate the effects of model fusion in three scenarios: the learning of shortcuts, social biases, and memorization of training data in fine-tuned language models. Through experiments covering classification and generation tasks, our analysis highlights that shared knowledge among models is enhanced during model fusion, while unshared knowledge is usually forgotten. Based on this observation, we demonstrate the potential of model fusion as a debiasing tool and showcase its efficacy in addressing privacy concerns associated with language models.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What happens to a model&#x27;s skills when you average the weights of several fine-tuned models?</dt>
+<dt>Does weight averaging keep all the knowledge of the fine-tuned models being merged?</dt>
+<dt>Which knowledge survives model fusion and which is lost?</dt>
+<dd>Fuse to Forget studies model fusion as a forgetting mechanism rather than an accumulation mechanism. Its claim is that weight averaging preserves knowledge shared across the fused models while unshared knowledge is degraded or lost.<br><span class="scope">Holds for: Simple weighted averaging of parameters, on fine-tuned BERT-base and GPT-2 in sentiment classification, tweet classification and language modeling; task arithmetic and TIES were not tested.</span></dd>
+<dd>Interpolating between two BERT-base sentiment classifiers that each learned a different synthetic shortcut drops shortcut accuracy on both synthetic validation sets midway along the path. Accuracy on the original SST2 task is preserved throughout.<br><span class="scope">Holds for: SST2 with synthetic shortcuts injected into roughly 20% of the training data; shown for the Ordered Pair vs Token-in-Context and Ordered Pair vs Single Token pairs, both trained until shortcut accuracy exceeded 0.95.</span></dd>
+<dd>When two BERT-base models share the Token-in-Context shortcut but differ in learning OR versus Ordered Pair, interpolation forgets the unshared shortcuts. The shared shortcut survives with only a small accuracy drop.<br><span class="scope">Holds for: SST2 with two shortcuts injected per instance in the synthetic split, one shared and one unshared; single model pair, BERT-base only.</span></dd>
+<dt>Can averaging model weights remove spurious shortcuts learned during fine-tuning?</dt>
+<dt>Does merging classifiers that learned different shortcuts get rid of those shortcuts?</dt>
+<dt>How much shortcut accuracy is left after fusing 6 models with different shortcuts?</dt>
+<dd>Averaging the weights of 6 BERT-base models, each trained with a different synthetic shortcut, drives shortcut accuracy on every shortcut validation set to around chance level. The fused model still beats the individual models on the original SST2 validation sets with statistical significance.<br><span class="scope">Holds for: SST2, 6 shortcut types, uniform weight averaging; original-task numbers are averages over each model&#x27;s corresponding validation set. The full model trained on the combined data instead learns all 6 shortcuts.</span></dd>
+<dd>Interpolating between two BERT-base sentiment classifiers that each learned a different synthetic shortcut drops shortcut accuracy on both synthetic validation sets midway along the path. Accuracy on the original SST2 task is preserved throughout.<br><span class="scope">Holds for: SST2 with synthetic shortcuts injected into roughly 20% of the training data; shown for the Ordered Pair vs Token-in-Context and Ordered Pair vs Single Token pairs, both trained until shortcut accuracy exceeded 0.95.</span></dd>
+<dt>Can model merging be used as a debiasing method for text classifiers?</dt>
+<dt>How much does averaging a gender-biased and an age-biased model reduce bias?</dt>
+<dt>Does weight averaging reduce demographic parity gaps without hurting accuracy?</dt>
+<dd>Interpolating from a gender-biased to an age-biased BERT-base tweet classifier reduces Demographic Parity and TPR-GAP by approximately 60% while keeping accuracy high, with the introduction reporting reductions of up to 68%.<br><span class="scope">Holds for: PAN16 tweet classification, each biased model trained on a subset skewed 80/20 on one protected attribute and balanced on the other; picking the interpolation coefficient uses demographic annotations at evaluation time.</span></dd>
+<dd>Fusing an age-biased and a gender-biased BERT-base classifier lowers Demographic Parity on the age-biased task from .185 to .063 and TPR-GAP from .088 to .028. That beats INLP (.076 DP, .041 TPR-GAP) and LEACE (.206 DP, .100 TPR-GAP) at comparable accuracy (.871 versus .877).<br><span class="scope">Holds for: PAN16, BERT-base fine-tuned 2 epochs, INLP with 200 logistic classifiers; fusion coefficients chosen as 0.3 for age and 0.4 for gender bias. On gender bias the full model trained on combined data reaches a lower DP (.033) than fusion (.047).</span></dd>
+<dt>How does weight averaging compare to INLP and LEACE for debiasing?</dt>
+<dt>Is model fusion better than nullspace projection for removing social bias?</dt>
+<dt>Which debiasing method gives the lowest TPR-GAP on PAN16 tweet classification?</dt>
+<dd>Fusing an age-biased and a gender-biased BERT-base classifier lowers Demographic Parity on the age-biased task from .185 to .063 and TPR-GAP from .088 to .028. That beats INLP (.076 DP, .041 TPR-GAP) and LEACE (.206 DP, .100 TPR-GAP) at comparable accuracy (.871 versus .877).<br><span class="scope">Holds for: PAN16, BERT-base fine-tuned 2 epochs, INLP with 200 logistic classifiers; fusion coefficients chosen as 0.3 for age and 0.4 for gender bias. On gender bias the full model trained on combined data reaches a lower DP (.033) than fusion (.047).</span></dd>
+<dd>Weight-averaging two differently biased classifiers needs no demographic annotations during training and no series of trained probing classifiers, unlike INLP with its 200 logistic classifiers. Annotations are needed only to evaluate or to pick which models to fuse.<br><span class="scope">Holds for: PAN16 tweet classification with age and gender as protected attributes; the procedure does require access to two models whose biases differ, and it introduces a new mixed bias from combining them.</span></dd>
+<dt>Does debiasing by model fusion require demographic labels?</dt>
+<dt>Do I need protected-attribute annotations to remove bias by averaging weights?</dt>
+<dd>Weight-averaging two differently biased classifiers needs no demographic annotations during training and no series of trained probing classifiers, unlike INLP with its 200 logistic classifiers. Annotations are needed only to evaluate or to pick which models to fuse.<br><span class="scope">Holds for: PAN16 tweet classification with age and gender as protected attributes; the procedure does require access to two models whose biases differ, and it introduces a new mixed bias from combining them.</span></dd>
+<dt>Can model merging reduce memorization of training data in language models?</dt>
+<dt>Does averaging fine-tuned GPT-2 models make them forget their training examples?</dt>
+<dt>How can weight averaging help with privacy and training-data leakage?</dt>
+<dd>Averaging 3 GPT-2 models fine-tuned on different 3K-article CNN-DM subsets raises the Average Likelihood Ratio on each model&#x27;s own training data from 0.22 to about 0.66. The ALR on the 1K shared subset stays at 0.24, so only unshared memorized text is forgotten.<br><span class="scope">Holds for: GPT-2 fine-tuned 10 epochs, batch size 16, learning rate 0.001, on CNN-DM subsets of 3K articles with 1K shared; higher ALR means less memorization. The full model trained on the combined data keeps a much lower ALR of 0.32 on all subsets.</span></dd>
+<dd>The memorization pattern replicates on BERT-base: fusing 4 models raises ALR on unshared training data to 0.234 from 0.150 for the individual models, while the shared subset stays better memorized at 0.174.<br><span class="scope">Holds for: BERT-base fine-tuned 20 epochs, learning rate 3e-4, on CNN-DM subsets of 3000 articles with 1000 shared and no sequence packing; masked-language-model energy approximated over 10 sampled masking subsets.</span></dd>
+<dt>Does fusing several fine-tuned models improve validation perplexity?</dt>
+<dt>Is a merged GPT-2 better at generalizing than the individual fine-tuned models it was averaged from?</dt>
+<dd>The fused GPT-2 model reaches 30.63 validation perplexity on CNN-DM, better than each of the 3 individual fine-tuned models at 35.25-35.81. It remains worse than the base GPT-2 (23.50) and the full model trained on combined data (27.45).<br><span class="scope">Holds for: GPT-2 fine-tuned 10 epochs on 3K-article CNN-DM subsets; all fine-tuned and fused models are overfitted relative to the un-fine-tuned base model.</span></dd>
+<dt>What happens as you increase the number of models being averaged?</dt>
+<dt>Does forgetting get stronger with more merged models?</dt>
+<dt>How many models should be fused to reduce memorization?</dt>
+<dd>Fusing more GPT-2 models weakens memorization of unshared training data: ALR on a seed model&#x27;s own data rises from 0.485 for 2 fused models to 0.656 for 3 and 0.758 for 4. Validation perplexity falls from 31.60 to 30.15 over the same range.<br><span class="scope">Holds for: GPT-2, CNN-DM subsets of 3K articles each with 1K shared, so total training data grows with the number of fused models; when total data is held fixed instead, perplexity worsens as more models are fused.</span></dd>
+<dt>Why does simple weight averaging preserve some knowledge and destroy other knowledge?</dt>
+<dt>Is there evidence that shared and unshared skills live in different weights?</dt>
+<dt>What does Fisher information say about which weights encode shared knowledge?</dt>
+<dd>Weights carrying shared task knowledge overlap more across differently-shortcut BERT-base models than weights carrying unshared shortcut knowledge. Fisher overlap is .8077 versus .6877 for the TiC-OP pair and .7746 versus .6819 for the TiC-ST pair.<br><span class="scope">Holds for: Empirical diagonal Fisher information computed over 200 SST2 validation examples, with label-reversed shortcut copies used to isolate shortcut knowledge; 2 model pairs chosen to minimize shortcut overlap.</span></dd>
+<dt>Is it better to merge separately trained models or just train on the combined data?</dt>
+<dt>When does training on the pooled dataset beat weight averaging?</dt>
+<dt>Does a model trained on all the data also lose the shortcuts?</dt>
+<dd>Training on the combined datasets is competitive with fusion for social biases, where pooling the data changes label-attribute ratios. It is not competitive for shortcuts or memorization, where the combined model learns every shortcut and memorizes every subset.<br><span class="scope">Holds for: SST2 with injected shortcuts, PAN16 age/gender bias, and CNN-DM memorization with GPT-2; combined training helps only when pooling the data changes label-feature correlations, and it requires access to all the raw training data.</span></dd>
+<dd>Averaging the weights of 6 BERT-base models, each trained with a different synthetic shortcut, drives shortcut accuracy on every shortcut validation set to around chance level. The fused model still beats the individual models on the original SST2 validation sets with statistical significance.<br><span class="scope">Holds for: SST2, 6 shortcut types, uniform weight averaging; original-task numbers are averages over each model&#x27;s corresponding validation set. The full model trained on the combined data instead learns all 6 shortcuts.</span></dd>
+<dt>What paper should I read about the downsides or forgetting effects of model merging?</dt>
+<dt>Which work studies model fusion as a way to remove unwanted knowledge rather than add capability?</dt>
+<dt>Where can I start reading about using weight averaging for bias and privacy?</dt>
+<dd>Fuse to Forget studies model fusion as a forgetting mechanism rather than an accumulation mechanism. Its claim is that weight averaging preserves knowledge shared across the fused models while unshared knowledge is degraded or lost.<br><span class="scope">Holds for: Simple weighted averaging of parameters, on fine-tuned BERT-base and GPT-2 in sentiment classification, tweet classification and language modeling; task arithmetic and TIES were not tested.</span></dd>
+<dt>Do the forgetting findings hold for both classification and generation models?</dt>
+<dt>Were the fusion results replicated on more than one architecture?</dt>
+<dd>The memorization pattern replicates on BERT-base: fusing 4 models raises ALR on unshared training data to 0.234 from 0.150 for the individual models, while the shared subset stays better memorized at 0.174.<br><span class="scope">Holds for: BERT-base fine-tuned 20 epochs, learning rate 3e-4, on CNN-DM subsets of 3000 articles with 1000 shared and no sequence packing; masked-language-model energy approximated over 10 sampled masking subsets.</span></dd>
+<dd>Fuse to Forget studies model fusion as a forgetting mechanism rather than an accumulation mechanism. Its claim is that weight averaging preserves knowledge shared across the fused models while unshared knowledge is degraded or lost.<br><span class="scope">Holds for: Simple weighted averaging of parameters, on fine-tuned BERT-base and GPT-2 in sentiment classification, tweet classification and language modeling; task arithmetic and TIES were not tested.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Fuse to Forget studies model fusion as a forgetting mechanism rather than an accumulation mechanism. Its claim is that weight averaging preserves knowledge shared across the fused models while unshared knowledge is degraded or lost.<br><span class="scope">Scope: Simple weighted averaging of parameters, on fine-tuned BERT-base and GPT-2 in sentiment classification, tweet classification and language modeling; task arithmetic and TIES were not tested.</span></li>
+<li>Interpolating between two BERT-base sentiment classifiers that each learned a different synthetic shortcut drops shortcut accuracy on both synthetic validation sets midway along the path. Accuracy on the original SST2 task is preserved throughout. <span class="meta">(Figure 2(b) and 2(c))</span><br><span class="scope">Scope: SST2 with synthetic shortcuts injected into roughly 20% of the training data; shown for the Ordered Pair vs Token-in-Context and Ordered Pair vs Single Token pairs, both trained until shortcut accuracy exceeded 0.95.</span></li>
+<li>When two BERT-base models share the Token-in-Context shortcut but differ in learning OR versus Ordered Pair, interpolation forgets the unshared shortcuts. The shared shortcut survives with only a small accuracy drop. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: SST2 with two shortcuts injected per instance in the synthetic split, one shared and one unshared; single model pair, BERT-base only.</span></li>
+<li>Averaging the weights of 6 BERT-base models, each trained with a different synthetic shortcut, drives shortcut accuracy on every shortcut validation set to around chance level. The fused model still beats the individual models on the original SST2 validation sets with statistical significance. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: SST2, 6 shortcut types, uniform weight averaging; original-task numbers are averages over each model&#x27;s corresponding validation set. The full model trained on the combined data instead learns all 6 shortcuts.</span></li>
+<li>Interpolating from a gender-biased to an age-biased BERT-base tweet classifier reduces Demographic Parity and TPR-GAP by approximately 60% while keeping accuracy high, with the introduction reporting reductions of up to 68%. <span class="meta">(Figure 5)</span><br><span class="scope">Scope: PAN16 tweet classification, each biased model trained on a subset skewed 80/20 on one protected attribute and balanced on the other; picking the interpolation coefficient uses demographic annotations at evaluation time.</span></li>
+<li>Fusing an age-biased and a gender-biased BERT-base classifier lowers Demographic Parity on the age-biased task from .185 to .063 and TPR-GAP from .088 to .028. That beats INLP (.076 DP, .041 TPR-GAP) and LEACE (.206 DP, .100 TPR-GAP) at comparable accuracy (.871 versus .877). <span class="meta">(Table 1)</span><br><span class="scope">Scope: PAN16, BERT-base fine-tuned 2 epochs, INLP with 200 logistic classifiers; fusion coefficients chosen as 0.3 for age and 0.4 for gender bias. On gender bias the full model trained on combined data reaches a lower DP (.033) than fusion (.047).</span></li>
+<li>Weight-averaging two differently biased classifiers needs no demographic annotations during training and no series of trained probing classifiers, unlike INLP with its 200 logistic classifiers. Annotations are needed only to evaluate or to pick which models to fuse. <span class="meta">(Section 5.2)</span><br><span class="scope">Scope: PAN16 tweet classification with age and gender as protected attributes; the procedure does require access to two models whose biases differ, and it introduces a new mixed bias from combining them.</span></li>
+<li>Averaging 3 GPT-2 models fine-tuned on different 3K-article CNN-DM subsets raises the Average Likelihood Ratio on each model&#x27;s own training data from 0.22 to about 0.66. The ALR on the 1K shared subset stays at 0.24, so only unshared memorized text is forgotten. <span class="meta">(Table 2)</span><br><span class="scope">Scope: GPT-2 fine-tuned 10 epochs, batch size 16, learning rate 0.001, on CNN-DM subsets of 3K articles with 1K shared; higher ALR means less memorization. The full model trained on the combined data keeps a much lower ALR of 0.32 on all subsets.</span></li>
+<li>The fused GPT-2 model reaches 30.63 validation perplexity on CNN-DM, better than each of the 3 individual fine-tuned models at 35.25-35.81. It remains worse than the base GPT-2 (23.50) and the full model trained on combined data (27.45). <span class="meta">(Table 2)</span><br><span class="scope">Scope: GPT-2 fine-tuned 10 epochs on 3K-article CNN-DM subsets; all fine-tuned and fused models are overfitted relative to the un-fine-tuned base model.</span></li>
+<li>Fusing more GPT-2 models weakens memorization of unshared training data: ALR on a seed model&#x27;s own data rises from 0.485 for 2 fused models to 0.656 for 3 and 0.758 for 4. Validation perplexity falls from 31.60 to 30.15 over the same range. <span class="meta">(Table 5)</span><br><span class="scope">Scope: GPT-2, CNN-DM subsets of 3K articles each with 1K shared, so total training data grows with the number of fused models; when total data is held fixed instead, perplexity worsens as more models are fused.</span></li>
+<li>Weights carrying shared task knowledge overlap more across differently-shortcut BERT-base models than weights carrying unshared shortcut knowledge. Fisher overlap is .8077 versus .6877 for the TiC-OP pair and .7746 versus .6819 for the TiC-ST pair. <span class="meta">(Table 4)</span><br><span class="scope">Scope: Empirical diagonal Fisher information computed over 200 SST2 validation examples, with label-reversed shortcut copies used to isolate shortcut knowledge; 2 model pairs chosen to minimize shortcut overlap.</span></li>
+<li>The memorization pattern replicates on BERT-base: fusing 4 models raises ALR on unshared training data to 0.234 from 0.150 for the individual models, while the shared subset stays better memorized at 0.174. <span class="meta">(Table 7)</span><br><span class="scope">Scope: BERT-base fine-tuned 20 epochs, learning rate 3e-4, on CNN-DM subsets of 3000 articles with 1000 shared and no sequence packing; masked-language-model energy approximated over 10 sampled masking subsets.</span></li>
+<li>Training on the combined datasets is competitive with fusion for social biases, where pooling the data changes label-attribute ratios. It is not competitive for shortcuts or memorization, where the combined model learns every shortcut and memorizes every subset. <span class="meta">(Section 7)</span><br><span class="scope">Scope: SST2 with injected shortcuts, PAN16 age/gender bias, and CNN-DM memorization with GPT-2; combined training helps only when pooling the data changes label-feature correlations, and it requires access to all the raw training data.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>Fusion does not remove a bias that all the fused models share: forgetting only applies to knowledge the models do not have in common, so averaging models with the same bias leaves it intact.</li>
+<li>The debiasing result does not mean fusion produces an unbiased model. Averaging a gender-biased and an age-biased classifier introduces a new mixed bias from the two sources.</li>
+<li>Reduced memorization does not mean the fused model forgets its training data entirely: fused models still assign training examples higher likelihood than held-out data, which is why the paper uses an Average Likelihood Ratio instead of a thresholded membership-inference recall.</li>
+<li>The findings are demonstrated only for simple weighted averaging of parameters on fine-tuned BERT-base and GPT-2; whether they carry over to task arithmetic, TIES-Merging or other fusion strategies was not tested.</li>
+<li>Fusing models does not match training on the pooled data for generalization: the fused GPT-2 reaches 30.63 validation perplexity against 27.45 for the full model trained on the combined subsets.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Average Likelihood Ratio (ALR)</em></dt><dd>A memorization metric averaging, over a dataset, the exponentiated ratio between a reference (un-fine-tuned) model&#x27;s likelihood of a sample and the fine-tuned model&#x27;s likelihood; lower values mean stronger memorization, and it avoids the threshold needed by membership-inference recall.</dd>
+<dt><em>knowledge utilization function</em></dt><dd>A performance metric such as accuracy or BLEU evaluated on a dataset curated to probe one specific latent skill, used as a measurable proxy for knowledge that is embedded in model weights and not directly observable.</dd>
+<dt><em>shared versus unshared knowledge</em></dt><dd>Knowledge is shared when several models being fused score similarly on the dataset probing it, and unshared when their scores diverge, so that one model has the skill and another does not.</dd>
+<dt><em>Fisher overlap</em></dt><dd>One minus the squared Fréchet distance between two networks&#x27; empirical diagonal Fisher information matrices normalized to unit trace, where zero means the two networks use non-overlapping sets of weights for the probed knowledge.</dd>
+<dt><em>Token in Context (TiC) shortcut</em></dt><dd>A synthetic labelling rule in which the label is set by which of two special tokens co-occurs with a designated context token in the input.</dd>
+<dt><em>full model</em></dt><dd>A single model fine-tuned on the union of the datasets used by the individually fine-tuned models, serving as the combined-data baseline against which a weight-averaged fused model is compared.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@article{DBLP:journals/corr/abs-2311-07682,
-author       = {Kerem Zaman and
+<pre>@inproceedings{DBLP:journals/corr/abs-2311-07682,author       = {Kerem Zaman and
                   Leshem Choshen and
                   Shashank Srivastava},
   title        = {Fuse to Forget: Bias Reduction and Selective Memorization through
                   Model Fusion},
-  journal      = {CoRR},
-  volume       = {abs/2311.07682},
-  year         = {2023},
-  url          = {https://doi.org/10.48550/arXiv.2311.07682},
-  doi          = {10.48550/ARXIV.2311.07682},
+  year         = {2024},
+  url          = {https://doi.org/10.18653/v1/2024.emnlp-main.1045},
+  doi          = {10.18653/V1/2024.EMNLP-MAIN.1045},
   eprinttype    = {arXiv},
   eprint       = {2311.07682},
-  timestamp    = {Tue, 21 Nov 2023 00:00:00 +0100},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-2311-07682.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
+  timestamp    = {Fri, 13 Jun 2025 01:00:00 +0200},
+  biburl       = {https://dblp.org/rec/conf/emnlp/ZamanCS24.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org},
+  editor       = {Yaser Al{-}Onaizan and
+                  Mohit Bansal and
+                  Yun{-}Nung Chen},
+  booktitle    = {Proceedings of the 2024 Conference on Empirical Methods in Natural
+                  Language Processing, {EMNLP} 2024, Miami, FL, USA, November 12-16,
+                  2024},
+  pages        = {18763--18783},
+  publisher    = {Association for Computational Linguistics}
 }</pre>
 <h2>References</h2>
 <p>See the full reference list in the <a href="https://arxiv.org/html/2311.07682">paper</a>.</p>

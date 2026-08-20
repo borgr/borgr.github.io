@@ -10,7 +10,7 @@
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2023">
-  <meta name="citation_conference_title" content="Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing, EMNLP 2023…">
+  <meta name="citation_conference_title" content="EMNLP 2023">
   <meta name="citation_doi" content="10.18653/V1/2023.EMNLP-MAIN.253">
   <meta name="citation_arxiv_id" content="2311.12131">
   <meta name="citation_abstract" content="Generating images with a Text-to-Image model often requires multiple trials, where human users iteratively update their prompt based on feedback, namely the output image. Taking inspiration from cognitive work on reference games and dialogue alignment, this paper analyzes the dynamics of the user prompts along such iterations. We compile a dataset of iterative interactions of human users with Midjourney. Our analysis then reveals that prompts predictably converge toward specific traits along these iterations. We further study whether this convergence is due to human users, realizing they missed important details, or due to adaptation to the model&#x27;s ``preferences&#x27;&#x27;, producing better images for a specific language style. We show initial evidence that both possibilities are at play. The possibility that users adapt to the model&#x27;s preference raises concerns about reusing user data for further training. The prompts may be biased towards the preferences of a specific model, rather than align with human intentions and natural manner of expression.">
@@ -40,21 +40,284 @@
   "datePublished": "2023",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing, EMNLP 2023…"
+    "name": "EMNLP 2023"
   },
   "identifier": "https://doi.org/10.18653/V1/2023.EMNLP-MAIN.253",
   "abstract": "Generating images with a Text-to-Image model often requires multiple trials, where human users iteratively update their prompt based on feedback, namely the output image. Taking inspiration from cognitive work on reference games and dialogue alignment, this paper analyzes the dynamics of the user prompts along such iterations. We compile a dataset of iterative interactions of human users with Midjourney. Our analysis then reveals that prompts predictably converge toward specific traits along these iterations. We further study whether this convergence is due to human users, realizing they missed important details, or due to adaptation to the model's ``preferences'', producing better images for a specific language style. We show initial evidence that both possibilities are at play. The possibility that users adapt to the model's preference raises concerns about reusing user data for further training. The prompts may be biased towards the preferences of a specific model, rather than align with human intentions and natural manner of expression.",
+  "description": "A dataset of 107,051 iterative Midjourney prompting threads shows that user prompts drift predictably along an interaction — growing longer, more magic-word-laden and lower in GPT-2 perplexity — evidence that humans both add missing details and adapt to the model's own language preferences.",
   "codeRepository": "https://github.com/shachardon/mid-journey-to-alignment",
   "sameAs": [
+    "https://aclanthology.org/2023.emnlp-main.253/",
     "https://ar5iv.labs.arxiv.org/html/2311.12131",
     "https://arxiv.org/abs/2311.12131",
     "https://arxiv.org/pdf/2311.12131",
     "https://doi.org/10.18653/V1/2023.EMNLP-MAIN.253",
     "https://doi.org/10.18653/v1/2023.emnlp-main.253",
     "https://github.com/shachardon/mid-journey-to-alignment",
+    "https://huggingface.co/datasets/shachardon/midjourney-threads",
     "https://huggingface.co/papers/2311.12131",
     "https://www.alphaxiv.org/abs/2311.12131",
     "https://www.semanticscholar.org/paper/265309199"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "The Midjourney threads dataset compiles 107,051 iterative human-model interaction threads scraped from the Midjourney Discord. Each prompt is paired with its generated image grid, upscale flags, timestamps and anonymized user ids.",
+      "description": "Holds for: One 'newbies' Discord channel, English-language prompts only, collected 23 January to 1 March 2023; 169,620 prompts after cleaning. Threads are assigned automatically, not by human annotation."
+    },
+    {
+      "@type": "Thing",
+      "name": "Human Learning by Model Feedback frames iterative text-to-image prompting as a repeated reference game in which only the human adapts. It studies the linguistic dynamics of prompts across turns rather than the quality of any single prompt.",
+      "description": "Holds for: As of publication in 2023 the authors state they know of no prior work examining prompt dynamics between iterations; the closest prior prompt-log analysis identified sessions by a 30-minute timeout."
+    },
+    {
+      "@type": "Thing",
+      "name": "Midjourney prompts whose image the user upscaled are longer (16.67 vs 14.78 words), have a higher magic-words ratio (0.109 vs 0.096) and lower GPT-2 perplexity (2173 vs 2855) than non-upscaled prompts.",
+      "description": "Holds for: 169,620 cleaned English Midjourney prompts, 25% of them upscaled; Mann-Whitney U test, significant after Bonferroni correction. Upscaling is a proxy for satisfaction."
+    },
+    {
+      "@type": "Thing",
+      "name": "Concreteness is the one linguistic feature that does not separate upscaled from non-upscaled Midjourney prompts, at 3.2628 versus 3.2629 with p = 0.123. Length, magic words, perplexity, repeated words, sentence rate and tree depth all differ significantly.",
+      "description": "Holds for: Prompt-level average of Brysbaert et al. word concreteness ratings over 169,620 cleaned English Midjourney prompts; on BLIP-2 captions of the generated images the same feature does reach significance."
+    },
+    {
+      "@type": "Thing",
+      "name": "A GPT-2 classifier predicts whether a Midjourney image was upscaled from the prompt text alone at 58.2% accuracy, 8.2 points above random on balanced data. A ResNet18 given only the generated image grid reaches 55.6%, 5.6 points above random.",
+      "description": "Holds for: 80/20 train-test split, classes balanced by sampling, standard deviations 0.26 and 0.21 over 3 seeds, no hyperparameter search. Accuracy is far too low for practical use."
+    },
+    {
+      "@type": "Thing",
+      "name": "Along a Midjourney interaction thread prompt length, magic-words ratio, repeated-words ratio, sentence rate and syntactic tree depth rise approximately monotonically with prompt index, while perplexity falls.",
+      "description": "Holds for: 645 threads of at least 10 prompts, averaged at each index 1 to 10; the magic-words curve is noisiest and does not saturate within 10 prompts."
+    },
+    {
+      "@type": "Thing",
+      "name": "Midjourney threads whose prompts get longer start relatively short and threads whose prompts get shorter start relatively long, with both groups converging toward the same length range.",
+      "description": "Holds for: Threads split into two sets by whether the last prompt's feature value exceeds the first; group means only, with no causal test of why the range is preferred."
+    },
+    {
+      "@type": "Thing",
+      "name": "Rising prompt length, sentence rate and tree depth support Midjourney users adding omitted details. The rising magic-words and repeated-words ratios and falling perplexity support users adapting to the model's language preferences.",
+      "description": "Holds for: An interpretive reading of the feature trends; the paper does not adjudicate between the two explanations, and notes falling perplexity can be partly a byproduct of increasing length."
+    },
+    {
+      "@type": "Thing",
+      "name": "Human Learning by Model Feedback argues that upscaled prompt-image pairs from text-to-image logs are risky as free RLHF preference data. Prompts may drift toward one model's stylistic preferences rather than natural human expression.",
+      "description": "Holds for: A concern raised from adaptation trends observed on Midjourney and DiffusionDB, not an experiment: no model is trained on such data and no resulting degradation is measured."
+    },
+    {
+      "@type": "Thing",
+      "name": "The thread-dynamics trends replicate on DiffusionDB Stable Diffusion prompts for every feature except the magic-words ratio, which does not stay approximately monotone.",
+      "description": "Holds for: First 250,000 prompts of the DiffusionDB 2M subset, 105,644 after cleaning, 14,927 threads of which 1045 have at least 10 prompts. DiffusionDB lacks upscale labels."
+    },
+    {
+      "@type": "Thing",
+      "name": "Splitting consecutive Midjourney prompts into threads by word intersection-over-union above 0.3 matches 500 manual annotations at F1 0.87 with WindowDiff 0.24, beating a BERTScore-threshold split at F1 0.84 and WindowDiff 0.30.",
+      "description": "Holds for: Manual annotation by one author on users with at least 4 prompts, two further authors re-annotating 70 prompts each, Fleiss' kappa 0.815. Both methods assume non-overlapping threads."
+    },
+    {
+      "@type": "Thing",
+      "name": "Midjourney interaction threads are mostly very short: the average thread runs 1.58 prompts and only 645 of 107,051 threads (0.6%) contain 10 or more, with the longest reaching 77.",
+      "description": "Holds for: Automatic intersection-over-union splits over 169,620 cleaned English prompts from 30,394 users; 6578 threads have at least 4 prompts, 2485 at least 6 and 1214 at least 8."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/#faq",
+  "url": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/",
+  "name": "Questions answered by Human Learning by Model Feedback: The Dynamics of Iterative Prompting with Midjourney",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do people's prompts change in a systematic way as they retry a text-to-image model?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Along a Midjourney interaction thread prompt length, magic-words ratio, repeated-words ratio, sentence rate and syntactic tree depth rise approximately monotonically with prompt index, while perplexity falls. Holds for: 645 threads of at least 10 prompts, averaged at each index 1 to 10; the magic-words curve is noisiest and does not saturate within 10 prompts.\n\nRising prompt length, sentence rate and tree depth support Midjourney users adding omitted details. The rising magic-words and repeated-words ratios and falling perplexity support users adapting to the model's language preferences. Holds for: An interpretive reading of the feature trends; the paper does not adjudicate between the two explanations, and notes falling perplexity can be partly a byproduct of increasing length.",
+        "url": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/"
+      },
+      "alternateName": [
+        "How do user prompts evolve across iterations with Midjourney?",
+        "Does prompt length or perplexity drift over repeated image generation attempts?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What makes a text-to-image prompt more likely to produce an image the user keeps?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Midjourney prompts whose image the user upscaled are longer (16.67 vs 14.78 words), have a higher magic-words ratio (0.109 vs 0.096) and lower GPT-2 perplexity (2173 vs 2855) than non-upscaled prompts. Holds for: 169,620 cleaned English Midjourney prompts, 25% of them upscaled; Mann-Whitney U test, significant after Bonferroni correction. Upscaling is a proxy for satisfaction.\n\nConcreteness is the one linguistic feature that does not separate upscaled from non-upscaled Midjourney prompts, at 3.2628 versus 3.2629 with p = 0.123. Length, magic words, perplexity, repeated words, sentence rate and tree depth all differ significantly. Holds for: Prompt-level average of Brysbaert et al. word concreteness ratings over 169,620 cleaned English Midjourney prompts; on BLIP-2 captions of the generated images the same feature does reach significance.",
+        "url": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/"
+      },
+      "alternateName": [
+        "How do upscaled Midjourney prompts differ from ones that were not upscaled?",
+        "Are longer or lower-perplexity prompts associated with better image outcomes?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can you tell from the prompt alone whether a user liked the generated image?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A GPT-2 classifier predicts whether a Midjourney image was upscaled from the prompt text alone at 58.2% accuracy, 8.2 points above random on balanced data. A ResNet18 given only the generated image grid reaches 55.6%, 5.6 points above random. Holds for: 80/20 train-test split, classes balanced by sampling, standard deviations 0.26 and 0.21 over 3 seeds, no hyperparameter search. Accuracy is far too low for practical use.",
+        "url": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/"
+      },
+      "alternateName": [
+        "How accurately does a classifier predict image upscaling from text or from the image?",
+        "Is user satisfaction with a generated image predictable from partial input?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a dataset of multi-turn text-to-image prompting sessions?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Midjourney threads dataset compiles 107,051 iterative human-model interaction threads scraped from the Midjourney Discord. Each prompt is paired with its generated image grid, upscale flags, timestamps and anonymized user ids. Holds for: One 'newbies' Discord channel, English-language prompts only, collected 23 January to 1 March 2023; 169,620 prompts after cleaning. Threads are assigned automatically, not by human annotation.\n\nMidjourney interaction threads are mostly very short: the average thread runs 1.58 prompts and only 645 of 107,051 threads (0.6%) contain 10 or more, with the longest reaching 77. Holds for: Automatic intersection-over-union splits over 169,620 cleaned English prompts from 30,394 users; 6578 threads have at least 4 prompts, 2485 at least 6 and 1214 at least 8.",
+        "url": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/"
+      },
+      "alternateName": [
+        "Where can I get Midjourney prompts with images, upscale labels and user ids?",
+        "What data exists for studying iterative prompting behaviour?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about how humans adapt their language to generative models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Human Learning by Model Feedback frames iterative text-to-image prompting as a repeated reference game in which only the human adapts. It studies the linguistic dynamics of prompts across turns rather than the quality of any single prompt. Holds for: As of publication in 2023 the authors state they know of no prior work examining prompt dynamics between iterations; the closest prior prompt-log analysis identified sessions by a 30-minute timeout.\n\nHuman Learning by Model Feedback argues that upscaled prompt-image pairs from text-to-image logs are risky as free RLHF preference data. Prompts may drift toward one model's stylistic preferences rather than natural human expression. Holds for: A concern raised from adaptation trends observed on Midjourney and DiffusionDB, not an experiment: no model is trained on such data and no resulting degradation is measured.",
+        "url": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/"
+      },
+      "alternateName": [
+        "Which paper studies human-model linguistic alignment in text-to-image prompting?",
+        "What work established that users drift toward a model's preferred prompt style?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is it safe to use logged user prompts and upscale clicks as RLHF preference data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Human Learning by Model Feedback argues that upscaled prompt-image pairs from text-to-image logs are risky as free RLHF preference data. Prompts may drift toward one model's stylistic preferences rather than natural human expression. Holds for: A concern raised from adaptation trends observed on Midjourney and DiffusionDB, not an experiment: no model is trained on such data and no resulting degradation is measured.\n\nRising prompt length, sentence rate and tree depth support Midjourney users adding omitted details. The rising magic-words and repeated-words ratios and falling perplexity support users adapting to the model's language preferences. Holds for: An interpretive reading of the feature trends; the paper does not adjudicate between the two explanations, and notes falling perplexity can be partly a byproduct of increasing length.",
+        "url": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/"
+      },
+      "alternateName": [
+        "What are the risks of training on human feedback collected from text-to-image logs?",
+        "Why might reusing Midjourney user data bias a model?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do prompt-convergence findings hold outside Midjourney?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The thread-dynamics trends replicate on DiffusionDB Stable Diffusion prompts for every feature except the magic-words ratio, which does not stay approximately monotone. Holds for: First 250,000 prompts of the DiffusionDB 2M subset, 105,644 after cleaning, 14,927 threads of which 1045 have at least 10 prompts. DiffusionDB lacks upscale labels.",
+        "url": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/"
+      },
+      "alternateName": [
+        "Do the same iterative prompting trends appear with Stable Diffusion data?",
+        "Does the analysis replicate on DiffusionDB?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How do you decide whether two consecutive prompts belong to the same generation attempt?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Splitting consecutive Midjourney prompts into threads by word intersection-over-union above 0.3 matches 500 manual annotations at F1 0.87 with WindowDiff 0.24, beating a BERTScore-threshold split at F1 0.84 and WindowDiff 0.30. Holds for: Manual annotation by one author on users with at least 4 prompts, two further authors re-annotating 70 prompts each, Fleiss' kappa 0.815. Both methods assume non-overlapping threads.",
+        "url": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/"
+      },
+      "alternateName": [
+        "How were Midjourney prompts grouped into interaction threads, and how well does it work?",
+        "Does an intersection-over-union heuristic beat BERTScore for segmenting prompt sessions?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do users converge on a particular prompt length regardless of where they started?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Midjourney threads whose prompts get longer start relatively short and threads whose prompts get shorter start relatively long, with both groups converging toward the same length range. Holds for: Threads split into two sets by whether the last prompt's feature value exceeds the first; group means only, with no causal test of why the range is preferred.",
+        "url": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/"
+      },
+      "alternateName": [
+        "Is there evidence of a preferred 'good' prompt length range for image models?",
+        "What does the split between lengthening and shortening Midjourney threads show?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do users make their prompts more concrete as they iterate?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Concreteness is the one linguistic feature that does not separate upscaled from non-upscaled Midjourney prompts, at 3.2628 versus 3.2629 with p = 0.123. Length, magic words, perplexity, repeated words, sentence rate and tree depth all differ significantly. Holds for: Prompt-level average of Brysbaert et al. word concreteness ratings over 169,620 cleaned English Midjourney prompts; on BLIP-2 captions of the generated images the same feature does reach significance.",
+        "url": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/"
+      },
+      "alternateName": [
+        "Does word concreteness predict whether a generated image gets upscaled?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are so-called magic words like '8K' and 'highly detailed' actually associated with kept images?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Midjourney prompts whose image the user upscaled are longer (16.67 vs 14.78 words), have a higher magic-words ratio (0.109 vs 0.096) and lower GPT-2 perplexity (2173 vs 2855) than non-upscaled prompts. Holds for: 169,620 cleaned English Midjourney prompts, 25% of them upscaled; Mann-Whitney U test, significant after Bonferroni correction. Upscaling is a proxy for satisfaction.\n\nAlong a Midjourney interaction thread prompt length, magic-words ratio, repeated-words ratio, sentence rate and syntactic tree depth rise approximately monotonically with prompt index, while perplexity falls. Holds for: 645 threads of at least 10 prompts, averaged at each index 1 to 10; the magic-words curve is noisiest and does not saturate within 10 prompts.",
+        "url": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/"
+      },
+      "alternateName": [
+        "Do users add more aesthetic keywords as an image-generation session goes on?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/#terms",
+  "url": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/",
+  "name": "Terminology in Human Learning by Model Feedback: The Dynamics of Iterative Prompting with Midjourney",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "thread",
+      "description": "A sequence of consecutive prompts by one user that are all attempts to generate the same target image or scene, ending when the described scene or main subject changes intrinsically.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "magic words",
+      "description": "Words that add no real content to a text-to-image prompt but are popular among practitioners, such as 'beautiful', '8k' and 'highly detailed'; operationally, words appearing at least 1000 times in the Midjourney prompt corpus whose corpus probability exceeds their Google-ngrams probability by a factor of at least 100.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "upscale",
+      "description": "A Midjourney Discord command requesting a higher-resolution version of one image from the generated 4-image grid, used as a proxy signal that the user was satisfied with that image.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "semi-reference game",
+      "description": "A repeated reference game in which only one participant can adapt: the human user revises prompts based on the generated image while the text-to-image model stays frozen.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/human-learning-by-model-feedback-the-dynamics-of-iterative-p/#terms"
+    }
   ]
 }
   </script>
@@ -65,6 +328,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -78,13 +342,94 @@
 </head>
 <body>
 <h1>Human Learning by Model Feedback: The Dynamics of Iterative Prompting with Midjourney</h1>
-<p class="meta">Shachar Don-Yehiya, Leshem Choshen, Omri Abend · Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing, EMNLP 2023… · 2023</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2311.12131">arXiv</a></li><li><a href="https://arxiv.org/pdf/2311.12131">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2311.12131">HTML</a></li><li><a href="https://huggingface.co/papers/2311.12131">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2311.12131">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2023.EMNLP-MAIN.253">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/265309199">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2023.emnlp-main.253">Publisher</a></li><li><a href="https://github.com/shachardon/mid-journey-to-alignment">Code</a></li></ul>
+<p class="meta">Shachar Don-Yehiya, Leshem Choshen, Omri Abend · EMNLP 2023 · 2023</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2311.12131">arXiv</a></li><li><a href="https://arxiv.org/pdf/2311.12131">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2311.12131">HTML</a></li><li><a href="https://huggingface.co/papers/2311.12131">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2311.12131">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2023.EMNLP-MAIN.253">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/265309199">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2023.emnlp-main.253">Publisher</a></li><li><a href="https://github.com/shachardon/mid-journey-to-alignment">Code</a></li><li><a href="https://huggingface.co/datasets/shachardon/midjourney-threads">dataset</a></li><li><a href="https://aclanthology.org/2023.emnlp-main.253/">anthology</a></li></ul>
+<h2>In one sentence</h2>
+<p>A dataset of 107,051 iterative Midjourney prompting threads shows that user prompts drift predictably along an interaction — growing longer, more magic-word-laden and lower in GPT-2 perplexity — evidence that humans both add missing details and adapt to the model&#x27;s own language preferences.</p>
 <h2>Abstract</h2>
 <p>Generating images with a Text-to-Image model often requires multiple trials, where human users iteratively update their prompt based on feedback, namely the output image. Taking inspiration from cognitive work on reference games and dialogue alignment, this paper analyzes the dynamics of the user prompts along such iterations. We compile a dataset of iterative interactions of human users with Midjourney. Our analysis then reveals that prompts predictably converge toward specific traits along these iterations. We further study whether this convergence is due to human users, realizing they missed important details, or due to adaptation to the model&#x27;s ``preferences&#x27;&#x27;, producing better images for a specific language style. We show initial evidence that both possibilities are at play. The possibility that users adapt to the model&#x27;s preference raises concerns about reusing user data for further training. The prompts may be biased towards the preferences of a specific model, rather than align with human intentions and natural manner of expression.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Do people&#x27;s prompts change in a systematic way as they retry a text-to-image model?</dt>
+<dt>How do user prompts evolve across iterations with Midjourney?</dt>
+<dt>Does prompt length or perplexity drift over repeated image generation attempts?</dt>
+<dd>Along a Midjourney interaction thread prompt length, magic-words ratio, repeated-words ratio, sentence rate and syntactic tree depth rise approximately monotonically with prompt index, while perplexity falls.<br><span class="scope">Holds for: 645 threads of at least 10 prompts, averaged at each index 1 to 10; the magic-words curve is noisiest and does not saturate within 10 prompts.</span></dd>
+<dd>Rising prompt length, sentence rate and tree depth support Midjourney users adding omitted details. The rising magic-words and repeated-words ratios and falling perplexity support users adapting to the model&#x27;s language preferences.<br><span class="scope">Holds for: An interpretive reading of the feature trends; the paper does not adjudicate between the two explanations, and notes falling perplexity can be partly a byproduct of increasing length.</span></dd>
+<dt>What makes a text-to-image prompt more likely to produce an image the user keeps?</dt>
+<dt>How do upscaled Midjourney prompts differ from ones that were not upscaled?</dt>
+<dt>Are longer or lower-perplexity prompts associated with better image outcomes?</dt>
+<dd>Midjourney prompts whose image the user upscaled are longer (16.67 vs 14.78 words), have a higher magic-words ratio (0.109 vs 0.096) and lower GPT-2 perplexity (2173 vs 2855) than non-upscaled prompts.<br><span class="scope">Holds for: 169,620 cleaned English Midjourney prompts, 25% of them upscaled; Mann-Whitney U test, significant after Bonferroni correction. Upscaling is a proxy for satisfaction.</span></dd>
+<dd>Concreteness is the one linguistic feature that does not separate upscaled from non-upscaled Midjourney prompts, at 3.2628 versus 3.2629 with p = 0.123. Length, magic words, perplexity, repeated words, sentence rate and tree depth all differ significantly.<br><span class="scope">Holds for: Prompt-level average of Brysbaert et al. word concreteness ratings over 169,620 cleaned English Midjourney prompts; on BLIP-2 captions of the generated images the same feature does reach significance.</span></dd>
+<dt>Can you tell from the prompt alone whether a user liked the generated image?</dt>
+<dt>How accurately does a classifier predict image upscaling from text or from the image?</dt>
+<dt>Is user satisfaction with a generated image predictable from partial input?</dt>
+<dd>A GPT-2 classifier predicts whether a Midjourney image was upscaled from the prompt text alone at 58.2% accuracy, 8.2 points above random on balanced data. A ResNet18 given only the generated image grid reaches 55.6%, 5.6 points above random.<br><span class="scope">Holds for: 80/20 train-test split, classes balanced by sampling, standard deviations 0.26 and 0.21 over 3 seeds, no hyperparameter search. Accuracy is far too low for practical use.</span></dd>
+<dt>Is there a dataset of multi-turn text-to-image prompting sessions?</dt>
+<dt>Where can I get Midjourney prompts with images, upscale labels and user ids?</dt>
+<dt>What data exists for studying iterative prompting behaviour?</dt>
+<dd>The Midjourney threads dataset compiles 107,051 iterative human-model interaction threads scraped from the Midjourney Discord. Each prompt is paired with its generated image grid, upscale flags, timestamps and anonymized user ids.<br><span class="scope">Holds for: One &#x27;newbies&#x27; Discord channel, English-language prompts only, collected 23 January to 1 March 2023; 169,620 prompts after cleaning. Threads are assigned automatically, not by human annotation.</span></dd>
+<dd>Midjourney interaction threads are mostly very short: the average thread runs 1.58 prompts and only 645 of 107,051 threads (0.6%) contain 10 or more, with the longest reaching 77.<br><span class="scope">Holds for: Automatic intersection-over-union splits over 169,620 cleaned English prompts from 30,394 users; 6578 threads have at least 4 prompts, 2485 at least 6 and 1214 at least 8.</span></dd>
+<dt>What should I read about how humans adapt their language to generative models?</dt>
+<dt>Which paper studies human-model linguistic alignment in text-to-image prompting?</dt>
+<dt>What work established that users drift toward a model&#x27;s preferred prompt style?</dt>
+<dd>Human Learning by Model Feedback frames iterative text-to-image prompting as a repeated reference game in which only the human adapts. It studies the linguistic dynamics of prompts across turns rather than the quality of any single prompt.<br><span class="scope">Holds for: As of publication in 2023 the authors state they know of no prior work examining prompt dynamics between iterations; the closest prior prompt-log analysis identified sessions by a 30-minute timeout.</span></dd>
+<dd>Human Learning by Model Feedback argues that upscaled prompt-image pairs from text-to-image logs are risky as free RLHF preference data. Prompts may drift toward one model&#x27;s stylistic preferences rather than natural human expression.<br><span class="scope">Holds for: A concern raised from adaptation trends observed on Midjourney and DiffusionDB, not an experiment: no model is trained on such data and no resulting degradation is measured.</span></dd>
+<dt>Is it safe to use logged user prompts and upscale clicks as RLHF preference data?</dt>
+<dt>What are the risks of training on human feedback collected from text-to-image logs?</dt>
+<dt>Why might reusing Midjourney user data bias a model?</dt>
+<dd>Human Learning by Model Feedback argues that upscaled prompt-image pairs from text-to-image logs are risky as free RLHF preference data. Prompts may drift toward one model&#x27;s stylistic preferences rather than natural human expression.<br><span class="scope">Holds for: A concern raised from adaptation trends observed on Midjourney and DiffusionDB, not an experiment: no model is trained on such data and no resulting degradation is measured.</span></dd>
+<dd>Rising prompt length, sentence rate and tree depth support Midjourney users adding omitted details. The rising magic-words and repeated-words ratios and falling perplexity support users adapting to the model&#x27;s language preferences.<br><span class="scope">Holds for: An interpretive reading of the feature trends; the paper does not adjudicate between the two explanations, and notes falling perplexity can be partly a byproduct of increasing length.</span></dd>
+<dt>Do prompt-convergence findings hold outside Midjourney?</dt>
+<dt>Do the same iterative prompting trends appear with Stable Diffusion data?</dt>
+<dt>Does the analysis replicate on DiffusionDB?</dt>
+<dd>The thread-dynamics trends replicate on DiffusionDB Stable Diffusion prompts for every feature except the magic-words ratio, which does not stay approximately monotone.<br><span class="scope">Holds for: First 250,000 prompts of the DiffusionDB 2M subset, 105,644 after cleaning, 14,927 threads of which 1045 have at least 10 prompts. DiffusionDB lacks upscale labels.</span></dd>
+<dt>How do you decide whether two consecutive prompts belong to the same generation attempt?</dt>
+<dt>How were Midjourney prompts grouped into interaction threads, and how well does it work?</dt>
+<dt>Does an intersection-over-union heuristic beat BERTScore for segmenting prompt sessions?</dt>
+<dd>Splitting consecutive Midjourney prompts into threads by word intersection-over-union above 0.3 matches 500 manual annotations at F1 0.87 with WindowDiff 0.24, beating a BERTScore-threshold split at F1 0.84 and WindowDiff 0.30.<br><span class="scope">Holds for: Manual annotation by one author on users with at least 4 prompts, two further authors re-annotating 70 prompts each, Fleiss&#x27; kappa 0.815. Both methods assume non-overlapping threads.</span></dd>
+<dt>Do users converge on a particular prompt length regardless of where they started?</dt>
+<dt>Is there evidence of a preferred &#x27;good&#x27; prompt length range for image models?</dt>
+<dt>What does the split between lengthening and shortening Midjourney threads show?</dt>
+<dd>Midjourney threads whose prompts get longer start relatively short and threads whose prompts get shorter start relatively long, with both groups converging toward the same length range.<br><span class="scope">Holds for: Threads split into two sets by whether the last prompt&#x27;s feature value exceeds the first; group means only, with no causal test of why the range is preferred.</span></dd>
+<dt>Do users make their prompts more concrete as they iterate?</dt>
+<dt>Does word concreteness predict whether a generated image gets upscaled?</dt>
+<dd>Concreteness is the one linguistic feature that does not separate upscaled from non-upscaled Midjourney prompts, at 3.2628 versus 3.2629 with p = 0.123. Length, magic words, perplexity, repeated words, sentence rate and tree depth all differ significantly.<br><span class="scope">Holds for: Prompt-level average of Brysbaert et al. word concreteness ratings over 169,620 cleaned English Midjourney prompts; on BLIP-2 captions of the generated images the same feature does reach significance.</span></dd>
+<dt>Are so-called magic words like &#x27;8K&#x27; and &#x27;highly detailed&#x27; actually associated with kept images?</dt>
+<dt>Do users add more aesthetic keywords as an image-generation session goes on?</dt>
+<dd>Midjourney prompts whose image the user upscaled are longer (16.67 vs 14.78 words), have a higher magic-words ratio (0.109 vs 0.096) and lower GPT-2 perplexity (2173 vs 2855) than non-upscaled prompts.<br><span class="scope">Holds for: 169,620 cleaned English Midjourney prompts, 25% of them upscaled; Mann-Whitney U test, significant after Bonferroni correction. Upscaling is a proxy for satisfaction.</span></dd>
+<dd>Along a Midjourney interaction thread prompt length, magic-words ratio, repeated-words ratio, sentence rate and syntactic tree depth rise approximately monotonically with prompt index, while perplexity falls.<br><span class="scope">Holds for: 645 threads of at least 10 prompts, averaged at each index 1 to 10; the magic-words curve is noisiest and does not saturate within 10 prompts.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>The Midjourney threads dataset compiles 107,051 iterative human-model interaction threads scraped from the Midjourney Discord. Each prompt is paired with its generated image grid, upscale flags, timestamps and anonymized user ids. <span class="meta">(Section 3 and Section 4.3)</span><br><span class="scope">Scope: One &#x27;newbies&#x27; Discord channel, English-language prompts only, collected 23 January to 1 March 2023; 169,620 prompts after cleaning. Threads are assigned automatically, not by human annotation.</span></li>
+<li>Human Learning by Model Feedback frames iterative text-to-image prompting as a repeated reference game in which only the human adapts. It studies the linguistic dynamics of prompts across turns rather than the quality of any single prompt. <span class="meta">(Section 1 and Section 10)</span><br><span class="scope">Scope: As of publication in 2023 the authors state they know of no prior work examining prompt dynamics between iterations; the closest prior prompt-log analysis identified sessions by a 30-minute timeout.</span></li>
+<li>Midjourney prompts whose image the user upscaled are longer (16.67 vs 14.78 words), have a higher magic-words ratio (0.109 vs 0.096) and lower GPT-2 perplexity (2173 vs 2855) than non-upscaled prompts. <span class="meta">(Table 1)</span><br><span class="scope">Scope: 169,620 cleaned English Midjourney prompts, 25% of them upscaled; Mann-Whitney U test, significant after Bonferroni correction. Upscaling is a proxy for satisfaction.</span></li>
+<li>Concreteness is the one linguistic feature that does not separate upscaled from non-upscaled Midjourney prompts, at 3.2628 versus 3.2629 with p = 0.123. Length, magic words, perplexity, repeated words, sentence rate and tree depth all differ significantly. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Prompt-level average of Brysbaert et al. word concreteness ratings over 169,620 cleaned English Midjourney prompts; on BLIP-2 captions of the generated images the same feature does reach significance.</span></li>
+<li>A GPT-2 classifier predicts whether a Midjourney image was upscaled from the prompt text alone at 58.2% accuracy, 8.2 points above random on balanced data. A ResNet18 given only the generated image grid reaches 55.6%, 5.6 points above random. <span class="meta">(Section 6.1)</span><br><span class="scope">Scope: 80/20 train-test split, classes balanced by sampling, standard deviations 0.26 and 0.21 over 3 seeds, no hyperparameter search. Accuracy is far too low for practical use.</span></li>
+<li>Along a Midjourney interaction thread prompt length, magic-words ratio, repeated-words ratio, sentence rate and syntactic tree depth rise approximately monotonically with prompt index, while perplexity falls. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: 645 threads of at least 10 prompts, averaged at each index 1 to 10; the magic-words curve is noisiest and does not saturate within 10 prompts.</span></li>
+<li>Midjourney threads whose prompts get longer start relatively short and threads whose prompts get shorter start relatively long, with both groups converging toward the same length range. <span class="meta">(Figure 4 and Figure 7)</span><br><span class="scope">Scope: Threads split into two sets by whether the last prompt&#x27;s feature value exceeds the first; group means only, with no causal test of why the range is preferred.</span></li>
+<li>Rising prompt length, sentence rate and tree depth support Midjourney users adding omitted details. The rising magic-words and repeated-words ratios and falling perplexity support users adapting to the model&#x27;s language preferences. <span class="meta">(Section 7)</span><br><span class="scope">Scope: An interpretive reading of the feature trends; the paper does not adjudicate between the two explanations, and notes falling perplexity can be partly a byproduct of increasing length.</span></li>
+<li>Human Learning by Model Feedback argues that upscaled prompt-image pairs from text-to-image logs are risky as free RLHF preference data. Prompts may drift toward one model&#x27;s stylistic preferences rather than natural human expression. <span class="meta">(Section 9)</span><br><span class="scope">Scope: A concern raised from adaptation trends observed on Midjourney and DiffusionDB, not an experiment: no model is trained on such data and no resulting degradation is measured.</span></li>
+<li>The thread-dynamics trends replicate on DiffusionDB Stable Diffusion prompts for every feature except the magic-words ratio, which does not stay approximately monotone. <span class="meta">(Figure 5)</span><br><span class="scope">Scope: First 250,000 prompts of the DiffusionDB 2M subset, 105,644 after cleaning, 14,927 threads of which 1045 have at least 10 prompts. DiffusionDB lacks upscale labels.</span></li>
+<li>Splitting consecutive Midjourney prompts into threads by word intersection-over-union above 0.3 matches 500 manual annotations at F1 0.87 with WindowDiff 0.24, beating a BERTScore-threshold split at F1 0.84 and WindowDiff 0.30. <span class="meta">(Section 4.2)</span><br><span class="scope">Scope: Manual annotation by one author on users with at least 4 prompts, two further authors re-annotating 70 prompts each, Fleiss&#x27; kappa 0.815. Both methods assume non-overlapping threads.</span></li>
+<li>Midjourney interaction threads are mostly very short: the average thread runs 1.58 prompts and only 645 of 107,051 threads (0.6%) contain 10 or more, with the longest reaching 77. <span class="meta">(Figure 2 and Section 4.3)</span><br><span class="scope">Scope: Automatic intersection-over-union splits over 169,620 cleaned English prompts from 30,394 users; 6578 threads have at least 4 prompts, 2485 at least 6 and 1214 at least 8.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The linguistic features reported for upscaled versus non-upscaled Midjourney prompts are statistically significant but explain only a small proportion of the variance; they are not a recipe for writing good prompts.</li>
+<li>The rise in magic words and fall in perplexity along a Midjourney thread are evidence consistent with users adapting to the model&#x27;s preferences, not a demonstration that such prompts cause better images.</li>
+<li>Human Learning by Model Feedback does not decide between &#x27;users add omitted details&#x27; and &#x27;users adopt model-like language&#x27;, nor quantify their relative contribution; it presents evidence that both are at play.</li>
+<li>Upscaling is a proxy for satisfaction, not a ground-truth quality label: users sometimes upscale images because they are amusingly bad or to record the creation process.</li>
+<li>The claim that reusing upscaled prompts as RLHF data would make models more &#x27;model-like&#x27; is a concern argued from the observed drift, not a trained-and-measured result.</li>
+<li>Thread boundaries in the released Midjourney dataset come from an automatic intersection-over-union heuristic validated against 500 manual annotations, not from human labelling of the full corpus.</li>
+<li>The Midjourney dynamics analysis rests on the 645 threads with at least 10 prompts, a 0.6% tail of the corpus, since the average thread is only 1.58 prompts long.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>thread</em></dt><dd>A sequence of consecutive prompts by one user that are all attempts to generate the same target image or scene, ending when the described scene or main subject changes intrinsically.</dd>
+<dt><em>magic words</em></dt><dd>Words that add no real content to a text-to-image prompt but are popular among practitioners, such as &#x27;beautiful&#x27;, &#x27;8k&#x27; and &#x27;highly detailed&#x27;; operationally, words appearing at least 1000 times in the Midjourney prompt corpus whose corpus probability exceeds their Google-ngrams probability by a factor of at least 100.</dd>
+<dt><em>upscale</em></dt><dd>A Midjourney Discord command requesting a higher-resolution version of one image from the generated 4-image grid, used as a proxy signal that the user was satisfied with that image.</dd>
+<dt><em>semi-reference game</em></dt><dd>A repeated reference game in which only one participant can adapt: the human user revises prompts based on the generated image while the text-to-image model stays frozen.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/emnlp/Don-YehiyaCA23,
-author       = {Shachar Don{-}Yehiya and
+<pre>@inproceedings{DBLP:conf/emnlp/Don-YehiyaCA23,author       = {Shachar Don{-}Yehiya and
                   Leshem Choshen and
                   Omri Abend},
   editor       = {Houda Bouamor and

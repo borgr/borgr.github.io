@@ -12,7 +12,6 @@
   <meta name="citation_author" content="Michal Shmueli-Scheuer">
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_publication_date" content="2026">
-  <meta name="citation_journal_title" content="arXiv preprint arXiv:2601.15812">
   <meta name="citation_doi" content="10.48550/arXiv.2601.15812">
   <meta name="citation_arxiv_id" content="2601.15812">
   <meta name="citation_abstract" content="Large Language Models (LLM) benchmarks tell us when models fail, but not why they fail. A wrong answer on a reasoning dataset may stem from formatting issues, calculation errors, or dataset noise rather than weak reasoning. Without disentangling such causes, benchmarks remain incomplete and cannot reliably guide model improvement. We introduce ErrorMap, the first method to chart the sources of LLM failure. It extracts a model&#x27;s unique&quot;failure signature&quot;, clarifies what benchmarks measure, and broadens error identification to reduce blind spots. This helps developers debug models, aligns benchmark goals with outcomes, and supports informed model selection. ErrorMap works on any model or dataset with the same logic. Applying our method to 35 datasets and 83 models we generate ErrorAtlas, a taxonomy of model errors, revealing recurring failure patterns. ErrorAtlas highlights error types that are currently underexplored in LLM research, such as omissions of required details in the output and question misinterpretation. By shifting focus from where models succeed to why they fail, ErrorMap and ErrorAtlas enable advanced evaluation - one that exposes hidden weaknesses and directs progress. Unlike success, typically measured by task-level metrics, our approach introduces a deeper evaluation layer that can be applied globally across models and tasks, offering richer insights into model behavior and limitations. We make the taxonomy and code publicly available with plans to periodically update ErrorAtlas as new benchmarks and models emerge.">
@@ -50,18 +49,316 @@
   "datePublished": "2026",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "arXiv preprint arXiv:2601.15812"
+    "name": "arXiv"
   },
   "identifier": "https://doi.org/10.48550/arXiv.2601.15812",
   "abstract": "Large Language Models (LLM) benchmarks tell us when models fail, but not why they fail. A wrong answer on a reasoning dataset may stem from formatting issues, calculation errors, or dataset noise rather than weak reasoning. Without disentangling such causes, benchmarks remain incomplete and cannot reliably guide model improvement. We introduce ErrorMap, the first method to chart the sources of LLM failure. It extracts a model's unique\"failure signature\", clarifies what benchmarks measure, and broadens error identification to reduce blind spots. This helps developers debug models, aligns benchmark goals with outcomes, and supports informed model selection. ErrorMap works on any model or dataset with the same logic. Applying our method to 35 datasets and 83 models we generate ErrorAtlas, a taxonomy of model errors, revealing recurring failure patterns. ErrorAtlas highlights error types that are currently underexplored in LLM research, such as omissions of required details in the output and question misinterpretation. By shifting focus from where models succeed to why they fail, ErrorMap and ErrorAtlas enable advanced evaluation - one that exposes hidden weaknesses and directs progress. Unlike success, typically measured by task-level metrics, our approach introduces a deeper evaluation layer that can be applied globally across models and tasks, offering richer insights into model behavior and limitations. We make the taxonomy and code publicly available with plans to periodically update ErrorAtlas as new benchmarks and models emerge.",
+  "description": "ErrorMap analyses each wrong prediction in a benchmark run with an analyst LLM and recursively groups the resulting error labels into a layered taxonomy, and applying it to 83 models on 35 datasets yields ErrorAtlas, a static taxonomy of 17 high-level LLM error categories.",
+  "codeRepository": "https://github.com/IBM/ErrorMap",
   "sameAs": [
     "https://arxiv.org/abs/2601.15812",
     "https://arxiv.org/html/2601.15812",
     "https://arxiv.org/pdf/2601.15812",
     "https://doi.org/10.48550/arXiv.2601.15812",
+    "https://github.com/IBM/ErrorMap",
     "https://huggingface.co/papers/2601.15812",
     "https://www.alphaxiv.org/abs/2601.15812",
     "https://www.semanticscholar.org/paper/284935616"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "ErrorAtlas is a taxonomy of 17 high-level LLM error categories, led by Missing Required Element at 15.56% of errors, Specification Misinterpretation at 11.5%, and Logical Reasoning Error at 9.09% of errors.",
+      "description": "Holds for: Sampled wrong predictions from 83 models on 35 datasets spanning HELM Capabilities, MedHELM, ToRR, BFCL-v4 and code benchmarks, with gpt-oss-120b as analyst and clustering LLM."
+    },
+    {
+      "@type": "Thing",
+      "name": "Omissions of required detail are the single most prevalent LLM error category in ErrorAtlas, at 15.56% of errors, appearing in 31 of 35 datasets and for 82 of 83 models. Question or task misinterpretation is second at 11.5%, and both types receive little attention in LLM research.",
+      "description": "Holds for: Prevalence measured on the sampled errors of the 35 datasets studied; the judgement that these types are under-discussed comes from the authors' related-work survey of existing error taxonomies, not from a bibliometric count."
+    },
+    {
+      "@type": "Thing",
+      "name": "About 44% of model errors on MMLU-Pro, GPQA and Omni-MATH have a weak reasoning orientation. Those failures are instead technical, such as computation errors, missing required elements or counting errors, even though the 3 benchmarks are positioned as reasoning tests.",
+      "description": "Holds for: Aggregated over the sampled failures of the models evaluated on these 3 datasets, with categories assigned by the ErrorAtlas classifier; failure is decided by each benchmark's primary metric and a threshold."
+    },
+    {
+      "@type": "Thing",
+      "name": "Automatically mapping the analysed wrong predictions back into ErrorAtlas gives a coverage score of 95.2%, with only 1 instance falling into \"other\" and 48 into \"hard to analyze\".",
+      "description": "Holds for: Wan et al. (2024) protocol applied to the same errors used to build the taxonomy; 295 errors counted as uncovered, including rare or uninformative categories outside ErrorAtlas."
+    },
+    {
+      "@type": "Thing",
+      "name": "A meta-judge choosing between an error's assigned ErrorAtlas category and a random alternative agrees with the assigned label 92% of the time. The same meta-judge accepts the per-instance error analyses 91.1% of the time.",
+      "description": "Holds for: Qwen2.5-72B-Instruct as meta-judge over the 3 experiments (ErrorAtlas construction, Gemini comparison, MMLU-Pro taxonomy), in a forced binary choice against one random negative."
+    },
+    {
+      "@type": "Thing",
+      "name": "Rebuilding ErrorAtlas with a rephrased prompt, different examples and a 15% sample reproduces the original categories with 88% precision and 88% recall. A weaker configuration using qwen-30b-thinking on a 5% sample reaches 1.00 precision but 0.52 recall.",
+      "description": "Holds for: Manual comparison of high-level category descriptions and subcategories against the original gpt-oss-120b 10%-sample taxonomy; the lower-bound configuration still recovers 8 of the top 10 categories, with losses in the long tail."
+    },
+    {
+      "@type": "Thing",
+      "name": "Run on MMLU-Pro, ErrorMap produces 5 error categories whose GPT-4o distribution tracks the MMLU-Pro paper's manual annotation. ErrorMap reports 44% logical reasoning errors against 39% manual reasoning errors, and 5% prompt misinterpretation against 4% question understanding errors.",
+      "description": "Holds for: Single dataset (MMLU-Pro) and single model (GPT-4o); ErrorMap splits the manual \"lack of specific knowledge\" category (35%) across two of its own categories and has no \"other\" bucket, which is 10% of the manual labels, so the label sets do not map one-to-one."
+    },
+    {
+      "@type": "Thing",
+      "name": "Gemini 1.5 Pro outscores Gemini 1.5 Flash by a mean 4.8% on the HELM Capabilities benchmark. ErrorMap localises that gap: the Pro version makes significantly fewer computation errors and fewer incomplete-reasoning errors.",
+      "description": "Holds for: One model pair on HELM Capabilities, run with the fixed ErrorAtlas categories using only ErrorMap stages 1 and 2.b over all predictions of the 2 Gemini models."
+    },
+    {
+      "@type": "Thing",
+      "name": "Models evaluated on HELM Capabilities show distinct failure signatures: Gemini 2.0 Flash Lite has the highest rate of incomplete-content errors and the fewest formatting errors. Claude 3.5 Haiku skews toward logical reasoning errors and Mixtral 8x22B Instruct v0.1 toward computation errors.",
+      "description": "Holds for: Models compared only within HELM Capabilities so the instances are shared; differences between best- and worst-performing models per category are usually significant under binomial tests, except prompt misinterpretation (p=.075)."
+    },
+    {
+      "@type": "Thing",
+      "name": "Error distributions on MMLU-Pro shift by subject domain: mathematics and physics have near-identical profiles, while the health domain shows a disproportionately high share of factual errors, exceeding even history.",
+      "description": "Holds for: MMLU-Pro only, with errors grouped by the dataset's own domain labels; reported as an observed pattern in the error distribution figure rather than a per-domain significance test."
+    },
+    {
+      "@type": "Thing",
+      "name": "ErrorMap addresses the gap between benchmark scores, which say when a model fails, and diagnosis, which says why. It analyses the model's actual output alongside the input rather than characterising difficulty by properties of the question alone.",
+      "description": "Holds for: Positioning as of the 2026 arXiv release; earlier diagnostic work the paper surveys either targets a single subdomain or model, or infers difficulty from inputs, and the authors report finding no prior general LLM error taxonomy."
+    },
+    {
+      "@type": "Thing",
+      "name": "ErrorAtlas is released as a static, publicly available taxonomy so error analyses of new models can be compared across time and papers. Applying it needs only per-instance analysis plus category assignment, skipping taxonomy generation.",
+      "description": "Holds for: Reuse is intended for tasks whose outputs contain interpretable content or chain-of-thought; classification-style tasks with no explanation cannot be analysed, and the authors plan periodic ErrorAtlas updates rather than freezing it."
+    },
+    {
+      "@type": "Thing",
+      "name": "Building ErrorAtlas took roughly 3 hours of largely parallel inference by sampling approximately 10% of each model-dataset pair's failures. Applying ErrorMap to a single dataset or model pair is cheaper still, since cost scales with the number of wrong predictions analysed.",
+      "description": "Holds for: gpt-oss-120b as the analyst LLM, with most inference calls run in parallel; the MMLU-Pro taxonomy and the Gemini 1.5 comparison each required fewer inferences than the ErrorAtlas build."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/#faq",
+  "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/",
+  "name": "Questions answered by ErrorMap and ErrorAtlas: Charting the Failure Landscape of Large Language Models",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why do language models fail on a benchmark, not just how often?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ErrorMap addresses the gap between benchmark scores, which say when a model fails, and diagnosis, which says why. It analyses the model's actual output alongside the input rather than characterising difficulty by properties of the question alone. Holds for: Positioning as of the 2026 arXiv release; earlier diagnostic work the paper surveys either targets a single subdomain or model, or infers difficulty from inputs, and the authors report finding no prior general LLM error taxonomy.\n\nErrorAtlas is a taxonomy of 17 high-level LLM error categories, led by Missing Required Element at 15.56% of errors, Specification Misinterpretation at 11.5%, and Logical Reasoning Error at 9.09% of errors. Holds for: Sampled wrong predictions from 83 models on 35 datasets spanning HELM Capabilities, MedHELM, ToRR, BFCL-v4 and code benchmarks, with gpt-oss-120b as analyst and clustering LLM.",
+        "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/"
+      },
+      "alternateName": [
+        "How can I find out the causes behind a model's wrong answers instead of its score?",
+        "Is there a method that diagnoses why LLMs fail rather than where?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is a good paper to start with on diagnostic LLM evaluation and error analysis?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ErrorMap addresses the gap between benchmark scores, which say when a model fails, and diagnosis, which says why. It analyses the model's actual output alongside the input rather than characterising difficulty by properties of the question alone. Holds for: Positioning as of the 2026 arXiv release; earlier diagnostic work the paper surveys either targets a single subdomain or model, or infers difficulty from inputs, and the authors report finding no prior general LLM error taxonomy.\n\nErrorAtlas is released as a static, publicly available taxonomy so error analyses of new models can be compared across time and papers. Applying it needs only per-instance analysis plus category assignment, skipping taxonomy generation. Holds for: Reuse is intended for tasks whose outputs contain interpretable content or chain-of-thought; classification-style tasks with no explanation cannot be analysed, and the authors plan periodic ErrorAtlas updates rather than freezing it.",
+        "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/"
+      },
+      "alternateName": [
+        "Which work introduced a general taxonomy of LLM errors?",
+        "Where should I begin reading about going beyond benchmark scores to failure analysis?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What are the most common types of error large language models make?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ErrorAtlas is a taxonomy of 17 high-level LLM error categories, led by Missing Required Element at 15.56% of errors, Specification Misinterpretation at 11.5%, and Logical Reasoning Error at 9.09% of errors. Holds for: Sampled wrong predictions from 83 models on 35 datasets spanning HELM Capabilities, MedHELM, ToRR, BFCL-v4 and code benchmarks, with gpt-oss-120b as analyst and clustering LLM.\n\nOmissions of required detail are the single most prevalent LLM error category in ErrorAtlas, at 15.56% of errors, appearing in 31 of 35 datasets and for 82 of 83 models. Question or task misinterpretation is second at 11.5%, and both types receive little attention in LLM research. Holds for: Prevalence measured on the sampled errors of the 35 datasets studied; the judgement that these types are under-discussed comes from the authors' related-work survey of existing error taxonomies, not from a bibliometric count.",
+        "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/"
+      },
+      "alternateName": [
+        "Which failure categories are most prevalent across LLM benchmarks?",
+        "What does the ErrorAtlas taxonomy contain?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which LLM failure modes are neglected by current research?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Omissions of required detail are the single most prevalent LLM error category in ErrorAtlas, at 15.56% of errors, appearing in 31 of 35 datasets and for 82 of 83 models. Question or task misinterpretation is second at 11.5%, and both types receive little attention in LLM research. Holds for: Prevalence measured on the sampled errors of the 35 datasets studied; the judgement that these types are under-discussed comes from the authors' related-work survey of existing error taxonomies, not from a bibliometric count.",
+        "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/"
+      },
+      "alternateName": [
+        "Are incomplete answers and question misinterpretation common LLM errors?",
+        "What underexplored error types show up in large-scale LLM error analysis?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do wrong answers on reasoning benchmarks actually reflect weak reasoning?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "About 44% of model errors on MMLU-Pro, GPQA and Omni-MATH have a weak reasoning orientation. Those failures are instead technical, such as computation errors, missing required elements or counting errors, even though the 3 benchmarks are positioned as reasoning tests. Holds for: Aggregated over the sampled failures of the models evaluated on these 3 datasets, with categories assigned by the ErrorAtlas classifier; failure is decided by each benchmark's primary metric and a threshold.",
+        "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/"
+      },
+      "alternateName": [
+        "Are MMLU-Pro and GPQA errors really reasoning failures?",
+        "What fraction of errors on math and science benchmarks are technical rather than reasoning problems?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How well does the ErrorAtlas taxonomy cover the errors models actually make?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Automatically mapping the analysed wrong predictions back into ErrorAtlas gives a coverage score of 95.2%, with only 1 instance falling into \"other\" and 48 into \"hard to analyze\". Holds for: Wan et al. (2024) protocol applied to the same errors used to build the taxonomy; 295 errors counted as uncovered, including rare or uninformative categories outside ErrorAtlas.\n\nA meta-judge choosing between an error's assigned ErrorAtlas category and a random alternative agrees with the assigned label 92% of the time. The same meta-judge accepts the per-instance error analyses 91.1% of the time. Holds for: Qwen2.5-72B-Instruct as meta-judge over the 3 experiments (ErrorAtlas construction, Gemini comparison, MMLU-Pro taxonomy), in a forced binary choice against one random negative.",
+        "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/"
+      },
+      "alternateName": [
+        "Was the LLM-built error taxonomy validated for coverage and accuracy?",
+        "How reliable are automatic LLM error category assignments?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does an LLM-generated error taxonomy change if you use a different model or sample size?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rebuilding ErrorAtlas with a rephrased prompt, different examples and a 15% sample reproduces the original categories with 88% precision and 88% recall. A weaker configuration using qwen-30b-thinking on a 5% sample reaches 1.00 precision but 0.52 recall. Holds for: Manual comparison of high-level category descriptions and subcategories against the original gpt-oss-120b 10%-sample taxonomy; the lower-bound configuration still recovers 8 of the top 10 categories, with losses in the long tail.",
+        "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/"
+      },
+      "alternateName": [
+        "How stable is the ErrorMap taxonomy construction under prompt and sample variation?",
+        "Is automatic error clustering robust to the choice of judge model?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does automatic error analysis agree with human annotation of model mistakes?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Run on MMLU-Pro, ErrorMap produces 5 error categories whose GPT-4o distribution tracks the MMLU-Pro paper's manual annotation. ErrorMap reports 44% logical reasoning errors against 39% manual reasoning errors, and 5% prompt misinterpretation against 4% question understanding errors. Holds for: Single dataset (MMLU-Pro) and single model (GPT-4o); ErrorMap splits the manual \"lack of specific knowledge\" category (35%) across two of its own categories and has no \"other\" bucket, which is 10% of the manual labels, so the label sets do not map one-to-one.",
+        "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/"
+      },
+      "alternateName": [
+        "How does an LLM-produced error breakdown compare to MMLU-Pro's manual error study?",
+        "Can automated error categorisation replace manual error annotation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How can I tell what changed between two versions of a model beyond its benchmark score?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gemini 1.5 Pro outscores Gemini 1.5 Flash by a mean 4.8% on the HELM Capabilities benchmark. ErrorMap localises that gap: the Pro version makes significantly fewer computation errors and fewer incomplete-reasoning errors. Holds for: One model pair on HELM Capabilities, run with the fixed ErrorAtlas categories using only ErrorMap stages 1 and 2.b over all predictions of the 2 Gemini models.\n\nModels evaluated on HELM Capabilities show distinct failure signatures: Gemini 2.0 Flash Lite has the highest rate of incomplete-content errors and the fewest formatting errors. Claude 3.5 Haiku skews toward logical reasoning errors and Mixtral 8x22B Instruct v0.1 toward computation errors. Holds for: Models compared only within HELM Capabilities so the instances are shared; differences between best- and worst-performing models per category are usually significant under binomial tests, except prompt misinterpretation (p=.075).",
+        "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/"
+      },
+      "alternateName": [
+        "What is the difference between Gemini 1.5 Flash and Gemini 1.5 Pro in error types?",
+        "Can error analysis show which weaknesses a newer model version fixed?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do different LLMs with similar scores fail in different ways?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Models evaluated on HELM Capabilities show distinct failure signatures: Gemini 2.0 Flash Lite has the highest rate of incomplete-content errors and the fewest formatting errors. Claude 3.5 Haiku skews toward logical reasoning errors and Mixtral 8x22B Instruct v0.1 toward computation errors. Holds for: Models compared only within HELM Capabilities so the instances are shared; differences between best- and worst-performing models per category are usually significant under binomial tests, except prompt misinterpretation (p=.075).",
+        "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/"
+      },
+      "alternateName": [
+        "Can I compare models by their failure profile rather than their accuracy?",
+        "Are per-model error distributions statistically distinguishable?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do error types vary by subject area within a benchmark?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Error distributions on MMLU-Pro shift by subject domain: mathematics and physics have near-identical profiles, while the health domain shows a disproportionately high share of factual errors, exceeding even history. Holds for: MMLU-Pro only, with errors grouped by the dataset's own domain labels; reported as an observed pattern in the error distribution figure rather than a per-domain significance test.",
+        "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/"
+      },
+      "alternateName": [
+        "Which MMLU-Pro domains produce the most factual errors?",
+        "How do failure patterns differ across domains like health, math and history?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How expensive is it to run LLM-based error analysis over a benchmark?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Building ErrorAtlas took roughly 3 hours of largely parallel inference by sampling approximately 10% of each model-dataset pair's failures. Applying ErrorMap to a single dataset or model pair is cheaper still, since cost scales with the number of wrong predictions analysed. Holds for: gpt-oss-120b as the analyst LLM, with most inference calls run in parallel; the MMLU-Pro taxonomy and the Gemini 1.5 comparison each required fewer inferences than the ErrorAtlas build.\n\nErrorAtlas is released as a static, publicly available taxonomy so error analyses of new models can be compared across time and papers. Applying it needs only per-instance analysis plus category assignment, skipping taxonomy generation. Holds for: Reuse is intended for tasks whose outputs contain interpretable content or chain-of-thought; classification-style tasks with no explanation cannot be analysed, and the authors plan periodic ErrorAtlas updates rather than freezing it.",
+        "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/"
+      },
+      "alternateName": [
+        "How long does building an error taxonomy across many models take?",
+        "Can error analysis be applied at scale without analysing every wrong prediction?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can I reuse an existing error taxonomy instead of generating my own?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ErrorAtlas is released as a static, publicly available taxonomy so error analyses of new models can be compared across time and papers. Applying it needs only per-instance analysis plus category assignment, skipping taxonomy generation. Holds for: Reuse is intended for tasks whose outputs contain interpretable content or chain-of-thought; classification-style tasks with no explanation cannot be analysed, and the authors plan periodic ErrorAtlas updates rather than freezing it.",
+        "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/"
+      },
+      "alternateName": [
+        "How do I apply ErrorAtlas categories to my own model's failures cheaply?",
+        "What kinds of tasks can automated error diagnosis not handle?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/#terms",
+  "url": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/",
+  "name": "Terminology in ErrorMap and ErrorAtlas: Charting the Failure Landscape of Large Language Models",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "ErrorAtlas",
+      "description": "A static, reusable taxonomy of 17 high-level LLM error categories built by running ErrorMap over sampled wrong predictions from 83 models on 35 datasets, intended for replicable cross-model and cross-benchmark comparison.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Failure signature",
+      "description": "The distribution of a single model's errors over taxonomy categories, used to distinguish models that share the same benchmark score but fail in different ways.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Informative Correct Predictions (ICPs)",
+      "description": "Correct answers produced by other models on the same benchmark instance, given to the analyst LLM as additional reference material when diagnosing a wrong prediction; up to 3 are included per prompt.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Taxonomy coverage",
+      "description": "The fraction of analysed wrong predictions that an automatic classifier maps into a real taxonomy category rather than into 'other', 'hard to analyze', or rare uninformative categories.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/errormap-and-erroratlas-charting-the-failure-landscape-of-la/#terms"
+    }
   ]
 }
   </script>
@@ -72,6 +369,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -85,13 +383,106 @@
 </head>
 <body>
 <h1>ErrorMap and ErrorAtlas: Charting the Failure Landscape of Large Language Models</h1>
-<p class="meta">Shir Ashury-Tahan, Yifan Mai, Elron Bandel, Michal Shmueli-Scheuer, Leshem Choshen · arXiv preprint arXiv:2601.15812 · 2026</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2601.15812">arXiv</a></li><li><a href="https://arxiv.org/pdf/2601.15812">PDF</a></li><li><a href="https://arxiv.org/html/2601.15812">HTML</a></li><li><a href="https://huggingface.co/papers/2601.15812">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2601.15812">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2601.15812">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/284935616">Semantic Scholar</a></li></ul>
+<p class="sub">an LLM-based pipeline that turns a benchmark&#x27;s wrong answers into a hierarchical taxonomy of why the model failed</p>
+<p class="meta">Shir Ashury-Tahan, Yifan Mai, Elron Bandel, Michal Shmueli-Scheuer, Leshem Choshen · arXiv · 2026</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2601.15812">arXiv</a></li><li><a href="https://arxiv.org/pdf/2601.15812">PDF</a></li><li><a href="https://arxiv.org/html/2601.15812">HTML</a></li><li><a href="https://huggingface.co/papers/2601.15812">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2601.15812">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2601.15812">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/284935616">Semantic Scholar</a></li><li><a href="https://github.com/IBM/ErrorMap">Code</a></li></ul>
+<h2>In one sentence</h2>
+<p>ErrorMap analyses each wrong prediction in a benchmark run with an analyst LLM and recursively groups the resulting error labels into a layered taxonomy, and applying it to 83 models on 35 datasets yields ErrorAtlas, a static taxonomy of 17 high-level LLM error categories.</p>
 <h2>Abstract</h2>
 <p>Large Language Models (LLM) benchmarks tell us when models fail, but not why they fail. A wrong answer on a reasoning dataset may stem from formatting issues, calculation errors, or dataset noise rather than weak reasoning. Without disentangling such causes, benchmarks remain incomplete and cannot reliably guide model improvement. We introduce ErrorMap, the first method to chart the sources of LLM failure. It extracts a model&#x27;s unique&quot;failure signature&quot;, clarifies what benchmarks measure, and broadens error identification to reduce blind spots. This helps developers debug models, aligns benchmark goals with outcomes, and supports informed model selection. ErrorMap works on any model or dataset with the same logic. Applying our method to 35 datasets and 83 models we generate ErrorAtlas, a taxonomy of model errors, revealing recurring failure patterns. ErrorAtlas highlights error types that are currently underexplored in LLM research, such as omissions of required details in the output and question misinterpretation. By shifting focus from where models succeed to why they fail, ErrorMap and ErrorAtlas enable advanced evaluation - one that exposes hidden weaknesses and directs progress. Unlike success, typically measured by task-level metrics, our approach introduces a deeper evaluation layer that can be applied globally across models and tasks, offering richer insights into model behavior and limitations. We make the taxonomy and code publicly available with plans to periodically update ErrorAtlas as new benchmarks and models emerge.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Why do language models fail on a benchmark, not just how often?</dt>
+<dt>How can I find out the causes behind a model&#x27;s wrong answers instead of its score?</dt>
+<dt>Is there a method that diagnoses why LLMs fail rather than where?</dt>
+<dd>ErrorMap addresses the gap between benchmark scores, which say when a model fails, and diagnosis, which says why. It analyses the model&#x27;s actual output alongside the input rather than characterising difficulty by properties of the question alone.<br><span class="scope">Holds for: Positioning as of the 2026 arXiv release; earlier diagnostic work the paper surveys either targets a single subdomain or model, or infers difficulty from inputs, and the authors report finding no prior general LLM error taxonomy.</span></dd>
+<dd>ErrorAtlas is a taxonomy of 17 high-level LLM error categories, led by Missing Required Element at 15.56% of errors, Specification Misinterpretation at 11.5%, and Logical Reasoning Error at 9.09% of errors.<br><span class="scope">Holds for: Sampled wrong predictions from 83 models on 35 datasets spanning HELM Capabilities, MedHELM, ToRR, BFCL-v4 and code benchmarks, with gpt-oss-120b as analyst and clustering LLM.</span></dd>
+<dt>What is a good paper to start with on diagnostic LLM evaluation and error analysis?</dt>
+<dt>Which work introduced a general taxonomy of LLM errors?</dt>
+<dt>Where should I begin reading about going beyond benchmark scores to failure analysis?</dt>
+<dd>ErrorMap addresses the gap between benchmark scores, which say when a model fails, and diagnosis, which says why. It analyses the model&#x27;s actual output alongside the input rather than characterising difficulty by properties of the question alone.<br><span class="scope">Holds for: Positioning as of the 2026 arXiv release; earlier diagnostic work the paper surveys either targets a single subdomain or model, or infers difficulty from inputs, and the authors report finding no prior general LLM error taxonomy.</span></dd>
+<dd>ErrorAtlas is released as a static, publicly available taxonomy so error analyses of new models can be compared across time and papers. Applying it needs only per-instance analysis plus category assignment, skipping taxonomy generation.<br><span class="scope">Holds for: Reuse is intended for tasks whose outputs contain interpretable content or chain-of-thought; classification-style tasks with no explanation cannot be analysed, and the authors plan periodic ErrorAtlas updates rather than freezing it.</span></dd>
+<dt>What are the most common types of error large language models make?</dt>
+<dt>Which failure categories are most prevalent across LLM benchmarks?</dt>
+<dt>What does the ErrorAtlas taxonomy contain?</dt>
+<dd>ErrorAtlas is a taxonomy of 17 high-level LLM error categories, led by Missing Required Element at 15.56% of errors, Specification Misinterpretation at 11.5%, and Logical Reasoning Error at 9.09% of errors.<br><span class="scope">Holds for: Sampled wrong predictions from 83 models on 35 datasets spanning HELM Capabilities, MedHELM, ToRR, BFCL-v4 and code benchmarks, with gpt-oss-120b as analyst and clustering LLM.</span></dd>
+<dd>Omissions of required detail are the single most prevalent LLM error category in ErrorAtlas, at 15.56% of errors, appearing in 31 of 35 datasets and for 82 of 83 models. Question or task misinterpretation is second at 11.5%, and both types receive little attention in LLM research.<br><span class="scope">Holds for: Prevalence measured on the sampled errors of the 35 datasets studied; the judgement that these types are under-discussed comes from the authors&#x27; related-work survey of existing error taxonomies, not from a bibliometric count.</span></dd>
+<dt>Which LLM failure modes are neglected by current research?</dt>
+<dt>Are incomplete answers and question misinterpretation common LLM errors?</dt>
+<dt>What underexplored error types show up in large-scale LLM error analysis?</dt>
+<dd>Omissions of required detail are the single most prevalent LLM error category in ErrorAtlas, at 15.56% of errors, appearing in 31 of 35 datasets and for 82 of 83 models. Question or task misinterpretation is second at 11.5%, and both types receive little attention in LLM research.<br><span class="scope">Holds for: Prevalence measured on the sampled errors of the 35 datasets studied; the judgement that these types are under-discussed comes from the authors&#x27; related-work survey of existing error taxonomies, not from a bibliometric count.</span></dd>
+<dt>Do wrong answers on reasoning benchmarks actually reflect weak reasoning?</dt>
+<dt>Are MMLU-Pro and GPQA errors really reasoning failures?</dt>
+<dt>What fraction of errors on math and science benchmarks are technical rather than reasoning problems?</dt>
+<dd>About 44% of model errors on MMLU-Pro, GPQA and Omni-MATH have a weak reasoning orientation. Those failures are instead technical, such as computation errors, missing required elements or counting errors, even though the 3 benchmarks are positioned as reasoning tests.<br><span class="scope">Holds for: Aggregated over the sampled failures of the models evaluated on these 3 datasets, with categories assigned by the ErrorAtlas classifier; failure is decided by each benchmark&#x27;s primary metric and a threshold.</span></dd>
+<dt>How well does the ErrorAtlas taxonomy cover the errors models actually make?</dt>
+<dt>Was the LLM-built error taxonomy validated for coverage and accuracy?</dt>
+<dt>How reliable are automatic LLM error category assignments?</dt>
+<dd>Automatically mapping the analysed wrong predictions back into ErrorAtlas gives a coverage score of 95.2%, with only 1 instance falling into &quot;other&quot; and 48 into &quot;hard to analyze&quot;.<br><span class="scope">Holds for: Wan et al. (2024) protocol applied to the same errors used to build the taxonomy; 295 errors counted as uncovered, including rare or uninformative categories outside ErrorAtlas.</span></dd>
+<dd>A meta-judge choosing between an error&#x27;s assigned ErrorAtlas category and a random alternative agrees with the assigned label 92% of the time. The same meta-judge accepts the per-instance error analyses 91.1% of the time.<br><span class="scope">Holds for: Qwen2.5-72B-Instruct as meta-judge over the 3 experiments (ErrorAtlas construction, Gemini comparison, MMLU-Pro taxonomy), in a forced binary choice against one random negative.</span></dd>
+<dt>Does an LLM-generated error taxonomy change if you use a different model or sample size?</dt>
+<dt>How stable is the ErrorMap taxonomy construction under prompt and sample variation?</dt>
+<dt>Is automatic error clustering robust to the choice of judge model?</dt>
+<dd>Rebuilding ErrorAtlas with a rephrased prompt, different examples and a 15% sample reproduces the original categories with 88% precision and 88% recall. A weaker configuration using qwen-30b-thinking on a 5% sample reaches 1.00 precision but 0.52 recall.<br><span class="scope">Holds for: Manual comparison of high-level category descriptions and subcategories against the original gpt-oss-120b 10%-sample taxonomy; the lower-bound configuration still recovers 8 of the top 10 categories, with losses in the long tail.</span></dd>
+<dt>Does automatic error analysis agree with human annotation of model mistakes?</dt>
+<dt>How does an LLM-produced error breakdown compare to MMLU-Pro&#x27;s manual error study?</dt>
+<dt>Can automated error categorisation replace manual error annotation?</dt>
+<dd>Run on MMLU-Pro, ErrorMap produces 5 error categories whose GPT-4o distribution tracks the MMLU-Pro paper&#x27;s manual annotation. ErrorMap reports 44% logical reasoning errors against 39% manual reasoning errors, and 5% prompt misinterpretation against 4% question understanding errors.<br><span class="scope">Holds for: Single dataset (MMLU-Pro) and single model (GPT-4o); ErrorMap splits the manual &quot;lack of specific knowledge&quot; category (35%) across two of its own categories and has no &quot;other&quot; bucket, which is 10% of the manual labels, so the label sets do not map one-to-one.</span></dd>
+<dt>How can I tell what changed between two versions of a model beyond its benchmark score?</dt>
+<dt>What is the difference between Gemini 1.5 Flash and Gemini 1.5 Pro in error types?</dt>
+<dt>Can error analysis show which weaknesses a newer model version fixed?</dt>
+<dd>Gemini 1.5 Pro outscores Gemini 1.5 Flash by a mean 4.8% on the HELM Capabilities benchmark. ErrorMap localises that gap: the Pro version makes significantly fewer computation errors and fewer incomplete-reasoning errors.<br><span class="scope">Holds for: One model pair on HELM Capabilities, run with the fixed ErrorAtlas categories using only ErrorMap stages 1 and 2.b over all predictions of the 2 Gemini models.</span></dd>
+<dd>Models evaluated on HELM Capabilities show distinct failure signatures: Gemini 2.0 Flash Lite has the highest rate of incomplete-content errors and the fewest formatting errors. Claude 3.5 Haiku skews toward logical reasoning errors and Mixtral 8x22B Instruct v0.1 toward computation errors.<br><span class="scope">Holds for: Models compared only within HELM Capabilities so the instances are shared; differences between best- and worst-performing models per category are usually significant under binomial tests, except prompt misinterpretation (p=.075).</span></dd>
+<dt>Do different LLMs with similar scores fail in different ways?</dt>
+<dt>Can I compare models by their failure profile rather than their accuracy?</dt>
+<dt>Are per-model error distributions statistically distinguishable?</dt>
+<dd>Models evaluated on HELM Capabilities show distinct failure signatures: Gemini 2.0 Flash Lite has the highest rate of incomplete-content errors and the fewest formatting errors. Claude 3.5 Haiku skews toward logical reasoning errors and Mixtral 8x22B Instruct v0.1 toward computation errors.<br><span class="scope">Holds for: Models compared only within HELM Capabilities so the instances are shared; differences between best- and worst-performing models per category are usually significant under binomial tests, except prompt misinterpretation (p=.075).</span></dd>
+<dt>Do error types vary by subject area within a benchmark?</dt>
+<dt>Which MMLU-Pro domains produce the most factual errors?</dt>
+<dt>How do failure patterns differ across domains like health, math and history?</dt>
+<dd>Error distributions on MMLU-Pro shift by subject domain: mathematics and physics have near-identical profiles, while the health domain shows a disproportionately high share of factual errors, exceeding even history.<br><span class="scope">Holds for: MMLU-Pro only, with errors grouped by the dataset&#x27;s own domain labels; reported as an observed pattern in the error distribution figure rather than a per-domain significance test.</span></dd>
+<dt>How expensive is it to run LLM-based error analysis over a benchmark?</dt>
+<dt>How long does building an error taxonomy across many models take?</dt>
+<dt>Can error analysis be applied at scale without analysing every wrong prediction?</dt>
+<dd>Building ErrorAtlas took roughly 3 hours of largely parallel inference by sampling approximately 10% of each model-dataset pair&#x27;s failures. Applying ErrorMap to a single dataset or model pair is cheaper still, since cost scales with the number of wrong predictions analysed.<br><span class="scope">Holds for: gpt-oss-120b as the analyst LLM, with most inference calls run in parallel; the MMLU-Pro taxonomy and the Gemini 1.5 comparison each required fewer inferences than the ErrorAtlas build.</span></dd>
+<dd>ErrorAtlas is released as a static, publicly available taxonomy so error analyses of new models can be compared across time and papers. Applying it needs only per-instance analysis plus category assignment, skipping taxonomy generation.<br><span class="scope">Holds for: Reuse is intended for tasks whose outputs contain interpretable content or chain-of-thought; classification-style tasks with no explanation cannot be analysed, and the authors plan periodic ErrorAtlas updates rather than freezing it.</span></dd>
+<dt>Can I reuse an existing error taxonomy instead of generating my own?</dt>
+<dt>How do I apply ErrorAtlas categories to my own model&#x27;s failures cheaply?</dt>
+<dt>What kinds of tasks can automated error diagnosis not handle?</dt>
+<dd>ErrorAtlas is released as a static, publicly available taxonomy so error analyses of new models can be compared across time and papers. Applying it needs only per-instance analysis plus category assignment, skipping taxonomy generation.<br><span class="scope">Holds for: Reuse is intended for tasks whose outputs contain interpretable content or chain-of-thought; classification-style tasks with no explanation cannot be analysed, and the authors plan periodic ErrorAtlas updates rather than freezing it.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>ErrorAtlas is a taxonomy of 17 high-level LLM error categories, led by Missing Required Element at 15.56% of errors, Specification Misinterpretation at 11.5%, and Logical Reasoning Error at 9.09% of errors. <span class="meta">(Table 1 and Table 6)</span><br><span class="scope">Scope: Sampled wrong predictions from 83 models on 35 datasets spanning HELM Capabilities, MedHELM, ToRR, BFCL-v4 and code benchmarks, with gpt-oss-120b as analyst and clustering LLM.</span></li>
+<li>Omissions of required detail are the single most prevalent LLM error category in ErrorAtlas, at 15.56% of errors, appearing in 31 of 35 datasets and for 82 of 83 models. Question or task misinterpretation is second at 11.5%, and both types receive little attention in LLM research. <span class="meta">(Table 6 and Section 4)</span><br><span class="scope">Scope: Prevalence measured on the sampled errors of the 35 datasets studied; the judgement that these types are under-discussed comes from the authors&#x27; related-work survey of existing error taxonomies, not from a bibliometric count.</span></li>
+<li>About 44% of model errors on MMLU-Pro, GPQA and Omni-MATH have a weak reasoning orientation. Those failures are instead technical, such as computation errors, missing required elements or counting errors, even though the 3 benchmarks are positioned as reasoning tests. <span class="meta">(Table 7 and Section 4)</span><br><span class="scope">Scope: Aggregated over the sampled failures of the models evaluated on these 3 datasets, with categories assigned by the ErrorAtlas classifier; failure is decided by each benchmark&#x27;s primary metric and a threshold.</span></li>
+<li>Automatically mapping the analysed wrong predictions back into ErrorAtlas gives a coverage score of 95.2%, with only 1 instance falling into &quot;other&quot; and 48 into &quot;hard to analyze&quot;. <span class="meta">(Section 6, Coverage, and Table 6)</span><br><span class="scope">Scope: Wan et al. (2024) protocol applied to the same errors used to build the taxonomy; 295 errors counted as uncovered, including rare or uninformative categories outside ErrorAtlas.</span></li>
+<li>A meta-judge choosing between an error&#x27;s assigned ErrorAtlas category and a random alternative agrees with the assigned label 92% of the time. The same meta-judge accepts the per-instance error analyses 91.1% of the time. <span class="meta">(Table 10 and Section 6)</span><br><span class="scope">Scope: Qwen2.5-72B-Instruct as meta-judge over the 3 experiments (ErrorAtlas construction, Gemini comparison, MMLU-Pro taxonomy), in a forced binary choice against one random negative.</span></li>
+<li>Rebuilding ErrorAtlas with a rephrased prompt, different examples and a 15% sample reproduces the original categories with 88% precision and 88% recall. A weaker configuration using qwen-30b-thinking on a 5% sample reaches 1.00 precision but 0.52 recall. <span class="meta">(Table 12 and Appendix E.2)</span><br><span class="scope">Scope: Manual comparison of high-level category descriptions and subcategories against the original gpt-oss-120b 10%-sample taxonomy; the lower-bound configuration still recovers 8 of the top 10 categories, with losses in the long tail.</span></li>
+<li>Run on MMLU-Pro, ErrorMap produces 5 error categories whose GPT-4o distribution tracks the MMLU-Pro paper&#x27;s manual annotation. ErrorMap reports 44% logical reasoning errors against 39% manual reasoning errors, and 5% prompt misinterpretation against 4% question understanding errors. <span class="meta">(Table 3)</span><br><span class="scope">Scope: Single dataset (MMLU-Pro) and single model (GPT-4o); ErrorMap splits the manual &quot;lack of specific knowledge&quot; category (35%) across two of its own categories and has no &quot;other&quot; bucket, which is 10% of the manual labels, so the label sets do not map one-to-one.</span></li>
+<li>Gemini 1.5 Pro outscores Gemini 1.5 Flash by a mean 4.8% on the HELM Capabilities benchmark. ErrorMap localises that gap: the Pro version makes significantly fewer computation errors and fewer incomplete-reasoning errors. <span class="meta">(Figure 3 and Section 5.1)</span><br><span class="scope">Scope: One model pair on HELM Capabilities, run with the fixed ErrorAtlas categories using only ErrorMap stages 1 and 2.b over all predictions of the 2 Gemini models.</span></li>
+<li>Models evaluated on HELM Capabilities show distinct failure signatures: Gemini 2.0 Flash Lite has the highest rate of incomplete-content errors and the fewest formatting errors. Claude 3.5 Haiku skews toward logical reasoning errors and Mixtral 8x22B Instruct v0.1 toward computation errors. <span class="meta">(Figure 2, Figure 4 and Table 9)</span><br><span class="scope">Scope: Models compared only within HELM Capabilities so the instances are shared; differences between best- and worst-performing models per category are usually significant under binomial tests, except prompt misinterpretation (p=.075).</span></li>
+<li>Error distributions on MMLU-Pro shift by subject domain: mathematics and physics have near-identical profiles, while the health domain shows a disproportionately high share of factual errors, exceeding even history. <span class="meta">(Figure 5)</span><br><span class="scope">Scope: MMLU-Pro only, with errors grouped by the dataset&#x27;s own domain labels; reported as an observed pattern in the error distribution figure rather than a per-domain significance test.</span></li>
+<li>ErrorMap addresses the gap between benchmark scores, which say when a model fails, and diagnosis, which says why. It analyses the model&#x27;s actual output alongside the input rather than characterising difficulty by properties of the question alone. <span class="meta">(Section 1 and Section 7)</span><br><span class="scope">Scope: Positioning as of the 2026 arXiv release; earlier diagnostic work the paper surveys either targets a single subdomain or model, or infers difficulty from inputs, and the authors report finding no prior general LLM error taxonomy.</span></li>
+<li>ErrorAtlas is released as a static, publicly available taxonomy so error analyses of new models can be compared across time and papers. Applying it needs only per-instance analysis plus category assignment, skipping taxonomy generation. <span class="meta">(Section 3 and Appendix F)</span><br><span class="scope">Scope: Reuse is intended for tasks whose outputs contain interpretable content or chain-of-thought; classification-style tasks with no explanation cannot be analysed, and the authors plan periodic ErrorAtlas updates rather than freezing it.</span></li>
+<li>Building ErrorAtlas took roughly 3 hours of largely parallel inference by sampling approximately 10% of each model-dataset pair&#x27;s failures. Applying ErrorMap to a single dataset or model pair is cheaper still, since cost scales with the number of wrong predictions analysed. <span class="meta">(Appendix B, Compute, and Section 3)</span><br><span class="scope">Scope: gpt-oss-120b as the analyst LLM, with most inference calls run in parallel; the MMLU-Pro taxonomy and the Gemini 1.5 comparison each required fewer inferences than the ErrorAtlas build.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>A 95.2% coverage score describes how well ErrorAtlas absorbs the errors it was built from, not a guarantee that it covers domains absent from the 35 datasets used; the authors note it may represent some specific domains poorly.</li>
+<li>ErrorMap does not inspect model internals: its diagnoses are inferred from inputs, references and generated outputs, so a model that cannot be run generatively or that emits no explanation cannot be analysed.</li>
+<li>The 92% taxonomy accuracy comes from a meta-judge choosing between the assigned label and one random alternative, which is an easier task than free-form labelling and is not a human-annotation agreement rate.</li>
+<li>The 53% average cosine similarity between error labels under prompt variation is not a 47% error rate: manual inspection of 100 examples found about 45% captured the same concept with partially overlapping phrasing and about 30% differed only in specificity, with about 25% genuinely different errors.</li>
+<li>ErrorAtlas category prevalences are shares of sampled wrong predictions, not absolute error rates of models; a category being 15.56% of errors says nothing about how often models fail overall.</li>
+<li>ErrorMap assigns each failure a single category based on its first major error, so the taxonomy does not claim that a mistake has exactly one cause — the authors state error categories are inherently soft.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>ErrorAtlas</em></dt><dd>A static, reusable taxonomy of 17 high-level LLM error categories built by running ErrorMap over sampled wrong predictions from 83 models on 35 datasets, intended for replicable cross-model and cross-benchmark comparison.</dd>
+<dt><em>Failure signature</em></dt><dd>The distribution of a single model&#x27;s errors over taxonomy categories, used to distinguish models that share the same benchmark score but fail in different ways.</dd>
+<dt><em>Informative Correct Predictions (ICPs)</em></dt><dd>Correct answers produced by other models on the same benchmark instance, given to the analyst LLM as additional reference material when diagnosing a wrong prediction; up to 3 are included per prompt.</dd>
+<dt><em>Taxonomy coverage</em></dt><dd>The fraction of analysed wrong predictions that an automatic classifier maps into a real taxonomy category rather than into &#x27;other&#x27;, &#x27;hard to analyze&#x27;, or rare uninformative categories.</dd>
+</dl>
 <h2>How to cite</h2>
 <pre>@article{ashury2026errormap,
-title={ErrorMap and ErrorAtlas: Charting the Failure Landscape of Large Language Models},
+  title={ErrorMap and ErrorAtlas: Charting the Failure Landscape of Large Language Models},
   author={Ashury-Tahan, Shir and Mai, Yifan and Bandel, Elron and Shmueli-Scheuer, Michal and Choshen, Leshem},
   journal={arXiv preprint arXiv:2601.15812},
   year={2026}

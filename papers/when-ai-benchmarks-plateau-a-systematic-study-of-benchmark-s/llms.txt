@@ -1,10 +1,73 @@
 # When AI Benchmarks Plateau: A Systematic Study of Benchmark Saturation
 
 Authors: Mubashara Akhtar, Anka Reuel, Prajna Soni, Sanchit Ahuja, Pawan Sasanka Ammanamanchi, Ruchit Rawal, Vilém Zouhar, Srishti Yadav, Chenxi Whitehouse, Dayeon Ki, Jennifer Mickel, Leshem Choshen, Marek Šuppa, Jan Batzner, Jenny Chim, Jeba Sania, Yanan Long, Hossein A. Rahmani, Christina Knight, Yiyang Nan, Jyoutir Raj, Yu Fan, Shubham Singh, Subramanyam Sahoo, Eliya Habba, Usman Gohar, Siddhesh Pawar, Robert Scholz, Arjun Subramonian, Jingwei Ni, Mykel Kochenderfer, Sanmi Koyejo, Mrinmaya Sachan, Stella Biderman, Zeerak Talat, Avijit Ghosh, Irene Solaiman
-Venue: preprint (2026)
+Venue: International Conference on Machine Learning (ICML) 2026 (2026)
 
-## Abstract
-Artificial intelligence benchmarks are an important mechanism for measuring model progress and guiding deployment decisions. However, benchmarks quickly"saturate", making it difficult to differentiate models and diminishing their long-term value. In this study, we define benchmark saturation and analyze it across 60 language model benchmarks using 14 properties that relate to saturation. We find that nearly half of the our benchmarks exhibit saturation, with rates increasing with age. Further, we find that resilience to saturation is impacted by expert-curation, not by public test data. Our results suggest that design choices can extend benchmark longevity and inform more durable evaluation approaches.
+## What this paper shows
+A study of 60 text-based LLM benchmarks that defines saturation as the loss of statistically reliable separation among top models, measures it with an uncertainty-aware saturation index from leaderboard scores, and finds age and test set scale predict it while private test sets and open-ended formats do not.
+
+## Claims, with scope
+- "When AI Benchmarks Plateau" defines benchmark saturation as the loss of reliable discriminative power among top-performing models. Saturation is operationalized as an uncertainty-aware index computed from leaderboard scores, with no reliance on human baselines.
+  Scope: The index uses the top k=5 leaderboard scores and an effective test set size n^0.5; it is designed for accuracy-like metrics averaged over a fixed test set, and other metrics such as Elo, pass@k or judge-based scores need their own variance estimates.
+  Evidence: Section 2.1 and Section 2.2
+- Of 60 widely used text-based LLM benchmarks, 29 show high or very high saturation (saturation index at least 0.7), of which 14 are very high (at least 0.9).
+  Scope: Text-only benchmarks with usable leaderboard data, from developer reports (Jan 2022-Nov 2025) and cited papers; static snapshots.
+  Evidence: Section 4.1, Overall saturation patterns
+- The share of saturated benchmarks rises from 42.9% among benchmarks released within the past 24 months to 54.5% among those older than 60 months. Mean saturation indices across the age bins are 0.51, 0.52 and 0.60.
+  Scope: N=60 benchmarks aged 1 to 114 months; the trend is directionally consistent but modest and not statistically significant at conventional thresholds.
+  Evidence: Section 4.1 (Temporal and exposure effects) and Figure 3
+- Public (N=56) and private (N=4) benchmarks show similar saturation distributions, with no statistically meaningful difference in saturation index. Private held-out test sets therefore do not protect against saturation, rejecting the hypothesis that public benchmarks saturate faster.
+  Scope: Only 4 private benchmarks in the sample, so the comparison has low power; based on annotated public availability of benchmark data and labels rather than on measured contamination.
+  Evidence: Section 4.1 (Accessibility and task design) and Section 5.2
+- Closed-ended benchmarks (N=28) and open-ended generation benchmarks (N=31) show no meaningful difference in saturation, and the comparison is age-balanced (p=0.40).
+  Scope: 60 text-only LLM benchmarks; output format annotated as MCQ versus free-form generation, so open-ended scoring protocols are not separated.
+  Evidence: Section 4.1 (Accessibility and task design) and Section 5.2
+- Templated benchmarks (N=14) do not differ significantly from non-templated ones (N=46) in saturation behaviour (p=0.10), indicating that surface-level template diversity alone does not delay saturation.
+  Scope: Templating annotated as whether prompts use fixed patterns versus natural variation, on 60 text benchmarks; age-balanced comparison group.
+  Evidence: Section 4.1 (Benchmark composition and construction) and Section 5.2
+- Multilingual benchmarks (N=16) show lower raw saturation rates than English-only benchmarks (N=44). The advantage is explained by recency rather than intrinsic resistance, as the multilingual benchmarks are substantially younger on average (32.9 vs. 48.9 months).
+  Scope: Observational comparison across 60 benchmarks with age as a confounder; no causal test isolating language coverage from maturity.
+  Evidence: Section 4.1 (Benchmark composition and construction) and Section 5.2
+- Expert-curated benchmarks show lower saturation than crowdsourced ones at comparable ages, and several such benchmarks including ARC-AGI and BIG-Bench Hard remain unsaturated despite prolonged exposure.
+  Scope: Curation categories differ significantly in age (p=0.0017), and fully synthetic benchmarks are too recent for causal interpretation; the finding is associational, not a controlled comparison.
+  Evidence: Section 4.1 (Benchmark composition and construction) and Section 5.3
+- After controlling for benchmark age, citation counts are not significantly associated with saturation (rho=0.22, p=0.12), nor are citation growth rates (rho=0.13, p=0.37) or frequency of appearance in developer technical reports (rho=0.05, p=0.73).
+  Scope: Adoption measured only through citation counts, citation growth and inclusion in industry model release reports for 60 benchmarks; raw uncontrolled correlations do show higher saturation at higher citation counts.
+  Evidence: Section 4.1 (Temporal and exposure effects) and Figure 4
+- A Bayesian regression predicting the saturation index of 60 benchmarks attains R-squared of 0.884 +/- 0.012, with benchmark age and test set size the most consistent predictors. Predictors also included adoption proxies, accessibility, output format, templating, language coverage, curation strategy and documented quality issues.
+  Scope: Fitted on 60 benchmarks with time-invariant annotations; accessibility, output format and templating show no reliable associations once confounders are included, and the fit is descriptive rather than causal.
+  Evidence: Section 4.2 and Figure 5
+- The interaction model separating saturated from non-saturated benchmarks reaches a posterior AUROC tightly concentrated near a median of about 0.98.
+  Scope: In-sample discrimination on the same 60 annotated benchmarks used for fitting, with labels from the paper's own index.
+  Evidence: Figure 6
+- Larger test sets are associated with lower saturation indices across the 60 benchmarks, and the relationship persists in the joint Bayesian regression, indicating that measurement resolution limits discriminative power.
+  Scope: Test set sizes span a few dozen to several hundred thousand samples; the index's uncertainty term uses n^0.5 rather than raw n, so the size dependence is deliberately down-weighted.
+  Evidence: Section 4.1 (Overall saturation patterns) and Section 5.1
+- Saturation-index rankings are stable to parameter choices, with Spearman correlations of 0.92 for k=3 vs k=5, 0.88 for alpha=0.5 vs alpha=0 and 0.92 for alpha=0.5 vs alpha=1. Only 18.3-48.3% of benchmarks stay in the same one of the five saturation bins.
+  Scope: Sensitivity checked over k in {3,5} and alpha in {0,0.5,1} on the 60-benchmark set; most bin changes are between neighbouring bins, so absolute values shift more than ordering.
+  Evidence: Table 1 and Section 2.3
+- Saturation can occur far below the score ceiling: LiveBench reaches a saturation index of 0.99 with top models clustered in a 1.09-point range at roughly 79% performance. Such clustering reflects model-level stagnation rather than task completion.
+  Scope: Single-benchmark case study from a static leaderboard snapshot of n=1000 with SE_delta=0.1028; saturation as defined additionally requires nearness to the empirical ceiling.
+  Evidence: Table 7 and Appendix E
+- "When AI Benchmarks Plateau" argues benchmarks should be managed as ageing measurement instruments rather than fixed targets. Its recommendations are larger or stratified test sets, periodic or adversarial refreshes, uncertainty-aware leaderboard reporting, and explicit revision or retirement criteria.
+  Scope: Recommendations are derived from associational analysis of 60 text-only LLM benchmarks and are not themselves experimentally validated; as of the 2026 publication.
+  Evidence: Section 5.4
+
+## Common misreadings
+- A high saturation index does not mean a benchmark's task is solved: strong clustering of top models can occur at moderate absolute scores, which indicates lost discriminative power rather than task mastery.
+- Saturation is not treated as inherently bad in "When AI Benchmarks Plateau": if a benchmark is valid and measures a clearly defined capability, convergence near its ceiling can signal genuine progress.
+- The finding that public and private benchmarks saturate similarly is not a claim that contamination does not happen; it is a claim that secrecy alone does not prevent score compression, and only 4 private benchmarks were available for the comparison.
+- The age effect reported across 60 benchmarks is directional and not statistically significant at conventional thresholds, so it should not be cited as a demonstrated causal mechanism of exposure-driven compression.
+- Expert curation being associated with lower saturation is not a controlled result: curation categories differ significantly in age (p=0.0017), and age remains a confounder.
+- Dynamically updated benchmarks are not immune: LiveBench and LiveCodeBench, both designed with refresh mechanisms, register saturation indices of 0.99 and 0.77.
+
+## Terminology
+- benchmark saturation: The loss of reliable discriminative power among top-performing models on a benchmark: top scores are statistically indistinguishable and also approach the benchmark's empirically observed ceiling.
+- stagnation: Statistical indistinguishability among a benchmark's top models without performance being near the empirical ceiling, which may be overcome by future architectural, training or evaluation advances.
+- saturation index: A continuous score in [0,1] equal to exp(-R_norm^2), where R_norm is the top-1-to-top-k score gap divided by the standard error of that difference; higher values mean stronger evidence of saturation.
+- normalized score range (R_norm): The spread between the best and k-th best leaderboard score divided by the standard error of their difference, interpretable as a signal-to-noise ratio for model separability.
+- effective test set size: The nominal test set size n raised to the power alpha (default 0.5), used in the standard-error term so that very large benchmarks do not dominate uncertainty estimates.
+- model-level saturation: Tight clustering of top models at a low absolute performance level, indicating that a benchmark no longer separates contemporary systems rather than that the task is solved.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2602.16763
@@ -14,14 +77,12 @@ Artificial intelligence benchmarks are an important mechanism for measuring mode
 - alphaXiv: https://www.alphaxiv.org/abs/2602.16763
 - DOI: https://doi.org/10.48550/arXiv.2602.16763
 - Semantic Scholar: https://www.semanticscholar.org/paper/285787943
+- coalition: https://evalevalai.com/
 
 ## How to cite
-@misc{akhtar2026aibenchmarksplateausystematic,
-title={When AI Benchmarks Plateau: A Systematic Study of Benchmark Saturation}, 
-      author={Mubashara Akhtar and Anka Reuel and Prajna Soni and Sanchit Ahuja and Pawan Sasanka Ammanamanchi and Ruchit Rawal and Vilém Zouhar and Srishti Yadav and Chenxi Whitehouse and Dayeon Ki and Jennifer Mickel and Leshem Choshen and Marek Šuppa and Jan Batzner and Jenny Chim and Jeba Sania and Yanan Long and Hossein A. Rahmani and Christina Knight and Yiyang Nan and Jyoutir Raj and Yu Fan and Shubham Singh and Subramanyam Sahoo and Eliya Habba and Usman Gohar and Siddhesh Pawar and Robert Scholz and Arjun Subramonian and Jingwei Ni and Mykel Kochenderfer and Sanmi Koyejo and Mrinmaya Sachan and Stella Biderman and Zeerak Talat and Avijit Ghosh and Irene Solaiman},
-      year={2026},
-      eprint={2602.16763},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI},
-      url={https://arxiv.org/abs/2602.16763}, 
+@article{akhtar2026ai,
+  title={When {AI} Benchmarks Plateau: A Systematic Study of Benchmark Saturation},
+  author={Mubashara Akhtar and Anka Reuel and Prajna Soni and Sanchit Ahuja and Pawan Sasanka Ammanamanchi and Ruchit Rawal and Vilém Zouhar and Srishti Yadav and Chenxi Whitehouse and Dayeon Ki and Jennifer Mickel and Leshem Choshen and Marek Šuppa and Jan Batzner and Jenny Chim and Jeba Sania and Yanan Long and Hossein A. Rahmani and Christina Knight and Yiyang Nan and Jyoutir Raj and Yu Fan and Shubham Singh and Subramanyam Sahoo and Eliya Habba and Usman Gohar and Siddhesh Pawar and Robert Scholz and Arjun Subramonian and Jingwei Ni and Mykel Kochenderfer and Sanmi Koyejo and Mrinmaya Sachan and Stella Biderman and Zeerak Talat and Avijit Ghosh and Irene Solaiman},
+  journal={International Conference on Machine Learning (ICML) 2026},
+  year={2026}
 }

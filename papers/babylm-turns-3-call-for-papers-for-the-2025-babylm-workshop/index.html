@@ -94,18 +94,281 @@
   "datePublished": "2025",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "arXiv.org"
+    "name": "arXiv"
   },
   "identifier": "https://doi.org/10.48550/arXiv.2502.10645",
   "abstract": "BabyLM aims to dissolve the boundaries between cognitive modeling and language modeling. We call for both workshop papers and for researchers to join the 3rd BabyLM competition. As in previous years, we call for participants in the data-efficient pretraining challenge in the general track. This year, we also offer a new track: INTERACTION. This new track encourages interactive behavior, learning from a teacher, and adapting the teaching material to the student. We also call for papers outside the competition in any relevant areas. These include training efficiency, cognitively plausible research, weak model evaluation, and more.",
+  "description": "The 2025 BabyLM workshop keeps the 100M-word and 10M-word data-efficient pretraining tracks, adds an Interaction track where a student model learns from a teacher model without seeing its weights or output distribution, and caps competition entries at roughly 10 epochs of data exposure.",
   "sameAs": [
     "https://arxiv.org/abs/2502.10645",
     "https://arxiv.org/html/2502.10645",
     "https://arxiv.org/pdf/2502.10645",
+    "https://babylm.github.io/",
+    "https://babylm.github.io/",
     "https://doi.org/10.48550/arXiv.2502.10645",
     "https://huggingface.co/papers/2502.10645",
     "https://www.alphaxiv.org/abs/2502.10645",
     "https://www.semanticscholar.org/paper/276408398"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "BabyLM, previously run as a competition on training language models from developmentally plausible amounts of data, became a workshop in 2025. The workshop accepts research papers at the intersection of cognitive science and language modeling with no requirement to enter any competition track.",
+      "description": "Holds for: Describes the 2025 (third) edition, held at EMNLP 2025 in Suzhou; the competition tracks continue alongside the paper track."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2025 BabyLM competition adds an Interaction track in which a pretrained external model may act as a teacher. The submitted student model may be exposed to no more than 100M word tokens and may itself generate no more than 100M words during training.",
+      "description": "Holds for: External models must come from a predetermined list on the BabyLM website; they may be finetuned or distilled without restriction, but their weights, hidden states and output distributions may not be revealed to the student."
+    },
+    {
+      "@type": "Thing",
+      "name": "BabyLM 2025 caps leaderboard-eligible models at a fixed amount of input counting repeated exposures. The budget is at most 100M words for the Strict-small track and at most 1B words for all other tracks, roughly 10 epochs over the standard BabyLM corpora.",
+      "description": "Holds for: Competition entries only; participants may train longer and report it in their paper, and workshop papers are exempt. Budget measured in whitespace-separated input words, and in the Interaction track input words plus generated tokens."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM organizers justify the 2025 epoch limit by noting that a conclusion of the 2024 challenge was that more compute correlates with higher performance. That correlation conflicts with both developmental plausibility and the goal of democratizing pretraining research.",
+      "description": "Holds for: The organizers deliberately did not cap compute or FLOPs, judging FLOP accounting too technically demanding and BabyLM compute unlikely to exceed what is available to children."
+    },
+    {
+      "@type": "Thing",
+      "name": "BabyLM 2025 requires competition entrants to upload intermediate checkpoints to the HuggingFace Hub. The intervals increase over training: every 1M words up to 10M, every 10M words up to 100M, and every 100M words up to 1B for tracks other than Strict-small.",
+      "description": "Holds for: Checkpoints feed the updated evaluation pipeline's measures of learning efficiency and acquisition trajectories; precise evaluation details were deferred to the pipeline release."
+    },
+    {
+      "@type": "Thing",
+      "name": "The BabyLM 2025 training corpora are unchanged from the 2nd BabyLM Challenge. They comprise a 100M-word Strict set, a 10M-word Strict-small set, and a 100M-word Multimodal set that pairs image captions with text and includes about 2.9M images.",
+      "description": "Holds for: Word counts are approximate; the Strict corpus draws mainly on CHILDES (29M words), Project Gutenberg children's stories (26M), OpenSubtitles (20M) and Simple English Wikipedia (15M). Participants need not use the official corpus."
+    },
+    {
+      "@type": "Thing",
+      "name": "The 2025 BabyLM evaluation pipeline adds psychometric tasks such as reading-time prediction. Human-likeness is treated as an award category separate from NLP task accuracy, so a system can win on either metric.",
+      "description": "Holds for: The 2025 pipeline was rewritten from scratch with HuggingFace and plain PyTorch entry points; hidden evaluations release no less than 2 weeks before the model submission deadline."
+    },
+    {
+      "@type": "Thing",
+      "name": "BabyLM 2025 ships two Interaction-track baselines, one using PPO with a learned reward and one using natural-language corrections. The reward model is a deberta-v3-xsmall trained on child-caregiver conversations, and the correction baseline has Llama-3.1 Instruct 8B revise GPT-2 Small completions over 20 rounds.",
+      "description": "Holds for: The correction baseline trains on teacher-corrected text with language modeling loss, then with SimPO at learning rate 0.00005, beta=2, gamma=1 and a 0.2 language-modeling regularizer."
+    },
+    {
+      "@type": "Thing",
+      "name": "BabyLM 2025 releases GPT-BERT, the winning submission of the 2024 challenge, and GPT-2 Small as Strict and Strict-small baselines. The GIT and Flamingo multimodal baselines are re-released because no 2024 submission beat them.",
+      "description": "Holds for: The 2025 competition's provided baselines; the Multimodal track was re-released despite limited participation in 2024."
+    },
+    {
+      "@type": "Thing",
+      "name": "BabyLM's data budget is a closed-system accounting rule. Any tokenizer, parser, augmenter or ancillary language model used in the pipeline has its own training text counted toward the 100M-word limit, so off-the-shelf tools trained on outside language are disallowed.",
+      "description": "Holds for: Synthetic data is permitted so long as the generators' training data is inside the budget; the Interaction track's listed external models and its interactive environment are the stated exceptions."
+    },
+    {
+      "@type": "Thing",
+      "name": "BabyLM applies lenient acceptance to competition submissions, planning to reject only papers with incorrect or unjustified claims, significant technical issues, insufficient methodological detail for replication, or minimal time investment.",
+      "description": "Holds for: Leniency covers competition submissions; non-competition workshop papers are evaluated on merit and relevance under double-blind review, up to 8 pages, via ARR or direct OpenReview submission."
+    },
+    {
+      "@type": "Thing",
+      "name": "BabyLM is a recurring shared task and workshop framed around a single question: how a computational system can learn language from limited input. It brings cognitive scientists studying child language acquisition together with researchers building sample-efficient language models.",
+      "description": "Holds for: The 2025 call describes the third edition; suggested topics include data-efficient architectures, data curation, cognitively inspired modeling and evaluation, scaling-law comparisons, and multimodal modeling."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/#faq",
+  "url": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/",
+  "name": "Questions answered by BabyLM Turns 3: Call for papers for the 2025 BabyLM workshop",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is BabyLM and what question does it try to answer?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BabyLM is a recurring shared task and workshop framed around a single question: how a computational system can learn language from limited input. It brings cognitive scientists studying child language acquisition together with researchers building sample-efficient language models. Holds for: The 2025 call describes the third edition; suggested topics include data-efficient architectures, data curation, cognitively inspired modeling and evaluation, scaling-law comparisons, and multimodal modeling.\n\nBabyLM, previously run as a competition on training language models from developmentally plausible amounts of data, became a workshop in 2025. The workshop accepts research papers at the intersection of cognitive science and language modeling with no requirement to enter any competition track. Holds for: Describes the 2025 (third) edition, held at EMNLP 2025 in Suzhou; the competition tracks continue alongside the paper track.",
+        "url": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/"
+      },
+      "alternateName": [
+        "Where should I start reading about sample-efficient language model pretraining on child-scale data?",
+        "Which shared task connects language acquisition research with small language models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What changed in the 2025 data-efficient pretraining competition compared with its 2024 edition?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2025 BabyLM competition adds an Interaction track in which a pretrained external model may act as a teacher. The submitted student model may be exposed to no more than 100M word tokens and may itself generate no more than 100M words during training. Holds for: External models must come from a predetermined list on the BabyLM website; they may be finetuned or distilled without restriction, but their weights, hidden states and output distributions may not be revealed to the student.\n\nBabyLM 2025 caps leaderboard-eligible models at a fixed amount of input counting repeated exposures. The budget is at most 100M words for the Strict-small track and at most 1B words for all other tracks, roughly 10 epochs over the standard BabyLM corpora. Holds for: Competition entries only; participants may train longer and report it in their paper, and workshop papers are exempt. Budget measured in whitespace-separated input words, and in the Interaction track input words plus generated tokens.\n\nBabyLM 2025 requires competition entrants to upload intermediate checkpoints to the HuggingFace Hub. The intervals increase over training: every 1M words up to 10M, every 10M words up to 100M, and every 100M words up to 1B for tracks other than Strict-small. Holds for: Checkpoints feed the updated evaluation pipeline's measures of learning efficiency and acquisition trajectories; precise evaluation details were deferred to the pipeline release.\n\nThe BabyLM 2025 training corpora are unchanged from the 2nd BabyLM Challenge. They comprise a 100M-word Strict set, a 10M-word Strict-small set, and a 100M-word Multimodal set that pairs image captions with text and includes about 2.9M images. Holds for: Word counts are approximate; the Strict corpus draws mainly on CHILDES (29M words), Project Gutenberg children's stories (26M), OpenSubtitles (20M) and Simple English Wikipedia (15M). Participants need not use the official corpus.",
+        "url": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/"
+      },
+      "alternateName": [
+        "How did the third BabyLM edition change its rules?",
+        "What changed between the 2nd and 3rd BabyLM competitions?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How does a competition track for learning language from a teacher model and interactive feedback work?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2025 BabyLM competition adds an Interaction track in which a pretrained external model may act as a teacher. The submitted student model may be exposed to no more than 100M word tokens and may itself generate no more than 100M words during training. Holds for: External models must come from a predetermined list on the BabyLM website; they may be finetuned or distilled without restriction, but their weights, hidden states and output distributions may not be revealed to the student.\n\nBabyLM's data budget is a closed-system accounting rule. Any tokenizer, parser, augmenter or ancillary language model used in the pipeline has its own training text counted toward the 100M-word limit, so off-the-shelf tools trained on outside language are disallowed. Holds for: Synthetic data is permitted so long as the generators' training data is inside the budget; the Interaction track's listed external models and its interactive environment are the stated exceptions.",
+        "url": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/"
+      },
+      "alternateName": [
+        "Can a small language model learn from a large teacher model under BabyLM competition rules?",
+        "What are the rules for using a pretrained teacher model in BabyLM 2025?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a limit on the number of training epochs in the 2025 data-efficient pretraining competition?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BabyLM 2025 caps leaderboard-eligible models at a fixed amount of input counting repeated exposures. The budget is at most 100M words for the Strict-small track and at most 1B words for all other tracks, roughly 10 epochs over the standard BabyLM corpora. Holds for: Competition entries only; participants may train longer and report it in their paper, and workshop papers are exempt. Budget measured in whitespace-separated input words, and in the Interaction track input words plus generated tokens.\n\nThe BabyLM organizers justify the 2025 epoch limit by noting that a conclusion of the 2024 challenge was that more compute correlates with higher performance. That correlation conflicts with both developmental plausibility and the goal of democratizing pretraining research. Holds for: The organizers deliberately did not cap compute or FLOPs, judging FLOP accounting too technically demanding and BabyLM compute unlikely to exceed what is available to children.",
+        "url": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/"
+      },
+      "alternateName": [
+        "How much repeated data exposure is allowed for BabyLM competition entries?",
+        "Why did BabyLM start restricting the number of passes over the training data?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What data can I train on for the 100M-word strict pretraining track?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The BabyLM 2025 training corpora are unchanged from the 2nd BabyLM Challenge. They comprise a 100M-word Strict set, a 10M-word Strict-small set, and a 100M-word Multimodal set that pairs image captions with text and includes about 2.9M images. Holds for: Word counts are approximate; the Strict corpus draws mainly on CHILDES (29M words), Project Gutenberg children's stories (26M), OpenSubtitles (20M) and Simple English Wikipedia (15M). Participants need not use the official corpus.",
+        "url": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/"
+      },
+      "alternateName": [
+        "How large is the BabyLM pretraining corpus and what is in it?",
+        "Which datasets make up the 100M-word BabyLM corpus?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do I have to submit intermediate training checkpoints to enter the 2025 sample-efficient pretraining competition?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BabyLM 2025 requires competition entrants to upload intermediate checkpoints to the HuggingFace Hub. The intervals increase over training: every 1M words up to 10M, every 10M words up to 100M, and every 100M words up to 1B for tracks other than Strict-small. Holds for: Checkpoints feed the updated evaluation pipeline's measures of learning efficiency and acquisition trajectories; precise evaluation details were deferred to the pipeline release.",
+        "url": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/"
+      },
+      "alternateName": [
+        "At what intervals does BabyLM require model checkpoints?",
+        "How does BabyLM measure learning dynamics over training?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How are BabyLM models evaluated in 2025?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 2025 BabyLM evaluation pipeline adds psychometric tasks such as reading-time prediction. Human-likeness is treated as an award category separate from NLP task accuracy, so a system can win on either metric. Holds for: The 2025 pipeline was rewritten from scratch with HuggingFace and plain PyTorch entry points; hidden evaluations release no less than 2 weeks before the model submission deadline.",
+        "url": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/"
+      },
+      "alternateName": [
+        "Is there an award for cognitively human-like language models?",
+        "Does BabyLM evaluate reading-time prediction or other psychometric fit?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What baseline models are released for the 2025 data-efficient pretraining competition?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BabyLM 2025 releases GPT-BERT, the winning submission of the 2024 challenge, and GPT-2 Small as Strict and Strict-small baselines. The GIT and Flamingo multimodal baselines are re-released because no 2024 submission beat them. Holds for: The 2025 competition's provided baselines; the Multimodal track was re-released despite limited participation in 2024.\n\nBabyLM 2025 ships two Interaction-track baselines, one using PPO with a learned reward and one using natural-language corrections. The reward model is a deberta-v3-xsmall trained on child-caregiver conversations, and the correction baseline has Llama-3.1 Instruct 8B revise GPT-2 Small completions over 20 rounds. Holds for: The correction baseline trains on teacher-corrected text with language modeling loss, then with SimPO at learning rate 0.00005, beta=2, gamma=1 and a 0.2 language-modeling regularizer.",
+        "url": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/"
+      },
+      "alternateName": [
+        "Which model won the 2024 BabyLM challenge and is it a baseline now?",
+        "What are the baseline systems for learning from teacher feedback in BabyLM 2025?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use synthetic data or an off-the-shelf tokenizer under a 100M-word pretraining data budget?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BabyLM's data budget is a closed-system accounting rule. Any tokenizer, parser, augmenter or ancillary language model used in the pipeline has its own training text counted toward the 100M-word limit, so off-the-shelf tools trained on outside language are disallowed. Holds for: Synthetic data is permitted so long as the generators' training data is inside the budget; the Interaction track's listed external models and its interactive environment are the stated exceptions.",
+        "url": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/"
+      },
+      "alternateName": [
+        "Does data generated by another model count against the BabyLM word budget?",
+        "Are external POS taggers or parsers allowed in BabyLM entries?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How hard is it to get a competition-entry paper accepted at a sample-efficient pretraining workshop?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BabyLM applies lenient acceptance to competition submissions, planning to reject only papers with incorrect or unjustified claims, significant technical issues, insufficient methodological detail for replication, or minimal time investment. Holds for: Leniency covers competition submissions; non-competition workshop papers are evaluated on merit and relevance under double-blind review, up to 8 pages, via ARR or direct OpenReview submission.\n\nBabyLM, previously run as a competition on training language models from developmentally plausible amounts of data, became a workshop in 2025. The workshop accepts research papers at the intersection of cognitive science and language modeling with no requirement to enter any competition track. Holds for: Describes the 2025 (third) edition, held at EMNLP 2025 in Suzhou; the competition tracks continue alongside the paper track.",
+        "url": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/"
+      },
+      "alternateName": [
+        "What is the review process for BabyLM workshop submissions?",
+        "Can I submit a paper to the BabyLM workshop without entering the competition?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/#terms",
+  "url": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/",
+  "name": "Terminology in BabyLM Turns 3: Call for papers for the 2025 BabyLM workshop",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Strict track",
+      "description": "A BabyLM competition track requiring the submitted language model to be trained on a corpus of 100M words or fewer, evaluated on language-only tasks; participants need not use the official BabyLM corpus.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Strict-small track",
+      "description": "A BabyLM competition track requiring the submitted language model to be trained on a corpus of 10M words or fewer.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Submission model",
+      "description": "In the BabyLM Interaction track, the participant's own entry into the competition, subject to the 100M-word exposure limit — as opposed to the external model used only inside its training pipeline.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "External model",
+      "description": "In the BabyLM Interaction track, a secondary pretrained model drawn from an organizer-approved list that is used in the training pipeline but not submitted; its weights, hidden states and output distribution may not be exposed to the submission model.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Communicative response (CR)",
+      "description": "A caregiver reply that indicates a child's utterance was understood; predicted by a reward model in one BabyLM Interaction baseline, where an utterance followed by such a response receives reward 0 and one not followed by it receives reward 1.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Hidden evaluations",
+      "description": "BabyLM evaluation tasks withheld from participants to control for overfitting to the public suite, released no less than 2 weeks before the model submission deadline.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/babylm-turns-3-call-for-papers-for-the-2025-babylm-workshop/#terms"
+    }
   ]
 }
   </script>
@@ -116,6 +379,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -129,10 +393,94 @@
 </head>
 <body>
 <h1>BabyLM Turns 3: Call for papers for the 2025 BabyLM workshop</h1>
-<p class="meta">Lucas Charpentier, Leshem Choshen, Ryan Cotterell, Mustafa Omer Gul, Michael Hu, Jaap Jumelet, Tal Linzen, Jing Liu, Aaron Mueller, Candace Ross, Raj Sanjay Shah, A. Warstadt, E. Wilcox, Adina Williams · arXiv.org · 2025</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2502.10645">arXiv</a></li><li><a href="https://arxiv.org/pdf/2502.10645">PDF</a></li><li><a href="https://arxiv.org/html/2502.10645">HTML</a></li><li><a href="https://huggingface.co/papers/2502.10645">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2502.10645">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2502.10645">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/276408398">Semantic Scholar</a></li></ul>
+<p class="sub">a shared task where a small language model learns from a teacher model&#x27;s feedback under a 100M-word exposure budget</p>
+<p class="meta">Lucas Charpentier, Leshem Choshen, Ryan Cotterell, Mustafa Omer Gul, Michael Hu, Jaap Jumelet, Tal Linzen, Jing Liu, Aaron Mueller, Candace Ross, Raj Sanjay Shah, A. Warstadt, E. Wilcox, Adina Williams · arXiv · 2025</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2502.10645">arXiv</a></li><li><a href="https://arxiv.org/pdf/2502.10645">PDF</a></li><li><a href="https://arxiv.org/html/2502.10645">HTML</a></li><li><a href="https://huggingface.co/papers/2502.10645">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2502.10645">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2502.10645">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/276408398">Semantic Scholar</a></li><li><a href="https://babylm.github.io/">Project page</a></li><li><a href="https://babylm.github.io/">website</a></li></ul>
+<h2>In one sentence</h2>
+<p>The 2025 BabyLM workshop keeps the 100M-word and 10M-word data-efficient pretraining tracks, adds an Interaction track where a student model learns from a teacher model without seeing its weights or output distribution, and caps competition entries at roughly 10 epochs of data exposure.</p>
 <h2>Abstract</h2>
 <p>BabyLM aims to dissolve the boundaries between cognitive modeling and language modeling. We call for both workshop papers and for researchers to join the 3rd BabyLM competition. As in previous years, we call for participants in the data-efficient pretraining challenge in the general track. This year, we also offer a new track: INTERACTION. This new track encourages interactive behavior, learning from a teacher, and adapting the teaching material to the student. We also call for papers outside the competition in any relevant areas. These include training efficiency, cognitively plausible research, weak model evaluation, and more.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What is BabyLM and what question does it try to answer?</dt>
+<dt>Where should I start reading about sample-efficient language model pretraining on child-scale data?</dt>
+<dt>Which shared task connects language acquisition research with small language models?</dt>
+<dd>BabyLM is a recurring shared task and workshop framed around a single question: how a computational system can learn language from limited input. It brings cognitive scientists studying child language acquisition together with researchers building sample-efficient language models.<br><span class="scope">Holds for: The 2025 call describes the third edition; suggested topics include data-efficient architectures, data curation, cognitively inspired modeling and evaluation, scaling-law comparisons, and multimodal modeling.</span></dd>
+<dd>BabyLM, previously run as a competition on training language models from developmentally plausible amounts of data, became a workshop in 2025. The workshop accepts research papers at the intersection of cognitive science and language modeling with no requirement to enter any competition track.<br><span class="scope">Holds for: Describes the 2025 (third) edition, held at EMNLP 2025 in Suzhou; the competition tracks continue alongside the paper track.</span></dd>
+<dt>What changed in the 2025 data-efficient pretraining competition compared with its 2024 edition?</dt>
+<dt>How did the third BabyLM edition change its rules?</dt>
+<dt>What changed between the 2nd and 3rd BabyLM competitions?</dt>
+<dd>The 2025 BabyLM competition adds an Interaction track in which a pretrained external model may act as a teacher. The submitted student model may be exposed to no more than 100M word tokens and may itself generate no more than 100M words during training.<br><span class="scope">Holds for: External models must come from a predetermined list on the BabyLM website; they may be finetuned or distilled without restriction, but their weights, hidden states and output distributions may not be revealed to the student.</span></dd>
+<dd>BabyLM 2025 caps leaderboard-eligible models at a fixed amount of input counting repeated exposures. The budget is at most 100M words for the Strict-small track and at most 1B words for all other tracks, roughly 10 epochs over the standard BabyLM corpora.<br><span class="scope">Holds for: Competition entries only; participants may train longer and report it in their paper, and workshop papers are exempt. Budget measured in whitespace-separated input words, and in the Interaction track input words plus generated tokens.</span></dd>
+<dd>BabyLM 2025 requires competition entrants to upload intermediate checkpoints to the HuggingFace Hub. The intervals increase over training: every 1M words up to 10M, every 10M words up to 100M, and every 100M words up to 1B for tracks other than Strict-small.<br><span class="scope">Holds for: Checkpoints feed the updated evaluation pipeline&#x27;s measures of learning efficiency and acquisition trajectories; precise evaluation details were deferred to the pipeline release.</span></dd>
+<dd>The BabyLM 2025 training corpora are unchanged from the 2nd BabyLM Challenge. They comprise a 100M-word Strict set, a 10M-word Strict-small set, and a 100M-word Multimodal set that pairs image captions with text and includes about 2.9M images.<br><span class="scope">Holds for: Word counts are approximate; the Strict corpus draws mainly on CHILDES (29M words), Project Gutenberg children&#x27;s stories (26M), OpenSubtitles (20M) and Simple English Wikipedia (15M). Participants need not use the official corpus.</span></dd>
+<dt>How does a competition track for learning language from a teacher model and interactive feedback work?</dt>
+<dt>Can a small language model learn from a large teacher model under BabyLM competition rules?</dt>
+<dt>What are the rules for using a pretrained teacher model in BabyLM 2025?</dt>
+<dd>The 2025 BabyLM competition adds an Interaction track in which a pretrained external model may act as a teacher. The submitted student model may be exposed to no more than 100M word tokens and may itself generate no more than 100M words during training.<br><span class="scope">Holds for: External models must come from a predetermined list on the BabyLM website; they may be finetuned or distilled without restriction, but their weights, hidden states and output distributions may not be revealed to the student.</span></dd>
+<dd>BabyLM&#x27;s data budget is a closed-system accounting rule. Any tokenizer, parser, augmenter or ancillary language model used in the pipeline has its own training text counted toward the 100M-word limit, so off-the-shelf tools trained on outside language are disallowed.<br><span class="scope">Holds for: Synthetic data is permitted so long as the generators&#x27; training data is inside the budget; the Interaction track&#x27;s listed external models and its interactive environment are the stated exceptions.</span></dd>
+<dt>Is there a limit on the number of training epochs in the 2025 data-efficient pretraining competition?</dt>
+<dt>How much repeated data exposure is allowed for BabyLM competition entries?</dt>
+<dt>Why did BabyLM start restricting the number of passes over the training data?</dt>
+<dd>BabyLM 2025 caps leaderboard-eligible models at a fixed amount of input counting repeated exposures. The budget is at most 100M words for the Strict-small track and at most 1B words for all other tracks, roughly 10 epochs over the standard BabyLM corpora.<br><span class="scope">Holds for: Competition entries only; participants may train longer and report it in their paper, and workshop papers are exempt. Budget measured in whitespace-separated input words, and in the Interaction track input words plus generated tokens.</span></dd>
+<dd>The BabyLM organizers justify the 2025 epoch limit by noting that a conclusion of the 2024 challenge was that more compute correlates with higher performance. That correlation conflicts with both developmental plausibility and the goal of democratizing pretraining research.<br><span class="scope">Holds for: The organizers deliberately did not cap compute or FLOPs, judging FLOP accounting too technically demanding and BabyLM compute unlikely to exceed what is available to children.</span></dd>
+<dt>What data can I train on for the 100M-word strict pretraining track?</dt>
+<dt>How large is the BabyLM pretraining corpus and what is in it?</dt>
+<dt>Which datasets make up the 100M-word BabyLM corpus?</dt>
+<dd>The BabyLM 2025 training corpora are unchanged from the 2nd BabyLM Challenge. They comprise a 100M-word Strict set, a 10M-word Strict-small set, and a 100M-word Multimodal set that pairs image captions with text and includes about 2.9M images.<br><span class="scope">Holds for: Word counts are approximate; the Strict corpus draws mainly on CHILDES (29M words), Project Gutenberg children&#x27;s stories (26M), OpenSubtitles (20M) and Simple English Wikipedia (15M). Participants need not use the official corpus.</span></dd>
+<dt>Do I have to submit intermediate training checkpoints to enter the 2025 sample-efficient pretraining competition?</dt>
+<dt>At what intervals does BabyLM require model checkpoints?</dt>
+<dt>How does BabyLM measure learning dynamics over training?</dt>
+<dd>BabyLM 2025 requires competition entrants to upload intermediate checkpoints to the HuggingFace Hub. The intervals increase over training: every 1M words up to 10M, every 10M words up to 100M, and every 100M words up to 1B for tracks other than Strict-small.<br><span class="scope">Holds for: Checkpoints feed the updated evaluation pipeline&#x27;s measures of learning efficiency and acquisition trajectories; precise evaluation details were deferred to the pipeline release.</span></dd>
+<dt>How are BabyLM models evaluated in 2025?</dt>
+<dt>Is there an award for cognitively human-like language models?</dt>
+<dt>Does BabyLM evaluate reading-time prediction or other psychometric fit?</dt>
+<dd>The 2025 BabyLM evaluation pipeline adds psychometric tasks such as reading-time prediction. Human-likeness is treated as an award category separate from NLP task accuracy, so a system can win on either metric.<br><span class="scope">Holds for: The 2025 pipeline was rewritten from scratch with HuggingFace and plain PyTorch entry points; hidden evaluations release no less than 2 weeks before the model submission deadline.</span></dd>
+<dt>What baseline models are released for the 2025 data-efficient pretraining competition?</dt>
+<dt>Which model won the 2024 BabyLM challenge and is it a baseline now?</dt>
+<dt>What are the baseline systems for learning from teacher feedback in BabyLM 2025?</dt>
+<dd>BabyLM 2025 releases GPT-BERT, the winning submission of the 2024 challenge, and GPT-2 Small as Strict and Strict-small baselines. The GIT and Flamingo multimodal baselines are re-released because no 2024 submission beat them.<br><span class="scope">Holds for: The 2025 competition&#x27;s provided baselines; the Multimodal track was re-released despite limited participation in 2024.</span></dd>
+<dd>BabyLM 2025 ships two Interaction-track baselines, one using PPO with a learned reward and one using natural-language corrections. The reward model is a deberta-v3-xsmall trained on child-caregiver conversations, and the correction baseline has Llama-3.1 Instruct 8B revise GPT-2 Small completions over 20 rounds.<br><span class="scope">Holds for: The correction baseline trains on teacher-corrected text with language modeling loss, then with SimPO at learning rate 0.00005, beta=2, gamma=1 and a 0.2 language-modeling regularizer.</span></dd>
+<dt>Can I use synthetic data or an off-the-shelf tokenizer under a 100M-word pretraining data budget?</dt>
+<dt>Does data generated by another model count against the BabyLM word budget?</dt>
+<dt>Are external POS taggers or parsers allowed in BabyLM entries?</dt>
+<dd>BabyLM&#x27;s data budget is a closed-system accounting rule. Any tokenizer, parser, augmenter or ancillary language model used in the pipeline has its own training text counted toward the 100M-word limit, so off-the-shelf tools trained on outside language are disallowed.<br><span class="scope">Holds for: Synthetic data is permitted so long as the generators&#x27; training data is inside the budget; the Interaction track&#x27;s listed external models and its interactive environment are the stated exceptions.</span></dd>
+<dt>How hard is it to get a competition-entry paper accepted at a sample-efficient pretraining workshop?</dt>
+<dt>What is the review process for BabyLM workshop submissions?</dt>
+<dt>Can I submit a paper to the BabyLM workshop without entering the competition?</dt>
+<dd>BabyLM applies lenient acceptance to competition submissions, planning to reject only papers with incorrect or unjustified claims, significant technical issues, insufficient methodological detail for replication, or minimal time investment.<br><span class="scope">Holds for: Leniency covers competition submissions; non-competition workshop papers are evaluated on merit and relevance under double-blind review, up to 8 pages, via ARR or direct OpenReview submission.</span></dd>
+<dd>BabyLM, previously run as a competition on training language models from developmentally plausible amounts of data, became a workshop in 2025. The workshop accepts research papers at the intersection of cognitive science and language modeling with no requirement to enter any competition track.<br><span class="scope">Holds for: Describes the 2025 (third) edition, held at EMNLP 2025 in Suzhou; the competition tracks continue alongside the paper track.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>BabyLM, previously run as a competition on training language models from developmentally plausible amounts of data, became a workshop in 2025. The workshop accepts research papers at the intersection of cognitive science and language modeling with no requirement to enter any competition track.<br><span class="scope">Scope: Describes the 2025 (third) edition, held at EMNLP 2025 in Suzhou; the competition tracks continue alongside the paper track.</span></li>
+<li>The 2025 BabyLM competition adds an Interaction track in which a pretrained external model may act as a teacher. The submitted student model may be exposed to no more than 100M word tokens and may itself generate no more than 100M words during training. <span class="meta">(Section 4.1, &#x27;New track: Interactivity.&#x27;)</span><br><span class="scope">Scope: External models must come from a predetermined list on the BabyLM website; they may be finetuned or distilled without restriction, but their weights, hidden states and output distributions may not be revealed to the student.</span></li>
+<li>BabyLM 2025 caps leaderboard-eligible models at a fixed amount of input counting repeated exposures. The budget is at most 100M words for the Strict-small track and at most 1B words for all other tracks, roughly 10 epochs over the standard BabyLM corpora. <span class="meta">(Section 4.2, &#x27;Training Duration Limitations&#x27;)</span><br><span class="scope">Scope: Competition entries only; participants may train longer and report it in their paper, and workshop papers are exempt. Budget measured in whitespace-separated input words, and in the Interaction track input words plus generated tokens.</span></li>
+<li>The BabyLM organizers justify the 2025 epoch limit by noting that a conclusion of the 2024 challenge was that more compute correlates with higher performance. That correlation conflicts with both developmental plausibility and the goal of democratizing pretraining research. <span class="meta">(Section 4.2, &#x27;Motivation&#x27;)</span><br><span class="scope">Scope: The organizers deliberately did not cap compute or FLOPs, judging FLOP accounting too technically demanding and BabyLM compute unlikely to exceed what is available to children.</span></li>
+<li>BabyLM 2025 requires competition entrants to upload intermediate checkpoints to the HuggingFace Hub. The intervals increase over training: every 1M words up to 10M, every 10M words up to 100M, and every 100M words up to 1B for tracks other than Strict-small. <span class="meta">(Section 4.2, &#x27;Intermediate Checkpoints&#x27;)</span><br><span class="scope">Scope: Checkpoints feed the updated evaluation pipeline&#x27;s measures of learning efficiency and acquisition trajectories; precise evaluation details were deferred to the pipeline release.</span></li>
+<li>The BabyLM 2025 training corpora are unchanged from the 2nd BabyLM Challenge. They comprise a 100M-word Strict set, a 10M-word Strict-small set, and a 100M-word Multimodal set that pairs image captions with text and includes about 2.9M images. <span class="meta">(Table 1 and Section 4.3)</span><br><span class="scope">Scope: Word counts are approximate; the Strict corpus draws mainly on CHILDES (29M words), Project Gutenberg children&#x27;s stories (26M), OpenSubtitles (20M) and Simple English Wikipedia (15M). Participants need not use the official corpus.</span></li>
+<li>The 2025 BabyLM evaluation pipeline adds psychometric tasks such as reading-time prediction. Human-likeness is treated as an award category separate from NLP task accuracy, so a system can win on either metric. <span class="meta">(Section 4.4)</span><br><span class="scope">Scope: The 2025 pipeline was rewritten from scratch with HuggingFace and plain PyTorch entry points; hidden evaluations release no less than 2 weeks before the model submission deadline.</span></li>
+<li>BabyLM 2025 ships two Interaction-track baselines, one using PPO with a learned reward and one using natural-language corrections. The reward model is a deberta-v3-xsmall trained on child-caregiver conversations, and the correction baseline has Llama-3.1 Instruct 8B revise GPT-2 Small completions over 20 rounds. <span class="meta">(Section 4.5 and Appendix A)</span><br><span class="scope">Scope: The correction baseline trains on teacher-corrected text with language modeling loss, then with SimPO at learning rate 0.00005, beta=2, gamma=1 and a 0.2 language-modeling regularizer.</span></li>
+<li>BabyLM 2025 releases GPT-BERT, the winning submission of the 2024 challenge, and GPT-2 Small as Strict and Strict-small baselines. The GIT and Flamingo multimodal baselines are re-released because no 2024 submission beat them. <span class="meta">(Section 4.5)</span><br><span class="scope">Scope: The 2025 competition&#x27;s provided baselines; the Multimodal track was re-released despite limited participation in 2024.</span></li>
+<li>BabyLM&#x27;s data budget is a closed-system accounting rule. Any tokenizer, parser, augmenter or ancillary language model used in the pipeline has its own training text counted toward the 100M-word limit, so off-the-shelf tools trained on outside language are disallowed. <span class="meta">(Section 5, &#x27;Can I use external tools?&#x27; and &#x27;What training regimes are permitted?&#x27;)</span><br><span class="scope">Scope: Synthetic data is permitted so long as the generators&#x27; training data is inside the budget; the Interaction track&#x27;s listed external models and its interactive environment are the stated exceptions.</span></li>
+<li>BabyLM applies lenient acceptance to competition submissions, planning to reject only papers with incorrect or unjustified claims, significant technical issues, insufficient methodological detail for replication, or minimal time investment. <span class="meta">(Section 3.3)</span><br><span class="scope">Scope: Leniency covers competition submissions; non-competition workshop papers are evaluated on merit and relevance under double-blind review, up to 8 pages, via ARR or direct OpenReview submission.</span></li>
+<li>BabyLM is a recurring shared task and workshop framed around a single question: how a computational system can learn language from limited input. It brings cognitive scientists studying child language acquisition together with researchers building sample-efficient language models.<br><span class="scope">Scope: The 2025 call describes the third edition; suggested topics include data-efficient architectures, data curation, cognitively inspired modeling and evaluation, scaling-law comparisons, and multimodal modeling.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The 100M-word cap in the BabyLM Interaction track applies to the student submission model, not to the teacher: external models listed by the organizers may be pretrained on unlimited data and may be finetuned or distilled freely.</li>
+<li>BabyLM 2025 does not impose a compute or FLOP budget; the new restriction counts words of data exposure, and the organizers explicitly declined to cap compute.</li>
+<li>The 10-epoch figure in BabyLM 2025 is a consequence, not the rule: the rule is a fixed word-exposure budget (100M words for Strict-small, 1B for other tracks) counting repeated exposures, because what counts as an epoch varies across submissions.</li>
+<li>Being a workshop in 2025 did not replace the BabyLM competition; the Strict, Strict-small, Multimodal and Interaction tracks all ran, and workshop papers are simply not required to enter them.</li>
+<li>The 2025 BabyLM training data is not new: the Strict, Strict-small and Multimodal corpora are unchanged from the 2nd BabyLM Challenge.</li>
+<li>Human-likeness in BabyLM 2025 is not folded into a single leaderboard score; human-likeness and NLP task accuracy are separate metrics with separate awards.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Strict track</em></dt><dd>A BabyLM competition track requiring the submitted language model to be trained on a corpus of 100M words or fewer, evaluated on language-only tasks; participants need not use the official BabyLM corpus.</dd>
+<dt><em>Strict-small track</em></dt><dd>A BabyLM competition track requiring the submitted language model to be trained on a corpus of 10M words or fewer.</dd>
+<dt><em>Submission model</em></dt><dd>In the BabyLM Interaction track, the participant&#x27;s own entry into the competition, subject to the 100M-word exposure limit — as opposed to the external model used only inside its training pipeline.</dd>
+<dt><em>External model</em></dt><dd>In the BabyLM Interaction track, a secondary pretrained model drawn from an organizer-approved list that is used in the training pipeline but not submitted; its weights, hidden states and output distribution may not be exposed to the submission model.</dd>
+<dt><em>Communicative response (CR)</em></dt><dd>A caregiver reply that indicates a child&#x27;s utterance was understood; predicted by a reward model in one BabyLM Interaction baseline, where an utterance followed by such a response receives reward 0 and one not followed by it receives reward 1.</dd>
+<dt><em>Hidden evaluations</em></dt><dd>BabyLM evaluation tasks withheld from participants to control for overfitting to the public suite, released no less than 2 weeks before the model submission deadline.</dd>
+</dl>
 <h2>References</h2>
 <p>See the full reference list in the <a href="https://arxiv.org/html/2502.10645">paper</a>.</p>
 <footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>

@@ -13,6 +13,7 @@
   <meta name="citation_author" content="A. Rappoport">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2018">
+  <meta name="citation_doi" content="10.48550/arXiv.1805.12386">
   <meta name="citation_arxiv_id" content="1805.12386">
   <meta name="citation_abstract" content="We announce a shared task on UCCA parsing in English, German and French, and call for participants to submit their systems. UCCA is a cross-linguistically applicable framework for semantic representation, which builds on extensive typological work and supports rapid annotation. UCCA poses a challenge for existing parsing techniques, as it exhibits reentrancy (resulting in DAG structures), discontinuous structures and non-terminal nodes corresponding to complex semantic units. Given the success of recent semantic parsing shared tasks (on SDP and AMR), we expect the task to have a significant contribution to the advancement of UCCA parsing in particular, and semantic parsing in general. Furthermore, existing applications for semantic evaluation that are based on UCCA will greatly benefit from better automatic methods for UCCA parsing. The competition website is this https URL">
   <script type="application/ld+json">
@@ -53,16 +54,288 @@
   "datePublished": "2018",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "arXiv.org"
+    "name": "arXiv"
   },
+  "identifier": "https://doi.org/10.48550/arXiv.1805.12386",
   "abstract": "We announce a shared task on UCCA parsing in English, German and French, and call for participants to submit their systems. UCCA is a cross-linguistically applicable framework for semantic representation, which builds on extensive typological work and supports rapid annotation. UCCA poses a challenge for existing parsing techniques, as it exhibits reentrancy (resulting in DAG structures), discontinuous structures and non-terminal nodes corresponding to complex semantic units. Given the success of recent semantic parsing shared tasks (on SDP and AMR), we expect the task to have a significant contribution to the advancement of UCCA parsing in particular, and semantic parsing in general. Furthermore, existing applications for semantic evaluation that are based on UCCA will greatly benefit from better automatic methods for UCCA parsing. The competition website is this https URL",
+  "description": "The SemEval 2019 Task 1 call for participation defines cross-lingual UCCA semantic parsing in English, German and French, with four settings (English in-domain and out-of-domain, German in-domain, French with no training data), DAG F1 scoring, and the TUPA transition-based parser as baseline.",
   "sameAs": [
     "https://ar5iv.labs.arxiv.org/html/1805.12386",
     "https://arxiv.org/abs/1805.12386",
+    "https://arxiv.org/abs/1903.02953",
     "https://arxiv.org/pdf/1805.12386",
+    "https://competitions.codalab.org/competitions/19160",
+    "https://github.com/UniversalConceptualCognitiveAnnotation",
+    "https://github.com/huji-nlp/tupa",
     "https://huggingface.co/papers/1805.12386",
     "https://www.alphaxiv.org/abs/1805.12386",
     "https://www.semanticscholar.org/paper/44147929"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "SemEval 2019 Task 1 established a shared task on parsing into UCCA (Universal Conceptual Cognitive Annotation) in English, German and French. It extends the semantic parsing shared-task tradition of SDP and AMR to a scheme with reentrancy, discontinuity and non-terminal semantic units.",
+      "description": "Holds for: A call for participation issued in 2018, before the competition ran; the actual task results and participating systems are reported separately in the SemEval 2019 Task 1 summary paper."
+    },
+    {
+      "@type": "Thing",
+      "name": "The SemEval 2019 UCCA task is a reference point for cross-lingual semantic parsing with almost no target-language training data. Its French setting deliberately provides only development and test sets, expecting cross-lingual transfer or structure projection over a parallel corpus.",
+      "description": "Holds for: One language triple (English, German, French) and one representation scheme (UCCA foundational layer); the low-resource design applies only to the French setting, while English and German have training data."
+    },
+    {
+      "@type": "Thing",
+      "name": "SemEval 2019 Task 1 evaluates UCCA parsers in 4 settings: English in-domain, English out-of-domain, German in-domain and French with no training data. The settings are split into open and closed tracks for a total of 7 competitions, and a team may enter between 1 and 7 of them.",
+      "description": "Holds for: The French setting is open-track only, as no pilot study existed for it; closed-track systems may use only the distributed gold UCCA annotation plus spaCy annotation and fastText embeddings."
+    },
+    {
+      "@type": "Thing",
+      "name": "The English Wiki UCCA corpus used for SemEval 2019 Task 1 contains 5225 sentences and about 160K tokens. The German 20K Leagues corpus contributes 6004 sentences and about 136K tokens across train, development and test.",
+      "description": "Holds for: Counts cover the UCCA foundational layer only, the sole layer with annotated corpora at the time; the English 20K Leagues out-of-domain test set adds about 12K tokens and French has development and test sets only."
+    },
+    {
+      "@type": "Thing",
+      "name": "UCCA graphs are only mildly non-tree-like: in the English Wiki training set 1.75% of edges are remote, while 2.38% of nodes are reentrant, 0.54% discontinuous and 0.52% implicit.",
+      "description": "Holds for: English Wiki training split, counts excluding the root node; across the other splits and languages remote edges range from 1.00% to 2.36% and implicit nodes reach 1.56%."
+    },
+    {
+      "@type": "Thing",
+      "name": "TUPA with a BiLSTM classifier reaches 73.6% labeled F1 on primary edges and 51.5% on remote edges on the English Wiki in-domain UCCA test set. The sparse-perceptron variant reaches only 64.1% primary and 16% remote F1.",
+      "description": "Holds for: Version 1.2 of the English Wiki test set; labeled precision, recall and F1 over edges with matching yields and labels, disregarding implicit nodes."
+    },
+    {
+      "@type": "Thing",
+      "name": "An ensemble of 3 BiLSTM TUPA models combined by Product of Experts gives the best in-domain primary-edge score in the UCCA pilot task at 75% F1. It does not improve remote edges, scoring 48.7% F1 versus 51.5% for a single BiLSTM model.",
+      "description": "Holds for: Unpublished pilot experiment on v1.2 of the English Wiki test set; the 3 models differ only in random seed. Out-of-domain the ensemble reaches 69.6% primary and 28% remote F1 on the 20K Leagues test set."
+    },
+    {
+      "@type": "Thing",
+      "name": "Converting UCCA to bilexical trees and parsing with a stack-LSTM dependency parser reaches 69.9% labeled F1 on primary edges in the English in-domain pilot setting. It produces no remote edges at all, because its output is a tree.",
+      "description": "Holds for: v1.2 of the English Wiki test set; the bilexical tree conversion caps recoverable primary structure at a 91% F1 upper bound. DAGParser, TurboParser, UPARSE and MaltParser score lower on primary edges."
+    },
+    {
+      "@type": "Thing",
+      "name": "Multitask learning with Universal Dependencies as auxiliary task raises TUPA's remote-edge labeled F1 from 13.9% to 20.3% on French and from 27.1% to 35.5% on German UCCA test data. Primary-edge F1 rises from 67.6% to 70.1% on French and 72.5% to 73.2% on German.",
+      "description": "Holds for: v1.0 of the French 20K Leagues test set and v0.9 of the German 20K Leagues test set, both trained in-domain despite the small French corpus; only UD is used as auxiliary task for these two languages."
+    },
+    {
+      "@type": "Thing",
+      "name": "SemEval 2019 Task 1 scores UCCA parses with DAG F1, counting two edges as matching when their child nodes cover the same set of tokens and carry the same label. DAG F1 reduces to standard parsing F1 when both graphs are trees.",
+      "description": "Holds for: The official measure disregards implicit nodes; an extension matching implicit units by parent yield is proposed but is not the scored default. Fine-grained scores are also reported per category set."
+    },
+    {
+      "@type": "Thing",
+      "name": "UCCA-based evaluation measures already exist for 3 text-to-text generation tasks: HUME for machine translation, SAMSA for text simplification and USim for grammatical error correction. All 3 depend on UCCA structures obtained by annotation or parsing.",
+      "description": "Holds for: HUME is a human evaluation measure over 4 language pairs; SAMSA and USim were the first structural measure for simplification and the first reference-less meaning-preservation complement for grammatical error correction respectively, as of 2018."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/#faq",
+  "url": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/",
+  "name": "Questions answered by SemEval 2019 Shared Task: Cross-lingual Semantic Parsing with UCCA - Call for Participation",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a good starting point for reading about UCCA semantic parsing?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SemEval 2019 Task 1 established a shared task on parsing into UCCA (Universal Conceptual Cognitive Annotation) in English, German and French. It extends the semantic parsing shared-task tradition of SDP and AMR to a scheme with reentrancy, discontinuity and non-terminal semantic units. Holds for: A call for participation issued in 2018, before the competition ran; the actual task results and participating systems are reported separately in the SemEval 2019 Task 1 summary paper.\n\nThe SemEval 2019 UCCA task is a reference point for cross-lingual semantic parsing with almost no target-language training data. Its French setting deliberately provides only development and test sets, expecting cross-lingual transfer or structure projection over a parallel corpus. Holds for: One language triple (English, German, French) and one representation scheme (UCCA foundational layer); the low-resource design applies only to the French setting, while English and German have training data.",
+        "url": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/"
+      },
+      "alternateName": [
+        "Which shared task covers cross-lingual semantic parsing with UCCA?",
+        "Where did the SemEval task on UCCA parsing come from?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which languages and settings does the SemEval 2019 UCCA parsing task cover?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SemEval 2019 Task 1 evaluates UCCA parsers in 4 settings: English in-domain, English out-of-domain, German in-domain and French with no training data. The settings are split into open and closed tracks for a total of 7 competitions, and a team may enter between 1 and 7 of them. Holds for: The French setting is open-track only, as no pilot study existed for it; closed-track systems may use only the distributed gold UCCA annotation plus spaCy annotation and fastText embeddings.",
+        "url": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/"
+      },
+      "alternateName": [
+        "How many tracks and competitions were there in SemEval 2019 Task 1?",
+        "What is the difference between the open and closed track in the UCCA parsing shared task?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much annotated UCCA data is available for English, German and French?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The English Wiki UCCA corpus used for SemEval 2019 Task 1 contains 5225 sentences and about 160K tokens. The German 20K Leagues corpus contributes 6004 sentences and about 136K tokens across train, development and test. Holds for: Counts cover the UCCA foundational layer only, the sole layer with annotated corpora at the time; the English 20K Leagues out-of-domain test set adds about 12K tokens and French has development and test sets only.\n\nThe SemEval 2019 UCCA task is a reference point for cross-lingual semantic parsing with almost no target-language training data. Its French setting deliberately provides only development and test sets, expecting cross-lingual transfer or structure projection over a parallel corpus. Holds for: One language triple (English, German, French) and one representation scheme (UCCA foundational layer); the low-resource design applies only to the French setting, while English and German have training data.",
+        "url": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/"
+      },
+      "alternateName": [
+        "What is the size of the Wiki and 20K Leagues UCCA corpora?",
+        "Is there training data for French UCCA parsing?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How often do reentrant, discontinuous and implicit units actually occur in UCCA corpora?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "UCCA graphs are only mildly non-tree-like: in the English Wiki training set 1.75% of edges are remote, while 2.38% of nodes are reentrant, 0.54% discontinuous and 0.52% implicit. Holds for: English Wiki training split, counts excluding the root node; across the other splits and languages remote edges range from 1.00% to 2.36% and implicit nodes reach 1.56%.",
+        "url": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/"
+      },
+      "alternateName": [
+        "What fraction of UCCA edges are remote edges?",
+        "How non-tree-like are UCCA graphs in practice?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How well does TUPA parse UCCA in English?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TUPA with a BiLSTM classifier reaches 73.6% labeled F1 on primary edges and 51.5% on remote edges on the English Wiki in-domain UCCA test set. The sparse-perceptron variant reaches only 64.1% primary and 16% remote F1. Holds for: Version 1.2 of the English Wiki test set; labeled precision, recall and F1 over edges with matching yields and labels, disregarding implicit nodes.",
+        "url": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/"
+      },
+      "alternateName": [
+        "What baseline scores should a UCCA parser beat?",
+        "What F1 does the transition-based UCCA parser get on the English Wiki test set?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does ensembling help UCCA parsing?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An ensemble of 3 BiLSTM TUPA models combined by Product of Experts gives the best in-domain primary-edge score in the UCCA pilot task at 75% F1. It does not improve remote edges, scoring 48.7% F1 versus 51.5% for a single BiLSTM model. Holds for: Unpublished pilot experiment on v1.2 of the English Wiki test set; the 3 models differ only in random seed. Out-of-domain the ensemble reaches 69.6% primary and 28% remote F1 on the 20K Leagues test set.",
+        "url": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/"
+      },
+      "alternateName": [
+        "Do multiple BiLSTM models combined by Product of Experts improve remote-edge prediction?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can existing dependency or constituency parsers be reused for UCCA parsing via format conversion?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Converting UCCA to bilexical trees and parsing with a stack-LSTM dependency parser reaches 69.9% labeled F1 on primary edges in the English in-domain pilot setting. It produces no remote edges at all, because its output is a tree. Holds for: v1.2 of the English Wiki test set; the bilexical tree conversion caps recoverable primary structure at a 91% F1 upper bound. DAGParser, TurboParser, UPARSE and MaltParser score lower on primary edges.",
+        "url": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/"
+      },
+      "alternateName": [
+        "How well do conversion-based approaches work for UCCA parsing?",
+        "Why can a tree parser not recover UCCA remote edges?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does multitask learning help low-resource semantic parsing into UCCA?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Multitask learning with Universal Dependencies as auxiliary task raises TUPA's remote-edge labeled F1 from 13.9% to 20.3% on French and from 27.1% to 35.5% on German UCCA test data. Primary-edge F1 rises from 67.6% to 70.1% on French and 72.5% to 73.2% on German. Holds for: v1.0 of the French 20K Leagues test set and v0.9 of the German 20K Leagues test set, both trained in-domain despite the small French corpus; only UD is used as auxiliary task for these two languages.",
+        "url": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/"
+      },
+      "alternateName": [
+        "How much does using Universal Dependencies as an auxiliary task help French and German UCCA parsing?",
+        "What improves remote-edge parsing for languages with little UCCA data?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How are UCCA parses evaluated?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SemEval 2019 Task 1 scores UCCA parses with DAG F1, counting two edges as matching when their child nodes cover the same set of tokens and carry the same label. DAG F1 reduces to standard parsing F1 when both graphs are trees. Holds for: The official measure disregards implicit nodes; an extension matching implicit units by parent yield is proposed but is not the scored default. Fine-grained scores are also reported per category set.",
+        "url": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/"
+      },
+      "alternateName": [
+        "What is DAG F1 and how is edge matching defined for UCCA?",
+        "Does the UCCA shared-task scoring measure handle implicit units?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is UCCA used for besides parsing research?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "UCCA-based evaluation measures already exist for 3 text-to-text generation tasks: HUME for machine translation, SAMSA for text simplification and USim for grammatical error correction. All 3 depend on UCCA structures obtained by annotation or parsing. Holds for: HUME is a human evaluation measure over 4 language pairs; SAMSA and USim were the first structural measure for simplification and the first reference-less meaning-preservation complement for grammatical error correction respectively, as of 2018.",
+        "url": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/"
+      },
+      "alternateName": [
+        "Which evaluation measures for generation tasks are built on UCCA?",
+        "Why would better UCCA parsers help machine translation or simplification evaluation?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/#terms",
+  "url": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/",
+  "name": "Terminology in SemEval 2019 Shared Task: Cross-lingual Semantic Parsing with UCCA - Call for Participation",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "UCCA",
+      "description": "Universal Conceptual Cognitive Annotation, a cross-linguistically applicable semantic representation scheme that encodes utterances as directed acyclic graphs whose terminals are text tokens and whose non-terminals are semantic units, built on Basic Linguistic Theory typology.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "remote edge",
+      "description": "In UCCA, an edge that lets a unit participate in more than one super-ordinate relation, creating reentrancy and turning the graph into a DAG, as opposed to primary edges which form a tree in each layer.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "implicit unit",
+      "description": "A node in a UCCA graph with no corresponding token in the text, such as the unexpressed agent of a predicate.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Scene",
+      "description": "The basic notion of UCCA's foundational layer: a state, action, movement or other relation evolving in time, containing one main relation marked as a Process or a State plus one or more Participants.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "DAG F1",
+      "description": "The harmonic mean of labeled precision and recall over graph edges, where two edges match if their child nodes have identical sets of leaf (token) descendants and identical labels; it collapses to ordinary parsing F1 when both graphs are trees.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "TUPA",
+      "description": "A neural transition-based parser for UCCA that produces directed acyclic graphs, used as the baseline system for SemEval 2019 Task 1.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "closed track",
+      "description": "A shared-task submission condition permitting only the distributed gold UCCA annotation in the target language plus specified automatic resources — spaCy POS tags, dependency relations and named entities, and fastText word embeddings.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "20K Leagues corpus",
+      "description": "An English-French-German parallel UCCA corpus based on Twenty Thousand Leagues Under the Sea, manually annotated for the whole book on the German side and for the first five chapters on the English and French sides.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semeval-2019-shared-task-cross-lingual-semantic-parsing-with/#terms"
+    }
   ]
 }
   </script>
@@ -73,6 +346,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -86,10 +360,86 @@
 </head>
 <body>
 <h1>SemEval 2019 Shared Task: Cross-lingual Semantic Parsing with UCCA - Call for Participation</h1>
-<p class="meta">Daniel Hershcovich, Leshem Choshen, Elior Sulem, Zohar Aizenbud, A. Rappoport, Omri Abend · arXiv.org · 2018</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/1805.12386">arXiv</a></li><li><a href="https://arxiv.org/pdf/1805.12386">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/1805.12386">HTML</a></li><li><a href="https://huggingface.co/papers/1805.12386">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/1805.12386">alphaXiv</a></li><li><a href="https://www.semanticscholar.org/paper/44147929">Semantic Scholar</a></li></ul>
+<p class="meta">Daniel Hershcovich, Leshem Choshen, Elior Sulem, Zohar Aizenbud, A. Rappoport, Omri Abend · arXiv · 2018</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/1805.12386">arXiv</a></li><li><a href="https://arxiv.org/pdf/1805.12386">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/1805.12386">HTML</a></li><li><a href="https://huggingface.co/papers/1805.12386">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/1805.12386">alphaXiv</a></li><li><a href="https://www.semanticscholar.org/paper/44147929">Semantic Scholar</a></li><li><a href="https://competitions.codalab.org/competitions/19160">competition</a></li><li><a href="https://github.com/UniversalConceptualCognitiveAnnotation">corpora</a></li><li><a href="https://github.com/huji-nlp/tupa">parser</a></li><li><a href="https://arxiv.org/abs/1903.02953">task summary paper</a></li></ul>
+<h2>In one sentence</h2>
+<p>The SemEval 2019 Task 1 call for participation defines cross-lingual UCCA semantic parsing in English, German and French, with four settings (English in-domain and out-of-domain, German in-domain, French with no training data), DAG F1 scoring, and the TUPA transition-based parser as baseline.</p>
 <h2>Abstract</h2>
 <p>We announce a shared task on UCCA parsing in English, German and French, and call for participants to submit their systems. UCCA is a cross-linguistically applicable framework for semantic representation, which builds on extensive typological work and supports rapid annotation. UCCA poses a challenge for existing parsing techniques, as it exhibits reentrancy (resulting in DAG structures), discontinuous structures and non-terminal nodes corresponding to complex semantic units. Given the success of recent semantic parsing shared tasks (on SDP and AMR), we expect the task to have a significant contribution to the advancement of UCCA parsing in particular, and semantic parsing in general. Furthermore, existing applications for semantic evaluation that are based on UCCA will greatly benefit from better automatic methods for UCCA parsing. The competition website is this https URL</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What is a good starting point for reading about UCCA semantic parsing?</dt>
+<dt>Which shared task covers cross-lingual semantic parsing with UCCA?</dt>
+<dt>Where did the SemEval task on UCCA parsing come from?</dt>
+<dd>SemEval 2019 Task 1 established a shared task on parsing into UCCA (Universal Conceptual Cognitive Annotation) in English, German and French. It extends the semantic parsing shared-task tradition of SDP and AMR to a scheme with reentrancy, discontinuity and non-terminal semantic units.<br><span class="scope">Holds for: A call for participation issued in 2018, before the competition ran; the actual task results and participating systems are reported separately in the SemEval 2019 Task 1 summary paper.</span></dd>
+<dd>The SemEval 2019 UCCA task is a reference point for cross-lingual semantic parsing with almost no target-language training data. Its French setting deliberately provides only development and test sets, expecting cross-lingual transfer or structure projection over a parallel corpus.<br><span class="scope">Holds for: One language triple (English, German, French) and one representation scheme (UCCA foundational layer); the low-resource design applies only to the French setting, while English and German have training data.</span></dd>
+<dt>Which languages and settings does the SemEval 2019 UCCA parsing task cover?</dt>
+<dt>How many tracks and competitions were there in SemEval 2019 Task 1?</dt>
+<dt>What is the difference between the open and closed track in the UCCA parsing shared task?</dt>
+<dd>SemEval 2019 Task 1 evaluates UCCA parsers in 4 settings: English in-domain, English out-of-domain, German in-domain and French with no training data. The settings are split into open and closed tracks for a total of 7 competitions, and a team may enter between 1 and 7 of them.<br><span class="scope">Holds for: The French setting is open-track only, as no pilot study existed for it; closed-track systems may use only the distributed gold UCCA annotation plus spaCy annotation and fastText embeddings.</span></dd>
+<dt>How much annotated UCCA data is available for English, German and French?</dt>
+<dt>What is the size of the Wiki and 20K Leagues UCCA corpora?</dt>
+<dt>Is there training data for French UCCA parsing?</dt>
+<dd>The English Wiki UCCA corpus used for SemEval 2019 Task 1 contains 5225 sentences and about 160K tokens. The German 20K Leagues corpus contributes 6004 sentences and about 136K tokens across train, development and test.<br><span class="scope">Holds for: Counts cover the UCCA foundational layer only, the sole layer with annotated corpora at the time; the English 20K Leagues out-of-domain test set adds about 12K tokens and French has development and test sets only.</span></dd>
+<dd>The SemEval 2019 UCCA task is a reference point for cross-lingual semantic parsing with almost no target-language training data. Its French setting deliberately provides only development and test sets, expecting cross-lingual transfer or structure projection over a parallel corpus.<br><span class="scope">Holds for: One language triple (English, German, French) and one representation scheme (UCCA foundational layer); the low-resource design applies only to the French setting, while English and German have training data.</span></dd>
+<dt>How often do reentrant, discontinuous and implicit units actually occur in UCCA corpora?</dt>
+<dt>What fraction of UCCA edges are remote edges?</dt>
+<dt>How non-tree-like are UCCA graphs in practice?</dt>
+<dd>UCCA graphs are only mildly non-tree-like: in the English Wiki training set 1.75% of edges are remote, while 2.38% of nodes are reentrant, 0.54% discontinuous and 0.52% implicit.<br><span class="scope">Holds for: English Wiki training split, counts excluding the root node; across the other splits and languages remote edges range from 1.00% to 2.36% and implicit nodes reach 1.56%.</span></dd>
+<dt>How well does TUPA parse UCCA in English?</dt>
+<dt>What baseline scores should a UCCA parser beat?</dt>
+<dt>What F1 does the transition-based UCCA parser get on the English Wiki test set?</dt>
+<dd>TUPA with a BiLSTM classifier reaches 73.6% labeled F1 on primary edges and 51.5% on remote edges on the English Wiki in-domain UCCA test set. The sparse-perceptron variant reaches only 64.1% primary and 16% remote F1.<br><span class="scope">Holds for: Version 1.2 of the English Wiki test set; labeled precision, recall and F1 over edges with matching yields and labels, disregarding implicit nodes.</span></dd>
+<dt>Does ensembling help UCCA parsing?</dt>
+<dt>Do multiple BiLSTM models combined by Product of Experts improve remote-edge prediction?</dt>
+<dd>An ensemble of 3 BiLSTM TUPA models combined by Product of Experts gives the best in-domain primary-edge score in the UCCA pilot task at 75% F1. It does not improve remote edges, scoring 48.7% F1 versus 51.5% for a single BiLSTM model.<br><span class="scope">Holds for: Unpublished pilot experiment on v1.2 of the English Wiki test set; the 3 models differ only in random seed. Out-of-domain the ensemble reaches 69.6% primary and 28% remote F1 on the 20K Leagues test set.</span></dd>
+<dt>Can existing dependency or constituency parsers be reused for UCCA parsing via format conversion?</dt>
+<dt>How well do conversion-based approaches work for UCCA parsing?</dt>
+<dt>Why can a tree parser not recover UCCA remote edges?</dt>
+<dd>Converting UCCA to bilexical trees and parsing with a stack-LSTM dependency parser reaches 69.9% labeled F1 on primary edges in the English in-domain pilot setting. It produces no remote edges at all, because its output is a tree.<br><span class="scope">Holds for: v1.2 of the English Wiki test set; the bilexical tree conversion caps recoverable primary structure at a 91% F1 upper bound. DAGParser, TurboParser, UPARSE and MaltParser score lower on primary edges.</span></dd>
+<dt>Does multitask learning help low-resource semantic parsing into UCCA?</dt>
+<dt>How much does using Universal Dependencies as an auxiliary task help French and German UCCA parsing?</dt>
+<dt>What improves remote-edge parsing for languages with little UCCA data?</dt>
+<dd>Multitask learning with Universal Dependencies as auxiliary task raises TUPA&#x27;s remote-edge labeled F1 from 13.9% to 20.3% on French and from 27.1% to 35.5% on German UCCA test data. Primary-edge F1 rises from 67.6% to 70.1% on French and 72.5% to 73.2% on German.<br><span class="scope">Holds for: v1.0 of the French 20K Leagues test set and v0.9 of the German 20K Leagues test set, both trained in-domain despite the small French corpus; only UD is used as auxiliary task for these two languages.</span></dd>
+<dt>How are UCCA parses evaluated?</dt>
+<dt>What is DAG F1 and how is edge matching defined for UCCA?</dt>
+<dt>Does the UCCA shared-task scoring measure handle implicit units?</dt>
+<dd>SemEval 2019 Task 1 scores UCCA parses with DAG F1, counting two edges as matching when their child nodes cover the same set of tokens and carry the same label. DAG F1 reduces to standard parsing F1 when both graphs are trees.<br><span class="scope">Holds for: The official measure disregards implicit nodes; an extension matching implicit units by parent yield is proposed but is not the scored default. Fine-grained scores are also reported per category set.</span></dd>
+<dt>What is UCCA used for besides parsing research?</dt>
+<dt>Which evaluation measures for generation tasks are built on UCCA?</dt>
+<dt>Why would better UCCA parsers help machine translation or simplification evaluation?</dt>
+<dd>UCCA-based evaluation measures already exist for 3 text-to-text generation tasks: HUME for machine translation, SAMSA for text simplification and USim for grammatical error correction. All 3 depend on UCCA structures obtained by annotation or parsing.<br><span class="scope">Holds for: HUME is a human evaluation measure over 4 language pairs; SAMSA and USim were the first structural measure for simplification and the first reference-less meaning-preservation complement for grammatical error correction respectively, as of 2018.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>SemEval 2019 Task 1 established a shared task on parsing into UCCA (Universal Conceptual Cognitive Annotation) in English, German and French. It extends the semantic parsing shared-task tradition of SDP and AMR to a scheme with reentrancy, discontinuity and non-terminal semantic units.<br><span class="scope">Scope: A call for participation issued in 2018, before the competition ran; the actual task results and participating systems are reported separately in the SemEval 2019 Task 1 summary paper.</span></li>
+<li>The SemEval 2019 UCCA task is a reference point for cross-lingual semantic parsing with almost no target-language training data. Its French setting deliberately provides only development and test sets, expecting cross-lingual transfer or structure projection over a parallel corpus.<br><span class="scope">Scope: One language triple (English, German, French) and one representation scheme (UCCA foundational layer); the low-resource design applies only to the French setting, while English and German have training data.</span></li>
+<li>SemEval 2019 Task 1 evaluates UCCA parsers in 4 settings: English in-domain, English out-of-domain, German in-domain and French with no training data. The settings are split into open and closed tracks for a total of 7 competitions, and a team may enter between 1 and 7 of them. <span class="meta">(Section 6)</span><br><span class="scope">Scope: The French setting is open-track only, as no pilot study existed for it; closed-track systems may use only the distributed gold UCCA annotation plus spaCy annotation and fastText embeddings.</span></li>
+<li>The English Wiki UCCA corpus used for SemEval 2019 Task 1 contains 5225 sentences and about 160K tokens. The German 20K Leagues corpus contributes 6004 sentences and about 136K tokens across train, development and test. <span class="meta">(Section 4 and Table 1)</span><br><span class="scope">Scope: Counts cover the UCCA foundational layer only, the sole layer with annotated corpora at the time; the English 20K Leagues out-of-domain test set adds about 12K tokens and French has development and test sets only.</span></li>
+<li>UCCA graphs are only mildly non-tree-like: in the English Wiki training set 1.75% of edges are remote, while 2.38% of nodes are reentrant, 0.54% discontinuous and 0.52% implicit. <span class="meta">(Table 1)</span><br><span class="scope">Scope: English Wiki training split, counts excluding the root node; across the other splits and languages remote edges range from 1.00% to 2.36% and implicit nodes reach 1.56%.</span></li>
+<li>TUPA with a BiLSTM classifier reaches 73.6% labeled F1 on primary edges and 51.5% on remote edges on the English Wiki in-domain UCCA test set. The sparse-perceptron variant reaches only 64.1% primary and 16% remote F1. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Version 1.2 of the English Wiki test set; labeled precision, recall and F1 over edges with matching yields and labels, disregarding implicit nodes.</span></li>
+<li>An ensemble of 3 BiLSTM TUPA models combined by Product of Experts gives the best in-domain primary-edge score in the UCCA pilot task at 75% F1. It does not improve remote edges, scoring 48.7% F1 versus 51.5% for a single BiLSTM model. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Unpublished pilot experiment on v1.2 of the English Wiki test set; the 3 models differ only in random seed. Out-of-domain the ensemble reaches 69.6% primary and 28% remote F1 on the 20K Leagues test set.</span></li>
+<li>Converting UCCA to bilexical trees and parsing with a stack-LSTM dependency parser reaches 69.9% labeled F1 on primary edges in the English in-domain pilot setting. It produces no remote edges at all, because its output is a tree. <span class="meta">(Table 2)</span><br><span class="scope">Scope: v1.2 of the English Wiki test set; the bilexical tree conversion caps recoverable primary structure at a 91% F1 upper bound. DAGParser, TurboParser, UPARSE and MaltParser score lower on primary edges.</span></li>
+<li>Multitask learning with Universal Dependencies as auxiliary task raises TUPA&#x27;s remote-edge labeled F1 from 13.9% to 20.3% on French and from 27.1% to 35.5% on German UCCA test data. Primary-edge F1 rises from 67.6% to 70.1% on French and 72.5% to 73.2% on German. <span class="meta">(Table 3)</span><br><span class="scope">Scope: v1.0 of the French 20K Leagues test set and v0.9 of the German 20K Leagues test set, both trained in-domain despite the small French corpus; only UD is used as auxiliary task for these two languages.</span></li>
+<li>SemEval 2019 Task 1 scores UCCA parses with DAG F1, counting two edges as matching when their child nodes cover the same set of tokens and carry the same label. DAG F1 reduces to standard parsing F1 when both graphs are trees. <span class="meta">(Section 6)</span><br><span class="scope">Scope: The official measure disregards implicit nodes; an extension matching implicit units by parent yield is proposed but is not the scored default. Fine-grained scores are also reported per category set.</span></li>
+<li>UCCA-based evaluation measures already exist for 3 text-to-text generation tasks: HUME for machine translation, SAMSA for text simplification and USim for grammatical error correction. All 3 depend on UCCA structures obtained by annotation or parsing. <span class="meta">(Section 3)</span><br><span class="scope">Scope: HUME is a human evaluation measure over 4 language pairs; SAMSA and USim were the first structural measure for simplification and the first reference-less meaning-preservation complement for grammatical error correction respectively, as of 2018.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The arXiv document 1805.12386 is a call for participation, not a report of SemEval 2019 Task 1 outcomes; the participating systems and official results appear in the separate task summary paper at arXiv:1903.02953.</li>
+<li>The scores in the pilot task tables are baseline results from prior TUPA work and conversion-based parsers, not results submitted by shared-task participants.</li>
+<li>The French setting of SemEval 2019 Task 1 provides no training data, so the French numbers reported for TUPA come from a pilot experiment that split the small French 20K Leagues corpus, and are not obtained under the shared task&#x27;s own zero-training-data condition.</li>
+<li>The shared task targets only UCCA&#x27;s foundational layer, the single layer for which annotated corpora existed, not the full multi-layer UCCA scheme.</li>
+<li>High primary-edge F1 does not imply the harder structures are solved: remote-edge F1 stays far lower, and tree-based conversion approaches score 0 on remote edges.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>UCCA</em></dt><dd>Universal Conceptual Cognitive Annotation, a cross-linguistically applicable semantic representation scheme that encodes utterances as directed acyclic graphs whose terminals are text tokens and whose non-terminals are semantic units, built on Basic Linguistic Theory typology.</dd>
+<dt><em>remote edge</em></dt><dd>In UCCA, an edge that lets a unit participate in more than one super-ordinate relation, creating reentrancy and turning the graph into a DAG, as opposed to primary edges which form a tree in each layer.</dd>
+<dt><em>implicit unit</em></dt><dd>A node in a UCCA graph with no corresponding token in the text, such as the unexpressed agent of a predicate.</dd>
+<dt><em>Scene</em></dt><dd>The basic notion of UCCA&#x27;s foundational layer: a state, action, movement or other relation evolving in time, containing one main relation marked as a Process or a State plus one or more Participants.</dd>
+<dt><em>DAG F1</em></dt><dd>The harmonic mean of labeled precision and recall over graph edges, where two edges match if their child nodes have identical sets of leaf (token) descendants and identical labels; it collapses to ordinary parsing F1 when both graphs are trees.</dd>
+<dt><em>TUPA</em></dt><dd>A neural transition-based parser for UCCA that produces directed acyclic graphs, used as the baseline system for SemEval 2019 Task 1.</dd>
+<dt><em>closed track</em></dt><dd>A shared-task submission condition permitting only the distributed gold UCCA annotation in the target language plus specified automatic resources — spaCy POS tags, dependency relations and named entities, and fastText word embeddings.</dd>
+<dt><em>20K Leagues corpus</em></dt><dd>An English-French-German parallel UCCA corpus based on Twenty Thousand Leagues Under the Sea, manually annotated for the whole book on the German side and for the first five chapters on the English and French sides.</dd>
+</dl>
 <h2>References</h2>
 <p>See the full reference list in the <a href="https://ar5iv.labs.arxiv.org/html/1805.12386">paper</a>.</p>
 <footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>

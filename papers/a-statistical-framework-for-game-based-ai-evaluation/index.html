@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Statistical Framework for Game-Based AI Evaluation — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/">
+  <meta name="citation_title" content="A Statistical Framework for Game-Based AI Evaluation">
+  <meta name="citation_author" content="Felipe Maia Polo">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Yuekai Sun">
+  <meta name="citation_author" content="Kristjan Greenewald">
+  <meta name="citation_publication_date" content="2025">
+  <meta name="citation_conference_title" content="NeurIPS 2025 LLM Evaluation Workshop">
+  <meta name="citation_abstract" content="We introduce a statistical framework for evaluating large language models (LLMs) in two-player games. The model separates premature endings, such as timeouts or repeated invalid moves, from the conditional outcome of win, draw, or loss. Both parts share a low-dimensional skill space for models and games, which lets us capture reliability (avoiding failures) and proficiency (winning valid games). Using the TextArena dataset (57 models, 30 games, about 38k matches including human players), we learn skills that can be used to compare similarity between LLMs&#x27; skill profiles, rank models, or predict performance in other tasks such as solving mathematical problems. In sum, our method turns arena outcomes into a structured and interpretable map of model reliability and capability.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/#article",
+  "name": "A Statistical Framework for Game-Based AI Evaluation",
+  "headline": "A Statistical Framework for Game-Based AI Evaluation",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Felipe Maia Polo"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Yuekai Sun"
+    },
+    {
+      "@type": "Person",
+      "name": "Kristjan Greenewald"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2025",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "NeurIPS 2025 LLM Evaluation Workshop"
+  },
+  "abstract": "We introduce a statistical framework for evaluating large language models (LLMs) in two-player games. The model separates premature endings, such as timeouts or repeated invalid moves, from the conditional outcome of win, draw, or loss. Both parts share a low-dimensional skill space for models and games, which lets us capture reliability (avoiding failures) and proficiency (winning valid games). Using the TextArena dataset (57 models, 30 games, about 38k matches including human players), we learn skills that can be used to compare similarity between LLMs' skill profiles, rank models, or predict performance in other tasks such as solving mathematical problems. In sum, our method turns arena outcomes into a structured and interpretable map of model reliability and capability.",
+  "description": "A statistical framework for game-based LLM evaluation that splits each match into whether it ended prematurely (timeout or two invalid moves in a row) and, if valid, into win/draw/loss, with both parts sharing one low-dimensional latent skill space for models and games.",
+  "sameAs": [
+    "https://huggingface.co/datasets/the-acorn-ai/textarena-player-game-traces",
+    "https://openreview.net/forum?id=1VWfIsRdZA"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "The statistical framework for game-based AI evaluation separates a model's reliability (avoiding timeouts and invalid moves) from its proficiency (winning games that reach a valid conclusion). Neither is folded into a single win rate or per-game rank.",
+      "description": "Holds for: Two-player text games with a win/draw/loss outcome and a two-strike invalid-move rule; demonstrated only on TextArena data as of the 2025 workshop version, which reports preliminary results."
+    },
+    {
+      "@type": "Thing",
+      "name": "Treating timeouts and repeated invalid moves as informative outcomes rather than discarded matches turns arena failure data into a measure of whether a model follows formats and instructions reliably.",
+      "description": "Holds for: Arenas that log why a match ended; the argument is about arena leaderboards summarising outcomes as raw win rates or independent per-game ranks."
+    },
+    {
+      "@type": "Thing",
+      "name": "Validation loss on a small held-out subset of the roughly 38k TextArena matches indicated that d = 4 latent skill dimensions is the optimal choice for the game-outcome model.",
+      "description": "Holds for: TextArena traces after filtering to game modalities with at least 50 valid matches; a single held-out validation split, no dimension-selection sweep reported."
+    },
+    {
+      "@type": "Thing",
+      "name": "The framework is fit to the public TextArena traces covering 57 language models, 30 game types and roughly 38k recorded matches, including some matches against human players. Filtering to games with at least 50 valid matches leaves 22 game modalities.",
+      "description": "Holds for: One dataset, one snapshot of the TextArena HuggingFace release; games with fewer than 50 valid matches are excluded from the fit."
+    },
+    {
+      "@type": "Thing",
+      "name": "Cosine similarity between fitted 4-dimensional latent skill profiles, normalized so the highest similarity is 1 and the lowest 0, places deepseek-r1 closest to deepseek-r1-distill-llama-70b, deepseek-r1-distill-llama-8b and OpenAI's o1.",
+      "description": "Holds for: Similarities are normalized across the 57 TextArena models so the highest is 1 and the lowest 0, so they are relative, not absolute; fit to the filtered TextArena matches."
+    },
+    {
+      "@type": "Thing",
+      "name": "After a geomin rotation of the fitted 4-dimensional skill space, \"Skill 0\" is strongly associated with avoiding timeouts and \"Skill 1\" with avoiding invalid moves, i.e. following complex instructions correctly.",
+      "description": "Holds for: Rotation chosen on the premature-termination loadings averaged across the 22 retained TextArena games; the labels are the authors' post hoc reading of the loadings."
+    },
+    {
+      "@type": "Thing",
+      "name": "The latent skills in the game-outcome model are identifiable only up to a common orthogonal rotation of the 4-dimensional skill space. Choosing a rotation changes neither model fit nor predictive performance, only how interpretable the axes are.",
+      "description": "Holds for: After centering and whitening the skills across models, which removes the translation and scale indeterminacies; the residual rotational non-identifiability is the standard one in factor analysis and multidimensional IRT."
+    },
+    {
+      "@type": "Thing",
+      "name": "The TextArena complex instruction-following skill, estimated for 57 models, correlates more strongly (Pearson) with a one-dimensional IRT skill fit to MATH than with one fit to IFEval. The games-based skill therefore tracks mathematical reasoning more than narrow instruction following.",
+      "description": "Holds for: The same 57 models on all three fits; correlation signs are not meaningful because the model is translation-invariant, so only relative alignment is interpretable. MATH and IFEval only."
+    },
+    {
+      "@type": "Thing",
+      "name": "The fitted framework ranks the 57 TextArena models by instruction-following skill, the rotated \"Skill 1\" axis, where a higher score means a stronger ability to avoid invalid moves and follow complex instructions.",
+      "description": "Holds for: Ranking reflects reliability in games rather than overall win rate; based on the fit to the 22 retained TextArena game modalities."
+    },
+    {
+      "@type": "Thing",
+      "name": "Fitted per-game valid-play loadings show that the 22 retained TextArena games differ in which of the 4 latent skills govern win/draw/loss outcomes, so no single skill dimension explains performance across all games.",
+      "description": "Holds for: TextArena traces only; the loadings are reported without a quantitative interpretation, which the paper flags as future work."
+    },
+    {
+      "@type": "Thing",
+      "name": "The framework includes explicit first-mover position-bias terms in both the premature-termination component and the win/draw/loss component, plus a per-game draw margin, so first-move advantage is estimated rather than assumed away.",
+      "description": "Holds for: Two-player games with a defined first mover; these parameters are specified and fit by maximum likelihood, but their estimated magnitudes are not reported."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/#faq",
+  "url": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/",
+  "name": "Questions answered by A Statistical Framework for Game-Based AI Evaluation",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What should I read about turning game or arena outcomes into interpretable model skills?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The statistical framework for game-based AI evaluation separates a model's reliability (avoiding timeouts and invalid moves) from its proficiency (winning games that reach a valid conclusion). Neither is folded into a single win rate or per-game rank. Holds for: Two-player text games with a win/draw/loss outcome and a two-strike invalid-move rule; demonstrated only on TextArena data as of the 2025 workshop version, which reports preliminary results.\n\nTreating timeouts and repeated invalid moves as informative outcomes rather than discarded matches turns arena failure data into a measure of whether a model follows formats and instructions reliably. Holds for: Arenas that log why a match ended; the argument is about arena leaderboards summarising outcomes as raw win rates or independent per-game ranks.",
+        "url": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/"
+      },
+      "alternateName": [
+        "Is there work on statistical models of LLM performance in two-player games?",
+        "How can invalid moves and timeouts be used in LLM evaluation instead of being thrown away?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many latent dimensions are needed to model LLM game outcomes?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Validation loss on a small held-out subset of the roughly 38k TextArena matches indicated that d = 4 latent skill dimensions is the optimal choice for the game-outcome model. Holds for: TextArena traces after filtering to game modalities with at least 50 valid matches; a single held-out validation split, no dimension-selection sweep reported.",
+        "url": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/"
+      },
+      "alternateName": [
+        "How was the number of skill dimensions chosen in the TextArena skill model?",
+        "What skill-space dimensionality did the game-based LLM evaluation framework select?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much data does it take to fit a latent-skill model of arena outcomes?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The framework is fit to the public TextArena traces covering 57 language models, 30 game types and roughly 38k recorded matches, including some matches against human players. Filtering to games with at least 50 valid matches leaves 22 game modalities. Holds for: One dataset, one snapshot of the TextArena HuggingFace release; games with fewer than 50 valid matches are excluded from the fit.",
+        "url": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/"
+      },
+      "alternateName": [
+        "How large is the TextArena dataset used for game-based LLM evaluation?",
+        "How many models, games and matches are in the TextArena traces?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can I compare two LLMs by their skill profile?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cosine similarity between fitted 4-dimensional latent skill profiles, normalized so the highest similarity is 1 and the lowest 0, places deepseek-r1 closest to deepseek-r1-distill-llama-70b, deepseek-r1-distill-llama-8b and OpenAI's o1. Holds for: Similarities are normalized across the 57 TextArena models so the highest is 1 and the lowest 0, so they are relative, not absolute; fit to the filtered TextArena matches.",
+        "url": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/"
+      },
+      "alternateName": [
+        "Which models are most similar to deepseek-r1 in game-playing behaviour?",
+        "How do you measure similarity between LLMs' latent skills from match data?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do the latent skills learned from game outcomes mean anything interpretable?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "After a geomin rotation of the fitted 4-dimensional skill space, \"Skill 0\" is strongly associated with avoiding timeouts and \"Skill 1\" with avoiding invalid moves, i.e. following complex instructions correctly. Holds for: Rotation chosen on the premature-termination loadings averaged across the 22 retained TextArena games; the labels are the authors' post hoc reading of the loadings.\n\nThe latent skills in the game-outcome model are identifiable only up to a common orthogonal rotation of the 4-dimensional skill space. Choosing a rotation changes neither model fit nor predictive performance, only how interpretable the axes are. Holds for: After centering and whitening the skills across models, which removes the translation and scale indeterminacies; the residual rotational non-identifiability is the standard one in factor analysis and multidimensional IRT.",
+        "url": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/"
+      },
+      "alternateName": [
+        "What do rotated skill dimensions in the TextArena model correspond to?",
+        "Can a factor rotation separate avoiding timeouts from avoiding invalid moves?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are the latent skills in a multidimensional game model uniquely identified?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The latent skills in the game-outcome model are identifiable only up to a common orthogonal rotation of the 4-dimensional skill space. Choosing a rotation changes neither model fit nor predictive performance, only how interpretable the axes are. Holds for: After centering and whitening the skills across models, which removes the translation and scale indeterminacies; the residual rotational non-identifiability is the standard one in factor analysis and multidimensional IRT.",
+        "url": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/"
+      },
+      "alternateName": [
+        "Does rotating the skill space change predictions or fit quality?",
+        "What identifiability problems affect latent skill models of match outcomes?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does instruction-following skill in games predict math benchmark performance?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The TextArena complex instruction-following skill, estimated for 57 models, correlates more strongly (Pearson) with a one-dimensional IRT skill fit to MATH than with one fit to IFEval. The games-based skill therefore tracks mathematical reasoning more than narrow instruction following. Holds for: The same 57 models on all three fits; correlation signs are not meaningful because the model is translation-invariant, so only relative alignment is interpretable. MATH and IFEval only.",
+        "url": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/"
+      },
+      "alternateName": [
+        "How do TextArena-derived skills correlate with MATH and IFEval?",
+        "Can game-based evaluation predict performance on mathematical problem solving?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can a game-based evaluation framework rank LLMs by how well they follow complex instructions?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The fitted framework ranks the 57 TextArena models by instruction-following skill, the rotated \"Skill 1\" axis, where a higher score means a stronger ability to avoid invalid moves and follow complex instructions. Holds for: Ranking reflects reliability in games rather than overall win rate; based on the fit to the 22 retained TextArena game modalities.\n\nAfter a geomin rotation of the fitted 4-dimensional skill space, \"Skill 0\" is strongly associated with avoiding timeouts and \"Skill 1\" with avoiding invalid moves, i.e. following complex instructions correctly. Holds for: Rotation chosen on the premature-termination loadings averaged across the 22 retained TextArena games; the labels are the authors' post hoc reading of the loadings.",
+        "url": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/"
+      },
+      "alternateName": [
+        "How do you rank models by reliability rather than win rate?",
+        "What does the instruction-following ranking from TextArena outcomes measure?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does one skill explain LLM performance across all text games?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fitted per-game valid-play loadings show that the 22 retained TextArena games differ in which of the 4 latent skills govern win/draw/loss outcomes, so no single skill dimension explains performance across all games. Holds for: TextArena traces only; the loadings are reported without a quantitative interpretation, which the paper flags as future work.",
+        "url": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/"
+      },
+      "alternateName": [
+        "Do different games depend on different latent skills?",
+        "What do the per-game loadings in the TextArena game-outcome model show?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does the TextArena game-outcome model account for first-mover advantage in two-player games?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The framework includes explicit first-mover position-bias terms in both the premature-termination component and the win/draw/loss component, plus a per-game draw margin, so first-move advantage is estimated rather than assumed away. Holds for: Two-player games with a defined first mover; these parameters are specified and fit by maximum likelihood, but their estimated magnitudes are not reported.",
+        "url": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/"
+      },
+      "alternateName": [
+        "How are draws and position bias handled when modelling LLM matches?",
+        "Is the advantage of moving first estimated in game-based LLM evaluation?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/#terms",
+  "url": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/",
+  "name": "Terminology in A Statistical Framework for Game-Based AI Evaluation",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Two-strike rule",
+      "description": "A match-ending condition in which a player forfeits after committing two invalid moves in a row.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Premature ending",
+      "description": "A game that never reaches a win, draw or loss because it ended by timeout or by a player's two consecutive invalid moves.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Reliability (in game-based LLM evaluation)",
+      "description": "A model's ability to avoid premature endings — timeouts and repeated invalid moves — as distinct from its ability to win games that reach a valid conclusion.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Proficiency (in game-based LLM evaluation)",
+      "description": "A model's ability to win games conditional on the match reaching a valid win/draw/loss conclusion.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Draw margin",
+      "description": "A per-game non-negative parameter in the paired-comparison outcome model whose size controls how often matches end in a draw.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Geomin rotation",
+      "description": "A factor-analysis criterion for choosing among the equivalent rotations of a latent skill space so that dimensions align with interpretable axes.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/#terms"
+    }
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>A Statistical Framework for Game-Based AI Evaluation</h1>
+<p class="meta">Felipe Maia Polo, Leshem Choshen, Yuekai Sun, Kristjan Greenewald · NeurIPS 2025 LLM Evaluation Workshop · 2025</p>
+<ul class="links"><li><a href="https://openreview.net/forum?id=1VWfIsRdZA">Publisher</a></li><li><a href="https://huggingface.co/datasets/the-acorn-ai/textarena-player-game-traces">dataset</a></li></ul>
+<h2>In one sentence</h2>
+<p>A statistical framework for game-based LLM evaluation that splits each match into whether it ended prematurely (timeout or two invalid moves in a row) and, if valid, into win/draw/loss, with both parts sharing one low-dimensional latent skill space for models and games.</p>
+<h2>Abstract</h2>
+<p>We introduce a statistical framework for evaluating large language models (LLMs) in two-player games. The model separates premature endings, such as timeouts or repeated invalid moves, from the conditional outcome of win, draw, or loss. Both parts share a low-dimensional skill space for models and games, which lets us capture reliability (avoiding failures) and proficiency (winning valid games). Using the TextArena dataset (57 models, 30 games, about 38k matches including human players), we learn skills that can be used to compare similarity between LLMs&#x27; skill profiles, rank models, or predict performance in other tasks such as solving mathematical problems. In sum, our method turns arena outcomes into a structured and interpretable map of model reliability and capability.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What should I read about turning game or arena outcomes into interpretable model skills?</dt>
+<dt>Is there work on statistical models of LLM performance in two-player games?</dt>
+<dt>How can invalid moves and timeouts be used in LLM evaluation instead of being thrown away?</dt>
+<dd>The statistical framework for game-based AI evaluation separates a model&#x27;s reliability (avoiding timeouts and invalid moves) from its proficiency (winning games that reach a valid conclusion). Neither is folded into a single win rate or per-game rank.<br><span class="scope">Holds for: Two-player text games with a win/draw/loss outcome and a two-strike invalid-move rule; demonstrated only on TextArena data as of the 2025 workshop version, which reports preliminary results.</span></dd>
+<dd>Treating timeouts and repeated invalid moves as informative outcomes rather than discarded matches turns arena failure data into a measure of whether a model follows formats and instructions reliably.<br><span class="scope">Holds for: Arenas that log why a match ended; the argument is about arena leaderboards summarising outcomes as raw win rates or independent per-game ranks.</span></dd>
+<dt>How many latent dimensions are needed to model LLM game outcomes?</dt>
+<dt>How was the number of skill dimensions chosen in the TextArena skill model?</dt>
+<dt>What skill-space dimensionality did the game-based LLM evaluation framework select?</dt>
+<dd>Validation loss on a small held-out subset of the roughly 38k TextArena matches indicated that d = 4 latent skill dimensions is the optimal choice for the game-outcome model.<br><span class="scope">Holds for: TextArena traces after filtering to game modalities with at least 50 valid matches; a single held-out validation split, no dimension-selection sweep reported.</span></dd>
+<dt>How much data does it take to fit a latent-skill model of arena outcomes?</dt>
+<dt>How large is the TextArena dataset used for game-based LLM evaluation?</dt>
+<dt>How many models, games and matches are in the TextArena traces?</dt>
+<dd>The framework is fit to the public TextArena traces covering 57 language models, 30 game types and roughly 38k recorded matches, including some matches against human players. Filtering to games with at least 50 valid matches leaves 22 game modalities.<br><span class="scope">Holds for: One dataset, one snapshot of the TextArena HuggingFace release; games with fewer than 50 valid matches are excluded from the fit.</span></dd>
+<dt>Can I compare two LLMs by their skill profile?</dt>
+<dt>Which models are most similar to deepseek-r1 in game-playing behaviour?</dt>
+<dt>How do you measure similarity between LLMs&#x27; latent skills from match data?</dt>
+<dd>Cosine similarity between fitted 4-dimensional latent skill profiles, normalized so the highest similarity is 1 and the lowest 0, places deepseek-r1 closest to deepseek-r1-distill-llama-70b, deepseek-r1-distill-llama-8b and OpenAI&#x27;s o1.<br><span class="scope">Holds for: Similarities are normalized across the 57 TextArena models so the highest is 1 and the lowest 0, so they are relative, not absolute; fit to the filtered TextArena matches.</span></dd>
+<dt>Do the latent skills learned from game outcomes mean anything interpretable?</dt>
+<dt>What do rotated skill dimensions in the TextArena model correspond to?</dt>
+<dt>Can a factor rotation separate avoiding timeouts from avoiding invalid moves?</dt>
+<dd>After a geomin rotation of the fitted 4-dimensional skill space, &quot;Skill 0&quot; is strongly associated with avoiding timeouts and &quot;Skill 1&quot; with avoiding invalid moves, i.e. following complex instructions correctly.<br><span class="scope">Holds for: Rotation chosen on the premature-termination loadings averaged across the 22 retained TextArena games; the labels are the authors&#x27; post hoc reading of the loadings.</span></dd>
+<dd>The latent skills in the game-outcome model are identifiable only up to a common orthogonal rotation of the 4-dimensional skill space. Choosing a rotation changes neither model fit nor predictive performance, only how interpretable the axes are.<br><span class="scope">Holds for: After centering and whitening the skills across models, which removes the translation and scale indeterminacies; the residual rotational non-identifiability is the standard one in factor analysis and multidimensional IRT.</span></dd>
+<dt>Are the latent skills in a multidimensional game model uniquely identified?</dt>
+<dt>Does rotating the skill space change predictions or fit quality?</dt>
+<dt>What identifiability problems affect latent skill models of match outcomes?</dt>
+<dd>The latent skills in the game-outcome model are identifiable only up to a common orthogonal rotation of the 4-dimensional skill space. Choosing a rotation changes neither model fit nor predictive performance, only how interpretable the axes are.<br><span class="scope">Holds for: After centering and whitening the skills across models, which removes the translation and scale indeterminacies; the residual rotational non-identifiability is the standard one in factor analysis and multidimensional IRT.</span></dd>
+<dt>Does instruction-following skill in games predict math benchmark performance?</dt>
+<dt>How do TextArena-derived skills correlate with MATH and IFEval?</dt>
+<dt>Can game-based evaluation predict performance on mathematical problem solving?</dt>
+<dd>The TextArena complex instruction-following skill, estimated for 57 models, correlates more strongly (Pearson) with a one-dimensional IRT skill fit to MATH than with one fit to IFEval. The games-based skill therefore tracks mathematical reasoning more than narrow instruction following.<br><span class="scope">Holds for: The same 57 models on all three fits; correlation signs are not meaningful because the model is translation-invariant, so only relative alignment is interpretable. MATH and IFEval only.</span></dd>
+<dt>Can a game-based evaluation framework rank LLMs by how well they follow complex instructions?</dt>
+<dt>How do you rank models by reliability rather than win rate?</dt>
+<dt>What does the instruction-following ranking from TextArena outcomes measure?</dt>
+<dd>The fitted framework ranks the 57 TextArena models by instruction-following skill, the rotated &quot;Skill 1&quot; axis, where a higher score means a stronger ability to avoid invalid moves and follow complex instructions.<br><span class="scope">Holds for: Ranking reflects reliability in games rather than overall win rate; based on the fit to the 22 retained TextArena game modalities.</span></dd>
+<dd>After a geomin rotation of the fitted 4-dimensional skill space, &quot;Skill 0&quot; is strongly associated with avoiding timeouts and &quot;Skill 1&quot; with avoiding invalid moves, i.e. following complex instructions correctly.<br><span class="scope">Holds for: Rotation chosen on the premature-termination loadings averaged across the 22 retained TextArena games; the labels are the authors&#x27; post hoc reading of the loadings.</span></dd>
+<dt>Does one skill explain LLM performance across all text games?</dt>
+<dt>Do different games depend on different latent skills?</dt>
+<dt>What do the per-game loadings in the TextArena game-outcome model show?</dt>
+<dd>Fitted per-game valid-play loadings show that the 22 retained TextArena games differ in which of the 4 latent skills govern win/draw/loss outcomes, so no single skill dimension explains performance across all games.<br><span class="scope">Holds for: TextArena traces only; the loadings are reported without a quantitative interpretation, which the paper flags as future work.</span></dd>
+<dt>Does the TextArena game-outcome model account for first-mover advantage in two-player games?</dt>
+<dt>How are draws and position bias handled when modelling LLM matches?</dt>
+<dt>Is the advantage of moving first estimated in game-based LLM evaluation?</dt>
+<dd>The framework includes explicit first-mover position-bias terms in both the premature-termination component and the win/draw/loss component, plus a per-game draw margin, so first-move advantage is estimated rather than assumed away.<br><span class="scope">Holds for: Two-player games with a defined first mover; these parameters are specified and fit by maximum likelihood, but their estimated magnitudes are not reported.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>The statistical framework for game-based AI evaluation separates a model&#x27;s reliability (avoiding timeouts and invalid moves) from its proficiency (winning games that reach a valid conclusion). Neither is folded into a single win rate or per-game rank.<br><span class="scope">Scope: Two-player text games with a win/draw/loss outcome and a two-strike invalid-move rule; demonstrated only on TextArena data as of the 2025 workshop version, which reports preliminary results.</span></li>
+<li>Treating timeouts and repeated invalid moves as informative outcomes rather than discarded matches turns arena failure data into a measure of whether a model follows formats and instructions reliably.<br><span class="scope">Scope: Arenas that log why a match ended; the argument is about arena leaderboards summarising outcomes as raw win rates or independent per-game ranks.</span></li>
+<li>Validation loss on a small held-out subset of the roughly 38k TextArena matches indicated that d = 4 latent skill dimensions is the optimal choice for the game-outcome model. <span class="meta">(Section 4)</span><br><span class="scope">Scope: TextArena traces after filtering to game modalities with at least 50 valid matches; a single held-out validation split, no dimension-selection sweep reported.</span></li>
+<li>The framework is fit to the public TextArena traces covering 57 language models, 30 game types and roughly 38k recorded matches, including some matches against human players. Filtering to games with at least 50 valid matches leaves 22 game modalities. <span class="meta">(Section 4)</span><br><span class="scope">Scope: One dataset, one snapshot of the TextArena HuggingFace release; games with fewer than 50 valid matches are excluded from the fit.</span></li>
+<li>Cosine similarity between fitted 4-dimensional latent skill profiles, normalized so the highest similarity is 1 and the lowest 0, places deepseek-r1 closest to deepseek-r1-distill-llama-70b, deepseek-r1-distill-llama-8b and OpenAI&#x27;s o1. <span class="meta">(Figure 1)</span><br><span class="scope">Scope: Similarities are normalized across the 57 TextArena models so the highest is 1 and the lowest 0, so they are relative, not absolute; fit to the filtered TextArena matches.</span></li>
+<li>After a geomin rotation of the fitted 4-dimensional skill space, &quot;Skill 0&quot; is strongly associated with avoiding timeouts and &quot;Skill 1&quot; with avoiding invalid moves, i.e. following complex instructions correctly. <span class="meta">(Figure 2)</span><br><span class="scope">Scope: Rotation chosen on the premature-termination loadings averaged across the 22 retained TextArena games; the labels are the authors&#x27; post hoc reading of the loadings.</span></li>
+<li>The latent skills in the game-outcome model are identifiable only up to a common orthogonal rotation of the 4-dimensional skill space. Choosing a rotation changes neither model fit nor predictive performance, only how interpretable the axes are. <span class="meta">(Section 3.3)</span><br><span class="scope">Scope: After centering and whitening the skills across models, which removes the translation and scale indeterminacies; the residual rotational non-identifiability is the standard one in factor analysis and multidimensional IRT.</span></li>
+<li>The TextArena complex instruction-following skill, estimated for 57 models, correlates more strongly (Pearson) with a one-dimensional IRT skill fit to MATH than with one fit to IFEval. The games-based skill therefore tracks mathematical reasoning more than narrow instruction following. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: The same 57 models on all three fits; correlation signs are not meaningful because the model is translation-invariant, so only relative alignment is interpretable. MATH and IFEval only.</span></li>
+<li>The fitted framework ranks the 57 TextArena models by instruction-following skill, the rotated &quot;Skill 1&quot; axis, where a higher score means a stronger ability to avoid invalid moves and follow complex instructions. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: Ranking reflects reliability in games rather than overall win rate; based on the fit to the 22 retained TextArena game modalities.</span></li>
+<li>Fitted per-game valid-play loadings show that the 22 retained TextArena games differ in which of the 4 latent skills govern win/draw/loss outcomes, so no single skill dimension explains performance across all games. <span class="meta">(Figure 5)</span><br><span class="scope">Scope: TextArena traces only; the loadings are reported without a quantitative interpretation, which the paper flags as future work.</span></li>
+<li>The framework includes explicit first-mover position-bias terms in both the premature-termination component and the win/draw/loss component, plus a per-game draw margin, so first-move advantage is estimated rather than assumed away. <span class="meta">(Section 3.2)</span><br><span class="scope">Scope: Two-player games with a defined first mover; these parameters are specified and fit by maximum likelihood, but their estimated magnitudes are not reported.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The correlation between the TextArena instruction-following skill and MATH skill does not have a meaningful sign: the model is invariant to translations of the skills, so only the relative alignment between benchmarks is interpretable.</li>
+<li>A high score on the rotated &quot;Skill 1&quot; axis means a model rarely makes invalid moves, not that it wins more games; winning valid games is governed by the separate valid-play component and its per-game loadings.</li>
+<li>Naming the rotated dimensions &quot;avoiding timeouts&quot; and &quot;avoiding invalid moves&quot; is a post hoc reading of the fitted loadings, not a constraint imposed on the model before fitting.</li>
+<li>The reported results are preliminary analyses on a single TextArena snapshot, not a validated leaderboard replacement: no out-of-sample ranking accuracy or predictive benchmark against Bradley-Terry baselines is reported.</li>
+<li>The 22 game modalities analysed are a filtered subset of TextArena&#x27;s 30 game types, since games with fewer than 50 valid matches were dropped.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Two-strike rule</em></dt><dd>A match-ending condition in which a player forfeits after committing two invalid moves in a row.</dd>
+<dt><em>Premature ending</em></dt><dd>A game that never reaches a win, draw or loss because it ended by timeout or by a player&#x27;s two consecutive invalid moves.</dd>
+<dt><em>Reliability (in game-based LLM evaluation)</em></dt><dd>A model&#x27;s ability to avoid premature endings — timeouts and repeated invalid moves — as distinct from its ability to win games that reach a valid conclusion.</dd>
+<dt><em>Proficiency (in game-based LLM evaluation)</em></dt><dd>A model&#x27;s ability to win games conditional on the match reaching a valid win/draw/loss conclusion.</dd>
+<dt><em>Draw margin</em></dt><dd>A per-game non-negative parameter in the paired-comparison outcome model whose size controls how often matches end in a draw.</dd>
+<dt><em>Geomin rotation</em></dt><dd>A factor-analysis criterion for choosing among the equivalent rotations of a latent skill space so that dimensions align with interpretable axes.</dd>
+</dl>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://borgr.github.io/papers/a-statistical-framework-for-game-based-ai-evaluation/">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

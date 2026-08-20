@@ -1,116 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Beyond Binary Rewards: Training {LM}s to Reason About Their Uncertainty — Leshem Choshen</title>
-  <link rel="canonical" href="https://borgr.github.io/papers/beyond-binary-rewards-training-lm-s-to-reason-about-their-un/">
-  <meta name="citation_title" content="Beyond Binary Rewards: Training LMs to Reason About Their Uncertainty">
-  <meta name="citation_author" content="Mehul Damani">
-  <meta name="citation_author" content="Isha Puri">
-  <meta name="citation_author" content="Stewart Slocum">
-  <meta name="citation_author" content="Idan Shenfeld">
-  <meta name="citation_author" content="Leshem Choshen">
-  <meta name="citation_author" content="Yoon Kim">
-  <meta name="citation_author" content="Jacob Andreas">
-  <meta name="citation_publication_date" content="2026">
-  <meta name="citation_conference_title" content="The Fourteenth International Conference on Learning Representations">
-  <meta name="citation_doi" content="10.48550/arXiv.2507.16806">
-  <meta name="citation_arxiv_id" content="2507.16806">
-  <meta name="citation_abstract" content="When language models (LMs) are trained via reinforcement learning (RL) to generate natural language&quot;reasoning chains&quot;, their performance improves on a variety of difficult question answering tasks. Today, almost all successful applications of RL for reasoning use binary reward functions that evaluate the correctness of LM outputs. Because such reward functions do not penalize guessing or low-confidence outputs, they often have the unintended side-effect of degrading calibration and increasing the rate at which LMs generate incorrect responses (or&quot;hallucinate&quot;) in other problem domains. This paper describes RLCR (Reinforcement Learning with Calibration Rewards), an approach to training reasoning models that jointly improves accuracy and calibrated confidence estimation. During RLCR, LMs generate both predictions and numerical confidence estimates after reasoning. They are trained to optimize a reward function that augments a binary correctness score with a Brier score -- a scoring rule for confidence estimates that incentivizes calibrated prediction. We first prove that this reward function (or any reward function that uses a bounded, proper scoring rule) yields models whose predictions are both accurate and well-calibrated. We next show that across diverse datasets, RLCR substantially improves calibration with no loss in accuracy, on both in-domain and out-of-domain evaluations -- outperforming both ordinary RL training and classifiers trained to assign post-hoc confidence scores. While ordinary RL hurts calibration, RLCR improves it. Finally, we demonstrate that verbalized confidence can be leveraged at test time to improve accuracy and calibration via confidence-weighted scaling methods. Our results show that explicitly optimizing for calibration can produce more generally reliable reasoning models. Code, models, and further info is available at https://rl-calibration.github.io/.">
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ScholarlyArticle",
-  "@id": "https://borgr.github.io/papers/beyond-binary-rewards-training-lm-s-to-reason-about-their-un/#article",
-  "name": "Beyond Binary Rewards: Training LMs to Reason About Their Uncertainty",
-  "headline": "Beyond Binary Rewards: Training LMs to Reason About Their Uncertainty",
-  "author": [
-    {
-      "@type": "Person",
-      "name": "Mehul Damani"
-    },
-    {
-      "@type": "Person",
-      "name": "Isha Puri"
-    },
-    {
-      "@type": "Person",
-      "name": "Stewart Slocum"
-    },
-    {
-      "@type": "Person",
-      "name": "Idan Shenfeld"
-    },
-    {
-      "@type": "Person",
-      "name": "Leshem Choshen",
-      "@id": "https://orcid.org/0000-0002-0085-6496"
-    },
-    {
-      "@type": "Person",
-      "name": "Yoon Kim"
-    },
-    {
-      "@type": "Person",
-      "name": "Jacob Andreas"
-    }
-  ],
-  "isAccessibleForFree": true,
-  "datePublished": "2026",
-  "isPartOf": {
-    "@type": "Periodical",
-    "name": "The Fourteenth International Conference on Learning Representations"
-  },
-  "identifier": "https://doi.org/10.48550/arXiv.2507.16806",
-  "abstract": "When language models (LMs) are trained via reinforcement learning (RL) to generate natural language\"reasoning chains\", their performance improves on a variety of difficult question answering tasks. Today, almost all successful applications of RL for reasoning use binary reward functions that evaluate the correctness of LM outputs. Because such reward functions do not penalize guessing or low-confidence outputs, they often have the unintended side-effect of degrading calibration and increasing the rate at which LMs generate incorrect responses (or\"hallucinate\") in other problem domains. This paper describes RLCR (Reinforcement Learning with Calibration Rewards), an approach to training reasoning models that jointly improves accuracy and calibrated confidence estimation. During RLCR, LMs generate both predictions and numerical confidence estimates after reasoning. They are trained to optimize a reward function that augments a binary correctness score with a Brier score -- a scoring rule for confidence estimates that incentivizes calibrated prediction. We first prove that this reward function (or any reward function that uses a bounded, proper scoring rule) yields models whose predictions are both accurate and well-calibrated. We next show that across diverse datasets, RLCR substantially improves calibration with no loss in accuracy, on both in-domain and out-of-domain evaluations -- outperforming both ordinary RL training and classifiers trained to assign post-hoc confidence scores. While ordinary RL hurts calibration, RLCR improves it. Finally, we demonstrate that verbalized confidence can be leveraged at test time to improve accuracy and calibration via confidence-weighted scaling methods. Our results show that explicitly optimizing for calibration can produce more generally reliable reasoning models. Code, models, and further info is available at https://rl-calibration.github.io/.",
-  "sameAs": [
-    "https://arxiv.org/abs/2507.16806",
-    "https://arxiv.org/html/2507.16806",
-    "https://arxiv.org/pdf/2507.16806",
-    "https://doi.org/10.48550/arXiv.2507.16806",
-    "https://huggingface.co/papers/2507.16806",
-    "https://openreview.net/forum?id=ASQ649zdHm",
-    "https://www.alphaxiv.org/abs/2507.16806",
-    "https://www.semanticscholar.org/paper/280675947"
-  ]
-}
-  </script>
-  <style>
-    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
-            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
-    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
-    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
-    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
-    .meta { color: #555; font-size: .92rem; }
-    a { color: #06c; }
-    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
-    dl.qa dd { margin: .3rem 0 0 0; }
-    .scope { color: #444; font-size: .94rem; }
-    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
-    ul.links { list-style: none; padding: 0; }
-    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
-    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
-              font-size: .85rem; color: #666; }
-  </style>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="0; url=/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/">
+<link rel="canonical" href="https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/">
+<title>Moved — Beyond Binary Rewards: Training LMs to Reason About Their Uncertainty</title>
 </head>
 <body>
-<h1>Beyond Binary Rewards: Training LMs to Reason About Their Uncertainty</h1>
-<p class="meta">Mehul Damani, Isha Puri, Stewart Slocum, Idan Shenfeld, Leshem Choshen, Yoon Kim, Jacob Andreas · The Fourteenth International Conference on Learning Representations · 2026</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2507.16806">arXiv</a></li><li><a href="https://arxiv.org/pdf/2507.16806">PDF</a></li><li><a href="https://arxiv.org/html/2507.16806">HTML</a></li><li><a href="https://huggingface.co/papers/2507.16806">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2507.16806">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2507.16806">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/280675947">Semantic Scholar</a></li><li><a href="https://openreview.net/forum?id=ASQ649zdHm">Publisher</a></li></ul>
-<h2>Abstract</h2>
-<p>When language models (LMs) are trained via reinforcement learning (RL) to generate natural language&quot;reasoning chains&quot;, their performance improves on a variety of difficult question answering tasks. Today, almost all successful applications of RL for reasoning use binary reward functions that evaluate the correctness of LM outputs. Because such reward functions do not penalize guessing or low-confidence outputs, they often have the unintended side-effect of degrading calibration and increasing the rate at which LMs generate incorrect responses (or&quot;hallucinate&quot;) in other problem domains. This paper describes RLCR (Reinforcement Learning with Calibration Rewards), an approach to training reasoning models that jointly improves accuracy and calibrated confidence estimation. During RLCR, LMs generate both predictions and numerical confidence estimates after reasoning. They are trained to optimize a reward function that augments a binary correctness score with a Brier score -- a scoring rule for confidence estimates that incentivizes calibrated prediction. We first prove that this reward function (or any reward function that uses a bounded, proper scoring rule) yields models whose predictions are both accurate and well-calibrated. We next show that across diverse datasets, RLCR substantially improves calibration with no loss in accuracy, on both in-domain and out-of-domain evaluations -- outperforming both ordinary RL training and classifiers trained to assign post-hoc confidence scores. While ordinary RL hurts calibration, RLCR improves it. Finally, we demonstrate that verbalized confidence can be leveraged at test time to improve accuracy and calibration via confidence-weighted scaling methods. Our results show that explicitly optimizing for calibration can produce more generally reliable reasoning models. Code, models, and further info is available at https://rl-calibration.github.io/.</p>
-<h2>How to cite</h2>
-<pre>@inproceedings{
-damani2026beyond,
-title={Beyond Binary Rewards: Training {LM}s to Reason About Their Uncertainty},
-author={Damani, Mehul and Puri, Isha and Slocum, Stewart and Shenfeld, Idan and Choshen, Leshem and Kim, Yoon and Andreas, Jacob},
-booktitle={The Fourteenth International Conference on Learning Representations},
-year={2026},
-url={https://openreview.net/forum?id=ASQ649zdHm}
-}</pre>
-<h2>References</h2>
-<p>See the full reference list in the <a href="https://arxiv.org/html/2507.16806">paper</a>.</p>
-<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+<p>This paper is now at <a href="/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/">Beyond Binary Rewards: Training LMs to Reason About Their Uncertainty</a>.</p>
 </body>
 </html>

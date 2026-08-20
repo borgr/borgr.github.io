@@ -10,7 +10,7 @@
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2022">
-  <meta name="citation_conference_title" content="Proceedings of the 11th Joint Conference on Lexical and Computational Semantics, *SEM@NAACL-HLT 2022…">
+  <meta name="citation_conference_title" content="*SEM 2022">
   <meta name="citation_doi" content="10.18653/V1/2022.STARSEM-1.3">
   <meta name="citation_arxiv_id" content="2110.06920">
   <meta name="citation_abstract" content="The integration of syntactic structures into Transformer machine translation has shown positive results, but to our knowledge, no work has attempted to do so with semantic structures. In this work we propose two novel parameter-free methods for injecting semantic information into Transformers, both rely on semantics-aware masking of (some of) the attention heads. One such method operates on the encoder, through a Scene-Aware Self-Attention (SASA) head. Another on the decoder, through a Scene-Aware Cross-Attention (SACrA) head. We show a consistent improvement over the vanilla Transformer and syntax-aware models for four language pairs. We further show an additional gain when using both semantic and syntactic structures in some language pairs.">
@@ -40,10 +40,11 @@
   "datePublished": "2022",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 11th Joint Conference on Lexical and Computational Semantics, *SEM@NAACL-HLT 2022…"
+    "name": "*SEM 2022"
   },
   "identifier": "https://doi.org/10.18653/V1/2022.STARSEM-1.3",
   "abstract": "The integration of syntactic structures into Transformer machine translation has shown positive results, but to our knowledge, no work has attempted to do so with semantic structures. In this work we propose two novel parameter-free methods for injecting semantic information into Transformers, both rely on semantics-aware masking of (some of) the attention heads. One such method operates on the encoder, through a Scene-Aware Self-Attention (SASA) head. Another on the decoder, through a Scene-Aware Cross-Attention (SACrA) head. We show a consistent improvement over the vanilla Transformer and syntax-aware models for four language pairs. We further show an additional gain when using both semantic and syntactic structures in some language pairs.",
+  "description": "SASA and SACrA inject semantics into NMT Transformers without adding parameters, by masking a single attention head so it attends only to tokens sharing a UCCA scene — in the encoder's self-attention (SASA) or the decoder's cross-attention (SACrA).",
   "sameAs": [
     "https://aclanthology.org/2022.starsem-1.3/",
     "https://ar5iv.labs.arxiv.org/html/2110.06920",
@@ -54,6 +55,284 @@
     "https://huggingface.co/papers/2110.06920",
     "https://www.alphaxiv.org/abs/2110.06920",
     "https://www.semanticscholar.org/paper/237258842"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Scene-Aware Self-Attention (SASA) raises average BLEU over the vanilla Transformer for all four language pairs tested. The averages move from 21.66 to 21.77 on En-De, 20.81 to 21.14 on En-Ru, 11.49 to 11.67 on En-Fi, and 8.36 to 8.54 on En-Tr.",
+      "description": "Holds for: 4-layer Transformers of internal size 256 on WMT data for En-De, En-Ru, En-Fi and En-Tr, averaged over all newstests since 2012; UCCA parses from a pretrained BERT-based TUPA parser; layer and head count tuned on En-De and reused."
+    },
+    {
+      "@type": "Thing",
+      "name": "SASA outperforms the syntax-infused PASCAL and UDISCAL masks on average BLEU for all four language pairs, and the sign-test over all test sets across all languages rejects both syntactic baselines at p<0.01.",
+      "description": "Holds for: PASCAL reimplemented post-softmax on 5 heads of encoder layer 1; UDISCAL is the authors' UD-distance-scaled adaptation on 1 head of layer 1; BLEU and chrF on WMT newstests for En-De, En-Ru, En-Fi, En-Tr."
+    },
+    {
+      "@type": "Thing",
+      "name": "SASA's gains over the vanilla Transformer are consistent rather than test-set-specific: a sign-test over all newstests across all four language pairs gives p<0.01, and the same trend holds under chrF.",
+      "description": "Holds for: Sign-test pools test sets across En-De, En-Ru, En-Fi and En-Tr; the effect sizes per test set are small (often under 0.5 BLEU) and SASA does not win on every individual newstest."
+    },
+    {
+      "@type": "Thing",
+      "name": "Combining the semantic SASA head with the syntactic UDISCAL head helps only the pairs typologically distant from English: En-Fi and En-Tr improve over each mask alone, while En-De and En-Ru hardly benefit. The sign-test on En-Fi and En-Tr gives p=0.02 versus SASA and p=0.0008 versus UDISCAL.",
+      "description": "Holds for: Combination reuses the hyperparameters tuned for each mask separately; the sign-test for the combination is computed only on the En-Fi and En-Tr test sets, and the gains there are small."
+    },
+    {
+      "@type": "Thing",
+      "name": "At its best the combined SASA+UDISCAL model beats SASA alone by 0.52 BLEU and UDISCAL alone by 0.69 BLEU (0.46 and 0.43 chrF), rather than by a uniform margin across test sets.",
+      "description": "Holds for: Best-case margins on test sets of the typologically distant pairs En-Fi and En-Tr; average-level gains are smaller."
+    },
+    {
+      "@type": "Thing",
+      "name": "Scene-Aware Cross-Attention (SACrA) injects source-side scene structure through the decoder and improves average BLEU over the vanilla Transformer on 3 of 4 language pairs (sign-test p=0.047). On En-Fi it even beats SASA, 11.72 versus 11.67.",
+      "description": "Holds for: SACrA uses 1 head on decoder layers 2 and 3, tuned on the En-De development set; En-De is the pair where SACrA falls below the Transformer (21.36 versus 21.66 average BLEU), and SASA is better overall."
+    },
+    {
+      "@type": "Thing",
+      "name": "A hard binary scene mask works at least as well as softer alternatives for SASA. Neither a scaled mask that lets out-of-scene attention through at weight C nor a normally-distributed mask over scene-graph distance beats it on the WMT En-De newstests.",
+      "description": "Holds for: Grid searches over C in {0.05, 0.1, 0.15, 0.2, 0.3, 0.5} for the scaled mask and C in {0.1, 0.2, 0.5, sqrt(0.5)} for the normally-distributed mask, evaluated on En-De only; the best variant of each was compared to the binary mask."
+    },
+    {
+      "@type": "Thing",
+      "name": "Masking a single attention head in a single mid-encoder layer is better for SASA than masking many. Layer 4 alone gives the best En-De validation BLEU, 20.37 against 20.1-20.33 for the other single-layer and layer-pair settings, and adding heads beyond 1 gave no further benefit.",
+      "description": "Holds for: Tuning on the En-De newstest2013 development set with a 4-layer encoder, over single layers 1-4 and pairs (1,2), (2,3), (3,4); the resulting hyperparameters were transferred unchanged to En-Ru, En-Fi and En-Tr."
+    },
+    {
+      "@type": "Thing",
+      "name": "On challenge sets of sentences with long dependencies, SASA's BLEU gain over the Transformer is only slightly larger than on the full newstests, with gains of up to 1.41 BLEU points. The improvement therefore does not come specifically from resolving long-distance syntax.",
+      "description": "Holds for: Challenge sets extracted from each newstest by the Choshen and Abend (2019) methodology, plus Wikipedia, Mozilla, EUbookshop and bible corpora for En-Tr; BLEU only."
+    },
+    {
+      "@type": "Thing",
+      "name": "The SemSplit pipeline, which splits source sentences into UCCA scenes and translates each piece separately, falls well below the vanilla Transformer under automatic metrics. Average BLEU is 15.50 versus 21.66 on En-De and 7.35 versus 11.49 on En-Fi.",
+      "description": "Holds for: Reimplementation of the Sulem et al. (2020) pipeline evaluated with BLEU and chrF, which penalise sentence separation, in a normal- rather than low-resource NMT setting; the original work reported human evaluation in a pseudo-low-resource scenario."
+    },
+    {
+      "@type": "Thing",
+      "name": "SASA and SACrA add no parameters to the Transformer. They replace an existing attention head's scores with scene-masked scores computed from an off-the-shelf UCCA parse of the source, leaving model size and inference architecture unchanged.",
+      "description": "Holds for: Cost is not zero end-to-end — source sentences must be parsed in advance by a UCCA parser, and average training time rose from 21.8 to 26.5 hours for SASA in the paper's setup."
+    },
+    {
+      "@type": "Thing",
+      "name": "Semantics-aware Attention Improves Neural Machine Translation is, to its authors' knowledge, the first work to inject semantic graph structure into a Transformer NMT model, where prior structure-aware Transformer work used syntax instead.",
+      "description": "Holds for: Novelty as stated by the authors at *SEM 2022 publication. Earlier semantic-injection results targeted RNN-based NMT, and earlier structure-aware Transformer work used Universal Dependencies."
+    },
+    {
+      "@type": "Thing",
+      "name": "Semantic scene masks help most when injected into a higher encoder layer, while syntactic masks help most in the first layer. The authors read this contrast as evidence that semantics supports more complex generalisation than syntax in Transformer NMT.",
+      "description": "Holds for: Hyperparameter tuning of a 4-layer encoder on the En-De development set only — SASA best at layer 4, PASCAL and UDISCAL tuned to layer 1 — and an interpretation rather than a controlled probing study."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/#faq",
+  "url": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/",
+  "name": "Questions answered by Semantics-aware Attention Improves Neural Machine Translation",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can semantic structure be added to a Transformer machine translation model?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SASA and SACrA add no parameters to the Transformer. They replace an existing attention head's scores with scene-masked scores computed from an off-the-shelf UCCA parse of the source, leaving model size and inference architecture unchanged. Holds for: Cost is not zero end-to-end — source sentences must be parsed in advance by a UCCA parser, and average training time rose from 21.8 to 26.5 hours for SASA in the paper's setup.\n\nScene-Aware Self-Attention (SASA) raises average BLEU over the vanilla Transformer for all four language pairs tested. The averages move from 21.66 to 21.77 on En-De, 20.81 to 21.14 on En-Ru, 11.49 to 11.67 on En-Fi, and 8.36 to 8.54 on En-Tr. Holds for: 4-layer Transformers of internal size 256 on WMT data for En-De, En-Ru, En-Fi and En-Tr, averaged over all newstests since 2012; UCCA parses from a pretrained BERT-based TUPA parser; layer and head count tuned on En-De and reused.",
+        "url": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/"
+      },
+      "alternateName": [
+        "Is there a way to inject semantics into NMT attention without adding parameters?",
+        "What does scene-aware attention do in a translation Transformer?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does adding semantics actually improve BLEU in neural machine translation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scene-Aware Self-Attention (SASA) raises average BLEU over the vanilla Transformer for all four language pairs tested. The averages move from 21.66 to 21.77 on En-De, 20.81 to 21.14 on En-Ru, 11.49 to 11.67 on En-Fi, and 8.36 to 8.54 on En-Tr. Holds for: 4-layer Transformers of internal size 256 on WMT data for En-De, En-Ru, En-Fi and En-Tr, averaged over all newstests since 2012; UCCA parses from a pretrained BERT-based TUPA parser; layer and head count tuned on En-De and reused.\n\nSASA's gains over the vanilla Transformer are consistent rather than test-set-specific: a sign-test over all newstests across all four language pairs gives p<0.01, and the same trend holds under chrF. Holds for: Sign-test pools test sets across En-De, En-Ru, En-Fi and En-Tr; the effect sizes per test set are small (often under 0.5 BLEU) and SASA does not win on every individual newstest.",
+        "url": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/"
+      },
+      "alternateName": [
+        "How much does scene-aware self-attention improve translation quality?",
+        "What BLEU gains does SASA get over a vanilla Transformer?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is semantic structure more useful than syntactic structure for Transformer MT?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SASA outperforms the syntax-infused PASCAL and UDISCAL masks on average BLEU for all four language pairs, and the sign-test over all test sets across all languages rejects both syntactic baselines at p<0.01. Holds for: PASCAL reimplemented post-softmax on 5 heads of encoder layer 1; UDISCAL is the authors' UD-distance-scaled adaptation on 1 head of layer 1; BLEU and chrF on WMT newstests for En-De, En-Ru, En-Fi, En-Tr.\n\nSemantic scene masks help most when injected into a higher encoder layer, while syntactic masks help most in the first layer. The authors read this contrast as evidence that semantics supports more complex generalisation than syntax in Transformer NMT. Holds for: Hyperparameter tuning of a 4-layer encoder on the En-De development set only — SASA best at layer 4, PASCAL and UDISCAL tuned to layer 1 — and an interpretation rather than a controlled probing study.",
+        "url": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/"
+      },
+      "alternateName": [
+        "Does UCCA-based masking beat dependency-based masking like PASCAL?",
+        "Semantics versus syntax for structure-aware neural machine translation: which wins?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does combining syntax and semantics in the same translation model help?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Combining the semantic SASA head with the syntactic UDISCAL head helps only the pairs typologically distant from English: En-Fi and En-Tr improve over each mask alone, while En-De and En-Ru hardly benefit. The sign-test on En-Fi and En-Tr gives p=0.02 versus SASA and p=0.0008 versus UDISCAL. Holds for: Combination reuses the hyperparameters tuned for each mask separately; the sign-test for the combination is computed only on the En-Fi and En-Tr test sets, and the gains there are small.\n\nAt its best the combined SASA+UDISCAL model beats SASA alone by 0.52 BLEU and UDISCAL alone by 0.69 BLEU (0.46 and 0.43 chrF), rather than by a uniform margin across test sets. Holds for: Best-case margins on test sets of the typologically distant pairs En-Fi and En-Tr; average-level gains are smaller.",
+        "url": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/"
+      },
+      "alternateName": [
+        "When is it worth using both a UD mask and a UCCA scene mask?",
+        "Do typologically distant language pairs benefit more from combined syntactic and semantic masks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can source-side semantics be injected through the decoder rather than the encoder?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scene-Aware Cross-Attention (SACrA) injects source-side scene structure through the decoder and improves average BLEU over the vanilla Transformer on 3 of 4 language pairs (sign-test p=0.047). On En-Fi it even beats SASA, 11.72 versus 11.67. Holds for: SACrA uses 1 head on decoder layers 2 and 3, tuned on the En-De development set; En-De is the pair where SACrA falls below the Transformer (21.36 versus 21.66 average BLEU), and SASA is better overall.\n\nScene-Aware Self-Attention (SASA) raises average BLEU over the vanilla Transformer for all four language pairs tested. The averages move from 21.66 to 21.77 on En-De, 20.81 to 21.14 on En-Ru, 11.49 to 11.67 on En-Fi, and 8.36 to 8.54 on En-Tr. Holds for: 4-layer Transformers of internal size 256 on WMT data for En-De, En-Ru, En-Fi and En-Tr, averaged over all newstests since 2012; UCCA parses from a pretrained BERT-based TUPA parser; layer and head count tuned on En-De and reused.",
+        "url": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/"
+      },
+      "alternateName": [
+        "What is scene-aware cross-attention and does it help translation?",
+        "Is encoder or decoder injection better for semantic structure in NMT?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Should an attention mask be hard binary or softly scaled by graph distance?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A hard binary scene mask works at least as well as softer alternatives for SASA. Neither a scaled mask that lets out-of-scene attention through at weight C nor a normally-distributed mask over scene-graph distance beats it on the WMT En-De newstests. Holds for: Grid searches over C in {0.05, 0.1, 0.15, 0.2, 0.3, 0.5} for the scaled mask and C in {0.1, 0.2, 0.5, sqrt(0.5)} for the normally-distributed mask, evaluated on En-De only; the best variant of each was compared to the binary mask.",
+        "url": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/"
+      },
+      "alternateName": [
+        "Does allowing some out-of-scene attention through help scene-aware masking?",
+        "Which mask shape works best for UCCA scene masking in a Transformer?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many attention heads and which layer should a linguistic mask be applied to?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Masking a single attention head in a single mid-encoder layer is better for SASA than masking many. Layer 4 alone gives the best En-De validation BLEU, 20.37 against 20.1-20.33 for the other single-layer and layer-pair settings, and adding heads beyond 1 gave no further benefit. Holds for: Tuning on the En-De newstest2013 development set with a 4-layer encoder, over single layers 1-4 and pairs (1,2), (2,3), (3,4); the resulting hyperparameters were transferred unchanged to En-Ru, En-Fi and En-Tr.\n\nSemantic scene masks help most when injected into a higher encoder layer, while syntactic masks help most in the first layer. The authors read this contrast as evidence that semantics supports more complex generalisation than syntax in Transformer NMT. Holds for: Hyperparameter tuning of a 4-layer encoder on the En-De development set only — SASA best at layer 4, PASCAL and UDISCAL tuned to layer 1 — and an interpretation rather than a controlled probing study.",
+        "url": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/"
+      },
+      "alternateName": [
+        "Does masking all encoder layers work better than masking one for scene-aware attention?",
+        "Where in the encoder should UCCA scene information be injected?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does scene-aware attention specifically fix long-distance dependency errors in translation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On challenge sets of sentences with long dependencies, SASA's BLEU gain over the Transformer is only slightly larger than on the full newstests, with gains of up to 1.41 BLEU points. The improvement therefore does not come specifically from resolving long-distance syntax. Holds for: Challenge sets extracted from each newstest by the Choshen and Abend (2019) methodology, plus Wikipedia, Mozilla, EUbookshop and bible corpora for En-Tr; BLEU only.",
+        "url": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/"
+      },
+      "alternateName": [
+        "How does SASA perform on challenge sets with long dependencies?",
+        "Are the gains from semantic masking concentrated on syntactically hard sentences?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does splitting sentences into semantic scenes before translating help BLEU?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The SemSplit pipeline, which splits source sentences into UCCA scenes and translates each piece separately, falls well below the vanilla Transformer under automatic metrics. Average BLEU is 15.50 versus 21.66 on En-De and 7.35 versus 11.49 on En-Fi. Holds for: Reimplementation of the Sulem et al. (2020) pipeline evaluated with BLEU and chrF, which penalise sentence separation, in a normal- rather than low-resource NMT setting; the original work reported human evaluation in a pseudo-low-resource scenario.",
+        "url": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/"
+      },
+      "alternateName": [
+        "How does the SemSplit sentence-splitting pipeline compare to a plain Transformer?",
+        "Is UCCA-based preprocessing at inference time a good idea for NMT?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What work should I read on incorporating linguistic structure into neural machine translation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Semantics-aware Attention Improves Neural Machine Translation is, to its authors' knowledge, the first work to inject semantic graph structure into a Transformer NMT model, where prior structure-aware Transformer work used syntax instead. Holds for: Novelty as stated by the authors at *SEM 2022 publication. Earlier semantic-injection results targeted RNN-based NMT, and earlier structure-aware Transformer work used Universal Dependencies.\n\nSASA and SACrA add no parameters to the Transformer. They replace an existing attention head's scores with scene-masked scores computed from an off-the-shelf UCCA parse of the source, leaving model size and inference architecture unchanged. Holds for: Cost is not zero end-to-end — source sentences must be parsed in advance by a UCCA parser, and average training time rose from 21.8 to 26.5 hours for SASA in the paper's setup.",
+        "url": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/"
+      },
+      "alternateName": [
+        "Which paper first put semantic graphs into a Transformer MT model?",
+        "Where should I start reading about semantics-aware neural machine translation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What kind of translation errors does scene-aware attention fix?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On challenge sets of sentences with long dependencies, SASA's BLEU gain over the Transformer is only slightly larger than on the full newstests, with gains of up to 1.41 BLEU points. The improvement therefore does not come specifically from resolving long-distance syntax. Holds for: Challenge sets extracted from each newstest by the Choshen and Abend (2019) methodology, plus Wikipedia, Mozilla, EUbookshop and bible corpora for En-Tr; BLEU only.\n\nScene-Aware Self-Attention (SASA) raises average BLEU over the vanilla Transformer for all four language pairs tested. The averages move from 21.66 to 21.77 on En-De, 20.81 to 21.14 on En-Ru, 11.49 to 11.67 on En-Fi, and 8.36 to 8.54 on En-Tr. Holds for: 4-layer Transformers of internal size 256 on WMT data for En-De, En-Ru, En-Fi and En-Tr, averaged over all newstests since 2012; UCCA parses from a pretrained BERT-based TUPA parser; layer and head count tuned on En-De and reused.",
+        "url": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/"
+      },
+      "alternateName": [
+        "Does semantic scene information help word-sense disambiguation in translation?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/#terms",
+  "url": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/",
+  "name": "Terminology in Semantics-aware Attention Improves Neural Machine Translation",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "UCCA scene",
+      "description": "A unit of the Universal Cognitive Conceptual Annotation graph corresponding to an event: one main relation, either a Process (action) or a State, together with at least one Participant.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Scene-aware mask",
+      "description": "A binary matrix over source tokens whose entry is 1 when the two tokens share a UCCA scene and 0 otherwise, multiplied element-wise into an attention head's post-softmax scores; a token in several scenes may attend to all of them.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "SASA",
+      "description": "Scene-Aware Self-Attention: one encoder self-attention head whose post-softmax scores are multiplied by a binary UCCA scene mask of the source sentence.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "SACrA",
+      "description": "Scene-Aware Cross-Attention: a decoder cross-attention head whose keys are the encoder output projected through the source's binary scene mask, so tokens sharing a set of scenes receive identical keys.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "UDISCAL",
+      "description": "UD-Distance-Scaled mask: a syntactic attention mask whose value decays as a normal density in the undirected Universal Dependencies graph distance between two tokens, generalising PASCAL's parent-only mask.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "SemSplit",
+      "description": "A pipeline that, at inference time, splits a source sentence into separate sentences by Direct Semantic Splitting, translates each independently, and concatenates the outputs with periods.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/semantics-aware-attention-improves-neural-machine-translatio/#terms"
+    }
   ]
 }
   </script>
@@ -64,6 +343,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -77,13 +357,99 @@
 </head>
 <body>
 <h1>Semantics-aware Attention Improves Neural Machine Translation</h1>
-<p class="meta">Aviv Slobodkin, Leshem Choshen, Omri Abend · Proceedings of the 11th Joint Conference on Lexical and Computational Semantics, *SEM@NAACL-HLT 2022… · 2022</p>
+<p class="sub">scene-aware self-attention and scene-aware cross-attention: masking one Transformer attention head so it attends only within UCCA semantic scenes</p>
+<p class="meta">Aviv Slobodkin, Leshem Choshen, Omri Abend · *SEM 2022 · 2022</p>
 <ul class="links"><li><a href="https://arxiv.org/abs/2110.06920">arXiv</a></li><li><a href="https://arxiv.org/pdf/2110.06920">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2110.06920">HTML</a></li><li><a href="https://huggingface.co/papers/2110.06920">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2110.06920">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2022.STARSEM-1.3">DOI</a></li><li><a href="https://aclanthology.org/2022.starsem-1.3/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/237258842">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2022.starsem-1.3">Publisher</a></li></ul>
+<h2>In one sentence</h2>
+<p>SASA and SACrA inject semantics into NMT Transformers without adding parameters, by masking a single attention head so it attends only to tokens sharing a UCCA scene — in the encoder&#x27;s self-attention (SASA) or the decoder&#x27;s cross-attention (SACrA).</p>
 <h2>Abstract</h2>
 <p>The integration of syntactic structures into Transformer machine translation has shown positive results, but to our knowledge, no work has attempted to do so with semantic structures. In this work we propose two novel parameter-free methods for injecting semantic information into Transformers, both rely on semantics-aware masking of (some of) the attention heads. One such method operates on the encoder, through a Scene-Aware Self-Attention (SASA) head. Another on the decoder, through a Scene-Aware Cross-Attention (SACrA) head. We show a consistent improvement over the vanilla Transformer and syntax-aware models for four language pairs. We further show an additional gain when using both semantic and syntactic structures in some language pairs.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How can semantic structure be added to a Transformer machine translation model?</dt>
+<dt>Is there a way to inject semantics into NMT attention without adding parameters?</dt>
+<dt>What does scene-aware attention do in a translation Transformer?</dt>
+<dd>SASA and SACrA add no parameters to the Transformer. They replace an existing attention head&#x27;s scores with scene-masked scores computed from an off-the-shelf UCCA parse of the source, leaving model size and inference architecture unchanged.<br><span class="scope">Holds for: Cost is not zero end-to-end — source sentences must be parsed in advance by a UCCA parser, and average training time rose from 21.8 to 26.5 hours for SASA in the paper&#x27;s setup.</span></dd>
+<dd>Scene-Aware Self-Attention (SASA) raises average BLEU over the vanilla Transformer for all four language pairs tested. The averages move from 21.66 to 21.77 on En-De, 20.81 to 21.14 on En-Ru, 11.49 to 11.67 on En-Fi, and 8.36 to 8.54 on En-Tr.<br><span class="scope">Holds for: 4-layer Transformers of internal size 256 on WMT data for En-De, En-Ru, En-Fi and En-Tr, averaged over all newstests since 2012; UCCA parses from a pretrained BERT-based TUPA parser; layer and head count tuned on En-De and reused.</span></dd>
+<dt>Does adding semantics actually improve BLEU in neural machine translation?</dt>
+<dt>How much does scene-aware self-attention improve translation quality?</dt>
+<dt>What BLEU gains does SASA get over a vanilla Transformer?</dt>
+<dd>Scene-Aware Self-Attention (SASA) raises average BLEU over the vanilla Transformer for all four language pairs tested. The averages move from 21.66 to 21.77 on En-De, 20.81 to 21.14 on En-Ru, 11.49 to 11.67 on En-Fi, and 8.36 to 8.54 on En-Tr.<br><span class="scope">Holds for: 4-layer Transformers of internal size 256 on WMT data for En-De, En-Ru, En-Fi and En-Tr, averaged over all newstests since 2012; UCCA parses from a pretrained BERT-based TUPA parser; layer and head count tuned on En-De and reused.</span></dd>
+<dd>SASA&#x27;s gains over the vanilla Transformer are consistent rather than test-set-specific: a sign-test over all newstests across all four language pairs gives p&lt;0.01, and the same trend holds under chrF.<br><span class="scope">Holds for: Sign-test pools test sets across En-De, En-Ru, En-Fi and En-Tr; the effect sizes per test set are small (often under 0.5 BLEU) and SASA does not win on every individual newstest.</span></dd>
+<dt>Is semantic structure more useful than syntactic structure for Transformer MT?</dt>
+<dt>Does UCCA-based masking beat dependency-based masking like PASCAL?</dt>
+<dt>Semantics versus syntax for structure-aware neural machine translation: which wins?</dt>
+<dd>SASA outperforms the syntax-infused PASCAL and UDISCAL masks on average BLEU for all four language pairs, and the sign-test over all test sets across all languages rejects both syntactic baselines at p&lt;0.01.<br><span class="scope">Holds for: PASCAL reimplemented post-softmax on 5 heads of encoder layer 1; UDISCAL is the authors&#x27; UD-distance-scaled adaptation on 1 head of layer 1; BLEU and chrF on WMT newstests for En-De, En-Ru, En-Fi, En-Tr.</span></dd>
+<dd>Semantic scene masks help most when injected into a higher encoder layer, while syntactic masks help most in the first layer. The authors read this contrast as evidence that semantics supports more complex generalisation than syntax in Transformer NMT.<br><span class="scope">Holds for: Hyperparameter tuning of a 4-layer encoder on the En-De development set only — SASA best at layer 4, PASCAL and UDISCAL tuned to layer 1 — and an interpretation rather than a controlled probing study.</span></dd>
+<dt>Does combining syntax and semantics in the same translation model help?</dt>
+<dt>When is it worth using both a UD mask and a UCCA scene mask?</dt>
+<dt>Do typologically distant language pairs benefit more from combined syntactic and semantic masks?</dt>
+<dd>Combining the semantic SASA head with the syntactic UDISCAL head helps only the pairs typologically distant from English: En-Fi and En-Tr improve over each mask alone, while En-De and En-Ru hardly benefit. The sign-test on En-Fi and En-Tr gives p=0.02 versus SASA and p=0.0008 versus UDISCAL.<br><span class="scope">Holds for: Combination reuses the hyperparameters tuned for each mask separately; the sign-test for the combination is computed only on the En-Fi and En-Tr test sets, and the gains there are small.</span></dd>
+<dd>At its best the combined SASA+UDISCAL model beats SASA alone by 0.52 BLEU and UDISCAL alone by 0.69 BLEU (0.46 and 0.43 chrF), rather than by a uniform margin across test sets.<br><span class="scope">Holds for: Best-case margins on test sets of the typologically distant pairs En-Fi and En-Tr; average-level gains are smaller.</span></dd>
+<dt>Can source-side semantics be injected through the decoder rather than the encoder?</dt>
+<dt>What is scene-aware cross-attention and does it help translation?</dt>
+<dt>Is encoder or decoder injection better for semantic structure in NMT?</dt>
+<dd>Scene-Aware Cross-Attention (SACrA) injects source-side scene structure through the decoder and improves average BLEU over the vanilla Transformer on 3 of 4 language pairs (sign-test p=0.047). On En-Fi it even beats SASA, 11.72 versus 11.67.<br><span class="scope">Holds for: SACrA uses 1 head on decoder layers 2 and 3, tuned on the En-De development set; En-De is the pair where SACrA falls below the Transformer (21.36 versus 21.66 average BLEU), and SASA is better overall.</span></dd>
+<dd>Scene-Aware Self-Attention (SASA) raises average BLEU over the vanilla Transformer for all four language pairs tested. The averages move from 21.66 to 21.77 on En-De, 20.81 to 21.14 on En-Ru, 11.49 to 11.67 on En-Fi, and 8.36 to 8.54 on En-Tr.<br><span class="scope">Holds for: 4-layer Transformers of internal size 256 on WMT data for En-De, En-Ru, En-Fi and En-Tr, averaged over all newstests since 2012; UCCA parses from a pretrained BERT-based TUPA parser; layer and head count tuned on En-De and reused.</span></dd>
+<dt>Should an attention mask be hard binary or softly scaled by graph distance?</dt>
+<dt>Does allowing some out-of-scene attention through help scene-aware masking?</dt>
+<dt>Which mask shape works best for UCCA scene masking in a Transformer?</dt>
+<dd>A hard binary scene mask works at least as well as softer alternatives for SASA. Neither a scaled mask that lets out-of-scene attention through at weight C nor a normally-distributed mask over scene-graph distance beats it on the WMT En-De newstests.<br><span class="scope">Holds for: Grid searches over C in {0.05, 0.1, 0.15, 0.2, 0.3, 0.5} for the scaled mask and C in {0.1, 0.2, 0.5, sqrt(0.5)} for the normally-distributed mask, evaluated on En-De only; the best variant of each was compared to the binary mask.</span></dd>
+<dt>How many attention heads and which layer should a linguistic mask be applied to?</dt>
+<dt>Does masking all encoder layers work better than masking one for scene-aware attention?</dt>
+<dt>Where in the encoder should UCCA scene information be injected?</dt>
+<dd>Masking a single attention head in a single mid-encoder layer is better for SASA than masking many. Layer 4 alone gives the best En-De validation BLEU, 20.37 against 20.1-20.33 for the other single-layer and layer-pair settings, and adding heads beyond 1 gave no further benefit.<br><span class="scope">Holds for: Tuning on the En-De newstest2013 development set with a 4-layer encoder, over single layers 1-4 and pairs (1,2), (2,3), (3,4); the resulting hyperparameters were transferred unchanged to En-Ru, En-Fi and En-Tr.</span></dd>
+<dd>Semantic scene masks help most when injected into a higher encoder layer, while syntactic masks help most in the first layer. The authors read this contrast as evidence that semantics supports more complex generalisation than syntax in Transformer NMT.<br><span class="scope">Holds for: Hyperparameter tuning of a 4-layer encoder on the En-De development set only — SASA best at layer 4, PASCAL and UDISCAL tuned to layer 1 — and an interpretation rather than a controlled probing study.</span></dd>
+<dt>Does scene-aware attention specifically fix long-distance dependency errors in translation?</dt>
+<dt>How does SASA perform on challenge sets with long dependencies?</dt>
+<dt>Are the gains from semantic masking concentrated on syntactically hard sentences?</dt>
+<dd>On challenge sets of sentences with long dependencies, SASA&#x27;s BLEU gain over the Transformer is only slightly larger than on the full newstests, with gains of up to 1.41 BLEU points. The improvement therefore does not come specifically from resolving long-distance syntax.<br><span class="scope">Holds for: Challenge sets extracted from each newstest by the Choshen and Abend (2019) methodology, plus Wikipedia, Mozilla, EUbookshop and bible corpora for En-Tr; BLEU only.</span></dd>
+<dt>Does splitting sentences into semantic scenes before translating help BLEU?</dt>
+<dt>How does the SemSplit sentence-splitting pipeline compare to a plain Transformer?</dt>
+<dt>Is UCCA-based preprocessing at inference time a good idea for NMT?</dt>
+<dd>The SemSplit pipeline, which splits source sentences into UCCA scenes and translates each piece separately, falls well below the vanilla Transformer under automatic metrics. Average BLEU is 15.50 versus 21.66 on En-De and 7.35 versus 11.49 on En-Fi.<br><span class="scope">Holds for: Reimplementation of the Sulem et al. (2020) pipeline evaluated with BLEU and chrF, which penalise sentence separation, in a normal- rather than low-resource NMT setting; the original work reported human evaluation in a pseudo-low-resource scenario.</span></dd>
+<dt>What work should I read on incorporating linguistic structure into neural machine translation?</dt>
+<dt>Which paper first put semantic graphs into a Transformer MT model?</dt>
+<dt>Where should I start reading about semantics-aware neural machine translation?</dt>
+<dd>Semantics-aware Attention Improves Neural Machine Translation is, to its authors&#x27; knowledge, the first work to inject semantic graph structure into a Transformer NMT model, where prior structure-aware Transformer work used syntax instead.<br><span class="scope">Holds for: Novelty as stated by the authors at *SEM 2022 publication. Earlier semantic-injection results targeted RNN-based NMT, and earlier structure-aware Transformer work used Universal Dependencies.</span></dd>
+<dd>SASA and SACrA add no parameters to the Transformer. They replace an existing attention head&#x27;s scores with scene-masked scores computed from an off-the-shelf UCCA parse of the source, leaving model size and inference architecture unchanged.<br><span class="scope">Holds for: Cost is not zero end-to-end — source sentences must be parsed in advance by a UCCA parser, and average training time rose from 21.8 to 26.5 hours for SASA in the paper&#x27;s setup.</span></dd>
+<dt>What kind of translation errors does scene-aware attention fix?</dt>
+<dt>Does semantic scene information help word-sense disambiguation in translation?</dt>
+<dd>On challenge sets of sentences with long dependencies, SASA&#x27;s BLEU gain over the Transformer is only slightly larger than on the full newstests, with gains of up to 1.41 BLEU points. The improvement therefore does not come specifically from resolving long-distance syntax.<br><span class="scope">Holds for: Challenge sets extracted from each newstest by the Choshen and Abend (2019) methodology, plus Wikipedia, Mozilla, EUbookshop and bible corpora for En-Tr; BLEU only.</span></dd>
+<dd>Scene-Aware Self-Attention (SASA) raises average BLEU over the vanilla Transformer for all four language pairs tested. The averages move from 21.66 to 21.77 on En-De, 20.81 to 21.14 on En-Ru, 11.49 to 11.67 on En-Fi, and 8.36 to 8.54 on En-Tr.<br><span class="scope">Holds for: 4-layer Transformers of internal size 256 on WMT data for En-De, En-Ru, En-Fi and En-Tr, averaged over all newstests since 2012; UCCA parses from a pretrained BERT-based TUPA parser; layer and head count tuned on En-De and reused.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Scene-Aware Self-Attention (SASA) raises average BLEU over the vanilla Transformer for all four language pairs tested. The averages move from 21.66 to 21.77 on En-De, 20.81 to 21.14 on En-Ru, 11.49 to 11.67 on En-Fi, and 8.36 to 8.54 on En-Tr. <span class="meta">(Table 3)</span><br><span class="scope">Scope: 4-layer Transformers of internal size 256 on WMT data for En-De, En-Ru, En-Fi and En-Tr, averaged over all newstests since 2012; UCCA parses from a pretrained BERT-based TUPA parser; layer and head count tuned on En-De and reused.</span></li>
+<li>SASA outperforms the syntax-infused PASCAL and UDISCAL masks on average BLEU for all four language pairs, and the sign-test over all test sets across all languages rejects both syntactic baselines at p&lt;0.01. <span class="meta">(Table 3 and Table 5)</span><br><span class="scope">Scope: PASCAL reimplemented post-softmax on 5 heads of encoder layer 1; UDISCAL is the authors&#x27; UD-distance-scaled adaptation on 1 head of layer 1; BLEU and chrF on WMT newstests for En-De, En-Ru, En-Fi, En-Tr.</span></li>
+<li>SASA&#x27;s gains over the vanilla Transformer are consistent rather than test-set-specific: a sign-test over all newstests across all four language pairs gives p&lt;0.01, and the same trend holds under chrF. <span class="meta">(Table 5, with chrF in Table 7)</span><br><span class="scope">Scope: Sign-test pools test sets across En-De, En-Ru, En-Fi and En-Tr; the effect sizes per test set are small (often under 0.5 BLEU) and SASA does not win on every individual newstest.</span></li>
+<li>Combining the semantic SASA head with the syntactic UDISCAL head helps only the pairs typologically distant from English: En-Fi and En-Tr improve over each mask alone, while En-De and En-Ru hardly benefit. The sign-test on En-Fi and En-Tr gives p=0.02 versus SASA and p=0.0008 versus UDISCAL. <span class="meta">(Table 3 and Section 4.3)</span><br><span class="scope">Scope: Combination reuses the hyperparameters tuned for each mask separately; the sign-test for the combination is computed only on the En-Fi and En-Tr test sets, and the gains there are small.</span></li>
+<li>At its best the combined SASA+UDISCAL model beats SASA alone by 0.52 BLEU and UDISCAL alone by 0.69 BLEU (0.46 and 0.43 chrF), rather than by a uniform margin across test sets. <span class="meta">(Section 1, with per-test-set scores in Table 3 and Table 7)</span><br><span class="scope">Scope: Best-case margins on test sets of the typologically distant pairs En-Fi and En-Tr; average-level gains are smaller.</span></li>
+<li>Scene-Aware Cross-Attention (SACrA) injects source-side scene structure through the decoder and improves average BLEU over the vanilla Transformer on 3 of 4 language pairs (sign-test p=0.047). On En-Fi it even beats SASA, 11.72 versus 11.67. <span class="meta">(Table 3 and Table 5)</span><br><span class="scope">Scope: SACrA uses 1 head on decoder layers 2 and 3, tuned on the En-De development set; En-De is the pair where SACrA falls below the Transformer (21.36 versus 21.66 average BLEU), and SASA is better overall.</span></li>
+<li>A hard binary scene mask works at least as well as softer alternatives for SASA. Neither a scaled mask that lets out-of-scene attention through at weight C nor a normally-distributed mask over scene-graph distance beats it on the WMT En-De newstests. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Grid searches over C in {0.05, 0.1, 0.15, 0.2, 0.3, 0.5} for the scaled mask and C in {0.1, 0.2, 0.5, sqrt(0.5)} for the normally-distributed mask, evaluated on En-De only; the best variant of each was compared to the binary mask.</span></li>
+<li>Masking a single attention head in a single mid-encoder layer is better for SASA than masking many. Layer 4 alone gives the best En-De validation BLEU, 20.37 against 20.1-20.33 for the other single-layer and layer-pair settings, and adding heads beyond 1 gave no further benefit. <span class="meta">(Table 4)</span><br><span class="scope">Scope: Tuning on the En-De newstest2013 development set with a 4-layer encoder, over single layers 1-4 and pairs (1,2), (2,3), (3,4); the resulting hyperparameters were transferred unchanged to En-Ru, En-Fi and En-Tr.</span></li>
+<li>On challenge sets of sentences with long dependencies, SASA&#x27;s BLEU gain over the Transformer is only slightly larger than on the full newstests, with gains of up to 1.41 BLEU points. The improvement therefore does not come specifically from resolving long-distance syntax. <span class="meta">(Table 8 and Section 4.1)</span><br><span class="scope">Scope: Challenge sets extracted from each newstest by the Choshen and Abend (2019) methodology, plus Wikipedia, Mozilla, EUbookshop and bible corpora for En-Tr; BLEU only.</span></li>
+<li>The SemSplit pipeline, which splits source sentences into UCCA scenes and translates each piece separately, falls well below the vanilla Transformer under automatic metrics. Average BLEU is 15.50 versus 21.66 on En-De and 7.35 versus 11.49 on En-Fi. <span class="meta">(Table 6)</span><br><span class="scope">Scope: Reimplementation of the Sulem et al. (2020) pipeline evaluated with BLEU and chrF, which penalise sentence separation, in a normal- rather than low-resource NMT setting; the original work reported human evaluation in a pseudo-low-resource scenario.</span></li>
+<li>SASA and SACrA add no parameters to the Transformer. They replace an existing attention head&#x27;s scores with scene-masked scores computed from an off-the-shelf UCCA parse of the source, leaving model size and inference architecture unchanged. <span class="meta">(Section 5 and Section 3)</span><br><span class="scope">Scope: Cost is not zero end-to-end — source sentences must be parsed in advance by a UCCA parser, and average training time rose from 21.8 to 26.5 hours for SASA in the paper&#x27;s setup.</span></li>
+<li>Semantics-aware Attention Improves Neural Machine Translation is, to its authors&#x27; knowledge, the first work to inject semantic graph structure into a Transformer NMT model, where prior structure-aware Transformer work used syntax instead. <span class="meta">(Section 4.2)</span><br><span class="scope">Scope: Novelty as stated by the authors at *SEM 2022 publication. Earlier semantic-injection results targeted RNN-based NMT, and earlier structure-aware Transformer work used Universal Dependencies.</span></li>
+<li>Semantic scene masks help most when injected into a higher encoder layer, while syntactic masks help most in the first layer. The authors read this contrast as evidence that semantics supports more complex generalisation than syntax in Transformer NMT. <span class="meta">(Table 4 and Section 3)</span><br><span class="scope">Scope: Hyperparameter tuning of a 4-layer encoder on the En-De development set only — SASA best at layer 4, PASCAL and UDISCAL tuned to layer 1 — and an interpretation rather than a controlled probing study.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The gains from scene-aware attention are consistent across test sets but small — typically a few tenths of a BLEU point on average — not the multi-point improvements a &quot;consistent improvement over syntax-aware models&quot; phrasing might suggest.</li>
+<li>Combining semantic and syntactic masks is not generally better: it helps En-Fi and En-Tr, barely changes En-De and En-Ru, and combining SACrA with UDISCAL is often worse than the plain Transformer.</li>
+<li>Scene-aware self-attention was not shown to work by solving long-distance dependencies: the gain on long-dependency challenge sets is only slightly larger than on ordinary test sets.</li>
+<li>The negative result for the SemSplit sentence-splitting pipeline is a BLEU/chrF result in a normal-resource setting, and does not refute the original human-evaluation findings for that pipeline in a pseudo-low-resource setting.</li>
+<li>SASA is not a claim that more attention masking is better: masking 1 head in 1 encoder layer was optimal, and using more heads gave no additional benefit.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>UCCA scene</em></dt><dd>A unit of the Universal Cognitive Conceptual Annotation graph corresponding to an event: one main relation, either a Process (action) or a State, together with at least one Participant.</dd>
+<dt><em>Scene-aware mask</em></dt><dd>A binary matrix over source tokens whose entry is 1 when the two tokens share a UCCA scene and 0 otherwise, multiplied element-wise into an attention head&#x27;s post-softmax scores; a token in several scenes may attend to all of them.</dd>
+<dt><em>SASA</em></dt><dd>Scene-Aware Self-Attention: one encoder self-attention head whose post-softmax scores are multiplied by a binary UCCA scene mask of the source sentence.</dd>
+<dt><em>SACrA</em></dt><dd>Scene-Aware Cross-Attention: a decoder cross-attention head whose keys are the encoder output projected through the source&#x27;s binary scene mask, so tokens sharing a set of scenes receive identical keys.</dd>
+<dt><em>UDISCAL</em></dt><dd>UD-Distance-Scaled mask: a syntactic attention mask whose value decays as a normal density in the undirected Universal Dependencies graph distance between two tokens, generalising PASCAL&#x27;s parent-only mask.</dd>
+<dt><em>SemSplit</em></dt><dd>A pipeline that, at inference time, splits a source sentence into separate sentences by Direct Semantic Splitting, translates each independently, and concatenates the outputs with periods.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/starsem/SlobodkinCA22,
-author       = {Aviv Slobodkin and
+<pre>@inproceedings{DBLP:conf/starsem/SlobodkinCA22,author       = {Aviv Slobodkin and
                   Leshem Choshen and
                   Omri Abend},
   editor       = {Vivi Nastase and

@@ -9,7 +9,7 @@
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2018">
-  <meta name="citation_conference_title" content="Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics, ACL 2018, Melbourne…">
+  <meta name="citation_conference_title" content="ACL 2018">
   <meta name="citation_doi" content="10.18653/V1/P18-1127">
   <meta name="citation_arxiv_id" content="1804.11225">
   <meta name="citation_abstract" content="Metric validation in Grammatical Error Correction (GEC) is currently done by observing the correlation between human and metric-induced rankings. However, such correlation studies are costly, methodologically troublesome, and suffer from low inter-rater agreement. We propose MAEGE, an automatic methodology for GEC metric validation, that overcomes many of the difficulties in the existing methodology. Experiments with MAEGE shed a new light on metric quality, showing for example that the standard M^2 metric fares poorly on corpus-level ranking. Moreover, we use MAEGE to perform a detailed analysis of metric behavior, showing that some types of valid edits are consistently penalized by existing metrics.">
@@ -35,10 +35,11 @@
   "datePublished": "2018",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics, ACL 2018, Melbourne…"
+    "name": "ACL 2018"
   },
   "identifier": "https://doi.org/10.18653/V1/P18-1127",
   "abstract": "Metric validation in Grammatical Error Correction (GEC) is currently done by observing the correlation between human and metric-induced rankings. However, such correlation studies are costly, methodologically troublesome, and suffer from low inter-rater agreement. We propose MAEGE, an automatic methodology for GEC metric validation, that overcomes many of the difficulties in the existing methodology. Experiments with MAEGE shed a new light on metric quality, showing for example that the standard M^2 metric fares poorly on corpus-level ranking. Moreover, we use MAEGE to perform a detailed analysis of metric behavior, showing that some types of valid edits are consistently penalized by existing metrics.",
+  "description": "MAEGE validates grammatical error correction metrics without human rankings, by expanding gold error annotation into lattices of corrections whose partial order of quality is known, and correlating metric scores against that order.",
   "sameAs": [
     "https://aclanthology.org/P18-1127/",
     "https://ar5iv.labs.arxiv.org/html/1804.11225",
@@ -48,6 +49,264 @@
     "https://huggingface.co/papers/1804.11225",
     "https://www.alphaxiv.org/abs/1804.11225",
     "https://www.semanticscholar.org/paper/13747175"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "MAEGE is an automatic methodology for validating Grammatical Error Correction metrics that needs no human rankings. It instead expands existing gold-standard error annotation into lattices of corrections carrying a known partial order of quality.",
+      "description": "Holds for: Introduced at ACL 2018 for GEC; evaluated on the NUCLE test set with English learner text. Earlier GEC metric validation work relied on correlation with human rankings of system outputs."
+    },
+    {
+      "@type": "Thing",
+      "name": "The two existing sets of human rankings for GEC disagree substantially on metric quality. GLEU gets Spearman ρ of 0.51 against GJG15 but 0.76 against NSPT15, M² ranges from 0.4 to 0.7, and BLEU flips from positive on GJG15 to negative on NSPT15.",
+      "description": "Holds for: Both ranking sets cover CoNLL 2014 shared-task system outputs on NUCLE sentences; system-level correlations computed with TrueSkill, whose corpus-level score itself varies by about 0.02 standard deviation between runs."
+    },
+    {
+      "@type": "Thing",
+      "name": "The standard GEC metric M² is a poor predictor of corpus-level quality under MAEGE, with Spearman ρ of 0.06. It ranks pairs of corrections of the same sentence comparatively well, with Kendall τ of 0.213.",
+      "description": "Holds for: NUCLE test set, corpus models applying an expected 0 to 10 edits per sentence, source sampled uniformly from each lattice; M² edits reconstructed automatically from string pairs."
+    },
+    {
+      "@type": "Thing",
+      "name": "The reference-less grammaticality metric LT correlates best with MAEGE's corpus-level ranking at Spearman ρ of 0.973 and has the highest sentence-level Kendall τ at 0.222. GLEU is second at the corpus level with ρ of 0.736.",
+      "description": "Holds for: NUCLE test set with 10 references; LT measures grammaticality only and not meaning preservation, which MAEGE's construction does not stress because it never introduces meaning-altering errors a human would not make."
+    },
+    {
+      "@type": "Thing",
+      "name": "No GEC metric achieves high sentence-level correlation with MAEGE's induced quality ordering: the best Pearson r is 0.23 (iBLEU) and the best Kendall τ is 0.222 (LT).",
+      "description": "Holds for: 1312 chains and 7936 corrections sampled from NUCLE test-set lattices with nch = 1; Pearson r assumes all edits contribute equally."
+    },
+    {
+      "@type": "Thing",
+      "name": "GLEU and M² fail in opposite ways. GLEU produces globally coherent corpus-level scores yet its average score difference between comparable correction pairs is slightly negative at -0.00025, while M² orders same-sentence pairs well without scoring linearly in quality.",
+      "description": "Holds for: NUCLE test set; the GLEU diagnostic in Figure 5 groups original sentences by number of errors after removing 4 outlier sentences with far more errors than the rest."
+    },
+    {
+      "@type": "Thing",
+      "name": "Existing GEC metrics consistently penalize valid corrections of certain error types: wrong verb modality (Vm) and noun possessive (Npos) receive negative average score changes under almost all metrics. Mechanical (Mec) and missing-verb (V0) edits are usually rewarded.",
+      "description": "Holds for: 27 NUCLE edit types, measured as the average metric score difference over correction pairs differing in exactly one edit of that type, with references from the 10 available NUCLE annotations."
+    },
+    {
+      "@type": "Thing",
+      "name": "Among the GEC metrics examined with MAEGE, iBLEU and LT penalize the fewest edit types and GLEU penalizes the most. M² and GLEU, the two most commonly used metrics, reward only a small subset of the 27 NUCLE edit types.",
+      "description": "Holds for: NUCLE test set edit-type analysis over pairs of corrections differing in a single typed edit; reflects the reference sets available in NUCLE, so under-representation of edit types in references is part of the cause."
+    },
+    {
+      "@type": "Thing",
+      "name": "Taking the original sentence as the source, which mimics ranking the conservative outputs GEC systems produce, flips SARI's corpus-level Spearman ρ from -0.545 to 0.800 and MAX-SARI's from -0.809 to 0.772. M²'s rises from 0.06 to 0.882.",
+      "description": "Holds for: NUCLE test set; in this setting every applied edit is valid but not all valid edits are applied. LT stays reliable at ρ of 0.836 and iBLEU drops to -0.872."
+    },
+    {
+      "@type": "Thing",
+      "name": "Metric rankings under MAEGE and under correlation with human rankings are only slightly correlated, with frequent and substantial disagreements for iBLEU and SARI, while GLEU receives similar correlations under both methodologies.",
+      "description": "Holds for: Corpus-level Spearman correlations, MAEGE on the NUCLE test set versus the combined GJG15 and NSPT15 human rankings of CoNLL 2014 system outputs."
+    },
+    {
+      "@type": "Thing",
+      "name": "I-Measure's assumption that overlapping edits alternate makes it intractable on NUCLE, where a test sentence has 3.5 billion generated references on average and a median of 512. The version without generated references did not terminate after 140 CPU days, against under 1.5 CPU days for all other metrics combined.",
+      "description": "Holds for: NUCLE test set with 10 available annotations per sentence; the cost comes from I-Measure's combinatorial extension of the reference set, not from its scoring formula."
+    },
+    {
+      "@type": "Thing",
+      "name": "MAEGE's authors propose that future correlation-with-human-rankings studies in GEC combine the GJG15 and NSPT15 judgment sets. They also propose computing metric corpus-level rankings on exactly the human-ranked sentence subset rather than the full CoNLL test set.",
+      "description": "Holds for: A recommendation for GEC metric validation practice as of 2018, motivated by potential bias from non-uniform system performance across the test set."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/#faq",
+  "url": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/",
+  "name": "Questions answered by Automatic Metric Validation for Grammatical Error Correction",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can grammatical error correction metrics be validated without collecting human rankings?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MAEGE is an automatic methodology for validating Grammatical Error Correction metrics that needs no human rankings. It instead expands existing gold-standard error annotation into lattices of corrections carrying a known partial order of quality. Holds for: Introduced at ACL 2018 for GEC; evaluated on the NUCLE test set with English learner text. Earlier GEC metric validation work relied on correlation with human rankings of system outputs.\n\nMetric rankings under MAEGE and under correlation with human rankings are only slightly correlated, with frequent and substantial disagreements for iBLEU and SARI, while GLEU receives similar correlations under both methodologies. Holds for: Corpus-level Spearman correlations, MAEGE on the NUCLE test set versus the combined GJG15 and NSPT15 human rankings of CoNLL 2014 system outputs.",
+        "url": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/"
+      },
+      "alternateName": [
+        "Is there an automatic way to check whether GEC evaluation metrics are any good?",
+        "What does MAEGE do for GEC metric validation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is M2 a reliable metric for ranking grammatical error correction systems?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The standard GEC metric M² is a poor predictor of corpus-level quality under MAEGE, with Spearman ρ of 0.06. It ranks pairs of corrections of the same sentence comparatively well, with Kendall τ of 0.213. Holds for: NUCLE test set, corpus models applying an expected 0 to 10 edits per sentence, source sampled uniformly from each lattice; M² edits reconstructed automatically from string pairs.\n\nGLEU and M² fail in opposite ways. GLEU produces globally coherent corpus-level scores yet its average score difference between comparable correction pairs is slightly negative at -0.00025, while M² orders same-sentence pairs well without scoring linearly in quality. Holds for: NUCLE test set; the GLEU diagnostic in Figure 5 groups original sentences by number of errors after removing 4 outlier sentences with far more errors than the rest.",
+        "url": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/"
+      },
+      "alternateName": [
+        "How well does the M² scorer predict corpus-level GEC quality?",
+        "Should I trust M2 for comparing whole GEC system outputs?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which grammatical error correction metric correlates best with correction quality?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The reference-less grammaticality metric LT correlates best with MAEGE's corpus-level ranking at Spearman ρ of 0.973 and has the highest sentence-level Kendall τ at 0.222. GLEU is second at the corpus level with ρ of 0.736. Holds for: NUCLE test set with 10 references; LT measures grammaticality only and not meaning preservation, which MAEGE's construction does not stress because it never introduces meaning-altering errors a human would not make.\n\nNo GEC metric achieves high sentence-level correlation with MAEGE's induced quality ordering: the best Pearson r is 0.23 (iBLEU) and the best Kendall τ is 0.222 (LT). Holds for: 1312 chains and 7936 corrections sampled from NUCLE test-set lattices with nch = 1; Pearson r assumes all edits contribute equally.",
+        "url": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/"
+      },
+      "alternateName": [
+        "Is a reference-less grammaticality metric better than reference-based GEC metrics?",
+        "How does LT compare to GLEU and M2 as a GEC metric?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do GEC metrics punish some kinds of valid corrections?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Existing GEC metrics consistently penalize valid corrections of certain error types: wrong verb modality (Vm) and noun possessive (Npos) receive negative average score changes under almost all metrics. Mechanical (Mec) and missing-verb (V0) edits are usually rewarded. Holds for: 27 NUCLE edit types, measured as the average metric score difference over correction pairs differing in exactly one edit of that type, with references from the 10 available NUCLE annotations.\n\nAmong the GEC metrics examined with MAEGE, iBLEU and LT penalize the fewest edit types and GLEU penalizes the most. M² and GLEU, the two most commonly used metrics, reward only a small subset of the 27 NUCLE edit types. Holds for: NUCLE test set edit-type analysis over pairs of corrections differing in a single typed edit; reflects the reference sets available in NUCLE, so under-representation of edit types in references is part of the cause.",
+        "url": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/"
+      },
+      "alternateName": [
+        "Are there error types that automatic grammatical error correction metrics score negatively?",
+        "Which edit types get penalized by GLEU, M2 and SARI?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How reliable are human rankings for evaluating grammatical error correction?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The two existing sets of human rankings for GEC disagree substantially on metric quality. GLEU gets Spearman ρ of 0.51 against GJG15 but 0.76 against NSPT15, M² ranges from 0.4 to 0.7, and BLEU flips from positive on GJG15 to negative on NSPT15. Holds for: Both ranking sets cover CoNLL 2014 shared-task system outputs on NUCLE sentences; system-level correlations computed with TrueSkill, whose corpus-level score itself varies by about 0.02 standard deviation between runs.\n\nMAEGE's authors propose that future correlation-with-human-rankings studies in GEC combine the GJG15 and NSPT15 judgment sets. They also propose computing metric corpus-level rankings on exactly the human-ranked sentence subset rather than the full CoNLL test set. Holds for: A recommendation for GEC metric validation practice as of 2018, motivated by potential bias from non-uniform system performance across the test set.",
+        "url": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/"
+      },
+      "alternateName": [
+        "Do the two GEC human judgment sets agree with each other?",
+        "Why is inter-rater agreement a problem in GEC metric validation?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does evaluating metrics on conservative GEC system outputs change which metric looks best?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Taking the original sentence as the source, which mimics ranking the conservative outputs GEC systems produce, flips SARI's corpus-level Spearman ρ from -0.545 to 0.800 and MAX-SARI's from -0.809 to 0.772. M²'s rises from 0.06 to 0.882. Holds for: NUCLE test set; in this setting every applied edit is valid but not all valid edits are applied. LT stays reliable at ρ of 0.836 and iBLEU drops to -0.872.\n\nMetric rankings under MAEGE and under correlation with human rankings are only slightly correlated, with frequent and substantial disagreements for iBLEU and SARI, while GLEU receives similar correlations under both methodologies. Holds for: Corpus-level Spearman correlations, MAEGE on the NUCLE test set versus the combined GJG15 and NSPT15 human rankings of CoNLL 2014 system outputs.",
+        "url": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/"
+      },
+      "alternateName": [
+        "What happens to SARI and M2 when the source is always the uncorrected original sentence?",
+        "Are GEC metric validation results biased by systems that under-correct?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why is I-Measure so slow to compute on GEC test sets?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "I-Measure's assumption that overlapping edits alternate makes it intractable on NUCLE, where a test sentence has 3.5 billion generated references on average and a median of 512. The version without generated references did not terminate after 140 CPU days, against under 1.5 CPU days for all other metrics combined. Holds for: NUCLE test set with 10 available annotations per sentence; the cost comes from I-Measure's combinatorial extension of the reference set, not from its scoring formula.",
+        "url": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/"
+      },
+      "alternateName": [
+        "How many references does I-Measure generate per sentence on NUCLE?",
+        "Is I-Measure practical for evaluating grammatical error correction with multiple references?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Where should I start reading about how grammatical error correction is evaluated?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MAEGE is an automatic methodology for validating Grammatical Error Correction metrics that needs no human rankings. It instead expands existing gold-standard error annotation into lattices of corrections carrying a known partial order of quality. Holds for: Introduced at ACL 2018 for GEC; evaluated on the NUCLE test set with English learner text. Earlier GEC metric validation work relied on correlation with human rankings of system outputs.\n\nMAEGE's authors propose that future correlation-with-human-rankings studies in GEC combine the GJG15 and NSPT15 judgment sets. They also propose computing metric corpus-level rankings on exactly the human-ranked sentence subset rather than the full CoNLL test set. Holds for: A recommendation for GEC metric validation practice as of 2018, motivated by potential bias from non-uniform system performance across the test set.",
+        "url": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/"
+      },
+      "alternateName": [
+        "What work questioned the standard practice of validating GEC metrics against human rankings?",
+        "What is a good paper on evaluation methodology for grammatical error correction?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do GEC metrics agree with quality judgments at the sentence level?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No GEC metric achieves high sentence-level correlation with MAEGE's induced quality ordering: the best Pearson r is 0.23 (iBLEU) and the best Kendall τ is 0.222 (LT). Holds for: 1312 chains and 7936 corrections sampled from NUCLE test-set lattices with nch = 1; Pearson r assumes all edits contribute equally.\n\nGLEU and M² fail in opposite ways. GLEU produces globally coherent corpus-level scores yet its average score difference between comparable correction pairs is slightly negative at -0.00025, while M² orders same-sentence pairs well without scoring linearly in quality. Holds for: NUCLE test set; the GLEU diagnostic in Figure 5 groups original sentences by number of errors after removing 4 outlier sentences with far more errors than the rest.",
+        "url": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/"
+      },
+      "alternateName": [
+        "How good is sentence-level correlation for GEC metrics like iBLEU and GLEU?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How should GEC metric validation with human rankings be reported in future work?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MAEGE's authors propose that future correlation-with-human-rankings studies in GEC combine the GJG15 and NSPT15 judgment sets. They also propose computing metric corpus-level rankings on exactly the human-ranked sentence subset rather than the full CoNLL test set. Holds for: A recommendation for GEC metric validation practice as of 2018, motivated by potential bias from non-uniform system performance across the test set.\n\nThe two existing sets of human rankings for GEC disagree substantially on metric quality. GLEU gets Spearman ρ of 0.51 against GJG15 but 0.76 against NSPT15, M² ranges from 0.4 to 0.7, and BLEU flips from positive on GJG15 to negative on NSPT15. Holds for: Both ranking sets cover CoNLL 2014 shared-task system outputs on NUCLE sentences; system-level correlations computed with TrueSkill, whose corpus-level score itself varies by about 0.02 standard deviation between runs.",
+        "url": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/"
+      },
+      "alternateName": [
+        "What protocol fixes the sentence-subset mismatch in GEC correlation studies?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/#terms",
+  "url": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/",
+  "name": "Terminology in Automatic Metric Validation for Grammatical Error Correction",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "MAEGE",
+      "description": "Methodology for Automatic Evaluation of GEC Evaluation: generates lattices of corrections from gold error annotation, derives a partial order of correction quality from edit subset inclusion, and correlates metric-induced rankings against that order.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "CHR",
+      "description": "Correlation with human rankings, the standard methodology for validating grammatical error correction metrics before MAEGE, in which metric scores of system outputs are correlated with human relative rankings of those outputs.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "corrections lattice",
+      "description": "The power set of the gold edits for one sentence-annotation pair, ordered by subset inclusion, so that a correction applying a superset of another's edits is by construction of higher quality.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "corpus model",
+      "description": "A synthetic system of a given quality level in MAEGE, denoted by the expected number of gold edits it applies to each original sentence, sampled from a clipped binomial with that mean.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "∆m,t",
+      "description": "The average change in a metric's score over pairs of corrections that differ in exactly one edit of a given error type; negative values mean the metric penalizes valid corrections of that type.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "original",
+      "description": "In a corrections lattice, the uncorrected sentence corresponding to the empty set of edits, i.e. the bottom of every chain.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/automatic-metric-validation-for-grammatical-error-correction/#terms"
+    }
   ]
 }
   </script>
@@ -58,6 +317,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -71,13 +331,94 @@
 </head>
 <body>
 <h1>Automatic Metric Validation for Grammatical Error Correction</h1>
-<p class="meta">Leshem Choshen, Omri Abend · Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics, ACL 2018, Melbourne… · 2018</p>
+<p class="sub">Methodology for Automatic Evaluation of GEC Evaluation — validating grammatical error correction metrics from gold annotation instead of human rankings</p>
+<p class="meta">Leshem Choshen, Omri Abend · ACL 2018 · 2018</p>
 <ul class="links"><li><a href="https://arxiv.org/abs/1804.11225">arXiv</a></li><li><a href="https://arxiv.org/pdf/1804.11225">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/1804.11225">HTML</a></li><li><a href="https://huggingface.co/papers/1804.11225">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/1804.11225">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/P18-1127">DOI</a></li><li><a href="https://aclanthology.org/P18-1127/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/13747175">Semantic Scholar</a></li></ul>
+<h2>In one sentence</h2>
+<p>MAEGE validates grammatical error correction metrics without human rankings, by expanding gold error annotation into lattices of corrections whose partial order of quality is known, and correlating metric scores against that order.</p>
 <h2>Abstract</h2>
 <p>Metric validation in Grammatical Error Correction (GEC) is currently done by observing the correlation between human and metric-induced rankings. However, such correlation studies are costly, methodologically troublesome, and suffer from low inter-rater agreement. We propose MAEGE, an automatic methodology for GEC metric validation, that overcomes many of the difficulties in the existing methodology. Experiments with MAEGE shed a new light on metric quality, showing for example that the standard M^2 metric fares poorly on corpus-level ranking. Moreover, we use MAEGE to perform a detailed analysis of metric behavior, showing that some types of valid edits are consistently penalized by existing metrics.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How can grammatical error correction metrics be validated without collecting human rankings?</dt>
+<dt>Is there an automatic way to check whether GEC evaluation metrics are any good?</dt>
+<dt>What does MAEGE do for GEC metric validation?</dt>
+<dd>MAEGE is an automatic methodology for validating Grammatical Error Correction metrics that needs no human rankings. It instead expands existing gold-standard error annotation into lattices of corrections carrying a known partial order of quality.<br><span class="scope">Holds for: Introduced at ACL 2018 for GEC; evaluated on the NUCLE test set with English learner text. Earlier GEC metric validation work relied on correlation with human rankings of system outputs.</span></dd>
+<dd>Metric rankings under MAEGE and under correlation with human rankings are only slightly correlated, with frequent and substantial disagreements for iBLEU and SARI, while GLEU receives similar correlations under both methodologies.<br><span class="scope">Holds for: Corpus-level Spearman correlations, MAEGE on the NUCLE test set versus the combined GJG15 and NSPT15 human rankings of CoNLL 2014 system outputs.</span></dd>
+<dt>Is M2 a reliable metric for ranking grammatical error correction systems?</dt>
+<dt>How well does the M² scorer predict corpus-level GEC quality?</dt>
+<dt>Should I trust M2 for comparing whole GEC system outputs?</dt>
+<dd>The standard GEC metric M² is a poor predictor of corpus-level quality under MAEGE, with Spearman ρ of 0.06. It ranks pairs of corrections of the same sentence comparatively well, with Kendall τ of 0.213.<br><span class="scope">Holds for: NUCLE test set, corpus models applying an expected 0 to 10 edits per sentence, source sampled uniformly from each lattice; M² edits reconstructed automatically from string pairs.</span></dd>
+<dd>GLEU and M² fail in opposite ways. GLEU produces globally coherent corpus-level scores yet its average score difference between comparable correction pairs is slightly negative at -0.00025, while M² orders same-sentence pairs well without scoring linearly in quality.<br><span class="scope">Holds for: NUCLE test set; the GLEU diagnostic in Figure 5 groups original sentences by number of errors after removing 4 outlier sentences with far more errors than the rest.</span></dd>
+<dt>Which grammatical error correction metric correlates best with correction quality?</dt>
+<dt>Is a reference-less grammaticality metric better than reference-based GEC metrics?</dt>
+<dt>How does LT compare to GLEU and M2 as a GEC metric?</dt>
+<dd>The reference-less grammaticality metric LT correlates best with MAEGE&#x27;s corpus-level ranking at Spearman ρ of 0.973 and has the highest sentence-level Kendall τ at 0.222. GLEU is second at the corpus level with ρ of 0.736.<br><span class="scope">Holds for: NUCLE test set with 10 references; LT measures grammaticality only and not meaning preservation, which MAEGE&#x27;s construction does not stress because it never introduces meaning-altering errors a human would not make.</span></dd>
+<dd>No GEC metric achieves high sentence-level correlation with MAEGE&#x27;s induced quality ordering: the best Pearson r is 0.23 (iBLEU) and the best Kendall τ is 0.222 (LT).<br><span class="scope">Holds for: 1312 chains and 7936 corrections sampled from NUCLE test-set lattices with nch = 1; Pearson r assumes all edits contribute equally.</span></dd>
+<dt>Do GEC metrics punish some kinds of valid corrections?</dt>
+<dt>Are there error types that automatic grammatical error correction metrics score negatively?</dt>
+<dt>Which edit types get penalized by GLEU, M2 and SARI?</dt>
+<dd>Existing GEC metrics consistently penalize valid corrections of certain error types: wrong verb modality (Vm) and noun possessive (Npos) receive negative average score changes under almost all metrics. Mechanical (Mec) and missing-verb (V0) edits are usually rewarded.<br><span class="scope">Holds for: 27 NUCLE edit types, measured as the average metric score difference over correction pairs differing in exactly one edit of that type, with references from the 10 available NUCLE annotations.</span></dd>
+<dd>Among the GEC metrics examined with MAEGE, iBLEU and LT penalize the fewest edit types and GLEU penalizes the most. M² and GLEU, the two most commonly used metrics, reward only a small subset of the 27 NUCLE edit types.<br><span class="scope">Holds for: NUCLE test set edit-type analysis over pairs of corrections differing in a single typed edit; reflects the reference sets available in NUCLE, so under-representation of edit types in references is part of the cause.</span></dd>
+<dt>How reliable are human rankings for evaluating grammatical error correction?</dt>
+<dt>Do the two GEC human judgment sets agree with each other?</dt>
+<dt>Why is inter-rater agreement a problem in GEC metric validation?</dt>
+<dd>The two existing sets of human rankings for GEC disagree substantially on metric quality. GLEU gets Spearman ρ of 0.51 against GJG15 but 0.76 against NSPT15, M² ranges from 0.4 to 0.7, and BLEU flips from positive on GJG15 to negative on NSPT15.<br><span class="scope">Holds for: Both ranking sets cover CoNLL 2014 shared-task system outputs on NUCLE sentences; system-level correlations computed with TrueSkill, whose corpus-level score itself varies by about 0.02 standard deviation between runs.</span></dd>
+<dd>MAEGE&#x27;s authors propose that future correlation-with-human-rankings studies in GEC combine the GJG15 and NSPT15 judgment sets. They also propose computing metric corpus-level rankings on exactly the human-ranked sentence subset rather than the full CoNLL test set.<br><span class="scope">Holds for: A recommendation for GEC metric validation practice as of 2018, motivated by potential bias from non-uniform system performance across the test set.</span></dd>
+<dt>Does evaluating metrics on conservative GEC system outputs change which metric looks best?</dt>
+<dt>What happens to SARI and M2 when the source is always the uncorrected original sentence?</dt>
+<dt>Are GEC metric validation results biased by systems that under-correct?</dt>
+<dd>Taking the original sentence as the source, which mimics ranking the conservative outputs GEC systems produce, flips SARI&#x27;s corpus-level Spearman ρ from -0.545 to 0.800 and MAX-SARI&#x27;s from -0.809 to 0.772. M²&#x27;s rises from 0.06 to 0.882.<br><span class="scope">Holds for: NUCLE test set; in this setting every applied edit is valid but not all valid edits are applied. LT stays reliable at ρ of 0.836 and iBLEU drops to -0.872.</span></dd>
+<dd>Metric rankings under MAEGE and under correlation with human rankings are only slightly correlated, with frequent and substantial disagreements for iBLEU and SARI, while GLEU receives similar correlations under both methodologies.<br><span class="scope">Holds for: Corpus-level Spearman correlations, MAEGE on the NUCLE test set versus the combined GJG15 and NSPT15 human rankings of CoNLL 2014 system outputs.</span></dd>
+<dt>Why is I-Measure so slow to compute on GEC test sets?</dt>
+<dt>How many references does I-Measure generate per sentence on NUCLE?</dt>
+<dt>Is I-Measure practical for evaluating grammatical error correction with multiple references?</dt>
+<dd>I-Measure&#x27;s assumption that overlapping edits alternate makes it intractable on NUCLE, where a test sentence has 3.5 billion generated references on average and a median of 512. The version without generated references did not terminate after 140 CPU days, against under 1.5 CPU days for all other metrics combined.<br><span class="scope">Holds for: NUCLE test set with 10 available annotations per sentence; the cost comes from I-Measure&#x27;s combinatorial extension of the reference set, not from its scoring formula.</span></dd>
+<dt>Where should I start reading about how grammatical error correction is evaluated?</dt>
+<dt>What work questioned the standard practice of validating GEC metrics against human rankings?</dt>
+<dt>What is a good paper on evaluation methodology for grammatical error correction?</dt>
+<dd>MAEGE is an automatic methodology for validating Grammatical Error Correction metrics that needs no human rankings. It instead expands existing gold-standard error annotation into lattices of corrections carrying a known partial order of quality.<br><span class="scope">Holds for: Introduced at ACL 2018 for GEC; evaluated on the NUCLE test set with English learner text. Earlier GEC metric validation work relied on correlation with human rankings of system outputs.</span></dd>
+<dd>MAEGE&#x27;s authors propose that future correlation-with-human-rankings studies in GEC combine the GJG15 and NSPT15 judgment sets. They also propose computing metric corpus-level rankings on exactly the human-ranked sentence subset rather than the full CoNLL test set.<br><span class="scope">Holds for: A recommendation for GEC metric validation practice as of 2018, motivated by potential bias from non-uniform system performance across the test set.</span></dd>
+<dt>Do GEC metrics agree with quality judgments at the sentence level?</dt>
+<dt>How good is sentence-level correlation for GEC metrics like iBLEU and GLEU?</dt>
+<dd>No GEC metric achieves high sentence-level correlation with MAEGE&#x27;s induced quality ordering: the best Pearson r is 0.23 (iBLEU) and the best Kendall τ is 0.222 (LT).<br><span class="scope">Holds for: 1312 chains and 7936 corrections sampled from NUCLE test-set lattices with nch = 1; Pearson r assumes all edits contribute equally.</span></dd>
+<dd>GLEU and M² fail in opposite ways. GLEU produces globally coherent corpus-level scores yet its average score difference between comparable correction pairs is slightly negative at -0.00025, while M² orders same-sentence pairs well without scoring linearly in quality.<br><span class="scope">Holds for: NUCLE test set; the GLEU diagnostic in Figure 5 groups original sentences by number of errors after removing 4 outlier sentences with far more errors than the rest.</span></dd>
+<dt>How should GEC metric validation with human rankings be reported in future work?</dt>
+<dt>What protocol fixes the sentence-subset mismatch in GEC correlation studies?</dt>
+<dd>MAEGE&#x27;s authors propose that future correlation-with-human-rankings studies in GEC combine the GJG15 and NSPT15 judgment sets. They also propose computing metric corpus-level rankings on exactly the human-ranked sentence subset rather than the full CoNLL test set.<br><span class="scope">Holds for: A recommendation for GEC metric validation practice as of 2018, motivated by potential bias from non-uniform system performance across the test set.</span></dd>
+<dd>The two existing sets of human rankings for GEC disagree substantially on metric quality. GLEU gets Spearman ρ of 0.51 against GJG15 but 0.76 against NSPT15, M² ranges from 0.4 to 0.7, and BLEU flips from positive on GJG15 to negative on NSPT15.<br><span class="scope">Holds for: Both ranking sets cover CoNLL 2014 shared-task system outputs on NUCLE sentences; system-level correlations computed with TrueSkill, whose corpus-level score itself varies by about 0.02 standard deviation between runs.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>MAEGE is an automatic methodology for validating Grammatical Error Correction metrics that needs no human rankings. It instead expands existing gold-standard error annotation into lattices of corrections carrying a known partial order of quality.<br><span class="scope">Scope: Introduced at ACL 2018 for GEC; evaluated on the NUCLE test set with English learner text. Earlier GEC metric validation work relied on correlation with human rankings of system outputs.</span></li>
+<li>The two existing sets of human rankings for GEC disagree substantially on metric quality. GLEU gets Spearman ρ of 0.51 against GJG15 but 0.76 against NSPT15, M² ranges from 0.4 to 0.7, and BLEU flips from positive on GJG15 to negative on NSPT15. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Both ranking sets cover CoNLL 2014 shared-task system outputs on NUCLE sentences; system-level correlations computed with TrueSkill, whose corpus-level score itself varies by about 0.02 standard deviation between runs.</span></li>
+<li>The standard GEC metric M² is a poor predictor of corpus-level quality under MAEGE, with Spearman ρ of 0.06. It ranks pairs of corrections of the same sentence comparatively well, with Kendall τ of 0.213. <span class="meta">(Table 2)</span><br><span class="scope">Scope: NUCLE test set, corpus models applying an expected 0 to 10 edits per sentence, source sampled uniformly from each lattice; M² edits reconstructed automatically from string pairs.</span></li>
+<li>The reference-less grammaticality metric LT correlates best with MAEGE&#x27;s corpus-level ranking at Spearman ρ of 0.973 and has the highest sentence-level Kendall τ at 0.222. GLEU is second at the corpus level with ρ of 0.736. <span class="meta">(Table 2)</span><br><span class="scope">Scope: NUCLE test set with 10 references; LT measures grammaticality only and not meaning preservation, which MAEGE&#x27;s construction does not stress because it never introduces meaning-altering errors a human would not make.</span></li>
+<li>No GEC metric achieves high sentence-level correlation with MAEGE&#x27;s induced quality ordering: the best Pearson r is 0.23 (iBLEU) and the best Kendall τ is 0.222 (LT). <span class="meta">(Table 2)</span><br><span class="scope">Scope: 1312 chains and 7936 corrections sampled from NUCLE test-set lattices with nch = 1; Pearson r assumes all edits contribute equally.</span></li>
+<li>GLEU and M² fail in opposite ways. GLEU produces globally coherent corpus-level scores yet its average score difference between comparable correction pairs is slightly negative at -0.00025, while M² orders same-sentence pairs well without scoring linearly in quality. <span class="meta">(Table 2 and Figure 5)</span><br><span class="scope">Scope: NUCLE test set; the GLEU diagnostic in Figure 5 groups original sentences by number of errors after removing 4 outlier sentences with far more errors than the rest.</span></li>
+<li>Existing GEC metrics consistently penalize valid corrections of certain error types: wrong verb modality (Vm) and noun possessive (Npos) receive negative average score changes under almost all metrics. Mechanical (Mec) and missing-verb (V0) edits are usually rewarded. <span class="meta">(Table 3)</span><br><span class="scope">Scope: 27 NUCLE edit types, measured as the average metric score difference over correction pairs differing in exactly one edit of that type, with references from the 10 available NUCLE annotations.</span></li>
+<li>Among the GEC metrics examined with MAEGE, iBLEU and LT penalize the fewest edit types and GLEU penalizes the most. M² and GLEU, the two most commonly used metrics, reward only a small subset of the 27 NUCLE edit types. <span class="meta">(Table 3)</span><br><span class="scope">Scope: NUCLE test set edit-type analysis over pairs of corrections differing in a single typed edit; reflects the reference sets available in NUCLE, so under-representation of edit types in references is part of the cause.</span></li>
+<li>Taking the original sentence as the source, which mimics ranking the conservative outputs GEC systems produce, flips SARI&#x27;s corpus-level Spearman ρ from -0.545 to 0.800 and MAX-SARI&#x27;s from -0.809 to 0.772. M²&#x27;s rises from 0.06 to 0.882. <span class="meta">(Table 4)</span><br><span class="scope">Scope: NUCLE test set; in this setting every applied edit is valid but not all valid edits are applied. LT stays reliable at ρ of 0.836 and iBLEU drops to -0.872.</span></li>
+<li>Metric rankings under MAEGE and under correlation with human rankings are only slightly correlated, with frequent and substantial disagreements for iBLEU and SARI, while GLEU receives similar correlations under both methodologies. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: Corpus-level Spearman correlations, MAEGE on the NUCLE test set versus the combined GJG15 and NSPT15 human rankings of CoNLL 2014 system outputs.</span></li>
+<li>I-Measure&#x27;s assumption that overlapping edits alternate makes it intractable on NUCLE, where a test sentence has 3.5 billion generated references on average and a median of 512. The version without generated references did not terminate after 140 CPU days, against under 1.5 CPU days for all other metrics combined. <span class="meta">(Figure 1)</span><br><span class="scope">Scope: NUCLE test set with 10 available annotations per sentence; the cost comes from I-Measure&#x27;s combinatorial extension of the reference set, not from its scoring formula.</span></li>
+<li>MAEGE&#x27;s authors propose that future correlation-with-human-rankings studies in GEC combine the GJG15 and NSPT15 judgment sets. They also propose computing metric corpus-level rankings on exactly the human-ranked sentence subset rather than the full CoNLL test set.<br><span class="scope">Scope: A recommendation for GEC metric validation practice as of 2018, motivated by potential bias from non-uniform system performance across the test set.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>MAEGE&#x27;s high corpus-level correlation for LT does not mean grammaticality alone is a sufficient GEC metric: LT ignores meaning preservation, and MAEGE by construction never introduces the meaning-altering errors machines make, so a complementary metric is still required.</li>
+<li>M²&#x27;s low corpus-level correlation of 0.06 under MAEGE does not mean M² is uninformative everywhere; it ranks pairs of corrections of the same sentence comparatively well (Kendall τ of 0.213).</li>
+<li>Disagreement between MAEGE and correlation-with-human-rankings is not simply evidence that one of them is broken; the paper traces much of the gap to human rankings being collected over precision-oriented, conservative system outputs.</li>
+<li>MAEGE does not eliminate all evaluation bias: any bias in the annotated test corpus, such as the assumption that edits are contiguous and mutually independent, is inherited by MAEGE.</li>
+<li>A negative average score change for an edit type in MAEGE is a property of the metric plus its reference sets, not a claim that the edit is invalid — every edit in a MAEGE lattice comes from gold human annotation.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>MAEGE</em></dt><dd>Methodology for Automatic Evaluation of GEC Evaluation: generates lattices of corrections from gold error annotation, derives a partial order of correction quality from edit subset inclusion, and correlates metric-induced rankings against that order.</dd>
+<dt><em>CHR</em></dt><dd>Correlation with human rankings, the standard methodology for validating grammatical error correction metrics before MAEGE, in which metric scores of system outputs are correlated with human relative rankings of those outputs.</dd>
+<dt><em>corrections lattice</em></dt><dd>The power set of the gold edits for one sentence-annotation pair, ordered by subset inclusion, so that a correction applying a superset of another&#x27;s edits is by construction of higher quality.</dd>
+<dt><em>corpus model</em></dt><dd>A synthetic system of a given quality level in MAEGE, denoted by the expected number of gold edits it applies to each original sentence, sampled from a clipped binomial with that mean.</dd>
+<dt><em>∆m,t</em></dt><dd>The average change in a metric&#x27;s score over pairs of corrections that differ in exactly one edit of a given error type; negative values mean the metric penalizes valid corrections of that type.</dd>
+<dt><em>original</em></dt><dd>In a corrections lattice, the uncorrected sentence corresponding to the empty set of edits, i.e. the bottom of every chain.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/acl/AbendC18a,
-author       = {Leshem Choshen and
+<pre>@inproceedings{DBLP:conf/acl/AbendC18a,author       = {Leshem Choshen and
                   Omri Abend},
   editor       = {Iryna Gurevych and
                   Yusuke Miyao},

@@ -16,7 +16,7 @@
   <meta name="citation_author" content="Leshem Choshen">
   <meta name="citation_author" content="Alessandro Sordoni">
   <meta name="citation_publication_date" content="2025">
-  <meta name="citation_journal_title" content="Transactions on Machine Learning Research">
+  <meta name="citation_journal_title" content="TMLR">
   <meta name="citation_doi" content="10.48550/arXiv.2408.07057">
   <meta name="citation_arxiv_id" content="2408.07057">
   <meta name="citation_abstract" content="The availability of performant pre-trained models has led to a proliferation of fine-tuned expert models that are specialized to a particular domain or task. Model MoErging methods aim to recycle expert models to create an aggregate system with improved performance or generalization. A key component of MoErging methods is the creation of a router that decides which expert model(s) to use for a particular input or application. The promise, effectiveness, and large design space of MoErging has spurred the development of many new methods over the past few years. This rapid pace of development has made it challenging to compare different MoErging methods, which are rarely compared to one another and are often validated in different experimental setups. To remedy such gaps, we present a comprehensive survey of MoErging methods that includes a novel taxonomy for cataloging key design choices and clarifying suitable applications for each method. Apart from surveying MoErging research, we inventory software tools and applications that make use of MoErging. We additionally discuss related fields of study such as model merging, multitask learning, and mixture-of-experts models. Taken as a whole, our survey provides a unified overview of existing MoErging methods and creates a solid foundation for future work in this burgeoning field.">
@@ -70,19 +70,337 @@
   "datePublished": "2025",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Transactions on Machine Learning Research"
+    "name": "TMLR"
   },
   "identifier": "https://doi.org/10.48550/arXiv.2408.07057",
   "abstract": "The availability of performant pre-trained models has led to a proliferation of fine-tuned expert models that are specialized to a particular domain or task. Model MoErging methods aim to recycle expert models to create an aggregate system with improved performance or generalization. A key component of MoErging methods is the creation of a router that decides which expert model(s) to use for a particular input or application. The promise, effectiveness, and large design space of MoErging has spurred the development of many new methods over the past few years. This rapid pace of development has made it challenging to compare different MoErging methods, which are rarely compared to one another and are often validated in different experimental setups. To remedy such gaps, we present a comprehensive survey of MoErging methods that includes a novel taxonomy for cataloging key design choices and clarifying suitable applications for each method. Apart from surveying MoErging research, we inventory software tools and applications that make use of MoErging. We additionally discuss related fields of study such as model merging, multitask learning, and mixture-of-experts models. Taken as a whole, our survey provides a unified overview of existing MoErging methods and creates a solid foundation for future work in this burgeoning field.",
+  "description": "A survey of model MoErging — recycling independently trained expert models via a learned router — that catalogues a few dozen methods along a 9-axis taxonomy of expert, routing and application design choices, and groups them into embedding-based, classifier-based, task-specific and router-free routing.",
+  "codeRepository": "https://github.com/pclucas14/awesome-moerging",
   "sameAs": [
     "https://arxiv.org/abs/2408.07057",
     "https://arxiv.org/html/2408.07057",
     "https://arxiv.org/pdf/2408.07057",
     "https://doi.org/10.48550/arXiv.2408.07057",
+    "https://github.com/pclucas14/awesome-moerging",
+    "https://github.com/pclucas14/awesome-moerging",
     "https://huggingface.co/papers/2408.07057",
     "https://openreview.net/forum?id=u0azVc9Y0y",
     "https://www.alphaxiv.org/abs/2408.07057",
     "https://www.semanticscholar.org/paper/271859936"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "The MoErging survey introduces a taxonomy that catalogues each surveyed method along 9 design choices. The axes are expert training procedure and expert data privacy, then routing dataset, input granularity, depth granularity, expert selection and expert aggregation, then generalization target and user dataset requirement.",
+      "description": "Holds for: Covers methods surveyed as of the 2024 arXiv release and 2025 TMLR publication; some papers map onto an axis only as 'Multiple' or 'N/A', and the authors state the taxonomy may miss methods and design choices."
+    },
+    {
+      "@type": "Thing",
+      "name": "MoErging methods fall into 4 families by how the router is built: embedding-based routing, classifier-based routing, task-specific routing, and router-free approaches. The remaining differences in granularity, selection and aggregation are comparatively superficial.",
+      "description": "Holds for: A grouping the survey argues for over the few dozen methods it reviews in Section 4; methods that mix strategies fit the grouping less cleanly."
+    },
+    {
+      "@type": "Thing",
+      "name": "MoErging papers rarely compare to one another: among the 7 embedding-based routing methods the survey lists, only LoraRetriever compares against AdapterSoup. Most surveyed papers cite only a small fraction of the others.",
+      "description": "Holds for: Based on the papers catalogued in Section 4 as of the survey's writing; the observation is about published comparisons, not about whether the methods are comparable in principle."
+    },
+    {
+      "@type": "Thing",
+      "name": "When a MoErging method assumes all expert training datasets are simultaneously available, multitask training of the base model on those expert datasets is an applicable baseline that is often omitted. Multitask mixture-of-experts methods likewise become valid baselines under shared expert data.",
+      "description": "Holds for: Methods whose taxonomy entry lists expert data as Shared; methods that keep expert data Private cannot be compared to a multitask baseline on the same terms."
+    },
+    {
+      "@type": "Thing",
+      "name": "Data-access assumptions decide which MoErging methods are usable at all: a method requiring a labeled target-task dataset cannot by definition improve zero-shot generalization. A method requiring shared expert training data cannot be applied to publicly shared adapters, which are seldom released with their training data.",
+      "description": "Holds for: A logical consequence of the survey's taxonomy axes for routing dataset, expert data and user dataset, stated over the methods catalogued in Section 4."
+    },
+    {
+      "@type": "Thing",
+      "name": "Very few of the MoErging methods catalogued in the survey are actually used in practice, despite many demonstrating improved performance or generalization. The survey attributes this to missing user-friendly implementations, unclear guidance on which method suits which use case, and assumptions such as custom expert training or shared expert data.",
+      "description": "Holds for: An assessment as of publication; the attributed causes are the authors' speculation rather than a measured result, and the tools inventory in Section 6 shows supporting infrastructure does exist."
+    },
+    {
+      "@type": "Thing",
+      "name": "MoErging learns post-hoc routing over independently trained, decentralized experts and combines them adaptively per query or per task. That separates it from mixture-of-experts models, which jointly train experts and router from scratch, and from model merging, which produces a static combination.",
+      "description": "Holds for: The survey's own delineation; the authors note that precisely delineating what is and is not MoErging is challenging because adjacent methods share the motivation while differing in framing."
+    },
+    {
+      "@type": "Thing",
+      "name": "Routing granularity trades adaptability against cost and stability across the 3 levels the MoErging taxonomy defines: per-task, per-example and per-step. Per-step routing adapts most to the input but is expensive and risks early routing errors propagating, while per-task routing is cheapest and assumes constant expert needs within a task.",
+      "description": "Holds for: A synthesis of trade-offs across the surveyed methods rather than a controlled experiment; the same error-propagation concern is raised for per-module routing depth."
+    },
+    {
+      "@type": "Thing",
+      "name": "Embedding-based routers, the 7 of which the survey lists include AdapterSoup, Retrieval of Experts, LoraRetriever and Dynamic Adapter Merging, need little or no routing-specific training data and tolerate experts with different architectures. Their quality is bounded by the pre-trained embedding space and degrades on semantically subtle, highly specialized, or out-of-distribution tasks.",
+      "description": "Holds for: The embedding-based family as characterised in the survey's grouping; assumes expert training distributions are distinct enough to separate in embedding space."
+    },
+    {
+      "@type": "Thing",
+      "name": "Classifier-based routers, the 5 of which the survey lists are Zooter, RouteLLM, Routoo, Branch-Train-Mix and Routing with Benchmark Datasets, can learn routing functions more complex than embedding similarity. They depend on labeled routing data and therefore lose applicability in zero-shot and few-shot settings.",
+      "description": "Holds for: The classifier-based family; the labeled data may come from expert data, a general dataset, or the target task, and the constraint is data availability rather than accuracy."
+    },
+    {
+      "@type": "Thing",
+      "name": "Router-free approaches such as Arrow, PHATGOOSE, Airoboros and LlamaIndex avoid post-hoc router training entirely, using precomputed gates, LoRA prototypes or a pre-trained LLM's own knowledge. That gives zero-shot deployment with no routing data, at the cost of possibly modified expert training and less stable routing.",
+      "description": "Holds for: The router-free family in the survey's grouping; PHATGOOSE and Arrow require expert-side changes or precomputation, so 'no training' refers to the router, not the experts."
+    },
+    {
+      "@type": "Thing",
+      "name": "The MoErging survey inventories the software ecosystem for decentralized expert reuse, including Hugging Face PEFT, AdapterHub, Git-theta, MergeKit, Predibase's Lorax, Mergoo, Flow-Merge, Axolotl, Unsloth, airoboros and ComfyUI. It notes that no existing platform coordinates continual communal model development.",
+      "description": "Holds for: An inventory as of publication; the tool landscape changes quickly and the survey does not benchmark the tools against one another."
+    },
+    {
+      "@type": "Thing",
+      "name": "The MoErging survey names as open problems identifying and removing redundant experts, deciding whether to admit a new expert to the pool, and detecting maliciously contributed experts. It also asks whether repeated rounds of MoErging can continually improve a base model rather than giving one-off gains.",
+      "description": "Holds for: Directions the authors identify as of publication, alongside a call for theoretical frameworks and for merging-style benchmarks and competitions; none are addressed experimentally in the survey."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/#faq",
+  "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/",
+  "name": "Questions answered by A Survey on Model MoErging: Recycling and Routing Among Specialized Experts for Collaborative Learning",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What should I read first about routing among fine-tuned expert models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The MoErging survey introduces a taxonomy that catalogues each surveyed method along 9 design choices. The axes are expert training procedure and expert data privacy, then routing dataset, input granularity, depth granularity, expert selection and expert aggregation, then generalization target and user dataset requirement. Holds for: Covers methods surveyed as of the 2024 arXiv release and 2025 TMLR publication; some papers map onto an axis only as 'Multiple' or 'N/A', and the authors state the taxonomy may miss methods and design choices.\n\nMoErging methods fall into 4 families by how the router is built: embedding-based routing, classifier-based routing, task-specific routing, and router-free approaches. The remaining differences in granularity, selection and aggregation are comparatively superficial. Holds for: A grouping the survey argues for over the few dozen methods it reviews in Section 4; methods that mix strategies fit the grouping less cleanly.\n\nMoErging learns post-hoc routing over independently trained, decentralized experts and combines them adaptively per query or per task. That separates it from mixture-of-experts models, which jointly train experts and router from scratch, and from model merging, which produces a static combination. Holds for: The survey's own delineation; the authors note that precisely delineating what is and is not MoErging is challenging because adjacent methods share the motivation while differing in framing.",
+        "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/"
+      },
+      "alternateName": [
+        "Is there a survey on reusing LoRA adapters and expert models with a learned router?",
+        "Where can I find an overview of MoErging methods?",
+        "What paper organizes the literature on recycling specialized expert models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How is MoErging different from mixture-of-experts?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MoErging learns post-hoc routing over independently trained, decentralized experts and combines them adaptively per query or per task. That separates it from mixture-of-experts models, which jointly train experts and router from scratch, and from model merging, which produces a static combination. Holds for: The survey's own delineation; the authors note that precisely delineating what is and is not MoErging is challenging because adjacent methods share the motivation while differing in framing.",
+        "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/"
+      },
+      "alternateName": [
+        "What distinguishes routing among independently trained experts from model merging?",
+        "Is combining fine-tuned adapters with a router the same thing as a sparse MoE model?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What are the main ways of building a router over pre-trained experts?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MoErging methods fall into 4 families by how the router is built: embedding-based routing, classifier-based routing, task-specific routing, and router-free approaches. The remaining differences in granularity, selection and aggregation are comparatively superficial. Holds for: A grouping the survey argues for over the few dozen methods it reviews in Section 4; methods that mix strategies fit the grouping less cleanly.\n\nEmbedding-based routers, the 7 of which the survey lists include AdapterSoup, Retrieval of Experts, LoraRetriever and Dynamic Adapter Merging, need little or no routing-specific training data and tolerate experts with different architectures. Their quality is bounded by the pre-trained embedding space and degrades on semantically subtle, highly specialized, or out-of-distribution tasks. Holds for: The embedding-based family as characterised in the survey's grouping; assumes expert training distributions are distinct enough to separate in embedding space.\n\nClassifier-based routers, the 5 of which the survey lists are Zooter, RouteLLM, Routoo, Branch-Train-Mix and Routing with Benchmark Datasets, can learn routing functions more complex than embedding similarity. They depend on labeled routing data and therefore lose applicability in zero-shot and few-shot settings. Holds for: The classifier-based family; the labeled data may come from expert data, a general dataset, or the target task, and the constraint is data availability rather than accuracy.\n\nRouter-free approaches such as Arrow, PHATGOOSE, Airoboros and LlamaIndex avoid post-hoc router training entirely, using precomputed gates, LoRA prototypes or a pre-trained LLM's own knowledge. That gives zero-shot deployment with no routing data, at the cost of possibly modified expert training and less stable routing. Holds for: The router-free family in the survey's grouping; PHATGOOSE and Arrow require expert-side changes or precomputation, so 'no training' refers to the router, not the experts.",
+        "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/"
+      },
+      "alternateName": [
+        "How can methods for selecting among fine-tuned experts be categorized?",
+        "What families of expert-routing methods exist?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which expert-routing approach works without any labeled routing data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Router-free approaches such as Arrow, PHATGOOSE, Airoboros and LlamaIndex avoid post-hoc router training entirely, using precomputed gates, LoRA prototypes or a pre-trained LLM's own knowledge. That gives zero-shot deployment with no routing data, at the cost of possibly modified expert training and less stable routing. Holds for: The router-free family in the survey's grouping; PHATGOOSE and Arrow require expert-side changes or precomputation, so 'no training' refers to the router, not the experts.\n\nEmbedding-based routers, the 7 of which the survey lists include AdapterSoup, Retrieval of Experts, LoraRetriever and Dynamic Adapter Merging, need little or no routing-specific training data and tolerate experts with different architectures. Their quality is bounded by the pre-trained embedding space and degrades on semantically subtle, highly specialized, or out-of-distribution tasks. Holds for: The embedding-based family as characterised in the survey's grouping; assumes expert training distributions are distinct enough to separate in embedding space.",
+        "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/"
+      },
+      "alternateName": [
+        "What method should I use for zero-shot routing among adapters?",
+        "Can I route among LoRA experts without training a router?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "When does a learned classifier router beat embedding similarity for expert selection?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Classifier-based routers, the 5 of which the survey lists are Zooter, RouteLLM, Routoo, Branch-Train-Mix and Routing with Benchmark Datasets, can learn routing functions more complex than embedding similarity. They depend on labeled routing data and therefore lose applicability in zero-shot and few-shot settings. Holds for: The classifier-based family; the labeled data may come from expert data, a general dataset, or the target task, and the constraint is data availability rather than accuracy.\n\nEmbedding-based routers, the 7 of which the survey lists include AdapterSoup, Retrieval of Experts, LoraRetriever and Dynamic Adapter Merging, need little or no routing-specific training data and tolerate experts with different architectures. Their quality is bounded by the pre-trained embedding space and degrades on semantically subtle, highly specialized, or out-of-distribution tasks. Holds for: The embedding-based family as characterised in the survey's grouping; assumes expert training distributions are distinct enough to separate in embedding space.",
+        "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/"
+      },
+      "alternateName": [
+        "What are the drawbacks of training a dedicated router to pick among LLMs?",
+        "Do classifier-based LLM routers like RouteLLM need labeled data?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Should routing among experts happen per token, per example, or per task?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Routing granularity trades adaptability against cost and stability across the 3 levels the MoErging taxonomy defines: per-task, per-example and per-step. Per-step routing adapts most to the input but is expensive and risks early routing errors propagating, while per-task routing is cheapest and assumes constant expert needs within a task. Holds for: A synthesis of trade-offs across the surveyed methods rather than a controlled experiment; the same error-propagation concern is raised for per-module routing depth.",
+        "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/"
+      },
+      "alternateName": [
+        "What is the cost of fine-grained routing decisions in adapter mixtures?",
+        "How does routing granularity affect adaptability and compute?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why is it so hard to compare methods that route among fine-tuned experts?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MoErging papers rarely compare to one another: among the 7 embedding-based routing methods the survey lists, only LoraRetriever compares against AdapterSoup. Most surveyed papers cite only a small fraction of the others. Holds for: Based on the papers catalogued in Section 4 as of the survey's writing; the observation is about published comparisons, not about whether the methods are comparable in principle.\n\nData-access assumptions decide which MoErging methods are usable at all: a method requiring a labeled target-task dataset cannot by definition improve zero-shot generalization. A method requiring shared expert training data cannot be applied to publicly shared adapters, which are seldom released with their training data. Holds for: A logical consequence of the survey's taxonomy axes for routing dataset, expert data and user dataset, stated over the methods catalogued in Section 4.",
+        "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/"
+      },
+      "alternateName": [
+        "Do MoErging papers evaluate against each other?",
+        "Are expert-routing methods benchmarked in a consistent setup?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What baseline is often missing from papers that route among expert adapters?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "When a MoErging method assumes all expert training datasets are simultaneously available, multitask training of the base model on those expert datasets is an applicable baseline that is often omitted. Multitask mixture-of-experts methods likewise become valid baselines under shared expert data. Holds for: Methods whose taxonomy entry lists expert data as Shared; methods that keep expert data Private cannot be compared to a multitask baseline on the same terms.",
+        "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/"
+      },
+      "alternateName": [
+        "If all expert training datasets are available, what should a routing method be compared to?",
+        "When is plain multitask training a fair baseline for expert recycling methods?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does needing the experts' training data limit which routing methods I can use?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Data-access assumptions decide which MoErging methods are usable at all: a method requiring a labeled target-task dataset cannot by definition improve zero-shot generalization. A method requiring shared expert training data cannot be applied to publicly shared adapters, which are seldom released with their training data. Holds for: A logical consequence of the survey's taxonomy axes for routing dataset, expert data and user dataset, stated over the methods catalogued in Section 4.",
+        "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/"
+      },
+      "alternateName": [
+        "Can a routing method that requires a labeled target-task set improve zero-shot performance?",
+        "What assumptions rule out applying an expert-routing method to adapters downloaded from a model hub?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are methods for recycling fine-tuned experts actually used in production?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Very few of the MoErging methods catalogued in the survey are actually used in practice, despite many demonstrating improved performance or generalization. The survey attributes this to missing user-friendly implementations, unclear guidance on which method suits which use case, and assumptions such as custom expert training or shared expert data. Holds for: An assessment as of publication; the attributed causes are the authors' speculation rather than a measured result, and the tools inventory in Section 6 shows supporting infrastructure does exist.\n\nThe MoErging survey inventories the software ecosystem for decentralized expert reuse, including Hugging Face PEFT, AdapterHub, Git-theta, MergeKit, Predibase's Lorax, Mergoo, Flow-Merge, Axolotl, Unsloth, airoboros and ComfyUI. It notes that no existing platform coordinates continual communal model development. Holds for: An inventory as of publication; the tool landscape changes quickly and the survey does not benchmark the tools against one another.",
+        "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/"
+      },
+      "alternateName": [
+        "Why has adaptive routing among community adapters not been widely adopted?",
+        "What is holding back practical adoption of expert-recycling systems?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What software exists for merging and routing among expert models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The MoErging survey inventories the software ecosystem for decentralized expert reuse, including Hugging Face PEFT, AdapterHub, Git-theta, MergeKit, Predibase's Lorax, Mergoo, Flow-Merge, Axolotl, Unsloth, airoboros and ComfyUI. It notes that no existing platform coordinates continual communal model development. Holds for: An inventory as of publication; the tool landscape changes quickly and the survey does not benchmark the tools against one another.",
+        "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/"
+      },
+      "alternateName": [
+        "Which libraries support building a mixture over LoRA adapters?",
+        "Are there tools for decentralized sharing and combination of fine-tuned models?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What are the open research problems in recycling and routing among expert models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The MoErging survey names as open problems identifying and removing redundant experts, deciding whether to admit a new expert to the pool, and detecting maliciously contributed experts. It also asks whether repeated rounds of MoErging can continually improve a base model rather than giving one-off gains. Holds for: Directions the authors identify as of publication, alongside a call for theoretical frameworks and for merging-style benchmarks and competitions; none are addressed experimentally in the survey.\n\nVery few of the MoErging methods catalogued in the survey are actually used in practice, despite many demonstrating improved performance or generalization. The survey attributes this to missing user-friendly implementations, unclear guidance on which method suits which use case, and assumptions such as custom expert training or shared expert data. Holds for: An assessment as of publication; the attributed causes are the authors' speculation rather than a measured result, and the tools inventory in Section 6 shows supporting infrastructure does exist.",
+        "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/"
+      },
+      "alternateName": [
+        "How do you handle redundant or malicious contributed experts in a shared expert pool?",
+        "What future work is needed for decentralized collaborative model development?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What design choices should I document when proposing a new expert-routing method?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The MoErging survey introduces a taxonomy that catalogues each surveyed method along 9 design choices. The axes are expert training procedure and expert data privacy, then routing dataset, input granularity, depth granularity, expert selection and expert aggregation, then generalization target and user dataset requirement. Holds for: Covers methods surveyed as of the 2024 arXiv release and 2025 TMLR publication; some papers map onto an axis only as 'Multiple' or 'N/A', and the authors state the taxonomy may miss methods and design choices.\n\nData-access assumptions decide which MoErging methods are usable at all: a method requiring a labeled target-task dataset cannot by definition improve zero-shot generalization. A method requiring shared expert training data cannot be applied to publicly shared adapters, which are seldom released with their training data. Holds for: A logical consequence of the survey's taxonomy axes for routing dataset, expert data and user dataset, stated over the methods catalogued in Section 4.",
+        "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/"
+      },
+      "alternateName": [
+        "Which axes describe how a router over fine-tuned experts is built and applied?",
+        "How do I classify a MoErging method's assumptions about expert data and user data?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/#terms",
+  "url": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/",
+  "name": "Terminology in A Survey on Model MoErging: Recycling and Routing Among Specialized Experts for Collaborative Learning",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "MoErging",
+      "description": "A paradigm in which expert models fine-tuned independently by distributed contributors are recycled into an aggregate system by learning a post-hoc router that adaptively selects and combines them per query or per task.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Expert data (Shared vs Private)",
+      "description": "A taxonomy axis recording whether a routing method requires contributors to release the expert models' training datasets (Shared) or can operate on the expert parameters alone (Private).",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Routing dataset",
+      "description": "The data used to learn the router, categorized as the experts' own training data, a target-task dataset, a general multi-task dataset, or none for methods that use heuristics or precomputed information instead of router training.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Routing input granularity",
+      "description": "Whether a routing decision is made once per task, once per input example, or at every generation step or token.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Routing depth granularity",
+      "description": "Whether one routing decision applies to the whole model or an independent decision is made at each layer or module where experts are inserted.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Expert aggregation",
+      "description": "How multiple selected experts are combined: mixing their outputs, merging their parameter values into a single model before processing the input, or no aggregation when a single expert is selected.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Router-free approaches",
+      "description": "Expert-selection methods that determine expert choice from precomputed gates, LoRA prototypes or a pre-trained LLM's knowledge, without training a dedicated router after the experts exist.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-survey-on-model-moerging-recycling-and-routing-among-speci/#terms"
+    }
   ]
 }
   </script>
@@ -93,6 +411,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -106,10 +425,111 @@
 </head>
 <body>
 <h1>A Survey on Model MoErging: Recycling and Routing Among Specialized Experts for Collaborative Learning</h1>
-<p class="meta">Prateek Yadav, Colin Raffel, Mohammed Muqeeth, Lucas Caccia, Haokun Liu, Tianlong Chen, Mohit Bansal, Leshem Choshen, Alessandro Sordoni · Transactions on Machine Learning Research · 2025</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2408.07057">arXiv</a></li><li><a href="https://arxiv.org/pdf/2408.07057">PDF</a></li><li><a href="https://arxiv.org/html/2408.07057">HTML</a></li><li><a href="https://huggingface.co/papers/2408.07057">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2408.07057">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2408.07057">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/271859936">Semantic Scholar</a></li><li><a href="https://openreview.net/forum?id=u0azVc9Y0y">Publisher</a></li></ul>
+<p class="sub">recycling independently fine-tuned expert models by learning a router that picks and combines them per query or per task</p>
+<p class="meta">Prateek Yadav, Colin Raffel, Mohammed Muqeeth, Lucas Caccia, Haokun Liu, Tianlong Chen, Mohit Bansal, Leshem Choshen, Alessandro Sordoni · TMLR · 2025</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2408.07057">arXiv</a></li><li><a href="https://arxiv.org/pdf/2408.07057">PDF</a></li><li><a href="https://arxiv.org/html/2408.07057">HTML</a></li><li><a href="https://huggingface.co/papers/2408.07057">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2408.07057">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2408.07057">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/271859936">Semantic Scholar</a></li><li><a href="https://openreview.net/forum?id=u0azVc9Y0y">Publisher</a></li><li><a href="https://github.com/pclucas14/awesome-moerging">Code</a></li><li><a href="https://github.com/pclucas14/awesome-moerging">paper list repo</a></li></ul>
+<h2>In one sentence</h2>
+<p>A survey of model MoErging — recycling independently trained expert models via a learned router — that catalogues a few dozen methods along a 9-axis taxonomy of expert, routing and application design choices, and groups them into embedding-based, classifier-based, task-specific and router-free routing.</p>
 <h2>Abstract</h2>
 <p>The availability of performant pre-trained models has led to a proliferation of fine-tuned expert models that are specialized to a particular domain or task. Model MoErging methods aim to recycle expert models to create an aggregate system with improved performance or generalization. A key component of MoErging methods is the creation of a router that decides which expert model(s) to use for a particular input or application. The promise, effectiveness, and large design space of MoErging has spurred the development of many new methods over the past few years. This rapid pace of development has made it challenging to compare different MoErging methods, which are rarely compared to one another and are often validated in different experimental setups. To remedy such gaps, we present a comprehensive survey of MoErging methods that includes a novel taxonomy for cataloging key design choices and clarifying suitable applications for each method. Apart from surveying MoErging research, we inventory software tools and applications that make use of MoErging. We additionally discuss related fields of study such as model merging, multitask learning, and mixture-of-experts models. Taken as a whole, our survey provides a unified overview of existing MoErging methods and creates a solid foundation for future work in this burgeoning field.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What should I read first about routing among fine-tuned expert models?</dt>
+<dt>Is there a survey on reusing LoRA adapters and expert models with a learned router?</dt>
+<dt>Where can I find an overview of MoErging methods?</dt>
+<dt>What paper organizes the literature on recycling specialized expert models?</dt>
+<dd>The MoErging survey introduces a taxonomy that catalogues each surveyed method along 9 design choices. The axes are expert training procedure and expert data privacy, then routing dataset, input granularity, depth granularity, expert selection and expert aggregation, then generalization target and user dataset requirement.<br><span class="scope">Holds for: Covers methods surveyed as of the 2024 arXiv release and 2025 TMLR publication; some papers map onto an axis only as &#x27;Multiple&#x27; or &#x27;N/A&#x27;, and the authors state the taxonomy may miss methods and design choices.</span></dd>
+<dd>MoErging methods fall into 4 families by how the router is built: embedding-based routing, classifier-based routing, task-specific routing, and router-free approaches. The remaining differences in granularity, selection and aggregation are comparatively superficial.<br><span class="scope">Holds for: A grouping the survey argues for over the few dozen methods it reviews in Section 4; methods that mix strategies fit the grouping less cleanly.</span></dd>
+<dd>MoErging learns post-hoc routing over independently trained, decentralized experts and combines them adaptively per query or per task. That separates it from mixture-of-experts models, which jointly train experts and router from scratch, and from model merging, which produces a static combination.<br><span class="scope">Holds for: The survey&#x27;s own delineation; the authors note that precisely delineating what is and is not MoErging is challenging because adjacent methods share the motivation while differing in framing.</span></dd>
+<dt>How is MoErging different from mixture-of-experts?</dt>
+<dt>What distinguishes routing among independently trained experts from model merging?</dt>
+<dt>Is combining fine-tuned adapters with a router the same thing as a sparse MoE model?</dt>
+<dd>MoErging learns post-hoc routing over independently trained, decentralized experts and combines them adaptively per query or per task. That separates it from mixture-of-experts models, which jointly train experts and router from scratch, and from model merging, which produces a static combination.<br><span class="scope">Holds for: The survey&#x27;s own delineation; the authors note that precisely delineating what is and is not MoErging is challenging because adjacent methods share the motivation while differing in framing.</span></dd>
+<dt>What are the main ways of building a router over pre-trained experts?</dt>
+<dt>How can methods for selecting among fine-tuned experts be categorized?</dt>
+<dt>What families of expert-routing methods exist?</dt>
+<dd>MoErging methods fall into 4 families by how the router is built: embedding-based routing, classifier-based routing, task-specific routing, and router-free approaches. The remaining differences in granularity, selection and aggregation are comparatively superficial.<br><span class="scope">Holds for: A grouping the survey argues for over the few dozen methods it reviews in Section 4; methods that mix strategies fit the grouping less cleanly.</span></dd>
+<dd>Embedding-based routers, the 7 of which the survey lists include AdapterSoup, Retrieval of Experts, LoraRetriever and Dynamic Adapter Merging, need little or no routing-specific training data and tolerate experts with different architectures. Their quality is bounded by the pre-trained embedding space and degrades on semantically subtle, highly specialized, or out-of-distribution tasks.<br><span class="scope">Holds for: The embedding-based family as characterised in the survey&#x27;s grouping; assumes expert training distributions are distinct enough to separate in embedding space.</span></dd>
+<dd>Classifier-based routers, the 5 of which the survey lists are Zooter, RouteLLM, Routoo, Branch-Train-Mix and Routing with Benchmark Datasets, can learn routing functions more complex than embedding similarity. They depend on labeled routing data and therefore lose applicability in zero-shot and few-shot settings.<br><span class="scope">Holds for: The classifier-based family; the labeled data may come from expert data, a general dataset, or the target task, and the constraint is data availability rather than accuracy.</span></dd>
+<dd>Router-free approaches such as Arrow, PHATGOOSE, Airoboros and LlamaIndex avoid post-hoc router training entirely, using precomputed gates, LoRA prototypes or a pre-trained LLM&#x27;s own knowledge. That gives zero-shot deployment with no routing data, at the cost of possibly modified expert training and less stable routing.<br><span class="scope">Holds for: The router-free family in the survey&#x27;s grouping; PHATGOOSE and Arrow require expert-side changes or precomputation, so &#x27;no training&#x27; refers to the router, not the experts.</span></dd>
+<dt>Which expert-routing approach works without any labeled routing data?</dt>
+<dt>What method should I use for zero-shot routing among adapters?</dt>
+<dt>Can I route among LoRA experts without training a router?</dt>
+<dd>Router-free approaches such as Arrow, PHATGOOSE, Airoboros and LlamaIndex avoid post-hoc router training entirely, using precomputed gates, LoRA prototypes or a pre-trained LLM&#x27;s own knowledge. That gives zero-shot deployment with no routing data, at the cost of possibly modified expert training and less stable routing.<br><span class="scope">Holds for: The router-free family in the survey&#x27;s grouping; PHATGOOSE and Arrow require expert-side changes or precomputation, so &#x27;no training&#x27; refers to the router, not the experts.</span></dd>
+<dd>Embedding-based routers, the 7 of which the survey lists include AdapterSoup, Retrieval of Experts, LoraRetriever and Dynamic Adapter Merging, need little or no routing-specific training data and tolerate experts with different architectures. Their quality is bounded by the pre-trained embedding space and degrades on semantically subtle, highly specialized, or out-of-distribution tasks.<br><span class="scope">Holds for: The embedding-based family as characterised in the survey&#x27;s grouping; assumes expert training distributions are distinct enough to separate in embedding space.</span></dd>
+<dt>When does a learned classifier router beat embedding similarity for expert selection?</dt>
+<dt>What are the drawbacks of training a dedicated router to pick among LLMs?</dt>
+<dt>Do classifier-based LLM routers like RouteLLM need labeled data?</dt>
+<dd>Classifier-based routers, the 5 of which the survey lists are Zooter, RouteLLM, Routoo, Branch-Train-Mix and Routing with Benchmark Datasets, can learn routing functions more complex than embedding similarity. They depend on labeled routing data and therefore lose applicability in zero-shot and few-shot settings.<br><span class="scope">Holds for: The classifier-based family; the labeled data may come from expert data, a general dataset, or the target task, and the constraint is data availability rather than accuracy.</span></dd>
+<dd>Embedding-based routers, the 7 of which the survey lists include AdapterSoup, Retrieval of Experts, LoraRetriever and Dynamic Adapter Merging, need little or no routing-specific training data and tolerate experts with different architectures. Their quality is bounded by the pre-trained embedding space and degrades on semantically subtle, highly specialized, or out-of-distribution tasks.<br><span class="scope">Holds for: The embedding-based family as characterised in the survey&#x27;s grouping; assumes expert training distributions are distinct enough to separate in embedding space.</span></dd>
+<dt>Should routing among experts happen per token, per example, or per task?</dt>
+<dt>What is the cost of fine-grained routing decisions in adapter mixtures?</dt>
+<dt>How does routing granularity affect adaptability and compute?</dt>
+<dd>Routing granularity trades adaptability against cost and stability across the 3 levels the MoErging taxonomy defines: per-task, per-example and per-step. Per-step routing adapts most to the input but is expensive and risks early routing errors propagating, while per-task routing is cheapest and assumes constant expert needs within a task.<br><span class="scope">Holds for: A synthesis of trade-offs across the surveyed methods rather than a controlled experiment; the same error-propagation concern is raised for per-module routing depth.</span></dd>
+<dt>Why is it so hard to compare methods that route among fine-tuned experts?</dt>
+<dt>Do MoErging papers evaluate against each other?</dt>
+<dt>Are expert-routing methods benchmarked in a consistent setup?</dt>
+<dd>MoErging papers rarely compare to one another: among the 7 embedding-based routing methods the survey lists, only LoraRetriever compares against AdapterSoup. Most surveyed papers cite only a small fraction of the others.<br><span class="scope">Holds for: Based on the papers catalogued in Section 4 as of the survey&#x27;s writing; the observation is about published comparisons, not about whether the methods are comparable in principle.</span></dd>
+<dd>Data-access assumptions decide which MoErging methods are usable at all: a method requiring a labeled target-task dataset cannot by definition improve zero-shot generalization. A method requiring shared expert training data cannot be applied to publicly shared adapters, which are seldom released with their training data.<br><span class="scope">Holds for: A logical consequence of the survey&#x27;s taxonomy axes for routing dataset, expert data and user dataset, stated over the methods catalogued in Section 4.</span></dd>
+<dt>What baseline is often missing from papers that route among expert adapters?</dt>
+<dt>If all expert training datasets are available, what should a routing method be compared to?</dt>
+<dt>When is plain multitask training a fair baseline for expert recycling methods?</dt>
+<dd>When a MoErging method assumes all expert training datasets are simultaneously available, multitask training of the base model on those expert datasets is an applicable baseline that is often omitted. Multitask mixture-of-experts methods likewise become valid baselines under shared expert data.<br><span class="scope">Holds for: Methods whose taxonomy entry lists expert data as Shared; methods that keep expert data Private cannot be compared to a multitask baseline on the same terms.</span></dd>
+<dt>Does needing the experts&#x27; training data limit which routing methods I can use?</dt>
+<dt>Can a routing method that requires a labeled target-task set improve zero-shot performance?</dt>
+<dt>What assumptions rule out applying an expert-routing method to adapters downloaded from a model hub?</dt>
+<dd>Data-access assumptions decide which MoErging methods are usable at all: a method requiring a labeled target-task dataset cannot by definition improve zero-shot generalization. A method requiring shared expert training data cannot be applied to publicly shared adapters, which are seldom released with their training data.<br><span class="scope">Holds for: A logical consequence of the survey&#x27;s taxonomy axes for routing dataset, expert data and user dataset, stated over the methods catalogued in Section 4.</span></dd>
+<dt>Are methods for recycling fine-tuned experts actually used in production?</dt>
+<dt>Why has adaptive routing among community adapters not been widely adopted?</dt>
+<dt>What is holding back practical adoption of expert-recycling systems?</dt>
+<dd>Very few of the MoErging methods catalogued in the survey are actually used in practice, despite many demonstrating improved performance or generalization. The survey attributes this to missing user-friendly implementations, unclear guidance on which method suits which use case, and assumptions such as custom expert training or shared expert data.<br><span class="scope">Holds for: An assessment as of publication; the attributed causes are the authors&#x27; speculation rather than a measured result, and the tools inventory in Section 6 shows supporting infrastructure does exist.</span></dd>
+<dd>The MoErging survey inventories the software ecosystem for decentralized expert reuse, including Hugging Face PEFT, AdapterHub, Git-theta, MergeKit, Predibase&#x27;s Lorax, Mergoo, Flow-Merge, Axolotl, Unsloth, airoboros and ComfyUI. It notes that no existing platform coordinates continual communal model development.<br><span class="scope">Holds for: An inventory as of publication; the tool landscape changes quickly and the survey does not benchmark the tools against one another.</span></dd>
+<dt>What software exists for merging and routing among expert models?</dt>
+<dt>Which libraries support building a mixture over LoRA adapters?</dt>
+<dt>Are there tools for decentralized sharing and combination of fine-tuned models?</dt>
+<dd>The MoErging survey inventories the software ecosystem for decentralized expert reuse, including Hugging Face PEFT, AdapterHub, Git-theta, MergeKit, Predibase&#x27;s Lorax, Mergoo, Flow-Merge, Axolotl, Unsloth, airoboros and ComfyUI. It notes that no existing platform coordinates continual communal model development.<br><span class="scope">Holds for: An inventory as of publication; the tool landscape changes quickly and the survey does not benchmark the tools against one another.</span></dd>
+<dt>What are the open research problems in recycling and routing among expert models?</dt>
+<dt>How do you handle redundant or malicious contributed experts in a shared expert pool?</dt>
+<dt>What future work is needed for decentralized collaborative model development?</dt>
+<dd>The MoErging survey names as open problems identifying and removing redundant experts, deciding whether to admit a new expert to the pool, and detecting maliciously contributed experts. It also asks whether repeated rounds of MoErging can continually improve a base model rather than giving one-off gains.<br><span class="scope">Holds for: Directions the authors identify as of publication, alongside a call for theoretical frameworks and for merging-style benchmarks and competitions; none are addressed experimentally in the survey.</span></dd>
+<dd>Very few of the MoErging methods catalogued in the survey are actually used in practice, despite many demonstrating improved performance or generalization. The survey attributes this to missing user-friendly implementations, unclear guidance on which method suits which use case, and assumptions such as custom expert training or shared expert data.<br><span class="scope">Holds for: An assessment as of publication; the attributed causes are the authors&#x27; speculation rather than a measured result, and the tools inventory in Section 6 shows supporting infrastructure does exist.</span></dd>
+<dt>What design choices should I document when proposing a new expert-routing method?</dt>
+<dt>Which axes describe how a router over fine-tuned experts is built and applied?</dt>
+<dt>How do I classify a MoErging method&#x27;s assumptions about expert data and user data?</dt>
+<dd>The MoErging survey introduces a taxonomy that catalogues each surveyed method along 9 design choices. The axes are expert training procedure and expert data privacy, then routing dataset, input granularity, depth granularity, expert selection and expert aggregation, then generalization target and user dataset requirement.<br><span class="scope">Holds for: Covers methods surveyed as of the 2024 arXiv release and 2025 TMLR publication; some papers map onto an axis only as &#x27;Multiple&#x27; or &#x27;N/A&#x27;, and the authors state the taxonomy may miss methods and design choices.</span></dd>
+<dd>Data-access assumptions decide which MoErging methods are usable at all: a method requiring a labeled target-task dataset cannot by definition improve zero-shot generalization. A method requiring shared expert training data cannot be applied to publicly shared adapters, which are seldom released with their training data.<br><span class="scope">Holds for: A logical consequence of the survey&#x27;s taxonomy axes for routing dataset, expert data and user dataset, stated over the methods catalogued in Section 4.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>The MoErging survey introduces a taxonomy that catalogues each surveyed method along 9 design choices. The axes are expert training procedure and expert data privacy, then routing dataset, input granularity, depth granularity, expert selection and expert aggregation, then generalization target and user dataset requirement. <span class="meta">(Figure 5 and Sections 2.1-2.3)</span><br><span class="scope">Scope: Covers methods surveyed as of the 2024 arXiv release and 2025 TMLR publication; some papers map onto an axis only as &#x27;Multiple&#x27; or &#x27;N/A&#x27;, and the authors state the taxonomy may miss methods and design choices.</span></li>
+<li>MoErging methods fall into 4 families by how the router is built: embedding-based routing, classifier-based routing, task-specific routing, and router-free approaches. The remaining differences in granularity, selection and aggregation are comparatively superficial. <span class="meta">(Sections 3.1-3.5)</span><br><span class="scope">Scope: A grouping the survey argues for over the few dozen methods it reviews in Section 4; methods that mix strategies fit the grouping less cleanly.</span></li>
+<li>MoErging papers rarely compare to one another: among the 7 embedding-based routing methods the survey lists, only LoraRetriever compares against AdapterSoup. Most surveyed papers cite only a small fraction of the others. <span class="meta">(Sections 3.1 and 3.5)</span><br><span class="scope">Scope: Based on the papers catalogued in Section 4 as of the survey&#x27;s writing; the observation is about published comparisons, not about whether the methods are comparable in principle.</span></li>
+<li>When a MoErging method assumes all expert training datasets are simultaneously available, multitask training of the base model on those expert datasets is an applicable baseline that is often omitted. Multitask mixture-of-experts methods likewise become valid baselines under shared expert data. <span class="meta">(Sections 3.5 and 5.2)</span><br><span class="scope">Scope: Methods whose taxonomy entry lists expert data as Shared; methods that keep expert data Private cannot be compared to a multitask baseline on the same terms.</span></li>
+<li>Data-access assumptions decide which MoErging methods are usable at all: a method requiring a labeled target-task dataset cannot by definition improve zero-shot generalization. A method requiring shared expert training data cannot be applied to publicly shared adapters, which are seldom released with their training data. <span class="meta">(Section 3.5)</span><br><span class="scope">Scope: A logical consequence of the survey&#x27;s taxonomy axes for routing dataset, expert data and user dataset, stated over the methods catalogued in Section 4.</span></li>
+<li>Very few of the MoErging methods catalogued in the survey are actually used in practice, despite many demonstrating improved performance or generalization. The survey attributes this to missing user-friendly implementations, unclear guidance on which method suits which use case, and assumptions such as custom expert training or shared expert data. <span class="meta">(Section 7)</span><br><span class="scope">Scope: An assessment as of publication; the attributed causes are the authors&#x27; speculation rather than a measured result, and the tools inventory in Section 6 shows supporting infrastructure does exist.</span></li>
+<li>MoErging learns post-hoc routing over independently trained, decentralized experts and combines them adaptively per query or per task. That separates it from mixture-of-experts models, which jointly train experts and router from scratch, and from model merging, which produces a static combination. <span class="meta">(Section 1 and Sections 5.2-5.3)</span><br><span class="scope">Scope: The survey&#x27;s own delineation; the authors note that precisely delineating what is and is not MoErging is challenging because adjacent methods share the motivation while differing in framing.</span></li>
+<li>Routing granularity trades adaptability against cost and stability across the 3 levels the MoErging taxonomy defines: per-task, per-example and per-step. Per-step routing adapts most to the input but is expensive and risks early routing errors propagating, while per-task routing is cheapest and assumes constant expert needs within a task. <span class="meta">(Sections 2.2.2 and 2.2.3)</span><br><span class="scope">Scope: A synthesis of trade-offs across the surveyed methods rather than a controlled experiment; the same error-propagation concern is raised for per-module routing depth.</span></li>
+<li>Embedding-based routers, the 7 of which the survey lists include AdapterSoup, Retrieval of Experts, LoraRetriever and Dynamic Adapter Merging, need little or no routing-specific training data and tolerate experts with different architectures. Their quality is bounded by the pre-trained embedding space and degrades on semantically subtle, highly specialized, or out-of-distribution tasks. <span class="meta">(Section 3.1)</span><br><span class="scope">Scope: The embedding-based family as characterised in the survey&#x27;s grouping; assumes expert training distributions are distinct enough to separate in embedding space.</span></li>
+<li>Classifier-based routers, the 5 of which the survey lists are Zooter, RouteLLM, Routoo, Branch-Train-Mix and Routing with Benchmark Datasets, can learn routing functions more complex than embedding similarity. They depend on labeled routing data and therefore lose applicability in zero-shot and few-shot settings. <span class="meta">(Section 3.2)</span><br><span class="scope">Scope: The classifier-based family; the labeled data may come from expert data, a general dataset, or the target task, and the constraint is data availability rather than accuracy.</span></li>
+<li>Router-free approaches such as Arrow, PHATGOOSE, Airoboros and LlamaIndex avoid post-hoc router training entirely, using precomputed gates, LoRA prototypes or a pre-trained LLM&#x27;s own knowledge. That gives zero-shot deployment with no routing data, at the cost of possibly modified expert training and less stable routing. <span class="meta">(Section 3.4)</span><br><span class="scope">Scope: The router-free family in the survey&#x27;s grouping; PHATGOOSE and Arrow require expert-side changes or precomputation, so &#x27;no training&#x27; refers to the router, not the experts.</span></li>
+<li>The MoErging survey inventories the software ecosystem for decentralized expert reuse, including Hugging Face PEFT, AdapterHub, Git-theta, MergeKit, Predibase&#x27;s Lorax, Mergoo, Flow-Merge, Axolotl, Unsloth, airoboros and ComfyUI. It notes that no existing platform coordinates continual communal model development. <span class="meta">(Section 6)</span><br><span class="scope">Scope: An inventory as of publication; the tool landscape changes quickly and the survey does not benchmark the tools against one another.</span></li>
+<li>The MoErging survey names as open problems identifying and removing redundant experts, deciding whether to admit a new expert to the pool, and detecting maliciously contributed experts. It also asks whether repeated rounds of MoErging can continually improve a base model rather than giving one-off gains. <span class="meta">(Section 7)</span><br><span class="scope">Scope: Directions the authors identify as of publication, alongside a call for theoretical frameworks and for merging-style benchmarks and competitions; none are addressed experimentally in the survey.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The MoErging survey is not a benchmark: it catalogues design choices and reports what each paper claims, and it does not run head-to-head experiments comparing the surveyed methods under a common setup.</li>
+<li>MoErging is not a synonym for model merging. Merging produces a static combination of parameters, whereas MoErging routes adaptively per query or per task, and the survey treats merging as a non-adaptive baseline for MoErging methods.</li>
+<li>Not every MoErging method can be applied to adapters downloaded from a model hub: methods labelled Custom expert training require a modified training procedure, and methods labelled Shared expert data require the experts&#x27; training datasets, which are rarely released.</li>
+<li>The four-way grouping into embedding-based, classifier-based, task-specific and router-free routing is an organizing claim about how routers are built, not a ranking; the survey does not name a best family and argues suitability depends on data access and generalization goal.</li>
+<li>Zero-shot in the survey&#x27;s user-dataset axis is a slight misnomer: it also covers methods that need an unlabeled target-task training set, such as Weight-Ensembling MoE, which tunes its router by minimizing routing entropy on unlabeled test data.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>MoErging</em></dt><dd>A paradigm in which expert models fine-tuned independently by distributed contributors are recycled into an aggregate system by learning a post-hoc router that adaptively selects and combines them per query or per task.</dd>
+<dt><em>Expert data (Shared vs Private)</em></dt><dd>A taxonomy axis recording whether a routing method requires contributors to release the expert models&#x27; training datasets (Shared) or can operate on the expert parameters alone (Private).</dd>
+<dt><em>Routing dataset</em></dt><dd>The data used to learn the router, categorized as the experts&#x27; own training data, a target-task dataset, a general multi-task dataset, or none for methods that use heuristics or precomputed information instead of router training.</dd>
+<dt><em>Routing input granularity</em></dt><dd>Whether a routing decision is made once per task, once per input example, or at every generation step or token.</dd>
+<dt><em>Routing depth granularity</em></dt><dd>Whether one routing decision applies to the whole model or an independent decision is made at each layer or module where experts are inserted.</dd>
+<dt><em>Expert aggregation</em></dt><dd>How multiple selected experts are combined: mixing their outputs, merging their parameter values into a single model before processing the input, or no aggregation when a single expert is selected.</dd>
+<dt><em>Router-free approaches</em></dt><dd>Expert-selection methods that determine expert choice from precomputed gates, LoRA prototypes or a pre-trained LLM&#x27;s knowledge, without training a dedicated router after the experts exist.</dd>
+</dl>
 <h2>How to cite</h2>
 <pre>@article{yadav2024survey,
 title={A Survey on Model MoErging: Recycling and Routing Among Specialized Experts for Collaborative Learning},

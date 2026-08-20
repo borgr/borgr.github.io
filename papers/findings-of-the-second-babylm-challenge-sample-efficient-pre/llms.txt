@@ -1,0 +1,107 @@
+# Findings of the Second BabyLM Challenge: Sample-Efficient Pretraining on Developmentally Plausible Corpora
+
+Authors: Michael Y. Hu, Aaron Mueller, Candace Ross, Adina Williams, Tal Linzen, Chengxu Zhuang, Ryan Cotterell, Leshem Choshen, Alex Warstadt, Ethan Gotlieb Wilcox
+Venue: The 2nd BabyLM Challenge at the 28th Conference on Computational Natural Language Learning (2024)
+
+## What this paper shows
+The second BabyLM Challenge asked 31 teams to pretrain language models on 100M words or less (10M in Strict-Small, plus a new 100M-word image-text Multimodal track), and found that a hybrid causal-masked model, GPT-BERT, won both text tracks while no multimodal submission beat the organizers' baselines.
+
+## Claims, with scope
+- GPT-BERT, which combines masked and causal language modeling objectives, won both text tracks of the second BabyLM Challenge. It reached a 75.7 text average in the 100M-word Strict track against 64.8 for the best baseline, LTG-BERT, and 70.4 in the 10M-word Strict-Small track against 61.6 for BabyLlama.
+  Scope: Text average over BLiMP, BLiMP Supplement, (Super)GLUE and EWoK, on evaluation sets filtered to the BabyLM vocabulary; English only; word budgets of 100M and 10M with participant-chosen training data.
+  Evidence: Table 3
+- No submission to the BabyLM Multimodal track outperformed the organizers' baselines, so no winner was awarded. The best Flamingo baseline scored a 54.5 vision average and 65.2 text average, above every one of the 8 submitted multimodal models.
+  Scope: 3 teams and 8 models only, all trained within a 100M-word text budget with unlimited images; vision average covers VQA, Winoground and DevBench.
+  Evidence: Table 3
+- Average text-evaluation score in the second BabyLM Challenge rose with training compute, with log training FLOPs a significant positive predictor (beta = 2.7). The mixed-effects regression also included backbone architecture and track as covariates.
+  Scope: 64 submitted models across the Strict, Strict-Small and Multimodal tracks, with random slopes per submitting group and no fixed-effect interactions; correlational over submissions, not a controlled compute sweep.
+  Evidence: Figure 3 and Section 6.1
+- Models trained on 100M words or less do not acquire the world knowledge that EWoK tests. Most submissions to the second BabyLM Challenge scored near the 50% chance level, and the maximum score was 58.4%.
+  Scope: EWoK used as the hidden text-track evaluation, filtered to the BabyLM vocabulary; masked-LM scores required re-scoring with uniform tie-breaking, which lowered initially reported values of 60-70%.
+  Evidence: Section 5.1 and Table 3
+- Curriculum learning was the most popular approach in the second BabyLM Challenge yet did not pay off. It showed a negative coefficient on average text score (beta = -3.6, p = 0.055) in a mixed-effects regression over submitted models.
+  Scope: Self-reported approach labels over 64 models, dummy-coded with random intercepts per submitting group; effect not significant at alpha = 0.05, and most curriculum submissions varied data order rather than training objective.
+  Evidence: Figure 5 and Section 6.3
+- In the second BabyLM Challenge, training-objective innovations, dataset creation, hyperparameter tuning and architectural innovations gave the highest average text scores, with training-objective innovations significant at alpha = 0.05 (beta = 4.5).
+  Scope: Self-reported approach labels over 64 submitted models, mixed-effects regression with random intercepts per submitting group; architectural innovation also carried high variance across models.
+  Evidence: Figure 5 and Section 6.3
+- No backbone architecture had a statistically significant effect on average text score across the second BabyLM Challenge's submissions at alpha = 0.05. Coefficients were nonetheless large for DeBERTa (beta = 9.1, p = 0.06), GPT-2 and LTG-BERT (both beta = 8.5, p = 0.06 and 0.07) and Llama (beta = 7.7, p = 0.07).
+  Scope: 64 models, so the analysis may lack power to detect architecture effects; the highest-scoring individual models were all LTG-BERT based, and LTG-BERT also had the highest variance of any backbone.
+  Evidence: Figure 4 and Section 6.2
+- Recurrent networks entered the BabyLM Challenge for the first time in 2024 and were competitive with Transformers. HGRN, an RNN with complex forget gates, was among the backbones with the highest average text scores, alongside DeBERTa.
+  Scope: Aggregated by backbone over 64 submitted models with no controlled matching of compute or data; architecture effects were not statistically significant.
+  Evidence: Figure 4 and Section 6.4
+- The 2024 BabyLM pretraining corpus raised child-oriented data to 70% of the mix, up from 39% the previous year. Child-oriented discourse rose from 5% to 29% by using the full English CHILDES including child utterances.
+  Scope: English text-only corpus of 100M words (10M subsampled for Strict-Small); Wikipedia except Simple English Wikipedia and the QED portion were dropped and reliance on OpenSubtitles reduced.
+  Evidence: Table 1 and Section 3
+- The best Strict-track model in the second BabyLM Challenge came within 2.5 percentage points of the reported human score on BLiMP, and one Strict-Small model beat the Llama skyline on BLiMP.
+  Scope: BLiMP filtered to the BabyLM vocabulary, so not comparable to published full-BLiMP results; human reference is the individual-agreement score from the original BLiMP paper.
+  Evidence: Section 5.1
+- The second BabyLM Challenge changed the rules to let participants build their own pretraining corpora within the 10M- or 100M-word budget. The provided BabyLM corpus became a dataset baseline rather than a fixed requirement.
+  Scope: The 2024 iteration's Strict, Strict-Small and Multimodal tracks; the 2023 iteration required the fixed corpus in its strict tracks.
+- The BabyLM Challenge is a recurring shared task on sample-efficient pretraining under a fixed data budget. It gives the developmentally-plausible language modeling community a shared corpus and a common evaluation pipeline over BLiMP, (Super)GLUE, EWoK and multimodal tasks.
+  Scope: As of the second iteration in 2024: English only, text and image-text modalities, with 31 papers and 64 models submitted from 16 countries.
+- The second BabyLM Challenge released a 100M-word image-text pretraining corpus pairing 50M words of BabyLM text with 50M words of captions from Localized Narratives and Conceptual Captions 3M over 2.9M images. It also released a multimodal evaluation pipeline covering VQA, Winoground and DevBench.
+  Scope: Suggested resource rather than a requirement, since participants could construct their own multimodal data with unlimited images; images must be downloaded via provided scripts and CC3M coverage is limited to URLs valid in January 2024.
+
+## Common misreadings
+- The 2.5-percentage-point gap to human BLiMP performance is not measured on the full BLiMP benchmark: BabyLM filters evaluation examples containing words that appear fewer than twice in the pretraining corpora, so scores are not comparable to published full-dataset results or to the 2023 challenge.
+- The strong FLOPs-score relationship is correlational across heterogeneous submissions, not evidence that scaling compute alone closes the human-model data-efficiency gap.
+- The negative result in the Multimodal track reflects only 8 models from 3 teams, so it bounds what the 2024 submissions achieved rather than showing that visual grounding cannot help sample-efficient language learning.
+- Finding no significant effect of backbone architecture does not mean architecture is irrelevant: with 64 models the analysis had limited power, and several backbones showed large coefficients with p values near 0.06.
+- Near-chance EWoK scores are not purely an evaluation artifact; initial masked-LM scores of 60-70% came from a tie-breaking default in the LM evaluation harness, and after uniform tie-breaking the scores were confirmed with an independent scoring script.
+- Winning both text tracks does not mean GPT-BERT was trained on the organizers' provided corpus alone; participants in 2024 were allowed to construct their own data within the word budget, and the winning submission adjusted its training corpus.
+
+## Terminology
+- Strict track: The BabyLM competition track limiting pretraining to 100 million words or fewer of text, with participants free to choose the data sources.
+- Strict-Small track: The BabyLM competition track limiting pretraining to 10 million words or fewer of text.
+- Multimodal track: The BabyLM competition track for image-text models, capped at 100 million words of text but allowing unlimited visual input, evaluated on both text-only and multimodal tasks.
+- Skyline: A non-competition reference model trained without the BabyLM data budget (such as Llama or RoBERTa), plotted alongside submissions as an upper reference point rather than as a competitor.
+- Variation sets: Consecutive rephrasings of the same sentence, common in child-directed speech, which one BabyLM submission synthesized with GPT-4 as training data.
+- BLiMP Supplement: A set of minimal-pair test suites built for the BabyLM Challenge covering linguistic knowledge absent from BLiMP, including hypernymy, question-answer congruence, subject-auxiliary inversion and turn-taking.
+
+## Links
+- arXiv: https://arxiv.org/abs/2412.05149
+- PDF: https://arxiv.org/pdf/2412.05149
+- HTML: https://arxiv.org/html/2412.05149
+- Hugging Face: https://huggingface.co/papers/2412.05149
+- alphaXiv: https://www.alphaxiv.org/abs/2412.05149
+- DOI: https://doi.org/10.48550/arXiv.2412.05149
+- Semantic Scholar: https://www.semanticscholar.org/paper/274581556
+- Publisher: https://aclanthology.org/2024.conll-babylm.1/
+- Data: https://osf.io/ad7qg/
+- evaluation pipeline: https://github.com/babylm/evaluation-pipeline-2024
+- preprocessing code: https://github.com/babylm/babylm_data_preprocessing
+
+## How to cite
+@inproceedings{hu-etal-2024-findings,
+    title = "Findings of the Second {B}aby{LM} Challenge: Sample-Efficient Pretraining on Developmentally Plausible Corpora",
+    author = "Hu, Michael Y.  and
+      Mueller, Aaron  and
+      Ross, Candace  and
+      Williams, Adina  and
+      Linzen, Tal  and
+      Zhuang, Chengxu  and
+      Cotterell, Ryan  and
+      Choshen, Leshem  and
+      Warstadt, Alex  and
+      Wilcox, Ethan Gotlieb",
+    editor = "Hu, Michael Y.  and
+      Mueller, Aaron  and
+      Ross, Candace  and
+      Williams, Adina  and
+      Linzen, Tal  and
+      Zhuang, Chengxu  and
+      Choshen, Leshem  and
+      Cotterell, Ryan  and
+      Warstadt, Alex  and
+      Wilcox, Ethan Gotlieb",
+    booktitle = "The 2nd BabyLM Challenge at the 28th Conference on Computational Natural Language Learning",
+    month = nov,
+    year = "2024",
+    address = "Miami, FL, USA",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.conll-babylm.1/",
+    pages = "1--21",
+    abstract = "The BabyLM Challenge is a community effort to close the data-efficiency gap between human and computational language learners. Participants compete to optimize language model training on a fixed language data budget of 100 million words or less. This year, we released improved text corpora, as well as a vision-and-language corpus to facilitate research into cognitively plausible vision language models. Submissions were compared on evaluation tasks targeting grammatical ability, (visual) question answering, pragmatic abilities, and grounding, among other abilities. Participants could submit to a 10M-word text-only track, a 100M-word text-only track, and/or a 100M-word and image multimodal track. From 31 submissions employing diverse methods, a hybrid causal-masked language model architecture outperformed other approaches. No submissions outperformed the baselines in the multimodal track. In follow-up analyses, we found a strong relationship between training FLOPs and average performance across tasks, and that the best-performing submissions proposed changes to the training data, training objective, and model architecture. This year{'}s BabyLM Challenge shows that there is still significant room for innovation in this setting, in particular for image-text modeling, but community-driven research can yield actionable insights about effective strategies for small-scale language modeling."
+}

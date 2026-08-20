@@ -11,7 +11,7 @@
   <meta name="citation_author" content="Yevgeni Berzak">
   <meta name="citation_author" content="Omri Abend">
   <meta name="citation_publication_date" content="2020">
-  <meta name="citation_conference_title" content="Proceedings of the 24th Conference on Computational Natural Language Learning, CoNLL 2020, Online, November…">
+  <meta name="citation_conference_title" content="CoNLL 2020">
   <meta name="citation_doi" content="10.18653/V1/2020.CONLL-1.7">
   <meta name="citation_arxiv_id" content="2010.11032">
   <meta name="citation_abstract" content="We present a method for classifying syntactic errors in learner language, namely errors whose correction alters the morphosyntactic structure of a sentence. The methodology builds on the established Universal Dependencies syntactic representation scheme, and provides complementary information to other error-classification systems. Unlike existing error classification methods, our method is applicable across languages, which we showcase by producing a detailed picture of syntactic errors in learner English and learner Russian. We further demonstrate the utility of the methodology for analyzing the outputs of leading Grammatical Error Correction (GEC) systems.">
@@ -45,10 +45,12 @@
   "datePublished": "2020",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Proceedings of the 24th Conference on Computational Natural Language Learning, CoNLL 2020, Online, November…"
+    "name": "CoNLL 2020"
   },
   "identifier": "https://doi.org/10.18653/V1/2020.CONLL-1.7",
   "abstract": "We present a method for classifying syntactic errors in learner language, namely errors whose correction alters the morphosyntactic structure of a sentence. The methodology builds on the established Universal Dependencies syntactic representation scheme, and provides complementary information to other error-classification systems. Unlike existing error classification methods, our method is applicable across languages, which we showcase by producing a detailed picture of syntactic errors in learner English and learner Russian. We further demonstrate the utility of the methodology for analyzing the outputs of leading Grammatical Error Correction (GEC) systems.",
+  "description": "SErCl classifies a grammatical error by the pair of Universal Dependencies labels — POS tags, dependency edge labels or morphological features — that change between the learner's span and its correction, giving an error taxonomy that needs no hand-written categories and transfers across languages.",
+  "codeRepository": "https://github.com/borgr/GEC_UD_divergences",
   "sameAs": [
     "https://aclanthology.org/2020.conll-1.7/",
     "https://ar5iv.labs.arxiv.org/html/2010.11032",
@@ -56,9 +58,295 @@
     "https://arxiv.org/pdf/2010.11032",
     "https://doi.org/10.18653/V1/2020.CONLL-1.7",
     "https://doi.org/10.18653/v1/2020.conll-1.7",
+    "https://github.com/borgr/GEC_UD_divergences",
     "https://huggingface.co/papers/2010.11032",
     "https://www.alphaxiv.org/abs/2010.11032",
     "https://www.semanticscholar.org/paper/224814089"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "About 60% of the English learner errors that ERRANT dumps into its residual OTHER category receive a POS-based syntactic-error class from SErCl. Of 842 OTHER edits in W&I, 504 (59.9%) change the POS tag between source and correction.",
+      "description": "Holds for: W&I learner English, using ERRANT's own edit spans and UDPipe parses; ERRANT sends about 25% of its predictions to OTHER in NUCLE and Lang8 and about 15% in W&I and TLE."
+    },
+    {
+      "@type": "Thing",
+      "name": "Replacing manual dependency annotation with a UDPipe parser barely changes the distribution of syntactic error types in the TLE learner corpus. Normalising by tokens per POS, class frequencies shift 0.4% on average, with Pearson r=0.998.",
+      "description": "Holds for: TLE learner English, the only corpus with manual UD; UDPipe parses; non-lexical tags X, INTJ and SYM are excluded because the parser inflates them."
+    },
+    {
+      "@type": "Thing",
+      "name": "SErCl types sit largely inside single categories of NUCLE's hand-built taxonomy. On average 62% of a given syntactic-error type's instances fall in its maximally overlapping NUCLE category, and 82% in one of the top three.",
+      "description": "Holds for: NUCLE training set, relocation errors excluded because edits do not distinguish relocation from deletion; SErCl types with fewer than 30 occurrences omitted from the comparison matrix."
+    },
+    {
+      "@type": "Thing",
+      "name": "Syntactic errors are harder for grammatical error correction systems than other errors. The BEA2019 winner UEDIN-MS changes only 2686 of 4790 gold syntactic errors, a 56% recall upper bound, against its reported overall recall of 60%.",
+      "description": "Holds for: W&I development set, BEA2019 system outputs; the bound counts any change of the right type, correct or not; the ~40% SE recall estimate assumes SE precision equals the reported overall 72%."
+    },
+    {
+      "@type": "Thing",
+      "name": "Recall upper bounds of UEDIN-MS vary widely across syntactic error types, from 38% on ADJ→ADV and 44% on ADJ→NOUN up to 61-63% on determiners, adjectives and pronouns as source POS.",
+      "description": "Holds for: W&I development set, UEDIN-MS output; upper bounds computed as predicted changes divided by gold changes per type, and the rare NUM→DET and PART→DET types are set aside."
+    },
+    {
+      "@type": "Thing",
+      "name": "The number of syntactic changes a BEA2019 grammatical error correction system makes is unrelated to its shared-task rank. The partial-order Kendall tau between rank and number of SE changes, overall and per source POS, is 0.",
+      "description": "Holds for: 5 BEA2019 systems (UEDIN-MS, KAKAO&BRAIN, SHUYAO, CAMB-CUED, AIP-TOHOKU) on the W&I development set; ranks 1, 2, 5, 8 and 9 only, so a small sample."
+    },
+    {
+      "@type": "Thing",
+      "name": "Grammarly detects and validly corrects almost none of most syntactic error types, with 0% recall on 7 of the 15 examined types including missing adverbs, missing verbs and VERB→ADJ replacements. Its best cases are superfluous determiners (41%) and PART→DET (67%, from 6 instances).",
+      "description": "Holds for: TLE-derived selected SE types, manually annotated by whether Grammarly detected the edit at all and whether at least one offered correction was valid; product version as evaluated at the time of the 2020 study."
+    },
+    {
+      "@type": "Thing",
+      "name": "In the W&I corpus, the share of words whose POS tag survives correction rises with learner proficiency from level A to level C for every POS tag. Native writers generally change fewer tags than advanced learners, but the trend is mixed.",
+      "description": "Holds for: W&I training set, proficiency levels A-C plus LOCNESS native text, automatic UD parses; native counts are smaller, so borderline native-vs-C differences should not be read as significant."
+    },
+    {
+      "@type": "Thing",
+      "name": "Learners of Russian most often replace the genitive with accusative or nominative on nouns: 132 accusative-for-genitive and 163 nominative-for-genitive corrections, the two largest cells of the noun case confusion matrix.",
+      "description": "Holds for: RULEC learner Russian, UDPipe morphological features on automatic parses; nouns only, adjective case agreement is more symmetric (27 accusative-for-genitive vs 19 converse)."
+    },
+    {
+      "@type": "Thing",
+      "name": "Aspect errors in learner Russian are near-symmetric while voice errors are not. Perfective was corrected to imperfective 210 times against 223 the other way, but active-for-middle voice occurs 108 times against 45 for the converse.",
+      "description": "Holds for: RULEC learner Russian, UD morphological features from UDPipe parses; verbal features only."
+    },
+    {
+      "@type": "Thing",
+      "name": "POS-based and dependency-edge-based syntactic error types carry largely the same information in learner English: Cramer's V between them is 0.78 for additions and deletions and 0.76 for replacements in TLE.",
+      "description": "Holds for: TLE with manual UD annotation, 4584 extracted syntactic errors (2042 additions, 1048 deletions, 1495 replacements); English only, so the redundancy may not hold for morphologically richer languages."
+    },
+    {
+      "@type": "Thing",
+      "name": "SErCl derives a learner-error taxonomy from an existing syntactic representation framework, Universal Dependencies, rather than from hand-designed error categories, which makes the same taxonomy usable across languages without per-language rules.",
+      "description": "Holds for: As of publication in 2020; demonstrated on learner English (TLE, NUCLE, Lang8, W&I) and learner Russian (RULEC) only, and the earlier automatic classifier ERRANT requires new rules per language."
+    },
+    {
+      "@type": "Thing",
+      "name": "SErCl covers only errors whose correction changes a morphosyntactic label, leaving agreement errors and inappropriate determiners that keep the representative token's label outside the taxonomy unless UD morphological features are used.",
+      "description": "Holds for: By construction: an edit is a syntactic error only when the source and target representative tokens' labels differ, so non-SEs fall on the diagonal of the confusion matrix; in TLE 44.4% of errors are POS-based SEs."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/#faq",
+  "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/",
+  "name": "Questions answered by Classifying Syntactic Errors in Learner Language",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How can grammatical errors in learner text be classified in a way that works for more than one language?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SErCl derives a learner-error taxonomy from an existing syntactic representation framework, Universal Dependencies, rather than from hand-designed error categories, which makes the same taxonomy usable across languages without per-language rules. Holds for: As of publication in 2020; demonstrated on learner English (TLE, NUCLE, Lang8, W&I) and learner Russian (RULEC) only, and the earlier automatic classifier ERRANT requires new rules per language.\n\nAbout 60% of the English learner errors that ERRANT dumps into its residual OTHER category receive a POS-based syntactic-error class from SErCl. Of 842 OTHER edits in W&I, 504 (59.9%) change the POS tag between source and correction. Holds for: W&I learner English, using ERRANT's own edit spans and UDPipe parses; ERRANT sends about 25% of its predictions to OTHER in NUCLE and Lang8 and about 15% in W&I and TLE.",
+        "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/"
+      },
+      "alternateName": [
+        "Is there a language-independent error taxonomy for grammatical error correction?",
+        "What should I read about cross-lingual learner error taxonomies?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does SErCl replace ERRANT or complement it?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "About 60% of the English learner errors that ERRANT dumps into its residual OTHER category receive a POS-based syntactic-error class from SErCl. Of 842 OTHER edits in W&I, 504 (59.9%) change the POS tag between source and correction. Holds for: W&I learner English, using ERRANT's own edit spans and UDPipe parses; ERRANT sends about 25% of its predictions to OTHER in NUCLE and Lang8 and about 15% in W&I and TLE.",
+        "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/"
+      },
+      "alternateName": [
+        "How much of what ERRANT labels OTHER can be classified another way?",
+        "What fraction of unclassified learner errors get a type from Universal Dependencies label changes?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can automatic dependency parsers be trusted on ungrammatical learner sentences?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Replacing manual dependency annotation with a UDPipe parser barely changes the distribution of syntactic error types in the TLE learner corpus. Normalising by tokens per POS, class frequencies shift 0.4% on average, with Pearson r=0.998. Holds for: TLE learner English, the only corpus with manual UD; UDPipe parses; non-lexical tags X, INTJ and SYM are excluded because the parser inflates them.",
+        "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/"
+      },
+      "alternateName": [
+        "Does using UDPipe instead of manual treebank annotation change the learner error distribution?",
+        "How reliable is syntactic error extraction from parsed learner text?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do UD-derived error types agree with hand-annotated taxonomies like NUCLE's?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SErCl types sit largely inside single categories of NUCLE's hand-built taxonomy. On average 62% of a given syntactic-error type's instances fall in its maximally overlapping NUCLE category, and 82% in one of the top three. Holds for: NUCLE training set, relocation errors excluded because edits do not distinguish relocation from deletion; SErCl types with fewer than 30 occurrences omitted from the comparison matrix.",
+        "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/"
+      },
+      "alternateName": [
+        "How well do syntactic error classes map onto the NUCLE error categories?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are grammatical error correction systems worse on syntactic errors than on other errors?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Syntactic errors are harder for grammatical error correction systems than other errors. The BEA2019 winner UEDIN-MS changes only 2686 of 4790 gold syntactic errors, a 56% recall upper bound, against its reported overall recall of 60%. Holds for: W&I development set, BEA2019 system outputs; the bound counts any change of the right type, correct or not; the ~40% SE recall estimate assumes SE precision equals the reported overall 72%.\n\nRecall upper bounds of UEDIN-MS vary widely across syntactic error types, from 38% on ADJ→ADV and 44% on ADJ→NOUN up to 61-63% on determiners, adjectives and pronouns as source POS. Holds for: W&I development set, UEDIN-MS output; upper bounds computed as predicted changes divided by gold changes per type, and the rare NUM→DET and PART→DET types are set aside.",
+        "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/"
+      },
+      "alternateName": [
+        "What is the recall of the BEA2019 winning system on errors that change syntactic structure?",
+        "How well does UEDIN-MS handle errors whose correction alters the parse?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which learner error types do GEC systems handle worst?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Recall upper bounds of UEDIN-MS vary widely across syntactic error types, from 38% on ADJ→ADV and 44% on ADJ→NOUN up to 61-63% on determiners, adjectives and pronouns as source POS. Holds for: W&I development set, UEDIN-MS output; upper bounds computed as predicted changes divided by gold changes per type, and the rare NUM→DET and PART→DET types are set aside.\n\nGrammarly detects and validly corrects almost none of most syntactic error types, with 0% recall on 7 of the 15 examined types including missing adverbs, missing verbs and VERB→ADJ replacements. Its best cases are superfluous determiners (41%) and PART→DET (67%, from 6 instances). Holds for: TLE-derived selected SE types, manually annotated by whether Grammarly detected the edit at all and whether at least one offered correction was valid; product version as evaluated at the time of the 2020 study.",
+        "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/"
+      },
+      "alternateName": [
+        "Are some syntactic error types much harder for correction systems than others?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does making more edits make a grammatical error correction system rank higher?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The number of syntactic changes a BEA2019 grammatical error correction system makes is unrelated to its shared-task rank. The partial-order Kendall tau between rank and number of SE changes, overall and per source POS, is 0. Holds for: 5 BEA2019 systems (UEDIN-MS, KAKAO&BRAIN, SHUYAO, CAMB-CUED, AIP-TOHOKU) on the W&I development set; ranks 1, 2, 5, 8 and 9 only, so a small sample.",
+        "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/"
+      },
+      "alternateName": [
+        "Is system conservatism related to BEA2019 shared-task rank?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How well does Grammarly correct errors that change part of speech?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Grammarly detects and validly corrects almost none of most syntactic error types, with 0% recall on 7 of the 15 examined types including missing adverbs, missing verbs and VERB→ADJ replacements. Its best cases are superfluous determiners (41%) and PART→DET (67%, from 6 instances). Holds for: TLE-derived selected SE types, manually annotated by whether Grammarly detected the edit at all and whether at least one offered correction was valid; product version as evaluated at the time of the 2020 study.",
+        "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/"
+      },
+      "alternateName": [
+        "Does a commercial proofreading tool catch syntactic learner errors?",
+        "Which error types does Grammarly miss almost entirely?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do more advanced learners make fewer errors that change part of speech?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In the W&I corpus, the share of words whose POS tag survives correction rises with learner proficiency from level A to level C for every POS tag. Native writers generally change fewer tags than advanced learners, but the trend is mixed. Holds for: W&I training set, proficiency levels A-C plus LOCNESS native text, automatic UD parses; native counts are smaller, so borderline native-vs-C differences should not be read as significant.",
+        "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/"
+      },
+      "alternateName": [
+        "How do syntactic error rates differ across CEFR proficiency levels in W&I?",
+        "Do native writers make fewer POS-changing errors than advanced learners?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What case errors do learners of Russian make most often?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Learners of Russian most often replace the genitive with accusative or nominative on nouns: 132 accusative-for-genitive and 163 nominative-for-genitive corrections, the two largest cells of the noun case confusion matrix. Holds for: RULEC learner Russian, UDPipe morphological features on automatic parses; nouns only, adjective case agreement is more symmetric (27 accusative-for-genitive vs 19 converse).",
+        "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/"
+      },
+      "alternateName": [
+        "Which Russian noun case is hardest for learners?",
+        "What do learner Russian case confusion matrices show?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What aspect and voice errors appear in learner Russian?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Aspect errors in learner Russian are near-symmetric while voice errors are not. Perfective was corrected to imperfective 210 times against 223 the other way, but active-for-middle voice occurs 108 times against 45 for the converse. Holds for: RULEC learner Russian, UD morphological features from UDPipe parses; verbal features only.",
+        "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/"
+      },
+      "alternateName": [
+        "Do learners of Russian confuse perfective and imperfective symmetrically?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is a taxonomy of learner errors based on dependency edge labels worth building rather than one based on POS tags?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "POS-based and dependency-edge-based syntactic error types carry largely the same information in learner English: Cramer's V between them is 0.78 for additions and deletions and 0.76 for replacements in TLE. Holds for: TLE with manual UD annotation, 4584 extracted syntactic errors (2042 additions, 1048 deletions, 1495 replacements); English only, so the redundancy may not hold for morphologically richer languages.",
+        "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/"
+      },
+      "alternateName": [
+        "How correlated are POS-based and dependency-label-based learner error types?",
+        "Do dependency labels add information over POS tags when typing learner errors?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which learner errors does a UD-label-change taxonomy fail to cover?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SErCl covers only errors whose correction changes a morphosyntactic label, leaving agreement errors and inappropriate determiners that keep the representative token's label outside the taxonomy unless UD morphological features are used. Holds for: By construction: an edit is a syntactic error only when the source and target representative tokens' labels differ, so non-SEs fall on the diagonal of the confusion matrix; in TLE 44.4% of errors are POS-based SEs.",
+        "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/"
+      },
+      "alternateName": [
+        "Are agreement errors counted as syntactic errors by SErCl?",
+        "What are the limits of defining errors by changed morphosyntactic labels?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/#terms",
+  "url": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/",
+  "name": "Terminology in Classifying Syntactic Errors in Learner Language",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "syntactic error (SE)",
+      "description": "A grammatical error whose correction changes a morphological feature, a POS tag or a dependency label of the edited span's representative token; errors that leave those labels intact are non-syntactic errors.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "representative token",
+      "description": "In an edit span analysed against a dependency parse, the node of the span's sub-forest closest to the tree root, with the leftmost token used to break ties; its labels before and after correction define the error type.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "recall upper bound",
+      "description": "For a grammatical error correction system and an error type, the number of edits of that type the system makes divided by the number in the gold standard, counting changes whether or not they are correct.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/classifying-syntactic-errors-in-learner-language/#terms"
+    }
   ]
 }
   </script>
@@ -69,6 +357,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -82,13 +371,96 @@
 </head>
 <body>
 <h1>Classifying Syntactic Errors in Learner Language</h1>
-<p class="meta">Leshem Choshen, Dmitry Nikolaev, Yevgeni Berzak, Omri Abend · Proceedings of the 24th Conference on Computational Natural Language Learning, CoNLL 2020, Online, November… · 2020</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2010.11032">arXiv</a></li><li><a href="https://arxiv.org/pdf/2010.11032">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2010.11032">HTML</a></li><li><a href="https://huggingface.co/papers/2010.11032">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2010.11032">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2020.CONLL-1.7">DOI</a></li><li><a href="https://aclanthology.org/2020.conll-1.7/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/224814089">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2020.conll-1.7">Publisher</a></li></ul>
+<p class="sub">syntactic error classification from Universal Dependencies parses of a learner sentence and its correction</p>
+<p class="meta">Leshem Choshen, Dmitry Nikolaev, Yevgeni Berzak, Omri Abend · CoNLL 2020 · 2020</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2010.11032">arXiv</a></li><li><a href="https://arxiv.org/pdf/2010.11032">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2010.11032">HTML</a></li><li><a href="https://huggingface.co/papers/2010.11032">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2010.11032">alphaXiv</a></li><li><a href="https://doi.org/10.18653/V1/2020.CONLL-1.7">DOI</a></li><li><a href="https://aclanthology.org/2020.conll-1.7/">ACL Anthology</a></li><li><a href="https://www.semanticscholar.org/paper/224814089">Semantic Scholar</a></li><li><a href="https://doi.org/10.18653/v1/2020.conll-1.7">Publisher</a></li><li><a href="https://github.com/borgr/GEC_UD_divergences">Code</a></li></ul>
+<h2>In one sentence</h2>
+<p>SErCl classifies a grammatical error by the pair of Universal Dependencies labels — POS tags, dependency edge labels or morphological features — that change between the learner&#x27;s span and its correction, giving an error taxonomy that needs no hand-written categories and transfers across languages.</p>
 <h2>Abstract</h2>
 <p>We present a method for classifying syntactic errors in learner language, namely errors whose correction alters the morphosyntactic structure of a sentence. The methodology builds on the established Universal Dependencies syntactic representation scheme, and provides complementary information to other error-classification systems. Unlike existing error classification methods, our method is applicable across languages, which we showcase by producing a detailed picture of syntactic errors in learner English and learner Russian. We further demonstrate the utility of the methodology for analyzing the outputs of leading Grammatical Error Correction (GEC) systems.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How can grammatical errors in learner text be classified in a way that works for more than one language?</dt>
+<dt>Is there a language-independent error taxonomy for grammatical error correction?</dt>
+<dt>What should I read about cross-lingual learner error taxonomies?</dt>
+<dd>SErCl derives a learner-error taxonomy from an existing syntactic representation framework, Universal Dependencies, rather than from hand-designed error categories, which makes the same taxonomy usable across languages without per-language rules.<br><span class="scope">Holds for: As of publication in 2020; demonstrated on learner English (TLE, NUCLE, Lang8, W&amp;I) and learner Russian (RULEC) only, and the earlier automatic classifier ERRANT requires new rules per language.</span></dd>
+<dd>About 60% of the English learner errors that ERRANT dumps into its residual OTHER category receive a POS-based syntactic-error class from SErCl. Of 842 OTHER edits in W&amp;I, 504 (59.9%) change the POS tag between source and correction.<br><span class="scope">Holds for: W&amp;I learner English, using ERRANT&#x27;s own edit spans and UDPipe parses; ERRANT sends about 25% of its predictions to OTHER in NUCLE and Lang8 and about 15% in W&amp;I and TLE.</span></dd>
+<dt>Does SErCl replace ERRANT or complement it?</dt>
+<dt>How much of what ERRANT labels OTHER can be classified another way?</dt>
+<dt>What fraction of unclassified learner errors get a type from Universal Dependencies label changes?</dt>
+<dd>About 60% of the English learner errors that ERRANT dumps into its residual OTHER category receive a POS-based syntactic-error class from SErCl. Of 842 OTHER edits in W&amp;I, 504 (59.9%) change the POS tag between source and correction.<br><span class="scope">Holds for: W&amp;I learner English, using ERRANT&#x27;s own edit spans and UDPipe parses; ERRANT sends about 25% of its predictions to OTHER in NUCLE and Lang8 and about 15% in W&amp;I and TLE.</span></dd>
+<dt>Can automatic dependency parsers be trusted on ungrammatical learner sentences?</dt>
+<dt>Does using UDPipe instead of manual treebank annotation change the learner error distribution?</dt>
+<dt>How reliable is syntactic error extraction from parsed learner text?</dt>
+<dd>Replacing manual dependency annotation with a UDPipe parser barely changes the distribution of syntactic error types in the TLE learner corpus. Normalising by tokens per POS, class frequencies shift 0.4% on average, with Pearson r=0.998.<br><span class="scope">Holds for: TLE learner English, the only corpus with manual UD; UDPipe parses; non-lexical tags X, INTJ and SYM are excluded because the parser inflates them.</span></dd>
+<dt>Do UD-derived error types agree with hand-annotated taxonomies like NUCLE&#x27;s?</dt>
+<dt>How well do syntactic error classes map onto the NUCLE error categories?</dt>
+<dd>SErCl types sit largely inside single categories of NUCLE&#x27;s hand-built taxonomy. On average 62% of a given syntactic-error type&#x27;s instances fall in its maximally overlapping NUCLE category, and 82% in one of the top three.<br><span class="scope">Holds for: NUCLE training set, relocation errors excluded because edits do not distinguish relocation from deletion; SErCl types with fewer than 30 occurrences omitted from the comparison matrix.</span></dd>
+<dt>Are grammatical error correction systems worse on syntactic errors than on other errors?</dt>
+<dt>What is the recall of the BEA2019 winning system on errors that change syntactic structure?</dt>
+<dt>How well does UEDIN-MS handle errors whose correction alters the parse?</dt>
+<dd>Syntactic errors are harder for grammatical error correction systems than other errors. The BEA2019 winner UEDIN-MS changes only 2686 of 4790 gold syntactic errors, a 56% recall upper bound, against its reported overall recall of 60%.<br><span class="scope">Holds for: W&amp;I development set, BEA2019 system outputs; the bound counts any change of the right type, correct or not; the ~40% SE recall estimate assumes SE precision equals the reported overall 72%.</span></dd>
+<dd>Recall upper bounds of UEDIN-MS vary widely across syntactic error types, from 38% on ADJ→ADV and 44% on ADJ→NOUN up to 61-63% on determiners, adjectives and pronouns as source POS.<br><span class="scope">Holds for: W&amp;I development set, UEDIN-MS output; upper bounds computed as predicted changes divided by gold changes per type, and the rare NUM→DET and PART→DET types are set aside.</span></dd>
+<dt>Which learner error types do GEC systems handle worst?</dt>
+<dt>Are some syntactic error types much harder for correction systems than others?</dt>
+<dd>Recall upper bounds of UEDIN-MS vary widely across syntactic error types, from 38% on ADJ→ADV and 44% on ADJ→NOUN up to 61-63% on determiners, adjectives and pronouns as source POS.<br><span class="scope">Holds for: W&amp;I development set, UEDIN-MS output; upper bounds computed as predicted changes divided by gold changes per type, and the rare NUM→DET and PART→DET types are set aside.</span></dd>
+<dd>Grammarly detects and validly corrects almost none of most syntactic error types, with 0% recall on 7 of the 15 examined types including missing adverbs, missing verbs and VERB→ADJ replacements. Its best cases are superfluous determiners (41%) and PART→DET (67%, from 6 instances).<br><span class="scope">Holds for: TLE-derived selected SE types, manually annotated by whether Grammarly detected the edit at all and whether at least one offered correction was valid; product version as evaluated at the time of the 2020 study.</span></dd>
+<dt>Does making more edits make a grammatical error correction system rank higher?</dt>
+<dt>Is system conservatism related to BEA2019 shared-task rank?</dt>
+<dd>The number of syntactic changes a BEA2019 grammatical error correction system makes is unrelated to its shared-task rank. The partial-order Kendall tau between rank and number of SE changes, overall and per source POS, is 0.<br><span class="scope">Holds for: 5 BEA2019 systems (UEDIN-MS, KAKAO&amp;BRAIN, SHUYAO, CAMB-CUED, AIP-TOHOKU) on the W&amp;I development set; ranks 1, 2, 5, 8 and 9 only, so a small sample.</span></dd>
+<dt>How well does Grammarly correct errors that change part of speech?</dt>
+<dt>Does a commercial proofreading tool catch syntactic learner errors?</dt>
+<dt>Which error types does Grammarly miss almost entirely?</dt>
+<dd>Grammarly detects and validly corrects almost none of most syntactic error types, with 0% recall on 7 of the 15 examined types including missing adverbs, missing verbs and VERB→ADJ replacements. Its best cases are superfluous determiners (41%) and PART→DET (67%, from 6 instances).<br><span class="scope">Holds for: TLE-derived selected SE types, manually annotated by whether Grammarly detected the edit at all and whether at least one offered correction was valid; product version as evaluated at the time of the 2020 study.</span></dd>
+<dt>Do more advanced learners make fewer errors that change part of speech?</dt>
+<dt>How do syntactic error rates differ across CEFR proficiency levels in W&amp;I?</dt>
+<dt>Do native writers make fewer POS-changing errors than advanced learners?</dt>
+<dd>In the W&amp;I corpus, the share of words whose POS tag survives correction rises with learner proficiency from level A to level C for every POS tag. Native writers generally change fewer tags than advanced learners, but the trend is mixed.<br><span class="scope">Holds for: W&amp;I training set, proficiency levels A-C plus LOCNESS native text, automatic UD parses; native counts are smaller, so borderline native-vs-C differences should not be read as significant.</span></dd>
+<dt>What case errors do learners of Russian make most often?</dt>
+<dt>Which Russian noun case is hardest for learners?</dt>
+<dt>What do learner Russian case confusion matrices show?</dt>
+<dd>Learners of Russian most often replace the genitive with accusative or nominative on nouns: 132 accusative-for-genitive and 163 nominative-for-genitive corrections, the two largest cells of the noun case confusion matrix.<br><span class="scope">Holds for: RULEC learner Russian, UDPipe morphological features on automatic parses; nouns only, adjective case agreement is more symmetric (27 accusative-for-genitive vs 19 converse).</span></dd>
+<dt>What aspect and voice errors appear in learner Russian?</dt>
+<dt>Do learners of Russian confuse perfective and imperfective symmetrically?</dt>
+<dd>Aspect errors in learner Russian are near-symmetric while voice errors are not. Perfective was corrected to imperfective 210 times against 223 the other way, but active-for-middle voice occurs 108 times against 45 for the converse.<br><span class="scope">Holds for: RULEC learner Russian, UD morphological features from UDPipe parses; verbal features only.</span></dd>
+<dt>Is a taxonomy of learner errors based on dependency edge labels worth building rather than one based on POS tags?</dt>
+<dt>How correlated are POS-based and dependency-label-based learner error types?</dt>
+<dt>Do dependency labels add information over POS tags when typing learner errors?</dt>
+<dd>POS-based and dependency-edge-based syntactic error types carry largely the same information in learner English: Cramer&#x27;s V between them is 0.78 for additions and deletions and 0.76 for replacements in TLE.<br><span class="scope">Holds for: TLE with manual UD annotation, 4584 extracted syntactic errors (2042 additions, 1048 deletions, 1495 replacements); English only, so the redundancy may not hold for morphologically richer languages.</span></dd>
+<dt>Which learner errors does a UD-label-change taxonomy fail to cover?</dt>
+<dt>Are agreement errors counted as syntactic errors by SErCl?</dt>
+<dt>What are the limits of defining errors by changed morphosyntactic labels?</dt>
+<dd>SErCl covers only errors whose correction changes a morphosyntactic label, leaving agreement errors and inappropriate determiners that keep the representative token&#x27;s label outside the taxonomy unless UD morphological features are used.<br><span class="scope">Holds for: By construction: an edit is a syntactic error only when the source and target representative tokens&#x27; labels differ, so non-SEs fall on the diagonal of the confusion matrix; in TLE 44.4% of errors are POS-based SEs.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>About 60% of the English learner errors that ERRANT dumps into its residual OTHER category receive a POS-based syntactic-error class from SErCl. Of 842 OTHER edits in W&amp;I, 504 (59.9%) change the POS tag between source and correction. <span class="meta">(Section 3.3)</span><br><span class="scope">Scope: W&amp;I learner English, using ERRANT&#x27;s own edit spans and UDPipe parses; ERRANT sends about 25% of its predictions to OTHER in NUCLE and Lang8 and about 15% in W&amp;I and TLE.</span></li>
+<li>Replacing manual dependency annotation with a UDPipe parser barely changes the distribution of syntactic error types in the TLE learner corpus. Normalising by tokens per POS, class frequencies shift 0.4% on average, with Pearson r=0.998. <span class="meta">(Section 3.1)</span><br><span class="scope">Scope: TLE learner English, the only corpus with manual UD; UDPipe parses; non-lexical tags X, INTJ and SYM are excluded because the parser inflates them.</span></li>
+<li>SErCl types sit largely inside single categories of NUCLE&#x27;s hand-built taxonomy. On average 62% of a given syntactic-error type&#x27;s instances fall in its maximally overlapping NUCLE category, and 82% in one of the top three. <span class="meta">(Table 24 and Section 3.2)</span><br><span class="scope">Scope: NUCLE training set, relocation errors excluded because edits do not distinguish relocation from deletion; SErCl types with fewer than 30 occurrences omitted from the comparison matrix.</span></li>
+<li>Syntactic errors are harder for grammatical error correction systems than other errors. The BEA2019 winner UEDIN-MS changes only 2686 of 4790 gold syntactic errors, a 56% recall upper bound, against its reported overall recall of 60%. <span class="meta">(Table 6 and Section 5.1)</span><br><span class="scope">Scope: W&amp;I development set, BEA2019 system outputs; the bound counts any change of the right type, correct or not; the ~40% SE recall estimate assumes SE precision equals the reported overall 72%.</span></li>
+<li>Recall upper bounds of UEDIN-MS vary widely across syntactic error types, from 38% on ADJ→ADV and 44% on ADJ→NOUN up to 61-63% on determiners, adjectives and pronouns as source POS. <span class="meta">(Table 5 and Table 6)</span><br><span class="scope">Scope: W&amp;I development set, UEDIN-MS output; upper bounds computed as predicted changes divided by gold changes per type, and the rare NUM→DET and PART→DET types are set aside.</span></li>
+<li>The number of syntactic changes a BEA2019 grammatical error correction system makes is unrelated to its shared-task rank. The partial-order Kendall tau between rank and number of SE changes, overall and per source POS, is 0. <span class="meta">(Table 14 and Section 5.1)</span><br><span class="scope">Scope: 5 BEA2019 systems (UEDIN-MS, KAKAO&amp;BRAIN, SHUYAO, CAMB-CUED, AIP-TOHOKU) on the W&amp;I development set; ranks 1, 2, 5, 8 and 9 only, so a small sample.</span></li>
+<li>Grammarly detects and validly corrects almost none of most syntactic error types, with 0% recall on 7 of the 15 examined types including missing adverbs, missing verbs and VERB→ADJ replacements. Its best cases are superfluous determiners (41%) and PART→DET (67%, from 6 instances). <span class="meta">(Table 7)</span><br><span class="scope">Scope: TLE-derived selected SE types, manually annotated by whether Grammarly detected the edit at all and whether at least one offered correction was valid; product version as evaluated at the time of the 2020 study.</span></li>
+<li>In the W&amp;I corpus, the share of words whose POS tag survives correction rises with learner proficiency from level A to level C for every POS tag. Native writers generally change fewer tags than advanced learners, but the trend is mixed. <span class="meta">(Table 3)</span><br><span class="scope">Scope: W&amp;I training set, proficiency levels A-C plus LOCNESS native text, automatic UD parses; native counts are smaller, so borderline native-vs-C differences should not be read as significant.</span></li>
+<li>Learners of Russian most often replace the genitive with accusative or nominative on nouns: 132 accusative-for-genitive and 163 nominative-for-genitive corrections, the two largest cells of the noun case confusion matrix. <span class="meta">(Table 4)</span><br><span class="scope">Scope: RULEC learner Russian, UDPipe morphological features on automatic parses; nouns only, adjective case agreement is more symmetric (27 accusative-for-genitive vs 19 converse).</span></li>
+<li>Aspect errors in learner Russian are near-symmetric while voice errors are not. Perfective was corrected to imperfective 210 times against 223 the other way, but active-for-middle voice occurs 108 times against 45 for the converse. <span class="meta">(Section 4.2.2)</span><br><span class="scope">Scope: RULEC learner Russian, UD morphological features from UDPipe parses; verbal features only.</span></li>
+<li>POS-based and dependency-edge-based syntactic error types carry largely the same information in learner English: Cramer&#x27;s V between them is 0.78 for additions and deletions and 0.76 for replacements in TLE. <span class="meta">(Section 4.1)</span><br><span class="scope">Scope: TLE with manual UD annotation, 4584 extracted syntactic errors (2042 additions, 1048 deletions, 1495 replacements); English only, so the redundancy may not hold for morphologically richer languages.</span></li>
+<li>SErCl derives a learner-error taxonomy from an existing syntactic representation framework, Universal Dependencies, rather than from hand-designed error categories, which makes the same taxonomy usable across languages without per-language rules. <span class="meta">(Section 1 and Section 6)</span><br><span class="scope">Scope: As of publication in 2020; demonstrated on learner English (TLE, NUCLE, Lang8, W&amp;I) and learner Russian (RULEC) only, and the earlier automatic classifier ERRANT requires new rules per language.</span></li>
+<li>SErCl covers only errors whose correction changes a morphosyntactic label, leaving agreement errors and inappropriate determiners that keep the representative token&#x27;s label outside the taxonomy unless UD morphological features are used. <span class="meta">(Section 2 and Section 4.1)</span><br><span class="scope">Scope: By construction: an edit is a syntactic error only when the source and target representative tokens&#x27; labels differ, so non-SEs fall on the diagonal of the confusion matrix; in TLE 44.4% of errors are POS-based SEs.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The 56% figure for UEDIN-MS is an upper bound on recall, not measured recall: it counts every change the system made of the right type regardless of whether the correction was valid.</li>
+<li>SErCl does not aim to reproduce human error annotation; the comparison with NUCLE checks that the automatic types carry the manual taxonomy&#x27;s information, not that the two agree label for label.</li>
+<li>Finding that 60% of ERRANT&#x27;s OTHER edits get a SErCl class is not a claim that SErCl is better than ERRANT overall — ERRANT remains the more informative source for spelling and word-order errors, which the parser handles poorly.</li>
+<li>The claim of cross-linguistic applicability rests on demonstrations in learner English and learner Russian; no result is reported for any other language.</li>
+<li>Advanced learners scoring above natives on the least error-prone POS tags is a mixed trend on small native data, not evidence that natives are worse writers.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>syntactic error (SE)</em></dt><dd>A grammatical error whose correction changes a morphological feature, a POS tag or a dependency label of the edited span&#x27;s representative token; errors that leave those labels intact are non-syntactic errors.</dd>
+<dt><em>representative token</em></dt><dd>In an edit span analysed against a dependency parse, the node of the span&#x27;s sub-forest closest to the tree root, with the leftmost token used to break ties; its labels before and after correction define the error type.</dd>
+<dt><em>recall upper bound</em></dt><dd>For a grammatical error correction system and an error type, the number of edits of that type the system makes divided by the number in the gold standard, counting changes whether or not they are correct.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@inproceedings{DBLP:conf/conll/ChoshenNBA20,
-author       = {Leshem Choshen and
+<pre>@inproceedings{DBLP:conf/conll/ChoshenNBA20,author       = {Leshem Choshen and
                   Dmitry Nikolaev and
                   Yevgeni Berzak and
                   Omri Abend},

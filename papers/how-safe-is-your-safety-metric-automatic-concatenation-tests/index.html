@@ -13,6 +13,7 @@
   <meta name="citation_author" content="Yotam Perlitz">
   <meta name="citation_author" content="Orna Raz">
   <meta name="citation_publication_date" content="2025">
+  <meta name="citation_doi" content="10.48550/arXiv.2408.12259">
   <meta name="citation_arxiv_id" content="2408.12259">
   <meta name="citation_abstract" content="Consider a scenario where a harmfulness evaluation metric intended to filter unsafe responses from a Large Language Model. When applied to individual harmful prompt-response pairs, it correctly flags them as unsafe by assigning a high-risk score. Yet, if those same pairs are concatenated, the metrics decision unexpectedly reverses - labelling the combined content as safe with a low score, allowing the harmful text to bypass the filter. We found that multiple safety metrics, including advanced metrics such as GPT-based judges, exhibit this non-safe behaviour. Moreover, they show a strong sensitivity to input order: responses are often classified as safe if safe content appears first, regardless of any harmful content that follows, and vice versa. These findings underscore the importance of evaluating the safety of safety metrics, that is, the reliability of their output scores. To address this, we developed general, automatic, concatenation-based tests to assess key properties of these metrics. When applied in a model safety scenario, the tests revealed significant inconsistencies in harmfulness evaluations.">
   <script type="application/ld+json">
@@ -51,7 +52,9 @@
   ],
   "isAccessibleForFree": true,
   "datePublished": "2025",
+  "identifier": "https://doi.org/10.48550/arXiv.2408.12259",
   "abstract": "Consider a scenario where a harmfulness evaluation metric intended to filter unsafe responses from a Large Language Model. When applied to individual harmful prompt-response pairs, it correctly flags them as unsafe by assigning a high-risk score. Yet, if those same pairs are concatenated, the metrics decision unexpectedly reverses - labelling the combined content as safe with a low score, allowing the harmful text to bypass the filter. We found that multiple safety metrics, including advanced metrics such as GPT-based judges, exhibit this non-safe behaviour. Moreover, they show a strong sensitivity to input order: responses are often classified as safe if safe content appears first, regardless of any harmful content that follows, and vice versa. These findings underscore the importance of evaluating the safety of safety metrics, that is, the reliability of their output scores. To address this, we developed general, automatic, concatenation-based tests to assess key properties of these metrics. When applied in a model safety scenario, the tests revealed significant inconsistencies in harmfulness evaluations.",
+  "description": "Concatenation-based tests — repeating, clustering and permuting prompt-response pairs — expose that harmfulness metrics including GPT-3.5 and GPT-4o judges flip their safety verdicts and score by input order rather than content.",
   "sameAs": [
     "https://arxiv.org/abs/2408.12259",
     "https://arxiv.org/html/2408.12259",
@@ -59,6 +62,262 @@
     "https://huggingface.co/papers/2408.12259",
     "https://www.alphaxiv.org/abs/2408.12259",
     "https://www.semanticscholar.org/paper/271923863"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "The GPT-3.5-based harmfulness judge scored 203 of 1000 concatenated 4-tuples of unsafe prompt-response pairs as safe (scores 1 or 2), while GPT-4o flipped its verdict in only 2 of 1000 cases.",
+      "description": "Holds for: 4-tuples sampled from 50 pairs the same judge scored 4 or 5, on Mistral-7B-Instruct-v0.2 responses to AttaQ prompts, 1-5 scale, OpenAI API at seed=2."
+    },
+    {
+      "@type": "Thing",
+      "name": "GPT-4o as a harmfulness judge keeps its decision-flipping rate below 0.1% as the number of concatenated prompt-response pairs grows, whereas GPT-3.5's flip rate rises with concatenation length.",
+      "description": "Holds for: Safe and harmful cluster tests at 4, 8 and 16 concatenations, 1000 sampled tuples per setting, on AttaQ prompts and Mistral-7B-Instruct-v0.2 responses; single dataset and single task."
+    },
+    {
+      "@type": "Thing",
+      "name": "The GPT-3.5-based judge's positional bias is 24.4% for 8-concatenated lists of prompt-response pairs and 45.9% for 16-concatenated lists. Positional bias counts inputs whose verdict flips between scores {4,5} and {1,2} when the input order is reversed.",
+      "description": "Holds for: Balanced pools of 50 pairs scored {4,5}, 25 scored 3 and 50 scored {1,2} per metric; 1000 sampled concatenations per length; increasing versus decreasing sorted permutations."
+    },
+    {
+      "@type": "Thing",
+      "name": "With 16-tuple inputs of effectively identical content, the GPT-4o judge scored 80% of tuples (803 of 1000) as safe when pairs were sorted from low to high harmfulness. The same content scored safe in about 40% of cases under random permutations and 1% under the decreasing permutation.",
+      "description": "Holds for: 1000 concatenated 16-tuples drawn from a balanced score pool; AttaQ prompts with Mistral-7B-Instruct-v0.2 responses; GPT-4o via OpenAI API, default temperature, seed=2."
+    },
+    {
+      "@type": "Thing",
+      "name": "Positional bias in both GPT-based harmfulness judges grows with the length of the concatenated input, so longer aggregated inputs are scored more by the order of their parts than by their content.",
+      "description": "Holds for: Concatenation lengths of 4, 8 and 16 prompt-response pairs; GPT-3.5-turbo-0125 and GPT-4o judges only; reward-model metrics show low positional bias instead."
+    },
+    {
+      "@type": "Thing",
+      "name": "The OpenAssistant deberta-based and pythia-based reward metrics assign lower scores as input content is repeated, with the pythia-based model shifting most. Its Wasserstein distance from the unrepeated score distribution reaches 4.277 when both prompt and response are repeated 8 times.",
+      "description": "Holds for: Repetitions up to l=5 for deberta-based (512-token context) and l=16 for pythia-based (1024-token context); 1000 AttaQ prompts with Mistral-7B-Instruct-v0.2 responses; distances computed between score distributions, not per example."
+    },
+    {
+      "@type": "Thing",
+      "name": "For the deberta-based reward metric, repeating the response alone shifts the score distribution more than repeating the prompt alone: Wasserstein distance 2.065 at 5 response repetitions versus 0.900 at 5 prompt repetitions.",
+      "description": "Holds for: OpenAssistant/reward-model-deberta-v3-large-v2 with a 512-token context, so repetition counts stop at 5; scores over 1000 AttaQ prompt-response pairs from Mistral-7B-Instruct-v0.2."
+    },
+    {
+      "@type": "Thing",
+      "name": "The GPT-3.5 and GPT-4o judges are insensitive to repeated content, preserving their original harmfulness scores when the prompt, the response, or both are repeated — the opposite of the reward-model metrics' behaviour.",
+      "description": "Holds for: Repetition tests on AttaQ prompts and Mistral-7B-Instruct-v0.2 responses; 16k-token context for GPT-3.5 and 128k for GPT-4o, so long repeated inputs still fit."
+    },
+    {
+      "@type": "Thing",
+      "name": "The reward-model harmfulness metrics show only minor sensitivity to input order, with average pairwise Wasserstein distance between permuted-input score distributions of 0.064 for the deberta-based metric and 0.097 for the pythia-based metric.",
+      "description": "Holds for: Six permutations per concatenated input, including increasing- and decreasing-score sorts, where the largest gaps occur (0.147 deberta, 0.583 pythia between increasing and decreasing); AttaQ data with Mistral-7B-Instruct-v0.2 responses."
+    },
+    {
+      "@type": "Thing",
+      "name": "Reward-model harmfulness metrics do not preserve cluster scores under concatenation. For the safe (high-score) 2-concatenated cluster, a large part of the concatenated score distribution falls well below the average of the two original pair scores.",
+      "description": "Holds for: Clusters built from the top and bottom 10% of scored pairs (100 pairs each), with 1000 randomly formed 2-concatenations; deberta-based and pythia-based OpenAssistant reward models."
+    },
+    {
+      "@type": "Thing",
+      "name": "\"How Safe is Your Safety Metric?\" argues that safety metrics themselves need validity testing, and supplies automatic repetition, cluster and concatenate-and-permute tests for that purpose. The tests reuse a task's existing prompt-response data and need no new annotation.",
+      "description": "Holds for: Demonstrated on one task (model safety) with one dataset (AttaQ) and four metrics; the authors note the test suite is small and its generality to other tasks such as translation is proposed rather than shown."
+    },
+    {
+      "@type": "Thing",
+      "name": "Because GPT-3.5-based judges are widely used to decide the success of multi-turn and conversation-based jailbreak attacks on concatenated prompt-response content, their measured decision-flipping rate makes such attack-success numbers questionable.",
+      "description": "Holds for: Concerns gpt-3.5-turbo-0125 with the Appendix A scoring prompt as evaluated in this work; other implementations, prompts and judge models — GPT-4o in particular — behaved more consistently in the cluster tests."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/#faq",
+  "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/",
+  "name": "Questions answered by How Safe is Your Safety Metric? Automatic Concatenation Tests for Metric Reliability",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can a harmful response slip past an LLM safety filter just by being concatenated with other text?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The GPT-3.5-based harmfulness judge scored 203 of 1000 concatenated 4-tuples of unsafe prompt-response pairs as safe (scores 1 or 2), while GPT-4o flipped its verdict in only 2 of 1000 cases. Holds for: 4-tuples sampled from 50 pairs the same judge scored 4 or 5, on Mistral-7B-Instruct-v0.2 responses to AttaQ prompts, 1-5 scale, OpenAI API at seed=2.\n\nGPT-4o as a harmfulness judge keeps its decision-flipping rate below 0.1% as the number of concatenated prompt-response pairs grows, whereas GPT-3.5's flip rate rises with concatenation length. Holds for: Safe and harmful cluster tests at 4, 8 and 16 concatenations, 1000 sampled tuples per setting, on AttaQ prompts and Mistral-7B-Instruct-v0.2 responses; single dataset and single task.",
+        "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
+      },
+      "alternateName": [
+        "Do harmfulness metrics reverse their verdict when unsafe prompt-response pairs are combined?",
+        "How often does a GPT-based safety judge label concatenated unsafe content as safe?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does the order of content change how an LLM judge scores safety?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The GPT-3.5-based judge's positional bias is 24.4% for 8-concatenated lists of prompt-response pairs and 45.9% for 16-concatenated lists. Positional bias counts inputs whose verdict flips between scores {4,5} and {1,2} when the input order is reversed. Holds for: Balanced pools of 50 pairs scored {4,5}, 25 scored 3 and 50 scored {1,2} per metric; 1000 sampled concatenations per length; increasing versus decreasing sorted permutations.\n\nWith 16-tuple inputs of effectively identical content, the GPT-4o judge scored 80% of tuples (803 of 1000) as safe when pairs were sorted from low to high harmfulness. The same content scored safe in about 40% of cases under random permutations and 1% under the decreasing permutation. Holds for: 1000 concatenated 16-tuples drawn from a balanced score pool; AttaQ prompts with Mistral-7B-Instruct-v0.2 responses; GPT-4o via OpenAI API, default temperature, seed=2.",
+        "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
+      },
+      "alternateName": [
+        "How large is positional bias in GPT-3.5 and GPT-4o harmfulness judges?",
+        "If safe text comes first, will a judge model call the whole input safe?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does positional bias in LLM judges get worse with longer inputs?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Positional bias in both GPT-based harmfulness judges grows with the length of the concatenated input, so longer aggregated inputs are scored more by the order of their parts than by their content. Holds for: Concatenation lengths of 4, 8 and 16 prompt-response pairs; GPT-3.5-turbo-0125 and GPT-4o judges only; reward-model metrics show low positional bias instead.",
+        "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
+      },
+      "alternateName": [
+        "Is judge order sensitivity related to input length?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are reward models usable as safety filters if an attacker repeats the prompt or response?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The OpenAssistant deberta-based and pythia-based reward metrics assign lower scores as input content is repeated, with the pythia-based model shifting most. Its Wasserstein distance from the unrepeated score distribution reaches 4.277 when both prompt and response are repeated 8 times. Holds for: Repetitions up to l=5 for deberta-based (512-token context) and l=16 for pythia-based (1024-token context); 1000 AttaQ prompts with Mistral-7B-Instruct-v0.2 responses; distances computed between score distributions, not per example.\n\nFor the deberta-based reward metric, repeating the response alone shifts the score distribution more than repeating the prompt alone: Wasserstein distance 2.065 at 5 response repetitions versus 0.900 at 5 prompt repetitions. Holds for: OpenAssistant/reward-model-deberta-v3-large-v2 with a 512-token context, so repetition counts stop at 5; scores over 1000 AttaQ prompt-response pairs from Mistral-7B-Instruct-v0.2.",
+        "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
+      },
+      "alternateName": [
+        "Do OpenAssistant reward models change their score when input content is repeated?",
+        "How much do repeated prompts and responses shift reward-model harmfulness scores?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are GPT judges affected by repeated content in the input?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The GPT-3.5 and GPT-4o judges are insensitive to repeated content, preserving their original harmfulness scores when the prompt, the response, or both are repeated — the opposite of the reward-model metrics' behaviour. Holds for: Repetition tests on AttaQ prompts and Mistral-7B-Instruct-v0.2 responses; 16k-token context for GPT-3.5 and 128k for GPT-4o, so long repeated inputs still fit.",
+        "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
+      },
+      "alternateName": [
+        "Which safety metrics ignore duplicated prompts and responses?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are reward-model safety metrics sensitive to the order of concatenated inputs?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The reward-model harmfulness metrics show only minor sensitivity to input order, with average pairwise Wasserstein distance between permuted-input score distributions of 0.064 for the deberta-based metric and 0.097 for the pythia-based metric. Holds for: Six permutations per concatenated input, including increasing- and decreasing-score sorts, where the largest gaps occur (0.147 deberta, 0.583 pythia between increasing and decreasing); AttaQ data with Mistral-7B-Instruct-v0.2 responses.",
+        "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
+      },
+      "alternateName": [
+        "Which harmfulness metrics have low positional bias?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do safety scores stay consistent when several equally safe pairs are concatenated?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Reward-model harmfulness metrics do not preserve cluster scores under concatenation. For the safe (high-score) 2-concatenated cluster, a large part of the concatenated score distribution falls well below the average of the two original pair scores. Holds for: Clusters built from the top and bottom 10% of scored pairs (100 pairs each), with 1000 randomly formed 2-concatenations; deberta-based and pythia-based OpenAssistant reward models.\n\nThe GPT-3.5 and GPT-4o judges are insensitive to repeated content, preserving their original harmfulness scores when the prompt, the response, or both are repeated — the opposite of the reward-model metrics' behaviour. Holds for: Repetition tests on AttaQ prompts and Mistral-7B-Instruct-v0.2 responses; 16k-token context for GPT-3.5 and 128k for GPT-4o, so long repeated inputs still fit.",
+        "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
+      },
+      "alternateName": [
+        "What happens to reward-model scores when two safe prompt-response pairs are merged into one input?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What work should I read on whether automatic safety evaluation metrics are reliable?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "\"How Safe is Your Safety Metric?\" argues that safety metrics themselves need validity testing, and supplies automatic repetition, cluster and concatenate-and-permute tests for that purpose. The tests reuse a task's existing prompt-response data and need no new annotation. Holds for: Demonstrated on one task (model safety) with one dataset (AttaQ) and four metrics; the authors note the test suite is small and its generality to other tasks such as translation is proposed rather than shown.",
+        "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
+      },
+      "alternateName": [
+        "Where can I find a paper on validating LLM-as-a-judge safety metrics?",
+        "Is there research on testing the metrics used to measure model harmfulness?",
+        "How do I check the validity of a safety metric without collecting new human labels?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is GPT-3.5 a trustworthy judge for measuring jailbreak attack success?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because GPT-3.5-based judges are widely used to decide the success of multi-turn and conversation-based jailbreak attacks on concatenated prompt-response content, their measured decision-flipping rate makes such attack-success numbers questionable. Holds for: Concerns gpt-3.5-turbo-0125 with the Appendix A scoring prompt as evaluated in this work; other implementations, prompts and judge models — GPT-4o in particular — behaved more consistently in the cluster tests.\n\nThe GPT-3.5-based harmfulness judge scored 203 of 1000 concatenated 4-tuples of unsafe prompt-response pairs as safe (scores 1 or 2), while GPT-4o flipped its verdict in only 2 of 1000 cases. Holds for: 4-tuples sampled from 50 pairs the same judge scored 4 or 5, on Mistral-7B-Instruct-v0.2 responses to AttaQ prompts, 1-5 scale, OpenAI API at seed=2.",
+        "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
+      },
+      "alternateName": [
+        "Should attack-success rates measured with a GPT-3.5 judge be trusted?",
+        "What are the risks of using an LLM judge to score multi-turn red-teaming attacks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which safety metrics and datasets were tested in the concatenation study?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "\"How Safe is Your Safety Metric?\" argues that safety metrics themselves need validity testing, and supplies automatic repetition, cluster and concatenate-and-permute tests for that purpose. The tests reuse a task's existing prompt-response data and need no new annotation. Holds for: Demonstrated on one task (model safety) with one dataset (AttaQ) and four metrics; the authors note the test suite is small and its generality to other tasks such as translation is proposed rather than shown.\n\nThe OpenAssistant deberta-based and pythia-based reward metrics assign lower scores as input content is repeated, with the pythia-based model shifting most. Its Wasserstein distance from the unrepeated score distribution reaches 4.277 when both prompt and response are repeated 8 times. Holds for: Repetitions up to l=5 for deberta-based (512-token context) and l=16 for pythia-based (1024-token context); 1000 AttaQ prompts with Mistral-7B-Instruct-v0.2 responses; distances computed between score distributions, not per example.",
+        "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
+      },
+      "alternateName": [
+        "What models were used to generate the harmful responses in the concatenation tests?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/#terms",
+  "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/",
+  "name": "Terminology in How Safe is Your Safety Metric? Automatic Concatenation Tests for Metric Reliability",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Decision flipping",
+      "description": "A safety metric's verdict changing category — for example from harmful scores {4,5} to safe scores {1,2} — when individually scored prompt-response pairs are concatenated into a single input.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Positional bias (of a safety metric)",
+      "description": "The percentage of concatenated inputs whose metric verdict flips between the harmful and safe score categories when the order of the concatenated prompt-response pairs is reversed.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Cluster test",
+      "description": "A metric validity test that collects inputs a metric scores uniformly high or uniformly low, concatenates them, and checks whether the concatenation receives the same class of score.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Repetition test",
+      "description": "A metric validity test that concatenates a prompt, a response, or both with itself l times and tracks how the metric's score changes as l grows.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Concatenate-and-permute test",
+      "description": "A metric validity test that concatenates several prompt-response pairs and rescores the same content under several orderings, including sorts by increasing and decreasing individual scores, to measure order sensitivity.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "AttaQ",
+      "description": "A dataset of 1400 questions designed to elicit harmful responses from a language model, used as the prompt source for the concatenation tests.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/#terms"
+    }
   ]
 }
   </script>
@@ -69,6 +328,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -82,13 +342,90 @@
 </head>
 <body>
 <h1>How Safe is Your Safety Metric? Automatic Concatenation Tests for Metric Reliability</h1>
+<p class="sub">automatic tests that concatenate, repeat and reorder prompt-response pairs to check whether a safety metric&#x27;s scores stay consistent</p>
 <p class="meta">Ora Nova Fandina, Leshem Choshen, Eitan Farchi, George Kour, Yotam Perlitz, Orna Raz · 2025</p>
 <ul class="links"><li><a href="https://arxiv.org/abs/2408.12259">arXiv</a></li><li><a href="https://arxiv.org/pdf/2408.12259">PDF</a></li><li><a href="https://arxiv.org/html/2408.12259">HTML</a></li><li><a href="https://huggingface.co/papers/2408.12259">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2408.12259">alphaXiv</a></li><li><a href="https://www.semanticscholar.org/paper/271923863">Semantic Scholar</a></li></ul>
+<h2>In one sentence</h2>
+<p>Concatenation-based tests — repeating, clustering and permuting prompt-response pairs — expose that harmfulness metrics including GPT-3.5 and GPT-4o judges flip their safety verdicts and score by input order rather than content.</p>
 <h2>Abstract</h2>
 <p>Consider a scenario where a harmfulness evaluation metric intended to filter unsafe responses from a Large Language Model. When applied to individual harmful prompt-response pairs, it correctly flags them as unsafe by assigning a high-risk score. Yet, if those same pairs are concatenated, the metrics decision unexpectedly reverses - labelling the combined content as safe with a low score, allowing the harmful text to bypass the filter. We found that multiple safety metrics, including advanced metrics such as GPT-based judges, exhibit this non-safe behaviour. Moreover, they show a strong sensitivity to input order: responses are often classified as safe if safe content appears first, regardless of any harmful content that follows, and vice versa. These findings underscore the importance of evaluating the safety of safety metrics, that is, the reliability of their output scores. To address this, we developed general, automatic, concatenation-based tests to assess key properties of these metrics. When applied in a model safety scenario, the tests revealed significant inconsistencies in harmfulness evaluations.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Can a harmful response slip past an LLM safety filter just by being concatenated with other text?</dt>
+<dt>Do harmfulness metrics reverse their verdict when unsafe prompt-response pairs are combined?</dt>
+<dt>How often does a GPT-based safety judge label concatenated unsafe content as safe?</dt>
+<dd>The GPT-3.5-based harmfulness judge scored 203 of 1000 concatenated 4-tuples of unsafe prompt-response pairs as safe (scores 1 or 2), while GPT-4o flipped its verdict in only 2 of 1000 cases.<br><span class="scope">Holds for: 4-tuples sampled from 50 pairs the same judge scored 4 or 5, on Mistral-7B-Instruct-v0.2 responses to AttaQ prompts, 1-5 scale, OpenAI API at seed=2.</span></dd>
+<dd>GPT-4o as a harmfulness judge keeps its decision-flipping rate below 0.1% as the number of concatenated prompt-response pairs grows, whereas GPT-3.5&#x27;s flip rate rises with concatenation length.<br><span class="scope">Holds for: Safe and harmful cluster tests at 4, 8 and 16 concatenations, 1000 sampled tuples per setting, on AttaQ prompts and Mistral-7B-Instruct-v0.2 responses; single dataset and single task.</span></dd>
+<dt>Does the order of content change how an LLM judge scores safety?</dt>
+<dt>How large is positional bias in GPT-3.5 and GPT-4o harmfulness judges?</dt>
+<dt>If safe text comes first, will a judge model call the whole input safe?</dt>
+<dd>The GPT-3.5-based judge&#x27;s positional bias is 24.4% for 8-concatenated lists of prompt-response pairs and 45.9% for 16-concatenated lists. Positional bias counts inputs whose verdict flips between scores {4,5} and {1,2} when the input order is reversed.<br><span class="scope">Holds for: Balanced pools of 50 pairs scored {4,5}, 25 scored 3 and 50 scored {1,2} per metric; 1000 sampled concatenations per length; increasing versus decreasing sorted permutations.</span></dd>
+<dd>With 16-tuple inputs of effectively identical content, the GPT-4o judge scored 80% of tuples (803 of 1000) as safe when pairs were sorted from low to high harmfulness. The same content scored safe in about 40% of cases under random permutations and 1% under the decreasing permutation.<br><span class="scope">Holds for: 1000 concatenated 16-tuples drawn from a balanced score pool; AttaQ prompts with Mistral-7B-Instruct-v0.2 responses; GPT-4o via OpenAI API, default temperature, seed=2.</span></dd>
+<dt>Does positional bias in LLM judges get worse with longer inputs?</dt>
+<dt>Is judge order sensitivity related to input length?</dt>
+<dd>Positional bias in both GPT-based harmfulness judges grows with the length of the concatenated input, so longer aggregated inputs are scored more by the order of their parts than by their content.<br><span class="scope">Holds for: Concatenation lengths of 4, 8 and 16 prompt-response pairs; GPT-3.5-turbo-0125 and GPT-4o judges only; reward-model metrics show low positional bias instead.</span></dd>
+<dt>Are reward models usable as safety filters if an attacker repeats the prompt or response?</dt>
+<dt>Do OpenAssistant reward models change their score when input content is repeated?</dt>
+<dt>How much do repeated prompts and responses shift reward-model harmfulness scores?</dt>
+<dd>The OpenAssistant deberta-based and pythia-based reward metrics assign lower scores as input content is repeated, with the pythia-based model shifting most. Its Wasserstein distance from the unrepeated score distribution reaches 4.277 when both prompt and response are repeated 8 times.<br><span class="scope">Holds for: Repetitions up to l=5 for deberta-based (512-token context) and l=16 for pythia-based (1024-token context); 1000 AttaQ prompts with Mistral-7B-Instruct-v0.2 responses; distances computed between score distributions, not per example.</span></dd>
+<dd>For the deberta-based reward metric, repeating the response alone shifts the score distribution more than repeating the prompt alone: Wasserstein distance 2.065 at 5 response repetitions versus 0.900 at 5 prompt repetitions.<br><span class="scope">Holds for: OpenAssistant/reward-model-deberta-v3-large-v2 with a 512-token context, so repetition counts stop at 5; scores over 1000 AttaQ prompt-response pairs from Mistral-7B-Instruct-v0.2.</span></dd>
+<dt>Are GPT judges affected by repeated content in the input?</dt>
+<dt>Which safety metrics ignore duplicated prompts and responses?</dt>
+<dd>The GPT-3.5 and GPT-4o judges are insensitive to repeated content, preserving their original harmfulness scores when the prompt, the response, or both are repeated — the opposite of the reward-model metrics&#x27; behaviour.<br><span class="scope">Holds for: Repetition tests on AttaQ prompts and Mistral-7B-Instruct-v0.2 responses; 16k-token context for GPT-3.5 and 128k for GPT-4o, so long repeated inputs still fit.</span></dd>
+<dt>Are reward-model safety metrics sensitive to the order of concatenated inputs?</dt>
+<dt>Which harmfulness metrics have low positional bias?</dt>
+<dd>The reward-model harmfulness metrics show only minor sensitivity to input order, with average pairwise Wasserstein distance between permuted-input score distributions of 0.064 for the deberta-based metric and 0.097 for the pythia-based metric.<br><span class="scope">Holds for: Six permutations per concatenated input, including increasing- and decreasing-score sorts, where the largest gaps occur (0.147 deberta, 0.583 pythia between increasing and decreasing); AttaQ data with Mistral-7B-Instruct-v0.2 responses.</span></dd>
+<dt>Do safety scores stay consistent when several equally safe pairs are concatenated?</dt>
+<dt>What happens to reward-model scores when two safe prompt-response pairs are merged into one input?</dt>
+<dd>Reward-model harmfulness metrics do not preserve cluster scores under concatenation. For the safe (high-score) 2-concatenated cluster, a large part of the concatenated score distribution falls well below the average of the two original pair scores.<br><span class="scope">Holds for: Clusters built from the top and bottom 10% of scored pairs (100 pairs each), with 1000 randomly formed 2-concatenations; deberta-based and pythia-based OpenAssistant reward models.</span></dd>
+<dd>The GPT-3.5 and GPT-4o judges are insensitive to repeated content, preserving their original harmfulness scores when the prompt, the response, or both are repeated — the opposite of the reward-model metrics&#x27; behaviour.<br><span class="scope">Holds for: Repetition tests on AttaQ prompts and Mistral-7B-Instruct-v0.2 responses; 16k-token context for GPT-3.5 and 128k for GPT-4o, so long repeated inputs still fit.</span></dd>
+<dt>What work should I read on whether automatic safety evaluation metrics are reliable?</dt>
+<dt>Where can I find a paper on validating LLM-as-a-judge safety metrics?</dt>
+<dt>Is there research on testing the metrics used to measure model harmfulness?</dt>
+<dt>How do I check the validity of a safety metric without collecting new human labels?</dt>
+<dd>&quot;How Safe is Your Safety Metric?&quot; argues that safety metrics themselves need validity testing, and supplies automatic repetition, cluster and concatenate-and-permute tests for that purpose. The tests reuse a task&#x27;s existing prompt-response data and need no new annotation.<br><span class="scope">Holds for: Demonstrated on one task (model safety) with one dataset (AttaQ) and four metrics; the authors note the test suite is small and its generality to other tasks such as translation is proposed rather than shown.</span></dd>
+<dt>Is GPT-3.5 a trustworthy judge for measuring jailbreak attack success?</dt>
+<dt>Should attack-success rates measured with a GPT-3.5 judge be trusted?</dt>
+<dt>What are the risks of using an LLM judge to score multi-turn red-teaming attacks?</dt>
+<dd>Because GPT-3.5-based judges are widely used to decide the success of multi-turn and conversation-based jailbreak attacks on concatenated prompt-response content, their measured decision-flipping rate makes such attack-success numbers questionable.<br><span class="scope">Holds for: Concerns gpt-3.5-turbo-0125 with the Appendix A scoring prompt as evaluated in this work; other implementations, prompts and judge models — GPT-4o in particular — behaved more consistently in the cluster tests.</span></dd>
+<dd>The GPT-3.5-based harmfulness judge scored 203 of 1000 concatenated 4-tuples of unsafe prompt-response pairs as safe (scores 1 or 2), while GPT-4o flipped its verdict in only 2 of 1000 cases.<br><span class="scope">Holds for: 4-tuples sampled from 50 pairs the same judge scored 4 or 5, on Mistral-7B-Instruct-v0.2 responses to AttaQ prompts, 1-5 scale, OpenAI API at seed=2.</span></dd>
+<dt>Which safety metrics and datasets were tested in the concatenation study?</dt>
+<dt>What models were used to generate the harmful responses in the concatenation tests?</dt>
+<dd>&quot;How Safe is Your Safety Metric?&quot; argues that safety metrics themselves need validity testing, and supplies automatic repetition, cluster and concatenate-and-permute tests for that purpose. The tests reuse a task&#x27;s existing prompt-response data and need no new annotation.<br><span class="scope">Holds for: Demonstrated on one task (model safety) with one dataset (AttaQ) and four metrics; the authors note the test suite is small and its generality to other tasks such as translation is proposed rather than shown.</span></dd>
+<dd>The OpenAssistant deberta-based and pythia-based reward metrics assign lower scores as input content is repeated, with the pythia-based model shifting most. Its Wasserstein distance from the unrepeated score distribution reaches 4.277 when both prompt and response are repeated 8 times.<br><span class="scope">Holds for: Repetitions up to l=5 for deberta-based (512-token context) and l=16 for pythia-based (1024-token context); 1000 AttaQ prompts with Mistral-7B-Instruct-v0.2 responses; distances computed between score distributions, not per example.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>The GPT-3.5-based harmfulness judge scored 203 of 1000 concatenated 4-tuples of unsafe prompt-response pairs as safe (scores 1 or 2), while GPT-4o flipped its verdict in only 2 of 1000 cases. <span class="meta">(Figure 6)</span><br><span class="scope">Scope: 4-tuples sampled from 50 pairs the same judge scored 4 or 5, on Mistral-7B-Instruct-v0.2 responses to AttaQ prompts, 1-5 scale, OpenAI API at seed=2.</span></li>
+<li>GPT-4o as a harmfulness judge keeps its decision-flipping rate below 0.1% as the number of concatenated prompt-response pairs grows, whereas GPT-3.5&#x27;s flip rate rises with concatenation length. <span class="meta">(Figures 15 and 16)</span><br><span class="scope">Scope: Safe and harmful cluster tests at 4, 8 and 16 concatenations, 1000 sampled tuples per setting, on AttaQ prompts and Mistral-7B-Instruct-v0.2 responses; single dataset and single task.</span></li>
+<li>The GPT-3.5-based judge&#x27;s positional bias is 24.4% for 8-concatenated lists of prompt-response pairs and 45.9% for 16-concatenated lists. Positional bias counts inputs whose verdict flips between scores {4,5} and {1,2} when the input order is reversed. <span class="meta">(Table 5 and Table 6)</span><br><span class="scope">Scope: Balanced pools of 50 pairs scored {4,5}, 25 scored 3 and 50 scored {1,2} per metric; 1000 sampled concatenations per length; increasing versus decreasing sorted permutations.</span></li>
+<li>With 16-tuple inputs of effectively identical content, the GPT-4o judge scored 80% of tuples (803 of 1000) as safe when pairs were sorted from low to high harmfulness. The same content scored safe in about 40% of cases under random permutations and 1% under the decreasing permutation. <span class="meta">(Figure 7)</span><br><span class="scope">Scope: 1000 concatenated 16-tuples drawn from a balanced score pool; AttaQ prompts with Mistral-7B-Instruct-v0.2 responses; GPT-4o via OpenAI API, default temperature, seed=2.</span></li>
+<li>Positional bias in both GPT-based harmfulness judges grows with the length of the concatenated input, so longer aggregated inputs are scored more by the order of their parts than by their content. <span class="meta">(Figure 12)</span><br><span class="scope">Scope: Concatenation lengths of 4, 8 and 16 prompt-response pairs; GPT-3.5-turbo-0125 and GPT-4o judges only; reward-model metrics show low positional bias instead.</span></li>
+<li>The OpenAssistant deberta-based and pythia-based reward metrics assign lower scores as input content is repeated, with the pythia-based model shifting most. Its Wasserstein distance from the unrepeated score distribution reaches 4.277 when both prompt and response are repeated 8 times. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Repetitions up to l=5 for deberta-based (512-token context) and l=16 for pythia-based (1024-token context); 1000 AttaQ prompts with Mistral-7B-Instruct-v0.2 responses; distances computed between score distributions, not per example.</span></li>
+<li>For the deberta-based reward metric, repeating the response alone shifts the score distribution more than repeating the prompt alone: Wasserstein distance 2.065 at 5 response repetitions versus 0.900 at 5 prompt repetitions. <span class="meta">(Table 1)</span><br><span class="scope">Scope: OpenAssistant/reward-model-deberta-v3-large-v2 with a 512-token context, so repetition counts stop at 5; scores over 1000 AttaQ prompt-response pairs from Mistral-7B-Instruct-v0.2.</span></li>
+<li>The GPT-3.5 and GPT-4o judges are insensitive to repeated content, preserving their original harmfulness scores when the prompt, the response, or both are repeated — the opposite of the reward-model metrics&#x27; behaviour. <span class="meta">(Figures 9 and 10)</span><br><span class="scope">Scope: Repetition tests on AttaQ prompts and Mistral-7B-Instruct-v0.2 responses; 16k-token context for GPT-3.5 and 128k for GPT-4o, so long repeated inputs still fit.</span></li>
+<li>The reward-model harmfulness metrics show only minor sensitivity to input order, with average pairwise Wasserstein distance between permuted-input score distributions of 0.064 for the deberta-based metric and 0.097 for the pythia-based metric. <span class="meta">(Table 3 and Table 4)</span><br><span class="scope">Scope: Six permutations per concatenated input, including increasing- and decreasing-score sorts, where the largest gaps occur (0.147 deberta, 0.583 pythia between increasing and decreasing); AttaQ data with Mistral-7B-Instruct-v0.2 responses.</span></li>
+<li>Reward-model harmfulness metrics do not preserve cluster scores under concatenation. For the safe (high-score) 2-concatenated cluster, a large part of the concatenated score distribution falls well below the average of the two original pair scores. <span class="meta">(Figure 5 and Figure 13)</span><br><span class="scope">Scope: Clusters built from the top and bottom 10% of scored pairs (100 pairs each), with 1000 randomly formed 2-concatenations; deberta-based and pythia-based OpenAssistant reward models.</span></li>
+<li>&quot;How Safe is Your Safety Metric?&quot; argues that safety metrics themselves need validity testing, and supplies automatic repetition, cluster and concatenate-and-permute tests for that purpose. The tests reuse a task&#x27;s existing prompt-response data and need no new annotation. <span class="meta">(Section 1 and Section 3)</span><br><span class="scope">Scope: Demonstrated on one task (model safety) with one dataset (AttaQ) and four metrics; the authors note the test suite is small and its generality to other tasks such as translation is proposed rather than shown.</span></li>
+<li>Because GPT-3.5-based judges are widely used to decide the success of multi-turn and conversation-based jailbreak attacks on concatenated prompt-response content, their measured decision-flipping rate makes such attack-success numbers questionable. <span class="meta">(Section 1)</span><br><span class="scope">Scope: Concerns gpt-3.5-turbo-0125 with the Appendix A scoring prompt as evaluated in this work; other implementations, prompts and judge models — GPT-4o in particular — behaved more consistently in the cluster tests.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>GPT-4o is not shown to be a robust safety judge overall: it keeps a decision-flipping rate below 0.1% in the cluster tests, yet exhibits strong positional bias, scoring 80% of 16-tuples safe under a low-to-high sort versus 1% under the reverse sort.</li>
+<li>Insensitivity to repeated content is not a general property of LLM judges over reward models: GPT-3.5 and GPT-4o preserve their scores under repetition, but GPT-3.5 is the metric with the highest decision-flipping rate under concatenation.</li>
+<li>The concatenation tests do not measure how harmful a language model is; they measure whether a harmfulness metric&#x27;s scores stay consistent under input transformations that preserve content.</li>
+<li>The findings are not established across tasks or datasets: all experiments use one task (model safety), one prompt dataset (AttaQ) and one base model (Mistral-7B-Instruct-v0.2), and the authors list this limited scope as a limitation.</li>
+<li>A high positional-bias number is not evidence that a metric disagrees with humans; it reports how often the metric&#x27;s own verdict flips when only the order of identical content is reversed.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Decision flipping</em></dt><dd>A safety metric&#x27;s verdict changing category — for example from harmful scores {4,5} to safe scores {1,2} — when individually scored prompt-response pairs are concatenated into a single input.</dd>
+<dt><em>Positional bias (of a safety metric)</em></dt><dd>The percentage of concatenated inputs whose metric verdict flips between the harmful and safe score categories when the order of the concatenated prompt-response pairs is reversed.</dd>
+<dt><em>Cluster test</em></dt><dd>A metric validity test that collects inputs a metric scores uniformly high or uniformly low, concatenates them, and checks whether the concatenation receives the same class of score.</dd>
+<dt><em>Repetition test</em></dt><dd>A metric validity test that concatenates a prompt, a response, or both with itself l times and tracks how the metric&#x27;s score changes as l grows.</dd>
+<dt><em>Concatenate-and-permute test</em></dt><dd>A metric validity test that concatenates several prompt-response pairs and rescores the same content under several orderings, including sorts by increasing and decreasing individual scores, to measure order sensitivity.</dd>
+<dt><em>AttaQ</em></dt><dd>A dataset of 1400 questions designed to elicit harmful responses from a language model, used as the prompt source for the concatenation tests.</dd>
+</dl>
 <h2>How to cite</h2>
 <pre>@misc{fandina2025safesafetymetricautomatic,
-title={How Safe is Your Safety Metric? Automatic Concatenation Tests for Metric Reliability}, 
+      title={How Safe is Your Safety Metric? Automatic Concatenation Tests for Metric Reliability}, 
       author={Ora Nova Fandina and Leshem Choshen and Eitan Farchi and George Kour and Yotam Perlitz and Orna Raz},
       year={2025},
       eprint={2408.12259},

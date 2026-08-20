@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Growing Pains: Extensible and Efficient LLM Benchmarking Via Fixed Parameter Calibration — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/">
+  <meta name="citation_title" content="Growing Pains: Extensible and Efficient LLM Benchmarking Via Fixed Parameter Calibration">
+  <meta name="citation_author" content="Eliya Habba">
+  <meta name="citation_author" content="Itay Itzhak">
+  <meta name="citation_author" content="Asaf Yehudai">
+  <meta name="citation_author" content="Yotam Perlitz">
+  <meta name="citation_author" content="Elron Bandel">
+  <meta name="citation_author" content="Michal Shmueli-Scheuer">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Gabriel Stanovsky">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_doi" content="10.48550/arXiv.2604.12843">
+  <meta name="citation_arxiv_id" content="2604.12843">
+  <meta name="citation_abstract" content="The rapid release of both language models and benchmarks makes it increasingly costly to evaluate every model on every dataset. In practice, models are often evaluated on different samples, making scores difficult to compare across studies. To address this, we propose a framework based on multidimensional Item Response Theory (IRT) that uses anchor items to calibrate new benchmarks to the evaluation suite while holding previously calibrated item parameters fixed. Our approach supports a realistic evaluation setting in which datasets are introduced over time and models are evaluated only on the datasets available at the time of evaluation, while a fixed anchor set for each dataset is used so that results from different evaluation periods can be compared directly. In large-scale experiments on more than 400 models, our framework predicts full-evaluation performance within 2-3 percentage points using only 100 anchor questions per dataset, with Spearman $ρ\geq 0.9$ for ranking preservation preservation. This shows that benchmark suites can grow over time while preserving score comparability, since adding a new dataset requires running existing models only on that dataset&#x27;s anchors. Code and data are available at: https://eliyahabba.github.io/growing-pains/">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/#article",
+  "name": "Growing Pains: Extensible and Efficient LLM Benchmarking Via Fixed Parameter Calibration",
+  "headline": "Growing Pains: Extensible and Efficient LLM Benchmarking Via Fixed Parameter Calibration",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Eliya Habba"
+    },
+    {
+      "@type": "Person",
+      "name": "Itay Itzhak"
+    },
+    {
+      "@type": "Person",
+      "name": "Asaf Yehudai"
+    },
+    {
+      "@type": "Person",
+      "name": "Yotam Perlitz"
+    },
+    {
+      "@type": "Person",
+      "name": "Elron Bandel"
+    },
+    {
+      "@type": "Person",
+      "name": "Michal Shmueli-Scheuer"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Gabriel Stanovsky"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2026",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "arXiv"
+  },
+  "identifier": "https://doi.org/10.48550/arXiv.2604.12843",
+  "abstract": "The rapid release of both language models and benchmarks makes it increasingly costly to evaluate every model on every dataset. In practice, models are often evaluated on different samples, making scores difficult to compare across studies. To address this, we propose a framework based on multidimensional Item Response Theory (IRT) that uses anchor items to calibrate new benchmarks to the evaluation suite while holding previously calibrated item parameters fixed. Our approach supports a realistic evaluation setting in which datasets are introduced over time and models are evaluated only on the datasets available at the time of evaluation, while a fixed anchor set for each dataset is used so that results from different evaluation periods can be compared directly. In large-scale experiments on more than 400 models, our framework predicts full-evaluation performance within 2-3 percentage points using only 100 anchor questions per dataset, with Spearman $ρ\\geq 0.9$ for ranking preservation preservation. This shows that benchmark suites can grow over time while preserving score comparability, since adding a new dataset requires running existing models only on that dataset's anchors. Code and data are available at: https://eliyahabba.github.io/growing-pains/",
+  "description": "Growing Pains treats LLM evaluation under continuously released benchmarks as a psychometric scale-linking problem: a multidimensional IRT model calibrates each new dataset against fixed anchor items, so a growing suite stays score-comparable without re-running previously evaluated models.",
+  "codeRepository": "https://github.com/eliyahabba/growing-pains",
+  "sameAs": [
+    "https://arxiv.org/abs/2604.12843",
+    "https://arxiv.org/html/2604.12843",
+    "https://arxiv.org/pdf/2604.12843",
+    "https://eliyahabba.github.io/growing-pains/",
+    "https://eliyahabba.github.io/growing-pains/",
+    "https://github.com/eliyahabba/growing-pains",
+    "https://huggingface.co/papers/2604.12843",
+    "https://www.alphaxiv.org/abs/2604.12843"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Sequential fixed parameter calibration predicts a model's full-benchmark accuracy to within about 2-3 percentage points of mean absolute error. It needs only 100 anchor questions per dataset, on suites of more than 400 models.",
+      "description": "Holds for: Open LLM Leaderboard (6 datasets, 395 models) and full MMLU as 57 subject datasets (428 models), on binary item-level responses from Polo et al. (2024b); reference/test models split 75/25 at random."
+    },
+    {
+      "@type": "Thing",
+      "name": "Mean absolute error of fixed parameter calibration stays flat rather than accumulating as datasets are added one at a time along a calibration chain, closely tracking concurrent re-calibration that refits every parameter.",
+      "description": "Holds for: 12 randomized dataset orderings on the Open LLM Leaderboard and 20 chains on MMLU, with means and 95% confidence intervals across chains; English knowledge and reasoning tasks with binary correctness only."
+    },
+    {
+      "@type": "Thing",
+      "name": "Fixed parameter calibration keeps per-step evaluation cost constant as the benchmark suite grows, because each model is evaluated only on the anchors of the newly added dataset. Concurrent calibration re-evaluates all accumulated anchors and grows linearly in cost with no accuracy gain.",
+      "description": "Holds for: Open LLM Leaderboard chains with 100 anchors per dataset; cost is counted as the number of model-item inferences, and the paper notes IRT calibration compute itself still grows slowly as anchor sets accumulate."
+    },
+    {
+      "@type": "Thing",
+      "name": "With 100 anchors per dataset, predicted model orderings reach Spearman rho of 0.94 on the Open LLM Leaderboard and 0.98 on MMLU, against 0.91 and 0.98 for random anchor sampling. At N=25 anchors on the Open LLM Leaderboard the gap is larger, 0.88 against 0.82 for random sampling.",
+      "description": "Holds for: Held-out test models, 25% of each suite, ranked against their full-evaluation accuracy; at N=200 anchors all three methods reach 0.97."
+    },
+    {
+      "@type": "Thing",
+      "name": "Random anchor sampling is a viable substitute for IRT calibration once the anchor budget is large. IRT-based methods keep a clear advantage at small budgets such as N=10 or N=25 anchors, which is where evaluation cost savings are largest.",
+      "description": "Holds for: Both suites, comparing MAE across anchor budgets; random sampling here means directly averaging accuracy on N randomly drawn questions from the new dataset with no IRT model."
+    },
+    {
+      "@type": "Thing",
+      "name": "Reliable fixed parameter calibration on the Open LLM Leaderboard requires roughly 100 or more reference models, while 25 reference models produce unstable error profiles there. On MMLU, 25 reference models already give robust prediction quality.",
+      "description": "Holds for: Reference-pool sweeps on both suites, with 95% confidence intervals across chains; MMLU's greater latent overlap is hypothesised, not tested."
+    },
+    {
+      "@type": "Thing",
+      "name": "Selecting anchors by clustering IRT item representations gives substantially lower MAE than selecting the top-K items by discrimination parameter. Representative coverage of the item space, not high discrimination alone, is what accurate prediction needs.",
+      "description": "Holds for: Open LLM Leaderboard (Figure 4) and MMLU (Figure 7), with the rest of the calibration pipeline held identical; item maps show top-K anchors concentrate in a narrow high-discrimination region."
+    },
+    {
+      "@type": "Thing",
+      "name": "100 anchor questions cover 0.7% of MMLU's 14,042 items and 1.0% of HellaSwag's 10,082 items. On the smallest Open LLM Leaderboard dataset, TruthfulQA with 857 items, the same budget is 11.7% of the dataset.",
+      "description": "Holds for: Open LLM Leaderboard datasets at N=50 and N=100 anchors; on MMLU subjects the fraction at N=50 ranges from 3.3% of Professional Law to 50% of the 100-item Abstract Algebra subject."
+    },
+    {
+      "@type": "Thing",
+      "name": "Growing Pains formulates LLM evaluation under evolving benchmark coverage as a psychometric scale-linking problem, where datasets arrive over time and models are only evaluated on the datasets available at their evaluation date.",
+      "description": "Holds for: As of the paper's 2026 arXiv posting; prior efficient-evaluation work such as tinyBenchmarks treated each benchmark as a closed static pool, and prior IRT work in NLP focused on ability estimation within a fixed item pool."
+    },
+    {
+      "@type": "Thing",
+      "name": "Growing Pains applies fixed parameter calibration, a long-established test-equating procedure from psychometrics, to LLM benchmarking, holding anchor item parameters constant so ability estimates from different evaluation periods stay comparable.",
+      "description": "Holds for: The procedure dates to Kim and Cohen (1996) in psychometrics and the paper states it had not previously been applied to LLM evaluation; the transfer is validated only on English knowledge and reasoning benchmarks with binary correctness."
+    },
+    {
+      "@type": "Thing",
+      "name": "Growing Pains supports two evaluation workflows from one calibrated model. A brand-new model is scored from its anchor responses alone, and already-evaluated historical models are estimated retroactively on a newly added dataset.",
+      "description": "Holds for: Both workflows assume the new dataset's items can be calibrated against the existing latent space; the paper expects accuracy to degrade when a new benchmark tests a capability largely absent from the existing suite."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/#faq",
+  "url": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/",
+  "name": "Questions answered by Growing Pains: Extensible and Efficient LLM Benchmarking Via Fixed Parameter Calibration",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How many questions do I need to run to estimate a model's full benchmark score?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sequential fixed parameter calibration predicts a model's full-benchmark accuracy to within about 2-3 percentage points of mean absolute error. It needs only 100 anchor questions per dataset, on suites of more than 400 models. Holds for: Open LLM Leaderboard (6 datasets, 395 models) and full MMLU as 57 subject datasets (428 models), on binary item-level responses from Polo et al. (2024b); reference/test models split 75/25 at random.\n\n100 anchor questions cover 0.7% of MMLU's 14,042 items and 1.0% of HellaSwag's 10,082 items. On the smallest Open LLM Leaderboard dataset, TruthfulQA with 857 items, the same budget is 11.7% of the dataset. Holds for: Open LLM Leaderboard datasets at N=50 and N=100 anchors; on MMLU subjects the fraction at N=50 ranges from 3.3% of Professional Law to 50% of the 100-item Abstract Algebra subject.",
+        "url": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/"
+      },
+      "alternateName": [
+        "How accurate is IRT-based anchor-item prediction of full-evaluation accuracy?",
+        "Can 100 anchor questions per dataset replace running a model on the whole benchmark suite?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does prediction error build up as more datasets are added to an evaluation suite?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mean absolute error of fixed parameter calibration stays flat rather than accumulating as datasets are added one at a time along a calibration chain, closely tracking concurrent re-calibration that refits every parameter. Holds for: 12 randomized dataset orderings on the Open LLM Leaderboard and 20 chains on MMLU, with means and 95% confidence intervals across chains; English knowledge and reasoning tasks with binary correctness only.",
+        "url": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/"
+      },
+      "alternateName": [
+        "Does IRT calibration degrade over long chains of benchmark additions?",
+        "Is fixed parameter calibration as accurate as refitting all IRT parameters from scratch?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How can I add a new benchmark to a leaderboard without re-evaluating every existing model?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fixed parameter calibration keeps per-step evaluation cost constant as the benchmark suite grows, because each model is evaluated only on the anchors of the newly added dataset. Concurrent calibration re-evaluates all accumulated anchors and grows linearly in cost with no accuracy gain. Holds for: Open LLM Leaderboard chains with 100 anchors per dataset; cost is counted as the number of model-item inferences, and the paper notes IRT calibration compute itself still grows slowly as anchor sets accumulate.\n\nGrowing Pains supports two evaluation workflows from one calibrated model. A brand-new model is scored from its anchor responses alone, and already-evaluated historical models are estimated retroactively on a newly added dataset. Holds for: Both workflows assume the new dataset's items can be calibrated against the existing latent space; the paper expects accuracy to degrade when a new benchmark tests a capability largely absent from the existing suite.",
+        "url": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/"
+      },
+      "alternateName": [
+        "What is the cost of extending an evaluation suite with a new dataset?",
+        "Why is joint re-calibration of all item parameters expensive when benchmarks keep arriving?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are model rankings preserved when scores are predicted from a small item subset?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "With 100 anchors per dataset, predicted model orderings reach Spearman rho of 0.94 on the Open LLM Leaderboard and 0.98 on MMLU, against 0.91 and 0.98 for random anchor sampling. At N=25 anchors on the Open LLM Leaderboard the gap is larger, 0.88 against 0.82 for random sampling. Holds for: Held-out test models, 25% of each suite, ranked against their full-evaluation accuracy; at N=200 anchors all three methods reach 0.97.",
+        "url": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/"
+      },
+      "alternateName": [
+        "What Spearman correlation does anchor-based prediction achieve with full-evaluation rankings?",
+        "Does subsampling a benchmark change the leaderboard order?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is random subsampling of benchmark questions good enough, or do I need IRT?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Random anchor sampling is a viable substitute for IRT calibration once the anchor budget is large. IRT-based methods keep a clear advantage at small budgets such as N=10 or N=25 anchors, which is where evaluation cost savings are largest. Holds for: Both suites, comparing MAE across anchor budgets; random sampling here means directly averaging accuracy on N randomly drawn questions from the new dataset with no IRT model.",
+        "url": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/"
+      },
+      "alternateName": [
+        "When does IRT-based item selection beat just averaging a random sample of questions?",
+        "Does psychometric modelling of benchmark items still help at large sample sizes?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many models do I need to calibrate an IRT model for benchmark prediction?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Reliable fixed parameter calibration on the Open LLM Leaderboard requires roughly 100 or more reference models, while 25 reference models produce unstable error profiles there. On MMLU, 25 reference models already give robust prediction quality. Holds for: Reference-pool sweeps on both suites, with 95% confidence intervals across chains; MMLU's greater latent overlap is hypothesised, not tested.",
+        "url": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/"
+      },
+      "alternateName": [
+        "How large must the reference model pool be for reliable anchor calibration?",
+        "Why does MMLU need fewer reference models than the Open LLM Leaderboard?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Should anchor questions be the most discriminative items in a benchmark?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Selecting anchors by clustering IRT item representations gives substantially lower MAE than selecting the top-K items by discrimination parameter. Representative coverage of the item space, not high discrimination alone, is what accurate prediction needs. Holds for: Open LLM Leaderboard (Figure 4) and MMLU (Figure 7), with the rest of the calibration pipeline held identical; item maps show top-K anchors concentrate in a narrow high-discrimination region.",
+        "url": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/"
+      },
+      "alternateName": [
+        "How should representative benchmark subsets be chosen for efficient evaluation?",
+        "Does picking high-discrimination items beat clustering-based anchor selection?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about keeping LLM benchmark scores comparable as benchmarks change?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Growing Pains formulates LLM evaluation under evolving benchmark coverage as a psychometric scale-linking problem, where datasets arrive over time and models are only evaluated on the datasets available at their evaluation date. Holds for: As of the paper's 2026 arXiv posting; prior efficient-evaluation work such as tinyBenchmarks treated each benchmark as a closed static pool, and prior IRT work in NLP focused on ability estimation within a fixed item pool.\n\nGrowing Pains applies fixed parameter calibration, a long-established test-equating procedure from psychometrics, to LLM benchmarking, holding anchor item parameters constant so ability estimates from different evaluation periods stay comparable. Holds for: The procedure dates to Kim and Cohen (1996) in psychometrics and the paper states it had not previously been applied to LLM evaluation; the transfer is validated only on English knowledge and reasoning benchmarks with binary correctness.",
+        "url": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/"
+      },
+      "alternateName": [
+        "Which paper connects psychometric test equating to LLM evaluation?",
+        "Where can I start reading about efficient and extensible LLM benchmarking?",
+        "What work frames benchmark growth as a scale-linking problem?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can I estimate how older models would have scored on a benchmark released after they were evaluated?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Growing Pains supports two evaluation workflows from one calibrated model. A brand-new model is scored from its anchor responses alone, and already-evaluated historical models are estimated retroactively on a newly added dataset. Holds for: Both workflows assume the new dataset's items can be calibrated against the existing latent space; the paper expects accuracy to degrade when a new benchmark tests a capability largely absent from the existing suite.",
+        "url": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/"
+      },
+      "alternateName": [
+        "Is retroactive scoring of historical models on new datasets possible without re-inference?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What fraction of a benchmark do 100 anchor items actually represent?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "100 anchor questions cover 0.7% of MMLU's 14,042 items and 1.0% of HellaSwag's 10,082 items. On the smallest Open LLM Leaderboard dataset, TruthfulQA with 857 items, the same budget is 11.7% of the dataset. Holds for: Open LLM Leaderboard datasets at N=50 and N=100 anchors; on MMLU subjects the fraction at N=50 ranges from 3.3% of Professional Law to 50% of the 100-item Abstract Algebra subject.",
+        "url": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/"
+      },
+      "alternateName": [
+        "How does anchor budget relate to dataset size in the Open LLM Leaderboard and MMLU?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/#terms",
+  "url": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/",
+  "name": "Terminology in Growing Pains: Extensible and Efficient LLM Benchmarking Via Fixed Parameter Calibration",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Fixed parameter calibration (FPC)",
+      "description": "A test-equating procedure in which the item parameters of previously calibrated anchor items are held constant while only the parameters of newly introduced items are estimated, so latent ability estimates keep a consistent meaning across calibration rounds.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Concurrent calibration",
+      "description": "The standard IRT alternative in which all item parameters and all model abilities are jointly re-estimated on the accumulated data every time a new benchmark is added, which shifts previously estimated parameters and makes historical ability estimates incomparable.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Anchor items",
+      "description": "A small fixed subset of a dataset's questions, selected by clustering IRT item representations, whose calibrated parameters serve as the common reference linking scores collected in different evaluation periods.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Chain",
+      "description": "A simulated sequence of dataset releases in which one dataset is added to the evaluation suite at each step and prediction quality is measured at every step, so error accumulation over long sequences can be tested.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "MIRT 2PL",
+      "description": "The multidimensional 2-parameter logistic Item Response Theory model, in which each item has a discrimination vector over several latent skill dimensions plus an intercept related to difficulty, and each model's ability is a vector over those dimensions.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/growing-pains-extensible-and-efficient-llm-benchmarking-via/#terms"
+    }
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+  </style>
+</head>
+<body>
+<h1>Growing Pains: Extensible and Efficient LLM Benchmarking Via Fixed Parameter Calibration</h1>
+<p class="sub">adding a new benchmark to an evaluation suite by fitting only the new items&#x27; parameters and locking the old ones, so old and new model scores stay comparable</p>
+<p class="meta">Eliya Habba, Itay Itzhak, Asaf Yehudai, Yotam Perlitz, Elron Bandel, Michal Shmueli-Scheuer, Leshem Choshen, Gabriel Stanovsky · arXiv · 2026</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2604.12843">arXiv</a></li><li><a href="https://arxiv.org/pdf/2604.12843">PDF</a></li><li><a href="https://arxiv.org/html/2604.12843">HTML</a></li><li><a href="https://huggingface.co/papers/2604.12843">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2604.12843">alphaXiv</a></li><li><a href="https://github.com/eliyahabba/growing-pains">Code</a></li><li><a href="https://eliyahabba.github.io/growing-pains/">Project page</a></li><li><a href="https://eliyahabba.github.io/growing-pains/">project page</a></li></ul>
+<h2>In one sentence</h2>
+<p>Growing Pains treats LLM evaluation under continuously released benchmarks as a psychometric scale-linking problem: a multidimensional IRT model calibrates each new dataset against fixed anchor items, so a growing suite stays score-comparable without re-running previously evaluated models.</p>
+<h2>Abstract</h2>
+<p>The rapid release of both language models and benchmarks makes it increasingly costly to evaluate every model on every dataset. In practice, models are often evaluated on different samples, making scores difficult to compare across studies. To address this, we propose a framework based on multidimensional Item Response Theory (IRT) that uses anchor items to calibrate new benchmarks to the evaluation suite while holding previously calibrated item parameters fixed. Our approach supports a realistic evaluation setting in which datasets are introduced over time and models are evaluated only on the datasets available at the time of evaluation, while a fixed anchor set for each dataset is used so that results from different evaluation periods can be compared directly. In large-scale experiments on more than 400 models, our framework predicts full-evaluation performance within 2-3 percentage points using only 100 anchor questions per dataset, with Spearman $ρ\geq 0.9$ for ranking preservation preservation. This shows that benchmark suites can grow over time while preserving score comparability, since adding a new dataset requires running existing models only on that dataset&#x27;s anchors. Code and data are available at: https://eliyahabba.github.io/growing-pains/</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>How many questions do I need to run to estimate a model&#x27;s full benchmark score?</dt>
+<dt>How accurate is IRT-based anchor-item prediction of full-evaluation accuracy?</dt>
+<dt>Can 100 anchor questions per dataset replace running a model on the whole benchmark suite?</dt>
+<dd>Sequential fixed parameter calibration predicts a model&#x27;s full-benchmark accuracy to within about 2-3 percentage points of mean absolute error. It needs only 100 anchor questions per dataset, on suites of more than 400 models.<br><span class="scope">Holds for: Open LLM Leaderboard (6 datasets, 395 models) and full MMLU as 57 subject datasets (428 models), on binary item-level responses from Polo et al. (2024b); reference/test models split 75/25 at random.</span></dd>
+<dd>100 anchor questions cover 0.7% of MMLU&#x27;s 14,042 items and 1.0% of HellaSwag&#x27;s 10,082 items. On the smallest Open LLM Leaderboard dataset, TruthfulQA with 857 items, the same budget is 11.7% of the dataset.<br><span class="scope">Holds for: Open LLM Leaderboard datasets at N=50 and N=100 anchors; on MMLU subjects the fraction at N=50 ranges from 3.3% of Professional Law to 50% of the 100-item Abstract Algebra subject.</span></dd>
+<dt>Does prediction error build up as more datasets are added to an evaluation suite?</dt>
+<dt>Does IRT calibration degrade over long chains of benchmark additions?</dt>
+<dt>Is fixed parameter calibration as accurate as refitting all IRT parameters from scratch?</dt>
+<dd>Mean absolute error of fixed parameter calibration stays flat rather than accumulating as datasets are added one at a time along a calibration chain, closely tracking concurrent re-calibration that refits every parameter.<br><span class="scope">Holds for: 12 randomized dataset orderings on the Open LLM Leaderboard and 20 chains on MMLU, with means and 95% confidence intervals across chains; English knowledge and reasoning tasks with binary correctness only.</span></dd>
+<dt>How can I add a new benchmark to a leaderboard without re-evaluating every existing model?</dt>
+<dt>What is the cost of extending an evaluation suite with a new dataset?</dt>
+<dt>Why is joint re-calibration of all item parameters expensive when benchmarks keep arriving?</dt>
+<dd>Fixed parameter calibration keeps per-step evaluation cost constant as the benchmark suite grows, because each model is evaluated only on the anchors of the newly added dataset. Concurrent calibration re-evaluates all accumulated anchors and grows linearly in cost with no accuracy gain.<br><span class="scope">Holds for: Open LLM Leaderboard chains with 100 anchors per dataset; cost is counted as the number of model-item inferences, and the paper notes IRT calibration compute itself still grows slowly as anchor sets accumulate.</span></dd>
+<dd>Growing Pains supports two evaluation workflows from one calibrated model. A brand-new model is scored from its anchor responses alone, and already-evaluated historical models are estimated retroactively on a newly added dataset.<br><span class="scope">Holds for: Both workflows assume the new dataset&#x27;s items can be calibrated against the existing latent space; the paper expects accuracy to degrade when a new benchmark tests a capability largely absent from the existing suite.</span></dd>
+<dt>Are model rankings preserved when scores are predicted from a small item subset?</dt>
+<dt>What Spearman correlation does anchor-based prediction achieve with full-evaluation rankings?</dt>
+<dt>Does subsampling a benchmark change the leaderboard order?</dt>
+<dd>With 100 anchors per dataset, predicted model orderings reach Spearman rho of 0.94 on the Open LLM Leaderboard and 0.98 on MMLU, against 0.91 and 0.98 for random anchor sampling. At N=25 anchors on the Open LLM Leaderboard the gap is larger, 0.88 against 0.82 for random sampling.<br><span class="scope">Holds for: Held-out test models, 25% of each suite, ranked against their full-evaluation accuracy; at N=200 anchors all three methods reach 0.97.</span></dd>
+<dt>Is random subsampling of benchmark questions good enough, or do I need IRT?</dt>
+<dt>When does IRT-based item selection beat just averaging a random sample of questions?</dt>
+<dt>Does psychometric modelling of benchmark items still help at large sample sizes?</dt>
+<dd>Random anchor sampling is a viable substitute for IRT calibration once the anchor budget is large. IRT-based methods keep a clear advantage at small budgets such as N=10 or N=25 anchors, which is where evaluation cost savings are largest.<br><span class="scope">Holds for: Both suites, comparing MAE across anchor budgets; random sampling here means directly averaging accuracy on N randomly drawn questions from the new dataset with no IRT model.</span></dd>
+<dt>How many models do I need to calibrate an IRT model for benchmark prediction?</dt>
+<dt>How large must the reference model pool be for reliable anchor calibration?</dt>
+<dt>Why does MMLU need fewer reference models than the Open LLM Leaderboard?</dt>
+<dd>Reliable fixed parameter calibration on the Open LLM Leaderboard requires roughly 100 or more reference models, while 25 reference models produce unstable error profiles there. On MMLU, 25 reference models already give robust prediction quality.<br><span class="scope">Holds for: Reference-pool sweeps on both suites, with 95% confidence intervals across chains; MMLU&#x27;s greater latent overlap is hypothesised, not tested.</span></dd>
+<dt>Should anchor questions be the most discriminative items in a benchmark?</dt>
+<dt>How should representative benchmark subsets be chosen for efficient evaluation?</dt>
+<dt>Does picking high-discrimination items beat clustering-based anchor selection?</dt>
+<dd>Selecting anchors by clustering IRT item representations gives substantially lower MAE than selecting the top-K items by discrimination parameter. Representative coverage of the item space, not high discrimination alone, is what accurate prediction needs.<br><span class="scope">Holds for: Open LLM Leaderboard (Figure 4) and MMLU (Figure 7), with the rest of the calibration pipeline held identical; item maps show top-K anchors concentrate in a narrow high-discrimination region.</span></dd>
+<dt>What should I read about keeping LLM benchmark scores comparable as benchmarks change?</dt>
+<dt>Which paper connects psychometric test equating to LLM evaluation?</dt>
+<dt>Where can I start reading about efficient and extensible LLM benchmarking?</dt>
+<dt>What work frames benchmark growth as a scale-linking problem?</dt>
+<dd>Growing Pains formulates LLM evaluation under evolving benchmark coverage as a psychometric scale-linking problem, where datasets arrive over time and models are only evaluated on the datasets available at their evaluation date.<br><span class="scope">Holds for: As of the paper&#x27;s 2026 arXiv posting; prior efficient-evaluation work such as tinyBenchmarks treated each benchmark as a closed static pool, and prior IRT work in NLP focused on ability estimation within a fixed item pool.</span></dd>
+<dd>Growing Pains applies fixed parameter calibration, a long-established test-equating procedure from psychometrics, to LLM benchmarking, holding anchor item parameters constant so ability estimates from different evaluation periods stay comparable.<br><span class="scope">Holds for: The procedure dates to Kim and Cohen (1996) in psychometrics and the paper states it had not previously been applied to LLM evaluation; the transfer is validated only on English knowledge and reasoning benchmarks with binary correctness.</span></dd>
+<dt>Can I estimate how older models would have scored on a benchmark released after they were evaluated?</dt>
+<dt>Is retroactive scoring of historical models on new datasets possible without re-inference?</dt>
+<dd>Growing Pains supports two evaluation workflows from one calibrated model. A brand-new model is scored from its anchor responses alone, and already-evaluated historical models are estimated retroactively on a newly added dataset.<br><span class="scope">Holds for: Both workflows assume the new dataset&#x27;s items can be calibrated against the existing latent space; the paper expects accuracy to degrade when a new benchmark tests a capability largely absent from the existing suite.</span></dd>
+<dt>What fraction of a benchmark do 100 anchor items actually represent?</dt>
+<dt>How does anchor budget relate to dataset size in the Open LLM Leaderboard and MMLU?</dt>
+<dd>100 anchor questions cover 0.7% of MMLU&#x27;s 14,042 items and 1.0% of HellaSwag&#x27;s 10,082 items. On the smallest Open LLM Leaderboard dataset, TruthfulQA with 857 items, the same budget is 11.7% of the dataset.<br><span class="scope">Holds for: Open LLM Leaderboard datasets at N=50 and N=100 anchors; on MMLU subjects the fraction at N=50 ranges from 3.3% of Professional Law to 50% of the 100-item Abstract Algebra subject.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Sequential fixed parameter calibration predicts a model&#x27;s full-benchmark accuracy to within about 2-3 percentage points of mean absolute error. It needs only 100 anchor questions per dataset, on suites of more than 400 models. <span class="meta">(Abstract and Section 7 (Conclusion); MAE curves in Figure 3)</span><br><span class="scope">Scope: Open LLM Leaderboard (6 datasets, 395 models) and full MMLU as 57 subject datasets (428 models), on binary item-level responses from Polo et al. (2024b); reference/test models split 75/25 at random.</span></li>
+<li>Mean absolute error of fixed parameter calibration stays flat rather than accumulating as datasets are added one at a time along a calibration chain, closely tracking concurrent re-calibration that refits every parameter. <span class="meta">(Figure 3; discussed in Section 4.2 and Section 6)</span><br><span class="scope">Scope: 12 randomized dataset orderings on the Open LLM Leaderboard and 20 chains on MMLU, with means and 95% confidence intervals across chains; English knowledge and reasoning tasks with binary correctness only.</span></li>
+<li>Fixed parameter calibration keeps per-step evaluation cost constant as the benchmark suite grows, because each model is evaluated only on the anchors of the newly added dataset. Concurrent calibration re-evaluates all accumulated anchors and grows linearly in cost with no accuracy gain. <span class="meta">(Figure 2)</span><br><span class="scope">Scope: Open LLM Leaderboard chains with 100 anchors per dataset; cost is counted as the number of model-item inferences, and the paper notes IRT calibration compute itself still grows slowly as anchor sets accumulate.</span></li>
+<li>With 100 anchors per dataset, predicted model orderings reach Spearman rho of 0.94 on the Open LLM Leaderboard and 0.98 on MMLU, against 0.91 and 0.98 for random anchor sampling. At N=25 anchors on the Open LLM Leaderboard the gap is larger, 0.88 against 0.82 for random sampling. <span class="meta">(Table 3)</span><br><span class="scope">Scope: Held-out test models, 25% of each suite, ranked against their full-evaluation accuracy; at N=200 anchors all three methods reach 0.97.</span></li>
+<li>Random anchor sampling is a viable substitute for IRT calibration once the anchor budget is large. IRT-based methods keep a clear advantage at small budgets such as N=10 or N=25 anchors, which is where evaluation cost savings are largest. <span class="meta">(Figure 3; ranking numbers in Table 3)</span><br><span class="scope">Scope: Both suites, comparing MAE across anchor budgets; random sampling here means directly averaging accuracy on N randomly drawn questions from the new dataset with no IRT model.</span></li>
+<li>Reliable fixed parameter calibration on the Open LLM Leaderboard requires roughly 100 or more reference models, while 25 reference models produce unstable error profiles there. On MMLU, 25 reference models already give robust prediction quality. <span class="meta">(Figure 5)</span><br><span class="scope">Scope: Reference-pool sweeps on both suites, with 95% confidence intervals across chains; MMLU&#x27;s greater latent overlap is hypothesised, not tested.</span></li>
+<li>Selecting anchors by clustering IRT item representations gives substantially lower MAE than selecting the top-K items by discrimination parameter. Representative coverage of the item space, not high discrimination alone, is what accurate prediction needs. <span class="meta">(Figure 4 for the Open LLM Leaderboard and Figure 7 for MMLU; item maps in Figures 6 and 8)</span><br><span class="scope">Scope: Open LLM Leaderboard (Figure 4) and MMLU (Figure 7), with the rest of the calibration pipeline held identical; item maps show top-K anchors concentrate in a narrow high-discrimination region.</span></li>
+<li>100 anchor questions cover 0.7% of MMLU&#x27;s 14,042 items and 1.0% of HellaSwag&#x27;s 10,082 items. On the smallest Open LLM Leaderboard dataset, TruthfulQA with 857 items, the same budget is 11.7% of the dataset. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Open LLM Leaderboard datasets at N=50 and N=100 anchors; on MMLU subjects the fraction at N=50 ranges from 3.3% of Professional Law to 50% of the 100-item Abstract Algebra subject.</span></li>
+<li>Growing Pains formulates LLM evaluation under evolving benchmark coverage as a psychometric scale-linking problem, where datasets arrive over time and models are only evaluated on the datasets available at their evaluation date.<br><span class="scope">Scope: As of the paper&#x27;s 2026 arXiv posting; prior efficient-evaluation work such as tinyBenchmarks treated each benchmark as a closed static pool, and prior IRT work in NLP focused on ability estimation within a fixed item pool.</span></li>
+<li>Growing Pains applies fixed parameter calibration, a long-established test-equating procedure from psychometrics, to LLM benchmarking, holding anchor item parameters constant so ability estimates from different evaluation periods stay comparable. <span class="meta">(Section 2.3)</span><br><span class="scope">Scope: The procedure dates to Kim and Cohen (1996) in psychometrics and the paper states it had not previously been applied to LLM evaluation; the transfer is validated only on English knowledge and reasoning benchmarks with binary correctness.</span></li>
+<li>Growing Pains supports two evaluation workflows from one calibrated model. A brand-new model is scored from its anchor responses alone, and already-evaluated historical models are estimated retroactively on a newly added dataset.<br><span class="scope">Scope: Both workflows assume the new dataset&#x27;s items can be calibrated against the existing latent space; the paper expects accuracy to degrade when a new benchmark tests a capability largely absent from the existing suite.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The 2-3 percentage point prediction error is validated on English knowledge and reasoning benchmarks with binary correct/incorrect responses; the framework does not yet handle graded or open-ended evaluation formats, which would require changes to the IRT formulation.</li>
+<li>Fixed parameter calibration does not make evaluation free: models still have to be run on the anchors of each newly added dataset, and the calibration compute itself grows slowly as anchor sets accumulate.</li>
+<li>The flat error profiles do not imply that any new benchmark can be linked in successfully. Prediction quality depends on overlap with the already-calibrated latent space, and a benchmark probing a capability absent from existing tasks is expected to be predicted worse.</li>
+<li>Fixed parameter calibration is not shown to be more accurate than concurrent re-calibration; it matches concurrent calibration&#x27;s accuracy while keeping cost constant and keeping historical ability estimates comparable.</li>
+<li>The reference/test model split in Growing Pains is random rather than time-ordered, so the reported errors may understate the difficulty of generalising to future models that differ systematically from the reference population.</li>
+<li>Anchor items are assumed to keep stable statistical properties, which does not hold indefinitely: contaminated or saturated anchors would require recalibration.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Fixed parameter calibration (FPC)</em></dt><dd>A test-equating procedure in which the item parameters of previously calibrated anchor items are held constant while only the parameters of newly introduced items are estimated, so latent ability estimates keep a consistent meaning across calibration rounds.</dd>
+<dt><em>Concurrent calibration</em></dt><dd>The standard IRT alternative in which all item parameters and all model abilities are jointly re-estimated on the accumulated data every time a new benchmark is added, which shifts previously estimated parameters and makes historical ability estimates incomparable.</dd>
+<dt><em>Anchor items</em></dt><dd>A small fixed subset of a dataset&#x27;s questions, selected by clustering IRT item representations, whose calibrated parameters serve as the common reference linking scores collected in different evaluation periods.</dd>
+<dt><em>Chain</em></dt><dd>A simulated sequence of dataset releases in which one dataset is added to the evaluation suite at each step and prediction quality is measured at every step, so error accumulation over long sequences can be tested.</dd>
+<dt><em>MIRT 2PL</em></dt><dd>The multidimensional 2-parameter logistic Item Response Theory model, in which each item has a discrimination vector over several latent skill dimensions plus an intercept related to difficulty, and each model&#x27;s ability is a vector over those dimensions.</dd>
+</dl>
+<h2>How to cite</h2>
+<pre>@article{habba2026growing,
+  title={Growing Pains: Extensible and Efficient LLM Benchmarking Via Fixed Parameter Calibration},
+  author={Habba, Eliya and Itzhak, Itay and Yehudai, Asaf and Perlitz, Yotam and Bandel, Elron and Shmueli-Scheuer, Michal and Choshen, Leshem and Stanovsky, Gabriel},
+  journal={arXiv preprint arXiv:2604.12843},
+  year={2026}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2604.12843">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a></footer>
+</body>
+</html>

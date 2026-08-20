@@ -15,7 +15,7 @@
   <meta name="citation_author" content="Michal Shmueli-Scheuer">
   <meta name="citation_author" content="Gabriel Stanovsky">
   <meta name="citation_publication_date" content="2025">
-  <meta name="citation_conference_title" content="Findings of the Association for Computational Linguistics: ACL 2025">
+  <meta name="citation_conference_title" content="Findings of ACL 2025">
   <meta name="citation_doi" content="10.18653/v1/2025.findings-acl.611">
   <meta name="citation_arxiv_id" content="2503.01622">
   <meta name="citation_abstract" content="Recent work found that LLMs are sensitive to a wide range of arbitrary prompt dimensions, including the type of delimiters, answer enumerators, instruction wording, and more. This throws into question popular single-prompt evaluation practices. We present DOVE (Dataset Of Variation Evaluation) a large-scale dataset containing prompt perturbations of various evaluation benchmarks. In contrast to previous work, we examine LLM sensitivity from an holistic perspective, and assess the joint effects of perturbations along various dimensions, resulting in thousands of perturbations per instance. We evaluate several model families against DOVE, leading to several findings, including efficient methods for choosing well-performing prompts, observing that few-shot examples reduce sensitivity, and identifying instances which are inherently hard across all perturbations. DOVE consists of more than 250M prompt perturbations and model outputs, which we make publicly available to spur a community-wide effort toward meaningful, robust, and efficient evaluation. Browse the data, contribute, and more at: https://slab-nlp.github.io/DOVE">
@@ -65,10 +65,11 @@
   "datePublished": "2025",
   "isPartOf": {
     "@type": "Periodical",
-    "name": "Findings of the Association for Computational Linguistics: ACL 2025"
+    "name": "Findings of ACL 2025"
   },
   "identifier": "https://doi.org/10.18653/v1/2025.findings-acl.611",
   "abstract": "Recent work found that LLMs are sensitive to a wide range of arbitrary prompt dimensions, including the type of delimiters, answer enumerators, instruction wording, and more. This throws into question popular single-prompt evaluation practices. We present DOVE (Dataset Of Variation Evaluation) a large-scale dataset containing prompt perturbations of various evaluation benchmarks. In contrast to previous work, we examine LLM sensitivity from an holistic perspective, and assess the joint effects of perturbations along various dimensions, resulting in thousands of perturbations per instance. We evaluate several model families against DOVE, leading to several findings, including efficient methods for choosing well-performing prompts, observing that few-shot examples reduce sensitivity, and identifying instances which are inherently hard across all perturbations. DOVE consists of more than 250M prompt perturbations and model outputs, which we make publicly available to spur a community-wide effort toward meaningful, robust, and efficient evaluation. Browse the data, contribute, and more at: https://slab-nlp.github.io/DOVE",
+  "description": "DOVE (Dataset Of Variation Evaluation) is a public dataset of over 250M LLM predictions in which every benchmark instance is perturbed jointly along 5 intent-preserving prompt dimensions, so prompt sensitivity can be measured and mitigated at scale.",
   "codeRepository": "https://github.com/SLAB-NLP/DOVE",
   "sameAs": [
     "https://aclanthology.org/2025.findings-acl.611/",
@@ -77,9 +78,292 @@
     "https://arxiv.org/pdf/2503.01622",
     "https://doi.org/10.18653/v1/2025.findings-acl.611",
     "https://github.com/SLAB-NLP/DOVE",
+    "https://huggingface.co/datasets/nlphuji/DOVE",
+    "https://huggingface.co/datasets/nlphuji/DOVE_Lite",
     "https://huggingface.co/papers/2503.01622",
+    "https://slab-nlp.github.io/DOVE",
+    "https://slab-nlp.github.io/DOVE",
     "https://www.alphaxiv.org/abs/2503.01622",
     "https://www.semanticscholar.org/paper/276774995"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "DOVE (Dataset Of Variation Evaluation) is a publicly released dataset of more than 250M LLM prompt perturbations and model outputs, built for studying prompt sensitivity and building more robust evaluation protocols.",
+      "description": "Holds for: English multiple-choice benchmarks only (MMLU, MMLU-Pro, ARC, HellaSwag, OpenBookQA, Social IQa, RACE); open-weight Llama 1B/3B/8B, OLMo 7B and Mistral 7B as of the 2025 release; no open-ended generation tasks."
+    },
+    {
+      "@type": "Thing",
+      "name": "DOVE varies 5 prompt dimensions jointly rather than one dimension at a time, giving over 6.5K perturbations per base instance. The dimensions are enumerator, separator, choices order, instruction phrasing and demonstrations, combined as a Cartesian product.",
+      "description": "Holds for: The 5 dimensions were chosen from a survey of prior sensitivity work and are not claimed exhaustive; 78 source datasets with 100 instances each, 7,800 base instances."
+    },
+    {
+      "@type": "Thing",
+      "name": "Building DOVE required roughly 5,000 GPU hours on NVIDIA A100 80GB GPUs, with Mistral-7B alone taking 1,189 GPU hours, and would cost upwards of $25K on cloud services such as AWS.",
+      "description": "Holds for: Generation with vLLM at approximately 60M instances per model for 5 open-weight models; closed API models were excluded partly for this reason."
+    },
+    {
+      "@type": "Thing",
+      "name": "Prompt sensitivity does not wash out at scale: OLMo's accuracy on HellaSwag ranges from 1% to 99% depending on which intent-preserving prompt is used.",
+      "description": "Holds for: Accuracy computed over 100 instances per dataset per prompt; multiple-choice items scored by semantic similarity matching."
+    },
+    {
+      "@type": "Thing",
+      "name": "Each individual prompt dimension moves accuracy even after averaging over all the others: for Mistral, different instruction paraphrases alone produce an 8% accuracy difference.",
+      "description": "Holds for: Marginalized accuracy over the 5 DOVE dimensions, computed per domain for Llama 1B/3B/8B, OLMo 7B and Mistral 7B; 13 instruction phrasings."
+    },
+    {
+      "@type": "Thing",
+      "name": "Models have distinct prompt preferences rather than a shared best format: greek numerals are OLMoE's best-performing enumerator of the 6 tested but only Mistral's third best, behind capital and lateen numerals.",
+      "description": "Holds for: 6 enumerator values, accuracy marginalized over all other dimensions and averaged across the dataset; established for the evaluated open-weight models only."
+    },
+    {
+      "@type": "Thing",
+      "name": "A benchmark's original prompt is often not representative of average performance across intent-preserving prompts. Mistral's accuracy with original instructions exceeds its mean across prompts by more than 1 standard deviation on 35 of 57 MMLU domain tasks.",
+      "description": "Holds for: Divergence measured across few-shot prompts, with divergence defined as exceeding 1 standard deviation; MMLU domains, Mistral-7B; full per-model results in Appendix B.3."
+    },
+    {
+      "@type": "Thing",
+      "name": "Choosing the best value for each of the 5 prompt dimensions independently, marginalizing the others, matches linear regression on observed samples and beats picking the single best observed prompt.",
+      "description": "Holds for: Zero-shot selection simulated on DOVE against the best prompt over the full dataset, mean and standard deviation over 10 random seeds; 4 strategies including a random baseline."
+    },
+    {
+      "@type": "Thing",
+      "name": "Selecting the best observed prompt only becomes a reliable strategy after tens of millions of observed samples, while dimension-wise selection works with relatively small sample sizes.",
+      "description": "Holds for: Zero-shot setting, gap from the best prompt in DOVE as a function of sample count, for Llama 1B/3B/8B, OLMo 7B and Mistral 7B; AUC comparison across models in Appendix B.4."
+    },
+    {
+      "@type": "Thing",
+      "name": "Five-shot prompting consistently narrows the spread of accuracy across prompt perturbations compared to zero-shot, but does not eliminate it: the accuracy range still exceeds 20% on every dataset shown.",
+      "description": "Holds for: Subset of DOVE domains, each point an accuracy over 100 instances; the effect is minimal for Social IQa and the MMLU-Pro legal domain."
+    },
+    {
+      "@type": "Thing",
+      "name": "Success-rate distributions over the more than 6.5K perturbations per instance identify instances a model answers wrongly under every perturbation. Such instances give an operational definition of inherently hard items that no prompt selection can fix.",
+      "description": "Holds for: Success rate is the percentage of a sample's perturbations answered correctly; measured per model on DOVE's multiple-choice instances; at both extremes models are also least prompt-sensitive."
+    },
+    {
+      "@type": "Thing",
+      "name": "DOVE is maintained as an extensible community resource with a standardized schema for multi-dimensional evaluation data, so that model predictions from other groups can be converted in rather than re-run.",
+      "description": "Holds for: As of the 2025 Findings of ACL release; contributions arrive via HuggingFace pull requests or email; coverage at release is English-centric and limited in model diversity."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/#faq",
+  "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/",
+  "name": "Questions answered by DOVE: A Large-Scale Multi-Dimensional Predictions Dataset Towards Meaningful LLM Evaluation",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is DOVE?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DOVE (Dataset Of Variation Evaluation) is a publicly released dataset of more than 250M LLM prompt perturbations and model outputs, built for studying prompt sensitivity and building more robust evaluation protocols. Holds for: English multiple-choice benchmarks only (MMLU, MMLU-Pro, ARC, HellaSwag, OpenBookQA, Social IQa, RACE); open-weight Llama 1B/3B/8B, OLMo 7B and Mistral 7B as of the 2025 release; no open-ended generation tasks.\n\nDOVE varies 5 prompt dimensions jointly rather than one dimension at a time, giving over 6.5K perturbations per base instance. The dimensions are enumerator, separator, choices order, instruction phrasing and demonstrations, combined as a Cartesian product. Holds for: The 5 dimensions were chosen from a survey of prior sensitivity work and are not claimed exhaustive; 78 source datasets with 100 instances each, 7,800 base instances.",
+        "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
+      },
+      "alternateName": [
+        "What does the DOVE prompt perturbation dataset contain?",
+        "Is there a large public dataset of LLM predictions across many prompt variants?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about prompt sensitivity in LLM evaluation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DOVE (Dataset Of Variation Evaluation) is a publicly released dataset of more than 250M LLM prompt perturbations and model outputs, built for studying prompt sensitivity and building more robust evaluation protocols. Holds for: English multiple-choice benchmarks only (MMLU, MMLU-Pro, ARC, HellaSwag, OpenBookQA, Social IQa, RACE); open-weight Llama 1B/3B/8B, OLMo 7B and Mistral 7B as of the 2025 release; no open-ended generation tasks.\n\nPrompt sensitivity does not wash out at scale: OLMo's accuracy on HellaSwag ranges from 1% to 99% depending on which intent-preserving prompt is used. Holds for: Accuracy computed over 100 instances per dataset per prompt; multiple-choice items scored by semantic similarity matching.\n\nA benchmark's original prompt is often not representative of average performance across intent-preserving prompts. Mistral's accuracy with original instructions exceeds its mean across prompts by more than 1 standard deviation on 35 of 57 MMLU domain tasks. Holds for: Divergence measured across few-shot prompts, with divergence defined as exceeding 1 standard deviation; MMLU domains, Mistral-7B; full per-model results in Appendix B.3.",
+        "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
+      },
+      "alternateName": [
+        "Which paper shows that single-prompt benchmark scores are unreliable?",
+        "Where can I start reading about how arbitrary prompt formatting affects benchmark results?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much can accuracy change just from changing the prompt format?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Prompt sensitivity does not wash out at scale: OLMo's accuracy on HellaSwag ranges from 1% to 99% depending on which intent-preserving prompt is used. Holds for: Accuracy computed over 100 instances per dataset per prompt; multiple-choice items scored by semantic similarity matching.\n\nEach individual prompt dimension moves accuracy even after averaging over all the others: for Mistral, different instruction paraphrases alone produce an 8% accuracy difference. Holds for: Marginalized accuracy over the 5 DOVE dimensions, computed per domain for Llama 1B/3B/8B, OLMo 7B and Mistral 7B; 13 instruction phrasings.",
+        "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
+      },
+      "alternateName": [
+        "How big is prompt sensitivity on multiple-choice benchmarks?",
+        "Does prompt sensitivity disappear when you evaluate at a very large scale?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do different LLMs prefer different answer enumerators?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Models have distinct prompt preferences rather than a shared best format: greek numerals are OLMoE's best-performing enumerator of the 6 tested but only Mistral's third best, behind capital and lateen numerals. Holds for: 6 enumerator values, accuracy marginalized over all other dimensions and averaged across the dataset; established for the evaluated open-weight models only.",
+        "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
+      },
+      "alternateName": [
+        "Is there one prompt format that is best for all models?",
+        "Do roman numerals or letters work better as multiple-choice labels?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How do I pick a good prompt on a limited inference budget?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Choosing the best value for each of the 5 prompt dimensions independently, marginalizing the others, matches linear regression on observed samples and beats picking the single best observed prompt. Holds for: Zero-shot selection simulated on DOVE against the best prompt over the full dataset, mean and standard deviation over 10 random seeds; 4 strategies including a random baseline.\n\nSelecting the best observed prompt only becomes a reliable strategy after tens of millions of observed samples, while dimension-wise selection works with relatively small sample sizes. Holds for: Zero-shot setting, gap from the best prompt in DOVE as a function of sample count, for Llama 1B/3B/8B, OLMo 7B and Mistral 7B; AUC comparison across models in Appendix B.4.",
+        "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
+      },
+      "alternateName": [
+        "Is it better to tune each prompt dimension separately or search whole prompts?",
+        "What is the most sample-efficient way to choose a prompt format for a multiple-choice task?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do few-shot examples reduce prompt sensitivity?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Five-shot prompting consistently narrows the spread of accuracy across prompt perturbations compared to zero-shot, but does not eliminate it: the accuracy range still exceeds 20% on every dataset shown. Holds for: Subset of DOVE domains, each point an accuracy over 100 instances; the effect is minimal for Social IQa and the MMLU-Pro legal domain.",
+        "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
+      },
+      "alternateName": [
+        "Does five-shot prompting make benchmark scores more stable than zero-shot?",
+        "Can adding demonstrations solve the prompt sensitivity problem?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How can you tell which benchmark questions are genuinely hard for a model?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Success-rate distributions over the more than 6.5K perturbations per instance identify instances a model answers wrongly under every perturbation. Such instances give an operational definition of inherently hard items that no prompt selection can fix. Holds for: Success rate is the percentage of a sample's perturbations answered correctly; measured per model on DOVE's multiple-choice instances; at both extremes models are also least prompt-sensitive.",
+        "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
+      },
+      "alternateName": [
+        "What is an inherently hard instance in prompt-perturbation analysis?",
+        "Are there examples that models get wrong no matter how the prompt is phrased?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is the original prompt shipped with a benchmark representative of average model performance?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A benchmark's original prompt is often not representative of average performance across intent-preserving prompts. Mistral's accuracy with original instructions exceeds its mean across prompts by more than 1 standard deviation on 35 of 57 MMLU domain tasks. Holds for: Divergence measured across few-shot prompts, with divergence defined as exceeding 1 standard deviation; MMLU domains, Mistral-7B; full per-model results in Appendix B.3.",
+        "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
+      },
+      "alternateName": [
+        "How far off is the default MMLU prompt from the average across prompt variations?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How expensive is it to run a large multi-prompt evaluation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Building DOVE required roughly 5,000 GPU hours on NVIDIA A100 80GB GPUs, with Mistral-7B alone taking 1,189 GPU hours, and would cost upwards of $25K on cloud services such as AWS. Holds for: Generation with vLLM at approximately 60M instances per model for 5 open-weight models; closed API models were excluded partly for this reason.",
+        "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
+      },
+      "alternateName": [
+        "How many GPU hours did building the DOVE dataset take?",
+        "What does it cost to evaluate thousands of prompt perturbations per instance?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Which prompt dimensions does DOVE vary?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DOVE varies 5 prompt dimensions jointly rather than one dimension at a time, giving over 6.5K perturbations per base instance. The dimensions are enumerator, separator, choices order, instruction phrasing and demonstrations, combined as a Cartesian product. Holds for: The 5 dimensions were chosen from a survey of prior sensitivity work and are not claimed exhaustive; 78 source datasets with 100 instances each, 7,800 base instances.",
+        "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
+      },
+      "alternateName": [
+        "How many prompt perturbations are there per benchmark instance in DOVE?",
+        "What kinds of intent-preserving prompt changes are covered in this perturbation dataset?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can I contribute my own model's predictions to DOVE?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DOVE is maintained as an extensible community resource with a standardized schema for multi-dimensional evaluation data, so that model predictions from other groups can be converted in rather than re-run. Holds for: As of the 2025 Findings of ACL release; contributions arrive via HuggingFace pull requests or email; coverage at release is English-centric and limited in model diversity.",
+        "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
+      },
+      "alternateName": [
+        "Is the DOVE dataset being extended to more models and languages?",
+        "How do research groups add evaluation data to a shared prompt-sensitivity repository?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/#terms",
+  "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/",
+  "name": "Terminology in DOVE: A Large-Scale Multi-Dimensional Predictions Dataset Towards Meaningful LLM Evaluation",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Intent-preserving prompts",
+      "description": "Two prompts designed to convey the same underlying meaning to a model despite differences in phrasing or structure, e.g. adding \"Answer the following question:\" before the same multiple-choice item.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Prompt dimension",
+      "description": "A set of interchangeable prompt choices whose values all preserve the prompt's intent, such as the answer enumerator (capitals, lowercase, numbers, roman numerals, keyboard symbols, greek letters).",
+      "inDefinedTermSet": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Prompt linearization",
+      "description": "The deterministic function that maps an underlying question plus one chosen value per prompt dimension into a single concrete prompt string given to an LLM.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Marginalized accuracy",
+      "description": "The accuracy of a model for one fixed value of a single prompt dimension, averaged over all combinations of values of the remaining dimensions.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Divergence score",
+      "description": "The number of standard deviations by which a model's accuracy using a benchmark's original prompt deviates from its mean accuracy across all prompt perturbations, with divergence counted when it exceeds 1.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Success rate",
+      "description": "For one benchmark instance and one model, the percentage of that instance's prompt perturbations for which the model outputs the correct answer.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Inherently hard instance",
+      "description": "A benchmark instance a model answers incorrectly under every prompt perturbation tested, so no prompt selection can recover it.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/#terms"
+    }
   ]
 }
   </script>
@@ -90,6 +374,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -103,13 +388,97 @@
 </head>
 <body>
 <h1>DOVE: A Large-Scale Multi-Dimensional Predictions Dataset Towards Meaningful LLM Evaluation</h1>
-<p class="meta">Eliya Habba, Ofir Arviv, Itay Itzhak, Yotam Perlitz, Elron Bandel, Leshem Choshen, Michal Shmueli-Scheuer, Gabriel Stanovsky · Findings of the Association for Computational Linguistics: ACL 2025 · 2025</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2503.01622">arXiv</a></li><li><a href="https://arxiv.org/pdf/2503.01622">PDF</a></li><li><a href="https://arxiv.org/html/2503.01622">HTML</a></li><li><a href="https://huggingface.co/papers/2503.01622">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2503.01622">alphaXiv</a></li><li><a href="https://doi.org/10.18653/v1/2025.findings-acl.611">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/276774995">Semantic Scholar</a></li><li><a href="https://aclanthology.org/2025.findings-acl.611/">Publisher</a></li><li><a href="https://github.com/SLAB-NLP/DOVE">Code</a></li></ul>
+<p class="sub">Dataset Of Variation Evaluation — a large collection of LLM answers to the same benchmark questions asked in thousands of slightly different prompt formats</p>
+<p class="meta">Eliya Habba, Ofir Arviv, Itay Itzhak, Yotam Perlitz, Elron Bandel, Leshem Choshen, Michal Shmueli-Scheuer, Gabriel Stanovsky · Findings of ACL 2025 · 2025</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2503.01622">arXiv</a></li><li><a href="https://arxiv.org/pdf/2503.01622">PDF</a></li><li><a href="https://arxiv.org/html/2503.01622">HTML</a></li><li><a href="https://huggingface.co/papers/2503.01622">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2503.01622">alphaXiv</a></li><li><a href="https://doi.org/10.18653/v1/2025.findings-acl.611">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/276774995">Semantic Scholar</a></li><li><a href="https://aclanthology.org/2025.findings-acl.611/">Publisher</a></li><li><a href="https://github.com/SLAB-NLP/DOVE">Code</a></li><li><a href="https://slab-nlp.github.io/DOVE">Project page</a></li><li><a href="https://slab-nlp.github.io/DOVE">project page</a></li><li><a href="https://huggingface.co/datasets/nlphuji/DOVE">dataset (full, 2TB)</a></li><li><a href="https://huggingface.co/datasets/nlphuji/DOVE_Lite">dataset (lite, 100GB)</a></li></ul>
+<h2>In one sentence</h2>
+<p>DOVE (Dataset Of Variation Evaluation) is a public dataset of over 250M LLM predictions in which every benchmark instance is perturbed jointly along 5 intent-preserving prompt dimensions, so prompt sensitivity can be measured and mitigated at scale.</p>
 <h2>Abstract</h2>
 <p>Recent work found that LLMs are sensitive to a wide range of arbitrary prompt dimensions, including the type of delimiters, answer enumerators, instruction wording, and more. This throws into question popular single-prompt evaluation practices. We present DOVE (Dataset Of Variation Evaluation) a large-scale dataset containing prompt perturbations of various evaluation benchmarks. In contrast to previous work, we examine LLM sensitivity from an holistic perspective, and assess the joint effects of perturbations along various dimensions, resulting in thousands of perturbations per instance. We evaluate several model families against DOVE, leading to several findings, including efficient methods for choosing well-performing prompts, observing that few-shot examples reduce sensitivity, and identifying instances which are inherently hard across all perturbations. DOVE consists of more than 250M prompt perturbations and model outputs, which we make publicly available to spur a community-wide effort toward meaningful, robust, and efficient evaluation. Browse the data, contribute, and more at: https://slab-nlp.github.io/DOVE</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>What is DOVE?</dt>
+<dt>What does the DOVE prompt perturbation dataset contain?</dt>
+<dt>Is there a large public dataset of LLM predictions across many prompt variants?</dt>
+<dd>DOVE (Dataset Of Variation Evaluation) is a publicly released dataset of more than 250M LLM prompt perturbations and model outputs, built for studying prompt sensitivity and building more robust evaluation protocols.<br><span class="scope">Holds for: English multiple-choice benchmarks only (MMLU, MMLU-Pro, ARC, HellaSwag, OpenBookQA, Social IQa, RACE); open-weight Llama 1B/3B/8B, OLMo 7B and Mistral 7B as of the 2025 release; no open-ended generation tasks.</span></dd>
+<dd>DOVE varies 5 prompt dimensions jointly rather than one dimension at a time, giving over 6.5K perturbations per base instance. The dimensions are enumerator, separator, choices order, instruction phrasing and demonstrations, combined as a Cartesian product.<br><span class="scope">Holds for: The 5 dimensions were chosen from a survey of prior sensitivity work and are not claimed exhaustive; 78 source datasets with 100 instances each, 7,800 base instances.</span></dd>
+<dt>What should I read about prompt sensitivity in LLM evaluation?</dt>
+<dt>Which paper shows that single-prompt benchmark scores are unreliable?</dt>
+<dt>Where can I start reading about how arbitrary prompt formatting affects benchmark results?</dt>
+<dd>DOVE (Dataset Of Variation Evaluation) is a publicly released dataset of more than 250M LLM prompt perturbations and model outputs, built for studying prompt sensitivity and building more robust evaluation protocols.<br><span class="scope">Holds for: English multiple-choice benchmarks only (MMLU, MMLU-Pro, ARC, HellaSwag, OpenBookQA, Social IQa, RACE); open-weight Llama 1B/3B/8B, OLMo 7B and Mistral 7B as of the 2025 release; no open-ended generation tasks.</span></dd>
+<dd>Prompt sensitivity does not wash out at scale: OLMo&#x27;s accuracy on HellaSwag ranges from 1% to 99% depending on which intent-preserving prompt is used.<br><span class="scope">Holds for: Accuracy computed over 100 instances per dataset per prompt; multiple-choice items scored by semantic similarity matching.</span></dd>
+<dd>A benchmark&#x27;s original prompt is often not representative of average performance across intent-preserving prompts. Mistral&#x27;s accuracy with original instructions exceeds its mean across prompts by more than 1 standard deviation on 35 of 57 MMLU domain tasks.<br><span class="scope">Holds for: Divergence measured across few-shot prompts, with divergence defined as exceeding 1 standard deviation; MMLU domains, Mistral-7B; full per-model results in Appendix B.3.</span></dd>
+<dt>How much can accuracy change just from changing the prompt format?</dt>
+<dt>How big is prompt sensitivity on multiple-choice benchmarks?</dt>
+<dt>Does prompt sensitivity disappear when you evaluate at a very large scale?</dt>
+<dd>Prompt sensitivity does not wash out at scale: OLMo&#x27;s accuracy on HellaSwag ranges from 1% to 99% depending on which intent-preserving prompt is used.<br><span class="scope">Holds for: Accuracy computed over 100 instances per dataset per prompt; multiple-choice items scored by semantic similarity matching.</span></dd>
+<dd>Each individual prompt dimension moves accuracy even after averaging over all the others: for Mistral, different instruction paraphrases alone produce an 8% accuracy difference.<br><span class="scope">Holds for: Marginalized accuracy over the 5 DOVE dimensions, computed per domain for Llama 1B/3B/8B, OLMo 7B and Mistral 7B; 13 instruction phrasings.</span></dd>
+<dt>Do different LLMs prefer different answer enumerators?</dt>
+<dt>Is there one prompt format that is best for all models?</dt>
+<dt>Do roman numerals or letters work better as multiple-choice labels?</dt>
+<dd>Models have distinct prompt preferences rather than a shared best format: greek numerals are OLMoE&#x27;s best-performing enumerator of the 6 tested but only Mistral&#x27;s third best, behind capital and lateen numerals.<br><span class="scope">Holds for: 6 enumerator values, accuracy marginalized over all other dimensions and averaged across the dataset; established for the evaluated open-weight models only.</span></dd>
+<dt>How do I pick a good prompt on a limited inference budget?</dt>
+<dt>Is it better to tune each prompt dimension separately or search whole prompts?</dt>
+<dt>What is the most sample-efficient way to choose a prompt format for a multiple-choice task?</dt>
+<dd>Choosing the best value for each of the 5 prompt dimensions independently, marginalizing the others, matches linear regression on observed samples and beats picking the single best observed prompt.<br><span class="scope">Holds for: Zero-shot selection simulated on DOVE against the best prompt over the full dataset, mean and standard deviation over 10 random seeds; 4 strategies including a random baseline.</span></dd>
+<dd>Selecting the best observed prompt only becomes a reliable strategy after tens of millions of observed samples, while dimension-wise selection works with relatively small sample sizes.<br><span class="scope">Holds for: Zero-shot setting, gap from the best prompt in DOVE as a function of sample count, for Llama 1B/3B/8B, OLMo 7B and Mistral 7B; AUC comparison across models in Appendix B.4.</span></dd>
+<dt>Do few-shot examples reduce prompt sensitivity?</dt>
+<dt>Does five-shot prompting make benchmark scores more stable than zero-shot?</dt>
+<dt>Can adding demonstrations solve the prompt sensitivity problem?</dt>
+<dd>Five-shot prompting consistently narrows the spread of accuracy across prompt perturbations compared to zero-shot, but does not eliminate it: the accuracy range still exceeds 20% on every dataset shown.<br><span class="scope">Holds for: Subset of DOVE domains, each point an accuracy over 100 instances; the effect is minimal for Social IQa and the MMLU-Pro legal domain.</span></dd>
+<dt>How can you tell which benchmark questions are genuinely hard for a model?</dt>
+<dt>What is an inherently hard instance in prompt-perturbation analysis?</dt>
+<dt>Are there examples that models get wrong no matter how the prompt is phrased?</dt>
+<dd>Success-rate distributions over the more than 6.5K perturbations per instance identify instances a model answers wrongly under every perturbation. Such instances give an operational definition of inherently hard items that no prompt selection can fix.<br><span class="scope">Holds for: Success rate is the percentage of a sample&#x27;s perturbations answered correctly; measured per model on DOVE&#x27;s multiple-choice instances; at both extremes models are also least prompt-sensitive.</span></dd>
+<dt>Is the original prompt shipped with a benchmark representative of average model performance?</dt>
+<dt>How far off is the default MMLU prompt from the average across prompt variations?</dt>
+<dd>A benchmark&#x27;s original prompt is often not representative of average performance across intent-preserving prompts. Mistral&#x27;s accuracy with original instructions exceeds its mean across prompts by more than 1 standard deviation on 35 of 57 MMLU domain tasks.<br><span class="scope">Holds for: Divergence measured across few-shot prompts, with divergence defined as exceeding 1 standard deviation; MMLU domains, Mistral-7B; full per-model results in Appendix B.3.</span></dd>
+<dt>How expensive is it to run a large multi-prompt evaluation?</dt>
+<dt>How many GPU hours did building the DOVE dataset take?</dt>
+<dt>What does it cost to evaluate thousands of prompt perturbations per instance?</dt>
+<dd>Building DOVE required roughly 5,000 GPU hours on NVIDIA A100 80GB GPUs, with Mistral-7B alone taking 1,189 GPU hours, and would cost upwards of $25K on cloud services such as AWS.<br><span class="scope">Holds for: Generation with vLLM at approximately 60M instances per model for 5 open-weight models; closed API models were excluded partly for this reason.</span></dd>
+<dt>Which prompt dimensions does DOVE vary?</dt>
+<dt>How many prompt perturbations are there per benchmark instance in DOVE?</dt>
+<dt>What kinds of intent-preserving prompt changes are covered in this perturbation dataset?</dt>
+<dd>DOVE varies 5 prompt dimensions jointly rather than one dimension at a time, giving over 6.5K perturbations per base instance. The dimensions are enumerator, separator, choices order, instruction phrasing and demonstrations, combined as a Cartesian product.<br><span class="scope">Holds for: The 5 dimensions were chosen from a survey of prior sensitivity work and are not claimed exhaustive; 78 source datasets with 100 instances each, 7,800 base instances.</span></dd>
+<dt>Can I contribute my own model&#x27;s predictions to DOVE?</dt>
+<dt>Is the DOVE dataset being extended to more models and languages?</dt>
+<dt>How do research groups add evaluation data to a shared prompt-sensitivity repository?</dt>
+<dd>DOVE is maintained as an extensible community resource with a standardized schema for multi-dimensional evaluation data, so that model predictions from other groups can be converted in rather than re-run.<br><span class="scope">Holds for: As of the 2025 Findings of ACL release; contributions arrive via HuggingFace pull requests or email; coverage at release is English-centric and limited in model diversity.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>DOVE (Dataset Of Variation Evaluation) is a publicly released dataset of more than 250M LLM prompt perturbations and model outputs, built for studying prompt sensitivity and building more robust evaluation protocols. <span class="meta">(Section 1)</span><br><span class="scope">Scope: English multiple-choice benchmarks only (MMLU, MMLU-Pro, ARC, HellaSwag, OpenBookQA, Social IQa, RACE); open-weight Llama 1B/3B/8B, OLMo 7B and Mistral 7B as of the 2025 release; no open-ended generation tasks.</span></li>
+<li>DOVE varies 5 prompt dimensions jointly rather than one dimension at a time, giving over 6.5K perturbations per base instance. The dimensions are enumerator, separator, choices order, instruction phrasing and demonstrations, combined as a Cartesian product. <span class="meta">(Table 1)</span><br><span class="scope">Scope: The 5 dimensions were chosen from a survey of prior sensitivity work and are not claimed exhaustive; 78 source datasets with 100 instances each, 7,800 base instances.</span></li>
+<li>Building DOVE required roughly 5,000 GPU hours on NVIDIA A100 80GB GPUs, with Mistral-7B alone taking 1,189 GPU hours, and would cost upwards of $25K on cloud services such as AWS. <span class="meta">(Section 4.1)</span><br><span class="scope">Scope: Generation with vLLM at approximately 60M instances per model for 5 open-weight models; closed API models were excluded partly for this reason.</span></li>
+<li>Prompt sensitivity does not wash out at scale: OLMo&#x27;s accuracy on HellaSwag ranges from 1% to 99% depending on which intent-preserving prompt is used. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: Accuracy computed over 100 instances per dataset per prompt; multiple-choice items scored by semantic similarity matching.</span></li>
+<li>Each individual prompt dimension moves accuracy even after averaging over all the others: for Mistral, different instruction paraphrases alone produce an 8% accuracy difference. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: Marginalized accuracy over the 5 DOVE dimensions, computed per domain for Llama 1B/3B/8B, OLMo 7B and Mistral 7B; 13 instruction phrasings.</span></li>
+<li>Models have distinct prompt preferences rather than a shared best format: greek numerals are OLMoE&#x27;s best-performing enumerator of the 6 tested but only Mistral&#x27;s third best, behind capital and lateen numerals. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: 6 enumerator values, accuracy marginalized over all other dimensions and averaged across the dataset; established for the evaluated open-weight models only.</span></li>
+<li>A benchmark&#x27;s original prompt is often not representative of average performance across intent-preserving prompts. Mistral&#x27;s accuracy with original instructions exceeds its mean across prompts by more than 1 standard deviation on 35 of 57 MMLU domain tasks. <span class="meta">(Figure 5)</span><br><span class="scope">Scope: Divergence measured across few-shot prompts, with divergence defined as exceeding 1 standard deviation; MMLU domains, Mistral-7B; full per-model results in Appendix B.3.</span></li>
+<li>Choosing the best value for each of the 5 prompt dimensions independently, marginalizing the others, matches linear regression on observed samples and beats picking the single best observed prompt. <span class="meta">(Figure 6)</span><br><span class="scope">Scope: Zero-shot selection simulated on DOVE against the best prompt over the full dataset, mean and standard deviation over 10 random seeds; 4 strategies including a random baseline.</span></li>
+<li>Selecting the best observed prompt only becomes a reliable strategy after tens of millions of observed samples, while dimension-wise selection works with relatively small sample sizes. <span class="meta">(Figure 7)</span><br><span class="scope">Scope: Zero-shot setting, gap from the best prompt in DOVE as a function of sample count, for Llama 1B/3B/8B, OLMo 7B and Mistral 7B; AUC comparison across models in Appendix B.4.</span></li>
+<li>Five-shot prompting consistently narrows the spread of accuracy across prompt perturbations compared to zero-shot, but does not eliminate it: the accuracy range still exceeds 20% on every dataset shown. <span class="meta">(Figure 8)</span><br><span class="scope">Scope: Subset of DOVE domains, each point an accuracy over 100 instances; the effect is minimal for Social IQa and the MMLU-Pro legal domain.</span></li>
+<li>Success-rate distributions over the more than 6.5K perturbations per instance identify instances a model answers wrongly under every perturbation. Such instances give an operational definition of inherently hard items that no prompt selection can fix. <span class="meta">(Figure 9)</span><br><span class="scope">Scope: Success rate is the percentage of a sample&#x27;s perturbations answered correctly; measured per model on DOVE&#x27;s multiple-choice instances; at both extremes models are also least prompt-sensitive.</span></li>
+<li>DOVE is maintained as an extensible community resource with a standardized schema for multi-dimensional evaluation data, so that model predictions from other groups can be converted in rather than re-run. <span class="meta">(Section 6)</span><br><span class="scope">Scope: As of the 2025 Findings of ACL release; contributions arrive via HuggingFace pull requests or email; coverage at release is English-centric and limited in model diversity.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>DOVE is not a new benchmark of questions: it is a dataset of model predictions, log probabilities and scores built on top of existing benchmarks such as MMLU, ARC and RACE.</li>
+<li>The finding that few-shot demonstrations reduce sensitivity does not mean five-shot evaluation is stable: the accuracy range across perturbations remains above 20% on every dataset measured, and the effect is minimal for Social IQa and the MMLU-Pro legal domain.</li>
+<li>The 1%-to-99% HellaSwag range is a range across individual intent-preserving prompts, not a confidence interval on a single score; each endpoint is an accuracy obtained with some legitimate prompt format.</li>
+<li>DOVE does not show that prompt sensitivity is confined to small open-weight models; only open-weight models up to 8B were run, because API models alter prompts in undisclosed ways and costs were infeasible.</li>
+<li>&quot;Independent dimension-wise selection works best&quot; is a statement about sample efficiency under a fixed budget, not a claim that prompt dimensions do not interact; with tens of millions of samples the best-observed-prompt strategy becomes reliable too.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>Intent-preserving prompts</em></dt><dd>Two prompts designed to convey the same underlying meaning to a model despite differences in phrasing or structure, e.g. adding &quot;Answer the following question:&quot; before the same multiple-choice item.</dd>
+<dt><em>Prompt dimension</em></dt><dd>A set of interchangeable prompt choices whose values all preserve the prompt&#x27;s intent, such as the answer enumerator (capitals, lowercase, numbers, roman numerals, keyboard symbols, greek letters).</dd>
+<dt><em>Prompt linearization</em></dt><dd>The deterministic function that maps an underlying question plus one chosen value per prompt dimension into a single concrete prompt string given to an LLM.</dd>
+<dt><em>Marginalized accuracy</em></dt><dd>The accuracy of a model for one fixed value of a single prompt dimension, averaged over all combinations of values of the remaining dimensions.</dd>
+<dt><em>Divergence score</em></dt><dd>The number of standard deviations by which a model&#x27;s accuracy using a benchmark&#x27;s original prompt deviates from its mean accuracy across all prompt perturbations, with divergence counted when it exceeds 1.</dd>
+<dt><em>Success rate</em></dt><dd>For one benchmark instance and one model, the percentage of that instance&#x27;s prompt perturbations for which the model outputs the correct answer.</dd>
+<dt><em>Inherently hard instance</em></dt><dd>A benchmark instance a model answers incorrectly under every prompt perturbation tested, so no prompt selection can recover it.</dd>
+</dl>
 <h2>How to cite</h2>
 <pre>@inproceedings{habba-etal-2025-dove,
-title = &quot;{DOVE}: A Large-Scale Multi-Dimensional Predictions Dataset Towards Meaningful {LLM} Evaluation&quot;,
+    title = &quot;{DOVE}: A Large-Scale Multi-Dimensional Predictions Dataset Towards Meaningful {LLM} Evaluation&quot;,
     author = &quot;Habba, Eliya  and
       Arviv, Ofir  and
       Itzhak, Itay  and

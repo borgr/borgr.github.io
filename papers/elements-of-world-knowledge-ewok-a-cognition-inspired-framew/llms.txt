@@ -1,11 +1,67 @@
-# Elements of World Knowledge (EWOK): A cognition-inspired framework for evaluating basic world knowledge in language models
+# Elements of World Knowledge (EWoK): A Cognition-Inspired Framework for Evaluating Basic World Knowledge in Language Models
 
-Authors: Anna A. Ivanova, Aalok Sathe, Benjamin Lipkin, Unnathi Kumar, Setayesh Radkani, Thomas Hikaru Clark, Carina Kauf, Jennifer Hu, R. T. Pramod, Gabriel Grand, Vivian C. Paulun, Maria Ryskina, Ekin Aky"urek, Ethan Wilcox, Nafisa Rashid, Leshem Choshen, Roger Levy, Evelina Fedorenko, Joshua B. Tenenbaum, Jacob Andreas
-Venue: CoRR (2024)
+Elements of World Knowledge — a template-based framework for testing whether language models can tell plausible from implausible scenarios in physical, spatial and social domains
 
-## Abstract
+Authors: Anna A. Ivanova, Aalok Sathe, Benjamin Lipkin, Unnathi Kumar, Setayesh Radkani, Thomas Hikaru Clark, Carina Kauf, Jennifer Hu, R. T. Pramod, Gabriel Grand, Vivian C. Paulun, Maria Ryskina, Ekin Akyürek, Ethan Wilcox, Nafisa Rashid, Leshem Choshen, Roger Levy, Evelina Fedorenko, Joshua B. Tenenbaum, Jacob Andreas
+Venue: Trans. Assoc. Comput. Linguistics (2025)
 
- The ability to build and reason about models of the world is essential for situated language understanding. But evaluating world modeling capabilities in modern AI systems—especially those based on language models—has proven challenging, in large part because of the difficulty of disentangling conceptual knowledge about the world from knowledge of surface co-occurrence statistics. This paper presents Elements of World Knowledge (EWoK), a framework for evaluating language models’ understanding of the conceptual knowledge underlying world modeling. EWoK targets specific concepts from multiple knowledge domains known to be important for world modeling in humans, from social interactions (help, deceive) to spatial relations (left, right). Objects, agents, and locations in the items can be flexibly filled in, enabling easy generation of multiple controlled datasets. We then introduce EWoK-core-1.0, a dataset of 4,374 items covering 11 world knowledge domains. We evaluate 20 open-weights large language models (1.3B–70B parameters) and compare them with human performance. All tested models perform worse than humans, with results varying drastically across domains. Performance on social interactions and social properties was highest and performance on physical relations and spatial relations was lowest. Overall, this dataset highlights simple cases where even large models struggle and presents rich avenues for targeted research on LLM world modeling capabilities.
+## What this paper shows
+EWoK evaluates language models' basic world knowledge with minimal pairs of pairs: the same target sentence is plausible under one context and implausible under another, so success requires contextual reasoning rather than memorised sentence frequency.
+
+## Claims, with scope
+- On EWoK-core-1.0, the best of 20 open-weights LLMs tested (falcon-40b-instruct) reaches 0.801 mean LogProbs accuracy against 0.951 for humans, with chance at 0.5.
+  Scope: Open-weights models from 1.3B to 70B parameters, scored with LogProbs on English items; human norms from 1,262 US-resident native English speakers.
+  Evidence: Table 4
+- LLMs score highest on EWoK's social domains and lowest on relational physical ones: average LLM accuracy is 0.859 on social interactions and 0.615 on spatial relations, where humans score 1.000 and 0.958.
+  Scope: Averages across 20 open-weights LLMs on EWoK-core-1.0 with LogProbs scoring; physical dynamics is the one domain where humans (0.833) sit below the best LLM (0.920).
+  Evidence: Table 5
+- Domain remains a significant predictor of LLM accuracy on EWoK-core-1.0 after controlling for item length, word frequency, context type and contrast type. In the same mixed-effects logistic regression, word frequency (+0.07) and number of words (-0.04) are also significant.
+  Scope: Item-level binary accuracy pooled over the 20 open-weights LLMs under LogProbs, with random intercepts for model and item.
+  Evidence: Table B.2 (mixed-effects results, Appendix B)
+- Swapping only the names, objects and locations that fill EWoK templates moves LLM accuracy by up to 0.07 across 5 dataset versions (phi-1.5 and phi-2), while human accuracy moves by 0.02.
+  Scope: 5 filler-sampled versions of EWoK-core-1.0 with fillers held constant within a version; ranges are per-model over whole-dataset means, and most models vary less than phi-1.5 and phi-2.
+  Evidence: Table 4
+- LogProbs scoring beats 2-shot constrained prompting (Likert and Choice) for nearly all 20 open-weights LLMs on EWoK-core-1.0, with the gap larger for smaller models.
+  Scope: One fixed prompt per task, outputs logit-masked to 1-5 or 1-2; no targeted prompt engineering or chain-of-thought was tried.
+  Evidence: Figure 5
+- Under a strict-inequality Likert metric that removes the 0.5-point credit for tied ratings, Meta-Llama-3-70B falls to 0.588 and mpt-7b to 0.021 on EWoK-core-1.0. Prompted models frequently return the same plausibility rating for every item.
+  Scope: The 12 models evaluated with Likert prompting; the main paper's metric awards 0.5 for a tie, which preserves a 50% floor for any context-insensitive responder.
+  Evidence: Table B.2 (strict-inequality Likert table, Appendix B)
+- Frontier closed models evaluated on EWoK-core-1.0 via HELM in January 2025 top out near 0.912 (GPT-4 Turbo) and 0.911 (Claude 3.5 Sonnet) under Choice prompting, still below the human 0.951.
+  Scope: Choice prompting only, 2-shot, since log probabilities are unavailable for closed models; EWoK-core-1.0 was public from May 2024, so later models may have seen it.
+  Evidence: Table 2
+- A bag-of-words baseline that picks the context with the highest word2vec cosine similarity to the target reaches only 0.542 on EWoK-core-1.0, against a 0.5 chance floor. Every LLM tested except phi-1 (0.522) scores above it.
+  Scope: Summed word2vec embeddings per context and per target, cosine-matched on English EWoK-core-1.0 items; speaks only to lexical-overlap shortcuts, not to other heuristics.
+  Evidence: Table 4
+- EWoK-core-1.0 contains 4,374 items built from 880 expert-curated templates covering 192 concepts across 11 domains, with each domain contributing between 75 and 1130 templates and testing between 12 and 22 concepts.
+  Scope: English-language items only, generated from over 500 fillers across 13 classes under 28 type restrictions; domain and concept lists chosen by the author team.
+  Evidence: Table 1
+- EWoK holds each target sentence fixed and varies the context so that the identical sentence is plausible under one context and implausible under the other. This prevents a model from succeeding on target-sentence frequency alone.
+  Scope: The framework as released, extending the minimal-pair tradition of BLiMP and COMPS to minimal pairs of both contexts and targets; shortcut resistance is checked only via a bag-of-words baseline and surface-feature analyses.
+- EWoK is a cognition-inspired framework for evaluating world knowledge in language models. Its items are organised around concepts from domains known to recruit dedicated cognitive and neural machinery in humans, rather than around available text corpora.
+  Scope: Domains selected by an author team of cognitive scientists and neuroscientists from prior human literature; currently English only, and adapting the framework to other languages would require redesigning the concept inventory.
+- EWoK ships as a generative pipeline rather than a fixed test set. Users can regenerate datasets with new fillers such as non-Western names, nonwords or longer descriptors, and measure how much of a model's score depends on arbitrary item choices.
+  Scope: The released framework code and templates, gated behind terms of use requiring reporting of any training on EWoK-generated data; the paper exercises only the 5-version filler resampling, not the name or nonword substitutions.
+- Human raters on EWoK-core-1.0 average 0.951 accuracy against author gold labels and systematically err on absolute spatial reference frames, often judging cardinal-direction items as plausible when the gold label is implausible.
+  Scope: 1,262 US-resident native English speakers, at least 5 ratings per item, 59 participants excluded for inter-subject correlation below 0.3; average inter-subject Pearson correlation was 0.744.
+  Evidence: Section 5, "Human ratings are usually, but not always, accurate"
+
+## Common misreadings
+- EWoK-core-1.0 was not designed to be a difficult challenge benchmark; it is a broad-coverage inventory of core human knowledge, so high frontier-model scores are expected rather than evidence the benchmark failed.
+- The low LLM accuracy on spatial and physical relations is not attributable to longer or rarer wording: domain stays a significant predictor of accuracy after item length and word frequency are entered into the same regression.
+- Human accuracy of 0.951 on EWoK-core-1.0 is not a ceiling that validates every item — human raters make systematic errors on absolute spatial reference frames, and human data supplements rather than replaces author gold labels.
+- The finding that LogProbs beats prompting is specific to one fixed 2-shot constrained prompt used identically for humans and models; it is not a claim that no prompting strategy can do better.
+- Llama 3 Instruct 8B's 0.171 in the HELM Choice evaluation reflects failure to produce the required response format, not knowledge worse than chance.
+- EWoK is a generation pipeline, not only the 4,374-item EWoK-core-1.0 release, so results on one version are results on one sample of fillers.
+
+## Terminology
+- Choice: A prompt-based evaluation in which both contexts are shown with a single target sentence and the respondent selects which context better matches it.
+- Likert: A prompt-based evaluation in which each context-target concatenation is rated for plausibility on a 1-5 scale, with correctness scored by comparing ratings across the pair.
+- LogProbs: Scoring a context-target pair by the sum of the model's conditional log probabilities of the target tokens given the context, then checking whether each target is more probable under its matching context.
+- domain distinguishability: The property of a benchmark that some knowledge domains are much easier than others, in contrast to model distinguishability, where different models separate from one another.
+- indirect template: A template in which the target does not have to be true given the matching context, only more likely than under the contrasting context.
+- minimal pairs of pairs: An item design in which both the two contexts and the two target sentences differ by a single targeted change, so that each target matches exactly one of the two contexts.
+- version: One full instantiation of a template set with a particular random sample of fillers; several versions of the same templates measure how much accuracy depends on arbitrary name and object choices.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2405.09605
@@ -13,13 +69,17 @@ Venue: CoRR (2024)
 - HTML: https://arxiv.org/html/2405.09605
 - Hugging Face: https://huggingface.co/papers/2405.09605
 - alphaXiv: https://www.alphaxiv.org/abs/2405.09605
-- DOI: https://doi.org/10.48550/ARXIV.2405.09605
+- DOI: https://doi.org/10.1162/TACL.A.38
 - Semantic Scholar: https://www.semanticscholar.org/paper/269790884
-- Publisher: https://doi.org/10.48550/arXiv.2405.09605
+- Publisher: https://doi.org/10.1162/tacl.a.38
+- Code: https://github.com/ewok-core/ewok-paper
+- Project page: https://ewok-core.github.io
+- dataset: https://huggingface.co/datasets/ewok-core/EWoK-core-1.0
+- framework code: https://github.com/ewok-core/ewok
+- project page: http://ewok-core.github.io
 
 ## How to cite
-@article{DBLP:journals/corr/abs-2405-09605,
-author       = {Anna A. Ivanova and
+@article{DBLP:journals/corr/abs-2405-09605,author       = {Anna A. Ivanova and
                   Aalok Sathe and
                   Benjamin Lipkin and
                   Unnathi Kumar and
@@ -39,16 +99,17 @@ author       = {Anna A. Ivanova and
                   Evelina Fedorenko and
                   Joshua B. Tenenbaum and
                   Jacob Andreas},
-  title        = {Elements of World Knowledge {(EWOK):} {A} cognition-inspired framework
-                  for evaluating basic world knowledge in language models},
-  journal      = {CoRR},
-  volume       = {abs/2405.09605},
-  year         = {2024},
-  url          = {https://doi.org/10.48550/arXiv.2405.09605},
-  doi          = {10.48550/ARXIV.2405.09605},
+  title        = {Elements of World Knowledge {(EWoK):} {A} Cognition-Inspired Framework
+                  for Evaluating Basic World Knowledge in Language Models},
+  journal      = {Trans. Assoc. Comput. Linguistics},
+  volume       = {13},
+  year         = {2025},
+  url          = {https://doi.org/10.1162/tacl.a.38},
+  doi          = {10.1162/TACL.A.38},
   eprinttype    = {arXiv},
   eprint       = {2405.09605},
-  timestamp    = {Sun, 04 Aug 2024 01:00:00 +0200},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-2405-09605.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
+  timestamp    = {Fri, 23 Jan 2026 00:00:00 +0100},
+  biburl       = {https://dblp.org/rec/journals/tacl/IvanovaSLKRCKHPGPRAWRCL25.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org},
+  pages        = {1245--1270}
 }

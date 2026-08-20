@@ -3,8 +3,66 @@
 Authors: Shachar Don-Yehiya, Ben Burtenshaw, Ramon Fernandez Astudillo, Cailean Osborne, Mimansa Jaiswal, Tzu-Sheng Kuo, Wenting Zhao, Idan Shenfeld, Andi Peng, Mikhail Yurochkin, Atoosa Kasirzadeh, Yangsibo Huang, Tatsunori Hashimoto, Yacine Jernite, Daniel Vila-Suero, Omri Abend, Jennifer Ding, Sara Hooker, Hannah Rose Kirk, Leshem Choshen
 Venue: Nature Machine Intelligence (2025)
 
-## Abstract
-Human feedback on conversations with language models is central to how these systems learn about the world, improve their capabilities and are steered towards desirable and safe behaviours. However, this feedback is mostly collected by frontier artificial intelligence labs and kept behind closed doors. Here we bring together interdisciplinary experts to assess the opportunities and challenges to realizing an open ecosystem of human feedback for artificial intelligence. We first look for successful practices in the peer-production, open-source and citizen-science communities. We then characterize the main challenges for open human feedback. For each, we survey current approaches and offer recommendations. We end by envisioning the components needed to underpin a sustainable and open human feedback ecosystem. In the centre of this ecosystem are mutually beneficial feedback loops, between users and specialized models, incentivizing a diverse stakeholder community of model trainers and feedback providers to support a general open feedback pool. Don-Yehiya et al. explore creating an open ecosystem for human feedback on large language models, drawing from peer-production, open-source and citizen-science practices, and addressing key challenges to establish sustainable feedback loops between users and specialized models.
+## What this paper shows
+A position paper by 20 interdisciplinary authors that defines open human feedback along 5 axes of openness, draws lessons from peer production and open source, and lays out 7 challenges plus the platform, shared data pool and feedback loops needed for a sustainable open feedback ecosystem for language models.
+
+## Claims, with scope
+- "Open human feedback" is decomposed into 5 non-binary axes of openness: open methodology, open access, open model participation, open human participation and open timeline. Openness is treated as a gradient rather than a binary label, motivated by open-washing concerns in "open source AI".
+  Scope: Definitional framework covering valenced human responses to model outputs; traditional labelled datasets and fully model-simulated feedback fall outside the definition.
+  Evidence: Section 1.1
+- Of 16 human feedback datasets and model reports surveyed, only ShareLM and Chatbot Arena are marked open on all 5 axes of openness. Chatbot Arena's open access is flagged because the largest volume of its prompts and feedback remains unpublished.
+  Scope: The 16 rows span ShareLM, Chatbot Arena, WildChat, PRISM, HelpSteer2, DICES, AnthropicHH, WebGPT, LLaMa 2 and 3.1, InstructGPT, GPT4, Claude 2 and 3, and Gemini 1.0 and 1.5, as of the 2024 preprint.
+  Evidence: Table 1
+- The 5 frontier model families surveyed, GPT4, Claude 2, Claude 3, Gemini and Gemini 1.5, are marked closed on all 5 openness axes. Their feedback collection methodology is not released, so it cannot be reproduced or studied externally.
+  Scope: Based on public model cards and technical reports available in 2024; LLaMa 2, LLaMa 3.1 and InstructGPT are instead marked as having open methodology but closed data access.
+  Evidence: Table 1
+- Sustainable sourcing of human feedback for language models is underdeveloped for 3 stated reasons. High-quality preference datasets are proprietary, annotation and interface costs block new releases, and open datasets are static one-time collections rather than maintained living artifacts.
+  Scope: Diagnosis about chat-based human feedback for language models, not about supervised labelling datasets generally; stated with citations to proprietary dataset practice and annotation-cost studies.
+  Evidence: Section 1
+- The Future of Open Human Feedback organises the challenges of an open feedback ecosystem into 7 themes, each with existing approaches and recommendations. The themes are incentives, effort and involvement, expert contributions, linguistic and cultural diversity, dynamic feedback, privacy, and legal ownership.
+  Scope: A survey-and-recommendation structure produced by 20 interdisciplinary co-authors from academia, industry and open-source communities as of 2024; the themes are argued and cited, not experimentally ranked or weighted.
+  Evidence: Section 3
+- Community-driven governance and vendor-neutral hosting are identified as the transferable ingredients from peer production and open source. Wikipedia's 290k edits per day are cited as evidence that volunteer ecosystems can sustain large-scale maintained artifacts.
+  Scope: Lessons drawn by analogy from Wikipedia, OpenStreetMap, Stack Overflow and open-source software projects; extrinsic motivators can displace existing intrinsic motivation, so the transfer is not automatic.
+  Evidence: Section 2.1
+- Expert feedback in specialised domains is priced out of open collection, with GPQA-style graduate-level expert contributions costing roughly $100 per hour. Companies such as OpenAI and DeepMind retain specialised AI trainers' feedback in-house.
+  Scope: Cost figure cited from GPQA's expert annotation; argued for technical domains such as healthcare, legal and finance where layperson feedback is insufficient, and it is a third-party figure rather than a new measurement.
+  Evidence: Section 3.3
+- Simulating feedback with powerful closed models is characterised as a popular loophole rather than a substitute for human feedback, carrying legal, reproducibility and transparency problems. It also adds a dependency on closed-model ecosystems.
+  Scope: Distilling one model's outputs to train another as a replacement for human annotation; aided or seeded feedback where humans still exercise judgement remains inside the paper's definition of human feedback.
+  Evidence: Section 1
+- Existing open feedback collections skew toward English speakers from narrow communities, with a few annotators contributing the majority of data even in explicitly multilingual efforts. Only 4 of the 16 surveyed datasets are marked open on human participation: ShareLM, Chatbot Arena, WildChat and PRISM.
+  Scope: Argued from cited analyses of WildChat, Chatbot Arena, OpenAssistant and the Aya Dataset; the skew toward bulk contributors is reported qualitatively, with no per-dataset contribution percentages given.
+  Evidence: Table 1
+- Prompted ratings and rankings should be supplemented with naturally occurring feedback cues already present in chats, such as a user thanking the model or editing their original prompt. Pairwise-comparison platforms attract short conversations with low topical, use-case and user diversity.
+  Scope: Recommendation about chat platforms collecting feedback from real users; argued from cited work on existing hosted platforms, with no measured accuracy gain from naturally occurring cues.
+  Evidence: Section 3.2
+- A sustainable open feedback ecosystem is specified as 3 components: an open-source feedback platform, a shared pool of chats and feedback, and participation from aligned individual and organisational contributors. Self-sustaining feedback loops join it to the model-training ecosystem.
+  Scope: A proposed design, not a deployed system; current options are said to fall short, with Hugging Face Spaces lacking systematic feedback mechanisms and Argilla lacking support for discussing feedback, sharing incentives or collective governance.
+  Evidence: Section 4
+- The proposed incentive mechanism for feedback contributors is a marketplace of models specialised by topic, culture or language. Feedback given by a community returns to that community as a better model for its own needs, not only as a public good.
+  Scope: A vision described through worked examples such as a law student needing exam-preparation accuracy, with personalisation by clustering similar users; no implementation or measured uptake is reported.
+  Evidence: Section 4
+- Feedback data should be owned solely by the human contributor even though a model co-produced the exchange. Contributors are asked to give informed revocable consent to release under a permissive licence such as Creative Commons or an Open Data License.
+  Scope: A recommendation, and the underlying legal debate over AI-involved authorship remains unsettled; opt-out guarantees also face the unresolved problem of propagating removal into already-trained derivative models.
+  Evidence: Section 3.7
+- The Future of Open Human Feedback closes with a checklist of concrete actions across its 7 themes, each labelled with 1 of 3 readiness levels. The levels are feasible with existing tools, partially feasible with some R&D, or requiring R&D.
+  Scope: Readiness labels are the 20 co-authors' collective assessment as of 2024, covering actions for incentives, contribution barriers, expert annotation, diversity, updated feedback, privacy and legal practice.
+  Evidence: Section 3
+
+## Common misreadings
+- The 5 axes of openness are not a binary open/closed test: a dataset can have open methodology while its data stays closed, as LLaMa 2, LLaMa 3.1 and InstructGPT are categorised in Table 1.
+- The Future of Open Human Feedback is a position and survey paper with recommendations, not an empirical evaluation of feedback collection methods; no new dataset, platform or model is released or benchmarked.
+- Openness of model weights is not openness of feedback data: open-weight model releases are categorised as closed on data access in the paper's own survey table.
+- The vision of specialised models trained on community feedback is a proposal for an ecosystem, not a report of a deployed marketplace of models.
+- The call for open participation is not a call for unrestricted crowdsourcing: participation can be exploitative, and diversity is not guaranteed by openness alone.
+
+## Terminology
+- open human feedback: Human-generated, valenced responses to AI model outputs, characterised by open data accessibility and permissive terms of use with ongoing and inclusive participation by both humans and AI models.
+- open model participation: An axis of feedback-dataset openness: whether feedback is collected only from one predetermined language model, or whether third parties can upload their own models to be included.
+- open timeline: An axis of feedback-dataset openness: whether feedback collection is dynamic and continues to cover new models, topics and capabilities, rather than being a one-time effort over a single short time frame.
+- self-sustaining feedback loop: An arrangement in which a community's chat feedback trains a model specialised to that community, so the contributors of feedback are also its direct beneficiaries.
+- feedback: Human responses to model outputs carrying a positive or negative value judgement; annotations over human-written text are excluded because they contain no reaction to a model.
 
 ## Links
 - arXiv: https://arxiv.org/abs/2408.16961
@@ -17,8 +75,7 @@ Human feedback on conversations with language models is central to how these sys
 - Publisher: https://api.semanticscholar.org/CorpusID:272310324
 
 ## How to cite
-@inproceedings{DonYehiya2024TheFO,
-title={The Future of Open Human Feedback},
+@inproceedings{DonYehiya2024TheFO,title={The Future of Open Human Feedback},
   author={Shachar Don-Yehiya and Ben Burtenshaw and Ramon Fernandez Astudillo and Cailean Osborne and Mimansa Jaiswal and Tzu-Sheng Kuo and Wenting Zhao and Idan Shenfeld and Andi Peng and Mikhail Yurochkin and Atoosa Kasirzadeh and Yangsibo Huang and Tatsunori Hashimoto and Yacine Jernite and Daniel Vila-Suero and Omri Abend and Jennifer Ding and Sara Hooker and Hannah Rose Kirk and Leshem Choshen},
   year={2025},
 booktitle={Nature Machine Intelligence},

@@ -17,7 +17,7 @@
   <meta name="citation_author" content="Kean Ming Tan">
   <meta name="citation_author" content="Gongjun Xu">
   <meta name="citation_publication_date" content="2025">
-  <meta name="citation_doi" content="10.48550/arXiv.2512.06553">
+  <meta name="citation_doi" content="10.48550/ARXIV.2512.06553">
   <meta name="citation_arxiv_id" content="2512.06553">
   <meta name="citation_abstract" content="We propose a statistical framework built on latent variable modeling for scaling laws of large language models (LLMs). Our work is motivated by the rapid emergence of numerous new LLM families with distinct architectures and training strategies, evaluated on an increasing number of benchmarks. This heterogeneity makes a single global scaling curve inadequate for capturing how performance varies across families and benchmarks. To address this, we propose a latent variable modeling framework in which each LLM family is associated with a latent variable that captures the common underlying features in that family. An LLM&#x27;s performance on different benchmarks is then driven by its latent skills, which are jointly determined by the latent variable and the model&#x27;s own observable features. We develop an estimation procedure for this latent variable model and establish its statistical properties. We also design efficient numerical algorithms that support estimation and various downstream tasks. Empirically, we evaluate the approach on 12 widely used benchmarks from the Open LLM Leaderboard (v1/v2).">
   <script type="application/ld+json">
@@ -72,16 +72,254 @@
   ],
   "isAccessibleForFree": true,
   "datePublished": "2025",
-  "identifier": "https://doi.org/10.48550/arXiv.2512.06553",
+  "isPartOf": {
+    "@type": "Periodical",
+    "name": "arXiv"
+  },
+  "identifier": "https://doi.org/10.48550/ARXIV.2512.06553",
   "abstract": "We propose a statistical framework built on latent variable modeling for scaling laws of large language models (LLMs). Our work is motivated by the rapid emergence of numerous new LLM families with distinct architectures and training strategies, evaluated on an increasing number of benchmarks. This heterogeneity makes a single global scaling curve inadequate for capturing how performance varies across families and benchmarks. To address this, we propose a latent variable modeling framework in which each LLM family is associated with a latent variable that captures the common underlying features in that family. An LLM's performance on different benchmarks is then driven by its latent skills, which are jointly determined by the latent variable and the model's own observable features. We develop an estimation procedure for this latent variable model and establish its statistical properties. We also design efficient numerical algorithms that support estimation and various downstream tasks. Empirically, we evaluate the approach on 12 widely used benchmarks from the Open LLM Leaderboard (v1/v2).",
+  "description": "A latent variable scaling law in which each LLM family gets a random ability vector and each benchmark a loading vector, so benchmark performance is modelled as a small set of interpretable skills that scale with model size and training tokens, with consistency, asymptotic normality and prediction intervals.",
+  "codeRepository": "https://github.com/felipemaiapolo/statistical-scaling-law",
   "sameAs": [
     "https://ar5iv.labs.arxiv.org/html/2512.06553",
     "https://arxiv.org/abs/2512.06553",
     "https://arxiv.org/pdf/2512.06553",
+    "https://doi.org/10.48550/ARXIV.2512.06553",
     "https://doi.org/10.48550/arXiv.2512.06553",
+    "https://github.com/felipemaiapolo/statistical-scaling-law",
     "https://huggingface.co/papers/2512.06553",
     "https://www.alphaxiv.org/abs/2512.06553",
     "https://www.semanticscholar.org/paper/283693989"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "4 latent skills suffice to describe LLM performance across 12 Open LLM Leaderboard benchmarks and hundreds of models. AIC over latent dimensions K from 1 to 12 drops sharply from K=1 to K=3 and flattens after K=4.",
+      "description": "Holds for: 168 LLMs from 75 families on Open LLM Leaderboard v1 and 216 LLMs from 146 families on v2, combined; anchor benchmarks MATH, IFEval, HellaSwag and BBH chosen by domain knowledge; K=6 results also reported."
+    },
+    {
+      "@type": "Thing",
+      "name": "Mathematical skill (anchored on MATH) loads more on training tokens than on parameters, with coefficients 0.774 (SE 0.101) for log tokens versus 0.432 (SE 0.065) for log parameters. Common-sense reasoning (HellaSwag) reverses this, at 0.840 (SE 0.055) for log parameters versus 0.384 (SE 0.085) for log tokens.",
+      "description": "Holds for: K=4 fit with covariates log(size), log(tokens) and their interaction, on combined Open LLM Leaderboard v1/v2 data; the interaction term is not consistently significant."
+    },
+    {
+      "@type": "Thing",
+      "name": "Instruction following, anchored on IFEval, scales only weakly with both pretraining inputs, at 0.190 (SE 0.054) for log parameters and 0.324 (SE 0.087) for log tokens. Those are the smallest scaling coefficients among the 4 skills.",
+      "description": "Holds for: K=4 fit on Open LLM Leaderboard v1/v2 benchmark averages; covariates are only model size, token count and their interaction, so post-training compute is not represented among the covariates."
+    },
+    {
+      "@type": "Thing",
+      "name": "Compute-optimal allocation under a fixed FLOPs budget differs by skill: at 100.37E19 FLOPs the MATH-optimal configuration is 0.07B parameters with 2.39T tokens. The HellaSwag- and BBH-optimal configuration at the same budget is 1.12B parameters with 0.15T tokens.",
+      "description": "Holds for: Allocations are constrained to the range of sizes and token counts observed in the training data (up to 180B parameters and 15T tokens), so budgets at the extremes saturate at those bounds; derived from the fitted K=4 model."
+    },
+    {
+      "@type": "Thing",
+      "name": "95% prediction intervals from the latent variable scaling model contain nearly all observed benchmark scores for 6 held-out LLMs, including Qwen-2-72B, Yi-1.5-34B and Meta-Llama-3-70B-instruct. GPQA and MuSR give visibly wider intervals than the other benchmarks.",
+      "description": "Holds for: Each test model has smaller variants of the same family present in the training data, which is what allows the family latent ability to be inferred; K=4 fit on combined Open LLM Leaderboard v1/v2 data."
+    },
+    {
+      "@type": "Thing",
+      "name": "The marginal maximum likelihood estimator of the latent variable scaling law is consistent, and its free parameters are asymptotically normal at rate sqrt(N) in the number N of LLM families. That asymptotic distribution supplies the standard errors on the size and token coefficients.",
+      "description": "Holds for: Number of families N diverges while models per family and number of benchmarks J stay fixed; requires anchor-benchmark and unit-diagonal identifiability constraints, known guessing parameters, and standard M-estimation regularity conditions."
+    },
+    {
+      "@type": "Thing",
+      "name": "Posterior joint densities of family latent abilities show Yi-1.5-chat above base Yi-1.5 on the instruction-following dimension, with differences on the mathematical and logical-reasoning dimensions small.",
+      "description": "Holds for: Comparison of 2 families (Yi-1.5 and Yi-1.5-chat) treated as separate families in the fit; posterior samples drawn by Metropolis-Hastings with the estimated parameters plugged in for the true ones."
+    },
+    {
+      "@type": "Thing",
+      "name": "Family-level latent abilities in the scaling model are correlated rather than orthogonal, with the BBH-anchored ability correlating above 0.5 with both the MATH- and HellaSwag-anchored abilities.",
+      "description": "Holds for: Estimated correlation matrix of the K=4 family random effects on combined Open LLM Leaderboard v1/v2 data; the unit-diagonal constraint on the covariance is imposed for identifiability."
+    },
+    {
+      "@type": "Thing",
+      "name": "A latent variable framework for LLM scaling laws models each family with a random ability vector and each benchmark with loadings. It replaces a single global power-law curve with family-specific, skill-specific scaling on downstream benchmarks.",
+      "description": "Holds for: Benchmark-level average scores rather than validation loss or item-level responses; demonstrated on 12 Open LLM Leaderboard v1/v2 benchmarks as of the 2025 preprint."
+    },
+    {
+      "@type": "Thing",
+      "name": "The latent variable scaling law of Cai et al. supplies identifiability constraints, estimation consistency and asymptotic normality for latent-skill scaling laws. Earlier latent-skill scaling formulations such as Ruan et al. (2024) and Maia Polo et al. (2024) did not establish these properties.",
+      "description": "Holds for: The guarantees are asymptotic in the number of LLM families and rest on anchor benchmarks whose loadings are assumed single-dimensional; as characterised in Sections 1 and 1.1 of the 2025 preprint."
+    },
+    {
+      "@type": "Thing",
+      "name": "Prediction intervals for unevaluated LLMs are obtained by combining the estimator's asymptotic distribution with posterior draws of the family latent ability. Prior benchmark scaling-law work reported point predictions without such uncertainty quantification.",
+      "description": "Holds for: Intervals are valid under the fitted beta-likelihood scaling model and require observed data from other models in the same family; as of the 2025 preprint."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/#faq",
+  "url": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/",
+  "name": "Questions answered by A Latent Variable Framework for Scaling Laws in Large Language Models",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do different LLM skills scale differently with model size versus training data?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mathematical skill (anchored on MATH) loads more on training tokens than on parameters, with coefficients 0.774 (SE 0.101) for log tokens versus 0.432 (SE 0.065) for log parameters. Common-sense reasoning (HellaSwag) reverses this, at 0.840 (SE 0.055) for log parameters versus 0.384 (SE 0.085) for log tokens. Holds for: K=4 fit with covariates log(size), log(tokens) and their interaction, on combined Open LLM Leaderboard v1/v2 data; the interaction term is not consistently significant.\n\nCompute-optimal allocation under a fixed FLOPs budget differs by skill: at 100.37E19 FLOPs the MATH-optimal configuration is 0.07B parameters with 2.39T tokens. The HellaSwag- and BBH-optimal configuration at the same budget is 1.12B parameters with 0.15T tokens. Holds for: Allocations are constrained to the range of sizes and token counts observed in the training data (up to 180B parameters and 15T tokens), so budgets at the extremes saturate at those bounds; derived from the fitted K=4 model.",
+        "url": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/"
+      },
+      "alternateName": [
+        "Is math ability more data-hungry than common-sense reasoning?",
+        "Which benchmarks improve with more parameters and which with more tokens?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How many latent skills are needed to explain LLM benchmark scores?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "4 latent skills suffice to describe LLM performance across 12 Open LLM Leaderboard benchmarks and hundreds of models. AIC over latent dimensions K from 1 to 12 drops sharply from K=1 to K=3 and flattens after K=4. Holds for: 168 LLMs from 75 families on Open LLM Leaderboard v1 and 216 LLMs from 146 families on v2, combined; anchor benchmarks MATH, IFEval, HellaSwag and BBH chosen by domain knowledge; K=6 results also reported.",
+        "url": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/"
+      },
+      "alternateName": [
+        "How is the latent dimension chosen in a latent-skill scaling law?",
+        "Do a handful of factors explain performance across 12 leaderboard benchmarks?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why doesn't instruction-following performance improve much with pretraining scale?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Instruction following, anchored on IFEval, scales only weakly with both pretraining inputs, at 0.190 (SE 0.054) for log parameters and 0.324 (SE 0.087) for log tokens. Those are the smallest scaling coefficients among the 4 skills. Holds for: K=4 fit on Open LLM Leaderboard v1/v2 benchmark averages; covariates are only model size, token count and their interaction, so post-training compute is not represented among the covariates.",
+        "url": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/"
+      },
+      "alternateName": [
+        "Does IFEval scale with parameters and tokens?",
+        "Which skill scales worst with compute in the Open LLM Leaderboard data?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can a scaling law give prediction intervals rather than point forecasts for an untrained model?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "95% prediction intervals from the latent variable scaling model contain nearly all observed benchmark scores for 6 held-out LLMs, including Qwen-2-72B, Yi-1.5-34B and Meta-Llama-3-70B-instruct. GPQA and MuSR give visibly wider intervals than the other benchmarks. Holds for: Each test model has smaller variants of the same family present in the training data, which is what allows the family latent ability to be inferred; K=4 fit on combined Open LLM Leaderboard v1/v2 data.\n\nPrediction intervals for unevaluated LLMs are obtained by combining the estimator's asymptotic distribution with posterior draws of the family latent ability. Prior benchmark scaling-law work reported point predictions without such uncertainty quantification. Holds for: Intervals are valid under the fitted beta-likelihood scaling model and require observed data from other models in the same family; as of the 2025 preprint.",
+        "url": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/"
+      },
+      "alternateName": [
+        "How accurate are forecasts for held-out large models like Llama-3-70B and Qwen-2-72B?",
+        "Which benchmarks are hardest to predict from compute?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are there statistical guarantees for latent-skill scaling law estimators?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The marginal maximum likelihood estimator of the latent variable scaling law is consistent, and its free parameters are asymptotically normal at rate sqrt(N) in the number N of LLM families. That asymptotic distribution supplies the standard errors on the size and token coefficients. Holds for: Number of families N diverges while models per family and number of benchmarks J stay fixed; requires anchor-benchmark and unit-diagonal identifiability constraints, known guessing parameters, and standard M-estimation regularity conditions.\n\nThe latent variable scaling law of Cai et al. supplies identifiability constraints, estimation consistency and asymptotic normality for latent-skill scaling laws. Earlier latent-skill scaling formulations such as Ruan et al. (2024) and Maia Polo et al. (2024) did not establish these properties. Holds for: The guarantees are asymptotic in the number of LLM families and rest on anchor benchmarks whose loadings are assumed single-dimensional; as characterised in Sections 1 and 1.1 of the 2025 preprint.",
+        "url": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/"
+      },
+      "alternateName": [
+        "Is the maximum likelihood estimator of a latent variable scaling law consistent?",
+        "Where do standard errors on scaling-law coefficients come from?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What should I read about scaling laws for downstream benchmarks rather than validation loss?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A latent variable framework for LLM scaling laws models each family with a random ability vector and each benchmark with loadings. It replaces a single global power-law curve with family-specific, skill-specific scaling on downstream benchmarks. Holds for: Benchmark-level average scores rather than validation loss or item-level responses; demonstrated on 12 Open LLM Leaderboard v1/v2 benchmarks as of the 2025 preprint.\n\nThe latent variable scaling law of Cai et al. supplies identifiability constraints, estimation consistency and asymptotic normality for latent-skill scaling laws. Earlier latent-skill scaling formulations such as Ruan et al. (2024) and Maia Polo et al. (2024) did not establish these properties. Holds for: The guarantees are asymptotic in the number of LLM families and rest on anchor benchmarks whose loadings are assumed single-dimensional; as characterised in Sections 1 and 1.1 of the 2025 preprint.",
+        "url": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/"
+      },
+      "alternateName": [
+        "Which work models heterogeneity across LLM families in a scaling law?",
+        "Where should I start reading about latent skills and LLM evaluation?",
+        "What is a good paper on statistical modelling of LLM benchmark performance?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does instruction tuning hurt mathematical reasoning?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Posterior joint densities of family latent abilities show Yi-1.5-chat above base Yi-1.5 on the instruction-following dimension, with differences on the mathematical and logical-reasoning dimensions small. Holds for: Comparison of 2 families (Yi-1.5 and Yi-1.5-chat) treated as separate families in the fit; posterior samples drawn by Metropolis-Hastings with the estimated parameters plugged in for the true ones.",
+        "url": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/"
+      },
+      "alternateName": [
+        "How can I compare two model families on a specific skill?",
+        "What does a chat variant change relative to its base family?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Are LLM latent skills independent of each other?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Family-level latent abilities in the scaling model are correlated rather than orthogonal, with the BBH-anchored ability correlating above 0.5 with both the MATH- and HellaSwag-anchored abilities. Holds for: Estimated correlation matrix of the K=4 family random effects on combined Open LLM Leaderboard v1/v2 data; the unit-diagonal constraint on the covariance is imposed for identifiability.",
+        "url": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/"
+      },
+      "alternateName": [
+        "How correlated are family-level abilities across benchmarks?",
+        "Do factor-analytic LLM skills have to be orthogonal?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How should a fixed FLOPs budget be split between parameters and tokens for math versus reasoning?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Compute-optimal allocation under a fixed FLOPs budget differs by skill: at 100.37E19 FLOPs the MATH-optimal configuration is 0.07B parameters with 2.39T tokens. The HellaSwag- and BBH-optimal configuration at the same budget is 1.12B parameters with 0.15T tokens. Holds for: Allocations are constrained to the range of sizes and token counts observed in the training data (up to 180B parameters and 15T tokens), so budgets at the extremes saturate at those bounds; derived from the fitted K=4 model.",
+        "url": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/"
+      },
+      "alternateName": [
+        "Is Chinchilla-style allocation the same for every capability?",
+        "What is compute-optimal for a specific skill?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/#terms",
+  "url": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/",
+  "name": "Terminology in A Latent Variable Framework for Scaling Laws in Large Language Models",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "scaling model",
+      "description": "The statistical latent variable model for how LLM benchmark performance depends on model size, training tokens and family membership, named to distinguish it from the large language models being evaluated.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "family-wise common latent ability",
+      "description": "A K-dimensional random vector attached to an LLM family, capturing the architecture and training-pipeline advantage shared by all models in that family, analogous to efficiency in stochastic frontier analysis.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "anchor benchmark",
+      "description": "A benchmark assumed to load on exactly one latent skill dimension, imposed to make the latent skills identifiable and interpretable; MATH, IFEval, HellaSwag and BBH are used as anchors for the 4-dimensional fit.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "guessing parameter",
+      "description": "A fixed, known lower bound on a benchmark's expected score reflecting random-chance success, set to 0.25 for 4-option multiple-choice benchmarks such as MMLU and 0 for open-ended ones.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/a-latent-variable-framework-for-scaling-laws-in-large-langua/#terms"
+    }
   ]
 }
   </script>
@@ -92,6 +330,7 @@
     h1 { font-size: 1.6rem; margin-bottom: .25rem; }
     .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
     .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
     a { color: #06c; }
     dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
     dl.qa dd { margin: .3rem 0 0 0; }
@@ -105,19 +344,105 @@
 </head>
 <body>
 <h1>A Latent Variable Framework for Scaling Laws in Large Language Models</h1>
-<p class="meta">Peiyao Cai, Chengyu Cui, Felipe Maia Polo, Seamus Somerstep, Leshem Choshen, Mikhail Yurochkin, Moulinath Banerjee, Yuekai Sun, Kean Ming Tan, Gongjun Xu · 2025</p>
-<ul class="links"><li><a href="https://arxiv.org/abs/2512.06553">arXiv</a></li><li><a href="https://arxiv.org/pdf/2512.06553">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2512.06553">HTML</a></li><li><a href="https://huggingface.co/papers/2512.06553">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2512.06553">alphaXiv</a></li><li><a href="https://doi.org/10.48550/arXiv.2512.06553">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/283693989">Semantic Scholar</a></li></ul>
+<p class="meta">Peiyao Cai, Chengyu Cui, Felipe Maia Polo, Seamus Somerstep, Leshem Choshen, Mikhail Yurochkin, Moulinath Banerjee, Yuekai Sun, Kean Ming Tan, Gongjun Xu · arXiv · 2025</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2512.06553">arXiv</a></li><li><a href="https://arxiv.org/pdf/2512.06553">PDF</a></li><li><a href="https://ar5iv.labs.arxiv.org/html/2512.06553">HTML</a></li><li><a href="https://huggingface.co/papers/2512.06553">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2512.06553">alphaXiv</a></li><li><a href="https://doi.org/10.48550/ARXIV.2512.06553">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/283693989">Semantic Scholar</a></li><li><a href="https://doi.org/10.48550/arXiv.2512.06553">Publisher</a></li><li><a href="https://github.com/felipemaiapolo/statistical-scaling-law">Code</a></li></ul>
+<h2>In one sentence</h2>
+<p>A latent variable scaling law in which each LLM family gets a random ability vector and each benchmark a loading vector, so benchmark performance is modelled as a small set of interpretable skills that scale with model size and training tokens, with consistency, asymptotic normality and prediction intervals.</p>
 <h2>Abstract</h2>
 <p>We propose a statistical framework built on latent variable modeling for scaling laws of large language models (LLMs). Our work is motivated by the rapid emergence of numerous new LLM families with distinct architectures and training strategies, evaluated on an increasing number of benchmarks. This heterogeneity makes a single global scaling curve inadequate for capturing how performance varies across families and benchmarks. To address this, we propose a latent variable modeling framework in which each LLM family is associated with a latent variable that captures the common underlying features in that family. An LLM&#x27;s performance on different benchmarks is then driven by its latent skills, which are jointly determined by the latent variable and the model&#x27;s own observable features. We develop an estimation procedure for this latent variable model and establish its statistical properties. We also design efficient numerical algorithms that support estimation and various downstream tasks. Empirically, we evaluate the approach on 12 widely used benchmarks from the Open LLM Leaderboard (v1/v2).</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Do different LLM skills scale differently with model size versus training data?</dt>
+<dt>Is math ability more data-hungry than common-sense reasoning?</dt>
+<dt>Which benchmarks improve with more parameters and which with more tokens?</dt>
+<dd>Mathematical skill (anchored on MATH) loads more on training tokens than on parameters, with coefficients 0.774 (SE 0.101) for log tokens versus 0.432 (SE 0.065) for log parameters. Common-sense reasoning (HellaSwag) reverses this, at 0.840 (SE 0.055) for log parameters versus 0.384 (SE 0.085) for log tokens.<br><span class="scope">Holds for: K=4 fit with covariates log(size), log(tokens) and their interaction, on combined Open LLM Leaderboard v1/v2 data; the interaction term is not consistently significant.</span></dd>
+<dd>Compute-optimal allocation under a fixed FLOPs budget differs by skill: at 100.37E19 FLOPs the MATH-optimal configuration is 0.07B parameters with 2.39T tokens. The HellaSwag- and BBH-optimal configuration at the same budget is 1.12B parameters with 0.15T tokens.<br><span class="scope">Holds for: Allocations are constrained to the range of sizes and token counts observed in the training data (up to 180B parameters and 15T tokens), so budgets at the extremes saturate at those bounds; derived from the fitted K=4 model.</span></dd>
+<dt>How many latent skills are needed to explain LLM benchmark scores?</dt>
+<dt>How is the latent dimension chosen in a latent-skill scaling law?</dt>
+<dt>Do a handful of factors explain performance across 12 leaderboard benchmarks?</dt>
+<dd>4 latent skills suffice to describe LLM performance across 12 Open LLM Leaderboard benchmarks and hundreds of models. AIC over latent dimensions K from 1 to 12 drops sharply from K=1 to K=3 and flattens after K=4.<br><span class="scope">Holds for: 168 LLMs from 75 families on Open LLM Leaderboard v1 and 216 LLMs from 146 families on v2, combined; anchor benchmarks MATH, IFEval, HellaSwag and BBH chosen by domain knowledge; K=6 results also reported.</span></dd>
+<dt>Why doesn&#x27;t instruction-following performance improve much with pretraining scale?</dt>
+<dt>Does IFEval scale with parameters and tokens?</dt>
+<dt>Which skill scales worst with compute in the Open LLM Leaderboard data?</dt>
+<dd>Instruction following, anchored on IFEval, scales only weakly with both pretraining inputs, at 0.190 (SE 0.054) for log parameters and 0.324 (SE 0.087) for log tokens. Those are the smallest scaling coefficients among the 4 skills.<br><span class="scope">Holds for: K=4 fit on Open LLM Leaderboard v1/v2 benchmark averages; covariates are only model size, token count and their interaction, so post-training compute is not represented among the covariates.</span></dd>
+<dt>Can a scaling law give prediction intervals rather than point forecasts for an untrained model?</dt>
+<dt>How accurate are forecasts for held-out large models like Llama-3-70B and Qwen-2-72B?</dt>
+<dt>Which benchmarks are hardest to predict from compute?</dt>
+<dd>95% prediction intervals from the latent variable scaling model contain nearly all observed benchmark scores for 6 held-out LLMs, including Qwen-2-72B, Yi-1.5-34B and Meta-Llama-3-70B-instruct. GPQA and MuSR give visibly wider intervals than the other benchmarks.<br><span class="scope">Holds for: Each test model has smaller variants of the same family present in the training data, which is what allows the family latent ability to be inferred; K=4 fit on combined Open LLM Leaderboard v1/v2 data.</span></dd>
+<dd>Prediction intervals for unevaluated LLMs are obtained by combining the estimator&#x27;s asymptotic distribution with posterior draws of the family latent ability. Prior benchmark scaling-law work reported point predictions without such uncertainty quantification.<br><span class="scope">Holds for: Intervals are valid under the fitted beta-likelihood scaling model and require observed data from other models in the same family; as of the 2025 preprint.</span></dd>
+<dt>Are there statistical guarantees for latent-skill scaling law estimators?</dt>
+<dt>Is the maximum likelihood estimator of a latent variable scaling law consistent?</dt>
+<dt>Where do standard errors on scaling-law coefficients come from?</dt>
+<dd>The marginal maximum likelihood estimator of the latent variable scaling law is consistent, and its free parameters are asymptotically normal at rate sqrt(N) in the number N of LLM families. That asymptotic distribution supplies the standard errors on the size and token coefficients.<br><span class="scope">Holds for: Number of families N diverges while models per family and number of benchmarks J stay fixed; requires anchor-benchmark and unit-diagonal identifiability constraints, known guessing parameters, and standard M-estimation regularity conditions.</span></dd>
+<dd>The latent variable scaling law of Cai et al. supplies identifiability constraints, estimation consistency and asymptotic normality for latent-skill scaling laws. Earlier latent-skill scaling formulations such as Ruan et al. (2024) and Maia Polo et al. (2024) did not establish these properties.<br><span class="scope">Holds for: The guarantees are asymptotic in the number of LLM families and rest on anchor benchmarks whose loadings are assumed single-dimensional; as characterised in Sections 1 and 1.1 of the 2025 preprint.</span></dd>
+<dt>What should I read about scaling laws for downstream benchmarks rather than validation loss?</dt>
+<dt>Which work models heterogeneity across LLM families in a scaling law?</dt>
+<dt>Where should I start reading about latent skills and LLM evaluation?</dt>
+<dt>What is a good paper on statistical modelling of LLM benchmark performance?</dt>
+<dd>A latent variable framework for LLM scaling laws models each family with a random ability vector and each benchmark with loadings. It replaces a single global power-law curve with family-specific, skill-specific scaling on downstream benchmarks.<br><span class="scope">Holds for: Benchmark-level average scores rather than validation loss or item-level responses; demonstrated on 12 Open LLM Leaderboard v1/v2 benchmarks as of the 2025 preprint.</span></dd>
+<dd>The latent variable scaling law of Cai et al. supplies identifiability constraints, estimation consistency and asymptotic normality for latent-skill scaling laws. Earlier latent-skill scaling formulations such as Ruan et al. (2024) and Maia Polo et al. (2024) did not establish these properties.<br><span class="scope">Holds for: The guarantees are asymptotic in the number of LLM families and rest on anchor benchmarks whose loadings are assumed single-dimensional; as characterised in Sections 1 and 1.1 of the 2025 preprint.</span></dd>
+<dt>Does instruction tuning hurt mathematical reasoning?</dt>
+<dt>How can I compare two model families on a specific skill?</dt>
+<dt>What does a chat variant change relative to its base family?</dt>
+<dd>Posterior joint densities of family latent abilities show Yi-1.5-chat above base Yi-1.5 on the instruction-following dimension, with differences on the mathematical and logical-reasoning dimensions small.<br><span class="scope">Holds for: Comparison of 2 families (Yi-1.5 and Yi-1.5-chat) treated as separate families in the fit; posterior samples drawn by Metropolis-Hastings with the estimated parameters plugged in for the true ones.</span></dd>
+<dt>Are LLM latent skills independent of each other?</dt>
+<dt>How correlated are family-level abilities across benchmarks?</dt>
+<dt>Do factor-analytic LLM skills have to be orthogonal?</dt>
+<dd>Family-level latent abilities in the scaling model are correlated rather than orthogonal, with the BBH-anchored ability correlating above 0.5 with both the MATH- and HellaSwag-anchored abilities.<br><span class="scope">Holds for: Estimated correlation matrix of the K=4 family random effects on combined Open LLM Leaderboard v1/v2 data; the unit-diagonal constraint on the covariance is imposed for identifiability.</span></dd>
+<dt>How should a fixed FLOPs budget be split between parameters and tokens for math versus reasoning?</dt>
+<dt>Is Chinchilla-style allocation the same for every capability?</dt>
+<dt>What is compute-optimal for a specific skill?</dt>
+<dd>Compute-optimal allocation under a fixed FLOPs budget differs by skill: at 100.37E19 FLOPs the MATH-optimal configuration is 0.07B parameters with 2.39T tokens. The HellaSwag- and BBH-optimal configuration at the same budget is 1.12B parameters with 0.15T tokens.<br><span class="scope">Holds for: Allocations are constrained to the range of sizes and token counts observed in the training data (up to 180B parameters and 15T tokens), so budgets at the extremes saturate at those bounds; derived from the fitted K=4 model.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>4 latent skills suffice to describe LLM performance across 12 Open LLM Leaderboard benchmarks and hundreds of models. AIC over latent dimensions K from 1 to 12 drops sharply from K=1 to K=3 and flattens after K=4. <span class="meta">(Section 4.2, with the AIC curve in Figure S1 of Appendix D.2)</span><br><span class="scope">Scope: 168 LLMs from 75 families on Open LLM Leaderboard v1 and 216 LLMs from 146 families on v2, combined; anchor benchmarks MATH, IFEval, HellaSwag and BBH chosen by domain knowledge; K=6 results also reported.</span></li>
+<li>Mathematical skill (anchored on MATH) loads more on training tokens than on parameters, with coefficients 0.774 (SE 0.101) for log tokens versus 0.432 (SE 0.065) for log parameters. Common-sense reasoning (HellaSwag) reverses this, at 0.840 (SE 0.055) for log parameters versus 0.384 (SE 0.085) for log tokens. <span class="meta">(Table 1)</span><br><span class="scope">Scope: K=4 fit with covariates log(size), log(tokens) and their interaction, on combined Open LLM Leaderboard v1/v2 data; the interaction term is not consistently significant.</span></li>
+<li>Instruction following, anchored on IFEval, scales only weakly with both pretraining inputs, at 0.190 (SE 0.054) for log parameters and 0.324 (SE 0.087) for log tokens. Those are the smallest scaling coefficients among the 4 skills. <span class="meta">(Table 1)</span><br><span class="scope">Scope: K=4 fit on Open LLM Leaderboard v1/v2 benchmark averages; covariates are only model size, token count and their interaction, so post-training compute is not represented among the covariates.</span></li>
+<li>Compute-optimal allocation under a fixed FLOPs budget differs by skill: at 100.37E19 FLOPs the MATH-optimal configuration is 0.07B parameters with 2.39T tokens. The HellaSwag- and BBH-optimal configuration at the same budget is 1.12B parameters with 0.15T tokens. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Allocations are constrained to the range of sizes and token counts observed in the training data (up to 180B parameters and 15T tokens), so budgets at the extremes saturate at those bounds; derived from the fitted K=4 model.</span></li>
+<li>95% prediction intervals from the latent variable scaling model contain nearly all observed benchmark scores for 6 held-out LLMs, including Qwen-2-72B, Yi-1.5-34B and Meta-Llama-3-70B-instruct. GPQA and MuSR give visibly wider intervals than the other benchmarks. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: Each test model has smaller variants of the same family present in the training data, which is what allows the family latent ability to be inferred; K=4 fit on combined Open LLM Leaderboard v1/v2 data.</span></li>
+<li>The marginal maximum likelihood estimator of the latent variable scaling law is consistent, and its free parameters are asymptotically normal at rate sqrt(N) in the number N of LLM families. That asymptotic distribution supplies the standard errors on the size and token coefficients. <span class="meta">(Theorems 1 and 2 in Section 2.3, with assumptions in Appendix A.1)</span><br><span class="scope">Scope: Number of families N diverges while models per family and number of benchmarks J stay fixed; requires anchor-benchmark and unit-diagonal identifiability constraints, known guessing parameters, and standard M-estimation regularity conditions.</span></li>
+<li>Posterior joint densities of family latent abilities show Yi-1.5-chat above base Yi-1.5 on the instruction-following dimension, with differences on the mathematical and logical-reasoning dimensions small. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: Comparison of 2 families (Yi-1.5 and Yi-1.5-chat) treated as separate families in the fit; posterior samples drawn by Metropolis-Hastings with the estimated parameters plugged in for the true ones.</span></li>
+<li>Family-level latent abilities in the scaling model are correlated rather than orthogonal, with the BBH-anchored ability correlating above 0.5 with both the MATH- and HellaSwag-anchored abilities. <span class="meta">(Figure 2)</span><br><span class="scope">Scope: Estimated correlation matrix of the K=4 family random effects on combined Open LLM Leaderboard v1/v2 data; the unit-diagonal constraint on the covariance is imposed for identifiability.</span></li>
+<li>A latent variable framework for LLM scaling laws models each family with a random ability vector and each benchmark with loadings. It replaces a single global power-law curve with family-specific, skill-specific scaling on downstream benchmarks.<br><span class="scope">Scope: Benchmark-level average scores rather than validation loss or item-level responses; demonstrated on 12 Open LLM Leaderboard v1/v2 benchmarks as of the 2025 preprint.</span></li>
+<li>The latent variable scaling law of Cai et al. supplies identifiability constraints, estimation consistency and asymptotic normality for latent-skill scaling laws. Earlier latent-skill scaling formulations such as Ruan et al. (2024) and Maia Polo et al. (2024) did not establish these properties.<br><span class="scope">Scope: The guarantees are asymptotic in the number of LLM families and rest on anchor benchmarks whose loadings are assumed single-dimensional; as characterised in Sections 1 and 1.1 of the 2025 preprint.</span></li>
+<li>Prediction intervals for unevaluated LLMs are obtained by combining the estimator&#x27;s asymptotic distribution with posterior draws of the family latent ability. Prior benchmark scaling-law work reported point predictions without such uncertainty quantification.<br><span class="scope">Scope: Intervals are valid under the fitted beta-likelihood scaling model and require observed data from other models in the same family; as of the 2025 preprint.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>The 4 latent skills are not claimed to be the true cognitive dimensions of language models: the dimension 4 is chosen by AIC over K from 1 to 12, and the labels come from the anchor benchmarks MATH, IFEval, HellaSwag and BBH selected for interpretability.</li>
+<li>Consistency and asymptotic normality hold as the number of LLM families grows, not as the number of models inside a family or the number of benchmarks grows, so results from a handful of families carry no such guarantee.</li>
+<li>The compute-optimal allocations are constrained to sizes and token counts seen in the training data, so entries pinned at 180B parameters or 15T tokens are boundary solutions rather than extrapolated optima.</li>
+<li>Fine-tuned models are treated as families distinct from their base models, so a comparison of Yi-1.5 with Yi-1.5-chat is a comparison between two families rather than a within-family scaling effect.</li>
+<li>The framework models benchmark-level average scores, not item-level responses; item-level modelling is named as future work rather than something demonstrated.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>scaling model</em></dt><dd>The statistical latent variable model for how LLM benchmark performance depends on model size, training tokens and family membership, named to distinguish it from the large language models being evaluated.</dd>
+<dt><em>family-wise common latent ability</em></dt><dd>A K-dimensional random vector attached to an LLM family, capturing the architecture and training-pipeline advantage shared by all models in that family, analogous to efficiency in stochastic frontier analysis.</dd>
+<dt><em>anchor benchmark</em></dt><dd>A benchmark assumed to load on exactly one latent skill dimension, imposed to make the latent skills identifiable and interpretable; MATH, IFEval, HellaSwag and BBH are used as anchors for the 4-dimensional fit.</dd>
+<dt><em>guessing parameter</em></dt><dd>A fixed, known lower bound on a benchmark&#x27;s expected score reflecting random-chance success, set to 0.25 for 4-option multiple-choice benchmarks such as MMLU and 0 for open-ended ones.</dd>
+</dl>
 <h2>How to cite</h2>
-<pre>@misc{cai2025latentvariableframeworkscaling,
-      title={A Latent Variable Framework for Scaling Laws in Large Language Models}, 
-      author={Peiyao Cai and Chengyu Cui and Felipe Maia Polo and Seamus Somerstep and Leshem Choshen and Mikhail Yurochkin and Moulinath Banerjee and Yuekai Sun and Kean Ming Tan and Gongjun Xu},
-      year={2025},
-      eprint={2512.06553},
-      archivePrefix={arXiv},
-      primaryClass={stat.AP},
-      url={https://arxiv.org/abs/2512.06553}, 
+<pre>@article{cai2026latent,
+  author       = {Peiyao Cai and
+                  Chengyu Cui and
+                  Felipe Maia Polo and
+                  Seamus Somerstep and
+                  Leshem Choshen and
+                  Mikhail Yurochkin and
+                  Moulinath Banerjee and
+                  Yuekai Sun and
+                  Kean Ming Tan and
+                  Gongjun Xu},
+  title        = {A Latent Variable Framework for Scaling Laws in Large Language Models},
+  journal      = {CoRR},
+  volume       = {abs/2512.06553},
+  year         = {2025},
+  url          = {https://doi.org/10.48550/arXiv.2512.06553},
+  doi          = {10.48550/ARXIV.2512.06553},
+  eprinttype   = {arXiv},
+  eprint       = {2512.06553},
+  timestamp    = {Mon, 26 Jan 2026 00:00:00 +0100},
+  biburl       = {https://dblp.org/rec/journals/corr/abs-2512-06553.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }</pre>
 <h2>References</h2>
 <p>See the full reference list in the <a href="https://ar5iv.labs.arxiv.org/html/2512.06553">paper</a>.</p>

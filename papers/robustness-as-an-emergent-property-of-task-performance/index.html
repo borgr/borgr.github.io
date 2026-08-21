@@ -111,7 +111,7 @@
     },
     {
       "@type": "Thing",
-      "name": "The study covers 9 open-weight models from 6 model families evaluated on 100 examples from each of 6 datasets under 24 configurations, totalling 14,400 inferences per model and 129,600 inferences overall.",
+      "name": "Robustness is measured over 9 open-weight models from 6 model families, 100 examples from each of 6 datasets and 24 inference configurations, totalling 14,400 inferences per model and 129,600 overall.",
       "description": "Holds for: Open-weight models only; no closed-source models were evaluated because of cost, and all tasks are classification scored by exact match."
     },
     {
@@ -132,7 +132,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Does higher benchmark accuracy make an LLM more consistent under prompt variations?",
+      "name": "if a language model scores very high on a task, does it also give the same answer when the prompt is worded differently?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -140,13 +140,14 @@
         "url": "https://borgr.github.io/papers/robustness-as-an-emergent-property-of-task-performance/"
       },
       "alternateName": [
-        "How strongly is LLM robustness correlated with task performance?",
-        "Is prompt sensitivity just a symptom of low accuracy?"
+        "how much of the variance in output-consistency robustness across prompt perturbations is explained by benchmark accuracy?",
+        "how do I predict whether a model will be prompt-stable on a task without running a full perturbation sweep?",
+        "can I use my model's accuracy on a task as a proxy for how sensitive it will be to prompt wording?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is high consistency on an easy benchmark just an artifact of high accuracy?",
+      "name": "when a model is right almost every time, isn't matching answers across reworded prompts just luck?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -154,13 +155,14 @@
         "url": "https://borgr.github.io/papers/robustness-as-an-emergent-property-of-task-performance/"
       },
       "alternateName": [
-        "How is trivial robustness from high success rates ruled out when comparing consistency to accuracy?",
-        "What random baseline is used for output consistency across prompt variations?"
+        "what matched random baseline rules out chance agreement when comparing strict output consistency to accuracy?",
+        "how do I check that consistency across prompt variants is more than what a per-configuration success rate alone would produce?",
+        "should I believe reported prompt-consistency numbers on a saturated benchmark like IMDB, or is the high accuracy doing all the work?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are some language models inherently more robust than others?",
+      "name": "are some language models just naturally steadier under different prompt wordings than others, regardless of how well they do the task?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -168,13 +170,14 @@
         "url": "https://borgr.github.io/papers/robustness-as-an-emergent-property-of-task-performance/"
       },
       "alternateName": [
-        "Does LLM output consistency depend on which model is used or on how well it performs the task?",
-        "Do bigger models in the same family show better prompt consistency at equal accuracy?"
+        "how much does model identity contribute to output consistency once task performance is controlled for?",
+        "how do I decide whether to switch model families or improve task accuracy to get more stable answers?",
+        "if I pick a bigger model from the same family at similar accuracy, will my answers get more consistent across prompt variants?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Should researchers keep building dedicated robustness benchmarks for LLMs?",
+      "name": "is it worth building separate tests just for how sensitive language models are to prompt wording?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -182,13 +185,14 @@
         "url": "https://borgr.github.io/papers/robustness-as-an-emergent-property-of-task-performance/"
       },
       "alternateName": [
-        "What is a good paper arguing robustness will emerge as benchmarks saturate?",
-        "Where should I start reading on the relationship between benchmark saturation and LLM reliability?"
+        "what work argues that LLM robustness is a concomitant of task competence rather than a separate capability to benchmark?",
+        "where should I start reading before designing a robustness evaluation for language models?",
+        "should I invest in a dedicated prompt-robustness benchmark, or expect robustness to arrive as accuracy climbs?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can I use benchmark accuracy as a signal that a model is ready for deployment?",
+      "name": "which kinds of tasks can a language model actually be trusted on for important decisions?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -196,27 +200,28 @@
         "url": "https://borgr.github.io/papers/robustness-as-an-emergent-property-of-task-performance/"
       },
       "alternateName": [
-        "Which tasks are LLMs actually reliable on for high-stakes use?",
-        "Does strong performance on a task predict stable behavior in production?"
+        "can very high benchmark accuracy serve as an empirical indicator of stable behaviour under prompt variation in deployment?",
+        "how do I choose which tasks to hand a language model in a sensitive application?",
+        "my use case is high-stakes -- should I pick a task where models are already near-saturated rather than a frontier benchmark?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How many models, datasets and prompt configurations were tested?",
+      "name": "how many models, datasets and prompt setups went into the comparison of accuracy against answer consistency?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The study covers 9 open-weight models from 6 model families evaluated on 100 examples from each of 6 datasets under 24 configurations, totalling 14,400 inferences per model and 129,600 inferences overall. Holds for: Open-weight models only; no closed-source models were evaluated because of cost, and all tasks are classification scored by exact match.\n\nAn ANOVA over number of demonstrations, prompt variation, template and temperature finds roughly 70% of p-values non-significant. Effect sizes stay below 0.005 even where prompt variation and demonstration count are significant on RewardBench, MMLU and MMLU-Pro. Holds for: Type II and Type III ANOVA on performance (not on the robustness metric itself) across the 6 datasets and the 4 configuration factors used in the study; effect sizes are partial eta-squared.",
+        "text": "Robustness is measured over 9 open-weight models from 6 model families, 100 examples from each of 6 datasets and 24 inference configurations, totalling 14,400 inferences per model and 129,600 overall. Holds for: Open-weight models only; no closed-source models were evaluated because of cost, and all tasks are classification scored by exact match.\n\nAn ANOVA over number of demonstrations, prompt variation, template and temperature finds roughly 70% of p-values non-significant. Effect sizes stay below 0.005 even where prompt variation and demonstration count are significant on RewardBench, MMLU and MMLU-Pro. Holds for: Type II and Type III ANOVA on performance (not on the robustness metric itself) across the 6 datasets and the 4 configuration factors used in the study; effect sizes are partial eta-squared.",
         "url": "https://borgr.github.io/papers/robustness-as-an-emergent-property-of-task-performance/"
       },
       "alternateName": [
-        "What is the experimental scale of the robustness-versus-performance analysis?",
-        "Which benchmarks and perturbations were used to measure output consistency?"
+        "what is the inference budget and configuration grid used to measure output consistency across models and benchmarks?",
+        "how do I size a sweep of models, datasets and inference configurations to measure prompt robustness?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do the conclusions depend on which robustness metric is used?",
+      "name": "does the link between accuracy and answer consistency still show up if consistency is measured a different way?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -224,13 +229,14 @@
         "url": "https://borgr.github.io/papers/robustness-as-an-emergent-property-of-task-performance/"
       },
       "alternateName": [
-        "Does performance drop rate show the same trend as strict output consistency?",
-        "Are score-based and output-based robustness measures consistent with each other?"
+        "does average performance drop rate reproduce the dataset ordering obtained under strict output consistency?",
+        "how do I check my robustness conclusions are not an artefact of the consistency metric I chose?",
+        "which robustness metric should I report -- strict output agreement or a score-based drop rate?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do choices like number of few-shot demonstrations or temperature drive the reported results?",
+      "name": "do things like how many examples you show the model or the temperature setting change measured accuracy much?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -238,13 +244,14 @@
         "url": "https://borgr.github.io/papers/robustness-as-an-emergent-property-of-task-performance/"
       },
       "alternateName": [
-        "Was a statistical test run on whether configuration parameters affect accuracy?",
-        "How much does prompt variation change measured performance on MMLU or RewardBench?"
+        "what effect sizes does an ANOVA over demonstration count, prompt variation, template and temperature yield on benchmark scores?",
+        "how do I tell whether few-shot count, template choice or temperature is worth tuning for accuracy on MMLU or RewardBench?",
+        "should I spend time tuning prompt template and temperature, or will it barely move my benchmark score?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are the accuracy numbers in this robustness study consistent with published leaderboards?",
+      "name": "do the accuracy numbers reported for models like Llama 4 and gpt-oss in a prompt-consistency study match what is published elsewhere?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -252,13 +259,13 @@
         "url": "https://borgr.github.io/papers/robustness-as-an-emergent-property-of-task-performance/"
       },
       "alternateName": [
-        "How were the measured MMLU-Pro and GPQA scores sanity-checked?",
-        "Do the reported model scores match HELM and model cards?"
+        "how were measured MMLU-Pro scores validated against the HELM capabilities leaderboard?",
+        "can I trust the model scores in a robustness study that re-ran the benchmarks itself?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Could benchmark contamination explain the high consistency across prompt variants?",
+      "name": "could models having seen the benchmark data during training explain why they answer reworded prompts the same way?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -266,7 +273,8 @@
         "url": "https://borgr.github.io/papers/robustness-as-an-emergent-property-of-task-performance/"
       },
       "alternateName": [
-        "How is data contamination addressed in the performance-robustness analysis?"
+        "does benchmark contamination account for the observed output consistency across prompt configurations?",
+        "should I discount high prompt-consistency results on public benchmarks as a contamination effect?"
       ]
     }
   ]
@@ -345,51 +353,59 @@
 <p>Robustness is often regarded as a critical future challenge for real-world applications, where stability is essential. However, as models often learn tasks in a similar order, we hypothesize that easier tasks will be easier regardless of how they are presented to the model. Indeed, in this paper, we show that as models approach high performance on a task, robustness is effectively achieved. Through an empirical analysis of multiple models across diverse datasets and configurations (e.g., paraphrases, different temperatures), we find a strong positive correlation. Moreover, we find that robustness is primarily driven by task-specific competence rather than inherent model-level properties, challenging current approaches that treat robustness as an independent capability. Thus, from a high-level perspective, we may expect that as new tasks saturate, model robustness on these tasks will emerge accordingly. For researchers, this implies that explicit efforts to measure and improve robustness may warrant reduced emphasis, as such robustness is likely to develop alongside performance gains. For practitioners, it acts as a sign that indeed the tasks that the literature deals with are unreliable, but on easier past tasks, the models are reliable and ready for real-world deployment.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Does higher benchmark accuracy make an LLM more consistent under prompt variations?</dt>
-<dt>How strongly is LLM robustness correlated with task performance?</dt>
-<dt>Is prompt sensitivity just a symptom of low accuracy?</dt>
+<dt>if a language model scores very high on a task, does it also give the same answer when the prompt is worded differently?</dt>
+<dt>how much of the variance in output-consistency robustness across prompt perturbations is explained by benchmark accuracy?</dt>
+<dt>how do I predict whether a model will be prompt-stable on a task without running a full perturbation sweep?</dt>
+<dt>can I use my model&#x27;s accuracy on a task as a proxy for how sensitive it will be to prompt wording?</dt>
 <dd>In a linear regression of output-consistency robustness on benchmark performance across 9 open-weight LLMs and 6 classification datasets, performance explains 92.4% of the variance in robustness, with a slope of 1.05.<br><span class="scope">Holds for: 9 open-weight models on IMDB, BoolQ, MMLU, MMLU-Pro, RewardBench and GPQA; 100 examples per dataset under 24 configurations; exact-match classification only.</span></dd>
 <dd>On IMDB, where all 9 evaluated models score between 95% and 97% accuracy, strict output consistency across 24 configurations ranges from 81% to 94%. A random baseline with the same per-configuration success rate reaches only 33% to 54%.<br><span class="scope">Holds for: IMDB sentiment classification with 100 sampled examples; robustness defined as identical predictions across all 24 configurations; the random baseline assumes independent per-configuration success at the model&#x27;s overall accuracy.</span></dd>
-<dt>Is high consistency on an easy benchmark just an artifact of high accuracy?</dt>
-<dt>How is trivial robustness from high success rates ruled out when comparing consistency to accuracy?</dt>
-<dt>What random baseline is used for output consistency across prompt variations?</dt>
+<dt>when a model is right almost every time, isn&#x27;t matching answers across reworded prompts just luck?</dt>
+<dt>what matched random baseline rules out chance agreement when comparing strict output consistency to accuracy?</dt>
+<dt>how do I check that consistency across prompt variants is more than what a per-configuration success rate alone would produce?</dt>
+<dt>should I believe reported prompt-consistency numbers on a saturated benchmark like IMDB, or is the high accuracy doing all the work?</dt>
 <dd>Measured robustness exceeds the matched random baseline on all 6 benchmarks, by an average of 43.4% on IMDB and 62.9% on BoolQ, with llama-4-Scout-17B-Instruct on BoolQ exceeding the baseline by 70.4%.<br><span class="scope">Holds for: 6 classification benchmarks, 9 open-weight models, 24 configurations; on MMLU, RewardBench, MMLU-Pro and GPQA the random baseline is 0, as performance is below roughly 80%.</span></dd>
 <dd>On IMDB, where all 9 evaluated models score between 95% and 97% accuracy, strict output consistency across 24 configurations ranges from 81% to 94%. A random baseline with the same per-configuration success rate reaches only 33% to 54%.<br><span class="scope">Holds for: IMDB sentiment classification with 100 sampled examples; robustness defined as identical predictions across all 24 configurations; the random baseline assumes independent per-configuration success at the model&#x27;s overall accuracy.</span></dd>
-<dt>Are some language models inherently more robust than others?</dt>
-<dt>Does LLM output consistency depend on which model is used or on how well it performs the task?</dt>
-<dt>Do bigger models in the same family show better prompt consistency at equal accuracy?</dt>
+<dt>are some language models just naturally steadier under different prompt wordings than others, regardless of how well they do the task?</dt>
+<dt>how much does model identity contribute to output consistency once task performance is controlled for?</dt>
+<dt>how do I decide whether to switch model families or improve task accuracy to get more stable answers?</dt>
+<dt>if I pick a bigger model from the same family at similar accuracy, will my answers get more consistent across prompt variants?</dt>
 <dd>Model identity contributes less to output consistency than task performance does, though it is not negligible. On BoolQ a 1-point performance difference between gpt-oss-120b and gpt-oss-20b coincides with 78% versus 56% robustness, and on MMLU a 6-point performance gap coincides with a 40% robustness difference.<br><span class="scope">Holds for: Comparison within the gpt-oss family on BoolQ and MMLU; supported more broadly by per-example STD distributions being similar across models within a benchmark (Appendix C.2). Does not rule out larger model-level effects outside the 9 evaluated open-weight models.</span></dd>
 <dd>Ashury-Tahan et al. argue that LLM robustness should be treated as a concomitant of task competence rather than as an independent capability measured and improved in isolation. Robustness on a task is then expected to emerge as that task saturates.<br><span class="scope">Holds for: A position argued from correlational evidence on classification benchmarks with open-weight models as of early 2026; the paper shows association between performance and consistency, not a causal or training-time intervention.</span></dd>
-<dt>Should researchers keep building dedicated robustness benchmarks for LLMs?</dt>
-<dt>What is a good paper arguing robustness will emerge as benchmarks saturate?</dt>
-<dt>Where should I start reading on the relationship between benchmark saturation and LLM reliability?</dt>
+<dt>is it worth building separate tests just for how sensitive language models are to prompt wording?</dt>
+<dt>what work argues that LLM robustness is a concomitant of task competence rather than a separate capability to benchmark?</dt>
+<dt>where should I start reading before designing a robustness evaluation for language models?</dt>
+<dt>should I invest in a dedicated prompt-robustness benchmark, or expect robustness to arrive as accuracy climbs?</dt>
 <dd>Ashury-Tahan et al. argue that LLM robustness should be treated as a concomitant of task competence rather than as an independent capability measured and improved in isolation. Robustness on a task is then expected to emerge as that task saturates.<br><span class="scope">Holds for: A position argued from correlational evidence on classification benchmarks with open-weight models as of early 2026; the paper shows association between performance and consistency, not a causal or training-time intervention.</span></dd>
 <dd>In a linear regression of output-consistency robustness on benchmark performance across 9 open-weight LLMs and 6 classification datasets, performance explains 92.4% of the variance in robustness, with a slope of 1.05.<br><span class="scope">Holds for: 9 open-weight models on IMDB, BoolQ, MMLU, MMLU-Pro, RewardBench and GPQA; 100 examples per dataset under 24 configurations; exact-match classification only.</span></dd>
-<dt>Can I use benchmark accuracy as a signal that a model is ready for deployment?</dt>
-<dt>Which tasks are LLMs actually reliable on for high-stakes use?</dt>
-<dt>Does strong performance on a task predict stable behavior in production?</dt>
+<dt>which kinds of tasks can a language model actually be trusted on for important decisions?</dt>
+<dt>can very high benchmark accuracy serve as an empirical indicator of stable behaviour under prompt variation in deployment?</dt>
+<dt>how do I choose which tasks to hand a language model in a sensitive application?</dt>
+<dt>my use case is high-stakes -- should I pick a task where models are already near-saturated rather than a frontier benchmark?</dt>
 <dd>Ashury-Tahan et al. propose very high benchmark accuracy on a task as an empirical indicator that a model will answer that task consistently under prompt variations. Older, already-saturated tasks are therefore the reliable ones for sensitive deployment, not current frontier benchmarks.<br><span class="scope">Holds for: A practical implication drawn from classification benchmarks and 24 inference configurations; it concerns consistency of outputs, not factual correctness, safety or calibration, and was not validated on deployed applications.</span></dd>
 <dd>On IMDB, where all 9 evaluated models score between 95% and 97% accuracy, strict output consistency across 24 configurations ranges from 81% to 94%. A random baseline with the same per-configuration success rate reaches only 33% to 54%.<br><span class="scope">Holds for: IMDB sentiment classification with 100 sampled examples; robustness defined as identical predictions across all 24 configurations; the random baseline assumes independent per-configuration success at the model&#x27;s overall accuracy.</span></dd>
-<dt>How many models, datasets and prompt configurations were tested?</dt>
-<dt>What is the experimental scale of the robustness-versus-performance analysis?</dt>
-<dt>Which benchmarks and perturbations were used to measure output consistency?</dt>
-<dd>The study covers 9 open-weight models from 6 model families evaluated on 100 examples from each of 6 datasets under 24 configurations, totalling 14,400 inferences per model and 129,600 inferences overall.<br><span class="scope">Holds for: Open-weight models only; no closed-source models were evaluated because of cost, and all tasks are classification scored by exact match.</span></dd>
+<dt>how many models, datasets and prompt setups went into the comparison of accuracy against answer consistency?</dt>
+<dt>what is the inference budget and configuration grid used to measure output consistency across models and benchmarks?</dt>
+<dt>how do I size a sweep of models, datasets and inference configurations to measure prompt robustness?</dt>
+<dd>Robustness is measured over 9 open-weight models from 6 model families, 100 examples from each of 6 datasets and 24 inference configurations, totalling 14,400 inferences per model and 129,600 overall.<br><span class="scope">Holds for: Open-weight models only; no closed-source models were evaluated because of cost, and all tasks are classification scored by exact match.</span></dd>
 <dd>An ANOVA over number of demonstrations, prompt variation, template and temperature finds roughly 70% of p-values non-significant. Effect sizes stay below 0.005 even where prompt variation and demonstration count are significant on RewardBench, MMLU and MMLU-Pro.<br><span class="scope">Holds for: Type II and Type III ANOVA on performance (not on the robustness metric itself) across the 6 datasets and the 4 configuration factors used in the study; effect sizes are partial eta-squared.</span></dd>
-<dt>Do the conclusions depend on which robustness metric is used?</dt>
-<dt>Does performance drop rate show the same trend as strict output consistency?</dt>
-<dt>Are score-based and output-based robustness measures consistent with each other?</dt>
+<dt>does the link between accuracy and answer consistency still show up if consistency is measured a different way?</dt>
+<dt>does average performance drop rate reproduce the dataset ordering obtained under strict output consistency?</dt>
+<dt>how do I check my robustness conclusions are not an artefact of the consistency metric I chose?</dt>
+<dt>which robustness metric should I report -- strict output agreement or a score-based drop rate?</dt>
 <dd>The performance-robustness relationship holds under two score-based robustness metrics as well as strict output consistency: average performance drop rate reproduces the same dataset ordering, with GPQA least robust and IMDB most robust.<br><span class="scope">Holds for: Output consistency, per-example score standard deviation and performance drop rate on the same 9 models and 6 datasets; all metrics are computed over the same 24 configurations.</span></dd>
 <dd>As model performance rises, the per-example score-standard-deviation distribution becomes increasingly long-tailed, with most examples perfectly consistent and a small subset carrying the variability, whereas lower-robustness settings give flatter distributions.<br><span class="scope">Holds for: Per-example STD distributions computed separately per model and dataset over 24 configurations, counting only consistently-correct cases as success consistency; consistent failure with differing wrong answers is distinguished and not counted as robust.</span></dd>
-<dt>Do choices like number of few-shot demonstrations or temperature drive the reported results?</dt>
-<dt>Was a statistical test run on whether configuration parameters affect accuracy?</dt>
-<dt>How much does prompt variation change measured performance on MMLU or RewardBench?</dt>
+<dt>do things like how many examples you show the model or the temperature setting change measured accuracy much?</dt>
+<dt>what effect sizes does an ANOVA over demonstration count, prompt variation, template and temperature yield on benchmark scores?</dt>
+<dt>how do I tell whether few-shot count, template choice or temperature is worth tuning for accuracy on MMLU or RewardBench?</dt>
+<dt>should I spend time tuning prompt template and temperature, or will it barely move my benchmark score?</dt>
 <dd>An ANOVA over number of demonstrations, prompt variation, template and temperature finds roughly 70% of p-values non-significant. Effect sizes stay below 0.005 even where prompt variation and demonstration count are significant on RewardBench, MMLU and MMLU-Pro.<br><span class="scope">Holds for: Type II and Type III ANOVA on performance (not on the robustness metric itself) across the 6 datasets and the 4 configuration factors used in the study; effect sizes are partial eta-squared.</span></dd>
-<dt>Are the accuracy numbers in this robustness study consistent with published leaderboards?</dt>
-<dt>How were the measured MMLU-Pro and GPQA scores sanity-checked?</dt>
-<dt>Do the reported model scores match HELM and model cards?</dt>
+<dt>do the accuracy numbers reported for models like Llama 4 and gpt-oss in a prompt-consistency study match what is published elsewhere?</dt>
+<dt>how were measured MMLU-Pro scores validated against the HELM capabilities leaderboard?</dt>
+<dt>can I trust the model scores in a robustness study that re-ran the benchmarks itself?</dt>
 <dd>Performance scores measured in the study align closely with published numbers. Measured MMLU-Pro is 80 versus 81 reported for Llama 4 Maverick 17B and 80 versus 79 for gpt-oss-120b on the HELM capabilities leaderboard.<br><span class="scope">Holds for: Cross-check restricted to MMLU, MMLU-Pro and GPQA, the benchmarks consistently reported for recent models; HELM used chain-of-thought prompting while the study requested a final answer only.</span></dd>
-<dt>Could benchmark contamination explain the high consistency across prompt variants?</dt>
-<dt>How is data contamination addressed in the performance-robustness analysis?</dt>
+<dt>could models having seen the benchmark data during training explain why they answer reworded prompts the same way?</dt>
+<dt>does benchmark contamination account for the observed output consistency across prompt configurations?</dt>
+<dt>should I discount high prompt-consistency results on public benchmarks as a contamination effect?</dt>
 <dd>As model performance rises, the per-example score-standard-deviation distribution becomes increasingly long-tailed, with most examples perfectly consistent and a small subset carrying the variability, whereas lower-robustness settings give flatter distributions.<br><span class="scope">Holds for: Per-example STD distributions computed separately per model and dataset over 24 configurations, counting only consistently-correct cases as success consistency; consistent failure with differing wrong answers is distinguished and not counted as robust.</span></dd>
 <dd>Measured robustness exceeds the matched random baseline on all 6 benchmarks, by an average of 43.4% on IMDB and 62.9% on BoolQ, with llama-4-Scout-17B-Instruct on BoolQ exceeding the baseline by 70.4%.<br><span class="scope">Holds for: 6 classification benchmarks, 9 open-weight models, 24 configurations; on MMLU, RewardBench, MMLU-Pro and GPQA the random baseline is 0, as performance is below roughly 80%.</span></dd>
 </dl>
@@ -403,7 +419,7 @@
 <li>As model performance rises, the per-example score-standard-deviation distribution becomes increasingly long-tailed, with most examples perfectly consistent and a small subset carrying the variability, whereas lower-robustness settings give flatter distributions. <span class="meta">(Appendix C.2)</span><br><span class="scope">Scope: Per-example STD distributions computed separately per model and dataset over 24 configurations, counting only consistently-correct cases as success consistency; consistent failure with differing wrong answers is distinguished and not counted as robust.</span></li>
 <li>Ashury-Tahan et al. argue that LLM robustness should be treated as a concomitant of task competence rather than as an independent capability measured and improved in isolation. Robustness on a task is then expected to emerge as that task saturates.<br><span class="scope">Scope: A position argued from correlational evidence on classification benchmarks with open-weight models as of early 2026; the paper shows association between performance and consistency, not a causal or training-time intervention.</span></li>
 <li>Ashury-Tahan et al. propose very high benchmark accuracy on a task as an empirical indicator that a model will answer that task consistently under prompt variations. Older, already-saturated tasks are therefore the reliable ones for sensitive deployment, not current frontier benchmarks.<br><span class="scope">Scope: A practical implication drawn from classification benchmarks and 24 inference configurations; it concerns consistency of outputs, not factual correctness, safety or calibration, and was not validated on deployed applications.</span></li>
-<li>The study covers 9 open-weight models from 6 model families evaluated on 100 examples from each of 6 datasets under 24 configurations, totalling 14,400 inferences per model and 129,600 inferences overall. <span class="meta">(Appendix A.1)</span><br><span class="scope">Scope: Open-weight models only; no closed-source models were evaluated because of cost, and all tasks are classification scored by exact match.</span></li>
+<li>Robustness is measured over 9 open-weight models from 6 model families, 100 examples from each of 6 datasets and 24 inference configurations, totalling 14,400 inferences per model and 129,600 overall. <span class="meta">(Appendix A.1)</span><br><span class="scope">Scope: Open-weight models only; no closed-source models were evaluated because of cost, and all tasks are classification scored by exact match.</span></li>
 <li>Performance scores measured in the study align closely with published numbers. Measured MMLU-Pro is 80 versus 81 reported for Llama 4 Maverick 17B and 80 versus 79 for gpt-oss-120b on the HELM capabilities leaderboard. <span class="meta">(Table A.4)</span><br><span class="scope">Scope: Cross-check restricted to MMLU, MMLU-Pro and GPQA, the benchmarks consistently reported for recent models; HELM used chain-of-thought prompting while the study requested a final answer only.</span></li>
 </ul>
 <h2>Common misreadings</h2><ul>

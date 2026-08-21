@@ -123,7 +123,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Is the Transformer biased toward monotonic word order?",
+      "name": "do machine translation models care whether nearby words stay near each other?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -131,13 +131,14 @@
         "url": "https://borgr.github.io/papers/automatically-extracting-challenge-sets-for-non-local-phenom/"
       },
       "alternateName": [
-        "Do self-attention translation models have a locality bias like LSTMs?",
-        "What happens to Transformer BLEU when you permute the source word order?"
+        "does a self-attention encoder exhibit a locality bias when source token order is permuted?",
+        "how do I test whether a translation model relies on source word order being monotonic?",
+        "if my language pair has very different word order, will a Transformer or an LSTM encoder suffer more?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does learned or sinusoidal positional encoding matter for machine translation?",
+      "name": "does it matter whether a translation model learns its position information or uses a fixed formula?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -145,13 +146,14 @@
         "url": "https://borgr.github.io/papers/automatically-extracting-challenge-sets-for-non-local-phenom/"
       },
       "alternateName": [
-        "Should I use learned positional embeddings instead of sine ones?",
-        "Are sinusoidal position embeddings introducing an order bias?"
+        "do sinusoidal versus learned positional embeddings differ in the locality bias they induce in NMT?",
+        "which positional embedding should I pick when training translation for a language pair with heavy reordering?",
+        "should I switch my Transformer from sinusoidal to learned position embeddings?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are long-distance dependencies still a problem for neural machine translation?",
+      "name": "do today's translation systems still get sentences wrong when related words are far apart?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -159,13 +161,14 @@
         "url": "https://borgr.github.io/papers/automatically-extracting-challenge-sets-for-non-local-phenom/"
       },
       "alternateName": [
-        "Do modern MT systems handle discontinuous phrases like phrasal verbs?",
-        "How much worse is translation quality on long-distance dependency sentences?"
+        "are long-distance dependencies still a bottleneck for Transformer NMT quality?",
+        "how do I find out whether my translation model breaks on separable verbs and other split constructions?",
+        "can I trust a Transformer to translate sentences where a verb and its particle are separated?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does translation accuracy degrade as the distance between head and dependent grows?",
+      "name": "does translation get worse the further apart the connected words in a sentence are?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -173,13 +176,14 @@
         "url": "https://borgr.github.io/papers/automatically-extracting-challenge-sets-for-non-local-phenom/"
       },
       "alternateName": [
-        "Is syntactic distance still a determinant of MT quality?",
-        "Do human judgments confirm that longer dependencies are translated worse?"
+        "how does head-dependent distance correlate with translation quality for reflexive verbs and verb particles?",
+        "how do I measure the effect of dependency length on my model's translation quality?",
+        "should I expect more translation errors in my data as the gap between a verb and its dependent grows?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How can I build a challenge set for machine translation without manual annotation?",
+      "name": "can test sets that target a specific grammar construction be built without hand-writing examples?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -187,13 +191,14 @@
         "url": "https://borgr.github.io/papers/automatically-extracting-challenge-sets-for-non-local-phenom/"
       },
       "alternateName": [
-        "Can challenge sets for MT evaluation be extracted automatically?",
-        "How large can automatically extracted MT challenge sets be?"
+        "can MT challenge sets be extracted automatically from dependency parses and word alignments?",
+        "how do I build a large phenomenon-specific evaluation set for translation without manual annotation?",
+        "is automatic extraction going to give me enough examples to evaluate one construction with BLEU?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How reliable is parser-based extraction of linguistic phenomena for evaluation sets?",
+      "name": "if examples are pulled out of a corpus by a parser, how often do they really contain the construction you wanted?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -201,13 +206,14 @@
         "url": "https://borgr.github.io/papers/automatically-extracting-challenge-sets-for-non-local-phenom/"
       },
       "alternateName": [
-        "What is the precision of automatically extracted reflexive verb and preposition stranding examples?",
-        "Do automatically extracted challenge sentences actually contain the target phenomenon?"
+        "what is the precision of parser-and-alignment-based extraction of reflexive verb and preposition-stranding sentences?",
+        "how do I check that an automatically built challenge set is clean enough to report scores on?",
+        "can I rely on parser-extracted long-distance-dependency sentences without checking them by hand?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are challenge sets just harder because their sentences are longer?",
+      "name": "are sentences with far-apart words harder just because they are longer sentences?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -215,13 +221,14 @@
         "url": "https://borgr.github.io/papers/automatically-extracting-challenge-sets-for-non-local-phenom/"
       },
       "alternateName": [
-        "How do you rule out sentence length as the reason a challenge set is difficult?",
-        "Is source length a confound in long-distance dependency evaluation?"
+        "is source sentence length a confound in long-distance-dependency challenge set evaluation?",
+        "how do I separate the effect of dependency distance from the effect of sentence length on BLEU?",
+        "before I blame my model on long-distance dependencies, how do I rule out that it is just long sentences?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about fine-grained evaluation of machine translation beyond BLEU?",
+      "name": "which study first showed how to build grammar-targeted translation test sets from a corpus automatically?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -229,13 +236,13 @@
         "url": "https://borgr.github.io/papers/automatically-extracting-challenge-sets-for-non-local-phenom/"
       },
       "alternateName": [
-        "Which paper established automatic construction of linguistic challenge sets for MT?",
-        "Where do I start reading on phenomenon-specific MT evaluation?"
+        "what work established automatic construction of phenomenon-specific challenge sets for MT evaluation?",
+        "where should I start reading if I want to evaluate translation on specific syntactic phenomena?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does BLEU capture performance on rare syntactic phenomena?",
+      "name": "does a word-overlap score like BLEU really show whether word order was translated right?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -243,13 +250,14 @@
         "url": "https://borgr.github.io/papers/automatically-extracting-challenge-sets-for-non-local-phenom/"
       },
       "alternateName": [
-        "Why does a reordering-focused metric matter for evaluating word order?",
-        "Do BLEU and RIBES agree on reordering challenge sets?"
+        "do BLEU and RIBES agree on reordering-focused challenge sets for German-English?",
+        "which metric should I report when I am evaluating reordering rather than lexical choice?",
+        "should I add a reordering-sensitive metric alongside BLEU for my word-order experiments?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which German and English constructions were used to build the long-distance dependency sets?",
+      "name": "which German and English grammar constructions were collected into the long-distance dependency test sets, and how many sentences each?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -257,8 +265,9 @@
         "url": "https://borgr.github.io/papers/automatically-extracting-challenge-sets-for-non-local-phenom/"
       },
       "alternateName": [
-        "What phenomena are covered by the auto_challenge_sets corpora?",
-        "How many sentences are in the English-German preposition stranding challenge set?"
+        "what phenomena and set sizes do the automatically extracted German-English verb-particle and reflexive-verb challenge sets cover?",
+        "where can I get a ready-made large test set for separable verbs or reflexive verbs in German-English translation?",
+        "are the released challenge sets big enough for me to compare two systems on one construction?"
       ]
     }
   ]
@@ -331,51 +340,60 @@
 <p>We show that the state-of-the-art Transformer MT model is not biased towards monotonic reordering (unlike previous recurrent neural network models), but that nevertheless, long-distance dependencies remain a challenge for the model. Since most dependencies are short-distance, common evaluation metrics will be little influenced by how well systems perform on them. We therefore propose an automatic approach for extracting challenge sets rich with long-distance dependencies, and argue that evaluation using this methodology provides a complementary perspective on system performance. To support our claim, we compile challenge sets for English-German and German-English, which are much larger than any previously released challenge set for MT. The extracted sets are large enough to allow reliable automatic evaluation, which makes the proposed approach a scalable and practical solution for evaluating MT performance on the long-tail of syntactic phenomena.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Is the Transformer biased toward monotonic word order?</dt>
-<dt>Do self-attention translation models have a locality bias like LSTMs?</dt>
-<dt>What happens to Transformer BLEU when you permute the source word order?</dt>
+<dt>do machine translation models care whether nearby words stay near each other?</dt>
+<dt>does a self-attention encoder exhibit a locality bias when source token order is permuted?</dt>
+<dt>how do I test whether a translation model relies on source word order being monotonic?</dt>
+<dt>if my language pair has very different word order, will a Transformer or an LSTM encoder suffer more?</dt>
 <dd>A Transformer with learned positional embeddings scores 24.81 BLEU on regular German-English data and 24.87 BLEU when the same fixed permutation is applied to every source sentence, showing no locality bias.<br><span class="scope">Holds for: German-English WMT2015 sentences of length 18 only (130,983 sentences, 1,000 held out), one fixed permutation sigma, 5 runs in the Regular setting and 5 in Permuted; highest test BLEU over epochs reported.</span></dd>
 <dd>Sine positional embeddings leave the Transformer with a residual locality bias: BLEU drops 1.18 points, from 25.08 to 23.90, when source tokens are permuted. A BiLSTM (Nematus) drops far more, 2.65 points from 22.32 to 19.67.<br><span class="scope">Holds for: German-English, fixed-length-18 sentences from WMT2015 (130,983 sentences, comparable to a low-resource setting), single training run each for SinePE and Nematus in both the Regular and Permuted conditions.</span></dd>
-<dt>Does learned or sinusoidal positional encoding matter for machine translation?</dt>
-<dt>Should I use learned positional embeddings instead of sine ones?</dt>
-<dt>Are sinusoidal position embeddings introducing an order bias?</dt>
+<dt>does it matter whether a translation model learns its position information or uses a fixed formula?</dt>
+<dt>do sinusoidal versus learned positional embeddings differ in the locality bias they induce in NMT?</dt>
+<dt>which positional embedding should I pick when training translation for a language pair with heavy reordering?</dt>
+<dt>should I switch my Transformer from sinusoidal to learned position embeddings?</dt>
 <dd>Sine positional embeddings leave the Transformer with a residual locality bias: BLEU drops 1.18 points, from 25.08 to 23.90, when source tokens are permuted. A BiLSTM (Nematus) drops far more, 2.65 points from 22.32 to 19.67.<br><span class="scope">Holds for: German-English, fixed-length-18 sentences from WMT2015 (130,983 sentences, comparable to a low-resource setting), single training run each for SinePE and Nematus in both the Regular and Permuted conditions.</span></dd>
 <dd>Choshen and Abend argue that the choice between learned and sine positional embeddings is not neutral. Learned embeddings are preferable when a locality bias is undesirable, such as for highly divergent language pairs.<br><span class="scope">Holds for: Based on permutation experiments on one German-English setting with 18-token sentences; the two embedding types are comparable in BLEU under normal, unpermuted training.</span></dd>
-<dt>Are long-distance dependencies still a problem for neural machine translation?</dt>
-<dt>Do modern MT systems handle discontinuous phrases like phrasal verbs?</dt>
-<dt>How much worse is translation quality on long-distance dependency sentences?</dt>
+<dt>do today&#x27;s translation systems still get sentences wrong when related words are far apart?</dt>
+<dt>are long-distance dependencies still a bottleneck for Transformer NMT quality?</dt>
+<dt>how do I find out whether my translation model breaks on separable verbs and other split constructions?</dt>
+<dt>can I trust a Transformer to translate sentences where a verb and its particle are separated?</dt>
 <dd>Long-distance dependencies remain hard for the Transformer even though it shows no locality bias. On German-English News, BLEU drops from 28.23 on the full test set to 22.68 on the reordering challenge set and 27.46 on the verb-particle set.<br><span class="scope">Holds for: Transformer trained on WMT2015, evaluated on challenge sets extracted from newstest2013 and the Books corpus with minimum head-dependent distance d&gt;=1; the same drop pattern appears for Nematus and for English-German.</span></dd>
 <dd>Translation quality falls as the head-dependent distance grows. Across 10 phenomenon-model-language combinations, 9 show a negative Spearman correlation between minimum distance and BLEU, including -1 for German reflexive verbs with the Transformer.<br><span class="scope">Holds for: Books challenge sets, minimum distances of 1, 2 and 3 against an unrestricted control; Transformer and Nematus; English verb-particle constructions with the Transformer are the single positive correlation (0.73).</span></dd>
-<dt>Does translation accuracy degrade as the distance between head and dependent grows?</dt>
-<dt>Is syntactic distance still a determinant of MT quality?</dt>
-<dt>Do human judgments confirm that longer dependencies are translated worse?</dt>
+<dt>does translation get worse the further apart the connected words in a sentence are?</dt>
+<dt>how does head-dependent distance correlate with translation quality for reflexive verbs and verb particles?</dt>
+<dt>how do I measure the effect of dependency length on my model&#x27;s translation quality?</dt>
+<dt>should I expect more translation errors in my data as the gap between a verb and its dependent grows?</dt>
 <dd>Translation quality falls as the head-dependent distance grows. Across 10 phenomenon-model-language combinations, 9 show a negative Spearman correlation between minimum distance and BLEU, including -1 for German reflexive verbs with the Transformer.<br><span class="scope">Holds for: Books challenge sets, minimum distances of 1, 2 and 3 against an unrestricted control; Transformer and Nematus; English verb-particle constructions with the Transformer are the single positive correlation (0.73).</span></dd>
 <dd>Manual annotation of German-English Transformer output confirms the distance effect: 60% of lexical long-distance dependencies are translated correctly at distance 1, 54% at distance 2 and 38% at distance 5.<br><span class="scope">Holds for: 180 German source sentences from Books, distances of exactly 1, 2 and 5, judged by 2 annotators at kappa=0.79, after removing extraction errors.</span></dd>
-<dt>How can I build a challenge set for machine translation without manual annotation?</dt>
-<dt>Can challenge sets for MT evaluation be extracted automatically?</dt>
-<dt>How large can automatically extracted MT challenge sets be?</dt>
+<dt>can test sets that target a specific grammar construction be built without hand-writing examples?</dt>
+<dt>can MT challenge sets be extracted automatically from dependency parses and word alignments?</dt>
+<dt>how do I build a large phenomenon-specific evaluation set for translation without manual annotation?</dt>
+<dt>is automatic extraction going to give me enough examples to evaluate one construction with BLEU?</dt>
 <dd>Choshen and Abend&#x27;s CoNLL 2019 work introduces automatic extraction of MT challenge sets from dependency parses and word alignments. The extracted sets are large enough that phenomenon-specific evaluation can use standard automatic metrics such as BLEU and RIBES instead of manual inspection.<br><span class="scope">Holds for: As of 2019, when earlier MT challenge sets for French-English and English-Swedish were hand-compiled and manually scored; demonstrated only for German-English and English-German, and requires a Universal Dependencies parser for the source language.</span></dd>
 <dd>Automatic extraction yields German-English challenge sets of 7,584 verb-particle and 8,122 reflexive-verb sentences at minimum distance 1. Previously released MT challenge sets were compiled by hand at about 10 examples per phenomenon.<br><span class="scope">Holds for: Extracted from the Books corpus (51K sentence pairs) and newstest2013 (3K) for German-English and English-German; English-German sets are much smaller, e.g. 191 preposition-stranding sentences at distance 1.</span></dd>
-<dt>How reliable is parser-based extraction of linguistic phenomena for evaluation sets?</dt>
-<dt>What is the precision of automatically extracted reflexive verb and preposition stranding examples?</dt>
-<dt>Do automatically extracted challenge sentences actually contain the target phenomenon?</dt>
+<dt>if examples are pulled out of a corpus by a parser, how often do they really contain the construction you wanted?</dt>
+<dt>what is the precision of parser-and-alignment-based extraction of reflexive verb and preposition-stranding sentences?</dt>
+<dt>how do I check that an automatically built challenge set is clean enough to report scores on?</dt>
+<dt>can I rely on parser-extracted long-distance-dependency sentences without checking them by hand?</dt>
 <dd>Automatic parser-based extraction of long-distance-dependency sentences is accurate enough for evaluation: 85% of extracted German sentences, 87% of English News sentences and 86% of English Books sentences genuinely contain the target phenomenon.<br><span class="scope">Holds for: Manual check of 180 German and 81 English sentences by 2 proficient annotators (the paper&#x27;s authors); per-type precision in English ranges from 1.00 for particles on Books down to 0.60 for preposition stranding on Books.</span></dd>
-<dt>Are challenge sets just harder because their sentences are longer?</dt>
-<dt>How do you rule out sentence length as the reason a challenge set is difficult?</dt>
-<dt>Is source length a confound in long-distance dependency evaluation?</dt>
+<dt>are sentences with far-apart words harder just because they are longer sentences?</dt>
+<dt>is source sentence length a confound in long-distance-dependency challenge set evaluation?</dt>
+<dt>how do I separate the effect of dependency distance from the effect of sentence length on BLEU?</dt>
+<dt>before I blame my model on long-distance dependencies, how do I rule out that it is just long sentences?</dt>
 <dd>Transformer BLEU on every German-English challenge set is lower than on any of the 100 length-matched Books corpora sampled per set and per d. Correlations between a sampled corpus&#x27;s average sentence length and Transformer BLEU are only 0.06, 0.09 and 0.03.<br><span class="scope">Holds for: Books corpus, Transformer, d values 0-3, length-matched samples drawn within 1 token per sentence; the three correlations are for samples of 1,000, 100 and 10 sentences; English-German trends are similar but less pronounced.</span></dd>
-<dt>What should I read about fine-grained evaluation of machine translation beyond BLEU?</dt>
-<dt>Which paper established automatic construction of linguistic challenge sets for MT?</dt>
-<dt>Where do I start reading on phenomenon-specific MT evaluation?</dt>
+<dt>which study first showed how to build grammar-targeted translation test sets from a corpus automatically?</dt>
+<dt>what work established automatic construction of phenomenon-specific challenge sets for MT evaluation?</dt>
+<dt>where should I start reading if I want to evaluate translation on specific syntactic phenomena?</dt>
 <dd>Choshen and Abend&#x27;s CoNLL 2019 work introduces automatic extraction of MT challenge sets from dependency parses and word alignments. The extracted sets are large enough that phenomenon-specific evaluation can use standard automatic metrics such as BLEU and RIBES instead of manual inspection.<br><span class="scope">Holds for: As of 2019, when earlier MT challenge sets for French-English and English-Swedish were hand-compiled and manually scored; demonstrated only for German-English and English-German, and requires a Universal Dependencies parser for the source language.</span></dd>
-<dt>Does BLEU capture performance on rare syntactic phenomena?</dt>
-<dt>Why does a reordering-focused metric matter for evaluating word order?</dt>
-<dt>Do BLEU and RIBES agree on reordering challenge sets?</dt>
+<dt>does a word-overlap score like BLEU really show whether word order was translated right?</dt>
+<dt>do BLEU and RIBES agree on reordering-focused challenge sets for German-English?</dt>
+<dt>which metric should I report when I am evaluating reordering rather than lexical choice?</dt>
+<dt>should I add a reordering-sensitive metric alongside BLEU for my word-order experiments?</dt>
 <dd>RIBES, a reordering-sensitive metric, confirms the BLEU trend on the reordering challenge sets: the Transformer scores 0.79 versus 0.82 baseline on German News and 0.54 versus 0.57 on German Books.<br><span class="scope">Holds for: Reordering challenge sets extracted with FastAlign at alignment index difference d&gt;=5, Transformer only, News and Books domains with German and English as source.</span></dd>
 <dd>Long-distance dependencies remain hard for the Transformer even though it shows no locality bias. On German-English News, BLEU drops from 28.23 on the full test set to 22.68 on the reordering challenge set and 27.46 on the verb-particle set.<br><span class="scope">Holds for: Transformer trained on WMT2015, evaluated on challenge sets extracted from newstest2013 and the Books corpus with minimum head-dependent distance d&gt;=1; the same drop pattern appears for Nematus and for English-German.</span></dd>
-<dt>Which German and English constructions were used to build the long-distance dependency sets?</dt>
-<dt>What phenomena are covered by the auto_challenge_sets corpora?</dt>
-<dt>How many sentences are in the English-German preposition stranding challenge set?</dt>
+<dt>which German and English grammar constructions were collected into the long-distance dependency test sets, and how many sentences each?</dt>
+<dt>what phenomena and set sizes do the automatically extracted German-English verb-particle and reflexive-verb challenge sets cover?</dt>
+<dt>where can I get a ready-made large test set for separable verbs or reflexive verbs in German-English translation?</dt>
+<dt>are the released challenge sets big enough for me to compare two systems on one construction?</dt>
 <dd>Automatic extraction yields German-English challenge sets of 7,584 verb-particle and 8,122 reflexive-verb sentences at minimum distance 1. Previously released MT challenge sets were compiled by hand at about 10 examples per phenomenon.<br><span class="scope">Holds for: Extracted from the Books corpus (51K sentence pairs) and newstest2013 (3K) for German-English and English-German; English-German sets are much smaller, e.g. 191 preposition-stranding sentences at distance 1.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

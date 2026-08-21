@@ -123,7 +123,7 @@
     },
     {
       "@type": "Thing",
-      "name": "\"Will it Merge? On The Causes of Model Mergeability\" gives model merging a per-update notion of mergeability and identifies base model knowledge of the finetuning data as the dominant correlate, shifting the question from which algorithm merges best to which updates merge at all.",
+      "name": "\"Will it Merge? On The Causes of Model Mergeability\" gives model merging a per-update notion of mergeability, and names base model knowledge of the finetuning data as the dominant correlate. The question shifts from which algorithm merges best to which updates merge at all.",
       "description": "Holds for: To the authors' knowledge the first study to directly link pre-training knowledge with mergeability; earlier work related merging success to base model size and strength, to shared knowledge between tasks, and to update norms."
     },
     {
@@ -144,21 +144,22 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Why do some finetuned models merge well and others badly?",
+      "name": "why do some fine-tuned models combine cleanly with others while some lose their new skill?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "On PopQA, the base model's probability gap between its top-ranked answer and the correct answer decreases as mergeability increases. Examples needing only a small decision-boundary adjustment are the ones whose LoRA updates survive merging. Holds for: Llama-3.2-3B on PopQA in 8-option multiple-choice format, k=4 shot, per-example LoRA adapters (rank 64, mlp.up_proj, single layer) merged with Knots; replicated on Qwen2.5-3B and at LoRA ranks 8 and 256, where the r=256 trend is weaker.\n\nOn the Lots-of-LoRAs collection, tasks with higher average base model accuracy have higher mergeability scores. Tasks the base model already handles well lose less performance when their adapters are merged with adapters from other tasks. Holds for: Mistral-7B-Instruct-v0.2, 81 Lots-of-LoRAs tasks whose finetuned adapter reaches at least 99% accuracy, exact-match scoring, Knots merging with M=10 and N=5; same trend at the 75%, 50%, 25% and 0% thresholds.\n\n\"Will it Merge? On The Causes of Model Mergeability\" gives model merging a per-update notion of mergeability and identifies base model knowledge of the finetuning data as the dominant correlate, shifting the question from which algorithm merges best to which updates merge at all. Holds for: To the authors' knowledge the first study to directly link pre-training knowledge with mergeability; earlier work related merging success to base model size and strength, to shared knowledge between tasks, and to update norms.",
+        "text": "On PopQA, the base model's probability gap between its top-ranked answer and the correct answer decreases as mergeability increases. Examples needing only a small decision-boundary adjustment are the ones whose LoRA updates survive merging. Holds for: Llama-3.2-3B on PopQA in 8-option multiple-choice format, k=4 shot, per-example LoRA adapters (rank 64, mlp.up_proj, single layer) merged with Knots; replicated on Qwen2.5-3B and at LoRA ranks 8 and 256, where the r=256 trend is weaker.\n\nOn the Lots-of-LoRAs collection, tasks with higher average base model accuracy have higher mergeability scores. Tasks the base model already handles well lose less performance when their adapters are merged with adapters from other tasks. Holds for: Mistral-7B-Instruct-v0.2, 81 Lots-of-LoRAs tasks whose finetuned adapter reaches at least 99% accuracy, exact-match scoring, Knots merging with M=10 and N=5; same trend at the 75%, 50%, 25% and 0% thresholds.\n\n\"Will it Merge? On The Causes of Model Mergeability\" gives model merging a per-update notion of mergeability, and names base model knowledge of the finetuning data as the dominant correlate. The question shifts from which algorithm merges best to which updates merge at all. Holds for: To the authors' knowledge the first study to directly link pre-training knowledge with mergeability; earlier work related merging success to base model size and strength, to shared knowledge between tasks, and to update norms.",
         "url": "https://borgr.github.io/papers/will-it-merge-on-the-causes-of-model-mergeability/"
       },
       "alternateName": [
-        "What determines whether model merging succeeds or fails?",
-        "What predicts which LoRA adapters survive merging?"
+        "what property of a LoRA update predicts whether its task performance survives merging with other adapters?",
+        "how do I predict in advance which of my LoRA adapters will keep working after being merged?",
+        "before I merge a batch of adapters, can I tell which ones will break?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is mergeability a real property of a model update or just noise?",
+      "name": "is how well a fine-tuned update combines with others a stable trait of that update, or just luck of the draw?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -166,13 +167,14 @@
         "url": "https://borgr.github.io/papers/will-it-merge-on-the-causes-of-model-mergeability/"
       },
       "alternateName": [
-        "How can you tell mergeability is not random variation across merges?",
-        "What evidence is there that individual updates differ systematically in how well they merge?"
+        "do per-update mergeability scores for LoRA adapters deviate from a binomial null with a constant success rate?",
+        "how do I check that the merge success rate I measured for an adapter is not sampling noise?",
+        "if one adapter of mine survived 8 out of 10 merges, should I trust that as a property of the adapter?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does the size or norm of a LoRA update predict how well it merges?",
+      "name": "does how big a fine-tuning update is tell you anything about whether it will merge well?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -180,13 +182,14 @@
         "url": "https://borgr.github.io/papers/will-it-merge-on-the-causes-of-model-mergeability/"
       },
       "alternateName": [
-        "Do weight-level properties like Frobenius norm and top singular value correlate with merging success?",
-        "Can I look at adapter weights to guess whether merging will work?"
+        "do Frobenius norm and top singular value of the effective LoRA update correlate with merge survival?",
+        "can I screen adapters for merge readiness just by inspecting their weight matrices?",
+        "is it enough to look at my adapters' weight norms to decide which to merge?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does mergeability depend on which other adapters you merge with?",
+      "name": "does whether a fine-tuned update survives merging depend on which other updates it is mixed with?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -194,13 +197,14 @@
         "url": "https://borgr.github.io/papers/will-it-merge-on-the-causes-of-model-mergeability/"
       },
       "alternateName": [
-        "Is merging success a property of the merge set or of the individual update?",
-        "If I merge a good adapter with bad ones, does the good one degrade?"
+        "is mergeability a local property of a single update or a property of the merge set?",
+        "do I need to re-measure merge success for every new combination of adapters I try?",
+        "if I swap out my merge partners, will my good adapter suddenly stop working?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How does the choice of merging algorithm change measured mergeability?",
+      "name": "if a merging recipe is worse at preserving skills, does it look like more updates merged perfectly?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -208,13 +212,14 @@
         "url": "https://borgr.github.io/papers/will-it-merge-on-the-causes-of-model-mergeability/"
       },
       "alternateName": [
-        "Do Knots, TIES and simple weight averaging give different mergeability distributions?",
-        "Does a stronger LoRA merging method produce more perfectly mergeable examples?"
+        "how do TIES, KnOTS and simple mean averaging differ in the distribution of per-example merge success they induce?",
+        "how do I compare merging algorithms without the weaker one looking better on a per-example success count?",
+        "should I pick the merging algorithm that gives me the most perfectly preserved examples?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How can I stop merging from wiping out tasks the base model is weak on?",
+      "name": "can giving more weight to the tasks a model is worst at rescue them when combining fine-tuned updates?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -222,27 +227,29 @@
         "url": "https://borgr.github.io/papers/will-it-merge-on-the-causes-of-model-mergeability/"
       },
       "alternateName": [
-        "Does weighting adapters by base model accuracy improve merging?",
-        "Is there a simple fix that preserves low-accuracy tasks when merging adapters?"
+        "does weighting adapters inversely to base model task accuracy improve retained finetuned performance for low-base-accuracy tasks?",
+        "how do I stop my hardest task from being wiped out when I merge its adapter with others?",
+        "my adapters cover tasks of very different difficulty — should I weight them unequally when merging?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about why model merging works or fails?",
+      "name": "what research asks why merging fine-tuned models works instead of proposing yet another merging recipe?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "\"Will it Merge? On The Causes of Model Mergeability\" gives model merging a per-update notion of mergeability and identifies base model knowledge of the finetuning data as the dominant correlate, shifting the question from which algorithm merges best to which updates merge at all. Holds for: To the authors' knowledge the first study to directly link pre-training knowledge with mergeability; earlier work related merging success to base model size and strength, to shared knowledge between tasks, and to update norms.\n\nThe mergeability study evaluates merging at two granularities that most merging papers do not separate: example-level adapters, each fixing one PopQA factual error, and task-level adapters from the Lots-of-LoRAs collection. Holds for: Both setups use LoRA adapters on 3B-7B base and instruction models; training-data effects such as perplexity and context length appear only in Lots-of-LoRAs, where training data shares the evaluation format.",
+        "text": "\"Will it Merge? On The Causes of Model Mergeability\" gives model merging a per-update notion of mergeability, and names base model knowledge of the finetuning data as the dominant correlate. The question shifts from which algorithm merges best to which updates merge at all. Holds for: To the authors' knowledge the first study to directly link pre-training knowledge with mergeability; earlier work related merging success to base model size and strength, to shared knowledge between tasks, and to update norms.\n\nThe mergeability study evaluates merging at two granularities that most merging papers do not separate: example-level adapters, each fixing one PopQA factual error, and task-level adapters from the Lots-of-LoRAs collection. Holds for: Both setups use LoRA adapters on 3B-7B base and instruction models; training-data effects such as perplexity and context length appear only in Lots-of-LoRAs, where training data shares the evaluation format.",
         "url": "https://borgr.github.io/papers/will-it-merge-on-the-causes-of-model-mergeability/"
       },
       "alternateName": [
-        "Which paper studies the causes of merging success rather than proposing a new merging algorithm?",
-        "Where does research link a base model's pre-training knowledge to merging outcomes?"
+        "which study links base model knowledge of the finetuning data to merge outcomes at both example and task granularity?",
+        "where do I start reading if I want to understand the causes of merge failure rather than more merging algorithms?",
+        "which paper should I read to diagnose why my model merges keep failing?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does training data difficulty affect how mergeable an adapter is?",
+      "name": "are harder or longer fine-tuning examples less likely to survive being merged with others?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -250,13 +257,14 @@
         "url": "https://borgr.github.io/papers/will-it-merge-on-the-causes-of-model-mergeability/"
       },
       "alternateName": [
-        "Do perplexity and context length of the finetuning data predict mergeability?",
-        "Are harder finetuning examples less mergeable?"
+        "do finetuning-data properties such as perplexity and context length predict per-update mergeability?",
+        "can I use difficulty statistics of my training data to pick which adapters to merge?",
+        "should I expect my adapters trained on hard examples to merge worse?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are the examples that are easiest to fix by finetuning also the most stable under merging?",
+      "name": "are the cases fine-tuning fixes most easily also the ones that hold up best after models are combined?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -264,12 +272,14 @@
         "url": "https://borgr.github.io/papers/will-it-merge-on-the-causes-of-model-mergeability/"
       },
       "alternateName": [
-        "What is the relationship between how much finetuning improves an example and how well it merges?"
+        "how does post-finetuning gain in correct-answer probability relate to per-example mergeability on PopQA?",
+        "how do I tell which of the factual errors I fixed by finetuning will still be fixed after merging?",
+        "if finetuning gave a big improvement on an example, is that example safe to merge?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How many trials and merge partners are needed to estimate a mergeability score reliably?",
+      "name": "how many repeat merges do you need to run before a per-update merge success rate settles down?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -277,7 +287,9 @@
         "url": "https://borgr.github.io/papers/will-it-merge-on-the-causes-of-model-mergeability/"
       },
       "alternateName": [
-        "Do mergeability scores change if you vary the number of merged adapters?"
+        "how sensitive is the mergeability score to the number of trials N and the merge-set size M?",
+        "how do I set the number of trials and merge partners when measuring merge success for an adapter?",
+        "can I get away with fewer merge trials and smaller merge sets to score my adapters?"
       ]
     }
   ]
@@ -362,50 +374,62 @@
 <p>Model merging has emerged as a promising technique for combining multiple fine-tuned models into a single multitask model without retraining. However, the factors that determine whether merging will succeed or fail remain poorly understood. In this work, we investigate why specific models are merged better than others. To do so, we propose a concrete, measurable definition of mergeability. We investigate several potential causes for high or low mergeability, highlighting the base model knowledge as a dominant factor: Models fine-tuned on instances that the base model knows better are more mergeable than models fine-tuned on instances that the base model struggles with. Based on our mergeability definition, we explore a simple weighted merging technique that better preserves weak knowledge in the base model.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Why do some finetuned models merge well and others badly?</dt>
-<dt>What determines whether model merging succeeds or fails?</dt>
-<dt>What predicts which LoRA adapters survive merging?</dt>
+<dt>why do some fine-tuned models combine cleanly with others while some lose their new skill?</dt>
+<dt>what property of a LoRA update predicts whether its task performance survives merging with other adapters?</dt>
+<dt>how do I predict in advance which of my LoRA adapters will keep working after being merged?</dt>
+<dt>before I merge a batch of adapters, can I tell which ones will break?</dt>
 <dd>On PopQA, the base model&#x27;s probability gap between its top-ranked answer and the correct answer decreases as mergeability increases. Examples needing only a small decision-boundary adjustment are the ones whose LoRA updates survive merging.<br><span class="scope">Holds for: Llama-3.2-3B on PopQA in 8-option multiple-choice format, k=4 shot, per-example LoRA adapters (rank 64, mlp.up_proj, single layer) merged with Knots; replicated on Qwen2.5-3B and at LoRA ranks 8 and 256, where the r=256 trend is weaker.</span></dd>
 <dd>On the Lots-of-LoRAs collection, tasks with higher average base model accuracy have higher mergeability scores. Tasks the base model already handles well lose less performance when their adapters are merged with adapters from other tasks.<br><span class="scope">Holds for: Mistral-7B-Instruct-v0.2, 81 Lots-of-LoRAs tasks whose finetuned adapter reaches at least 99% accuracy, exact-match scoring, Knots merging with M=10 and N=5; same trend at the 75%, 50%, 25% and 0% thresholds.</span></dd>
-<dd>&quot;Will it Merge? On The Causes of Model Mergeability&quot; gives model merging a per-update notion of mergeability and identifies base model knowledge of the finetuning data as the dominant correlate, shifting the question from which algorithm merges best to which updates merge at all.<br><span class="scope">Holds for: To the authors&#x27; knowledge the first study to directly link pre-training knowledge with mergeability; earlier work related merging success to base model size and strength, to shared knowledge between tasks, and to update norms.</span></dd>
-<dt>Is mergeability a real property of a model update or just noise?</dt>
-<dt>How can you tell mergeability is not random variation across merges?</dt>
-<dt>What evidence is there that individual updates differ systematically in how well they merge?</dt>
+<dd>&quot;Will it Merge? On The Causes of Model Mergeability&quot; gives model merging a per-update notion of mergeability, and names base model knowledge of the finetuning data as the dominant correlate. The question shifts from which algorithm merges best to which updates merge at all.<br><span class="scope">Holds for: To the authors&#x27; knowledge the first study to directly link pre-training knowledge with mergeability; earlier work related merging success to base model size and strength, to shared knowledge between tasks, and to update norms.</span></dd>
+<dt>is how well a fine-tuned update combines with others a stable trait of that update, or just luck of the draw?</dt>
+<dt>do per-update mergeability scores for LoRA adapters deviate from a binomial null with a constant success rate?</dt>
+<dt>how do I check that the merge success rate I measured for an adapter is not sampling noise?</dt>
+<dt>if one adapter of mine survived 8 out of 10 merges, should I trust that as a property of the adapter?</dt>
 <dd>Mergeability is a non-trivial trait of individual model updates: the empirical distribution of mergeability scores for Llama-3.2-3B LoRA adapters on PopQA departs from a binomial baseline with a fixed per-merge success rate.<br><span class="scope">Holds for: PopQA example-level LoRA adapters on Llama-3.2-3B, merged with Knots; the binomial baseline uses the observed overall success rate. Also reproduced for Qwen2.5-3B and for full finetuning with mean and TIES merging.</span></dd>
 <dd>Mergeability scores are stable under the estimator&#x27;s sampling parameters: PopQA scores computed with M=50 and N=5 increase monotonically with scores computed at other numbers of trials N and other merge-set sizes M.<br><span class="scope">Holds for: Qwen2.5-3B on PopQA with Knots; the M-sweep is near-perfectly increasing and the N-sweep increasing.</span></dd>
-<dt>Does the size or norm of a LoRA update predict how well it merges?</dt>
-<dt>Do weight-level properties like Frobenius norm and top singular value correlate with merging success?</dt>
-<dt>Can I look at adapter weights to guess whether merging will work?</dt>
+<dt>does how big a fine-tuning update is tell you anything about whether it will merge well?</dt>
+<dt>do Frobenius norm and top singular value of the effective LoRA update correlate with merge survival?</dt>
+<dt>can I screen adapters for merge readiness just by inspecting their weight matrices?</dt>
+<dt>is it enough to look at my adapters&#x27; weight norms to decide which to merge?</dt>
 <dd>Weight-level properties of LoRA updates barely predict mergeability: on PopQA the Frobenius norm and the largest singular value of the effective update correlate with the mergeability score at 0.10 and 0.09 Spearman.<br><span class="scope">Holds for: Llama-3.2-3B PopQA adapters trained on a single layer&#x27;s mlp.up_proj; the Lots-of-LoRAs adapters (attention Q, K, V across layers) likewise show no monotone trend.</span></dd>
 <dd>In Lots-of-LoRAs, the extremely low mergeability bin (S in [0.0,0.2)) has an average weight norm of 1.15 and average largest singular value of 0.78. Every higher bin ranges 0.57-0.73 and 0.40-0.52.<br><span class="scope">Holds for: Mistral-7B-Instruct-v0.2 task-level adapters, 81 tasks at the 99% threshold, ΔW=BA over attention Q, K, V; the separation is lowest bin versus the rest, not a trend across bins.</span></dd>
-<dt>Does mergeability depend on which other adapters you merge with?</dt>
-<dt>Is merging success a property of the merge set or of the individual update?</dt>
-<dt>If I merge a good adapter with bad ones, does the good one degrade?</dt>
+<dt>does whether a fine-tuned update survives merging depend on which other updates it is mixed with?</dt>
+<dt>is mergeability a local property of a single update or a property of the merge set?</dt>
+<dt>do I need to re-measure merge success for every new combination of adapters I try?</dt>
+<dt>if I swap out my merge partners, will my good adapter suddenly stop working?</dt>
 <dd>Mergeability is primarily a local property of a single model update rather than of the merge set. Updates fixed at mergeability score 1.0 keep near-constant accuracy whichever mergeability bin their merge partners come from.<br><span class="scope">Holds for: PopQA example-level setting, Llama adapters, Knots merging; the partner updates themselves still improve with their own mergeability score, so the merge set matters for the partners and not for the highly mergeable update.</span></dd>
-<dt>How does the choice of merging algorithm change measured mergeability?</dt>
-<dt>Do Knots, TIES and simple weight averaging give different mergeability distributions?</dt>
-<dt>Does a stronger LoRA merging method produce more perfectly mergeable examples?</dt>
+<dt>if a merging recipe is worse at preserving skills, does it look like more updates merged perfectly?</dt>
+<dt>how do TIES, KnOTS and simple mean averaging differ in the distribution of per-example merge success they induce?</dt>
+<dt>how do I compare merging algorithms without the weaker one looking better on a per-example success count?</dt>
+<dt>should I pick the merging algorithm that gives me the most perfectly preserved examples?</dt>
 <dd>Weaker merging algorithms push more examples into the top mergeability bins. TIES yields more PopQA examples with score at least 0.8 than Knots, and simple mean averaging produces the most examples at score 1.0.<br><span class="scope">Holds for: Qwen2.5-3B on PopQA, example-level LoRA adapters of rank 64, comparing Knots, TIES and mean averaging at M=50, N=5.</span></dd>
-<dt>How can I stop merging from wiping out tasks the base model is weak on?</dt>
-<dt>Does weighting adapters by base model accuracy improve merging?</dt>
-<dt>Is there a simple fix that preserves low-accuracy tasks when merging adapters?</dt>
+<dt>can giving more weight to the tasks a model is worst at rescue them when combining fine-tuned updates?</dt>
+<dt>does weighting adapters inversely to base model task accuracy improve retained finetuned performance for low-base-accuracy tasks?</dt>
+<dt>how do I stop my hardest task from being wiped out when I merge its adapter with others?</dt>
+<dt>my adapters cover tasks of very different difficulty — should I weight them unequally when merging?</dt>
 <dd>Weighting each adapter inversely to the base model&#x27;s accuracy on its task lets the 2 low-base-accuracy tasks retain more of their finetuned performance. The 2 high-base-accuracy tasks show minimal degradation on one and none on the other.<br><span class="scope">Holds for: Lots-of-LoRAs with Mistral-7B-Instruct-v0.2, 4 sampled tasks, softmax weights over 1-Acc with temperature τ, against simple mean merging; base accuracies must be measurable in advance.</span></dd>
-<dt>What should I read about why model merging works or fails?</dt>
-<dt>Which paper studies the causes of merging success rather than proposing a new merging algorithm?</dt>
-<dt>Where does research link a base model&#x27;s pre-training knowledge to merging outcomes?</dt>
-<dd>&quot;Will it Merge? On The Causes of Model Mergeability&quot; gives model merging a per-update notion of mergeability and identifies base model knowledge of the finetuning data as the dominant correlate, shifting the question from which algorithm merges best to which updates merge at all.<br><span class="scope">Holds for: To the authors&#x27; knowledge the first study to directly link pre-training knowledge with mergeability; earlier work related merging success to base model size and strength, to shared knowledge between tasks, and to update norms.</span></dd>
+<dt>what research asks why merging fine-tuned models works instead of proposing yet another merging recipe?</dt>
+<dt>which study links base model knowledge of the finetuning data to merge outcomes at both example and task granularity?</dt>
+<dt>where do I start reading if I want to understand the causes of merge failure rather than more merging algorithms?</dt>
+<dt>which paper should I read to diagnose why my model merges keep failing?</dt>
+<dd>&quot;Will it Merge? On The Causes of Model Mergeability&quot; gives model merging a per-update notion of mergeability, and names base model knowledge of the finetuning data as the dominant correlate. The question shifts from which algorithm merges best to which updates merge at all.<br><span class="scope">Holds for: To the authors&#x27; knowledge the first study to directly link pre-training knowledge with mergeability; earlier work related merging success to base model size and strength, to shared knowledge between tasks, and to update norms.</span></dd>
 <dd>The mergeability study evaluates merging at two granularities that most merging papers do not separate: example-level adapters, each fixing one PopQA factual error, and task-level adapters from the Lots-of-LoRAs collection.<br><span class="scope">Holds for: Both setups use LoRA adapters on 3B-7B base and instruction models; training-data effects such as perplexity and context length appear only in Lots-of-LoRAs, where training data shares the evaluation format.</span></dd>
-<dt>Does training data difficulty affect how mergeable an adapter is?</dt>
-<dt>Do perplexity and context length of the finetuning data predict mergeability?</dt>
-<dt>Are harder finetuning examples less mergeable?</dt>
+<dt>are harder or longer fine-tuning examples less likely to survive being merged with others?</dt>
+<dt>do finetuning-data properties such as perplexity and context length predict per-update mergeability?</dt>
+<dt>can I use difficulty statistics of my training data to pick which adapters to merge?</dt>
+<dt>should I expect my adapters trained on hard examples to merge worse?</dt>
 <dd>Weight-level properties of LoRA updates barely predict mergeability: on PopQA the Frobenius norm and the largest singular value of the effective update correlate with the mergeability score at 0.10 and 0.09 Spearman.<br><span class="scope">Holds for: Llama-3.2-3B PopQA adapters trained on a single layer&#x27;s mlp.up_proj; the Lots-of-LoRAs adapters (attention Q, K, V across layers) likewise show no monotone trend.</span></dd>
 <dd>The mergeability study evaluates merging at two granularities that most merging papers do not separate: example-level adapters, each fixing one PopQA factual error, and task-level adapters from the Lots-of-LoRAs collection.<br><span class="scope">Holds for: Both setups use LoRA adapters on 3B-7B base and instruction models; training-data effects such as perplexity and context length appear only in Lots-of-LoRAs, where training data shares the evaluation format.</span></dd>
-<dt>Are the examples that are easiest to fix by finetuning also the most stable under merging?</dt>
-<dt>What is the relationship between how much finetuning improves an example and how well it merges?</dt>
+<dt>are the cases fine-tuning fixes most easily also the ones that hold up best after models are combined?</dt>
+<dt>how does post-finetuning gain in correct-answer probability relate to per-example mergeability on PopQA?</dt>
+<dt>how do I tell which of the factual errors I fixed by finetuning will still be fixed after merging?</dt>
+<dt>if finetuning gave a big improvement on an example, is that example safe to merge?</dt>
 <dd>High-mergeability PopQA examples show the largest post-training gain in the probability of the correct answer. Those are the examples the base model was already closest to getting right on its own.<br><span class="scope">Holds for: Llama-3.2-3B, PopQA example-level adapters, comparing correct-answer probability before and after LoRA finetuning on the entity&#x27;s Wikipedia passages; the 639 examples finetuning fixed.</span></dd>
 <dd>On PopQA, the base model&#x27;s probability gap between its top-ranked answer and the correct answer decreases as mergeability increases. Examples needing only a small decision-boundary adjustment are the ones whose LoRA updates survive merging.<br><span class="scope">Holds for: Llama-3.2-3B on PopQA in 8-option multiple-choice format, k=4 shot, per-example LoRA adapters (rank 64, mlp.up_proj, single layer) merged with Knots; replicated on Qwen2.5-3B and at LoRA ranks 8 and 256, where the r=256 trend is weaker.</span></dd>
-<dt>How many trials and merge partners are needed to estimate a mergeability score reliably?</dt>
-<dt>Do mergeability scores change if you vary the number of merged adapters?</dt>
+<dt>how many repeat merges do you need to run before a per-update merge success rate settles down?</dt>
+<dt>how sensitive is the mergeability score to the number of trials N and the merge-set size M?</dt>
+<dt>how do I set the number of trials and merge partners when measuring merge success for an adapter?</dt>
+<dt>can I get away with fewer merge trials and smaller merge sets to score my adapters?</dt>
 <dd>Mergeability scores are stable under the estimator&#x27;s sampling parameters: PopQA scores computed with M=50 and N=5 increase monotonically with scores computed at other numbers of trials N and other merge-set sizes M.<br><span class="scope">Holds for: Qwen2.5-3B on PopQA with Knots; the M-sweep is near-perfectly increasing and the N-sweep increasing.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>
@@ -419,7 +443,7 @@
 <li>Weaker merging algorithms push more examples into the top mergeability bins. TIES yields more PopQA examples with score at least 0.8 than Knots, and simple mean averaging produces the most examples at score 1.0. <span class="meta">(Figure 6)</span><br><span class="scope">Scope: Qwen2.5-3B on PopQA, example-level LoRA adapters of rank 64, comparing Knots, TIES and mean averaging at M=50, N=5.</span></li>
 <li>Weighting each adapter inversely to the base model&#x27;s accuracy on its task lets the 2 low-base-accuracy tasks retain more of their finetuned performance. The 2 high-base-accuracy tasks show minimal degradation on one and none on the other. <span class="meta">(Figure 7)</span><br><span class="scope">Scope: Lots-of-LoRAs with Mistral-7B-Instruct-v0.2, 4 sampled tasks, softmax weights over 1-Acc with temperature τ, against simple mean merging; base accuracies must be measurable in advance.</span></li>
 <li>Mergeability scores are stable under the estimator&#x27;s sampling parameters: PopQA scores computed with M=50 and N=5 increase monotonically with scores computed at other numbers of trials N and other merge-set sizes M. <span class="meta">(Figure A.13)</span><br><span class="scope">Scope: Qwen2.5-3B on PopQA with Knots; the M-sweep is near-perfectly increasing and the N-sweep increasing.</span></li>
-<li>&quot;Will it Merge? On The Causes of Model Mergeability&quot; gives model merging a per-update notion of mergeability and identifies base model knowledge of the finetuning data as the dominant correlate, shifting the question from which algorithm merges best to which updates merge at all. <span class="meta">(Section 7)</span><br><span class="scope">Scope: To the authors&#x27; knowledge the first study to directly link pre-training knowledge with mergeability; earlier work related merging success to base model size and strength, to shared knowledge between tasks, and to update norms.</span></li>
+<li>&quot;Will it Merge? On The Causes of Model Mergeability&quot; gives model merging a per-update notion of mergeability, and names base model knowledge of the finetuning data as the dominant correlate. The question shifts from which algorithm merges best to which updates merge at all. <span class="meta">(Section 7)</span><br><span class="scope">Scope: To the authors&#x27; knowledge the first study to directly link pre-training knowledge with mergeability; earlier work related merging success to base model size and strength, to shared knowledge between tasks, and to update norms.</span></li>
 <li>The mergeability study evaluates merging at two granularities that most merging papers do not separate: example-level adapters, each fixing one PopQA factual error, and task-level adapters from the Lots-of-LoRAs collection. <span class="meta">(Section 3)</span><br><span class="scope">Scope: Both setups use LoRA adapters on 3B-7B base and instruction models; training-data effects such as perplexity and context length appear only in Lots-of-LoRAs, where training data shares the evaluation format.</span></li>
 </ul>
 <h2>Common misreadings</h2><ul>

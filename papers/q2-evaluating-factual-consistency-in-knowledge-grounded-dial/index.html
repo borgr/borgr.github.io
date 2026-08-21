@@ -148,7 +148,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How can I automatically tell whether a chatbot's answer contradicts the document it was given?",
+      "name": "how can you tell whether a chatbot's answer actually matches the article it was supposed to use, without a gold answer to compare against?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -156,13 +156,14 @@
         "url": "https://borgr.github.io/papers/q2-evaluating-factual-consistency-in-knowledge-grounded-dial/"
       },
       "alternateName": [
-        "Is there a metric for hallucination in knowledge-grounded dialogue that does not need a gold reference response?",
-        "How does Q² score factual consistency of a dialogue response?"
+        "is there a reference-free factual-consistency metric for knowledge-grounded dialogue that also separates consistent from hallucinated responses?",
+        "how do I score a generated dialogue response for groundedness against its source passage and see which span went wrong?",
+        "should I use Q² to flag hallucinated responses from my knowledge-grounded chatbot when I have no reference replies?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does using NLI instead of token overlap to compare answer spans actually help?",
+      "name": "when checking if two answers to the same question agree, is entailment better than just counting shared words?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -170,13 +171,14 @@
         "url": "https://borgr.github.io/papers/q2-evaluating-factual-consistency-in-knowledge-grounded-dial/"
       },
       "alternateName": [
-        "How much does the NLI-based span comparison add over token-level F1 matching?",
-        "What is the difference between Q² and Q² without NLI?"
+        "does replacing token-level F1 answer-span matching with an NLI entailment check improve the separation and accuracy of Q²?",
+        "how should I compare the answer extracted from a response with the answer from the source document — word overlap or an entailment model?",
+        "is the extra NLI model in the Q² pipeline worth running, or will token F1 span matching do?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How well do automatic consistency metrics correlate with human judgments on Wizard of Wikipedia?",
+      "name": "which automatic score for chatbot groundedness agrees best with what human raters say?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -184,13 +186,14 @@
         "url": "https://borgr.github.io/papers/q2-evaluating-factual-consistency-in-knowledge-grounded-dial/"
       },
       "alternateName": [
-        "Does Q² correlate better with human ratings than BLEU, BERTScore or knowledge overlap?",
-        "Which factual-consistency metric ranks dialogue systems most like humans do?"
+        "how does Q² compare with end-to-end NLI, knowledge overlap, BERTScore, BLEU, METEOR and USR on system-level correlation with human groundedness judgments?",
+        "how do I rank knowledge-grounded dialogue systems for factual consistency the way human annotators would?",
+        "if I need one metric to compare my dialogue systems on faithfulness to knowledge, which one tracks human ratings closest?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can Q² be used to classify a single dialogue response as consistent or inconsistent?",
+      "name": "can a groundedness score be turned into a yes-or-no verdict on a single chatbot reply?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -198,13 +201,14 @@
         "url": "https://borgr.github.io/papers/q2-evaluating-factual-consistency-in-knowledge-grounded-dial/"
       },
       "alternateName": [
-        "What accuracy does a 0.5 threshold on Q² give for detecting inconsistent responses?",
-        "How good is response-level inconsistency detection with a question-generation metric?"
+        "what response-level classification accuracy does a fixed 0.5 threshold on the Q² score reach on Wizard-of-Wikipedia?",
+        "how do I get a binary consistent/inconsistent decision per response out of a continuous groundedness metric?",
+        "can I use Q² with a default cutoff to filter individual hallucinated responses, or is it only reliable for comparing systems?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does Q² transfer to persona consistency and Dialogue NLI?",
+      "name": "does a groundedness checker built for factual passages also catch a chatbot contradicting its own persona?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -212,13 +216,14 @@
         "url": "https://borgr.github.io/papers/q2-evaluating-factual-consistency-in-knowledge-grounded-dial/"
       },
       "alternateName": [
-        "How does a QG-QA consistency metric do on the DNLI benchmark zero-shot?",
-        "Can question-generation-based evaluation detect persona contradictions in Persona-Chat?"
+        "how does the Q² question-generation and question-answering pipeline perform zero-shot on the Dialogue NLI Test Gold split against InferSent and end-to-end NLI baselines?",
+        "how do I detect persona contradictions in Persona-Chat dialogue without training a dedicated NLI classifier on that data?",
+        "can I reuse Q² for persona-consistency checking, or do I need a model trained on Dialogue NLI?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do I need large question generation and question answering models for QG-QA based dialogue evaluation?",
+      "name": "does a groundedness score change much if the question-writing and question-answering models inside it are smaller?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -226,13 +231,14 @@
         "url": "https://borgr.github.io/papers/q2-evaluating-factual-consistency-in-knowledge-grounded-dial/"
       },
       "alternateName": [
-        "Is the Q² metric sensitive to the size of its underlying QG and QA models?",
-        "What happens if I substitute T5-small or Albert-base into the Q² pipeline?"
+        "how sensitive is Q²'s system-level correlation with human judgments to swapping T5-base for T5-small and Albert-Xlarge for Albert-base?",
+        "how do I cut the compute cost of a question-generation-based consistency metric without losing agreement with human ratings?",
+        "can I run Q² with smaller QG and QA checkpoints on my hardware and still trust the scores?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is there an annotated dataset of dialogue responses labelled for factual consistency?",
+      "name": "is there a public set of chatbot replies labelled for whether they stick to the source text?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -240,13 +246,14 @@
         "url": "https://borgr.github.io/papers/q2-evaluating-factual-consistency-in-knowledge-grounded-dial/"
       },
       "alternateName": [
-        "What data does the Q² paper release for evaluating groundedness in Wizard of Wikipedia?",
-        "How large is the Wizard-of-Wikipedia factual consistency annotation set, and how reliable are the labels?"
+        "what annotated Wizard-of-Wikipedia data with factual-consistency labels and inter-annotator agreement is released with Q²?",
+        "where do I get labelled dialogue responses to benchmark my own hallucination detector for grounded dialogue?",
+        "is the Q² Wizard-of-Wikipedia annotation set big and reliable enough to validate my own groundedness metric?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Where should I start reading about evaluating factual consistency in grounded dialogue?",
+      "name": "which paper should I read first on automatically checking whether chatbot answers stay faithful to the text they were given?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -254,13 +261,13 @@
         "url": "https://borgr.github.io/papers/q2-evaluating-factual-consistency-in-knowledge-grounded-dial/"
       },
       "alternateName": [
-        "What work brought QA-based summarization faithfulness metrics to dialogue?",
-        "Which paper established question-generation-based groundedness evaluation for dialogue systems?"
+        "what work carried question-generation/question-answering faithfulness evaluation from abstractive summarization over to knowledge-grounded dialogue?",
+        "where do I start reading about explainable, reference-free groundedness evaluation for dialogue systems?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What happens to a question-generation consistency metric when the grounding knowledge is completely irrelevant to the dialogue response?",
+      "name": "what score does a groundedness checker give when the passage handed to it has nothing to do with the reply?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -268,13 +275,14 @@
         "url": "https://borgr.github.io/papers/q2-evaluating-factual-consistency-in-knowledge-grounded-dial/"
       },
       "alternateName": [
-        "How does Q² behave on adversarial cases with mismatched knowledge passages?",
-        "Does swapping in knowledge from a different Wizard-of-Wikipedia dialogue drive the consistency score to zero?"
+        "how does Q² behave in adversarial controls where the grounding knowledge is swapped for another turn's or another dialogue's knowledge?",
+        "how do I sanity-check that a factual-consistency metric is really reading the grounding document and not just the response?",
+        "will Q² give a near-zero score if I feed it the wrong knowledge passage, so I can trust it as a hallucination alarm?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Why does a question-generation consistency metric fail on chit-chat responses?",
+      "name": "what happens to a groundedness checker when the reply is just small talk with no facts in it?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -282,8 +290,9 @@
         "url": "https://borgr.github.io/papers/q2-evaluating-factual-consistency-in-knowledge-grounded-dial/"
       },
       "alternateName": [
-        "How often does Q² generate no valid questions for a dialogue response?",
-        "What are the known failure modes of question-generation-based dialogue evaluation?"
+        "how often does Q² produce no valid questions, and how does chit-chat coverage limit question-generation-based consistency evaluation?",
+        "how do I handle dialogue responses that carry no verifiable content when scoring groundedness?",
+        "will Q² leave a chunk of my chatbot's responses unscored, and how would I know which ones?"
       ]
     }
   ]
@@ -357,49 +366,58 @@
 <p>Neural knowledge-grounded generative models for dialogue often produce content that is factually inconsistent with the knowledge they rely on, making them unreliable and limiting their applicability. Inspired by recent work on evaluating factual consistency in abstractive summarization, we propose an automatic evaluation metric for factual consistency in knowledge-grounded dialogue using automatic question generation and question answering. Our metric, denoted Q^2, compares answer spans using natural language inference (NLI), instead of token-based matching as done in previous work. To foster proper evaluation, we curate a novel dataset of dialogue system outputs for the Wizard-of-Wikipedia dataset, manually annotated for factual consistency. We perform a thorough meta-evaluation of Q^2 against other metrics using this dataset and two others, where it consistently shows higher correlation with human judgements.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>How can I automatically tell whether a chatbot&#x27;s answer contradicts the document it was given?</dt>
-<dt>Is there a metric for hallucination in knowledge-grounded dialogue that does not need a gold reference response?</dt>
-<dt>How does Q² score factual consistency of a dialogue response?</dt>
+<dt>how can you tell whether a chatbot&#x27;s answer actually matches the article it was supposed to use, without a gold answer to compare against?</dt>
+<dt>is there a reference-free factual-consistency metric for knowledge-grounded dialogue that also separates consistent from hallucinated responses?</dt>
+<dt>how do I score a generated dialogue response for groundedness against its source passage and see which span went wrong?</dt>
+<dt>should I use Q² to flag hallucinated responses from my knowledge-grounded chatbot when I have no reference replies?</dt>
 <dd>Q² is a reference-free dialogue metric whose intermediate output is itself the explanation. Alongside the score it emits the generated questions, the response answer spans and the knowledge-based answers, which can highlight potentially inconsistent spans.<br><span class="scope">Holds for: Interpretability is argued from qualitative examples rather than a human study of explanation quality; the pipeline is slow, at roughly 1.5-2 hours on 4 CPUs per 150-response split.</span></dd>
 <dd>On manually annotated Wizard-of-Wikipedia responses, Q² averages 0.696 on consistent and 0.238 on inconsistent dodeca Dialogue outputs, and 0.756 versus 0.135 on MemNet outputs. Random samples fall in between, at 0.496 and 0.448.<br><span class="scope">Holds for: 150 consistent and 150 inconsistent responses per system, annotated by 3 of the paper&#x27;s authors on the WoW validation set; inconsistent examples were deliberately chosen to be clear and coherent.</span></dd>
-<dt>Does using NLI instead of token overlap to compare answer spans actually help?</dt>
-<dt>How much does the NLI-based span comparison add over token-level F1 matching?</dt>
-<dt>What is the difference between Q² and Q² without NLI?</dt>
+<dt>when checking if two answers to the same question agree, is entailment better than just counting shared words?</dt>
+<dt>does replacing token-level F1 answer-span matching with an NLI entailment check improve the separation and accuracy of Q²?</dt>
+<dt>how should I compare the answer extracted from a response with the answer from the source document — word overlap or an entailment model?</dt>
+<dt>is the extra NLI model in the Q² pipeline worth running, or will token F1 span matching do?</dt>
 <dd>An NLI-based answer-span comparison widens Q²&#x27;s gap between consistent and inconsistent Wizard-of-Wikipedia responses. For dodeca Dialogue outputs the scores are 0.696 versus 0.238 with NLI, against 0.516 versus 0.159 with token-level F1 matching.<br><span class="scope">Holds for: WoW annotated responses; the NLI model is RoBERTa fine-tuned on SNLI, applied only to answer pairs that do not match exactly at the token level, with the question prepended to both premise and hypothesis.</span></dd>
 <dd>Using an untuned response-level threshold of 0.5, Q² classifies Wizard-of-Wikipedia responses as consistent or inconsistent with 77.3% accuracy, against 73.1% for Q² without the NLI comparison and 65.3% for end-to-end NLI.<br><span class="scope">Holds for: The 0.5 threshold was selected arbitrarily rather than tuned on a development split; measured on the annotated dodeca Dialogue and MemNet consistent/inconsistent examples.</span></dd>
-<dt>How well do automatic consistency metrics correlate with human judgments on Wizard of Wikipedia?</dt>
-<dt>Does Q² correlate better with human ratings than BLEU, BERTScore or knowledge overlap?</dt>
-<dt>Which factual-consistency metric ranks dialogue systems most like humans do?</dt>
+<dt>which automatic score for chatbot groundedness agrees best with what human raters say?</dt>
+<dt>how does Q² compare with end-to-end NLI, knowledge overlap, BERTScore, BLEU, METEOR and USR on system-level correlation with human groundedness judgments?</dt>
+<dt>how do I rank knowledge-grounded dialogue systems for factual consistency the way human annotators would?</dt>
+<dt>if I need one metric to compare my dialogue systems on faithfulness to knowledge, which one tracks human ratings closest?</dt>
 <dd>In a bootstrapped system-level meta-evaluation on WoW, Q² reaches an average Spearman correlation of 0.9798 with human judgments, above end-to-end NLI (0.9216), knowledge overlap (0.878), BERTScore (0.8467) and BLEU (0.3051).<br><span class="scope">Holds for: Simulated systems built by sampling 350 contexts with repetition from 244 dialogue contexts having both a consistent and an inconsistent response, with inconsistent proportions of 0.05 to 0.25, repeated 1000 times.</span></dd>
 <dd>On Topical-Chat&#x27;s &quot;Uses Knowledge&quot; human judgments, Q² obtains 0.4579 Spearman and 0.4698 Pearson correlation, above the best USR result (0.4468 Spearman, 0.3175 Pearson) and METEOR (0.3909, 0.3328).<br><span class="scope">Holds for: 52 of the 60 annotated dialogue contexts, excluding the 8 where no knowledge was used, and 260 responses following the USR setting that drops the original human response.</span></dd>
-<dt>Can Q² be used to classify a single dialogue response as consistent or inconsistent?</dt>
-<dt>What accuracy does a 0.5 threshold on Q² give for detecting inconsistent responses?</dt>
-<dt>How good is response-level inconsistency detection with a question-generation metric?</dt>
+<dt>can a groundedness score be turned into a yes-or-no verdict on a single chatbot reply?</dt>
+<dt>what response-level classification accuracy does a fixed 0.5 threshold on the Q² score reach on Wizard-of-Wikipedia?</dt>
+<dt>how do I get a binary consistent/inconsistent decision per response out of a continuous groundedness metric?</dt>
+<dt>can I use Q² with a default cutoff to filter individual hallucinated responses, or is it only reliable for comparing systems?</dt>
 <dd>Using an untuned response-level threshold of 0.5, Q² classifies Wizard-of-Wikipedia responses as consistent or inconsistent with 77.3% accuracy, against 73.1% for Q² without the NLI comparison and 65.3% for end-to-end NLI.<br><span class="scope">Holds for: The 0.5 threshold was selected arbitrarily rather than tuned on a development split; measured on the annotated dodeca Dialogue and MemNet consistent/inconsistent examples.</span></dd>
-<dt>Does Q² transfer to persona consistency and Dialogue NLI?</dt>
-<dt>How does a QG-QA consistency metric do on the DNLI benchmark zero-shot?</dt>
-<dt>Can question-generation-based evaluation detect persona contradictions in Persona-Chat?</dt>
+<dt>does a groundedness checker built for factual passages also catch a chatbot contradicting its own persona?</dt>
+<dt>how does the Q² question-generation and question-answering pipeline perform zero-shot on the Dialogue NLI Test Gold split against InferSent and end-to-end NLI baselines?</dt>
+<dt>how do I detect persona contradictions in Persona-Chat dialogue without training a dedicated NLI classifier on that data?</dt>
+<dt>can I reuse Q² for persona-consistency checking, or do I need a model trained on Dialogue NLI?</dt>
 <dd>Q² reaches 74.49% accuracy on the Dialogue NLI Test Gold split, above the end-to-end NLI baseline (67.42%) and the zero-shot InferSent baselines (47.03% for InferSent SNLI, 51.52% for hypothesis-only).<br><span class="scope">Holds for: Zero-shot use of Q² with a 0.1 decision threshold tuned on the DNLI development set, neutral pairs treated as inconsistent, and no filtering of questions containing personal or possessive pronouns.</span></dd>
-<dt>Do I need large question generation and question answering models for QG-QA based dialogue evaluation?</dt>
-<dt>Is the Q² metric sensitive to the size of its underlying QG and QA models?</dt>
-<dt>What happens if I substitute T5-small or Albert-base into the Q² pipeline?</dt>
+<dt>does a groundedness score change much if the question-writing and question-answering models inside it are smaller?</dt>
+<dt>how sensitive is Q²&#x27;s system-level correlation with human judgments to swapping T5-base for T5-small and Albert-Xlarge for Albert-base?</dt>
+<dt>how do I cut the compute cost of a question-generation-based consistency metric without losing agreement with human ratings?</dt>
+<dt>can I run Q² with smaller QG and QA checkpoints on my hardware and still trust the scores?</dt>
 <dd>Swapping Q²&#x27;s T5-base question generator for T5-small, or its Albert-Xlarge QA model for Albert-base, barely changes the system-level correlation with human judgments: 0.9722 and 0.9797 respectively, against 0.9798 for the original pipeline.<br><span class="scope">Holds for: WoW system-level bootstrap setting; question coverage drops slightly with smaller models (from about 92-95% to 88.67-92.67%), and the smaller QG model lowers absolute Q² scores while the smaller QA model raises them.</span></dd>
-<dt>Is there an annotated dataset of dialogue responses labelled for factual consistency?</dt>
-<dt>What data does the Q² paper release for evaluating groundedness in Wizard of Wikipedia?</dt>
-<dt>How large is the Wizard-of-Wikipedia factual consistency annotation set, and how reliable are the labels?</dt>
+<dt>is there a public set of chatbot replies labelled for whether they stick to the source text?</dt>
+<dt>what annotated Wizard-of-Wikipedia data with factual-consistency labels and inter-annotator agreement is released with Q²?</dt>
+<dt>where do I get labelled dialogue responses to benchmark my own hallucination detector for grounded dialogue?</dt>
+<dt>is the Q² Wizard-of-Wikipedia annotation set big and reliable enough to validate my own groundedness metric?</dt>
 <dd>The Q² paper releases 1,088 Wizard-of-Wikipedia dialogue responses over 544 contexts, annotated for factual consistency against the grounding sentence, with Fleiss&#x27; kappa of 0.853 on a 100-response agreement sample.<br><span class="scope">Holds for: Outputs of 2 systems (MemNet and dodeca Dialogue) on the WoW validation set, generated with beam size 10; the sample is not a random draw, and 34.2% of contexts were inconsistent for dodeca and 50.36% for MemNet.</span></dd>
-<dt>Where should I start reading about evaluating factual consistency in grounded dialogue?</dt>
-<dt>What work brought QA-based summarization faithfulness metrics to dialogue?</dt>
-<dt>Which paper established question-generation-based groundedness evaluation for dialogue systems?</dt>
+<dt>which paper should I read first on automatically checking whether chatbot answers stay faithful to the text they were given?</dt>
+<dt>what work carried question-generation/question-answering faithfulness evaluation from abstractive summarization over to knowledge-grounded dialogue?</dt>
+<dt>where do I start reading about explainable, reference-free groundedness evaluation for dialogue systems?</dt>
 <dd>Q² carries the question-generation/question-answering approach to factual-consistency evaluation over from abstractive summarization to knowledge-grounded dialogue. Dialogue responses mix grounded knowledge with chit-chat, opinions and questions to the user, which the summarization metrics of Durmus et al. and Wang et al. did not have to handle.<br><span class="scope">Holds for: As of publication at EMNLP 2021, and to the authors&#x27; knowledge the first QG-QA metric applied to dialogue generation; concurrent work on grounded-dialogue evaluation includes the BEGIN benchmark of Dziri et al. (2021), which frames groundedness as NLI.</span></dd>
 <dd>Q² is a reference-free dialogue metric whose intermediate output is itself the explanation. Alongside the score it emits the generated questions, the response answer spans and the knowledge-based answers, which can highlight potentially inconsistent spans.<br><span class="scope">Holds for: Interpretability is argued from qualitative examples rather than a human study of explanation quality; the pipeline is slow, at roughly 1.5-2 hours on 4 CPUs per 150-response split.</span></dd>
-<dt>What happens to a question-generation consistency metric when the grounding knowledge is completely irrelevant to the dialogue response?</dt>
-<dt>How does Q² behave on adversarial cases with mismatched knowledge passages?</dt>
-<dt>Does swapping in knowledge from a different Wizard-of-Wikipedia dialogue drive the consistency score to zero?</dt>
+<dt>what score does a groundedness checker give when the passage handed to it has nothing to do with the reply?</dt>
+<dt>how does Q² behave in adversarial controls where the grounding knowledge is swapped for another turn&#x27;s or another dialogue&#x27;s knowledge?</dt>
+<dt>how do I sanity-check that a factual-consistency metric is really reading the grounding document and not just the response?</dt>
+<dt>will Q² give a near-zero score if I feed it the wrong knowledge passage, so I can trust it as a hallucination alarm?</dt>
 <dd>Replacing the grounding knowledge with knowledge from another turn of the same dialogue drops Q² to 0.02, with 91.02% of generated questions unanswerable. With knowledge from a different dialogue Q² drops to 0, with 99.61% unanswerable.<br><span class="scope">Holds for: Adversarial check on WoW responses only, using randomly selected knowledge passages rather than model-generated hallucinations.</span></dd>
-<dt>Why does a question-generation consistency metric fail on chit-chat responses?</dt>
-<dt>How often does Q² generate no valid questions for a dialogue response?</dt>
-<dt>What are the known failure modes of question-generation-based dialogue evaluation?</dt>
+<dt>what happens to a groundedness checker when the reply is just small talk with no facts in it?</dt>
+<dt>how often does Q² produce no valid questions, and how does chit-chat coverage limit question-generation-based consistency evaluation?</dt>
+<dt>how do I handle dialogue responses that carry no verifiable content when scoring groundedness?</dt>
+<dt>will Q² leave a chunk of my chatbot&#x27;s responses unscored, and how would I know which ones?</dt>
 <dd>Q² produces no valid questions for about 20% of randomly sampled Wizard-of-Wikipedia responses, versus around 6-8% of the annotated consistent and inconsistent responses, because general chit-chat yields fewer answerable factual questions.<br><span class="scope">Holds for: WoW responses from MemNet and dodeca Dialogue; such cases fall back to an end-to-end NLI prediction, and unresolved pronouns referring to the dialogue history are a further cause of discarded questions.</span></dd>
 <dd>Q² is a reference-free dialogue metric whose intermediate output is itself the explanation. Alongside the score it emits the generated questions, the response answer spans and the knowledge-based answers, which can highlight potentially inconsistent spans.<br><span class="scope">Holds for: Interpretability is argued from qualitative examples rather than a human study of explanation quality; the pipeline is slow, at roughly 1.5-2 hours on 4 CPUs per 150-response split.</span></dd>
 </dl>

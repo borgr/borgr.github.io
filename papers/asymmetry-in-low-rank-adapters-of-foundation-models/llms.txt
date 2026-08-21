@@ -33,8 +33,8 @@ LoRA's two factors have different jobs — A extracts features from the layer in
 - With Llama-2-7B instruction-tuned on Alpaca, tuning only B at r=64 reaches 46.46 average 5-shot MMLU accuracy with 0.12% trainable parameters. LoRA at r=32 reaches 44.76 with 0.24%, and tuning only A at r=32 reaches 44.51.
   Scope: 5-shot MMLU averaged over Humanities, STEM, Social and Other; the B-only r=32 setting scores 45.36 average but is below LoRA on the Social subject, and the base Llama-2-7B scores 43.14.
   Evidence: Table 4
-- On DomainBed with an ImageNet-pretrained ViT, freezing a random A and tuning only B gives the best out-of-domain accuracy on VLCS (75.81% at r=8 versus 56.43% for LoRA r=8) and OfficeHome (77.85% at r=16 versus 74.46%). LoRA stays ahead out-of-domain on PACS, at 75.58% versus 73.76%.
-  Scope: ViT fine-tuned on the LabelMe, Cartoon and Clipart environments of VLCS, PACS and Office-Home with the original 80/20 train/test split; out-of-domain numbers averaged across held-out environments. On TerraIncognita low-rank adapters fit poorly and full fine-tuning is strongest.
+- On DomainBed, freezing a random A and tuning only B gives the best out-of-domain accuracy on VLCS (75.81% at r=8 versus 56.43% for LoRA) and OfficeHome (77.85% at r=16 versus 74.46%). LoRA stays ahead out-of-domain on PACS, at 75.58% versus 73.76%.
+  Scope: ImageNet-pretrained ViT fine-tuned on the LabelMe, Cartoon and Clipart environments of VLCS, PACS and Office-Home, original 80/20 split; out-of-domain numbers averaged across held-out environments. On TerraIncognita full fine-tuning is strongest.
   Evidence: Table 5, with per-environment breakdown in Table 8 and TerraIncognita in Table 9
 - Tuning a single LoRA factor yields a smaller train-minus-test accuracy gap than standard LoRA across DomainBed datasets, for example 11.82% versus 24.03% on the in-domain VLCS LabelMe environment for B-only at r=8.
   Scope: ViT on VLCS, PACS, OfficeHome and TerraIncognita environments; the trend holds generally across environments rather than uniformly in every column, and the comparison is against LoRA at r=8.

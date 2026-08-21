@@ -146,7 +146,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Can a language model improve its own factual accuracy with no labelled data?",
+      "name": "can a language model get more accurate about facts by training on statements it wrote itself, with no human labels?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -154,13 +154,14 @@
         "url": "https://borgr.github.io/papers/deductive-closure-training-of-language-models-for-coherence/"
       },
       "alternateName": [
-        "Does fine-tuning on self-generated statements actually raise fact-verification accuracy?",
-        "How much does unsupervised Deductive Closure Training help on CREAK?"
+        "how much does unsupervised fine-tuning on self-generated, consistency-filtered statements improve fact-verification accuracy on CREAK?",
+        "how do I raise a 7B model's factual accuracy when I have no labelled fact-checking data?",
+        "is self-generated training data enough to beat few-shot prompting for fact verification on my own model?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does the logical consistency step matter, or is fine-tuning on self-generated text enough?",
+      "name": "if a model trains on text it generated itself, does anything filter out the false parts?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -168,12 +169,14 @@
         "url": "https://borgr.github.io/papers/deductive-closure-training-of-language-models-for-coherence/"
       },
       "alternateName": [
-        "What happens if you skip consistency checking and just train on generated implications?"
+        "what is the contribution of the logical consistency-evaluation step in Deductive Closure Training, relative to fine-tuning on seed statements alone?",
+        "do I need to check generated implications for consistency before fine-tuning on them, or can I train on all of them?",
+        "can I skip the consistency-checking stage and still come out ahead of just fine-tuning on the seed statements?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do a few labelled examples combine usefully with self-generated training data?",
+      "name": "if I have only a couple dozen labelled examples, is it worth combining them with machine-generated training data?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -181,12 +184,14 @@
         "url": "https://borgr.github.io/papers/deductive-closure-training-of-language-models-for-coherence/"
       },
       "alternateName": [
-        "Is semi-supervised fine-tuning better than either 20 labelled claims or unsupervised generation alone?"
+        "does pooling a small labelled set with unsupervised Deductive Closure Training data beat both supervised fine-tuning and the unsupervised setting on CREAK?",
+        "how do I make 20 hand-labelled claims go further for training a fact-verification model?",
+        "I have about 20 annotated claims and lots of unlabelled text — should I train on both together?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does having unlabelled test claims during training help fact verification?",
+      "name": "does letting a model see the unlabelled test questions during training help it answer them correctly?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -194,13 +199,14 @@
         "url": "https://borgr.github.io/papers/deductive-closure-training-of-language-models-for-coherence/"
       },
       "alternateName": [
-        "How does transductive Deductive Closure Training compare with inference-time consistency reasoning on CREAK?",
-        "Is fine-tuning on generated implication graphs better than reasoning over them at inference time?"
+        "how does transductive Deductive Closure Training on unlabelled CREAK validation claims compare with inference-time implication-graph reasoning?",
+        "I have the unlabelled evaluation claims in hand — should I fine-tune on their implications or run consistency reasoning at inference time?",
+        "is it better to bake consistency reasoning into the weights or pay for it at inference on every query?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does self-training reduce self-contradiction in a language model?",
+      "name": "can training a model on its own statements stop it from agreeing with two claims that contradict each other?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -208,13 +214,14 @@
         "url": "https://borgr.github.io/papers/deductive-closure-training-of-language-models-for-coherence/"
       },
       "alternateName": [
-        "Can fine-tuning stop a model from labelling two contradictory claims as both true?",
-        "How is logical coherence measured on the CREAK contrast set?"
+        "does self-training on generated contradictions reduce the rate of contradictory statement pairs both labelled true, and what happens to accuracy?",
+        "how do I stop a model from labelling a claim and its negation as both true?",
+        "if I fine-tune for logical coherence, do I lose accuracy to get consistency?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Why do model edits fail to propagate to multi-hop questions?",
+      "name": "after you correct a fact in a language model, why does it still get wrong the questions that depend on that fact?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -222,13 +229,14 @@
         "url": "https://borgr.github.io/papers/deductive-closure-training-of-language-models-for-coherence/"
       },
       "alternateName": [
-        "How does Deductive Closure Training compare with MEMIT and MeLLo on MQuAKE?",
-        "What method works best for updating a language model so its consequences follow?"
+        "how does Deductive Closure Training compare with MEMIT, MeLLo and fine-tuning on edits for multi-hop counterfactual accuracy on MQuAKE?",
+        "how do I edit thousands of facts in a model so that multi-hop answers depending on them also change?",
+        "which knowledge-editing approach should I pick if my questions require chaining two edited facts together?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does prompting for related background facts before implications help model editing?",
+      "name": "does asking a model to recall related background facts first make the statements it generates more useful for training?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -236,12 +244,14 @@
         "url": "https://borgr.github.io/papers/deductive-closure-training-of-language-models-for-coherence/"
       },
       "alternateName": [
-        "What are correlative implications and do they beat plain implications?"
+        "do correlative implications, generated after eliciting related background knowledge, outperform plain implications on MQuAKE and introduce more new information?",
+        "how should I prompt a model to generate training statements that carry consequences of an edited fact rather than restating it?",
+        "is it worth an extra prompting step to get background facts before generating implications of an edit?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can fine-tuning fix the reversal curse?",
+      "name": "if a model learns that A is B, can training fix the fact that it cannot answer the question the other way round?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -249,13 +259,14 @@
         "url": "https://borgr.github.io/papers/deductive-closure-training-of-language-models-for-coherence/"
       },
       "alternateName": [
-        "Does training on implications let a model answer 'B is A' after learning 'A is B'?",
-        "How much does DCT improve reversed-direction accuracy on the Reversal Curse benchmark?"
+        "does fine-tuning on generated implications mitigate the reversal curse, and at what cost to forward-direction exact-match accuracy?",
+        "how do I teach a model a relation so it answers questions in both directions rather than only the one it was trained on?",
+        "will training on generated implications fix reversed-order recall without degrading the direction that already worked?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is there any theoretical reason self-generated training data should improve accuracy?",
+      "name": "is there any proof that training a model on text it produced itself should make it more accurate rather than reinforce its mistakes?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -263,12 +274,13 @@
         "url": "https://borgr.github.io/papers/deductive-closure-training-of-language-models-for-coherence/"
       },
       "alternateName": [
-        "Under what assumptions is Deductive Closure Training guaranteed to help?"
+        "under what assumptions on seed-pair correctness and conditional probability gain is Deductive Closure Training guaranteed to increase the probability of the correct answer?",
+        "is there a formal argument I can rely on before I fine-tune a model on its own generations?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does asking a model to double-check its own generated implications improve their quality?",
+      "name": "if a model re-checks the statements it generated, do they get more reliable, and how much gets thrown away?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -276,12 +288,14 @@
         "url": "https://borgr.github.io/papers/deductive-closure-training-of-language-models-for-coherence/"
       },
       "alternateName": [
-        "How much training data is lost by filtering self-generated implications for validity?"
+        "how much does a double-checking verification pass raise the validity rate of generated implications and contradictions, and what fraction is discarded?",
+        "how do I filter self-generated implications for validity without discarding most of my training set?",
+        "is a second verification pass over generated statements worth losing most of the data I generated?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about using a language model's own reasoning to supervise its training?",
+      "name": "which work first turned checking a claim against its logical consequences into a way of training a model rather than a way of answering at inference time?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -289,13 +303,13 @@
         "url": "https://borgr.github.io/papers/deductive-closure-training-of-language-models-for-coherence/"
       },
       "alternateName": [
-        "Which paper established that inference-time consistency reasoning can be used at training time?",
-        "Where should I start reading about self-supervised factuality fine-tuning for language models?"
+        "which paper reframes inference-time consistency reasoning over implications and contradictions as training-time supervision for factuality?",
+        "where should I start reading about improving a language model's factuality without labelled data?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is a good paper on whether knowledge edits generalize to their logical consequences?",
+      "name": "what should I read about whether correcting a fact in a language model also corrects everything that follows from it?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -303,7 +317,8 @@
         "url": "https://borgr.github.io/papers/deductive-closure-training-of-language-models-for-coherence/"
       },
       "alternateName": [
-        "Which work evaluates edit propagation across multi-hop questions and reversal generalization?"
+        "which work evaluates whether knowledge edits propagate to multi-hop questions and to reversed relation directions?",
+        "how do I find out whether an edit to one fact in a model generalizes to its consequences before I rely on it?"
       ]
     }
   ]
@@ -383,52 +398,67 @@
 <p>While language models (LMs) can sometimes generate factually correct text and estimate truth values of individual claims, these generally do not reflect a globally coherent, manipulable model of the world. As a consequence, current LMs also generate incorrect or nonsensical content, and are difficult to edit and bring up to date. We present a method called Deductive Closure Training (DCT) that uses LMs themselves to identify implications of (and contradictions within) the text that they generate, yielding an efficient self-supervised procedure for improving LM factuality. Given a collection of seed documents, DCT prompts LMs to generate additional text implied by these documents, reason globally about the correctness of this generated text, and finally fine-tune on text inferred to be correct. Given seed documents from a trusted source, DCT provides a tool for supervised model updating; if seed documents are sampled from the LM itself, DCT enables fully unsupervised fine-tuning for improved coherence and accuracy. Across the CREAK, MQUaKE, and Reversal Curse datasets, supervised DCT improves LM fact verification and text generation accuracy by 3-26%; on CREAK fully unsupervised DCT improves verification accuracy by 12%. These results show that LMs&#x27; reasoning capabilities during inference can be leveraged during training to improve their reliability.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Can a language model improve its own factual accuracy with no labelled data?</dt>
-<dt>Does fine-tuning on self-generated statements actually raise fact-verification accuracy?</dt>
-<dt>How much does unsupervised Deductive Closure Training help on CREAK?</dt>
+<dt>can a language model get more accurate about facts by training on statements it wrote itself, with no human labels?</dt>
+<dt>how much does unsupervised fine-tuning on self-generated, consistency-filtered statements improve fact-verification accuracy on CREAK?</dt>
+<dt>how do I raise a 7B model&#x27;s factual accuracy when I have no labelled fact-checking data?</dt>
+<dt>is self-generated training data enough to beat few-shot prompting for fact verification on my own model?</dt>
 <dd>Unsupervised Deductive Closure Training raises Llama-2-7B fact-verification accuracy on the CREAK validation set from 71.7% with few-shot prompting to 83.5%, using no labelled data at all.<br><span class="scope">Holds for: Llama-2-7B on CREAK validation, averaged over 3 seeds; seeds sampled from the model itself at temperature 0.9, LoRA fine-tuning for 30 epochs, no held-out dev set.</span></dd>
 <dd>Dropping the logical consistency-evaluation step from unsupervised DCT lowers CREAK accuracy from 83.5% to 77.5%, below the 80.0% obtained by fine-tuning on seed statements alone.<br><span class="scope">Holds for: Llama-2-7B on CREAK validation, 3 seeds, same 586 generated documents in both the full and ablated conditions.</span></dd>
-<dt>Does the logical consistency step matter, or is fine-tuning on self-generated text enough?</dt>
-<dt>What happens if you skip consistency checking and just train on generated implications?</dt>
+<dt>if a model trains on text it generated itself, does anything filter out the false parts?</dt>
+<dt>what is the contribution of the logical consistency-evaluation step in Deductive Closure Training, relative to fine-tuning on seed statements alone?</dt>
+<dt>do I need to check generated implications for consistency before fine-tuning on them, or can I train on all of them?</dt>
+<dt>can I skip the consistency-checking stage and still come out ahead of just fine-tuning on the seed statements?</dt>
 <dd>Dropping the logical consistency-evaluation step from unsupervised DCT lowers CREAK accuracy from 83.5% to 77.5%, below the 80.0% obtained by fine-tuning on seed statements alone.<br><span class="scope">Holds for: Llama-2-7B on CREAK validation, 3 seeds, same 586 generated documents in both the full and ablated conditions.</span></dd>
 <dd>A double-checking pass in which the model re-verifies each generated implication or contradiction raises their validity rate from 76% to 82%. It also discards about 2/3 of generations, cutting 100 annotated statements to 33.<br><span class="scope">Holds for: Manual annotation of 100 implications and contradictions generated by Llama-2-7B in the supervised CREAK setting; precision is bought at a large loss of training data volume.</span></dd>
-<dt>Do a few labelled examples combine usefully with self-generated training data?</dt>
-<dt>Is semi-supervised fine-tuning better than either 20 labelled claims or unsupervised generation alone?</dt>
+<dt>if I have only a couple dozen labelled examples, is it worth combining them with machine-generated training data?</dt>
+<dt>does pooling a small labelled set with unsupervised Deductive Closure Training data beat both supervised fine-tuning and the unsupervised setting on CREAK?</dt>
+<dt>how do I make 20 hand-labelled claims go further for training a fact-verification model?</dt>
+<dt>I have about 20 annotated claims and lots of unlabelled text — should I train on both together?</dt>
 <dd>Pooling 20 labelled CREAK claims with unsupervised DCT data reaches 84.9% accuracy, above both supervised fine-tuning on the 20 claims (77.2%) and unsupervised DCT alone (83.5%).<br><span class="scope">Holds for: Llama-2-7B, CREAK validation, 3 seeds; supervised seeds are 20 training claims filtered to those labelled true, with supervised runs trained for 60 epochs.</span></dd>
-<dt>Does having unlabelled test claims during training help fact verification?</dt>
-<dt>How does transductive Deductive Closure Training compare with inference-time consistency reasoning on CREAK?</dt>
-<dt>Is fine-tuning on generated implication graphs better than reasoning over them at inference time?</dt>
+<dt>does letting a model see the unlabelled test questions during training help it answer them correctly?</dt>
+<dt>how does transductive Deductive Closure Training on unlabelled CREAK validation claims compare with inference-time implication-graph reasoning?</dt>
+<dt>I have the unlabelled evaluation claims in hand — should I fine-tune on their implications or run consistency reasoning at inference time?</dt>
+<dt>is it better to bake consistency reasoning into the weights or pay for it at inference on every query?</dt>
 <dd>With unlabelled CREAK validation claims used as seed documents, DCT on related claims plus double-checking reaches 85.5% accuracy. The inference-time Graph-Inference baseline, which reasons over implication graphs without fine-tuning, reaches 77.7%.<br><span class="scope">Holds for: Llama-2-7B, all 1,371 unlabelled CREAK validation claims used as seeds, 1 training epoch; requires access to test-set inputs, so it is not a strict train/test split.</span></dd>
-<dt>Does self-training reduce self-contradiction in a language model?</dt>
-<dt>Can fine-tuning stop a model from labelling two contradictory claims as both true?</dt>
-<dt>How is logical coherence measured on the CREAK contrast set?</dt>
+<dt>can training a model on its own statements stop it from agreeing with two claims that contradict each other?</dt>
+<dt>does self-training on generated contradictions reduce the rate of contradictory statement pairs both labelled true, and what happens to accuracy?</dt>
+<dt>how do I stop a model from labelling a claim and its negation as both true?</dt>
+<dt>if I fine-tune for logical coherence, do I lose accuracy to get consistency?</dt>
 <dd>On the 250-pair CREAK contrast set, unsupervised DCT cuts the fraction of contradictory statement pairs labelled both-true from 34.4% to 19.2% while raising accuracy from 63.2% to 73.0%; the contradiction-only variant drives both-true down furthest, to 12.0%.<br><span class="scope">Holds for: Llama-2-7B, CREAK contrast set of 250 lexically similar pairs with opposite truth values; coherence measured only as the both-true rate, not as full logical consistency.</span></dd>
-<dt>Why do model edits fail to propagate to multi-hop questions?</dt>
-<dt>How does Deductive Closure Training compare with MEMIT and MeLLo on MQuAKE?</dt>
-<dt>What method works best for updating a language model so its consequences follow?</dt>
+<dt>after you correct a fact in a language model, why does it still get wrong the questions that depend on that fact?</dt>
+<dt>how does Deductive Closure Training compare with MEMIT, MeLLo and fine-tuning on edits for multi-hop counterfactual accuracy on MQuAKE?</dt>
+<dt>how do I edit thousands of facts in a model so that multi-hop answers depending on them also change?</dt>
+<dt>which knowledge-editing approach should I pick if my questions require chaining two edited facts together?</dt>
 <dd>On the MQuAKE counterfactual multi-hop subset, DCT with combined correlative and standard implications reaches 35.6% accuracy at 20 edits and 15.4% at 1,000 edits. The corresponding numbers are 18.3% and 11.4% for MeLLo, 11.7% and 0.6% for MEMIT, and 9.0% and 4.1% for fine-tuning on edits.<br><span class="scope">Holds for: Llama-2-7B, MQuAKE-CF multi-hop questions only, 3 seeds except the 1,000-edit setting which is run once; each edit yields 3 test questions and edits are converted to questions by prompting before fine-tuning.</span></dd>
 <dd>Prompting the model to state related background facts before generating implications (correlative implications) beats plain implications on MQuAKE at every edit count, for example 41.7% versus 20.0% at 10 edits.<br><span class="scope">Holds for: Llama-2-7B on MQuAKE-CF multi-hop questions, edit counts 10–1,000; the advantage of correlative over plain implications is systematic but the combined set is best on average.</span></dd>
-<dt>Does prompting for related background facts before implications help model editing?</dt>
-<dt>What are correlative implications and do they beat plain implications?</dt>
+<dt>does asking a model to recall related background facts first make the statements it generates more useful for training?</dt>
+<dt>do correlative implications, generated after eliciting related background knowledge, outperform plain implications on MQuAKE and introduce more new information?</dt>
+<dt>how should I prompt a model to generate training statements that carry consequences of an edited fact rather than restating it?</dt>
+<dt>is it worth an extra prompting step to get background facts before generating implications of an edit?</dt>
 <dd>Prompting the model to state related background facts before generating implications (correlative implications) beats plain implications on MQuAKE at every edit count, for example 41.7% versus 20.0% at 10 edits.<br><span class="scope">Holds for: Llama-2-7B on MQuAKE-CF multi-hop questions, edit counts 10–1,000; the advantage of correlative over plain implications is systematic but the combined set is best on average.</span></dd>
 <dd>Correlative implications on MQuAKE incorporate new information supplied by the model 33% of the time versus 24% for plain implications, about 50% more. Only 30–36% of generations in either condition are strict logical implications.<br><span class="scope">Holds for: Manual annotation of roughly 350 generations from Llama-2-7B across experiments; single-annotator qualitative analysis, not a validated protocol.</span></dd>
-<dt>Can fine-tuning fix the reversal curse?</dt>
-<dt>Does training on implications let a model answer &#x27;B is A&#x27; after learning &#x27;A is B&#x27;?</dt>
-<dt>How much does DCT improve reversed-direction accuracy on the Reversal Curse benchmark?</dt>
+<dt>if a model learns that A is B, can training fix the fact that it cannot answer the question the other way round?</dt>
+<dt>does fine-tuning on generated implications mitigate the reversal curse, and at what cost to forward-direction exact-match accuracy?</dt>
+<dt>how do I teach a model a relation so it answers questions in both directions rather than only the one it was trained on?</dt>
+<dt>will training on generated implications fix reversed-order recall without degrading the direction that already worked?</dt>
 <dd>On the Reversal Curse child-to-parent split, DCT raises exact-match accuracy on reversed questions from 2.2% to 48.3% while keeping same-direction accuracy at 87.9% versus 95.3% for ordinary fine-tuning.<br><span class="scope">Holds for: Llama-2-7B, 1,000 child-to-parent evaluation examples; gains are far smaller on person-to-description (3.7% to 10.7%) and description-to-person (3.0% to 15.7%), 300 examples each.</span></dd>
-<dt>Is there any theoretical reason self-generated training data should improve accuracy?</dt>
-<dt>Under what assumptions is Deductive Closure Training guaranteed to help?</dt>
+<dt>is there any proof that training a model on text it produced itself should make it more accurate rather than reinforce its mistakes?</dt>
+<dt>under what assumptions on seed-pair correctness and conditional probability gain is Deductive Closure Training guaranteed to increase the probability of the correct answer?</dt>
+<dt>is there a formal argument I can rely on before I fine-tune a model on its own generations?</dt>
 <dd>Deductive Closure Training is proved to strictly increase the probability a language model assigns to the correct answer for a question. The proof assumes self-generated seed question-answer pairs are correct with probability at least p*, and that conditioning on a correct related pair raises correct-answer probability by at least 1/p*.<br><span class="scope">Holds for: A minimal unsupervised variant of DCT with a single implication per seed, no consistency check, and training to convergence on arbitrarily many seeds; the two assumptions are not empirically verified.</span></dd>
-<dt>Does asking a model to double-check its own generated implications improve their quality?</dt>
-<dt>How much training data is lost by filtering self-generated implications for validity?</dt>
+<dt>if a model re-checks the statements it generated, do they get more reliable, and how much gets thrown away?</dt>
+<dt>how much does a double-checking verification pass raise the validity rate of generated implications and contradictions, and what fraction is discarded?</dt>
+<dt>how do I filter self-generated implications for validity without discarding most of my training set?</dt>
+<dt>is a second verification pass over generated statements worth losing most of the data I generated?</dt>
 <dd>A double-checking pass in which the model re-verifies each generated implication or contradiction raises their validity rate from 76% to 82%. It also discards about 2/3 of generations, cutting 100 annotated statements to 33.<br><span class="scope">Holds for: Manual annotation of 100 implications and contradictions generated by Llama-2-7B in the supervised CREAK setting; precision is bought at a large loss of training data volume.</span></dd>
-<dt>What should I read about using a language model&#x27;s own reasoning to supervise its training?</dt>
-<dt>Which paper established that inference-time consistency reasoning can be used at training time?</dt>
-<dt>Where should I start reading about self-supervised factuality fine-tuning for language models?</dt>
+<dt>which work first turned checking a claim against its logical consequences into a way of training a model rather than a way of answering at inference time?</dt>
+<dt>which paper reframes inference-time consistency reasoning over implications and contradictions as training-time supervision for factuality?</dt>
+<dt>where should I start reading about improving a language model&#x27;s factuality without labelled data?</dt>
 <dd>Deductive Closure Training reframes inference-time consistency reasoning over implications and contradictions of a claim as a source of training-time supervision. It gives one framework for both unsupervised factuality improvement and supervised model editing.<br><span class="scope">Holds for: Positioned as of publication at ACL Findings 2024 relative to inference-time belief-graph methods and to concurrent self-training work that ranks or filters self-generated data by model-assigned factuality labels rather than extrapolating implications.</span></dd>
 <dd>Deductive Closure Training is an entry point for readers asking whether model editing propagates to a fact&#x27;s consequences rather than to the edited sentence alone. It is evaluated on multi-hop question answering and reversal-style generalization.<br><span class="scope">Holds for: Demonstrated only on English-language datasets (CREAK, MQuAKE-CF, Reversal Curse) with a single Llama-2-7B model, and only with one layer of implications rather than a deeper graph of relations.</span></dd>
-<dt>What is a good paper on whether knowledge edits generalize to their logical consequences?</dt>
-<dt>Which work evaluates edit propagation across multi-hop questions and reversal generalization?</dt>
+<dt>what should I read about whether correcting a fact in a language model also corrects everything that follows from it?</dt>
+<dt>which work evaluates whether knowledge edits propagate to multi-hop questions and to reversed relation directions?</dt>
+<dt>how do I find out whether an edit to one fact in a model generalizes to its consequences before I rely on it?</dt>
 <dd>Deductive Closure Training is an entry point for readers asking whether model editing propagates to a fact&#x27;s consequences rather than to the edited sentence alone. It is evaluated on multi-hop question answering and reversal-style generalization.<br><span class="scope">Holds for: Demonstrated only on English-language datasets (CREAK, MQuAKE-CF, Reversal Curse) with a single Llama-2-7B model, and only with one layer of implications rather than a deeper graph of relations.</span></dd>
 <dd>On the MQuAKE counterfactual multi-hop subset, DCT with combined correlative and standard implications reaches 35.6% accuracy at 20 edits and 15.4% at 1,000 edits. The corresponding numbers are 18.3% and 11.4% for MeLLo, 11.7% and 0.6% for MEMIT, and 9.0% and 4.1% for fine-tuning on edits.<br><span class="scope">Holds for: Llama-2-7B, MQuAKE-CF multi-hop questions only, 3 seeds except the 1,000-edit setting which is run once; each edit yields 3 test questions and edits are converted to questions by prompting before fine-tuning.</span></dd>
 </dl>

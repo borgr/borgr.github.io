@@ -133,7 +133,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How can a model-free RL agent explore toward unvisited regions rather than just unvisited single steps?",
+      "name": "how can a reinforcement learning agent be pushed toward whole unexplored regions instead of just the next unseen step?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -141,13 +141,14 @@
         "url": "https://borgr.github.io/papers/dora-the-explorer-directed-outreaching-reinforcement-action/"
       },
       "alternateName": [
-        "Is there a way to make visit counters propagate along trajectories without learning a model of the MDP?",
-        "What does DORA's E-value do that a visit counter does not?"
+        "can visit-count exploration bonuses be propagated along state-action trajectories in a model-free setting without learning the MDP transition model?",
+        "how do I get my exploration bonus to look several steps ahead when I have no environment model to plan with?",
+        "my agent keeps re-exploring dead ends one step at a time -- is there a counter-style bonus that accounts for what lies beyond a state?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read first about directed exploration in reinforcement learning?",
+      "name": "which research introduced spreading exploration value backwards through states instead of counting single visits?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -155,13 +156,13 @@
         "url": "https://borgr.github.io/papers/dora-the-explorer-directed-outreaching-reinforcement-action/"
       },
       "alternateName": [
-        "Which paper introduced propagating exploration values for model-free RL?",
-        "Where does the idea of generalized visit counters for exploration come from?"
+        "what work proposed generalized visit counters propagated by a Bellman-style update for directed exploration in model-free RL?",
+        "if I want to read up on propagating exploration values for model-free agents, which paper should I start with?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Why is the logarithm of the E-value called a generalized counter?",
+      "name": "how does an exploration value that decays with each visit relate to simply counting how many times a state was tried?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -169,13 +170,14 @@
         "url": "https://borgr.github.io/papers/dora-the-explorer-directed-outreaching-reinforcement-action/"
       },
       "alternateName": [
-        "What is the relationship between E-values and the number of visits to a state-action pair?",
-        "Does log of E reduce to an ordinary visit count in any special case?"
+        "under what setting of the exploration discount does log_{1-alpha}(E) coincide exactly with the tabular state-action visit count?",
+        "how do I check that a decaying exploration value I am learning really behaves like a visit count before trusting it?",
+        "if I replace my visit-count table with a learned exploration value, will the numbers still mean the same thing?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do E-values actually beat ordinary visit counters as an exploration bonus?",
+      "name": "does a bonus built from a propagated exploration value beat plain visit counts on a small gridworld with a long corridor?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -183,13 +185,14 @@
         "url": "https://borgr.github.io/papers/dora-the-explorer-directed-outreaching-reinforcement-action/"
       },
       "alternateName": [
-        "Does the exploration discount factor gamma_E matter for learning speed?",
-        "How much does adding an E-value bonus to the reward help on a bridge gridworld?"
+        "how does the exploration discount gamma_E affect convergence speed of an epsilon-greedy agent with a 1/log_{1-alpha}(E) reward bonus on the bridge MDP?",
+        "how do I pick the discount for a propagating exploration bonus so a corridor-style task is learned faster?",
+        "is it worth switching my count-based exploration bonus for a trajectory-propagated one on a hard corridor task?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How does DORA compare with epsilon-greedy, Softmax and UCB on tabular gridworlds?",
+      "name": "which exploration strategies fail on a gridworld where the agent must cross a long risky corridor to find reward?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -197,13 +200,14 @@
         "url": "https://borgr.github.io/papers/dora-the-explorer-directed-outreaching-reinforcement-action/"
       },
       "alternateName": [
-        "Which exploration methods fail to converge on the long bridge environment?",
-        "Are counter-based exploration bonuses enough on a hard tabular exploration task?"
+        "how do E-value-driven agents compare against stochastic epsilon-greedy, counter-based epsilon-greedy and UCB-like agents in Q-versus-Q* error on the long bridge environment?",
+        "how do I get an agent through a long bridge gridworld when random and count-bonus exploration never converge?",
+        "my tabular agent with epsilon-greedy or UCB never solves a long-corridor task -- what else should I try?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is there evidence that generalized counters measure how much an agent still has to learn?",
+      "name": "what number tells you how much an agent still has left to learn about a state, better than the number of times it visited it?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -211,13 +215,14 @@
         "url": "https://borgr.github.io/papers/dora-the-explorer-directed-outreaching-reinforcement-action/"
       },
       "alternateName": [
-        "What quantity predicts convergence of Q to Q* better than visit counts?",
-        "Do visit counters capture missing knowledge in RL?"
+        "is there evidence that generalized counters track missing knowledge, in the sense of predicting normalized |(Q-Q*)/Q*| uniformly across state-action pairs?",
+        "how do I measure how far my agent's Q-values still are from optimal without knowing Q*?",
+        "can I use visit counts as a proxy for how well my agent knows a state, or is there something better?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How well does E-value exploration do on the Freeway Atari game?",
+      "name": "does the propagated exploration bonus help on an Atari game where reward is rare, and how quickly does it learn?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -225,13 +230,14 @@
         "url": "https://borgr.github.io/papers/dora-the-explorer-directed-outreaching-reinforcement-action/"
       },
       "alternateName": [
-        "Does DORA beat pseudo-count density models on hard-exploration Atari games?",
-        "How many steps does an E-value DQN agent need to converge on Freeway?"
+        "how does E-value exploration compare with a DQN baseline and density-model pseudo-counts in convergence steps on Freeway?",
+        "how do I speed up convergence of a deep Q agent on a sparse-reward Atari game like Freeway?",
+        "should I use E-value bonuses instead of pseudo-count intrinsic rewards for my deep RL agent on hard-exploration games?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is E-value exploration cheaper to train than density-model pseudo-counts?",
+      "name": "how expensive is it to learn a decaying exploration value alongside the value function compared with fitting a density model over frames?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -239,12 +245,14 @@
         "url": "https://borgr.github.io/papers/dora-the-explorer-directed-outreaching-reinforcement-action/"
       },
       "alternateName": [
-        "What is the computational overhead of learning E-values alongside Q-values?"
+        "what is the training-time overhead of a two-stream E-value network relative to density-model pseudo-counts on Atari?",
+        "how do I add an intrinsic exploration signal to a deep Q agent without paying the training cost of a density model over pixels?",
+        "I cannot afford to train a pixel density model for pseudo-counts -- is a learned exploration value cheaper?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can a stochastic exploration rule like Softmax be replaced by a deterministic one with the same action frequencies?",
+      "name": "can a randomized way of picking actions be replaced by a deterministic one that still tries actions at the same rates?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -252,13 +260,14 @@
         "url": "https://borgr.github.io/papers/dora-the-explorer-directed-outreaching-reinforcement-action/"
       },
       "alternateName": [
-        "Is there a theorem about determinizing epsilon-greedy or Boltzmann action selection?",
-        "What guarantee does the LLL determinization of a stochastic policy come with?"
+        "is there a theorem that a deterministic action-selection rule can match the limiting action frequencies of a stochastic rule such as epsilon-greedy or Softmax?",
+        "how do I make my agent's exploration reproducible and deterministic without changing how often each action gets tried?",
+        "can I drop the random number generator out of my Softmax exploration and still get the same coverage of actions?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How do I convert an existing exploration rule into an E-value based one?",
+      "name": "how does an agent actually choose its action once it has a propagated exploration value instead of a visit count?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -266,13 +275,14 @@
         "url": "https://borgr.github.io/papers/dora-the-explorer-directed-outreaching-reinforcement-action/"
       },
       "alternateName": [
-        "What action-selection rule does DORA use in practice?",
-        "Can generalized counters be dropped into a counter-based action-selection rule?"
+        "how are generalized counters substituted into a counter-based action-selection rule to give a deterministic argmax over log f(s,a) minus log log_{1-alpha}(E(s,a))?",
+        "how do I plug a learned exploration value into the exploration rule I already use in place of the visit count?",
+        "I already use a count-based action-selection rule -- can I swap in a propagated exploration value without redesigning it?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do E-values work with function approximation and continuous state spaces?",
+      "name": "can you estimate how much a state has been explored in a continuous problem where the exact same state is never seen twice?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -280,13 +290,14 @@
         "url": "https://borgr.github.io/papers/dora-the-explorer-directed-outreaching-reinforcement-action/"
       },
       "alternateName": [
-        "Can generalized counters be estimated in a continuous MDP where states are never revisited?",
-        "How were E-values validated against real visit histograms on MountainCar?"
+        "do E-values learned by linear function approximation with tile coding on MountainCar correlate with empirical visit histograms, and at what parameter cost versus a state-action count table?",
+        "how do I get count-like exploration signals in a continuous state space where tabular counters are useless?",
+        "my state space is continuous so visit counts are all zero or one -- can a learned exploration value give me something usable?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does directed exploration help on sparse-reward MountainCar?",
+      "name": "what exploration method gets a car up a hill when reward only arrives at the goal and nowhere else?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -294,13 +305,14 @@
         "url": "https://borgr.github.io/papers/dora-the-explorer-directed-outreaching-reinforcement-action/"
       },
       "alternateName": [
-        "Which exploration method solves MountainCar when the reward is only given at the goal?",
-        "How does Softmax exploration do on sparse-reward MountainCar?"
+        "how do LLL E-value agents with gamma_E = 0.99 compare with Softmax exploration on goal-reaching probability in sparse-reward MountainCar?",
+        "how do I get an agent to solve a sparse-reward continuous control task where Boltzmann exploration stalls?",
+        "my agent never finds the goal in a sparse-reward continuous task with Softmax exploration -- would directed exploration fix it?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How does DORA compare with Delayed Q-Learning and other PAC-MDP methods?",
+      "name": "how does an exploration-value agent stack up against methods that come with formal sample-complexity guarantees?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -308,8 +320,9 @@
         "url": "https://borgr.github.io/papers/dora-the-explorer-directed-outreaching-reinforcement-action/"
       },
       "alternateName": [
-        "Is a PAC-MDP exploration algorithm better than E-value exploration on the bridge task?",
-        "Does E-value exploration need optimistic initialization of the reward values?"
+        "how does E-value LLL compare with Delayed Q-Learning on the normalized bridge environment, and what update threshold m did that comparison require?",
+        "how do I choose between a PAC-MDP exploration algorithm and a generalized-counter agent for a hard tabular task?",
+        "should I use Delayed Q-Learning with its theoretical guarantees, or an exploration-value agent, on a long-corridor gridworld?"
       ]
     }
   ]
@@ -389,67 +402,80 @@
 <p>Exploration is a fundamental aspect of Reinforcement Learning, typically implemented using stochastic action-selection. Exploration, however, can be more efficient if directed toward gaining new world knowledge. Visit-counters have been proven useful both in practice and in theory for directed exploration. However, a major limitation of counters is their locality. While there are a few model-based solutions to this shortcoming, a model-free approach is still missing. We propose $E$-values, a generalization of counters that can be used to evaluate the propagating exploratory value over state-action trajectories. We compare our approach to commonly used RL techniques, and show that using $E$-values improves learning and performance over traditional counters. We also show how our method can be implemented with function approximation to efficiently learn continuous MDPs. We demonstrate this by showing that our approach surpasses state of the art performance in the Freeway Atari 2600 game.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>How can a model-free RL agent explore toward unvisited regions rather than just unvisited single steps?</dt>
-<dt>Is there a way to make visit counters propagate along trajectories without learning a model of the MDP?</dt>
-<dt>What does DORA&#x27;s E-value do that a visit counter does not?</dt>
+<dt>how can a reinforcement learning agent be pushed toward whole unexplored regions instead of just the next unseen step?</dt>
+<dt>can visit-count exploration bonuses be propagated along state-action trajectories in a model-free setting without learning the MDP transition model?</dt>
+<dt>how do I get my exploration bonus to look several steps ahead when I have no environment model to plan with?</dt>
+<dt>my agent keeps re-exploring dead ends one step at a time -- is there a counter-style bonus that accounts for what lies beyond a state?</dt>
 <dd>DORA introduces E-values, a model-free generalization of visit counters that requires no learned model of the MDP. The generalized counter log_{1-alpha}(E) propagates exploratory value along state-action trajectories instead of scoring only the immediate next step.<br><span class="scope">Holds for: Earlier propagating-exploration schemes (Storck et al. 1995, Meuleau &amp; Bourgine 1999, Little &amp; Sommer 2014) were model-based; as of ICLR 2018. Requires running a second value-learning process beside Q-learning.</span></dd>
 <dd>With exploration discount gamma_E = 0, an E-value initialized to 1 becomes (1-alpha)^n after n visits, so log_{1-alpha}(E) equals the visit counter exactly; for gamma_E &gt; 0 it grows more slowly and behaves as a generalized counter.<br><span class="scope">Holds for: Exact equality holds for gamma_E = 0, and for any gamma_E at a terminal state with one action. On the tree MDP with k leaves, one full cycle of k visits of the start action contributes roughly 1 generalized visit.</span></dd>
-<dt>What should I read first about directed exploration in reinforcement learning?</dt>
-<dt>Which paper introduced propagating exploration values for model-free RL?</dt>
-<dt>Where does the idea of generalized visit counters for exploration come from?</dt>
+<dt>which research introduced spreading exploration value backwards through states instead of counting single visits?</dt>
+<dt>what work proposed generalized visit counters propagated by a Bellman-style update for directed exploration in model-free RL?</dt>
+<dt>if I want to read up on propagating exploration values for model-free agents, which paper should I start with?</dt>
 <dd>DORA introduces E-values, a model-free generalization of visit counters that requires no learned model of the MDP. The generalized counter log_{1-alpha}(E) propagates exploratory value along state-action trajectories instead of scoring only the immediate next step.<br><span class="scope">Holds for: Earlier propagating-exploration schemes (Storck et al. 1995, Meuleau &amp; Bourgine 1999, Little &amp; Sommer 2014) were model-based; as of ICLR 2018. Requires running a second value-learning process beside Q-learning.</span></dd>
 <dd>DORA turns any stochastic action-selection rule, such as epsilon-greedy or Softmax, into a deterministic rule by replacing visit counters with generalized counters, selecting argmax over log f(s,a) - log log_{1-alpha}(E(s,a)).<br><span class="scope">Holds for: Rules whose target action frequencies can be written as a distribution over actions given the current Q-values; requires initializing E to 1 and 0 &lt;= gamma_E &lt; 1 so that E stays in (0,1).</span></dd>
-<dt>Why is the logarithm of the E-value called a generalized counter?</dt>
-<dt>What is the relationship between E-values and the number of visits to a state-action pair?</dt>
-<dt>Does log of E reduce to an ordinary visit count in any special case?</dt>
+<dt>how does an exploration value that decays with each visit relate to simply counting how many times a state was tried?</dt>
+<dt>under what setting of the exploration discount does log_{1-alpha}(E) coincide exactly with the tabular state-action visit count?</dt>
+<dt>how do I check that a decaying exploration value I am learning really behaves like a visit count before trusting it?</dt>
+<dt>if I replace my visit-count table with a learned exploration value, will the numbers still mean the same thing?</dt>
 <dd>With exploration discount gamma_E = 0, an E-value initialized to 1 becomes (1-alpha)^n after n visits, so log_{1-alpha}(E) equals the visit counter exactly; for gamma_E &gt; 0 it grows more slowly and behaves as a generalized counter.<br><span class="scope">Holds for: Exact equality holds for gamma_E = 0, and for any gamma_E at a terminal state with one action. On the tree MDP with k leaves, one full cycle of k visits of the start action contributes roughly 1 generalized visit.</span></dd>
 <dd>Generalized counters track an agent&#x27;s missing knowledge better than visit counters on the bridge MDP. The normalized distance |(Q-Q*)/Q*| is a single function of log_{1-alpha}(E) across all state-action pairs, whereas against the visit counter it depends on which state-action is counted.<br><span class="scope">Holds for: Measured for an E-value LLL Softmax agent on the short bridge environment with k = 5, recording C, log_{1-alpha}(E) and the normalized error at the end of each episode.</span></dd>
-<dt>Do E-values actually beat ordinary visit counters as an exploration bonus?</dt>
-<dt>Does the exploration discount factor gamma_E matter for learning speed?</dt>
-<dt>How much does adding an E-value bonus to the reward help on a bridge gridworld?</dt>
+<dt>does a bonus built from a propagated exploration value beat plain visit counts on a small gridworld with a long corridor?</dt>
+<dt>how does the exploration discount gamma_E affect convergence speed of an epsilon-greedy agent with a 1/log_{1-alpha}(E) reward bonus on the bridge MDP?</dt>
+<dt>how do I pick the discount for a propagating exploration bonus so a corridor-style task is learned faster?</dt>
+<dt>is it worth switching my count-based exploration bonus for a trajectory-propagated one on a hard corridor task?</dt>
 <dd>Adding an exploration bonus of 1/log_{1-alpha}(E) to the reward speeds up convergence of an epsilon-greedy agent on the bridge MDP. Larger exploration discounts learn faster, with gamma_E = 0.9 beating gamma_E = 0, which is equivalent to standard visit counters.<br><span class="scope">Holds for: Short bridge environment with k = 5, tabular Q-learning, epsilon fitted separately per agent; convergence measured as MSE between Q and Q* averaged over the optimal-policy state-action distribution.</span></dd>
 <dd>On the long bridge environment with k = 15, E-value LLL agents are the first to reach low Q-versus-Q* error. Stochastic and counter-based epsilon-greedy agents and the standard UCB-like agent fail to converge at all.<br><span class="scope">Holds for: Tabular bridge MDP, k = 15, gamma_E = 0.9, epsilon and Softmax temperature fitted per agent, stochastic agents averaged over 50 trials. Cliff gridworld results reported but not shown.</span></dd>
-<dt>How does DORA compare with epsilon-greedy, Softmax and UCB on tabular gridworlds?</dt>
-<dt>Which exploration methods fail to converge on the long bridge environment?</dt>
-<dt>Are counter-based exploration bonuses enough on a hard tabular exploration task?</dt>
+<dt>which exploration strategies fail on a gridworld where the agent must cross a long risky corridor to find reward?</dt>
+<dt>how do E-value-driven agents compare against stochastic epsilon-greedy, counter-based epsilon-greedy and UCB-like agents in Q-versus-Q* error on the long bridge environment?</dt>
+<dt>how do I get an agent through a long bridge gridworld when random and count-bonus exploration never converge?</dt>
+<dt>my tabular agent with epsilon-greedy or UCB never solves a long-corridor task -- what else should I try?</dt>
 <dd>On the long bridge environment with k = 15, E-value LLL agents are the first to reach low Q-versus-Q* error. Stochastic and counter-based epsilon-greedy agents and the standard UCB-like agent fail to converge at all.<br><span class="scope">Holds for: Tabular bridge MDP, k = 15, gamma_E = 0.9, epsilon and Softmax temperature fitted per agent, stochastic agents averaged over 50 trials. Cliff gridworld results reported but not shown.</span></dd>
 <dd>Adding an exploration bonus of 1/log_{1-alpha}(E) to the reward speeds up convergence of an epsilon-greedy agent on the bridge MDP. Larger exploration discounts learn faster, with gamma_E = 0.9 beating gamma_E = 0, which is equivalent to standard visit counters.<br><span class="scope">Holds for: Short bridge environment with k = 5, tabular Q-learning, epsilon fitted separately per agent; convergence measured as MSE between Q and Q* averaged over the optimal-policy state-action distribution.</span></dd>
-<dt>Is there evidence that generalized counters measure how much an agent still has to learn?</dt>
-<dt>What quantity predicts convergence of Q to Q* better than visit counts?</dt>
-<dt>Do visit counters capture missing knowledge in RL?</dt>
+<dt>what number tells you how much an agent still has left to learn about a state, better than the number of times it visited it?</dt>
+<dt>is there evidence that generalized counters track missing knowledge, in the sense of predicting normalized |(Q-Q*)/Q*| uniformly across state-action pairs?</dt>
+<dt>how do I measure how far my agent&#x27;s Q-values still are from optimal without knowing Q*?</dt>
+<dt>can I use visit counts as a proxy for how well my agent knows a state, or is there something better?</dt>
 <dd>Generalized counters track an agent&#x27;s missing knowledge better than visit counters on the bridge MDP. The normalized distance |(Q-Q*)/Q*| is a single function of log_{1-alpha}(E) across all state-action pairs, whereas against the visit counter it depends on which state-action is counted.<br><span class="scope">Holds for: Measured for an E-value LLL Softmax agent on the short bridge environment with k = 5, recording C, log_{1-alpha}(E) and the normalized error at the end of each episode.</span></dd>
-<dt>How well does E-value exploration do on the Freeway Atari game?</dt>
-<dt>Does DORA beat pseudo-count density models on hard-exploration Atari games?</dt>
-<dt>How many steps does an E-value DQN agent need to converge on Freeway?</dt>
+<dt>does the propagated exploration bonus help on an Atari game where reward is rare, and how quickly does it learn?</dt>
+<dt>how does E-value exploration compare with a DQN baseline and density-model pseudo-counts in convergence steps on Freeway?</dt>
+<dt>how do I speed up convergence of a deep Q agent on a sparse-reward Atari game like Freeway?</dt>
+<dt>should I use E-value bonuses instead of pseudo-count intrinsic rewards for my deep RL agent on hard-exploration games?</dt>
 <dd>On the Freeway Atari 2600 game, E-value exploration bonuses beat both a DQN baseline and the density-model counters of Bellemare et al. (2016). Learning converges in approximately 2*10^6 steps instead of approximately 10*10^6 steps.<br><span class="scope">Holds for: Single game (Freeway), beta = 0.05, epsilon-greedy action selection in all conditions. The DQN baseline lacks Double DQN and Monte-Carlo return, which the 10*10^6-step Bellemare et al. result did use.</span></dd>
 <dd>Training the two-stream network for E-values on Freeway was an order of magnitude faster than training with density-model counters.<br><span class="scope">Holds for: Wall-clock comparison for one implementation pair on Freeway, using the atari-rl package for both DQN and density-model counters.</span></dd>
-<dt>Is E-value exploration cheaper to train than density-model pseudo-counts?</dt>
-<dt>What is the computational overhead of learning E-values alongside Q-values?</dt>
+<dt>how expensive is it to learn a decaying exploration value alongside the value function compared with fitting a density model over frames?</dt>
+<dt>what is the training-time overhead of a two-stream E-value network relative to density-model pseudo-counts on Atari?</dt>
+<dt>how do I add an intrinsic exploration signal to a deep Q agent without paying the training cost of a density model over pixels?</dt>
+<dt>I cannot afford to train a pixel density model for pseudo-counts -- is a learned exploration value cheaper?</dt>
 <dd>Training the two-stream network for E-values on Freeway was an order of magnitude faster than training with density-model counters.<br><span class="scope">Holds for: Wall-clock comparison for one implementation pair on Freeway, using the atari-rl package for both DQN and density-model counters.</span></dd>
 <dd>On the Freeway Atari 2600 game, E-value exploration bonuses beat both a DQN baseline and the density-model counters of Bellemare et al. (2016). Learning converges in approximately 2*10^6 steps instead of approximately 10*10^6 steps.<br><span class="scope">Holds for: Single game (Freeway), beta = 0.05, epsilon-greedy action selection in all conditions. The DQN baseline lacks Double DQN and Monte-Carlo return, which the 10*10^6-step Bellemare et al. result did use.</span></dd>
-<dt>Can a stochastic exploration rule like Softmax be replaced by a deterministic one with the same action frequencies?</dt>
-<dt>Is there a theorem about determinizing epsilon-greedy or Boltzmann action selection?</dt>
-<dt>What guarantee does the LLL determinization of a stochastic policy come with?</dt>
+<dt>can a randomized way of picking actions be replaced by a deterministic one that still tries actions at the same rates?</dt>
+<dt>is there a theorem that a deterministic action-selection rule can match the limiting action frequencies of a stochastic rule such as epsilon-greedy or Softmax?</dt>
+<dt>how do I make my agent&#x27;s exploration reproducible and deterministic without changing how often each action gets tried?</dt>
+<dt>can I drop the random number generator out of my Softmax exploration and still get the same coverage of actions?</dt>
 <dd>For any stochastic action-selection rule f, a deterministic policy can match f&#x27;s action frequencies in the limit. It suffices that the chosen action&#x27;s empirical frequency C_T(a)/T exceed f(a) by at most a sub-linear b(t).<br><span class="scope">Holds for: An in-the-limit statement about action frequencies at fixed Q-values and fixed state, not a finite-time or regret bound. Two concrete determinizations are given, including the LLL rule argmax_a f(a)/C(a).</span></dd>
 <dd>DORA turns any stochastic action-selection rule, such as epsilon-greedy or Softmax, into a deterministic rule by replacing visit counters with generalized counters, selecting argmax over log f(s,a) - log log_{1-alpha}(E(s,a)).<br><span class="scope">Holds for: Rules whose target action frequencies can be written as a distribution over actions given the current Q-values; requires initializing E to 1 and 0 &lt;= gamma_E &lt; 1 so that E stays in (0,1).</span></dd>
-<dt>How do I convert an existing exploration rule into an E-value based one?</dt>
-<dt>What action-selection rule does DORA use in practice?</dt>
-<dt>Can generalized counters be dropped into a counter-based action-selection rule?</dt>
+<dt>how does an agent actually choose its action once it has a propagated exploration value instead of a visit count?</dt>
+<dt>how are generalized counters substituted into a counter-based action-selection rule to give a deterministic argmax over log f(s,a) minus log log_{1-alpha}(E(s,a))?</dt>
+<dt>how do I plug a learned exploration value into the exploration rule I already use in place of the visit count?</dt>
+<dt>I already use a count-based action-selection rule -- can I swap in a propagated exploration value without redesigning it?</dt>
 <dd>DORA turns any stochastic action-selection rule, such as epsilon-greedy or Softmax, into a deterministic rule by replacing visit counters with generalized counters, selecting argmax over log f(s,a) - log log_{1-alpha}(E(s,a)).<br><span class="scope">Holds for: Rules whose target action frequencies can be written as a distribution over actions given the current Q-values; requires initializing E to 1 and 0 &lt;= gamma_E &lt; 1 so that E stays in (0,1).</span></dd>
 <dd>For any stochastic action-selection rule f, a deterministic policy can match f&#x27;s action frequencies in the limit. It suffices that the chosen action&#x27;s empirical frequency C_T(a)/T exceed f(a) by at most a sub-linear b(t).<br><span class="scope">Holds for: An in-the-limit statement about action frequencies at fixed Q-values and fixed state, not a finite-time or regret bound. Two concrete determinizations are given, including the LLL rule argmax_a f(a)/C(a).</span></dd>
-<dt>Do E-values work with function approximation and continuous state spaces?</dt>
-<dt>Can generalized counters be estimated in a continuous MDP where states are never revisited?</dt>
-<dt>How were E-values validated against real visit histograms on MountainCar?</dt>
+<dt>can you estimate how much a state has been explored in a continuous problem where the exact same state is never seen twice?</dt>
+<dt>do E-values learned by linear function approximation with tile coding on MountainCar correlate with empirical visit histograms, and at what parameter cost versus a state-action count table?</dt>
+<dt>how do I get count-like exploration signals in a continuous state space where tabular counters are useless?</dt>
+<dt>my state space is continuous so visit counts are all zero or one -- can a learned exploration value give me something usable?</dt>
 <dd>E-values learned by linear function approximation with tile coding on MountainCar correlate strongly, per state, with empirical visit histograms throughout training. The E-value model uses far fewer parameters than a state-action count table at the same binning resolution.<br><span class="scope">Holds for: gamma_E = 0 for the correlation histogram, snapshots each 10 episodes; actions chosen by an epsilon-greedy agent independently of E-values to dissociate visits from the exploration bonus.</span></dd>
 <dd>On sparse-reward MountainCar, LLL E-value agents with gamma_E = 0.99 quickly reach high goal-reaching probability, while Softmax exploration fails to solve the problem within 1000 episodes.<br><span class="scope">Holds for: Reward 0 except 1 at the goal, episodes capped at 1000 steps, linear tile-coding approximation, probability averaged over 50 simulations per agent, temperature and epsilon fitted per agent.</span></dd>
-<dt>Does directed exploration help on sparse-reward MountainCar?</dt>
-<dt>Which exploration method solves MountainCar when the reward is only given at the goal?</dt>
-<dt>How does Softmax exploration do on sparse-reward MountainCar?</dt>
+<dt>what exploration method gets a car up a hill when reward only arrives at the goal and nowhere else?</dt>
+<dt>how do LLL E-value agents with gamma_E = 0.99 compare with Softmax exploration on goal-reaching probability in sparse-reward MountainCar?</dt>
+<dt>how do I get an agent to solve a sparse-reward continuous control task where Boltzmann exploration stalls?</dt>
+<dt>my agent never finds the goal in a sparse-reward continuous task with Softmax exploration -- would directed exploration fix it?</dt>
 <dd>On sparse-reward MountainCar, LLL E-value agents with gamma_E = 0.99 quickly reach high goal-reaching probability, while Softmax exploration fails to solve the problem within 1000 episodes.<br><span class="scope">Holds for: Reward 0 except 1 at the goal, episodes capped at 1000 steps, linear tile-coding approximation, probability averaged over 50 simulations per agent, temperature and epsilon fitted per agent.</span></dd>
 <dd>E-values learned by linear function approximation with tile coding on MountainCar correlate strongly, per state, with empirical visit histograms throughout training. The E-value model uses far fewer parameters than a state-action count table at the same binning resolution.<br><span class="scope">Holds for: gamma_E = 0 for the correlation histogram, snapshots each 10 episodes; actions chosen by an epsilon-greedy agent independently of E-values to dissociate visits from the exploration bonus.</span></dd>
-<dt>How does DORA compare with Delayed Q-Learning and other PAC-MDP methods?</dt>
-<dt>Is a PAC-MDP exploration algorithm better than E-value exploration on the bridge task?</dt>
-<dt>Does E-value exploration need optimistic initialization of the reward values?</dt>
+<dt>how does an exploration-value agent stack up against methods that come with formal sample-complexity guarantees?</dt>
+<dt>how does E-value LLL compare with Delayed Q-Learning on the normalized bridge environment, and what update threshold m did that comparison require?</dt>
+<dt>how do I choose between a PAC-MDP exploration algorithm and a generalized-counter agent for a hard tabular task?</dt>
+<dt>should I use Delayed Q-Learning with its theoretical guarantees, or an exploration-value agent, on a long-corridor gridworld?</dt>
 <dd>E-value LLL is competitive with Delayed Q-Learning on the normalized bridge environment with k = 15. That comparison required hand-setting Delayed Q-Learning&#x27;s update threshold to m = 10, an order of magnitude below the value its PAC guarantees require.<br><span class="scope">Holds for: MSE normalized separately per agent because Delayed Q-Learning initializes optimistically. Delayed Q-Learning also assumes all rewards lie between 0 and 1, which the normalized bridge environment provides.</span></dd>
 <dd>DORA introduces E-values, a model-free generalization of visit counters that requires no learned model of the MDP. The generalized counter log_{1-alpha}(E) propagates exploratory value along state-action trajectories instead of scoring only the immediate next step.<br><span class="scope">Holds for: Earlier propagating-exploration schemes (Storck et al. 1995, Meuleau &amp; Bourgine 1999, Little &amp; Sommer 2014) were model-based; as of ICLR 2018. Requires running a second value-learning process beside Q-learning.</span></dd>
 </dl>

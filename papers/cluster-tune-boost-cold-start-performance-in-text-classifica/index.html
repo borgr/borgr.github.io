@@ -158,7 +158,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How can I improve text classification accuracy when I only have a few dozen labeled examples?",
+      "name": "if I only have a few dozen labeled sentences, is there anything I can train a language model on first to make classification work better?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -166,13 +166,14 @@
         "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
       },
       "alternateName": [
-        "What helps BERT fine-tuning in a cold-start setting with scarce labels?",
-        "How much does clustering-based inter-training help with 64 labeled examples?"
+        "how much does inter-training BERT on unsupervised cluster pseudo-labels improve accuracy in a cold-start text classification setup with 64 labeled examples?",
+        "how do I get usable text classification accuracy when I can only afford to annotate a few dozen examples?",
+        "I have almost no annotated data for my classifier — should I add an unsupervised training phase before fine-tuning BERT?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is clustering better than continued MLM pre-training on domain data as an intermediate task?",
+      "name": "is it better to keep training a language model on my own unlabeled text, or to train it to predict which group each document falls into?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -180,13 +181,14 @@
         "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
       },
       "alternateName": [
-        "Does further pre-training with masked language modeling beat training on cluster labels?",
-        "Should I do domain-adaptive MLM or cluster prediction before fine-tuning BERT?"
+        "does clustering-based inter-training outperform continued masked language model pre-training on the target corpus as an intermediate task?",
+        "I have a large unlabeled in-domain corpus — how do I use it best before fine-tuning on a tiny labeled set?",
+        "should I run domain-adaptive MLM pre-training, cluster-label inter-training, or both before fine-tuning?"
       ]
     },
     {
       "@type": "Question",
-      "name": "When does cluster-based inter-training fail to help text classification?",
+      "name": "does grouping unlabeled documents before training help for spam or sentiment tasks, or only when the categories are about subject matter?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -194,13 +196,14 @@
         "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
       },
       "alternateName": [
-        "Does Cluster & Tune work for sentiment analysis or spam detection?",
-        "Why does clustering-based pre-finetuning help topical tasks but not stylistic ones?"
+        "on which target tasks does cluster-based inter-training fail to yield gains, and does normalized mutual information between clusters and labels predict that?",
+        "how do I tell in advance whether an unsupervised clustering phase will help my particular classification task?",
+        "my labels are sentiment and subjectivity rather than topics — will a clustering pre-finetuning step do anything for me?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which clustering algorithm should be used to generate pseudo-labels for intermediate training?",
+      "name": "does it matter which algorithm I use to group the unlabeled documents into pseudo-labels?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -208,13 +211,14 @@
         "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
       },
       "alternateName": [
-        "Is sequential Information Bottleneck over bag-of-words better than K-means over GloVe for inter-training?",
-        "Does the choice of clustering method matter for BERT_IT:CLUST?"
+        "does sequential Information Bottleneck over stemmed bag-of-words beat K-means or Hartigan's K-means over averaged GloVe embeddings as the source of inter-training pseudo-labels?",
+        "which clustering method should I use to produce the pseudo-labels for an intermediate BERT training phase?",
+        "can I just use K-means over sentence embeddings for the clustering step, or do I need a bag-of-words method?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Could a simple bag-of-words classifier match cluster-based BERT inter-training in low-label settings?",
+      "name": "with only a handful of labeled examples, could a simple word-count classifier or the document groups themselves do just as well as retraining BERT?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -222,13 +226,14 @@
         "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
       },
       "alternateName": [
-        "Do Naive Bayes and SVM baselines explain the gains from clustering-based inter-training?",
-        "Is a nearest-cluster label-propagation classifier as good as inter-trained BERT?"
+        "do Naive Bayes and SVM baselines over BOW or GloVe, or nearest-cluster label propagation, match cluster-inter-trained BERT under small labeling budgets?",
+        "how do I check whether a clustering-based BERT pipeline is worth it over a bag-of-words classifier on the same few labels?",
+        "should I bother fine-tuning BERT on cluster labels, or just label my clusters and classify by nearest cluster?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What changes in BERT's sentence embeddings after training on cluster labels?",
+      "name": "what actually changes inside a language model's sentence representations after training it to predict document groups?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -236,13 +241,13 @@
         "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
       },
       "alternateName": [
-        "Does inter-training on clusters make same-class representations closer together?",
-        "Is there evidence that cluster inter-training gives a better starting point for fine-tuning?"
+        "how do BERT [CLS] embeddings change after cluster-label inter-training, measured by distance to class centroids?",
+        "is there evidence that cluster-label inter-training gives me a genuinely better starting point for fine-tuning, not just better numbers?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How expensive is it to add a clustering-based intermediate training phase?",
+      "name": "how much extra compute and time does it cost to group unlabeled documents and train a model on those groups first?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -250,13 +255,14 @@
         "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
       },
       "alternateName": [
-        "What is the runtime cost of Cluster & Tune?",
-        "How long does one inter-training epoch over cluster labels take on a single GPU?"
+        "what is the runtime overhead of sIB clustering plus one inter-training epoch on a single GPU?",
+        "how do I budget GPU time for adding a clustering-based intermediate training phase to a text classification pipeline?",
+        "I have one V100 and a 15K-document corpus — can I afford the clustering intermediate phase?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about using unsupervised clustering as pseudo-labels for NLP transfer learning?",
+      "name": "which work first used grouping of unlabeled text as a training step between language model pre-training and fine-tuning on few labels?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -264,13 +270,14 @@
         "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
       },
       "alternateName": [
-        "Which paper introduced clustering as an intermediate task between pre-training and fine-tuning for text classification?",
-        "Where should I start reading about cold-start text classification with pre-trained language models?"
+        "which paper introduced unsupervised clustering pseudo-labels as an intermediate task for cold-start text classification in NLP?",
+        "where do I start reading about training text classifiers when almost nothing is labeled yet?",
+        "what should I read first if I need a text classifier and have no annotation budget to speak of?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Up to what labeling budget does the clustering intermediate phase still pay off?",
+      "name": "once I can afford to label more examples, does an unsupervised pre-finetuning step stop being worth the trouble?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -278,13 +285,14 @@
         "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
       },
       "alternateName": [
-        "Does the benefit of cluster-based inter-training disappear with more labeled data?",
-        "At how many labeled examples do the gains from cluster pseudo-labels become insignificant?"
+        "up to what labeling budget is the gain from cluster-based inter-training over plain BERT fine-tuning statistically significant?",
+        "how do I decide whether my annotation budget is small enough for a clustering intermediate phase to still pay off?",
+        "I can label about 1000 examples — is a cluster-based intermediate training phase still going to help me?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do I need extra labeled data from another task to use clustering as an intermediate task?",
+      "name": "does training on document groups need any labeled data beyond the handful used for the final task?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -292,8 +300,9 @@
         "url": "https://borgr.github.io/papers/cluster-tune-boost-cold-start-performance-in-text-classifica/"
       },
       "alternateName": [
-        "What data does Cluster & Tune require beyond the few target-task labels?",
-        "Can the intermediate phase be run without any annotation at all?"
+        "what supervision does cluster-based inter-training require beyond the target-task labels, compared with supervised intermediate tasks?",
+        "how do I run an intermediate training phase when I have no labeled data from any other task to borrow?",
+        "I have no annotations at all and no related labeled dataset — can I still run the clustering intermediate phase, and what will it cost me?"
       ]
     }
   ]
@@ -379,51 +388,60 @@
 <p>In real-world scenarios, a text classification task often begins with a cold start, when labeled data is scarce. In such cases, the common practice of fine-tuning pre-trained models, such as BERT, for a target classification task, is prone to produce poor performance. We suggest a method to boost the performance of such models by adding an intermediate unsupervised classification task, between the pre-training and fine-tuning phases. As such an intermediate task, we perform clustering and train the pre-trained model on predicting the cluster labels.We test this hypothesis on various data sets, and show that this additional classification phase can significantly improve performance, mainly for topical classification tasks, when the number of labeled instances available for fine-tuning is only a couple of dozen to a few hundred.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>How can I improve text classification accuracy when I only have a few dozen labeled examples?</dt>
-<dt>What helps BERT fine-tuning in a cold-start setting with scarce labels?</dt>
-<dt>How much does clustering-based inter-training help with 64 labeled examples?</dt>
+<dt>if I only have a few dozen labeled sentences, is there anything I can train a language model on first to make classification work better?</dt>
+<dt>how much does inter-training BERT on unsupervised cluster pseudo-labels improve accuracy in a cold-start text classification setup with 64 labeled examples?</dt>
+<dt>how do I get usable text classification accuracy when I can only afford to annotate a few dozen examples?</dt>
+<dt>I have almost no annotated data for my classifier — should I add an unsupervised training phase before fine-tuning BERT?</dt>
 <dd>Inter-training BERT to predict 50 sIB cluster labels raises average accuracy on 6 topical datasets from 26.9% to 49.6% with only 64 labeled fine-tuning examples. That is a 110% relative accuracy gain and a 33% error reduction over plain BERT fine-tuning.<br><span class="scope">Holds for: BERT-BASE (110M), 64 fine-tuning examples (128 for 20 newsgroups), 5 repetitions; no dev set, 50 clusters and 1 inter-training epoch fixed for all datasets.</span></dd>
 <dd>The accuracy gain of cluster-based inter-training over plain BERT fine-tuning is statistically significant for labeling budgets up to 512 examples, and not significant beyond 512. Bonferroni-corrected paired-t-test p-values run from 1×10⁻⁶ at 64 samples to 9×10⁻³ at 512.<br><span class="scope">Holds for: Paired t-tests pooling all 9 datasets and 5 repetitions per labeling budget; budgets tested from 64 to 1024 examples with BERT-BASE.</span></dd>
-<dt>Is clustering better than continued MLM pre-training on domain data as an intermediate task?</dt>
-<dt>Does further pre-training with masked language modeling beat training on cluster labels?</dt>
-<dt>Should I do domain-adaptive MLM or cluster prediction before fine-tuning BERT?</dt>
+<dt>is it better to keep training a language model on my own unlabeled text, or to train it to predict which group each document falls into?</dt>
+<dt>does clustering-based inter-training outperform continued masked language model pre-training on the target corpus as an intermediate task?</dt>
+<dt>I have a large unlabeled in-domain corpus — how do I use it best before fine-tuning on a tiny labeled set?</dt>
+<dt>should I run domain-adaptive MLM pre-training, cluster-label inter-training, or both before fine-tuning?</dt>
 <dd>Clustering as the intermediate task beats continued MLM pre-training on the same target corpus for labeling budgets of 64, 128 and 192 examples, with no significant difference at 256 or above. Bonferroni-corrected p-values are 8×10⁻⁵, 3×10⁻³ and 4×10⁻².<br><span class="scope">Holds for: BERT_IT:MLM baseline trained 30 epochs with replication rate 5 on the same unlabeled train set; comparison pools all 9 datasets and 5 repetitions per budget.</span></dd>
 <dd>Running MLM inter-training and then cluster-label inter-training in sequence outperforms either intermediate task alone on topical datasets, showing the two phases are complementary at the cost of added runtime.<br><span class="scope">Holds for: Topical datasets, labeling budgets 64-1024, BERT-BASE, sIB clustering over bag-of-words; the paper reports no p-values for this specific pairwise comparison.</span></dd>
-<dt>When does cluster-based inter-training fail to help text classification?</dt>
-<dt>Does Cluster &amp; Tune work for sentiment analysis or spam detection?</dt>
-<dt>Why does clustering-based pre-finetuning help topical tasks but not stylistic ones?</dt>
+<dt>does grouping unlabeled documents before training help for spam or sentiment tasks, or only when the categories are about subject matter?</dt>
+<dt>on which target tasks does cluster-based inter-training fail to yield gains, and does normalized mutual information between clusters and labels predict that?</dt>
+<dt>how do I tell in advance whether an unsupervised clustering phase will help my particular classification task?</dt>
+<dt>my labels are sentiment and subjectivity rather than topics — will a clustering pre-finetuning step do anything for me?</dt>
 <dd>On the 3 non-topical datasets (SMS spam, Subjectivity, Polarity) cluster-based inter-training raises average accuracy only from 82.6% to 85.4% at 64 labeled examples, a 3% relative gain. Polarity shows 0% gain, and results stay comparable to plain BERT rather than worse.<br><span class="scope">Holds for: Sentiment, subjectivity and spam tasks whose distinction is stylistic rather than topical; BERT-BASE, 64 labeled examples, sIB clustering over stemmed bag-of-words with 50 clusters.</span></dd>
 <dd>The benefit of cluster-based inter-training tracks the normalized mutual information between the 50-cluster partition and the target labels. Datasets with NMI near zero show no clear gain, and the 3 datasets with the lowest NMI are exactly those where inter-training did not help.<br><span class="scope">Holds for: 9 datasets, NMI computed over the full train set between sIB cluster labels and gold labels, error reduction measured at 64 fine-tuning samples; a correlation across 9 datasets, not a per-dataset predictive rule.</span></dd>
-<dt>Which clustering algorithm should be used to generate pseudo-labels for intermediate training?</dt>
-<dt>Is sequential Information Bottleneck over bag-of-words better than K-means over GloVe for inter-training?</dt>
-<dt>Does the choice of clustering method matter for BERT_IT:CLUST?</dt>
+<dt>does it matter which algorithm I use to group the unlabeled documents into pseudo-labels?</dt>
+<dt>does sequential Information Bottleneck over stemmed bag-of-words beat K-means or Hartigan&#x27;s K-means over averaged GloVe embeddings as the source of inter-training pseudo-labels?</dt>
+<dt>which clustering method should I use to produce the pseudo-labels for an intermediate BERT training phase?</dt>
+<dt>can I just use K-means over sentence embeddings for the clustering step, or do I need a bag-of-words method?</dt>
 <dd>sIB clustering over stemmed bag-of-words representations gives better downstream accuracy after inter-training than K-means or Hartigan&#x27;s K-means over averaged GloVe embeddings on most of the datasets tested.<br><span class="scope">Holds for: 50 clusters, 1 inter-training epoch, sIB with 10 restarts and 15 iterations and a 10K-word vocabulary; &quot;most cases&quot; rather than all, and no significance test reported for this comparison.</span></dd>
-<dt>Could a simple bag-of-words classifier match cluster-based BERT inter-training in low-label settings?</dt>
-<dt>Do Naive Bayes and SVM baselines explain the gains from clustering-based inter-training?</dt>
-<dt>Is a nearest-cluster label-propagation classifier as good as inter-trained BERT?</dt>
+<dt>with only a handful of labeled examples, could a simple word-count classifier or the document groups themselves do just as well as retraining BERT?</dt>
+<dt>do Naive Bayes and SVM baselines over BOW or GloVe, or nearest-cluster label propagation, match cluster-inter-trained BERT under small labeling budgets?</dt>
+<dt>how do I check whether a clustering-based BERT pipeline is worth it over a bag-of-words classifier on the same few labels?</dt>
+<dt>should I bother fine-tuning BERT on cluster labels, or just label my clusters and classify by nearest cluster?</dt>
 <dd>The gains of cluster-based inter-training do not come merely from bag-of-words information. Multinomial Naive Bayes and SVM classifiers over BOW or GloVe representations, trained on the same labeled samples, were all inferior to the cluster-inter-trained BERT.<br><span class="scope">Holds for: 4 reference settings (NB_BOW, NB_GloVe, SVM_BOW, SVM_GloVe) on the same 9 datasets and the same 5 label samplings per budget.</span></dd>
 <dd>Using the 50 sIB clusters directly as a classifier is generally not on par with cluster-based BERT inter-training, though it is surprisingly effective where NMI is high and the budget small. Each cluster is labeled from a budget-proportional sample and each test example takes its nearest cluster&#x27;s dominant label.<br><span class="scope">Holds for: Heuristic guarantees at least 1 labeled instance per cluster; evaluated on the same 9 datasets and budgets from 64 to 1024.</span></dd>
-<dt>What changes in BERT&#x27;s sentence embeddings after training on cluster labels?</dt>
-<dt>Does inter-training on clusters make same-class representations closer together?</dt>
-<dt>Is there evidence that cluster inter-training gives a better starting point for fine-tuning?</dt>
+<dt>what actually changes inside a language model&#x27;s sentence representations after training it to predict document groups?</dt>
+<dt>how do BERT [CLS] embeddings change after cluster-label inter-training, measured by distance to class centroids?</dt>
+<dt>is there evidence that cluster-label inter-training gives me a genuinely better starting point for fine-tuning, not just better numbers?</dt>
 <dd>After cluster-label inter-training, BERT&#x27;s [CLS] embeddings place same-class examples closer together in every dataset tested, measured by a permutation-normalized Euclidean distance to class centroids. t-SNE plots of topical datasets show visibly cleaner class separation.<br><span class="scope">Holds for: Embeddings over the full train set, gold labels used only for measurement; normalization uses a permutation test with 1000 repetitions. The visual separation is qualitative and clearest on topical data such as DBpedia, unlike Polarity.</span></dd>
-<dt>How expensive is it to add a clustering-based intermediate training phase?</dt>
-<dt>What is the runtime cost of Cluster &amp; Tune?</dt>
-<dt>How long does one inter-training epoch over cluster labels take on a single GPU?</dt>
+<dt>how much extra compute and time does it cost to group unlabeled documents and train a model on those groups first?</dt>
+<dt>what is the runtime overhead of sIB clustering plus one inter-training epoch on a single GPU?</dt>
+<dt>how do I budget GPU time for adding a clustering-based intermediate training phase to a text classification pipeline?</dt>
+<dt>I have one V100 and a 15K-document corpus — can I afford the clustering intermediate phase?</dt>
 <dd>The clustering step for the intermediate task takes only a few seconds. The single inter-training epoch takes five and a half minutes for the largest 15K-instance train set on one Tesla V100-PCIE-16GB GPU.<br><span class="scope">Holds for: BERT-BASE, batch size 64, max sequence length 128, learning rate 3×10⁻⁵; datasets of 3.9K to 15K training instances.</span></dd>
-<dt>What should I read about using unsupervised clustering as pseudo-labels for NLP transfer learning?</dt>
-<dt>Which paper introduced clustering as an intermediate task between pre-training and fine-tuning for text classification?</dt>
-<dt>Where should I start reading about cold-start text classification with pre-trained language models?</dt>
+<dt>which work first used grouping of unlabeled text as a training step between language model pre-training and fine-tuning on few labels?</dt>
+<dt>which paper introduced unsupervised clustering pseudo-labels as an intermediate task for cold-start text classification in NLP?</dt>
+<dt>where do I start reading about training text classifiers when almost nothing is labeled yet?</dt>
+<dt>what should I read first if I need a text classifier and have no annotation budget to speak of?</dt>
 <dd>Cluster &amp; Tune introduces unsupervised text clustering as an intermediate training task for cold-start text classification, transferring to NLP the computer-vision practice of using cluster assignments as pseudo-labels for representation learning.<br><span class="scope">Holds for: As of publication at ACL 2022; earlier NLP work used clustering mainly for non-transfer purposes. Demonstrated for English single-label text classification with BERT-BASE only.</span></dd>
 <dd>Cluster &amp; Tune requires no additional labeled data and no per-task design, since the pseudo-labels come from clustering the unlabeled target-domain corpus. It is therefore an alternative to supervised intermediate tasks that need labeled data from another task.<br><span class="scope">Holds for: Requires an unlabeled corpus of the target domain on the order of several thousand examples; hyperparameters (50 clusters, 1 epoch) were fixed a priori rather than tuned per dataset, and no dev set is assumed.</span></dd>
-<dt>Up to what labeling budget does the clustering intermediate phase still pay off?</dt>
-<dt>Does the benefit of cluster-based inter-training disappear with more labeled data?</dt>
-<dt>At how many labeled examples do the gains from cluster pseudo-labels become insignificant?</dt>
+<dt>once I can afford to label more examples, does an unsupervised pre-finetuning step stop being worth the trouble?</dt>
+<dt>up to what labeling budget is the gain from cluster-based inter-training over plain BERT fine-tuning statistically significant?</dt>
+<dt>how do I decide whether my annotation budget is small enough for a clustering intermediate phase to still pay off?</dt>
+<dt>I can label about 1000 examples — is a cluster-based intermediate training phase still going to help me?</dt>
 <dd>The accuracy gain of cluster-based inter-training over plain BERT fine-tuning is statistically significant for labeling budgets up to 512 examples, and not significant beyond 512. Bonferroni-corrected paired-t-test p-values run from 1×10⁻⁶ at 64 samples to 9×10⁻³ at 512.<br><span class="scope">Holds for: Paired t-tests pooling all 9 datasets and 5 repetitions per labeling budget; budgets tested from 64 to 1024 examples with BERT-BASE.</span></dd>
 <dd>Inter-training BERT to predict 50 sIB cluster labels raises average accuracy on 6 topical datasets from 26.9% to 49.6% with only 64 labeled fine-tuning examples. That is a 110% relative accuracy gain and a 33% error reduction over plain BERT fine-tuning.<br><span class="scope">Holds for: BERT-BASE (110M), 64 fine-tuning examples (128 for 20 newsgroups), 5 repetitions; no dev set, 50 clusters and 1 inter-training epoch fixed for all datasets.</span></dd>
-<dt>Do I need extra labeled data from another task to use clustering as an intermediate task?</dt>
-<dt>What data does Cluster &amp; Tune require beyond the few target-task labels?</dt>
-<dt>Can the intermediate phase be run without any annotation at all?</dt>
+<dt>does training on document groups need any labeled data beyond the handful used for the final task?</dt>
+<dt>what supervision does cluster-based inter-training require beyond the target-task labels, compared with supervised intermediate tasks?</dt>
+<dt>how do I run an intermediate training phase when I have no labeled data from any other task to borrow?</dt>
+<dt>I have no annotations at all and no related labeled dataset — can I still run the clustering intermediate phase, and what will it cost me?</dt>
 <dd>Cluster &amp; Tune requires no additional labeled data and no per-task design, since the pseudo-labels come from clustering the unlabeled target-domain corpus. It is therefore an alternative to supervised intermediate tasks that need labeled data from another task.<br><span class="scope">Holds for: Requires an unlabeled corpus of the target domain on the order of several thousand examples; hyperparameters (50 clusters, 1 epoch) were fixed a priori rather than tuned per dataset, and no dev set is assumed.</span></dd>
 <dd>The clustering step for the intermediate task takes only a few seconds. The single inter-training epoch takes five and a half minutes for the largest 15K-instance train set on one Tesla V100-PCIE-16GB GPU.<br><span class="scope">Holds for: BERT-BASE, batch size 64, max sequence length 128, learning rate 3×10⁻⁵; datasets of 3.9K to 15K training instances.</span></dd>
 </dl>

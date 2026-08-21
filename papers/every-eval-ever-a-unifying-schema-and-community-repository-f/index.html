@@ -368,7 +368,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Is there a standard format for reporting AI benchmark results?",
+      "name": "is there an agreed way to write down the details of a benchmark run so other people can reuse the score?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -376,13 +376,14 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "What schema standardizes evaluation results across leaderboards and harnesses?",
-        "Where can I find a shared format for LLM evaluation metadata?"
+        "what schema unifies evaluation result records across harnesses, leaderboards and reporting formats?",
+        "how do I publish my benchmark results in a format other people can aggregate with theirs?",
+        "should I log my eval runs into a shared schema instead of my own CSV columns?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about why the same model gets different benchmark scores?",
+      "name": "what should I read first about why the same benchmark score means different things in different tools?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -390,13 +391,14 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "Is there a good paper on cross-framework comparability of LLM evaluations?",
-        "Where do I start reading about evaluation reproducibility and metadata?"
+        "which work covers cross-framework comparability and metadata provenance for LLM evaluation results?",
+        "where do I start reading if I need to compare scores reported by different evaluation pipelines?",
+        "I keep getting different numbers than a published leaderboard, is there a paper that explains what to check?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How big is the Every Eval Ever dataset?",
+      "name": "how many models and tests are covered by the big crowdsourced collection of AI evaluation results?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -404,13 +406,14 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "How many models and benchmarks are covered by the crowdsourced evaluation datastore?",
-        "How many evaluation formats have been unified into one schema?"
+        "what is the scale of the Every Eval Ever datastore in models, benchmarks and reporting formats?",
+        "where can I find already-collected benchmark scores for thousands of models instead of running them?",
+        "is the collection large enough that my model or my benchmark is likely already in it?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How often do leaderboards report which inference platform or API was used?",
+      "name": "when people publish benchmark scores, which run details do they usually leave out?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -418,13 +421,14 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "Is temperature usually reported alongside published benchmark scores?",
-        "Which evaluation metadata fields are most often missing in practice?"
+        "what are the field fill rates for inference platform, decoding temperature and parameter count across evaluation reporting formats?",
+        "which metadata do I need to chase down myself before I can trust a reported score?",
+        "can I tell from a published leaderboard entry what serving stack and sampling settings produced the number?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Why do reported WikiText perplexity numbers differ between papers?",
+      "name": "why do two papers report different perplexity numbers on the same WikiText text and the same model?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -432,13 +436,14 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "Does token versus word normalization change perplexity a lot?",
-        "Can perplexity numbers from lm-eval-harness be compared to GPTQ script numbers?"
+        "how much does token-level versus word-level normalization shift WikiText perplexity for Llama-2-7B?",
+        "how do I make my perplexity number comparable to one reported by a different codebase?",
+        "my perplexity is higher than the published one for the same model, is the normalization denominator the reason?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How closely can HELM results be reproduced locally at the instance level?",
+      "name": "if I rerun a published evaluation myself, how close do the per-example results come out?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -446,13 +451,14 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "What is the per-instance agreement between official HELM records and local reruns?",
-        "How reproducible are published evaluation harness scores?"
+        "what per-instance agreement do local reruns of official HELM records achieve across comparable scenarios?",
+        "how do I check whether my local rerun of a public benchmark actually matches the official record?",
+        "can I trust the official numbers for a model, or should I rerun the benchmark myself?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What causes mismatches when rerunning a public evaluation?",
+      "name": "when two runs of the same benchmark disagree, what is usually going wrong?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -460,13 +466,14 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "Can instance-level records explain why two runs of the same benchmark disagree?",
-        "What kinds of reproducibility bugs show up in HELM reruns?"
+        "what concrete failure modes explain instance-level disagreement between official and reproduced HELM runs?",
+        "how do I debug why my rerun of a public benchmark gives different scores from the released ones?",
+        "my rerun disagrees with the official record on a handful of items, is that a real difference or a pipeline bug?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does the choice of agent scaffold change cost without changing accuracy?",
+      "name": "do two coding agents that solve the same fraction of tasks cost the same money and time?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -474,13 +481,14 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "How much cheaper is Codex than OpenClaw on CocoaBench at the same accuracy?",
-        "Is agent accuracy enough to compare coding agents?"
+        "how do agentic scaffolds with an identical backbone differ in cost and wall-clock latency at matched accuracy on CocoaBench?",
+        "how do I choose between two coding agent harnesses when their accuracy is the same?",
+        "is accuracy enough for me to pick a coding agent, or do I need the dollars-per-task numbers too?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does the best agent scaffold depend on which model backbone it runs on?",
+      "name": "does the best agent wrapper change depending on which underlying model you plug into it?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -488,13 +496,14 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "Do scaffold rankings flip between Claude Opus versions on CORE-Bench Hard?",
-        "Can I pick an agent scaffold independently of the underlying LLM?"
+        "do scaffold rankings on CORE-Bench Hard invert across Claude Opus backbone versions?",
+        "how do I pick an agent scaffold when I plan to swap the backbone model later?",
+        "if I upgrade my backbone model, will the agent framework I already chose still be the better one?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What can Item Response Theory tell us about benchmark difficulty?",
+      "name": "can you tell which benchmark has harder individual questions rather than just lower average scores?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -502,13 +511,14 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "Which benchmark has harder and more variable items, GPQA Diamond or Wordle Arena?",
-        "How much instance-level data is needed to fit a 1PL IRT model across benchmarks?"
+        "what does a 1PL IRT fit to instance-level records show about item difficulty and its spread across GPQA Diamond, JudgeBench and Wordle Arena?",
+        "how do I compare benchmarks at the item level instead of comparing their headline accuracies?",
+        "do I have enough per-item results across models to fit an item-difficulty model on my benchmark?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much would it cost to rerun all these collected evaluations?",
+      "name": "how much would it cost in API bills to rerun every collected model-and-benchmark evaluation from scratch?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -516,13 +526,14 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "What is the estimated inference cost of reproducing 230,000 model-benchmark pairs?",
-        "Is reusing published evaluation results actually cheaper than rerunning them?"
+        "what is the estimated inference spend to reproduce roughly 230,000 model-benchmark evaluation pairs, with and without an LLM judge?",
+        "how do I justify reusing published evaluation results instead of budgeting to rerun them?",
+        "is it cheaper for me to reuse aggregated published eval results than to rerun the benchmarks myself?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which models and benchmarks dominate reported AI evaluations?",
+      "name": "are reported AI benchmark results spread across many systems, or piled onto a few popular ones?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -530,13 +541,14 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "Is evaluation activity concentrated on a few commercial models?",
-        "How long is the tail of benchmarks that get evaluated?"
+        "how concentrated is evaluation activity across models and benchmarks in aggregated evaluation records?",
+        "how do I find out whether the model or benchmark I care about has any reported results at all?",
+        "if my model is not from a big lab, should I expect to find published evaluations of it?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does a records format require complete metadata to accept a result?",
+      "name": "can a shared collection of benchmark results accept a run that is missing some of its settings?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -544,13 +556,14 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "What happens to conflicting or duplicate evaluation records in a shared repository?",
-        "How does Every Eval Ever handle runs with missing generation parameters?"
+        "how does a minimal-required-field schema with per-run UUIDs handle partial, duplicate and conflicting evaluation records?",
+        "how do I contribute an old evaluation run when I no longer know the temperature or the serving platform?",
+        "my logs are incomplete, will my results be rejected from a shared evaluation repository?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How was the Every Eval Ever schema designed and who decided the fields?",
+      "name": "who decided which run details a shared benchmark-reporting format should ask for?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -558,8 +571,9 @@
         "url": "https://borgr.github.io/papers/every-eval-ever-a-unifying-schema-and-community-repository-f/"
       },
       "alternateName": [
-        "What criteria decided which metadata fields go in an evaluation reporting schema?",
-        "Who governs changes to a community evaluation schema?"
+        "what inclusion criteria and community feedback process determined the fields of the Every Eval Ever schema?",
+        "how do I decide which metadata fields to require when designing an evaluation reporting format?",
+        "can I trust that a shared evaluation schema asks for fields my group actually needs, and can I get one added?"
       ]
     }
   ]
@@ -651,67 +665,81 @@
 <p>AI evaluations are widely used for testing and understanding progress. However, the diverse evaluators bring with them inconsistencies that challenge analysis and comparison. First, results are saved in incompatible formats, scattered across leaderboards, papers, blog posts, evaluation harness logs, and custom repositories. Second, results are created by different evaluation frameworks, which produce divergent scores for nominally identical evaluations and record metadata inconsistently, hindering comparison, cross-community evaluation science, cost reduction, and reuse. We introduce Every Eval Ever, the first shared schema and community-crowdsourced repository for AI evaluation results. The schema standardizes how evaluations are represented in a unified, single JSON document. It is source-agnostic by design, ingesting results from evaluation harnesses and papers alike, and optionally stores per-instance outputs for fine-grained analysis. We contribute: (i) a community-governed metadata schema with a companion instance-level schema, the first standardization effort of its kind; (ii) automatic converters from popular formats, evaluation harnesses, and leaderboards to the unified schema; and (iii) a crowdsourced community database hosted on Hugging Face, currently spanning to date 22,235 models, 2,273 unique benchmarks, and 31 evaluation formats.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Is there a standard format for reporting AI benchmark results?</dt>
-<dt>What schema standardizes evaluation results across leaderboards and harnesses?</dt>
-<dt>Where can I find a shared format for LLM evaluation metadata?</dt>
+<dt>is there an agreed way to write down the details of a benchmark run so other people can reuse the score?</dt>
+<dt>what schema unifies evaluation result records across harnesses, leaderboards and reporting formats?</dt>
+<dt>how do I publish my benchmark results in a format other people can aggregate with theirs?</dt>
+<dt>should I log my eval runs into a shared schema instead of my own CSV columns?</dt>
 <dd>Every Eval Ever is a shared schema and crowdsourced repository for AI evaluation results, filling the documentation gap left by dataset and model standards. Croissant, Datasheets for Datasets and Model Cards cover data and models but not the run-time context that determines whether two scores can be compared.<br><span class="scope">Holds for: Positioned as the first standardization effort of its kind for evaluation results as of the 2026 publication; concurrent efforts collecting instance-level or Inspect-specific outputs exist and are being aggregated into it.</span></dd>
 <dd>The Every Eval Ever schema keeps required fields minimal and assigns each run a UUID rather than a canonical fingerprint. Partially specified, repeated and conflicting evaluation records are therefore all admitted and stay visible for later deduplication.<br><span class="scope">Holds for: Design decision of schema version 0.2.2 with companion instance_level_eval_0.2.2; the cost is that deduplication shifts to the analysis layer, where reference implementations of equivalence criteria are planned rather than shipped.</span></dd>
-<dt>What should I read about why the same model gets different benchmark scores?</dt>
-<dt>Is there a good paper on cross-framework comparability of LLM evaluations?</dt>
-<dt>Where do I start reading about evaluation reproducibility and metadata?</dt>
+<dt>what should I read first about why the same benchmark score means different things in different tools?</dt>
+<dt>which work covers cross-framework comparability and metadata provenance for LLM evaluation results?</dt>
+<dt>where do I start reading if I need to compare scores reported by different evaluation pipelines?</dt>
+<dt>I keep getting different numbers than a published leaderboard, is there a paper that explains what to check?</dt>
 <dd>Every Eval Ever offers a starting point for readers looking for work on why nominally identical benchmark scores are not comparable across evaluation frameworks. It also documents what metadata has to be recorded before such scores can be compared.<br><span class="scope">Holds for: Coverage is strongest for text-based, single-model evaluations; multi-modal evaluations, human preference judgments such as Chatbot Arena Elo, and multi-agent settings are only partially supported as of publication.</span></dd>
 <dd>Every Eval Ever is a shared schema and crowdsourced repository for AI evaluation results, filling the documentation gap left by dataset and model standards. Croissant, Datasheets for Datasets and Model Cards cover data and models but not the run-time context that determines whether two scores can be compared.<br><span class="scope">Holds for: Positioned as the first standardization effort of its kind for evaluation results as of the 2026 publication; concurrent efforts collecting instance-level or Inspect-specific outputs exist and are being aggregated into it.</span></dd>
-<dt>How big is the Every Eval Ever dataset?</dt>
-<dt>How many models and benchmarks are covered by the crowdsourced evaluation datastore?</dt>
-<dt>How many evaluation formats have been unified into one schema?</dt>
+<dt>how many models and tests are covered by the big crowdsourced collection of AI evaluation results?</dt>
+<dt>what is the scale of the Every Eval Ever datastore in models, benchmarks and reporting formats?</dt>
+<dt>where can I find already-collected benchmark scores for thousands of models instead of running them?</dt>
+<dt>is the collection large enough that my model or my benchmark is likely already in it?</dt>
 <dd>The Every Eval Ever datastore holds more than 200K aggregated evaluation results covering 22,235 models, 2,273 unique benchmarks and 31 distinct evaluation reporting formats, drawn from over a hundred community data contributions.<br><span class="scope">Holds for: Counts as of the May 4th 2026 snapshot; coverage is biased toward the sources contributors ingested, and 71.23% of runs come from one organization, alphaXiv.</span></dd>
-<dt>How often do leaderboards report which inference platform or API was used?</dt>
-<dt>Is temperature usually reported alongside published benchmark scores?</dt>
-<dt>Which evaluation metadata fields are most often missing in practice?</dt>
+<dt>when people publish benchmark scores, which run details do they usually leave out?</dt>
+<dt>what are the field fill rates for inference platform, decoding temperature and parameter count across evaluation reporting formats?</dt>
+<dt>which metadata do I need to chase down myself before I can trust a reported score?</dt>
+<dt>can I tell from a published leaderboard entry what serving stack and sampling settings produced the number?</dt>
 <dd>The inference platform is marked unknown or omitted entirely in 98% of evaluation rows in the Every Eval Ever datastore. Weighting each of the 31 formats equally, the field is reported in only 27% of rows on average.<br><span class="scope">Holds for: 98% is a micro-average over evaluation runs, 27% a macro-average over the 31 harnesses and formats in the datastore; measures the ingested sources, not the schema.</span></dd>
 <dd>Across the 31 formats in the Every Eval Ever datastore, model name is filled 100% of the time but model parameter count and model license are each filled only 3%. Temperature and max tokens are filled 23% of the time.<br><span class="scope">Holds for: Macro-average fill rates over the 31 evaluation harnesses and formats ingested as of the paper&#x27;s snapshot; measures what upstream sources report, and the schema records absence rather than defaulting missing values.</span></dd>
-<dt>Why do reported WikiText perplexity numbers differ between papers?</dt>
-<dt>Does token versus word normalization change perplexity a lot?</dt>
-<dt>Can perplexity numbers from lm-eval-harness be compared to GPTQ script numbers?</dt>
+<dt>why do two papers report different perplexity numbers on the same WikiText text and the same model?</dt>
+<dt>how much does token-level versus word-level normalization shift WikiText perplexity for Llama-2-7B?</dt>
+<dt>how do I make my perplexity number comparable to one reported by a different codebase?</dt>
+<dt>my perplexity is higher than the published one for the same model, is the normalization denominator the reason?</dt>
 <dd>The same summed cross-entropy on WikiText yields a token-level perplexity of 5.4687 and a word-level perplexity of 8.7939 for Llama-2-7B, a gap of 3.3252 that comes only from the normalization denominator.<br><span class="scope">Holds for: Two implementations compared: a GPTQ-style script reporting token-normalized perplexity, and vLLM plus lm-eval-harness reporting word_perplexity; shown for OPT-6.7B (gap 1.4301) and Llama-2-7B on WikiText.</span></dd>
-<dt>How closely can HELM results be reproduced locally at the instance level?</dt>
-<dt>What is the per-instance agreement between official HELM records and local reruns?</dt>
-<dt>How reproducible are published evaluation harness scores?</dt>
+<dt>if I rerun a published evaluation myself, how close do the per-example results come out?</dt>
+<dt>what per-instance agreement do local reruns of official HELM records achieve across comparable scenarios?</dt>
+<dt>how do I check whether my local rerun of a public benchmark actually matches the official record?</dt>
+<dt>can I trust the official numbers for a model, or should I rerun the benchmark myself?</dt>
 <dd>Reproducing official HELM records locally and comparing per-instance scores gives 91% to 100% agreement for Pythia-6.9B and Vicuna-7B v1.3 across 13 comparable benchmarks, but drops to 78.8% for Falcon-7B on SyntheticReasoning-Natural.<br><span class="scope">Holds for: 3 models on 14 single-turn HELM benchmarks, both sides converted to the Every Eval Ever schema; agreement counts aligned (instance, core metric) pairs with identical scores up to numerical tolerance.</span></dd>
 <dd>Instance-level comparison of official and reproduced HELM runs traces disagreements to concrete causes. Official Pythia completions on SyntheticReasoning-Natural are empty and score zero while local ones are non-empty, and Entity-Matching selects different Abt–Buy examples despite the same HELM recipe.<br><span class="scope">Holds for: 3 models on 14 single-turn HELM benchmarks; the schema surfaces mismatched example sets, empty completions and stochastic disagreement, but when serving details are missing it cannot always determine the exact cause.</span></dd>
-<dt>What causes mismatches when rerunning a public evaluation?</dt>
-<dt>Can instance-level records explain why two runs of the same benchmark disagree?</dt>
-<dt>What kinds of reproducibility bugs show up in HELM reruns?</dt>
+<dt>when two runs of the same benchmark disagree, what is usually going wrong?</dt>
+<dt>what concrete failure modes explain instance-level disagreement between official and reproduced HELM runs?</dt>
+<dt>how do I debug why my rerun of a public benchmark gives different scores from the released ones?</dt>
+<dt>my rerun disagrees with the official record on a handful of items, is that a real difference or a pipeline bug?</dt>
 <dd>Instance-level comparison of official and reproduced HELM runs traces disagreements to concrete causes. Official Pythia completions on SyntheticReasoning-Natural are empty and score zero while local ones are non-empty, and Entity-Matching selects different Abt–Buy examples despite the same HELM recipe.<br><span class="scope">Holds for: 3 models on 14 single-turn HELM benchmarks; the schema surfaces mismatched example sets, empty completions and stochastic disagreement, but when serving details are missing it cannot always determine the exact cause.</span></dd>
-<dt>Does the choice of agent scaffold change cost without changing accuracy?</dt>
-<dt>How much cheaper is Codex than OpenClaw on CocoaBench at the same accuracy?</dt>
-<dt>Is agent accuracy enough to compare coding agents?</dt>
+<dt>do two coding agents that solve the same fraction of tasks cost the same money and time?</dt>
+<dt>how do agentic scaffolds with an identical backbone differ in cost and wall-clock latency at matched accuracy on CocoaBench?</dt>
+<dt>how do I choose between two coding agent harnesses when their accuracy is the same?</dt>
+<dt>is accuracy enough for me to pick a coding agent, or do I need the dollars-per-task numbers too?</dt>
 <dd>On CocoaBench, the Codex and OpenClaw scaffolds with a GPT-5.4 backbone both reach 45.1% accuracy, but Codex averages $0.7 and 377.8 s per task against OpenClaw&#x27;s $1.0 and 502.1 s.<br><span class="scope">Holds for: Aggregate CocoaBench records for 6 scaffold–backbone pairs, re-represented in Every Eval Ever; source-reported accuracy, time and cost rather than reruns.</span></dd>
 <dd>On CORE-Bench Hard from HAL, Claude Code beats CORE-Agent with a Claude Opus 4.5 backbone, 77.8% versus 42.2%. With Claude Opus 4.1 the ranking flips, 42.2% for Claude Code against 51.1% for CORE-Agent.<br><span class="scope">Holds for: Representative HAL records for 6 scaffold–backbone pairs on CORE-Bench Hard re-represented in Every Eval Ever; source-reported accuracies and costs rather than reruns.</span></dd>
-<dt>Does the best agent scaffold depend on which model backbone it runs on?</dt>
-<dt>Do scaffold rankings flip between Claude Opus versions on CORE-Bench Hard?</dt>
-<dt>Can I pick an agent scaffold independently of the underlying LLM?</dt>
+<dt>does the best agent wrapper change depending on which underlying model you plug into it?</dt>
+<dt>do scaffold rankings on CORE-Bench Hard invert across Claude Opus backbone versions?</dt>
+<dt>how do I pick an agent scaffold when I plan to swap the backbone model later?</dt>
+<dt>if I upgrade my backbone model, will the agent framework I already chose still be the better one?</dt>
 <dd>On CORE-Bench Hard from HAL, Claude Code beats CORE-Agent with a Claude Opus 4.5 backbone, 77.8% versus 42.2%. With Claude Opus 4.1 the ranking flips, 42.2% for Claude Code against 51.1% for CORE-Agent.<br><span class="scope">Holds for: Representative HAL records for 6 scaffold–backbone pairs on CORE-Bench Hard re-represented in Every Eval Ever; source-reported accuracies and costs rather than reruns.</span></dd>
-<dt>What can Item Response Theory tell us about benchmark difficulty?</dt>
-<dt>Which benchmark has harder and more variable items, GPQA Diamond or Wordle Arena?</dt>
-<dt>How much instance-level data is needed to fit a 1PL IRT model across benchmarks?</dt>
+<dt>can you tell which benchmark has harder individual questions rather than just lower average scores?</dt>
+<dt>what does a 1PL IRT fit to instance-level records show about item difficulty and its spread across GPQA Diamond, JudgeBench and Wordle Arena?</dt>
+<dt>how do I compare benchmarks at the item level instead of comparing their headline accuracies?</dt>
+<dt>do I have enough per-item results across models to fit an item-difficulty model on my benchmark?</dt>
 <dd>A 1PL Item Response Theory model fit to instance-level Every Eval Ever records shows Wordle Arena items are harder on average and more variable in difficulty than GPQA Diamond or JudgeBench items. The response matrices cover 198 items from 69 models, 63 items from 46 models, and 350 items from 55 models.<br><span class="scope">Holds for: Unidimensional 1PL model fit with py-irt 0.7.1 via variational inference, using the is_correct field of each instance-level record; the difficulty comparison is descriptive, not a tested prediction about future saturation.</span></dd>
-<dt>How much would it cost to rerun all these collected evaluations?</dt>
-<dt>What is the estimated inference cost of reproducing 230,000 model-benchmark pairs?</dt>
-<dt>Is reusing published evaluation results actually cheaper than rerunning them?</dt>
+<dt>how much would it cost in API bills to rerun every collected model-and-benchmark evaluation from scratch?</dt>
+<dt>what is the estimated inference spend to reproduce roughly 230,000 model-benchmark evaluation pairs, with and without an LLM judge?</dt>
+<dt>how do I justify reusing published evaluation results instead of budgeting to rerun them?</dt>
+<dt>is it cheaper for me to reuse aggregated published eval results than to rerun the benchmarks myself?</dt>
 <dd>Re-running the roughly 230,000 model–benchmark evaluation pairs collected in Every Eval Ever is estimated to cost about $221K with a mid-tier model plus an LLM judge. A higher-end model raises that to about $368K, and a no-judge lower bound puts it at about $4.1K.<br><span class="scope">Holds for: Assumes 1,000 examples per benchmark, 100 input and 20 output tokens per example, 60% LLM-as-judge token overhead and list API prices; excludes agentic evaluations, reasoning models, repeated runs and human labeling.</span></dd>
-<dt>Which models and benchmarks dominate reported AI evaluations?</dt>
-<dt>Is evaluation activity concentrated on a few commercial models?</dt>
-<dt>How long is the tail of benchmarks that get evaluated?</dt>
+<dt>are reported AI benchmark results spread across many systems, or piled onto a few popular ones?</dt>
+<dt>how concentrated is evaluation activity across models and benchmarks in aggregated evaluation records?</dt>
+<dt>how do I find out whether the model or benchmark I care about has any reported results at all?</dt>
+<dt>if my model is not from a big lab, should I expect to find published evaluations of it?</dt>
 <dd>Evaluation activity in the Every Eval Ever datastore follows a long tail: the top 25 models and top 25 benchmarks each account for barely 25% of all results. Excluding human baselines, 5 companies supply 23 of the 24 most frequently evaluated systems.<br><span class="scope">Holds for: Descriptive statistics over the ingested corpus as of the paper&#x27;s snapshot; coverage is biased by which leaderboards and papers contributors converted, so the concentration describes reported evaluations rather than all evaluations run.</span></dd>
-<dt>Does a records format require complete metadata to accept a result?</dt>
-<dt>What happens to conflicting or duplicate evaluation records in a shared repository?</dt>
-<dt>How does Every Eval Ever handle runs with missing generation parameters?</dt>
+<dt>can a shared collection of benchmark results accept a run that is missing some of its settings?</dt>
+<dt>how does a minimal-required-field schema with per-run UUIDs handle partial, duplicate and conflicting evaluation records?</dt>
+<dt>how do I contribute an old evaluation run when I no longer know the temperature or the serving platform?</dt>
+<dt>my logs are incomplete, will my results be rejected from a shared evaluation repository?</dt>
 <dd>The Every Eval Ever schema keeps required fields minimal and assigns each run a UUID rather than a canonical fingerprint. Partially specified, repeated and conflicting evaluation records are therefore all admitted and stay visible for later deduplication.<br><span class="scope">Holds for: Design decision of schema version 0.2.2 with companion instance_level_eval_0.2.2; the cost is that deduplication shifts to the analysis layer, where reference implementations of equivalence criteria are planned rather than shipped.</span></dd>
 <dd>The Every Eval Ever schema was built from structured feedback from about 40 researchers and unstructured feedback from about 110. A field was admitted only if some existing framework or published result already reports it and a majority of contributors judged it necessary to interpret the score.<br><span class="scope">Holds for: Contributors included benchmark creators, evaluation framework developers, governance experts, leaderboard operators and industry practitioners; disagreements were resolved by consensus among core maintainers, who retain final authority on contested changes.</span></dd>
-<dt>How was the Every Eval Ever schema designed and who decided the fields?</dt>
-<dt>What criteria decided which metadata fields go in an evaluation reporting schema?</dt>
-<dt>Who governs changes to a community evaluation schema?</dt>
+<dt>who decided which run details a shared benchmark-reporting format should ask for?</dt>
+<dt>what inclusion criteria and community feedback process determined the fields of the Every Eval Ever schema?</dt>
+<dt>how do I decide which metadata fields to require when designing an evaluation reporting format?</dt>
+<dt>can I trust that a shared evaluation schema asks for fields my group actually needs, and can I get one added?</dt>
 <dd>The Every Eval Ever schema was built from structured feedback from about 40 researchers and unstructured feedback from about 110. A field was admitted only if some existing framework or published result already reports it and a majority of contributors judged it necessary to interpret the score.<br><span class="scope">Holds for: Contributors included benchmark creators, evaluation framework developers, governance experts, leaderboard operators and industry practitioners; disagreements were resolved by consensus among core maintainers, who retain final authority on contested changes.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

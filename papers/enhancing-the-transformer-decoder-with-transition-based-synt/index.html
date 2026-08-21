@@ -127,7 +127,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "how can a Transformer decoder generate a dependency tree along with the translation?",
+      "name": "can a translation model build a grammar tree of its own output while it writes the sentence?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -135,13 +135,14 @@
         "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
       },
       "alternateName": [
-        "is there a way to decode syntactic structure with a Transformer instead of an RNN?",
-        "what work added target-side syntax to a Transformer decoder?"
+        "how is a transition-based dependency parser embedded in a Transformer decoder for target-side syntax?",
+        "how do I make a Transformer decoder emit a dependency tree together with the translated sentence?",
+        "if I want target-side syntax in my Transformer NMT system, do I still need an RNN or a linearized tree?"
       ]
     },
     {
       "@type": "Question",
-      "name": "does adding target-side syntax help machine translation on syntactically hard sentences?",
+      "name": "does making a translation system aware of grammar on the output side help with the hard sentences?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -149,13 +150,14 @@
         "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
       },
       "alternateName": [
-        "do syntax-aware decoders improve long-distance dependency translation?",
-        "how much does the structural decoder gain on syntactic challenge sets?"
+        "do syntax-aware decoders improve accuracy on long-distance dependency and particle challenge sets in NMT?",
+        "how do I get a translation model to handle separable verb particles and long-range agreement correctly?",
+        "my model keeps dropping German verb particles and misplacing distant dependents, would target-side syntax fix that?"
       ]
     },
     {
       "@type": "Question",
-      "name": "can you just scale the Transformer up instead of adding syntax?",
+      "name": "if I train a bigger translation model, does it learn the grammar it was missing anyway?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -163,13 +165,14 @@
         "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
       },
       "alternateName": [
-        "do syntactic generalization gaps shrink with bigger translation models?",
-        "does the benefit of the Parent decoder disappear at larger model size?"
+        "does the syntactic generalization gap between structure-aware and vanilla Transformer decoders close at 6 layers?",
+        "how do I close a grammar-generalization gap in translation, more layers or explicit target-side structure?",
+        "should I spend my compute on scaling my Transformer up rather than adding a syntactic decoder?"
       ]
     },
     {
       "@type": "Question",
-      "name": "does the syntactic decoder also help on standard MT benchmarks like newstest?",
+      "name": "does adding grammar to the output side cost anything on ordinary translation quality scores?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -177,13 +180,14 @@
         "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
       },
       "alternateName": [
-        "what BLEU and chrF+ improvement does UD-based decoding give on WMT test sets?",
-        "does target-side syntax cost you general translation quality?"
+        "what BLEU and chrF+ do UD-based GCN and parent-attention decoders reach on newstest 2013-15 versus a vanilla Transformer?",
+        "how do I check whether a syntax-aware decoder hurts general translation quality before shipping it?",
+        "will switching to a syntactic decoder lower my BLEU on standard news test sets?"
       ]
     },
     {
       "@type": "Question",
-      "name": "is re-encoding the generated parse better than just linearizing syntax into the output string?",
+      "name": "is it enough to write the grammar into the output as extra tokens, or does the model have to read the structure back?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -191,13 +195,14 @@
         "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
       },
       "alternateName": [
-        "how does linearized syntax compare with graph-aware decoding in NMT?",
-        "what does the linearized-transitions ablation show?"
+        "how does training on linearized transition sequences compare with re-encoding the generated graph in the decoder?",
+        "how do I decide between linearizing a parse into the target string and feeding the built graph back into the decoder?",
+        "can I skip the graph machinery and just train on a linearized parse string instead?"
       ]
     },
     {
       "@type": "Question",
-      "name": "do GCN gates matter when encoding a self-generated parse?",
+      "name": "when a translation model reads back the tree it just built, which parts of that actually matter?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -205,13 +210,14 @@
         "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
       },
       "alternateName": [
-        "are dependency edge labels necessary for a syntax-aware decoder?",
-        "which parts of the GCN decoder actually contribute, according to the ablations?"
+        "in a graph-convolutional decoder over self-generated dependencies, how much do gating and edge labels each contribute?",
+        "how do I trim a graph-convolutional syntactic decoder without losing its syntactic accuracy?",
+        "can I drop the dependency edge labels or the gates from my GCN decoder to save parameters?"
       ]
     },
     {
       "@type": "Question",
-      "name": "does letting a Transformer decoder attend to already-predicted future tokens help?",
+      "name": "does letting a translation decoder look at words it has already guessed further ahead help at all?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -219,13 +225,14 @@
         "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
       },
       "alternateName": [
-        "how much does bidirectional decoder attention improve translation on its own?",
-        "what is BiTran and how well does it work?"
+        "what does bidirectional decoder self-attention over already-predicted tokens buy over a causal Transformer decoder, with no syntax?",
+        "how do I get a small translation gain without extra parameters or syntactic annotation?",
+        "is bidirectional attention in my decoder worth turning on if I add no syntax at all?"
       ]
     },
     {
       "@type": "Question",
-      "name": "are syntax-aware decoders robust to noisy crawled training data?",
+      "name": "do the benefits of grammar-aware translation survive when the training data is scraped from the web and messy?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -233,13 +240,14 @@
         "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
       },
       "alternateName": [
-        "does the gain from UD-based decoding survive training on full noisy WMT data?",
-        "what happened on En-Ru with noisy data?"
+        "does the chrF+ advantage of UD-based decoders hold when training English-Russian on full noisy crawled WMT20 data?",
+        "how do I know whether a syntax-aware decoder will still help if all I have is noisy crawled parallel text?",
+        "my only English-Russian data is noisy crawl, should I still expect a gain from a syntactic decoder?"
       ]
     },
     {
       "@type": "Question",
-      "name": "can NMT models get German subject-object order right when case marking is ambiguous?",
+      "name": "can translation systems tell who did what to whom in German when the sentence puts the object first?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -247,13 +255,14 @@
         "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
       },
       "alternateName": [
-        "does syntactic decoding help with free word order in German translation?",
-        "what did the manual analysis of German OVS sentences find?"
+        "is a parent-attention decoder more robust than a vanilla Transformer on German OVS order with ambiguous case marking?",
+        "how do I test whether my German translations get subject-object roles right when word order is reversed?",
+        "my German output swaps subject and object on unusual word orders, would target-side syntax help?"
       ]
     },
     {
       "@type": "Question",
-      "name": "what should I read about incorporating syntax into neural machine translation decoders?",
+      "name": "where should I start reading about generating grammar structure along with text, rather than parsing the input?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -261,13 +270,13 @@
         "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
       },
       "alternateName": [
-        "which papers cover structure-aware text generation rather than source-side syntax?",
-        "where do I start reading on transition-based tree decoding for generation?"
+        "which work covers transition-based tree decoding for structure-aware generation instead of source-side syntax in NMT?",
+        "how do I find prior work on decoders that generate graphs and text jointly?"
       ]
     },
     {
       "@type": "Question",
-      "name": "which is better for encoding the decoder's own parse, a GCN or a parent-attention head?",
+      "name": "what is the better way for a translation model to reuse the tree it built, a graph network or a single attention head to the parent word?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -275,7 +284,9 @@
         "url": "https://borgr.github.io/papers/enhancing-the-transformer-decoder-with-transition-based-synt/"
       },
       "alternateName": [
-        "how do the two graph re-encoding variants compare in cost and accuracy?"
+        "how do GCN-based and parent-attention graph re-encoding compare on challenge sets and newstest BLEU in a syntactic decoder?",
+        "how do I choose between a graph convolution and parent attention for re-encoding a decoder's own dependency tree?",
+        "which re-encoding variant should I implement first for a syntactic decoder, the GCN or the parent head?"
       ]
     }
   ]
@@ -361,53 +372,64 @@
 <p>Notwithstanding recent advances, syntactic generalization remains a challenge for text decoders. While some studies showed gains from incorporating source-side symbolic syntactic and semantic structure into text generation Transformers, very little work addressed the decoding of such structure. We propose a general approach for tree decoding using a transition-based approach. Examining the challenging test case of incorporating Universal Dependencies syntax into machine translation, we present substantial improvements on test sets that focus on syntactic generalization, while presenting improved or comparable performance on standard MT benchmarks. Further qualitative analysis addresses cases where syntactic generalization in the vanilla Transformer decoder is inadequate and demonstrates the advantages afforded by integrating syntactic information.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>how can a Transformer decoder generate a dependency tree along with the translation?</dt>
-<dt>is there a way to decode syntactic structure with a Transformer instead of an RNN?</dt>
-<dt>what work added target-side syntax to a Transformer decoder?</dt>
+<dt>can a translation model build a grammar tree of its own output while it writes the sentence?</dt>
+<dt>how is a transition-based dependency parser embedded in a Transformer decoder for target-side syntax?</dt>
+<dt>how do I make a Transformer decoder emit a dependency tree together with the translated sentence?</dt>
+<dt>if I want target-side syntax in my Transformer NMT system, do I still need an RNN or a linearized tree?</dt>
 <dd>Choshen and Abend&#x27;s transition-based structural decoder generates target-side syntactic trees inside a Transformer decoder, rather than with an RNN or a string linearization as earlier target-side tree decoding did.<br><span class="scope">Holds for: As of publication in 2022; the authors state they are not aware of a prior Transformer architecture supporting target-side tree or graph structure.</span></dd>
 <dd>The transition-based decoding framework of Choshen and Abend generates any graph structure for which a transition system exists, with Universal Dependencies via arc-standard used as the demonstrated machine-translation test case.<br><span class="scope">Holds for: Only projective UD parses were trained on and only UD was evaluated; fit to semantic formalisms is argued from the existence of their transition parsers, not measured.</span></dd>
-<dt>does adding target-side syntax help machine translation on syntactically hard sentences?</dt>
-<dt>do syntax-aware decoders improve long-distance dependency translation?</dt>
-<dt>how much does the structural decoder gain on syntactic challenge sets?</dt>
+<dt>does making a translation system aware of grammar on the output side help with the hard sentences?</dt>
+<dt>do syntax-aware decoders improve accuracy on long-distance dependency and particle challenge sets in NMT?</dt>
+<dt>how do I get a translation model to handle separable verb particles and long-range agreement correctly?</dt>
+<dt>my model keeps dropping German verb particles and misplacing distant dependents, would target-side syntax fix that?</dt>
 <dd>On the Choshen and Abend syntactic challenge sets, the medium Parent decoder improves over the vanilla Transformer in 18 of 20 target settings and 19 of 20 source settings. The medium GCN decoder improves in 20 of 20 target and 19 of 20 source settings.<br><span class="scope">Holds for: 4-layer, 256-dim models on En-De and De-En, WMT16 data; settings count BLEU and chrF+ on preposition-stranding, particle and reflexive phenomena in books and news domains, with training parses from UDPipe.</span></dd>
 <dd>On the En-De target-side particle challenge set from books, the large Parent decoder reaches 8.37 BLEU and 33.78 chrF+ against the vanilla Transformer&#x27;s 4.14 BLEU and 20.72 chrF+.<br><span class="scope">Holds for: One challenge set: En-De, target side, particle verbs, books domain, 6-layer models; the largest single gap reported among the challenge sets.</span></dd>
-<dt>can you just scale the Transformer up instead of adding syntax?</dt>
-<dt>do syntactic generalization gaps shrink with bigger translation models?</dt>
-<dt>does the benefit of the Parent decoder disappear at larger model size?</dt>
+<dt>if I train a bigger translation model, does it learn the grammar it was missing anyway?</dt>
+<dt>does the syntactic generalization gap between structure-aware and vanilla Transformer decoders close at 6 layers?</dt>
+<dt>how do I close a grammar-generalization gap in translation, more layers or explicit target-side structure?</dt>
+<dt>should I spend my compute on scaling my Transformer up rather than adding a syntactic decoder?</dt>
 <dd>Scaling to a 6-layer model does not close the syntactic-generalization gap. The large Parent decoder still beats the vanilla Transformer in 18 of 20 challenge settings, with gains similar to or larger than at medium size.<br><span class="scope">Holds for: En-De only, 6 decoder/encoder blocks, embedding size 512, 150K training steps; only Parent and Vanilla were trained at this size, GCN was not.</span></dd>
 <dd>At 6 layers on En-De the Parent decoder is only comparable to the vanilla Transformer on standard test sets, averaging 22.12 BLEU and 52.34 chrF+ against 22.39 BLEU and 52.47 chrF+. The same large Parent model still wins clearly on the syntactic challenge sets.<br><span class="scope">Holds for: En-De, newstest 2013-15, one large model per condition; Parent is ahead on 2013 and 2014 chrF+ and behind on 2015. No large GCN and no other language pair at this size.</span></dd>
-<dt>does the syntactic decoder also help on standard MT benchmarks like newstest?</dt>
-<dt>what BLEU and chrF+ improvement does UD-based decoding give on WMT test sets?</dt>
-<dt>does target-side syntax cost you general translation quality?</dt>
+<dt>does adding grammar to the output side cost anything on ordinary translation quality scores?</dt>
+<dt>what BLEU and chrF+ do UD-based GCN and parent-attention decoders reach on newstest 2013-15 versus a vanilla Transformer?</dt>
+<dt>how do I check whether a syntax-aware decoder hurts general translation quality before shipping it?</dt>
+<dt>will switching to a syntactic decoder lower my BLEU on standard news test sets?</dt>
 <dd>On newstest 2013-15 the UD-based GCN and Parent decoders beat the vanilla Transformer at medium size in every setting tested, by 0.7-1.1 average BLEU and 1-2.4 chrF+, on En-De, De-En and En-Ru.<br><span class="scope">Holds for: 4-layer models; En-De and De-En from WMT16, En-Ru from clean News Commentary. A sign test over the medium test sets finds GCN and Parent significantly better than vanilla.</span></dd>
 <dd>At 6 layers on En-De the Parent decoder is only comparable to the vanilla Transformer on standard test sets, averaging 22.12 BLEU and 52.34 chrF+ against 22.39 BLEU and 52.47 chrF+. The same large Parent model still wins clearly on the syntactic challenge sets.<br><span class="scope">Holds for: En-De, newstest 2013-15, one large model per condition; Parent is ahead on 2013 and 2014 chrF+ and behind on 2015. No large GCN and no other language pair at this size.</span></dd>
-<dt>is re-encoding the generated parse better than just linearizing syntax into the output string?</dt>
-<dt>how does linearized syntax compare with graph-aware decoding in NMT?</dt>
-<dt>what does the linearized-transitions ablation show?</dt>
+<dt>is it enough to write the grammar into the output as extra tokens, or does the model have to read the structure back?</dt>
+<dt>how does training on linearized transition sequences compare with re-encoding the generated graph in the decoder?</dt>
+<dt>how do I decide between linearizing a parse into the target string and feeding the built graph back into the decoder?</dt>
+<dt>can I skip the graph machinery and just train on a linearized parse string instead?</dt>
 <dd>Training a vanilla Transformer on the linearized transition string lands consistently between the structure-unaware and the structure-aware decoders, showing that re-encoding the generated graph adds beyond merely emitting it as tokens.<br><span class="scope">Holds for: En-De and De-En medium models on newstest 2013-15 and the challenge sets; differences between ablations are described as small but consistent.</span></dd>
-<dt>do GCN gates matter when encoding a self-generated parse?</dt>
-<dt>are dependency edge labels necessary for a syntax-aware decoder?</dt>
-<dt>which parts of the GCN decoder actually contribute, according to the ablations?</dt>
+<dt>when a translation model reads back the tree it just built, which parts of that actually matter?</dt>
+<dt>in a graph-convolutional decoder over self-generated dependencies, how much do gating and edge labels each contribute?</dt>
+<dt>how do I trim a graph-convolutional syntactic decoder without losing its syntactic accuracy?</dt>
+<dt>can I drop the dependency edge labels or the gates from my GCN decoder to save parameters?</dt>
 <dd>Removing GCN gating hurts: the ungated variant scores below the unlabeled variant in 34 of 40 challenge settings. Dropping edge labels from the GCN has limited effect, and the unlabeled variant is as often as not better on the challenges.<br><span class="scope">Holds for: Medium GCN decoders on En-De and De-En, encoding the decoder&#x27;s self-generated parse rather than an external one. Labels remain available as transition token embeddings even in the unlabeled GCN.</span></dd>
-<dt>does letting a Transformer decoder attend to already-predicted future tokens help?</dt>
-<dt>how much does bidirectional decoder attention improve translation on its own?</dt>
-<dt>what is BiTran and how well does it work?</dt>
+<dt>does letting a translation decoder look at words it has already guessed further ahead help at all?</dt>
+<dt>what does bidirectional decoder self-attention over already-predicted tokens buy over a causal Transformer decoder, with no syntax?</dt>
+<dt>how do I get a small translation gain without extra parameters or syntactic annotation?</dt>
+<dt>is bidirectional attention in my decoder worth turning on if I add no syntax at all?</dt>
 <dd>Bidirectional attention in the decoder alone (BiTran), with no syntax and no new parameters, gives a small but consistent gain over the vanilla Transformer of up to 0.28 BLEU and 0.42 chrF+. BiTran is better on 10 of 12 test scores per language pair and on 26 of 40 challenge settings.<br><span class="scope">Holds for: Medium models on En-De, De-En and En-Ru; adds no parameters or hyperparameters but blocks unidirectionality-based decoding speed-ups implemented in NEMATUS.</span></dd>
-<dt>are syntax-aware decoders robust to noisy crawled training data?</dt>
-<dt>does the gain from UD-based decoding survive training on full noisy WMT data?</dt>
-<dt>what happened on En-Ru with noisy data?</dt>
+<dt>do the benefits of grammar-aware translation survive when the training data is scraped from the web and messy?</dt>
+<dt>does the chrF+ advantage of UD-based decoders hold when training English-Russian on full noisy crawled WMT20 data?</dt>
+<dt>how do I know whether a syntax-aware decoder will still help if all I have is noisy crawled parallel text?</dt>
+<dt>my only English-Russian data is noisy crawl, should I still expect a gain from a syntactic decoder?</dt>
 <dd>Training En-Ru on the full noisy crawled WMT20 data shrinks the syntactic decoders&#x27; chrF+ advantage to about 1 point, against 1.5-2.5 points on cleaner data. BLEU becomes somewhat worse than with clean training data.<br><span class="scope">Holds for: En-Ru only, medium models, full WMT20 data after langID and alignment filtering versus clean News Commentary; described as preliminary, with more data rather than noise named as an alternative explanation.</span></dd>
-<dt>can NMT models get German subject-object order right when case marking is ambiguous?</dt>
-<dt>does syntactic decoding help with free word order in German translation?</dt>
-<dt>what did the manual analysis of German OVS sentences find?</dt>
+<dt>can translation systems tell who did what to whom in German when the sentence puts the object first?</dt>
+<dt>is a parent-attention decoder more robust than a vanilla Transformer on German OVS order with ambiguous case marking?</dt>
+<dt>how do I test whether my German translations get subject-object roles right when word order is reversed?</dt>
+<dt>my German output swaps subject and object on unusual word orders, would target-side syntax help?</dt>
 <dd>On 99 hand-built German subject-verb-object sentences whose arguments can swap, the Parent decoder is more robust to the rare OVS order than the vanilla Transformer. A native-speaker annotator scored 13 vs 10 correct with both cases marked, 8 vs 5 with only the subject marked and 6 vs 6 with only the object marked.<br><span class="scope">Holds for: Medium En-De models, 99 templated sentences over small noun and verb lists, one annotator; only word-order correctness was scored, with other errors such as verb choice disregarded.</span></dd>
-<dt>what should I read about incorporating syntax into neural machine translation decoders?</dt>
-<dt>which papers cover structure-aware text generation rather than source-side syntax?</dt>
-<dt>where do I start reading on transition-based tree decoding for generation?</dt>
+<dt>where should I start reading about generating grammar structure along with text, rather than parsing the input?</dt>
+<dt>which work covers transition-based tree decoding for structure-aware generation instead of source-side syntax in NMT?</dt>
+<dt>how do I find prior work on decoders that generate graphs and text jointly?</dt>
 <dd>Choshen and Abend&#x27;s transition-based structural decoder generates target-side syntactic trees inside a Transformer decoder, rather than with an RNN or a string linearization as earlier target-side tree decoding did.<br><span class="scope">Holds for: As of publication in 2022; the authors state they are not aware of a prior Transformer architecture supporting target-side tree or graph structure.</span></dd>
 <dd>The transition-based decoding framework of Choshen and Abend generates any graph structure for which a transition system exists, with Universal Dependencies via arc-standard used as the demonstrated machine-translation test case.<br><span class="scope">Holds for: Only projective UD parses were trained on and only UD was evaluated; fit to semantic formalisms is argued from the existence of their transition parsers, not measured.</span></dd>
-<dt>which is better for encoding the decoder&#x27;s own parse, a GCN or a parent-attention head?</dt>
-<dt>how do the two graph re-encoding variants compare in cost and accuracy?</dt>
+<dt>what is the better way for a translation model to reuse the tree it built, a graph network or a single attention head to the parent word?</dt>
+<dt>how do GCN-based and parent-attention graph re-encoding compare on challenge sets and newstest BLEU in a syntactic decoder?</dt>
+<dt>how do I choose between a graph convolution and parent attention for re-encoding a decoder&#x27;s own dependency tree?</dt>
+<dt>which re-encoding variant should I implement first for a syntactic decoder, the GCN or the parent head?</dt>
 <dd>On the Choshen and Abend syntactic challenge sets, the medium Parent decoder improves over the vanilla Transformer in 18 of 20 target settings and 19 of 20 source settings. The medium GCN decoder improves in 20 of 20 target and 19 of 20 source settings.<br><span class="scope">Holds for: 4-layer, 256-dim models on En-De and De-En, WMT16 data; settings count BLEU and chrF+ on preposition-stranding, particle and reflexive phenomena in books and news domains, with training parses from UDPipe.</span></dd>
 <dd>On newstest 2013-15 the UD-based GCN and Parent decoders beat the vanilla Transformer at medium size in every setting tested, by 0.7-1.1 average BLEU and 1-2.4 chrF+, on En-De, De-En and En-Ru.<br><span class="scope">Holds for: 4-layer models; En-De and De-En from WMT16, En-Ru from clean News Commentary. A sign test over the medium test sets finds GCN and Parent significantly better than vanilla.</span></dd>
 <dd>Removing GCN gating hurts: the ungated variant scores below the unlabeled variant in 34 of 40 challenge settings. Dropping edge labels from the GCN has limited effect, and the unlabeled variant is as often as not better on the challenges.<br><span class="scope">Holds for: Medium GCN decoders on En-De and De-En, encoding the decoder&#x27;s self-generated parse rather than an external one. Labels remain available as transition token embeddings even in the unlabeled GCN.</span></dd>

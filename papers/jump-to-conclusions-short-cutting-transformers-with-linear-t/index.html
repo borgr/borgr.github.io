@@ -138,7 +138,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How can I read a prediction out of a transformer's intermediate layer more accurately than the logit lens?",
+      "name": "is reading a language model's hidden layers through the output vocabulary of the last layer a reliable way to see what it is computing?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -146,13 +146,14 @@
         "url": "https://borgr.github.io/papers/jump-to-conclusions-short-cutting-transformers-with-linear-t/"
       },
       "alternateName": [
-        "Is projecting hidden states straight onto the output embeddings the best way to inspect intermediate layers?",
-        "What improves on interpreting hidden representations in the final-layer space?"
+        "what alternative to logit-lens decoding maps hidden states from an intermediate layer into the final layer's representation space?",
+        "how do I decode an intermediate transformer layer into vocabulary predictions more faithfully than by projecting it directly onto the output embeddings?",
+        "should I keep interpreting my model's intermediate activations in final-layer space, or fit a mapping between layers first?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do language models decide their output in early layers?",
+      "name": "does a language model already know which word it will output before it reaches its last layers?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -160,13 +161,14 @@
         "url": "https://borgr.github.io/papers/jump-to-conclusions-short-cutting-transformers-with-linear-t/"
       },
       "alternateName": [
-        "How often does an early GPT-2 layer already contain the final next-token prediction?",
-        "At what depth does BERT's masked-token answer become readable?"
+        "at what depth do GPT-2 next-token and BERT masked-token predictions become recoverable from hidden states?",
+        "how do I check how early in a transformer the final prediction can already be read out?",
+        "can I read a usable answer out of my model's early layers instead of running it to the end?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can linear layer-skipping make early exiting cheaper?",
+      "name": "how much computation can be skipped if a model stops running layers as soon as it is confident about its answer?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -174,13 +176,14 @@
         "url": "https://borgr.github.io/papers/jump-to-conclusions-short-cutting-transformers-with-linear-t/"
       },
       "alternateName": [
-        "How many transformer layers can be skipped while keeping 95% accuracy?",
-        "Does replacing the identity read-out in an early-exit confidence rule save compute?"
+        "how many layers does a confidence-based early-exit rule save when the read-out uses a fitted cross-layer mapping instead of identity propagation?",
+        "how do I cut transformer layers at inference time while holding top-1 agreement with the full model near 95%?",
+        "is early exiting with a fitted layer-to-layer mapping worth the extra machinery for my inference costs?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do learned layer-to-layer mappings still work on text from a different domain?",
+      "name": "if a shortcut between layers is fitted on encyclopedia text, does it still work on news sentences?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -188,13 +191,14 @@
         "url": "https://borgr.github.io/papers/jump-to-conclusions-short-cutting-transformers-with-linear-t/"
       },
       "alternateName": [
-        "Do linear shortcut matrices fitted on Wikipedia transfer to news sentences?",
-        "Are the linear mappings for skipping transformer layers domain-specific?"
+        "are least-squares cross-layer mappings sensitive to the fitting corpus, and how much does Precision@1 shift under a distribution swap?",
+        "do I need to refit a cross-layer mapping on my own corpus, or can I reuse one fitted on Wikipedia?",
+        "my text is nothing like Wikipedia -- will a mapping fitted elsewhere still hold up for me?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does the linear shortcut result hold for larger models?",
+      "name": "does skipping a language model's middle layers with a simple learned mapping work on bigger models and different designs, or only on one small model?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -202,13 +206,14 @@
         "url": "https://borgr.github.io/papers/jump-to-conclusions-short-cutting-transformers-with-linear-t/"
       },
       "alternateName": [
-        "Was linear layer-skipping tested on more than one model size and architecture?",
-        "Do linear cross-layer mappings work for both decoder-only and encoder-only models?"
+        "does the advantage of fitted cross-layer mappings over identity propagation persist across GPT-2 sizes and encoder-only BERT models?",
+        "how do I know whether linear layer-skipping will hold for the model size and architecture I actually use?",
+        "I run a large decoder-only model -- was linear cross-layer mapping tested at that scale and on encoders?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which part of a transformer block can be replaced by a linear map with the least damage?",
+      "name": "which piece of a transformer layer can be swapped for a plain matrix with the least loss in the model's answer?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -216,13 +221,14 @@
         "url": "https://borgr.github.io/papers/jump-to-conclusions-short-cutting-transformers-with-linear-t/"
       },
       "alternateName": [
-        "Is attention or the feed-forward network easier to approximate linearly?",
-        "Can individual sub-modules of a transformer be linearised?"
+        "is the attention sub-module, the feed-forward network or layer normalization the most linearly approximable in a transformer block?",
+        "how do I decide which sub-module to replace with a fitted linear map when cutting transformer compute?",
+        "if I linearise part of each block in my transformer, should I start with attention or the feed-forward network?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are the tokens read off intermediate layers actually plausible to a human?",
+      "name": "when words are read off a model's middle layers, do people judge them as sensible in context?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -230,13 +236,14 @@
         "url": "https://borgr.github.io/papers/jump-to-conclusions-short-cutting-transformers-with-linear-t/"
       },
       "alternateName": [
-        "Was there a human evaluation of predictions decoded from BERT's hidden layers?",
-        "How often are top-5 tokens from an intermediate layer grammatical in context?"
+        "was there a human plausibility annotation of top-5 masked-token predictions decoded from intermediate BERT representations?",
+        "how do I tell whether tokens decoded from intermediate layers are contextually plausible and not just formally close to the final output?",
+        "can I trust the words I read out of a model's hidden layers enough to show them to a human?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is it better to jump straight to the last layer or to alternate real blocks with linear jumps?",
+      "name": "is it better to jump from a middle layer straight to the end, or to keep some real layers and skip others?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -244,13 +251,14 @@
         "url": "https://borgr.github.io/papers/jump-to-conclusions-short-cutting-transformers-with-linear-t/"
       },
       "alternateName": [
-        "Do partial layer skips beat a single mapping to the final layer?",
-        "How should a schedule of linear jumps through a transformer be chosen?"
+        "does interleaving genuine transformer blocks with fitted linear jumps beat a single mapping from a hidden layer to the final layer on Precision@1?",
+        "how do I pick which transformer layers to actually run and which to replace with a linear jump?",
+        "if I skip layers in my transformer, should I skip a whole contiguous block at the end or alternate skipped and real layers?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about how much of transformer computation is linear?",
+      "name": "which research argues that a transformer's computation is more linear than the skip connections alone would explain?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -258,13 +266,13 @@
         "url": "https://borgr.github.io/papers/jump-to-conclusions-short-cutting-transformers-with-linear-t/"
       },
       "alternateName": [
-        "Which paper argues transformer inference has more linear structure than the residual stream explains?",
-        "Where does the claim that transformer layers can be short-cut with a single matrix come from?"
+        "what work establishes that context-free, token-uniform linear maps can substitute for whole transformer blocks and sub-modules?",
+        "what should I read first about approximating transformer layers with a single fitted matrix?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does short-cutting layers with a matrix require retraining the language model?",
+      "name": "does adding shortcuts between a model's layers mean retraining the model?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -272,8 +280,9 @@
         "url": "https://borgr.github.io/papers/jump-to-conclusions-short-cutting-transformers-with-linear-t/"
       },
       "alternateName": [
-        "How expensive is it to fit cross-layer linear mappings for a transformer?",
-        "What training is needed to skip transformer layers linearly?"
+        "are cross-layer mappings obtained by ordinary least-squares regression, or do they require gradient-based training of the transformer?",
+        "how do I fit a mapping between two layers of a pretrained transformer without touching its weights?",
+        "I cannot afford to fine-tune my model -- how cheaply can I get a matrix that maps one layer to another?"
       ]
     }
   ]
@@ -358,50 +367,59 @@
 <p>Transformer-based language models create hidden representations of their inputs at every layer, but only use final-layer representations for prediction. This obscures the internal decision-making process of the model and the utility of its intermediate representations. One way to elucidate this is to cast the hidden representations as final representations, bypassing the transformer computation in-between. In this work, we suggest a simple method for such casting, using linear transformations. This approximation far exceeds the prevailing practice of inspecting hidden representations from all layers, in the space of the final layer. Moreover, in the context of language modeling, our method produces more accurate predictions from hidden layers, across various model scales, architectures, and data distributions. This allows “peeking” into intermediate representations, showing that GPT-2 and BERT often predict the final output already in early layers. We then demonstrate the practicality of our method to recent early exit strategies, showing that when aiming, for example, at retention of 95% accuracy, our approach saves additional 7.9% layers for GPT-2 and 5.4% layers for BERT. Last, we extend our method to linearly approximate sub-modules, finding that attention is most tolerant to this change. Our code and learned mappings are publicly available at https://github.com/sashayd/mat.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>How can I read a prediction out of a transformer&#x27;s intermediate layer more accurately than the logit lens?</dt>
-<dt>Is projecting hidden states straight onto the output embeddings the best way to inspect intermediate layers?</dt>
-<dt>What improves on interpreting hidden representations in the final-layer space?</dt>
+<dt>is reading a language model&#x27;s hidden layers through the output vocabulary of the last layer a reliable way to see what it is computing?</dt>
+<dt>what alternative to logit-lens decoding maps hidden states from an intermediate layer into the final layer&#x27;s representation space?</dt>
+<dt>how do I decode an intermediate transformer layer into vocabulary predictions more faithfully than by projecting it directly onto the output embeddings?</dt>
+<dt>should I keep interpreting my model&#x27;s intermediate activations in final-layer space, or fit a mapping between layers first?</dt>
 <dd>&quot;Jump to Conclusions&quot; introduces linear cross-layer mappings (mat) as an alternative to reading hidden representations directly in the final layer&#x27;s space. Each mapping is fitted by ordinary linear regression rather than by gradient training.<br><span class="scope">Holds for: Post-hoc analysis of frozen GPT-2 and BERT, with one matrix per ordered pair of layers fitted on 9,000 Wikipedia sentences at one random token position per sentence.</span></dd>
 <dd>Least-squares cross-layer matrices (mat) reach higher coordinate-averaged r^2 scores than identity propagation for layer pairs across both GPT-2 and BERT. The gap is widest in BERT, where identity propagation fails to map representations between most layer pairs.<br><span class="scope">Holds for: 48-layer GPT-2 and 24-layer BERT; mappings fitted on 9,000 Wikipedia sentences and scored on a 3,000-sentence validation set at one random token position per sentence, with BERT representations taken at a [MASK] token.</span></dd>
 <dd>For GPT-2 next-token prediction, the linear cross-layer mapping mat beats identity propagation on Precision@k and Surprisal at every layer, with Precision@1 more than 20% higher than identity propagation up to layer 44.<br><span class="scope">Holds for: 48-layer GPT-2, Wikipedia validation sentences, one random position per sentence; Precision@1 measures agreement with the model&#x27;s own final-layer top-1 token, not gold-label accuracy.</span></dd>
-<dt>Do language models decide their output in early layers?</dt>
-<dt>How often does an early GPT-2 layer already contain the final next-token prediction?</dt>
-<dt>At what depth does BERT&#x27;s masked-token answer become readable?</dt>
+<dt>does a language model already know which word it will output before it reaches its last layers?</dt>
+<dt>at what depth do GPT-2 next-token and BERT masked-token predictions become recoverable from hidden states?</dt>
+<dt>how do I check how early in a transformer the final prediction can already be read out?</dt>
+<dt>can I read a usable answer out of my model&#x27;s early layers instead of running it to the end?</dt>
 <dd>Reading GPT-2&#x27;s early layers through the linear mapping mat already recovers the model&#x27;s final next-token choice often: Precision@10 of 62%-82%, Precision@5 of 52%-74% and Precision@1 of 28%-45% in early layers.<br><span class="scope">Holds for: 48-layer GPT-2 on Wikipedia validation sentences; scores are agreement with the full model&#x27;s own final-layer prediction, and each mapping is fitted from the given source layer to the final layer.</span></dd>
 <dd>For BERT masked-token prediction, the linear mapping mat attains 8%-52% precision within the first ten layers, where identity propagation stays close to zero for all k. Across most layers mat improves Precision@1 over identity propagation by more than 17%.<br><span class="scope">Holds for: 24-layer BERT, Wikipedia validation sentences, representations taken at a [MASK] token; more than 25% of final predictions are already recovered from layer 3 onward.</span></dd>
-<dt>Can linear layer-skipping make early exiting cheaper?</dt>
-<dt>How many transformer layers can be skipped while keeping 95% accuracy?</dt>
-<dt>Does replacing the identity read-out in an early-exit confidence rule save compute?</dt>
+<dt>how much computation can be skipped if a model stops running layers as soon as it is confident about its answer?</dt>
+<dt>how many layers does a confidence-based early-exit rule save when the read-out uses a fitted cross-layer mapping instead of identity propagation?</dt>
+<dt>how do I cut transformer layers at inference time while holding top-1 agreement with the full model near 95%?</dt>
+<dt>is early exiting with a fitted layer-to-layer mapping worth the extra machinery for my inference costs?</dt>
 <dd>In a confidence-based early-exit rule targeting 95% average Precision@1, the linear mapping mat saves ~3.3 layers (13.8%) in 24-layer GPT-2 against ~1.4 layers (5.9%) for identity propagation. In 24-layer BERT it saves ~4.8 layers (20%) against ~3.5 layers (14.6%).<br><span class="scope">Holds for: Next-token prediction for GPT-2 and masked-token prediction for BERT, using the confidence criterion of Schuster et al. (2022) with varying lambda; efficiency is counted as average transformer layers processed, not wall-clock time.</span></dd>
-<dt>Do learned layer-to-layer mappings still work on text from a different domain?</dt>
-<dt>Do linear shortcut matrices fitted on Wikipedia transfer to news sentences?</dt>
-<dt>Are the linear mappings for skipping transformer layers domain-specific?</dt>
+<dt>if a shortcut between layers is fitted on encyclopedia text, does it still work on news sentences?</dt>
+<dt>are least-squares cross-layer mappings sensitive to the fitting corpus, and how much does Precision@1 shift under a distribution swap?</dt>
+<dt>do I need to refit a cross-layer mapping on my own corpus, or can I reuse one fitted on Wikipedia?</dt>
+<dt>my text is nothing like Wikipedia -- will a mapping fitted elsewhere still hold up for me?</dt>
 <dd>Linear cross-layer mappings transfer across data distributions: swapping Wikipedia-fitted for Leipzig-news-fitted mappings changes average Precision@1 by -0.1% and +1.1% for BERT and by -5.5% and -8% for GPT-2.<br><span class="scope">Holds for: 24-layer GPT-2 and 24-layer BERT, mappings fitted on 9,000 sentences from one corpus and evaluated on the other&#x27;s validation set, averaged across layers.</span></dd>
-<dt>Does the linear shortcut result hold for larger models?</dt>
-<dt>Was linear layer-skipping tested on more than one model size and architecture?</dt>
-<dt>Do linear cross-layer mappings work for both decoder-only and encoder-only models?</dt>
+<dt>does skipping a language model&#x27;s middle layers with a simple learned mapping work on bigger models and different designs, or only on one small model?</dt>
+<dt>does the advantage of fitted cross-layer mappings over identity propagation persist across GPT-2 sizes and encoder-only BERT models?</dt>
+<dt>how do I know whether linear layer-skipping will hold for the model size and architecture I actually use?</dt>
+<dt>I run a large decoder-only model -- was linear cross-layer mapping tested at that scale and on encoders?</dt>
 <dd>The advantage of linear cross-layer mappings over identity propagation persists across gpt2 (12 layers), gpt2-medium (24), gpt2-large (36), gpt2-xl (48), bert-base-uncased (12) and bert-large-uncased (24), plotted against relative depth.<br><span class="scope">Holds for: English Wikipedia sentences, next-token prediction for GPT-2 models and masked-token prediction for BERT models; GPT-2 scores overlap closely across scales, while BERT scores of the two sizes do not overlap.</span></dd>
 <dd>Least-squares cross-layer matrices (mat) reach higher coordinate-averaged r^2 scores than identity propagation for layer pairs across both GPT-2 and BERT. The gap is widest in BERT, where identity propagation fails to map representations between most layer pairs.<br><span class="scope">Holds for: 48-layer GPT-2 and 24-layer BERT; mappings fitted on 9,000 Wikipedia sentences and scored on a 3,000-sentence validation set at one random token position per sentence, with BERT representations taken at a [MASK] token.</span></dd>
-<dt>Which part of a transformer block can be replaced by a linear map with the least damage?</dt>
-<dt>Is attention or the feed-forward network easier to approximate linearly?</dt>
-<dt>Can individual sub-modules of a transformer be linearised?</dt>
+<dt>which piece of a transformer layer can be swapped for a plain matrix with the least loss in the model&#x27;s answer?</dt>
+<dt>is the attention sub-module, the feed-forward network or layer normalization the most linearly approximable in a transformer block?</dt>
+<dt>how do I decide which sub-module to replace with a fitted linear map when cutting transformer compute?</dt>
+<dt>if I linearise part of each block in my transformer, should I start with attention or the feed-forward network?</dt>
 <dd>Replacing attention sub-modules by fitted linear maps costs less Precision@1 than linearly replacing FFN or layer-normalization sub-modules in 24-layer GPT-2. From about layer 7 onward all three sub-module replacements beat the full-block mapping mat.<br><span class="scope">Holds for: 24-layer GPT-2 next-token prediction on Wikipedia, with sub-module regressions fitted per block; layer-normalization scores rise sharply in layers 5-8 for reasons the paper does not explain.</span></dd>
-<dt>Are the tokens read off intermediate layers actually plausible to a human?</dt>
-<dt>Was there a human evaluation of predictions decoded from BERT&#x27;s hidden layers?</dt>
-<dt>How often are top-5 tokens from an intermediate layer grammatical in context?</dt>
+<dt>when words are read off a model&#x27;s middle layers, do people judge them as sensible in context?</dt>
+<dt>was there a human plausibility annotation of top-5 masked-token predictions decoded from intermediate BERT representations?</dt>
+<dt>how do I tell whether tokens decoded from intermediate layers are contextually plausible and not just formally close to the final output?</dt>
+<dt>can I trust the words I read out of a model&#x27;s hidden layers enough to show them to a human?</dt>
 <dd>In a manual annotation of 1,250 instances (50 Leipzig sentences x 25 representations), top-5 BERT masked-token predictions decoded through mat were contextually plausible 85.4% of the time versus 52.8% for identity propagation.<br><span class="scope">Holds for: 24-layer BERT, 50 randomly selected news sentences from the Leipzig corpus, single human annotator judging grammatical plausibility; identity propagation yielded more plausible top-5 tokens than mat in under 4.3% of instances.</span></dd>
-<dt>Is it better to jump straight to the last layer or to alternate real blocks with linear jumps?</dt>
-<dt>Do partial layer skips beat a single mapping to the final layer?</dt>
-<dt>How should a schedule of linear jumps through a transformer be chosen?</dt>
+<dt>is it better to jump from a middle layer straight to the end, or to keep some real layers and skip others?</dt>
+<dt>does interleaving genuine transformer blocks with fitted linear jumps beat a single mapping from a hidden layer to the final layer on Precision@1?</dt>
+<dt>how do I pick which transformer layers to actually run and which to replace with a linear jump?</dt>
+<dt>if I skip layers in my transformer, should I skip a whole contiguous block at the end or alternate skipped and real layers?</dt>
 <dd>Interleaving genuine transformer blocks with linear jumps beats mapping once from a hidden layer to the final layer on Precision@1 for some schedules. Choosing the schedule by maximal product of r^2 scores works well only for the first half of layers.<br><span class="scope">Holds for: 24-layer GPT-2 next-token prediction on Wikipedia; schedules compared are the r^2-informed choice and weighted round-robin with a+b dividing the layer count, and the r^2-informed choice under-achieves other schemes in the second half of layers.</span></dd>
-<dt>What should I read about how much of transformer computation is linear?</dt>
-<dt>Which paper argues transformer inference has more linear structure than the residual stream explains?</dt>
-<dt>Where does the claim that transformer layers can be short-cut with a single matrix come from?</dt>
+<dt>which research argues that a transformer&#x27;s computation is more linear than the skip connections alone would explain?</dt>
+<dt>what work establishes that context-free, token-uniform linear maps can substitute for whole transformer blocks and sub-modules?</dt>
+<dt>what should I read first about approximating transformer layers with a single fitted matrix?</dt>
 <dd>&quot;Jump to Conclusions&quot; argues that transformer inference contains more linear structure than the residual connection alone explains, since context-free, token-uniform matrices can stand in for whole blocks and even for individual sub-modules.<br><span class="scope">Holds for: GPT-2 and BERT, English text, post-hoc on frozen weights; the paper states it does not explain why this extra linear structure exists, and studies only linear (not affine or non-linear) maps.</span></dd>
 <dd>&quot;Jump to Conclusions&quot; introduces linear cross-layer mappings (mat) as an alternative to reading hidden representations directly in the final layer&#x27;s space. Each mapping is fitted by ordinary linear regression rather than by gradient training.<br><span class="scope">Holds for: Post-hoc analysis of frozen GPT-2 and BERT, with one matrix per ordered pair of layers fitted on 9,000 Wikipedia sentences at one random token position per sentence.</span></dd>
-<dt>Does short-cutting layers with a matrix require retraining the language model?</dt>
-<dt>How expensive is it to fit cross-layer linear mappings for a transformer?</dt>
-<dt>What training is needed to skip transformer layers linearly?</dt>
+<dt>does adding shortcuts between a model&#x27;s layers mean retraining the model?</dt>
+<dt>are cross-layer mappings obtained by ordinary least-squares regression, or do they require gradient-based training of the transformer?</dt>
+<dt>how do I fit a mapping between two layers of a pretrained transformer without touching its weights?</dt>
+<dt>I cannot afford to fine-tune my model -- how cheaply can I get a matrix that maps one layer to another?</dt>
 <dd>&quot;Jump to Conclusions&quot; introduces linear cross-layer mappings (mat) as an alternative to reading hidden representations directly in the final layer&#x27;s space. Each mapping is fitted by ordinary linear regression rather than by gradient training.<br><span class="scope">Holds for: Post-hoc analysis of frozen GPT-2 and BERT, with one matrix per ordered pair of layers fitted on 9,000 Wikipedia sentences at one random token position per sentence.</span></dd>
 <dd>Least-squares cross-layer matrices (mat) reach higher coordinate-averaged r^2 scores than identity propagation for layer pairs across both GPT-2 and BERT. The gap is widest in BERT, where identity propagation fails to map representations between most layer pairs.<br><span class="scope">Holds for: 48-layer GPT-2 and 24-layer BERT; mappings fitted on 9,000 Wikipedia sentences and scored on a 3,000-sentence validation set at one random token position per sentence, with BERT representations taken at a [MASK] token.</span></dd>
 </dl>

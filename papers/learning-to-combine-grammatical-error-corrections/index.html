@@ -165,7 +165,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How can I combine the outputs of several grammatical error correction systems?",
+      "name": "how can several grammar checking programs be pooled into one better corrector without touching their code?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -173,13 +173,14 @@
         "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
       },
       "alternateName": [
-        "Is there a way to merge GEC system outputs without access to their internals?",
-        "What should I read about combining grammar correction systems as black boxes?"
+        "what work introduces system-agnostic combination of GEC outputs using only M2 edit files?",
+        "how do I combine the outputs of several grammatical error correction tools that I only have text output from?",
+        "I have three grammar correctors and no access to their models, is there published research telling me how to fuse their corrections?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does combining GEC systems actually beat the best single system?",
+      "name": "does pooling the corrections of several grammar checkers beat just using the strongest one?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -187,13 +188,14 @@
         "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
       },
       "alternateName": [
-        "How much does black-box combination improve F-0.5 on the BEA 2019 shared task?",
-        "What was the top score in the BEA 2019 open phase?"
+        "what F-0.5 does learned per-error-type edit selection reach over BEA 2019 shared task system outputs?",
+        "how much score can I gain on the BEA 2019 test set by combining published system outputs instead of training a better model?",
+        "if I already have the best available grammar correction system, is it worth combining it with weaker ones?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is learned edit selection better than average ensembling for neural GEC models?",
+      "name": "when you have several neural models correcting the same sentence, is picking corrections per error type better than averaging the models?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -201,13 +203,14 @@
         "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
       },
       "alternateName": [
-        "How does combining Nematus RNN models compare with Nematus's built-in ensemble?",
-        "Does ensembling hurt recall in grammatical error correction?"
+        "does per-error-type edit selection outperform decoder-side average ensembling of 4 RNN Nematus GEC models?",
+        "how should I combine 4 neural grammar correction checkpoints, ensemble decoding or output-level edit selection?",
+        "should I ensemble my grammar correction models at decoding time or combine their corrected sentences afterwards?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does combining GEC systems improve precision at the cost of recall?",
+      "name": "when several grammar correction tools are pooled, does accuracy go up only because fewer corrections are made?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -215,13 +218,14 @@
         "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
       },
       "alternateName": [
-        "Can adding a weak grammar correction system still help a combination?",
-        "What happens when a spellchecker and a BERT-based corrector are combined with Nematus models?"
+        "does per-error-type combination of neural GEC, spellchecking and masked-LM systems raise precision and recall together?",
+        "how do I add a spellchecker and a weak corrector to my neural grammar correction models without losing recall?",
+        "will adding a weak grammar correction component to my pipeline drag down the corrections I already get right?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do commercial tools like Grammarly help when combined with a research GEC system?",
+      "name": "do consumer grammar checking tools add anything to a research grammar correction system?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -229,12 +233,14 @@
         "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
       },
       "alternateName": [
-        "Is there value in adding off-the-shelf grammar checkers to a neural GEC system?"
+        "what does adding off-the-shelf checkers as black boxes contribute to a restricted-track GEC combination?",
+        "how do I get extra F-0.5 out of commercial grammar checkers alongside my own trained corrector?",
+        "is it worth paying for a commercial grammar checker to plug into my correction pipeline?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can filtering a single GEC system's error types improve its score?",
+      "name": "can one grammar checker be improved just by ignoring the mistake categories it handles badly?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -242,13 +248,14 @@
         "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
       },
       "alternateName": [
-        "Does throwing away predictions on error types a corrector is bad at help?",
-        "How large is the gain from error-type filtering of one grammar correction system?"
+        "how much F-0.5 does per-error-type filtering of a single GEC system's edits recover?",
+        "how do I raise a single grammar corrector's score without retraining it?",
+        "if I only have one grammar correction tool, is discarding its weak error types worth doing?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are grammar corrections that two systems agree on more likely to be right?",
+      "name": "if two grammar checkers suggest the same fix, is that fix more likely to be right?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -256,13 +263,14 @@
         "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
       },
       "alternateName": [
-        "How much more precise are edits proposed by both Nematus and Grammarly?",
-        "Should I keep only the corrections that multiple systems propose?"
+        "how does precision on common edits compare with standalone precision for neural GEC and a commercial checker on R:OTHER?",
+        "how do I decide when to keep only the corrections that two systems agree on?",
+        "should I only apply the grammar corrections my two tools both propose?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How stable is the gain from combining two GEC systems across dev-set splits?",
+      "name": "is the improvement from pooling two grammar checkers a fluke of how the tuning data was split?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -270,12 +278,14 @@
         "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
       },
       "alternateName": [
-        "Does the improvement from combining Nematus and Grammarly depend on how the dev set is split?"
+        "how much does the F-0.5 gain from a 2-system GEC combination vary across random dev-set fold partitions?",
+        "how do I check that a gain from combining two correction systems is not an artefact of my dev-set split?",
+        "can I trust the gain I measure from combining two grammar correctors on one dev split?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which spellchecker is best for correcting spelling errors in learner English?",
+      "name": "which spelling correction tool fixes learner writing mistakes best?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -283,13 +293,14 @@
         "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
       },
       "alternateName": [
-        "How does a simple frequency-plus-edit-distance spellchecker compare to JamSpell and Norvig?",
-        "Does a good spellchecker also give a good overall grammatical error correction score?"
+        "how does a frequency-and-Levenshtein spellchecker score on R:SPELL edits against JamSpell, Norvig and Enchant?",
+        "how do I get the strongest spelling correction component for a grammatical error correction pipeline?",
+        "should I build my own word-frequency spellchecker or install an existing one for correcting learner English?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does BERT work well as a standalone grammatical error corrector?",
+      "name": "can a pretrained language model fix grammar mistakes on its own by guessing masked words?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -297,13 +308,14 @@
         "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
       },
       "alternateName": [
-        "Can a masked language model be queried iteratively to fix grammar errors?",
-        "What went wrong when BERT was applied directly to GEC?"
+        "what F-0.5 does iterative masked-LM querying of BERT reach as a standalone GEC system?",
+        "how well can I correct grammatical errors by repeatedly masking tokens and taking BERT's predictions?",
+        "should I expect a masked language model alone to work as a grammar corrector?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does synthetic error generation replace real annotated GEC data?",
+      "name": "can artificially corrupted sentences stand in for real annotated writing errors when training a corrector?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -311,13 +323,14 @@
         "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
       },
       "alternateName": [
-        "Does the domain of synthetic grammatical errors matter more than the amount?",
-        "How well does a GEC model trained only on artificially corrupted text do?"
+        "how does synthetic error generation over in-domain W&I sentences compare with real W&I training data for a Nematus GEC model?",
+        "how do I train a grammar correction model when I have little annotated learner data, and does the source text domain matter?",
+        "should I generate millions of synthetic errors from generic text or a smaller amount from in-domain sentences?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does adding Lang8, FCE and NUCLE help a transformer GEC model?",
+      "name": "does piling on more learner-writing corpora help a grammar correction model, or does it swamp the data you care about?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -325,8 +338,9 @@
         "url": "https://borgr.github.io/papers/learning-to-combine-grammatical-error-corrections/"
       },
       "alternateName": [
-        "Why upsample the in-domain W&I training set when training a GEC system?",
-        "What training data mix worked best for Nematus on the W&I dev set?"
+        "what happens to Nematus GEC F-0.5 when Lang8, FCE and NUCLE are added to W&I with and without upsampling?",
+        "how do I mix extra grammatical error correction corpora into my training data without losing target-domain accuracy?",
+        "should I add Lang8, FCE and NUCLE to my W&I training set, and do I need to upsample W&I?"
       ]
     }
   ]
@@ -405,54 +419,68 @@
 <p>The field of Grammatical Error Correction (GEC) has produced various systems to deal with focused phenomena or general text editing. We propose an automatic way to combine black-box systems. Our method automatically detects the strength of a system or the combination of several systems per error type, improving precision and recall while optimizing F-score directly. We show consistent improvement over the best standalone system in all the configurations tested. This approach also outperforms average ensembling of different RNN models with random initializations. In addition, we analyze the use of BERT for GEC - reporting promising results on this end. We also present a spellchecker created for this task which outperforms standard spellcheckers tested on the task of spellchecking. This paper describes a system submission to Building Educational Applications 2019 Shared Task: Grammatical Error Correction. Combining the output of top BEA 2019 shared task systems using our approach, currently holds the highest reported score in the open phase of the BEA 2019 shared task, improving F-0.5 score by 3.7 points over the best result reported.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>How can I combine the outputs of several grammatical error correction systems?</dt>
-<dt>Is there a way to merge GEC system outputs without access to their internals?</dt>
-<dt>What should I read about combining grammar correction systems as black boxes?</dt>
+<dt>how can several grammar checking programs be pooled into one better corrector without touching their code?</dt>
+<dt>what work introduces system-agnostic combination of GEC outputs using only M2 edit files?</dt>
+<dt>how do I combine the outputs of several grammatical error correction tools that I only have text output from?</dt>
+<dt>I have three grammar correctors and no access to their models, is there published research telling me how to fuse their corrections?</dt>
 <dd>The BEA 2019 system paper &#x27;Learning to combine Grammatical Error Corrections&#x27; introduces automatic, system-agnostic combination for Grammatical Error Correction. It learns per error type which systems&#x27; edits to keep from outputs alone, not from model internals or hand-written pipelines.<br><span class="scope">Holds for: As of 2019; earlier GEC combination work existed but was ad-hoc — pipelining, per-phenomenon assignment, or rescoring hybrids tailored to the specific systems used — and required manual adjustment for each new set of systems.</span></dd>
 <dd>Framing GEC system combination as a convex program over per-error-type edit-subset selection variables makes it possible to optimize the corpus-level F-beta score directly, using only M2 edit files from each system.<br><span class="scope">Holds for: Requires a dev set with gold M2 annotations from the same distribution as the test data, and an error-type classifier such as ERRANT; combining more than 2 systems is iterative.</span></dd>
-<dt>Does combining GEC systems actually beat the best single system?</dt>
-<dt>How much does black-box combination improve F-0.5 on the BEA 2019 shared task?</dt>
-<dt>What was the top score in the BEA 2019 open phase?</dt>
+<dt>does pooling the corrections of several grammar checkers beat just using the strongest one?</dt>
+<dt>what F-0.5 does learned per-error-type edit selection reach over BEA 2019 shared task system outputs?</dt>
+<dt>how much score can I gain on the BEA 2019 test set by combining published system outputs instead of training a better model?</dt>
+<dt>if I already have the best available grammar correction system, is it worth combining it with weaker ones?</dt>
 <dd>Combining four released BEA 2019 shared task system outputs as black boxes reaches F-0.5 72.84 on the test set, a 3.7 point gain over the best standalone system (UEDIN-MS, 69.47). Combining only UEDIN-MS with Kakao&amp;Brain reaches 73.18.<br><span class="scope">Holds for: BEA 2019 shared task test set, open phase; selection variables fitted on the entire shared task dev set; the four systems were UEDIN-MS, Kakao&amp;Brain, Shuyao and CAMB-CUED, whose outputs the teams released after the test phase.</span></dd>
 <dd>Combining BEA 2019 shared task systems raises precision from 72.28 to 78.74 on the test set, a 6.5 point improvement over the best standalone system, while recall falls from 60.12 to 56.04.<br><span class="scope">Holds for: BEA 2019 test set, 4 combined systems (UEDIN-MS, Kakao&amp;Brain, Shuyao, CAMB-CUED); optimization targets F-0.5, which weights precision over recall.</span></dd>
-<dt>Is learned edit selection better than average ensembling for neural GEC models?</dt>
-<dt>How does combining Nematus RNN models compare with Nematus&#x27;s built-in ensemble?</dt>
-<dt>Does ensembling hurt recall in grammatical error correction?</dt>
+<dt>when you have several neural models correcting the same sentence, is picking corrections per error type better than averaging the models?</dt>
+<dt>does per-error-type edit selection outperform decoder-side average ensembling of 4 RNN Nematus GEC models?</dt>
+<dt>how should I combine 4 neural grammar correction checkpoints, ensemble decoding or output-level edit selection?</dt>
+<dt>should I ensemble my grammar correction models at decoding time or combine their corrected sentences afterwards?</dt>
 <dd>Combining 4 RNN Nematus models by error-type edit selection reaches F-0.5 0.3508 against 0.3122 for Nematus&#x27;s built-in average ensembling of the same 4 models, a gain of almost 4 points.<br><span class="scope">Holds for: 4 RNN-based Nematus models differing only in random initialization, scored on one random half of the W&amp;I dev set with selection variables fitted on the other half.</span></dd>
-<dt>Does combining GEC systems improve precision at the cost of recall?</dt>
-<dt>Can adding a weak grammar correction system still help a combination?</dt>
-<dt>What happens when a spellchecker and a BERT-based corrector are combined with Nematus models?</dt>
+<dt>when several grammar correction tools are pooled, does accuracy go up only because fewer corrections are made?</dt>
+<dt>does per-error-type combination of neural GEC, spellchecking and masked-LM systems raise precision and recall together?</dt>
+<dt>how do I add a spellchecker and a weak corrector to my neural grammar correction models without losing recall?</dt>
+<dt>will adding a weak grammar correction component to my pipeline drag down the corrections I already get right?</dt>
 <dd>Iteratively combining 4 Nematus models, a spellchecker and a BERT-based system raises F-0.5 from 0.3429 for the best standalone Nematus to 0.4051. Precision and recall improve together, from 0.4839 to 0.5029 and from 0.1583 to 0.2278.<br><span class="scope">Holds for: W&amp;I dev set, restricted track submission; the spellchecker alone scores F-0.5 0.1242 and the BERT system 0.0135, yet both still add to the combination.</span></dd>
 <dd>Adding LanguageTool, Grammarly and JamSpell as black boxes to the restricted-track combination raises F-0.5 from 0.4051 to 0.4375, about 9 points above the best standalone off-the-shelf system (Grammarly, 0.3612).<br><span class="scope">Holds for: W&amp;I dev set; Grammarly outputs were collected manually through its free web interface taking the top suggestion per correction, since it exposes no programmatic API.</span></dd>
-<dt>Do commercial tools like Grammarly help when combined with a research GEC system?</dt>
-<dt>Is there value in adding off-the-shelf grammar checkers to a neural GEC system?</dt>
+<dt>do consumer grammar checking tools add anything to a research grammar correction system?</dt>
+<dt>what does adding off-the-shelf checkers as black boxes contribute to a restricted-track GEC combination?</dt>
+<dt>how do I get extra F-0.5 out of commercial grammar checkers alongside my own trained corrector?</dt>
+<dt>is it worth paying for a commercial grammar checker to plug into my correction pipeline?</dt>
 <dd>Adding LanguageTool, Grammarly and JamSpell as black boxes to the restricted-track combination raises F-0.5 from 0.4051 to 0.4375, about 9 points above the best standalone off-the-shelf system (Grammarly, 0.3612).<br><span class="scope">Holds for: W&amp;I dev set; Grammarly outputs were collected manually through its free web interface taking the top suggestion per correction, since it exposes no programmatic API.</span></dd>
-<dt>Can filtering a single GEC system&#x27;s error types improve its score?</dt>
-<dt>Does throwing away predictions on error types a corrector is bad at help?</dt>
-<dt>How large is the gain from error-type filtering of one grammar correction system?</dt>
+<dt>can one grammar checker be improved just by ignoring the mistake categories it handles badly?</dt>
+<dt>how much F-0.5 does per-error-type filtering of a single GEC system&#x27;s edits recover?</dt>
+<dt>how do I raise a single grammar corrector&#x27;s score without retraining it?</dt>
+<dt>if I only have one grammar correction tool, is discarding its weak error types worth doing?</dt>
 <dd>Discarding a single system&#x27;s predictions on error types where it performs poorly gives small F-0.5 gains. LanguageTool rises from 0.2107 to 0.2355, Grammarly from 0.3627 to 0.3754 and Nematus from 0.373 to 0.3761.<br><span class="scope">Holds for: W&amp;I dev set, filtering fitted on one random half and reported on the other; gains are minor for the two stronger systems and largest for the weakest one.</span></dd>
-<dt>Are grammar corrections that two systems agree on more likely to be right?</dt>
-<dt>How much more precise are edits proposed by both Nematus and Grammarly?</dt>
-<dt>Should I keep only the corrections that multiple systems propose?</dt>
+<dt>if two grammar checkers suggest the same fix, is that fix more likely to be right?</dt>
+<dt>how does precision on common edits compare with standalone precision for neural GEC and a commercial checker on R:OTHER?</dt>
+<dt>how do I decide when to keep only the corrections that two systems agree on?</dt>
+<dt>should I only apply the grammar corrections my two tools both propose?</dt>
 <dd>Edits proposed by both Nematus and Grammarly are far more precise than edits from either alone: for R:OTHER, precision is 0.67 on common edits versus 0.17 and 0.28 standalone. The optimizer therefore keeps only the agreed edits for that error type.<br><span class="scope">Holds for: W&amp;I dev set, the 10 most frequent error types over the Nematus–Grammarly pair; agreement does not help every type, and for R:PUNCT and R:VERB:TENSE the intersection subset is dropped entirely.</span></dd>
-<dt>How stable is the gain from combining two GEC systems across dev-set splits?</dt>
-<dt>Does the improvement from combining Nematus and Grammarly depend on how the dev set is split?</dt>
+<dt>is the improvement from pooling two grammar checkers a fluke of how the tuning data was split?</dt>
+<dt>how much does the F-0.5 gain from a 2-system GEC combination vary across random dev-set fold partitions?</dt>
+<dt>how do I check that a gain from combining two correction systems is not an artefact of my dev-set split?</dt>
+<dt>can I trust the gain I measure from combining two grammar correctors on one dev split?</dt>
 <dd>Combining Nematus with Grammarly gives an average F-0.5 improvement of 6.2 points over the better of the two systems. The standard deviation across 10 different random dev-set fold partitions is 0.28 points.<br><span class="scope">Holds for: W&amp;I dev set split randomly in two, selection variables fitted on one half and scored on the other, repeated over 10 partitions.</span></dd>
-<dt>Which spellchecker is best for correcting spelling errors in learner English?</dt>
-<dt>How does a simple frequency-plus-edit-distance spellchecker compare to JamSpell and Norvig?</dt>
-<dt>Does a good spellchecker also give a good overall grammatical error correction score?</dt>
+<dt>which spelling correction tool fixes learner writing mistakes best?</dt>
+<dt>how does a frequency-and-Levenshtein spellchecker score on R:SPELL edits against JamSpell, Norvig and Enchant?</dt>
+<dt>how do I get the strongest spelling correction component for a grammatical error correction pipeline?</dt>
+<dt>should I build my own word-frequency spellchecker or install an existing one for correcting learner English?</dt>
 <dd>A heuristic spellchecker built from Gutenberg word counts, a LibreOffice dictionary and Levenshtein-distance-1 candidates reaches F-0.5 0.6378 on R:SPELL edits, above Norvig (0.5882), JamSpell (0.5599) and Enchant (0.3544).<br><span class="scope">Holds for: R:SPELL error category only on the W&amp;I dev set; over all error categories the same spellchecker scores F-0.5 0.1198, below JamSpell&#x27;s 0.1593.</span></dd>
-<dt>Does BERT work well as a standalone grammatical error corrector?</dt>
-<dt>Can a masked language model be queried iteratively to fix grammar errors?</dt>
-<dt>What went wrong when BERT was applied directly to GEC?</dt>
+<dt>can a pretrained language model fix grammar mistakes on its own by guessing masked words?</dt>
+<dt>what F-0.5 does iterative masked-LM querying of BERT reach as a standalone GEC system?</dt>
+<dt>how well can I correct grammatical errors by repeatedly masking tokens and taking BERT&#x27;s predictions?</dt>
+<dt>should I expect a masked language model alone to work as a grammar corrector?</dt>
 <dd>Iteratively querying BERT as a masked language model to propose GEC edits scores F-0.5 0.0135 as a standalone system. Confidence thresholds between 0.6 and 0.98 gave unsatisfying results, and fine-tuning the masked LM on synthetic errors did not help.<br><span class="scope">Holds for: W&amp;I dev set; the submitted variant was restricted to replacement edits inside predefined interchangeable word sets, ignoring insertions and deletions and excluding R:PUNCT; the system still contributed when combined with others.</span></dd>
-<dt>Does synthetic error generation replace real annotated GEC data?</dt>
-<dt>Does the domain of synthetic grammatical errors matter more than the amount?</dt>
-<dt>How well does a GEC model trained only on artificially corrupted text do?</dt>
+<dt>can artificially corrupted sentences stand in for real annotated writing errors when training a corrector?</dt>
+<dt>how does synthetic error generation over in-domain W&amp;I sentences compare with real W&amp;I training data for a Nematus GEC model?</dt>
+<dt>how do I train a grammar correction model when I have little annotated learner data, and does the source text domain matter?</dt>
+<dt>should I generate millions of synthetic errors from generic text or a smaller amount from in-domain sentences?</dt>
 <dd>Nematus trained on synthetic errors generated over in-domain W&amp;I gold sentences reaches F-0.5 0.1919, close to the 0.232 obtained from the real W&amp;I train set. 7,000,000 synthetic Gutenberg sentences reach only 0.1294.<br><span class="scope">Holds for: W&amp;I dev set; errors were generated by applying W&amp;I corrections backwards while matching the observed distribution of edits per sentence; more Gutenberg data did not help (650,000 sentences scored 0.1483).</span></dd>
-<dt>Does adding Lang8, FCE and NUCLE help a transformer GEC model?</dt>
-<dt>Why upsample the in-domain W&amp;I training set when training a GEC system?</dt>
-<dt>What training data mix worked best for Nematus on the W&amp;I dev set?</dt>
+<dt>does piling on more learner-writing corpora help a grammar correction model, or does it swamp the data you care about?</dt>
+<dt>what happens to Nematus GEC F-0.5 when Lang8, FCE and NUCLE are added to W&amp;I with and without upsampling?</dt>
+<dt>how do I mix extra grammatical error correction corpora into my training data without losing target-domain accuracy?</dt>
+<dt>should I add Lang8, FCE and NUCLE to my W&amp;I training set, and do I need to upsample W&amp;I?</dt>
 <dd>Adding Lang8, FCE and NUCLE to W&amp;I training data only helps Nematus when W&amp;I is upsampled 10 times. F-0.5 goes from 0.232 (W&amp;I alone) to 0.225 (plus Lang8 and FCE) to 0.333 (upsampled W&amp;I plus all three).<br><span class="scope">Holds for: Transformer Nematus with the WMT17 recommended hyperparameters, evaluated on the W&amp;I dev set under the BEA 2019 restricted-track data.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

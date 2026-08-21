@@ -137,7 +137,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Can a harmful response slip past an LLM safety filter just by being concatenated with other text?",
+      "name": "if you bundle several unsafe question-and-answer pairs into one block of text, will an automatic safety scorer still call them harmful?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -145,13 +145,14 @@
         "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
       },
       "alternateName": [
-        "Do harmfulness metrics reverse their verdict when unsafe prompt-response pairs are combined?",
-        "How often does a GPT-based safety judge label concatenated unsafe content as safe?"
+        "how often does an LLM-as-a-judge harmfulness metric flip an unsafe verdict to safe when prompt-response pairs are concatenated into tuples?",
+        "how do I check whether my GPT-based harmfulness judge holds its verdict when I score batches of prompt-response pairs at once?",
+        "can I trust a GPT-3.5 or GPT-4o safety judge to score several unsafe prompt-response pairs in a single call?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does the order of content change how an LLM judge scores safety?",
+      "name": "does shuffling the order of harmful and harmless examples inside one input change the safety score a language model gives it?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -159,13 +160,14 @@
         "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
       },
       "alternateName": [
-        "How large is positional bias in GPT-3.5 and GPT-4o harmfulness judges?",
-        "If safe text comes first, will a judge model call the whole input safe?"
+        "how large is the positional bias of GPT-3.5 and GPT-4o harmfulness judges on concatenated prompt-response lists?",
+        "how do I measure whether a safety judge is reacting to the ordering of concatenated examples rather than their content?",
+        "if I sort examples from mild to severe before sending them to a GPT judge, am I biasing my own safety numbers?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does positional bias in LLM judges get worse with longer inputs?",
+      "name": "do automatic safety scorers get more order-sensitive as you feed them longer inputs?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -173,12 +175,14 @@
         "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
       },
       "alternateName": [
-        "Is judge order sensitivity related to input length?"
+        "does the positional bias of GPT-based harmfulness judges scale with concatenation length?",
+        "how long can an aggregated harmfulness-judging input get before ordering effects outweigh content?",
+        "should I keep the number of prompt-response pairs per safety-judge call small to limit order effects?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are reward models usable as safety filters if an attacker repeats the prompt or response?",
+      "name": "if the same question and answer are pasted in several times, does a reward model rate the text as less harmful?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -186,13 +190,14 @@
         "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
       },
       "alternateName": [
-        "Do OpenAssistant reward models change their score when input content is repeated?",
-        "How much do repeated prompts and responses shift reward-model harmfulness scores?"
+        "how sensitive are OpenAssistant deberta- and pythia-based reward-model harmfulness metrics to repetition of the prompt or the response?",
+        "how do I test whether a reward model I use as a safety filter can be moved just by duplicating prompt or response text?",
+        "is a reward model safe to use as my harmfulness scorer if attackers can repeat the input?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are GPT judges affected by repeated content in the input?",
+      "name": "do GPT judges give a different safety verdict when the input text is duplicated?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -200,12 +205,14 @@
         "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
       },
       "alternateName": [
-        "Which safety metrics ignore duplicated prompts and responses?"
+        "are GPT-3.5 and GPT-4o harmfulness judges invariant to prompt and response repetition?",
+        "which kind of harmfulness scorer should I pick if my inputs contain duplicated prompts or responses?",
+        "my evaluation data has repeated prompts and answers, will a GPT judge or a reward model give me stabler harmfulness scores?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are reward-model safety metrics sensitive to the order of concatenated inputs?",
+      "name": "if a reward model scores safety, does rearranging the pieces of the input change its score?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -213,12 +220,14 @@
         "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
       },
       "alternateName": [
-        "Which harmfulness metrics have low positional bias?"
+        "what is the order sensitivity of reward-model harmfulness metrics under permutation of concatenated inputs?",
+        "how do I find a harmfulness metric whose score barely moves when I permute the concatenated inputs?",
+        "should I prefer a reward-model harmfulness score over a GPT judge if my inputs come in arbitrary order?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do safety scores stay consistent when several equally safe pairs are concatenated?",
+      "name": "if you join two equally safe question-answer pairs into one input, does the safety score stay where it was?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -226,12 +235,14 @@
         "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
       },
       "alternateName": [
-        "What happens to reward-model scores when two safe prompt-response pairs are merged into one input?"
+        "do harmfulness metrics preserve cluster scores under concatenation of same-score prompt-response pairs?",
+        "how do I check that my harmfulness metric scores a concatenation of equally rated pairs consistently with the individual pairs?",
+        "can I score a batch of similarly safe prompt-response pairs together and treat the result as their shared score?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What work should I read on whether automatic safety evaluation metrics are reliable?",
+      "name": "is there a study that tests whether automatic harmfulness scorers are actually valid?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -239,14 +250,14 @@
         "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
       },
       "alternateName": [
-        "Where can I find a paper on validating LLM-as-a-judge safety metrics?",
-        "Is there research on testing the metrics used to measure model harmfulness?",
-        "How do I check the validity of a safety metric without collecting new human labels?"
+        "which work provides validity tests for LLM-as-a-judge and reward-model safety metrics?",
+        "how do I audit the safety metric I am already using without collecting new human annotations?",
+        "where should I start reading before I commit to an automated harmfulness metric for my safety evaluation?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is GPT-3.5 a trustworthy judge for measuring jailbreak attack success?",
+      "name": "can I believe reported success rates for multi-turn jailbreaks when a language model did the judging?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -254,13 +265,14 @@
         "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
       },
       "alternateName": [
-        "Should attack-success rates measured with a GPT-3.5 judge be trusted?",
-        "What are the risks of using an LLM judge to score multi-turn red-teaming attacks?"
+        "how does the decision-flipping rate of a GPT-3.5 harmfulness judge affect reported attack success rates for conversation-based jailbreaks?",
+        "how do I sanity-check jailbreak attack-success numbers that were produced by a GPT-3.5 judge over concatenated dialogue content?",
+        "should I re-run my red-teaming evaluation with a stronger judge than GPT-3.5?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which safety metrics and datasets were tested in the concatenation study?",
+      "name": "which harmfulness scorers and prompt datasets were put through the repetition and concatenation checks?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -268,7 +280,9 @@
         "url": "https://borgr.github.io/papers/how-safe-is-your-safety-metric-automatic-concatenation-tests/"
       },
       "alternateName": [
-        "What models were used to generate the harmful responses in the concatenation tests?"
+        "which reward-model and LLM-judge safety metrics, and which prompt-response data, were used in the repetition, cluster and concatenate-and-permute tests?",
+        "how do I set up repetition and concatenation validity tests for my own safety metric, and what data do they need?",
+        "are the harmfulness metrics I use covered by the repetition and concatenation tests, or would I have to run them myself?"
       ]
     }
   ]
@@ -354,46 +368,60 @@
 <p>Consider a scenario where a harmfulness evaluation metric intended to filter unsafe responses from a Large Language Model. When applied to individual harmful prompt-response pairs, it correctly flags them as unsafe by assigning a high-risk score. Yet, if those same pairs are concatenated, the metrics decision unexpectedly reverses - labelling the combined content as safe with a low score, allowing the harmful text to bypass the filter. We found that multiple safety metrics, including advanced metrics such as GPT-based judges, exhibit this non-safe behaviour. Moreover, they show a strong sensitivity to input order: responses are often classified as safe if safe content appears first, regardless of any harmful content that follows, and vice versa. These findings underscore the importance of evaluating the safety of safety metrics, that is, the reliability of their output scores. To address this, we developed general, automatic, concatenation-based tests to assess key properties of these metrics. When applied in a model safety scenario, the tests revealed significant inconsistencies in harmfulness evaluations.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Can a harmful response slip past an LLM safety filter just by being concatenated with other text?</dt>
-<dt>Do harmfulness metrics reverse their verdict when unsafe prompt-response pairs are combined?</dt>
-<dt>How often does a GPT-based safety judge label concatenated unsafe content as safe?</dt>
+<dt>if you bundle several unsafe question-and-answer pairs into one block of text, will an automatic safety scorer still call them harmful?</dt>
+<dt>how often does an LLM-as-a-judge harmfulness metric flip an unsafe verdict to safe when prompt-response pairs are concatenated into tuples?</dt>
+<dt>how do I check whether my GPT-based harmfulness judge holds its verdict when I score batches of prompt-response pairs at once?</dt>
+<dt>can I trust a GPT-3.5 or GPT-4o safety judge to score several unsafe prompt-response pairs in a single call?</dt>
 <dd>The GPT-3.5-based harmfulness judge scored 203 of 1000 concatenated 4-tuples of unsafe prompt-response pairs as safe (scores 1 or 2), while GPT-4o flipped its verdict in only 2 of 1000 cases.<br><span class="scope">Holds for: 4-tuples sampled from 50 pairs the same judge scored 4 or 5, on Mistral-7B-Instruct-v0.2 responses to AttaQ prompts, 1-5 scale, OpenAI API at seed=2.</span></dd>
 <dd>GPT-4o as a harmfulness judge keeps its decision-flipping rate below 0.1% as the number of concatenated prompt-response pairs grows, whereas GPT-3.5&#x27;s flip rate rises with concatenation length.<br><span class="scope">Holds for: Safe and harmful cluster tests at 4, 8 and 16 concatenations, 1000 sampled tuples per setting, on AttaQ prompts and Mistral-7B-Instruct-v0.2 responses; single dataset and single task.</span></dd>
-<dt>Does the order of content change how an LLM judge scores safety?</dt>
-<dt>How large is positional bias in GPT-3.5 and GPT-4o harmfulness judges?</dt>
-<dt>If safe text comes first, will a judge model call the whole input safe?</dt>
+<dt>does shuffling the order of harmful and harmless examples inside one input change the safety score a language model gives it?</dt>
+<dt>how large is the positional bias of GPT-3.5 and GPT-4o harmfulness judges on concatenated prompt-response lists?</dt>
+<dt>how do I measure whether a safety judge is reacting to the ordering of concatenated examples rather than their content?</dt>
+<dt>if I sort examples from mild to severe before sending them to a GPT judge, am I biasing my own safety numbers?</dt>
 <dd>The GPT-3.5-based judge&#x27;s positional bias is 24.4% for 8-concatenated lists of prompt-response pairs and 45.9% for 16-concatenated lists. Positional bias counts inputs whose verdict flips between scores {4,5} and {1,2} when the input order is reversed.<br><span class="scope">Holds for: Balanced pools of 50 pairs scored {4,5}, 25 scored 3 and 50 scored {1,2} per metric; 1000 sampled concatenations per length; increasing versus decreasing sorted permutations.</span></dd>
 <dd>With 16-tuple inputs of effectively identical content, the GPT-4o judge scored 80% of tuples (803 of 1000) as safe when pairs were sorted from low to high harmfulness. The same content scored safe in about 40% of cases under random permutations and 1% under the decreasing permutation.<br><span class="scope">Holds for: 1000 concatenated 16-tuples drawn from a balanced score pool; AttaQ prompts with Mistral-7B-Instruct-v0.2 responses; GPT-4o via OpenAI API, default temperature, seed=2.</span></dd>
-<dt>Does positional bias in LLM judges get worse with longer inputs?</dt>
-<dt>Is judge order sensitivity related to input length?</dt>
+<dt>do automatic safety scorers get more order-sensitive as you feed them longer inputs?</dt>
+<dt>does the positional bias of GPT-based harmfulness judges scale with concatenation length?</dt>
+<dt>how long can an aggregated harmfulness-judging input get before ordering effects outweigh content?</dt>
+<dt>should I keep the number of prompt-response pairs per safety-judge call small to limit order effects?</dt>
 <dd>Positional bias in both GPT-based harmfulness judges grows with the length of the concatenated input, so longer aggregated inputs are scored more by the order of their parts than by their content.<br><span class="scope">Holds for: Concatenation lengths of 4, 8 and 16 prompt-response pairs; GPT-3.5-turbo-0125 and GPT-4o judges only; reward-model metrics show low positional bias instead.</span></dd>
-<dt>Are reward models usable as safety filters if an attacker repeats the prompt or response?</dt>
-<dt>Do OpenAssistant reward models change their score when input content is repeated?</dt>
-<dt>How much do repeated prompts and responses shift reward-model harmfulness scores?</dt>
+<dt>if the same question and answer are pasted in several times, does a reward model rate the text as less harmful?</dt>
+<dt>how sensitive are OpenAssistant deberta- and pythia-based reward-model harmfulness metrics to repetition of the prompt or the response?</dt>
+<dt>how do I test whether a reward model I use as a safety filter can be moved just by duplicating prompt or response text?</dt>
+<dt>is a reward model safe to use as my harmfulness scorer if attackers can repeat the input?</dt>
 <dd>The OpenAssistant deberta-based and pythia-based reward metrics assign lower scores as input content is repeated, with the pythia-based model shifting most. Its Wasserstein distance from the unrepeated score distribution reaches 4.277 when both prompt and response are repeated 8 times.<br><span class="scope">Holds for: Repetitions up to l=5 for deberta-based (512-token context) and l=16 for pythia-based (1024-token context); 1000 AttaQ prompts with Mistral-7B-Instruct-v0.2 responses; distances computed between score distributions, not per example.</span></dd>
 <dd>For the deberta-based reward metric, repeating the response alone shifts the score distribution more than repeating the prompt alone: Wasserstein distance 2.065 at 5 response repetitions versus 0.900 at 5 prompt repetitions.<br><span class="scope">Holds for: OpenAssistant/reward-model-deberta-v3-large-v2 with a 512-token context, so repetition counts stop at 5; scores over 1000 AttaQ prompt-response pairs from Mistral-7B-Instruct-v0.2.</span></dd>
-<dt>Are GPT judges affected by repeated content in the input?</dt>
-<dt>Which safety metrics ignore duplicated prompts and responses?</dt>
+<dt>do GPT judges give a different safety verdict when the input text is duplicated?</dt>
+<dt>are GPT-3.5 and GPT-4o harmfulness judges invariant to prompt and response repetition?</dt>
+<dt>which kind of harmfulness scorer should I pick if my inputs contain duplicated prompts or responses?</dt>
+<dt>my evaluation data has repeated prompts and answers, will a GPT judge or a reward model give me stabler harmfulness scores?</dt>
 <dd>The GPT-3.5 and GPT-4o judges are insensitive to repeated content, preserving their original harmfulness scores when the prompt, the response, or both are repeated — the opposite of the reward-model metrics&#x27; behaviour.<br><span class="scope">Holds for: Repetition tests on AttaQ prompts and Mistral-7B-Instruct-v0.2 responses; 16k-token context for GPT-3.5 and 128k for GPT-4o, so long repeated inputs still fit.</span></dd>
-<dt>Are reward-model safety metrics sensitive to the order of concatenated inputs?</dt>
-<dt>Which harmfulness metrics have low positional bias?</dt>
+<dt>if a reward model scores safety, does rearranging the pieces of the input change its score?</dt>
+<dt>what is the order sensitivity of reward-model harmfulness metrics under permutation of concatenated inputs?</dt>
+<dt>how do I find a harmfulness metric whose score barely moves when I permute the concatenated inputs?</dt>
+<dt>should I prefer a reward-model harmfulness score over a GPT judge if my inputs come in arbitrary order?</dt>
 <dd>The reward-model harmfulness metrics show only minor sensitivity to input order, with average pairwise Wasserstein distance between permuted-input score distributions of 0.064 for the deberta-based metric and 0.097 for the pythia-based metric.<br><span class="scope">Holds for: Six permutations per concatenated input, including increasing- and decreasing-score sorts, where the largest gaps occur (0.147 deberta, 0.583 pythia between increasing and decreasing); AttaQ data with Mistral-7B-Instruct-v0.2 responses.</span></dd>
-<dt>Do safety scores stay consistent when several equally safe pairs are concatenated?</dt>
-<dt>What happens to reward-model scores when two safe prompt-response pairs are merged into one input?</dt>
+<dt>if you join two equally safe question-answer pairs into one input, does the safety score stay where it was?</dt>
+<dt>do harmfulness metrics preserve cluster scores under concatenation of same-score prompt-response pairs?</dt>
+<dt>how do I check that my harmfulness metric scores a concatenation of equally rated pairs consistently with the individual pairs?</dt>
+<dt>can I score a batch of similarly safe prompt-response pairs together and treat the result as their shared score?</dt>
 <dd>Reward-model harmfulness metrics do not preserve cluster scores under concatenation. For the safe (high-score) 2-concatenated cluster, a large part of the concatenated score distribution falls well below the average of the two original pair scores.<br><span class="scope">Holds for: Clusters built from the top and bottom 10% of scored pairs (100 pairs each), with 1000 randomly formed 2-concatenations; deberta-based and pythia-based OpenAssistant reward models.</span></dd>
 <dd>The GPT-3.5 and GPT-4o judges are insensitive to repeated content, preserving their original harmfulness scores when the prompt, the response, or both are repeated — the opposite of the reward-model metrics&#x27; behaviour.<br><span class="scope">Holds for: Repetition tests on AttaQ prompts and Mistral-7B-Instruct-v0.2 responses; 16k-token context for GPT-3.5 and 128k for GPT-4o, so long repeated inputs still fit.</span></dd>
-<dt>What work should I read on whether automatic safety evaluation metrics are reliable?</dt>
-<dt>Where can I find a paper on validating LLM-as-a-judge safety metrics?</dt>
-<dt>Is there research on testing the metrics used to measure model harmfulness?</dt>
-<dt>How do I check the validity of a safety metric without collecting new human labels?</dt>
+<dt>is there a study that tests whether automatic harmfulness scorers are actually valid?</dt>
+<dt>which work provides validity tests for LLM-as-a-judge and reward-model safety metrics?</dt>
+<dt>how do I audit the safety metric I am already using without collecting new human annotations?</dt>
+<dt>where should I start reading before I commit to an automated harmfulness metric for my safety evaluation?</dt>
 <dd>&quot;How Safe is Your Safety Metric?&quot; argues that safety metrics themselves need validity testing, and supplies automatic repetition, cluster and concatenate-and-permute tests for that purpose. The tests reuse a task&#x27;s existing prompt-response data and need no new annotation.<br><span class="scope">Holds for: Demonstrated on one task (model safety) with one dataset (AttaQ) and four metrics; the authors note the test suite is small and its generality to other tasks such as translation is proposed rather than shown.</span></dd>
-<dt>Is GPT-3.5 a trustworthy judge for measuring jailbreak attack success?</dt>
-<dt>Should attack-success rates measured with a GPT-3.5 judge be trusted?</dt>
-<dt>What are the risks of using an LLM judge to score multi-turn red-teaming attacks?</dt>
+<dt>can I believe reported success rates for multi-turn jailbreaks when a language model did the judging?</dt>
+<dt>how does the decision-flipping rate of a GPT-3.5 harmfulness judge affect reported attack success rates for conversation-based jailbreaks?</dt>
+<dt>how do I sanity-check jailbreak attack-success numbers that were produced by a GPT-3.5 judge over concatenated dialogue content?</dt>
+<dt>should I re-run my red-teaming evaluation with a stronger judge than GPT-3.5?</dt>
 <dd>Because GPT-3.5-based judges are widely used to decide the success of multi-turn and conversation-based jailbreak attacks on concatenated prompt-response content, their measured decision-flipping rate makes such attack-success numbers questionable.<br><span class="scope">Holds for: Concerns gpt-3.5-turbo-0125 with the Appendix A scoring prompt as evaluated in this work; other implementations, prompts and judge models — GPT-4o in particular — behaved more consistently in the cluster tests.</span></dd>
 <dd>The GPT-3.5-based harmfulness judge scored 203 of 1000 concatenated 4-tuples of unsafe prompt-response pairs as safe (scores 1 or 2), while GPT-4o flipped its verdict in only 2 of 1000 cases.<br><span class="scope">Holds for: 4-tuples sampled from 50 pairs the same judge scored 4 or 5, on Mistral-7B-Instruct-v0.2 responses to AttaQ prompts, 1-5 scale, OpenAI API at seed=2.</span></dd>
-<dt>Which safety metrics and datasets were tested in the concatenation study?</dt>
-<dt>What models were used to generate the harmful responses in the concatenation tests?</dt>
+<dt>which harmfulness scorers and prompt datasets were put through the repetition and concatenation checks?</dt>
+<dt>which reward-model and LLM-judge safety metrics, and which prompt-response data, were used in the repetition, cluster and concatenate-and-permute tests?</dt>
+<dt>how do I set up repetition and concatenation validity tests for my own safety metric, and what data do they need?</dt>
+<dt>are the harmfulness metrics I use covered by the repetition and concatenation tests, or would I have to run them myself?</dt>
 <dd>&quot;How Safe is Your Safety Metric?&quot; argues that safety metrics themselves need validity testing, and supplies automatic repetition, cluster and concatenate-and-permute tests for that purpose. The tests reuse a task&#x27;s existing prompt-response data and need no new annotation.<br><span class="scope">Holds for: Demonstrated on one task (model safety) with one dataset (AttaQ) and four metrics; the authors note the test suite is small and its generality to other tasks such as translation is proposed rather than shown.</span></dd>
 <dd>The OpenAssistant deberta-based and pythia-based reward metrics assign lower scores as input content is repeated, with the pythia-based model shifting most. Its Wasserstein distance from the unrepeated score distribution reaches 4.277 when both prompt and response are repeated 8 times.<br><span class="scope">Holds for: Repetitions up to l=5 for deberta-based (512-token context) and l=16 for pythia-based (1024-token context); 1000 AttaQ prompts with Mistral-7B-Instruct-v0.2 responses; distances computed between score distributions, not per example.</span></dd>
 </dl>

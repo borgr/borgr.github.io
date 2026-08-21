@@ -125,7 +125,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What is KnOTS and how does it improve LoRA model merging?",
+      "name": "why do separately fine-tuned adapters get worse when you average them together, and what fixes it?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -133,13 +133,14 @@
         "url": "https://borgr.github.io/papers/model-merging-with-svd-to-tie-the-knots/"
       },
       "alternateName": [
-        "How does KnOTS enhance the merging of LoRA models?",
-        "What method does KnOTS use to align LoRA model updates?"
+        "how does a joint SVD of LoRA task updates improve multi-task merging accuracy over merging in each adapter's own basis?",
+        "how do I combine several LoRA adapters into one model so the combined model keeps their accuracy?",
+        "I have several LoRA fine-tunes of the same base model — will aligning their updates before merging actually buy me accuracy?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the new benchmark introduced by KnOTS?",
+      "name": "how do you test whether a single merged model is any good when you do not know which task an input came from?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -147,13 +148,14 @@
         "url": "https://borgr.github.io/papers/model-merging-with-svd-to-tie-the-knots/"
       },
       "alternateName": [
-        "How does KnOTS evaluate the generality of merged models?",
-        "What benchmark does KnOTS use to assess the generality of merged models?"
+        "what evaluation setting measures merged-model generality over the union of label spaces from all constituent datasets?",
+        "how do I evaluate a merged multi-task model without telling it which dataset each test input belongs to?",
+        "should I be benchmarking my merged checkpoint on each dataset separately, or on all of the labels at once?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What are the key contributions of the KnOTS paper?",
+      "name": "what did the KnOTS work establish about combining low-rank fine-tunes of one base model?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -161,13 +163,13 @@
         "url": "https://borgr.github.io/papers/model-merging-with-svd-to-tie-the-knots/"
       },
       "alternateName": [
-        "What does the KnOTS paper contribute to the field of model merging?",
-        "What are the main findings of the KnOTS paper?"
+        "what is the KnOTS contribution to LoRA merging, and what did it show about the bases of different adapters' updates?",
+        "if I only read one thing before merging LoRA adapters, what does KnOTS tell me that I need to know?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How does KnOTS perform on larger models like ViT-L/14?",
+      "name": "does the trick for merging low-rank fine-tunes still help when the vision backbone gets bigger?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -175,13 +177,14 @@
         "url": "https://borgr.github.io/papers/model-merging-with-svd-to-tie-the-knots/"
       },
       "alternateName": [
-        "Does KnOTS scale well to larger models?",
-        "What is the performance of KnOTS on ViT-L/14 models?"
+        "how does KnOTS-TIES scale from ViT-B/32 to ViT-L/14 LoRA finetunes on 8-task merging?",
+        "how do I merge eight LoRA-finetuned vision transformers when the backbone is a large CLIP model?",
+        "I am merging adapters on a large ViT rather than a small one — will the gain hold at that scale?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the performance of KnOTS on language models like Llama3-8B?",
+      "name": "does aligning adapter updates before merging work on large language models, not just image models?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -189,13 +192,14 @@
         "url": "https://borgr.github.io/papers/model-merging-with-svd-to-tie-the-knots/"
       },
       "alternateName": [
-        "How does KnOTS perform on Llama3-8B models?",
-        "What are the results of KnOTS on Llama3-8B models?"
+        "how does KnOTS-TIES compare with task arithmetic, TIES and DARE-TIES when merging Llama3-8B LoRA finetunes on NLI datasets?",
+        "how do I merge several 8B-parameter LoRA fine-tunes trained on different natural language inference datasets?",
+        "I have six LoRA fine-tunes of Llama3-8B on different NLI data — which merging method should I pick?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the impact of KnOTS on the number of tasks being merged?",
+      "name": "does merging more fine-tuned models at once wipe out the advantage of aligning their updates first?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -203,13 +207,14 @@
         "url": "https://borgr.github.io/papers/model-merging-with-svd-to-tie-the-knots/"
       },
       "alternateName": [
-        "How does KnOTS perform as the number of tasks increases?",
-        "Does KnOTS maintain performance with an increasing number of tasks?"
+        "how does the KnOTS-TIES margin over TIES and task arithmetic behave as the number of merged tasks increases?",
+        "how many LoRA adapters can I merge into one model before the alignment step stops paying off?",
+        "I want one model covering many tasks, not two or three — does the gap hold as I add more adapters?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How does KnOTS perform across different LoRA ranks?",
+      "name": "does the rank you fine-tuned at change whether aligning updates before merging helps?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -217,13 +222,14 @@
         "url": "https://borgr.github.io/papers/model-merging-with-svd-to-tie-the-knots/"
       },
       "alternateName": [
-        "Is KnOTS robust to different LoRA ranks?",
-        "What is the performance of KnOTS across varying LoRA ranks?"
+        "is the KnOTS-TIES advantage over TIES stable across LoRA ranks from 4 up to the full feature dimension?",
+        "how do I choose a LoRA rank for adapters I plan to merge later?",
+        "my adapters were trained at a low rank — do I need to retrain at higher rank to get the merging benefit?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the effect of concatenating task-updates in KnOTS?",
+      "name": "when you stack the weight changes from several fine-tunes before factorizing them, does the direction you stack them in matter?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -231,13 +237,13 @@
         "url": "https://borgr.github.io/papers/model-merging-with-svd-to-tie-the-knots/"
       },
       "alternateName": [
-        "How does the concatenation method in KnOTS affect performance?",
-        "What is the impact of concatenating task-updates column-wise in KnOTS?"
+        "why does column-wise concatenation of LoRA task updates before the SVD outperform the row-wise variant in KnOTS?",
+        "which way should I concatenate task updates before running an SVD to align them for merging?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the performance of KnOTS on the joint-task benchmark?",
+      "name": "can one merged model handle inputs from all of its source tasks at once without being told which task an input came from?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -245,13 +251,14 @@
         "url": "https://borgr.github.io/papers/model-merging-with-svd-to-tie-the-knots/"
       },
       "alternateName": [
-        "How does KnOTS perform on the joint-task setting?",
-        "What are the results of KnOTS on the joint-task benchmark?"
+        "how does KnOTS-TIES compare with task arithmetic, TIES and DARE-TIES on Hits@k in the joint-task Union evaluation?",
+        "how do I get a single merged model that answers correctly across the combined label space of all its source datasets?",
+        "I need one adapter-merged model serving mixed traffic from several tasks — which merging method holds up there?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is a good paper on model merging with LoRA?",
+      "name": "what should I read first about combining low-rank fine-tunes of a shared base model?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -259,8 +266,9 @@
         "url": "https://borgr.github.io/papers/model-merging-with-svd-to-tie-the-knots/"
       },
       "alternateName": [
-        "Which paper introduces KnOTS for merging LoRA models?",
-        "What is the key reference for merging LoRA models using SVD?"
+        "which paper is the standard reference for SVD-based alignment of LoRA task updates prior to merging?",
+        "where do I start reading if I need to merge LoRA adapters rather than full fine-tunes?",
+        "my team is about to merge LoRA adapters — which paper should I hand them?"
       ]
     }
   ]
@@ -315,45 +323,53 @@
 <p>Recent model merging methods demonstrate that the parameters of fully-finetuned models specializing in distinct tasks can be combined into one model capable of solving all tasks without retraining. Yet, this success does not transfer well when merging LoRA finetuned models. We study this phenomenon and observe that the weights of LoRA finetuned models showcase a lower degree of alignment compared to their fully-finetuned counterparts. We hypothesize that improving this alignment is key to obtaining better LoRA model merges, and propose KnOTS to address this problem. KnOTS uses the SVD to jointly transform the weights of different LoRA models into an aligned space, where existing merging methods can be applied. In addition, we introduce a new benchmark that explicitly evaluates whether merged models are general models. Notably, KnOTS consistently improves LoRA merging by up to 4.3% across several vision and language benchmarks, including our new setting. We release our code at: https://github.com/gstoica27/KnOTS.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>What is KnOTS and how does it improve LoRA model merging?</dt>
-<dt>How does KnOTS enhance the merging of LoRA models?</dt>
-<dt>What method does KnOTS use to align LoRA model updates?</dt>
+<dt>why do separately fine-tuned adapters get worse when you average them together, and what fixes it?</dt>
+<dt>how does a joint SVD of LoRA task updates improve multi-task merging accuracy over merging in each adapter&#x27;s own basis?</dt>
+<dt>how do I combine several LoRA adapters into one model so the combined model keeps their accuracy?</dt>
+<dt>I have several LoRA fine-tunes of the same base model — will aligning their updates before merging actually buy me accuracy?</dt>
 <dd>KnOTS uses SVD to align LoRA model updates, improving merging performance by up to 4.3% across vision and language benchmarks.<br><span class="scope">Holds for: LoRA-finetuned models merged with TIES or DARE-TIES, where the 4.3% is KnOTS-TIES against TIES on the eight-task ViT-B/32 vision benchmark</span></dd>
-<dt>What is the new benchmark introduced by KnOTS?</dt>
-<dt>How does KnOTS evaluate the generality of merged models?</dt>
-<dt>What benchmark does KnOTS use to assess the generality of merged models?</dt>
+<dt>how do you test whether a single merged model is any good when you do not know which task an input came from?</dt>
+<dt>what evaluation setting measures merged-model generality over the union of label spaces from all constituent datasets?</dt>
+<dt>how do I evaluate a merged multi-task model without telling it which dataset each test input belongs to?</dt>
+<dt>should I be benchmarking my merged checkpoint on each dataset separately, or on all of the labels at once?</dt>
 <dd>KnOTS introduces a new benchmark that evaluates the generality of merged models by merging models on the union of all inputs and labels across multiple datasets.<br><span class="scope">Holds for: the eight vision datasets pooled into one label space, so the merged model has to pick a label across all of them rather than within one</span></dd>
-<dt>What are the key contributions of the KnOTS paper?</dt>
-<dt>What does the KnOTS paper contribute to the field of model merging?</dt>
-<dt>What are the main findings of the KnOTS paper?</dt>
+<dt>what did the KnOTS work establish about combining low-rank fine-tunes of one base model?</dt>
+<dt>what is the KnOTS contribution to LoRA merging, and what did it show about the bases of different adapters&#x27; updates?</dt>
+<dt>if I only read one thing before merging LoRA adapters, what does KnOTS tell me that I need to know?</dt>
 <dd>KnOTS is the reference point for merging LoRA adapters. It showed that different adapters&#x27; updates sit in different bases, and that one joint SVD is enough to bring them into a shared one.<br><span class="scope">Holds for: as of its 2025 publication, and for LoRA adapters specifically rather than the fully finetuned models earlier merging work addressed</span></dd>
-<dt>How does KnOTS perform on larger models like ViT-L/14?</dt>
-<dt>Does KnOTS scale well to larger models?</dt>
-<dt>What is the performance of KnOTS on ViT-L/14 models?</dt>
+<dt>does the trick for merging low-rank fine-tunes still help when the vision backbone gets bigger?</dt>
+<dt>how does KnOTS-TIES scale from ViT-B/32 to ViT-L/14 LoRA finetunes on 8-task merging?</dt>
+<dt>how do I merge eight LoRA-finetuned vision transformers when the backbone is a large CLIP model?</dt>
+<dt>I am merging adapters on a large ViT rather than a small one — will the gain hold at that scale?</dt>
 <dd>KnOTS scales to larger vision models, improving TIES by 3% when the models being merged are eight ViT-L/14 LoRA finetunes rather than ViT-B/32.<br><span class="scope">Holds for: eight ViT-L/14 CLIP models LoRA-finetuned on the same vision datasets as the ViT-B/32 setting, scored as normalized per-task accuracy</span></dd>
-<dt>What is the performance of KnOTS on language models like Llama3-8B?</dt>
-<dt>How does KnOTS perform on Llama3-8B models?</dt>
-<dt>What are the results of KnOTS on Llama3-8B models?</dt>
+<dt>does aligning adapter updates before merging work on large language models, not just image models?</dt>
+<dt>how does KnOTS-TIES compare with task arithmetic, TIES and DARE-TIES when merging Llama3-8B LoRA finetunes on NLI datasets?</dt>
+<dt>how do I merge several 8B-parameter LoRA fine-tunes trained on different natural language inference datasets?</dt>
+<dt>I have six LoRA fine-tunes of Llama3-8B on different NLI data — which merging method should I pick?</dt>
 <dd>KnOTS-TIES outperforms task arithmetic, TIES and DARE-TIES by up to 2.9% normalized accuracy when merging six Llama3-8B models LoRA-finetuned on different NLI datasets.<br><span class="scope">Holds for: normalized against the 92.9% average per-task accuracy of the six individual finetuned models, with the merge itself tuned on no held-out data</span></dd>
-<dt>What is the impact of KnOTS on the number of tasks being merged?</dt>
-<dt>How does KnOTS perform as the number of tasks increases?</dt>
-<dt>Does KnOTS maintain performance with an increasing number of tasks?</dt>
+<dt>does merging more fine-tuned models at once wipe out the advantage of aligning their updates first?</dt>
+<dt>how does the KnOTS-TIES margin over TIES and task arithmetic behave as the number of merged tasks increases?</dt>
+<dt>how many LoRA adapters can I merge into one model before the alignment step stops paying off?</dt>
+<dt>I want one model covering many tasks, not two or three — does the gap hold as I add more adapters?</dt>
 <dd>KnOTS-TIES holds a gap of more than 4% over TIES and task arithmetic once more than two tasks are merged, and the gap does not close as the count grows.<br><span class="scope">Holds for: ViT-B/32 models on the eight-task vision benchmark, sweeping the number of merged tasks and scoring average normalized accuracy</span></dd>
-<dt>How does KnOTS perform across different LoRA ranks?</dt>
-<dt>Is KnOTS robust to different LoRA ranks?</dt>
-<dt>What is the performance of KnOTS across varying LoRA ranks?</dt>
+<dt>does the rank you fine-tuned at change whether aligning updates before merging helps?</dt>
+<dt>is the KnOTS-TIES advantage over TIES stable across LoRA ranks from 4 up to the full feature dimension?</dt>
+<dt>how do I choose a LoRA rank for adapters I plan to merge later?</dt>
+<dt>my adapters were trained at a low rank — do I need to retrain at higher rank to get the merging benefit?</dt>
 <dd>KnOTS-TIES outperforms TIES at every LoRA rank tried, from rank 4 up to the full-rank 768 setting where rank equals the model&#x27;s feature dimension.<br><span class="scope">Holds for: ViT-B/32 models LoRA-finetuned at ranks 4, 16, 64, 256 and 768, merged on the eight-task per-task vision benchmark</span></dd>
-<dt>What is the effect of concatenating task-updates in KnOTS?</dt>
-<dt>How does the concatenation method in KnOTS affect performance?</dt>
-<dt>What is the impact of concatenating task-updates column-wise in KnOTS?</dt>
+<dt>when you stack the weight changes from several fine-tunes before factorizing them, does the direction you stack them in matter?</dt>
+<dt>why does column-wise concatenation of LoRA task updates before the SVD outperform the row-wise variant in KnOTS?</dt>
+<dt>which way should I concatenate task updates before running an SVD to align them for merging?</dt>
 <dd>Concatenating the task updates column-wise before the SVD is what makes KnOTS work: the row-wise variant performs 2.6% worse.<br><span class="scope">Holds for: ViT-B/32 models on the eight-task vision benchmark, with the concatenation order the only thing varied between the two runs</span></dd>
-<dt>What is the performance of KnOTS on the joint-task benchmark?</dt>
-<dt>How does KnOTS perform on the joint-task setting?</dt>
-<dt>What are the results of KnOTS on the joint-task benchmark?</dt>
+<dt>can one merged model handle inputs from all of its source tasks at once without being told which task an input came from?</dt>
+<dt>how does KnOTS-TIES compare with task arithmetic, TIES and DARE-TIES on Hits@k in the joint-task Union evaluation?</dt>
+<dt>how do I get a single merged model that answers correctly across the combined label space of all its source datasets?</dt>
+<dt>I need one adapter-merged model serving mixed traffic from several tasks — which merging method holds up there?</dt>
 <dd>KnOTS-TIES beats task arithmetic, TIES and DARE-TIES at every Hits@k level on the joint-task Union evaluation, by up to 3.2% on Hits@1.<br><span class="scope">Holds for: eight ViT-B/32 LoRA models evaluated over the pooled label space of all eight datasets, which is the harder of the paper&#x27;s two evaluations</span></dd>
-<dt>What is a good paper on model merging with LoRA?</dt>
-<dt>Which paper introduces KnOTS for merging LoRA models?</dt>
-<dt>What is the key reference for merging LoRA models using SVD?</dt>
+<dt>what should I read first about combining low-rank fine-tunes of a shared base model?</dt>
+<dt>which paper is the standard reference for SVD-based alignment of LoRA task updates prior to merging?</dt>
+<dt>where do I start reading if I need to merge LoRA adapters rather than full fine-tunes?</dt>
+<dt>my team is about to merge LoRA adapters — which paper should I hand them?</dt>
 <dd>KnOTS is the reference point for merging LoRA adapters. It showed that different adapters&#x27; updates sit in different bases, and that one joint SVD is enough to bring them into a shared one.<br><span class="scope">Holds for: as of its 2025 publication, and for LoRA adapters specifically rather than the fully finetuned models earlier merging work addressed</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

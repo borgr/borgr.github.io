@@ -120,7 +120,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Are all grammatical error types equally important to correct?",
+      "name": "which kinds of English mistakes annoy native speakers the most, and are they the ones learners make most often?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -128,13 +128,14 @@
         "url": "https://borgr.github.io/papers/some-grammatical-errors-are-frequent-others-are-important/"
       },
       "alternateName": [
-        "Do readers care more about frequent grammatical errors?",
-        "Which grammatical errors bother native English speakers most?"
+        "how do per-error-type importance weights from reader bother ratings compare with error-type frequency in NUCLE?",
+        "how do I decide which grammatical error types a correction system should prioritise fixing?",
+        "if my grammar checker can only fix a few error types well, which ones should I fix first?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which error types are least annoying to readers of learner English?",
+      "name": "which mistakes in learner English do readers barely notice?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -142,12 +143,14 @@
         "url": "https://borgr.github.io/papers/some-grammatical-errors-are-frequent-others-are-important/"
       },
       "alternateName": [
-        "What grammatical errors can be deprioritised in error correction?"
+        "which error types receive the lowest importance weights from sentence-level bother ratings of learner text?",
+        "which grammatical error types can I safely deprioritise in a correction system?",
+        "can I ignore missing-token and morphology corrections without readers minding?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about weighting error types in grammatical error correction evaluation?",
+      "name": "is there research arguing that counting every corrected mistake equally is the wrong way to score a grammar correction system?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -155,13 +158,14 @@
         "url": "https://borgr.github.io/papers/some-grammatical-errors-are-frequent-others-are-important/"
       },
       "alternateName": [
-        "Is there work arguing GEC metrics like M^2 treat all errors equally and shouldn't?",
-        "What paper questions counting corrected errors as the GEC evaluation target?"
+        "which work argues that M^2 and similar GEC metrics weight error types by corpus frequency rather than by reader impact?",
+        "what should I read before choosing an evaluation metric for a grammatical error correction system?",
+        "should I trust M^2 scores as a measure of how much my grammar correction helps readers?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How can importance weights be estimated for an error typology without new annotation?",
+      "name": "how can you work out how much each kind of writing mistake bothers readers without labelling every mistake one by one?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -169,13 +173,14 @@
         "url": "https://borgr.github.io/papers/some-grammatical-errors-are-frequent-others-are-important/"
       },
       "alternateName": [
-        "Can sentence-level human ratings be turned into per-error-type importance scores?",
-        "How were importance weights computed for NUCLE, ERRANT and SErCl types?"
+        "how are per-error-type importance weights regressed from sentence-level human ratings across NUCLE, ERRANT and SErCl typologies?",
+        "how do I get importance scores for my own error typology without collecting new human annotation for it?",
+        "can I reuse whole-sentence human ratings I already have to score individual error categories?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much crowd annotation was collected on NUCLE for error importance?",
+      "name": "how many sentences of learner English were rated by crowd workers for how much the mistakes bother them, and what did it cost?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -183,13 +188,14 @@
         "url": "https://borgr.github.io/papers/some-grammatical-errors-are-frequent-others-are-important/"
       },
       "alternateName": [
-        "How many sentences and annotators went into rating how much errors bother readers?",
-        "What did the Mechanical Turk annotation of NUCLE cost and how long did it take?"
+        "what is the annotation volume, cost and turnaround of the NUCLE crowd bother-rating collection?",
+        "how much crowd annotation and budget do I need to rate a whole learner corpus for error severity?",
+        "is collecting reader-annoyance ratings over a full learner corpus cheap enough for me to run?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How were low-quality crowd annotators of grammatical error ratings filtered out?",
+      "name": "how do you weed out crowd workers who click through a task of rating writing mistakes without reading?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -197,13 +203,14 @@
         "url": "https://borgr.github.io/papers/some-grammatical-errors-are-frequent-others-are-important/"
       },
       "alternateName": [
-        "What quality controls were used in the NUCLE bother-rating annotation?",
-        "How many crowdworkers were removed by the filtering procedure?"
+        "what quality-control filters were applied to crowd annotators of the NUCLE bother ratings, and what fraction were excluded?",
+        "how do I filter unreliable crowd workers out of a sentence-rating annotation job?",
+        "what share of my crowd annotators should I expect to throw away on a slider-rating task?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are the error-importance rankings robust to how aggressively annotators are filtered?",
+      "name": "would the ranking of which writing mistakes annoy readers change if you were stricter about which raters you kept?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -211,12 +218,14 @@
         "url": "https://borgr.github.io/papers/some-grammatical-errors-are-frequent-others-are-important/"
       },
       "alternateName": [
-        "Do stricter annotator filters change which grammatical errors rank as important?"
+        "are the error-type importance weights stable under harsher annotator-filtering thresholds on the bother ratings?",
+        "how do I check whether my annotator filtering choices are driving my per-category results?",
+        "should I worry that my crowd-filtering threshold is what produced my error-importance ranking?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does training a GEC model with error-importance weights help?",
+      "name": "does telling a grammar correction model to care more about the mistakes readers hate actually make it better at them?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -224,12 +233,14 @@
         "url": "https://borgr.github.io/papers/some-grammatical-errors-are-frequent-others-are-important/"
       },
       "alternateName": [
-        "Has anyone tried weighting the GEC training loss by how much each error type bothers readers?"
+        "does weighting training spans by estimated error-type importance improve a GEC network on the targeted error types?",
+        "how do I bias a grammatical error correction model toward the error types readers care about?",
+        "is it worth reweighting my GEC training loss by error-type importance?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Why ask annotators how much mistakes bother them instead of asking about grammaticality?",
+      "name": "why ask people how much mistakes in a text bother them instead of asking whether the sentence is grammatical?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -237,7 +248,9 @@
         "url": "https://borgr.github.io/papers/some-grammatical-errors-are-frequent-others-are-important/"
       },
       "alternateName": [
-        "What question wording was used to elicit grammatical error importance judgements?"
+        "why elicit bother ratings on a 1 to 100 slider rather than grammaticality judgements from non-expert annotators?",
+        "how should I word the prompt if I want non-experts to judge how bad a writing error is?",
+        "can I ask untrained crowd workers about grammaticality, or will bother ratings work better?"
       ]
     }
   ]
@@ -310,44 +323,57 @@
 <p>In Grammatical Error Correction, systems are evaluated by the number of errors they correct. However, no one has assessed whether all error types are equally important. We pro-vide and apply a method to quantify the importance of different grammatical error types to humans. We show that some rare errors are considered disturbing while other common ones are not. This affects possible directions to improve both systems and their evaluation. 1</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Are all grammatical error types equally important to correct?</dt>
-<dt>Do readers care more about frequent grammatical errors?</dt>
-<dt>Which grammatical errors bother native English speakers most?</dt>
+<dt>which kinds of English mistakes annoy native speakers the most, and are they the ones learners make most often?</dt>
+<dt>how do per-error-type importance weights from reader bother ratings compare with error-type frequency in NUCLE?</dt>
+<dt>how do I decide which grammatical error types a correction system should prioritise fixing?</dt>
+<dt>if my grammar checker can only fix a few error types well, which ones should I fix first?</dt>
 <dd>Grammatical error types that human readers find most bothering are not the frequent ones. Determiner errors are extremely common in NUCLE yet rank low in human importance, while orthography errors are easy for systems to correct and rank among the most bothering.<br><span class="scope">Holds for: Crowd ratings by US-based self-reported native English speakers on NUCLE sentences of at least 7 words; importance inferred by linear regression on error-type counts, assuming additive, context-independent contributions.</span></dd>
 <dd>Verb inflection and verb errors in general rank among the most bothering error types to native English readers across the NUCLE, ERRANT and SErCl typologies. Orthography errors, unnecessarily added tokens and wrong determiners also rank high.<br><span class="scope">Holds for: NUCLE sentences rated by crowd annotators; error bars in the rank figures overlap, so neighbouring types are not significantly separated and only the easy/medium/hard groupings are clear.</span></dd>
 <dd>Missing tokens, inflection and morphology errors rank among the least bothering grammatical error types to native English readers, as do several determiner-related error types.<br><span class="scope">Holds for: NUCLE sentences, crowd ratings from US native English speakers; rank differences between adjacent types are within the reported standard-deviation error bars.</span></dd>
-<dt>Which error types are least annoying to readers of learner English?</dt>
-<dt>What grammatical errors can be deprioritised in error correction?</dt>
+<dt>which mistakes in learner English do readers barely notice?</dt>
+<dt>which error types receive the lowest importance weights from sentence-level bother ratings of learner text?</dt>
+<dt>which grammatical error types can I safely deprioritise in a correction system?</dt>
+<dt>can I ignore missing-token and morphology corrections without readers minding?</dt>
 <dd>Missing tokens, inflection and morphology errors rank among the least bothering grammatical error types to native English readers, as do several determiner-related error types.<br><span class="scope">Holds for: NUCLE sentences, crowd ratings from US native English speakers; rank differences between adjacent types are within the reported standard-deviation error bars.</span></dd>
-<dt>What should I read about weighting error types in grammatical error correction evaluation?</dt>
-<dt>Is there work arguing GEC metrics like M^2 treat all errors equally and shouldn&#x27;t?</dt>
-<dt>What paper questions counting corrected errors as the GEC evaluation target?</dt>
+<dt>is there research arguing that counting every corrected mistake equally is the wrong way to score a grammar correction system?</dt>
+<dt>which work argues that M^2 and similar GEC metrics weight error types by corpus frequency rather than by reader impact?</dt>
+<dt>what should I read before choosing an evaluation metric for a grammatical error correction system?</dt>
+<dt>should I trust M^2 scores as a measure of how much my grammar correction helps readers?</dt>
 <dd>Standard GEC metrics such as M^2 count corrected errors regardless of type, so systems and their training loss are implicitly weighted by error frequency rather than by what readers care about. The importance-weighting question this opens is what &quot;Some Grammatical Errors are Frequent, Others are Important&quot; measures.<br><span class="scope">Holds for: Argument concerns English GEC evaluation as of 2022 and one NUCLE-based measurement; prior work had studied which error types are hardest to correct rather than which matter most to readers.</span></dd>
 <dd>Grammatical error types that human readers find most bothering are not the frequent ones. Determiner errors are extremely common in NUCLE yet rank low in human importance, while orthography errors are easy for systems to correct and rank among the most bothering.<br><span class="scope">Holds for: Crowd ratings by US-based self-reported native English speakers on NUCLE sentences of at least 7 words; importance inferred by linear regression on error-type counts, assuming additive, context-independent contributions.</span></dd>
-<dt>How can importance weights be estimated for an error typology without new annotation?</dt>
-<dt>Can sentence-level human ratings be turned into per-error-type importance scores?</dt>
-<dt>How were importance weights computed for NUCLE, ERRANT and SErCl types?</dt>
+<dt>how can you work out how much each kind of writing mistake bothers readers without labelling every mistake one by one?</dt>
+<dt>how are per-error-type importance weights regressed from sentence-level human ratings across NUCLE, ERRANT and SErCl typologies?</dt>
+<dt>how do I get importance scores for my own error typology without collecting new human annotation for it?</dt>
+<dt>can I reuse whole-sentence human ratings I already have to score individual error categories?</dt>
 <dd>Annotating whole sentences for how much their errors bother readers, then regressing the ratings on per-type error counts, yields importance weights for any error typology without collecting new annotations for it.<br><span class="scope">Holds for: Shown for the manual NUCLE typology and the automatic ERRANT and SErCl typologies on one corpus; the linear model assumes additive type contributions.</span></dd>
 <dd>Annotators moved a slider from 1 to 100 to say how much the English mistakes in a text bother them, rather than judging grammaticality. Grammatical knowledge in non-professionals is implicit and often judged unimportant.<br><span class="scope">Holds for: Adapts the Direct Assessment fluency protocol; other wordings, such as framing the sentence in an academic or email context, could yield somewhat different importance rankings.</span></dd>
-<dt>How much crowd annotation was collected on NUCLE for error importance?</dt>
-<dt>How many sentences and annotators went into rating how much errors bother readers?</dt>
-<dt>What did the Mechanical Turk annotation of NUCLE cost and how long did it take?</dt>
+<dt>how many sentences of learner English were rated by crowd workers for how much the mistakes bother them, and what did it cost?</dt>
+<dt>what is the annotation volume, cost and turnaround of the NUCLE crowd bother-rating collection?</dt>
+<dt>how much crowd annotation and budget do I need to rate a whole learner corpus for error severity?</dt>
+<dt>is collecting reader-annoyance ratings over a full learner corpus cheap enough for me to run?</dt>
 <dd>58K NUCLE sentences were sent for crowd annotation, roughly 2 ratings per erroneous sentence plus about 8.7K annotations of grammatical sentences. The whole corpus was annotated in under 2 days at 0.5$ per 100-sentence batch.<br><span class="scope">Holds for: Amazon Mechanical Turk workers from the United States with above 95% acceptance rate who reported being English natives; NUCLE contains about 59K sentences before filtering ones under 7 words and non-English-looking ones.</span></dd>
 <dd>Annotators moved a slider from 1 to 100 to say how much the English mistakes in a text bother them, rather than judging grammaticality. Grammatical knowledge in non-professionals is implicit and often judged unimportant.<br><span class="scope">Holds for: Adapts the Direct Assessment fluency protocol; other wordings, such as framing the sentence in an academic or email context, could yield somewhat different importance rankings.</span></dd>
-<dt>How were low-quality crowd annotators of grammatical error ratings filtered out?</dt>
-<dt>What quality controls were used in the NUCLE bother-rating annotation?</dt>
-<dt>How many crowdworkers were removed by the filtering procedure?</dt>
+<dt>how do you weed out crowd workers who click through a task of rating writing mistakes without reading?</dt>
+<dt>what quality-control filters were applied to crowd annotators of the NUCLE bother ratings, and what fraction were excluded?</dt>
+<dt>how do I filter unreliable crowd workers out of a sentence-rating annotation job?</dt>
+<dt>what share of my crowd annotators should I expect to throw away on a slider-rating task?</dt>
 <dd>Quality filtering of the NUCLE bother ratings removed about 5% of annotators for spending under 350 seconds on 100 sentences. About 10% of annotators were removed overall, once per-annotator t-tests on error-free control sentences and negative correlation with other annotators were added.<br><span class="scope">Holds for: 15 error-free, 70 erroneous and 15 repeated sentences per 100-sentence batch; correlations computed only on repeated sentences with at least 15 responses, dropping annotators below -0.4.</span></dd>
 <dd>Harsher annotator-filtering thresholds on the NUCLE bother ratings produced similar error-type importance rankings with higher variance. Most annotators removed by the 350-second time or t-test filters also correlated negatively with other annotators.<br><span class="scope">Holds for: Robustness checked by varying the time threshold and the t-test p-value on the same NUCLE annotation pass; noise remains in the retained annotations and adjacent type ranks stay statistically indistinguishable.</span></dd>
-<dt>Are the error-importance rankings robust to how aggressively annotators are filtered?</dt>
-<dt>Do stricter annotator filters change which grammatical errors rank as important?</dt>
+<dt>would the ranking of which writing mistakes annoy readers change if you were stricter about which raters you kept?</dt>
+<dt>are the error-type importance weights stable under harsher annotator-filtering thresholds on the bother ratings?</dt>
+<dt>how do I check whether my annotator filtering choices are driving my per-category results?</dt>
+<dt>should I worry that my crowd-filtering threshold is what produced my error-importance ranking?</dt>
 <dd>Harsher annotator-filtering thresholds on the NUCLE bother ratings produced similar error-type importance rankings with higher variance. Most annotators removed by the 350-second time or t-test filters also correlated negatively with other annotators.<br><span class="scope">Holds for: Robustness checked by varying the time threshold and the t-test p-value on the same NUCLE annotation pass; noise remains in the retained annotations and adjacent type ranks stay statistically indistinguishable.</span></dd>
 <dd>Verb inflection and verb errors in general rank among the most bothering error types to native English readers across the NUCLE, ERRANT and SErCl typologies. Orthography errors, unnecessarily added tokens and wrong determiners also rank high.<br><span class="scope">Holds for: NUCLE sentences rated by crowd annotators; error bars in the rank figures overlap, so neighbouring types are not significantly separated and only the easy/medium/hard groupings are clear.</span></dd>
-<dt>Does training a GEC model with error-importance weights help?</dt>
-<dt>Has anyone tried weighting the GEC training loss by how much each error type bothers readers?</dt>
+<dt>does telling a grammar correction model to care more about the mistakes readers hate actually make it better at them?</dt>
+<dt>does weighting training spans by estimated error-type importance improve a GEC network on the targeted error types?</dt>
+<dt>how do I bias a grammatical error correction model toward the error types readers care about?</dt>
+<dt>is it worth reweighting my GEC training loss by error-type importance?</dt>
 <dd>Weighting training spans by the estimated importance of each error type improved a GEC network on the targeted error types more than on others or the baseline. The margin was not large.<br><span class="scope">Holds for: Initial study reported without tables or figures; non-error tokens received a constant weight, and no full system comparison or metric numbers are given.</span></dd>
-<dt>Why ask annotators how much mistakes bother them instead of asking about grammaticality?</dt>
-<dt>What question wording was used to elicit grammatical error importance judgements?</dt>
+<dt>why ask people how much mistakes in a text bother them instead of asking whether the sentence is grammatical?</dt>
+<dt>why elicit bother ratings on a 1 to 100 slider rather than grammaticality judgements from non-expert annotators?</dt>
+<dt>how should I word the prompt if I want non-experts to judge how bad a writing error is?</dt>
+<dt>can I ask untrained crowd workers about grammaticality, or will bother ratings work better?</dt>
 <dd>Annotators moved a slider from 1 to 100 to say how much the English mistakes in a text bother them, rather than judging grammaticality. Grammatical knowledge in non-professionals is implicit and often judged unimportant.<br><span class="scope">Holds for: Adapts the Direct Assessment fluency protocol; other wordings, such as framing the sentence in an academic or email context, could yield somewhat different importance rankings.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

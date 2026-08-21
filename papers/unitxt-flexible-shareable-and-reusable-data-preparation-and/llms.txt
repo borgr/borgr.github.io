@@ -9,7 +9,7 @@ Venue: Proceedings of the 2024 Conference of the North American Chapter of the A
 Unitxt decomposes LLM data preparation and evaluation into shareable components — resources, task, template, format and extensions — combined by a declarative "recipe" that produces a HuggingFace dataset of ready-to-send prompts and metric-ready targets.
 
 ## Claims, with scope
-- A Unitxt recipe specifies a dataset card, template, system prompt, format and number of in-context demonstrations in one declarative string. Loading it yields a dataset whose every instance already holds fully prepared model-input text and a metric-ready target.
+- A Unitxt recipe specifies a dataset card, template, system prompt, format and number of in-context demonstrations in one declarative string, and the open catalog's ingredients combine into more than 100K such recipes. Loading it yields a dataset whose every instance already holds fully prepared model-input text and a metric-ready target.
   Scope: Textual (multilingual) data for generative language models; loading is via unitxt.load_dataset, and the recipe covers loading, verbalization, formatting and metric configuration. As described in the January 2024 release.
   Evidence: Section 3
 - The open-source Unitxt Catalog supports more than 100K possible pipeline configurations, obtained by mixing and matching cards, tasks, templates, formats and extensions.
@@ -18,7 +18,7 @@ Unitxt decomposes LLM data preparation and evaluation into shareable components 
 - Integrating Unitxt into LM-eval-harness required no code changes on the data side and about 30 lines of code to register Unitxt metrics. A Unitxt recipe becomes an LM-eval-harness task through a one-line change in the task YAML.
   Scope: LM-eval-harness as of the version used in January 2024; the data-side integration works because Unitxt recipes load as standard HuggingFace datasets, and the existing LM-eval-harness API is preserved.
   Evidence: Appendix A and Figure 4
-- The Unitxt data-preparation pipeline emits a HuggingFace dataset that can be saved or pushed to the hub, so Unitxt can be dropped into existing HuggingFace-based codebases without rewriting downstream code.
+- The Unitxt data-preparation pipeline emits a HuggingFace dataset that can be saved or pushed to the hub, so Unitxt drops into existing HuggingFace-based codebases without rewriting downstream code. Integrating it into LM-eval-harness took about 30 lines of code, with one line changed per recipe in a yaml.
   Scope: The data-preparation pipeline output format; raw data and metrics arrive through Unitxt resource APIs covering HuggingFace Hub, local files and cloud storage.
   Evidence: Section 4.4.1
 - In Unitxt, templates, datasets and tasks are not exclusively tied: one task can use many templates and one template can serve many datasets. In PromptSource, by contrast, each prompt is bound to a single dataset.

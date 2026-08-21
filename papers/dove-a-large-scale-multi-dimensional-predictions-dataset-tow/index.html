@@ -160,7 +160,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What is DOVE?",
+      "name": "is there a big public collection of language model answers to the same questions written many different ways?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -168,13 +168,14 @@
         "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
       },
       "alternateName": [
-        "What does the DOVE prompt perturbation dataset contain?",
-        "Is there a large public dataset of LLM predictions across many prompt variants?"
+        "what does the DOVE corpus of multi-dimensional prompt perturbations and model outputs cover?",
+        "where can I get pre-computed model predictions across thousands of prompt variants instead of generating them myself?",
+        "can I download an existing prompt-variation evaluation dataset rather than running my own sweep?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about prompt sensitivity in LLM evaluation?",
+      "name": "which research showed that scoring a model with one fixed prompt gives a misleading benchmark number?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -182,13 +183,14 @@
         "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
       },
       "alternateName": [
-        "Which paper shows that single-prompt benchmark scores are unreliable?",
-        "Where can I start reading about how arbitrary prompt formatting affects benchmark results?"
+        "what work should I read first on prompt sensitivity undermining single-prompt benchmark evaluation?",
+        "how do I justify to reviewers that a single-template benchmark score is not enough?",
+        "should I stop trusting leaderboard numbers that come from one prompt template per benchmark?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much can accuracy change just from changing the prompt format?",
+      "name": "how much can a model's score move if you only reword the question or shuffle the answer options?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -196,13 +198,14 @@
         "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
       },
       "alternateName": [
-        "How big is prompt sensitivity on multiple-choice benchmarks?",
-        "Does prompt sensitivity disappear when you evaluate at a very large scale?"
+        "what is the magnitude of accuracy variance across intent-preserving prompt perturbations on multiple-choice benchmarks?",
+        "how do I find out how wide the accuracy range for my model is across formatting variants of the same task?",
+        "if I evaluate at a much larger scale, will prompt sensitivity average out?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do different LLMs prefer different answer enumerators?",
+      "name": "do different language models do best with different answer labels like A/B/C, roman numerals or greek letters?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -210,13 +213,14 @@
         "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
       },
       "alternateName": [
-        "Is there one prompt format that is best for all models?",
-        "Do roman numerals or letters work better as multiple-choice labels?"
+        "are optimal enumerator choices model-specific or is there a universally best multiple-choice format?",
+        "how do I pick answer-option labels for a multiple-choice task across several models at once?",
+        "can I reuse the prompt format that worked well for one model on a different model?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How do I pick a good prompt on a limited inference budget?",
+      "name": "is it better to pick the single best prompt you tried, or to choose each formatting choice separately?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -224,13 +228,14 @@
         "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
       },
       "alternateName": [
-        "Is it better to tune each prompt dimension separately or search whole prompts?",
-        "What is the most sample-efficient way to choose a prompt format for a multiple-choice task?"
+        "does dimension-wise marginal selection beat argmax over observed prompts for prompt-format optimization?",
+        "how do I choose a prompt format for a multiple-choice task with as few trial runs as possible?",
+        "I can only afford a few hundred prompt trials, how should I use them to settle on a format?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do few-shot examples reduce prompt sensitivity?",
+      "name": "does showing a few worked examples in the prompt make a model's score less dependent on wording?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -238,13 +243,14 @@
         "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
       },
       "alternateName": [
-        "Does five-shot prompting make benchmark scores more stable than zero-shot?",
-        "Can adding demonstrations solve the prompt sensitivity problem?"
+        "does 5-shot prompting reduce accuracy variance across prompt perturbations relative to 0-shot?",
+        "how do I make benchmark scores more stable across formatting changes?",
+        "if I switch to few-shot prompting, do I still need to worry about prompt sensitivity?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How can you tell which benchmark questions are genuinely hard for a model?",
+      "name": "how can you tell which test questions a model gets wrong no matter how you ask them?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -252,13 +258,14 @@
         "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
       },
       "alternateName": [
-        "What is an inherently hard instance in prompt-perturbation analysis?",
-        "Are there examples that models get wrong no matter how the prompt is phrased?"
+        "how are success-rate distributions over prompt perturbations used to identify inherently hard instances?",
+        "how do I separate genuinely difficult benchmark items from ones my model fails only for formatting reasons?",
+        "should I spend effort on prompt engineering for the items my model keeps failing, or are they hopeless?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is the original prompt shipped with a benchmark representative of average model performance?",
+      "name": "is the prompt that ships with a benchmark like MMLU typical of how a model does on average?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -266,12 +273,14 @@
         "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
       },
       "alternateName": [
-        "How far off is the default MMLU prompt from the average across prompt variations?"
+        "how far does accuracy under a benchmark's original template diverge from the mean over intent-preserving prompts?",
+        "how do I check whether the default template I am evaluating with is flattering my model?",
+        "should I report the default MMLU prompt score or an average over prompt variants?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How expensive is it to run a large multi-prompt evaluation?",
+      "name": "how much compute and money does it take to test one model on thousands of reworded versions of every question?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -279,13 +288,14 @@
         "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
       },
       "alternateName": [
-        "How many GPU hours did building the DOVE dataset take?",
-        "What does it cost to evaluate thousands of prompt perturbations per instance?"
+        "what GPU-hour and cloud budget was needed to generate over 250M prompt perturbation outputs?",
+        "how do I budget for an evaluation that sweeps thousands of prompt variants per instance?",
+        "can I afford to run a full multi-prompt sensitivity evaluation on my own hardware?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which prompt dimensions does DOVE vary?",
+      "name": "which parts of a prompt get changed in a large prompt-variation dataset, and how many versions of each question are there?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -293,13 +303,14 @@
         "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
       },
       "alternateName": [
-        "How many prompt perturbations are there per benchmark instance in DOVE?",
-        "What kinds of intent-preserving prompt changes are covered in this perturbation dataset?"
+        "which perturbation dimensions does DOVE vary, and what is the per-instance perturbation count from their Cartesian product?",
+        "how do I build a prompt sweep that varies separators, option order and instruction phrasing together instead of one at a time?",
+        "does a prompt-variation dataset cover the formatting axes I actually care about, like demonstrations and option order?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can I contribute my own model's predictions to DOVE?",
+      "name": "can other research groups contribute their own model outputs to a shared prompt-variation dataset?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -307,8 +318,9 @@
         "url": "https://borgr.github.io/papers/dove-a-large-scale-multi-dimensional-predictions-dataset-tow/"
       },
       "alternateName": [
-        "Is the DOVE dataset being extended to more models and languages?",
-        "How do research groups add evaluation data to a shared prompt-sensitivity repository?"
+        "is the DOVE resource maintained as a living benchmark with a standardized schema for contributed evaluation data?",
+        "how do I add predictions from my own model to a shared prompt-sensitivity dataset without re-running everything?",
+        "if I contribute my evaluation runs, will they be usable alongside the existing prompt perturbation data?"
       ]
     }
   ]
@@ -400,53 +412,65 @@
 <p>Recent work found that LLMs are sensitive to a wide range of arbitrary prompt dimensions, including the type of delimiters, answer enumerators, instruction wording, and more. This throws into question popular single-prompt evaluation practices. We present DOVE (Dataset Of Variation Evaluation) a large-scale dataset containing prompt perturbations of various evaluation benchmarks. In contrast to previous work, we examine LLM sensitivity from an holistic perspective, and assess the joint effects of perturbations along various dimensions, resulting in thousands of perturbations per instance. We evaluate several model families against DOVE, leading to several findings, including efficient methods for choosing well-performing prompts, observing that few-shot examples reduce sensitivity, and identifying instances which are inherently hard across all perturbations. DOVE consists of more than 250M prompt perturbations and model outputs, which we make publicly available to spur a community-wide effort toward meaningful, robust, and efficient evaluation. Browse the data, contribute, and more at: https://slab-nlp.github.io/DOVE</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>What is DOVE?</dt>
-<dt>What does the DOVE prompt perturbation dataset contain?</dt>
-<dt>Is there a large public dataset of LLM predictions across many prompt variants?</dt>
+<dt>is there a big public collection of language model answers to the same questions written many different ways?</dt>
+<dt>what does the DOVE corpus of multi-dimensional prompt perturbations and model outputs cover?</dt>
+<dt>where can I get pre-computed model predictions across thousands of prompt variants instead of generating them myself?</dt>
+<dt>can I download an existing prompt-variation evaluation dataset rather than running my own sweep?</dt>
 <dd>DOVE (Dataset Of Variation Evaluation) is a publicly released dataset of more than 250M LLM prompt perturbations and model outputs, built for studying prompt sensitivity and building more robust evaluation protocols.<br><span class="scope">Holds for: English multiple-choice benchmarks only (MMLU, MMLU-Pro, ARC, HellaSwag, OpenBookQA, Social IQa, RACE); open-weight Llama 1B/3B/8B, OLMo 7B and Mistral 7B as of the 2025 release; no open-ended generation tasks.</span></dd>
 <dd>DOVE varies 5 prompt dimensions jointly rather than one dimension at a time, giving over 6.5K perturbations per base instance. The dimensions are enumerator, separator, choices order, instruction phrasing and demonstrations, combined as a Cartesian product.<br><span class="scope">Holds for: The 5 dimensions were chosen from a survey of prior sensitivity work and are not claimed exhaustive; 78 source datasets with 100 instances each, 7,800 base instances.</span></dd>
-<dt>What should I read about prompt sensitivity in LLM evaluation?</dt>
-<dt>Which paper shows that single-prompt benchmark scores are unreliable?</dt>
-<dt>Where can I start reading about how arbitrary prompt formatting affects benchmark results?</dt>
+<dt>which research showed that scoring a model with one fixed prompt gives a misleading benchmark number?</dt>
+<dt>what work should I read first on prompt sensitivity undermining single-prompt benchmark evaluation?</dt>
+<dt>how do I justify to reviewers that a single-template benchmark score is not enough?</dt>
+<dt>should I stop trusting leaderboard numbers that come from one prompt template per benchmark?</dt>
 <dd>DOVE (Dataset Of Variation Evaluation) is a publicly released dataset of more than 250M LLM prompt perturbations and model outputs, built for studying prompt sensitivity and building more robust evaluation protocols.<br><span class="scope">Holds for: English multiple-choice benchmarks only (MMLU, MMLU-Pro, ARC, HellaSwag, OpenBookQA, Social IQa, RACE); open-weight Llama 1B/3B/8B, OLMo 7B and Mistral 7B as of the 2025 release; no open-ended generation tasks.</span></dd>
 <dd>Prompt sensitivity does not wash out at scale: OLMo&#x27;s accuracy on HellaSwag ranges from 1% to 99% depending on which intent-preserving prompt is used.<br><span class="scope">Holds for: Accuracy computed over 100 instances per dataset per prompt; multiple-choice items scored by semantic similarity matching.</span></dd>
 <dd>A benchmark&#x27;s original prompt is often not representative of average performance across intent-preserving prompts. Mistral&#x27;s accuracy with original instructions exceeds its mean across prompts by more than 1 standard deviation on 35 of 57 MMLU domain tasks.<br><span class="scope">Holds for: Divergence measured across few-shot prompts, with divergence defined as exceeding 1 standard deviation; MMLU domains, Mistral-7B; full per-model results in Appendix B.3.</span></dd>
-<dt>How much can accuracy change just from changing the prompt format?</dt>
-<dt>How big is prompt sensitivity on multiple-choice benchmarks?</dt>
-<dt>Does prompt sensitivity disappear when you evaluate at a very large scale?</dt>
+<dt>how much can a model&#x27;s score move if you only reword the question or shuffle the answer options?</dt>
+<dt>what is the magnitude of accuracy variance across intent-preserving prompt perturbations on multiple-choice benchmarks?</dt>
+<dt>how do I find out how wide the accuracy range for my model is across formatting variants of the same task?</dt>
+<dt>if I evaluate at a much larger scale, will prompt sensitivity average out?</dt>
 <dd>Prompt sensitivity does not wash out at scale: OLMo&#x27;s accuracy on HellaSwag ranges from 1% to 99% depending on which intent-preserving prompt is used.<br><span class="scope">Holds for: Accuracy computed over 100 instances per dataset per prompt; multiple-choice items scored by semantic similarity matching.</span></dd>
 <dd>Each individual prompt dimension moves accuracy even after averaging over all the others: for Mistral, different instruction paraphrases alone produce an 8% accuracy difference.<br><span class="scope">Holds for: Marginalized accuracy over the 5 DOVE dimensions, computed per domain for Llama 1B/3B/8B, OLMo 7B and Mistral 7B; 13 instruction phrasings.</span></dd>
-<dt>Do different LLMs prefer different answer enumerators?</dt>
-<dt>Is there one prompt format that is best for all models?</dt>
-<dt>Do roman numerals or letters work better as multiple-choice labels?</dt>
+<dt>do different language models do best with different answer labels like A/B/C, roman numerals or greek letters?</dt>
+<dt>are optimal enumerator choices model-specific or is there a universally best multiple-choice format?</dt>
+<dt>how do I pick answer-option labels for a multiple-choice task across several models at once?</dt>
+<dt>can I reuse the prompt format that worked well for one model on a different model?</dt>
 <dd>Models have distinct prompt preferences rather than a shared best format: greek numerals are OLMoE&#x27;s best-performing enumerator of the 6 tested but only Mistral&#x27;s third best, behind capital and lateen numerals.<br><span class="scope">Holds for: 6 enumerator values, accuracy marginalized over all other dimensions and averaged across the dataset; established for the evaluated open-weight models only.</span></dd>
-<dt>How do I pick a good prompt on a limited inference budget?</dt>
-<dt>Is it better to tune each prompt dimension separately or search whole prompts?</dt>
-<dt>What is the most sample-efficient way to choose a prompt format for a multiple-choice task?</dt>
+<dt>is it better to pick the single best prompt you tried, or to choose each formatting choice separately?</dt>
+<dt>does dimension-wise marginal selection beat argmax over observed prompts for prompt-format optimization?</dt>
+<dt>how do I choose a prompt format for a multiple-choice task with as few trial runs as possible?</dt>
+<dt>I can only afford a few hundred prompt trials, how should I use them to settle on a format?</dt>
 <dd>Choosing the best value for each of the 5 prompt dimensions independently, marginalizing the others, matches linear regression on observed samples and beats picking the single best observed prompt.<br><span class="scope">Holds for: Zero-shot selection simulated on DOVE against the best prompt over the full dataset, mean and standard deviation over 10 random seeds; 4 strategies including a random baseline.</span></dd>
 <dd>Selecting the best observed prompt only becomes a reliable strategy after tens of millions of observed samples, while dimension-wise selection works with relatively small sample sizes.<br><span class="scope">Holds for: Zero-shot setting, gap from the best prompt in DOVE as a function of sample count, for Llama 1B/3B/8B, OLMo 7B and Mistral 7B; AUC comparison across models in Appendix B.4.</span></dd>
-<dt>Do few-shot examples reduce prompt sensitivity?</dt>
-<dt>Does five-shot prompting make benchmark scores more stable than zero-shot?</dt>
-<dt>Can adding demonstrations solve the prompt sensitivity problem?</dt>
+<dt>does showing a few worked examples in the prompt make a model&#x27;s score less dependent on wording?</dt>
+<dt>does 5-shot prompting reduce accuracy variance across prompt perturbations relative to 0-shot?</dt>
+<dt>how do I make benchmark scores more stable across formatting changes?</dt>
+<dt>if I switch to few-shot prompting, do I still need to worry about prompt sensitivity?</dt>
 <dd>Five-shot prompting consistently narrows the spread of accuracy across prompt perturbations compared to zero-shot, but does not eliminate it: the accuracy range still exceeds 20% on every dataset shown.<br><span class="scope">Holds for: Subset of DOVE domains, each point an accuracy over 100 instances; the effect is minimal for Social IQa and the MMLU-Pro legal domain.</span></dd>
-<dt>How can you tell which benchmark questions are genuinely hard for a model?</dt>
-<dt>What is an inherently hard instance in prompt-perturbation analysis?</dt>
-<dt>Are there examples that models get wrong no matter how the prompt is phrased?</dt>
+<dt>how can you tell which test questions a model gets wrong no matter how you ask them?</dt>
+<dt>how are success-rate distributions over prompt perturbations used to identify inherently hard instances?</dt>
+<dt>how do I separate genuinely difficult benchmark items from ones my model fails only for formatting reasons?</dt>
+<dt>should I spend effort on prompt engineering for the items my model keeps failing, or are they hopeless?</dt>
 <dd>Success-rate distributions over the more than 6.5K perturbations per instance identify instances a model answers wrongly under every perturbation. Such instances give an operational definition of inherently hard items that no prompt selection can fix.<br><span class="scope">Holds for: Success rate is the percentage of a sample&#x27;s perturbations answered correctly; measured per model on DOVE&#x27;s multiple-choice instances; at both extremes models are also least prompt-sensitive.</span></dd>
-<dt>Is the original prompt shipped with a benchmark representative of average model performance?</dt>
-<dt>How far off is the default MMLU prompt from the average across prompt variations?</dt>
+<dt>is the prompt that ships with a benchmark like MMLU typical of how a model does on average?</dt>
+<dt>how far does accuracy under a benchmark&#x27;s original template diverge from the mean over intent-preserving prompts?</dt>
+<dt>how do I check whether the default template I am evaluating with is flattering my model?</dt>
+<dt>should I report the default MMLU prompt score or an average over prompt variants?</dt>
 <dd>A benchmark&#x27;s original prompt is often not representative of average performance across intent-preserving prompts. Mistral&#x27;s accuracy with original instructions exceeds its mean across prompts by more than 1 standard deviation on 35 of 57 MMLU domain tasks.<br><span class="scope">Holds for: Divergence measured across few-shot prompts, with divergence defined as exceeding 1 standard deviation; MMLU domains, Mistral-7B; full per-model results in Appendix B.3.</span></dd>
-<dt>How expensive is it to run a large multi-prompt evaluation?</dt>
-<dt>How many GPU hours did building the DOVE dataset take?</dt>
-<dt>What does it cost to evaluate thousands of prompt perturbations per instance?</dt>
+<dt>how much compute and money does it take to test one model on thousands of reworded versions of every question?</dt>
+<dt>what GPU-hour and cloud budget was needed to generate over 250M prompt perturbation outputs?</dt>
+<dt>how do I budget for an evaluation that sweeps thousands of prompt variants per instance?</dt>
+<dt>can I afford to run a full multi-prompt sensitivity evaluation on my own hardware?</dt>
 <dd>Building DOVE required roughly 5,000 GPU hours on NVIDIA A100 80GB GPUs, with Mistral-7B alone taking 1,189 GPU hours, and would cost upwards of $25K on cloud services such as AWS.<br><span class="scope">Holds for: Generation with vLLM at approximately 60M instances per model for 5 open-weight models; closed API models were excluded partly for this reason.</span></dd>
-<dt>Which prompt dimensions does DOVE vary?</dt>
-<dt>How many prompt perturbations are there per benchmark instance in DOVE?</dt>
-<dt>What kinds of intent-preserving prompt changes are covered in this perturbation dataset?</dt>
+<dt>which parts of a prompt get changed in a large prompt-variation dataset, and how many versions of each question are there?</dt>
+<dt>which perturbation dimensions does DOVE vary, and what is the per-instance perturbation count from their Cartesian product?</dt>
+<dt>how do I build a prompt sweep that varies separators, option order and instruction phrasing together instead of one at a time?</dt>
+<dt>does a prompt-variation dataset cover the formatting axes I actually care about, like demonstrations and option order?</dt>
 <dd>DOVE varies 5 prompt dimensions jointly rather than one dimension at a time, giving over 6.5K perturbations per base instance. The dimensions are enumerator, separator, choices order, instruction phrasing and demonstrations, combined as a Cartesian product.<br><span class="scope">Holds for: The 5 dimensions were chosen from a survey of prior sensitivity work and are not claimed exhaustive; 78 source datasets with 100 instances each, 7,800 base instances.</span></dd>
-<dt>Can I contribute my own model&#x27;s predictions to DOVE?</dt>
-<dt>Is the DOVE dataset being extended to more models and languages?</dt>
-<dt>How do research groups add evaluation data to a shared prompt-sensitivity repository?</dt>
+<dt>can other research groups contribute their own model outputs to a shared prompt-variation dataset?</dt>
+<dt>is the DOVE resource maintained as a living benchmark with a standardized schema for contributed evaluation data?</dt>
+<dt>how do I add predictions from my own model to a shared prompt-sensitivity dataset without re-running everything?</dt>
+<dt>if I contribute my evaluation runs, will they be usable alongside the existing prompt perturbation data?</dt>
 <dd>DOVE is maintained as an extensible community resource with a standardized schema for multi-dimensional evaluation data, so that model predictions from other groups can be converted in rather than re-run.<br><span class="scope">Holds for: As of the 2025 Findings of ACL release; contributions arrive via HuggingFace pull requests or email; coverage at release is English-centric and limited in model diversity.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

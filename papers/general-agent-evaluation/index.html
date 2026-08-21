@@ -203,7 +203,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What should I read about evaluating general-purpose AI agents across many benchmarks?",
+      "name": "is there a study that tests many AI agent designs and many underlying chat models against the same set of tasks?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -211,13 +211,14 @@
         "url": "https://borgr.github.io/papers/general-agent-evaluation/"
       },
       "alternateName": [
-        "Is there a systematic comparison of tool-calling, MCP, code-generation and CLI agents on the same benchmarks?",
-        "Which paper introduces an open leaderboard of agent architecture and backbone model combinations?"
+        "which work publishes a full factorial of agent scaffolds by backbone LLMs across multiple agentic benchmarks with a shared task representation?",
+        "where can I find head-to-head numbers for CLI, tool-calling and MCP agents run unmodified on the same benchmark suite?",
+        "I need a neutral reference before picking an agent stack — is there an open leaderboard I can consult?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does the agent scaffold or the underlying LLM matter more for agent performance?",
+      "name": "for how well an AI agent does its job, does the wrapper around the model matter more than the model itself?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -225,13 +226,14 @@
         "url": "https://borgr.github.io/papers/general-agent-evaluation/"
       },
       "alternateName": [
-        "How much of agent success variance comes from the backbone model versus the agent architecture?",
-        "Is optimizing agent architecture worth it compared with switching to a stronger backbone LLM?"
+        "how is success-rate variance partitioned between backbone LLM and agent scaffold, and how large is the within-model spread?",
+        "should I put engineering effort into rebuilding my agent loop or into upgrading the model behind it?",
+        "my agent underperforms — do I get more by swapping in a stronger backbone or by redesigning the scaffold?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can general-purpose agents match agents that were hand-tuned for a specific benchmark?",
+      "name": "can one general-purpose AI agent do as well as agents that were built and tuned for one specific task type?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -239,13 +241,14 @@
         "url": "https://borgr.github.io/papers/general-agent-evaluation/"
       },
       "alternateName": [
-        "How do generalist agents compare to domain-specific SWE-Bench or tau2-Bench leaders?",
-        "Do you lose accuracy by using one unmodified agent across software engineering, customer service and deep research tasks?"
+        "do out-of-the-box general agent configurations reach parity with published domain-specific leaders on SWE-Bench Verified, tau2-Bench and browsing benchmarks?",
+        "can I run a single unmodified agent across coding, customer-service and web-research tasks without giving up accuracy?",
+        "is it worth maintaining separate specialist agents per domain, or will one general agent be close enough?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which agent and model combination scores highest across agentic benchmarks?",
+      "name": "which combination of agent design and underlying model comes out on top across agent tasks?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -253,13 +256,14 @@
         "url": "https://borgr.github.io/papers/general-agent-evaluation/"
       },
       "alternateName": [
-        "What is the top configuration on the Open General Agent Leaderboard?",
-        "Which backbone LLM leads for agentic tasks in a full agent-by-model factorial study?"
+        "which architecture-backbone cell leads on bench-weighted success, and how wide is the spread within one backbone?",
+        "which agent plus model pairing should I copy if I want the highest scores across agentic benchmarks?",
+        "if I want the best-scoring setup today, which model do I pick and does the agent framework around it change the answer?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do open-weight models work as reliably as closed frontier models inside agent scaffolds?",
+      "name": "do open-weight models behave as dependably as the big commercial ones when you wrap them in an agent?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -267,13 +271,14 @@
         "url": "https://borgr.github.io/papers/general-agent-evaluation/"
       },
       "alternateName": [
-        "Why does the same open-weight model score 0.83 with one agent and 0.00 with another?",
-        "What are generality sinks in agent evaluation?"
+        "do open-weight backbones exhibit architecture-dependent collapse to zero success that frontier closed models do not?",
+        "can I substitute an open-weight model for a frontier API model in my agent without losing whole task categories?",
+        "I want to cut costs with an open-weight backbone — what breaks, and does it depend on which agent framework I use?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does tool shortlisting help agents in environments with hundreds of tools?",
+      "name": "when an environment offers hundreds of possible actions, does filtering the list down before each step help the agent?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -281,13 +286,14 @@
         "url": "https://borgr.github.io/papers/general-agent-evaluation/"
       },
       "alternateName": [
-        "Is filtering the tool list per turn worth it for a ReAct agent?",
-        "How much does tool shortlisting improve success and reduce cost?"
+        "what is the effect of per-turn tool shortlisting on success rate and per-task cost across backbones in a ReAct loop?",
+        "how do I stop my agent drowning in a huge tool catalogue, and what does trimming it cost or save?",
+        "should I add a tool-retrieval step to my ReAct agent, and will it pay for itself in tokens?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What happens when a benchmark exposes more tools than the model's API allows?",
+      "name": "what happens to an AI agent when an app exposes more actions than the model's interface will accept at once?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -295,13 +301,14 @@
         "url": "https://borgr.github.io/papers/general-agent-evaluation/"
       },
       "alternateName": [
-        "Why do GPT 5.2 agents score zero on AppWorld?",
-        "Does a 128-tool API limit break agent evaluation on tool-rich environments?"
+        "how does a hard tool-count ceiling in a model API interact with tool-rich environments like AppWorld, and is the failure backbone-specific?",
+        "my environment has hundreds of callable functions and the model API rejects the list — how do I keep the agent working?",
+        "is a tool-count limit on my chosen model a reason to switch models before I benchmark my agent?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much does it cost per task to run frontier agents on agentic benchmarks?",
+      "name": "how expensive is it to run an AI agent per task, and does spending more buy better results?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -309,13 +316,14 @@
         "url": "https://borgr.github.io/papers/general-agent-evaluation/"
       },
       "alternateName": [
-        "Which agent configurations give the best success per dollar?",
-        "Is the highest-scoring agent configuration also the most cost-efficient?"
+        "how wide is the score-per-dollar spread across agent-backbone configurations, and is the top-scoring cell also efficient?",
+        "how do I choose an agent setup on a budget rather than on raw score?",
+        "I have a fixed API budget — is the best-performing agent configuration the one I should pay for?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do failing agent runs burn more steps than successful ones?",
+      "name": "when an AI agent fails a task, does it burn more effort than when it succeeds, and do different designs fail differently?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -323,13 +331,14 @@
         "url": "https://borgr.github.io/papers/general-agent-evaluation/"
       },
       "alternateName": [
-        "How much extra compute do failed agent trajectories consume?",
-        "Do different agent architectures fail in different ways?"
+        "what is the step overhead of failed versus successful trajectories per architecture, and do failure-mode distributions differ across scaffolds?",
+        "how do I budget for the runs my agent will fail, and can I tell architectures apart by how they go wrong?",
+        "should I add early-stopping to my agent, given how much a doomed run costs?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What kinds of errors do agents actually make on long-horizon tasks?",
+      "name": "what kinds of mistakes do AI agents actually make on long multi-step tasks?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -337,13 +346,13 @@
         "url": "https://borgr.github.io/papers/general-agent-evaluation/"
       },
       "alternateName": [
-        "Can failure-mode analysis distinguish agent architectures that success rates cannot?",
-        "What is Premature Termination in agent failure taxonomies?"
+        "can a failure-mode taxonomy separate agent scaffolds that aggregate success rates cannot distinguish?",
+        "how do I diagnose whether my agent is giving up too early rather than reasoning badly?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How does the Unified Protocol let an unmodified agent run on an unmodified benchmark?",
+      "name": "how can one agent be plugged into a benchmark it was never built for without editing either side?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -351,13 +360,14 @@
         "url": "https://borgr.github.io/papers/general-agent-evaluation/"
       },
       "alternateName": [
-        "What is the task/context/actions representation used by Exgentic?",
-        "How can I evaluate my own agent on SWE-Bench, AppWorld and tau2-Bench without per-benchmark wiring?"
+        "what minimal task representation lets CLI, tool-calling and MCP agents be served in their native protocols against unmodified benchmarks?",
+        "how do I run my existing agent on a new agentic benchmark without writing an adapter for every harness?",
+        "can I evaluate my own agent inside a shared harness without rewriting it for each benchmark?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do agentic benchmarks measure the same underlying capability?",
+      "name": "do the various AI agent test suites end up measuring the same underlying ability?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -365,8 +375,9 @@
         "url": "https://borgr.github.io/papers/general-agent-evaluation/"
       },
       "alternateName": [
-        "How correlated are AppWorld, BrowseComp+, SWE-Bench and tau2-Bench scores across configurations?",
-        "Which agentic benchmark captures the most distinct skills?"
+        "how strongly do per-configuration scores rank-correlate across AppWorld, BrowseComp+, SWE-Bench Verified and tau2-Bench subdomains?",
+        "if I can only afford to run one agentic benchmark, which one tells me the least about the others?",
+        "do I need to run all six agentic benchmarks, or will a couple predict the rest for my agent?"
       ]
     }
   ]
@@ -452,62 +463,73 @@
 <p>General-purpose agents perform tasks in unfamiliar environments without domain-specific manual customization. Yet no study has systematically measured how agent architecture shapes performance across heterogeneous protocols and diverse unfamiliar environments. This is the first systematic study, comparing tool-calling, MCP, code-generation, and CLI agents on the same benchmarks with the same models. Two gaps blocked such a study: existing harnesses require per-benchmark wiring or fixed protocol classes (web for BrowserGym, CLI for Harbor), and benchmarks themselves expect human-authored prompts, context, and integration glue. To enable this study, we contribute (1) a unifying protocol that bridges existing benchmark and agent protocols; (2) an evaluation harness that surfaces any benchmark to any general-purpose agent and backbone model; and (3) the first Open General Agent Leaderboard of agent configurations, a full factorial over 5 agent architectures x 5 backbone LLMs (three closed-source, two open-weight) x 6 benchmarks spanning software engineering, customer service, deep research, and personal assistance. We find that (i) general agents adapt to every tested domain without per-domain customization; (ii) agent architecture choice swings results by up to 12pp within a single model, yet backbone model choice dominates overall performance; (iii) on 4 of 6 tested benchmarks, top general agents are indistinguishable from the leading heavily-customized domain-specific agents; (iv) open-weight models tested exhibit&quot;generality sinks&quot;absent from frontier closed-source models: they consistently collapse on specific agent architectures or benchmarks; (v) a behavioral failure analysis reveals architecture-distinctive error signatures that aggregate scoring cannot discriminate. Code, harness, leaderboard, and traces are at https://www.exgentic.ai.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>What should I read about evaluating general-purpose AI agents across many benchmarks?</dt>
-<dt>Is there a systematic comparison of tool-calling, MCP, code-generation and CLI agents on the same benchmarks?</dt>
-<dt>Which paper introduces an open leaderboard of agent architecture and backbone model combinations?</dt>
+<dt>is there a study that tests many AI agent designs and many underlying chat models against the same set of tasks?</dt>
+<dt>which work publishes a full factorial of agent scaffolds by backbone LLMs across multiple agentic benchmarks with a shared task representation?</dt>
+<dt>where can I find head-to-head numbers for CLI, tool-calling and MCP agents run unmodified on the same benchmark suite?</dt>
+<dt>I need a neutral reference before picking an agent stack — is there an open leaderboard I can consult?</dt>
 <dd>General Agent Evaluation contributes the Open General Agent Leaderboard, a full factorial of 5 agent architectures x 5 backbone LLMs x 6 benchmarks. Each agent is run unmodified on benchmarks it was not customized for, at a total evaluation cost of about $20K.<br><span class="scope">Holds for: ReAct, ReAct Short, Smolagent, OpenAI Solo and Claude Code over Claude Opus 4.5, Gemini 3 Pro, GPT 5.2, DeepSeek-V3.2 and Kimi-K2.5; benchmarks are AppWorld, BrowseComp+, SWE-Bench Verified and tau2-Bench Airline/Retail/Telecom.</span></dd>
 <dd>The Unified Protocol represents every agentic benchmark task as three fields, task, context and actions. CLI, tool-calling and MCP agents are each served in their native protocol without rewriting the agent or the benchmark.<br><span class="scope">Holds for: Derived by surveying existing agent and benchmark communication patterns; covers any agent protocol decomposable into discrete typed actions, and not continuous action spaces such as pixel-level computer use.</span></dd>
-<dt>Does the agent scaffold or the underlying LLM matter more for agent performance?</dt>
-<dt>How much of agent success variance comes from the backbone model versus the agent architecture?</dt>
-<dt>Is optimizing agent architecture worth it compared with switching to a stronger backbone LLM?</dt>
+<dt>for how well an AI agent does its job, does the wrapper around the model matter more than the model itself?</dt>
+<dt>how is success-rate variance partitioned between backbone LLM and agent scaffold, and how large is the within-model spread?</dt>
+<dt>should I put engineering effort into rebuilding my agent loop or into upgrading the model behind it?</dt>
+<dt>my agent underperforms — do I get more by swapping in a stronger backbone or by redesigning the scaffold?</dt>
 <dd>Backbone model choice explains 27.8% of cell success-rate variance while agent architecture explains only 0.5%, a 58x gap across the 15 closed-source configurations.<br><span class="scope">Holds for: Eta-squared over the 15 closed-source cells only; adding the 2 open-weight models makes the architecture main effect detectable (F(4,136)=3.82, p=0.006).</span></dd>
 <dd>Within a single backbone model, agent architecture choice swings bench-weighted success by up to 12 percentage points. Claude Opus 4.5 ranges from 0.73 with OpenAI Solo to 0.61 with vanilla ReAct.<br><span class="scope">Holds for: Closed-source backbones show 7-12pp architectural spread and open-weight backbones 14-18pp; paired t-tests on shared (benchmark, task) pairs, single run per cell.</span></dd>
-<dt>Can general-purpose agents match agents that were hand-tuned for a specific benchmark?</dt>
-<dt>How do generalist agents compare to domain-specific SWE-Bench or tau2-Bench leaders?</dt>
-<dt>Do you lose accuracy by using one unmodified agent across software engineering, customer service and deep research tasks?</dt>
+<dt>can one general-purpose AI agent do as well as agents that were built and tuned for one specific task type?</dt>
+<dt>do out-of-the-box general agent configurations reach parity with published domain-specific leaders on SWE-Bench Verified, tau2-Bench and browsing benchmarks?</dt>
+<dt>can I run a single unmodified agent across coding, customer-service and web-research tasks without giving up accuracy?</dt>
+<dt>is it worth maintaining separate specialist agents per domain, or will one general agent be close enough?</dt>
 <dd>On 4 of 6 benchmarks the best general-agent configuration is statistically indistinguishable from the top reported domain-specific agent, including 0.81 versus 0.79 on SWE-Bench Verified and 0.85 versus 0.86 on tau2-Bench-Retail; BrowseComp+ (0.61 vs 0.80) and tau2-Bench-Telecom (0.88 vs 0.98) remain specialist-led.<br><span class="scope">Holds for: General-agent scores from 100 randomly sampled instances per benchmark (50 for Airline) against published specialist scores on full benchmarks; parity means the gap is within the per-benchmark Wilson 95% half-width of 7-12pp.</span></dd>
 <dd>No single agent architecture is best everywhere: OpenAI Solo wins on SWE-Bench Verified and all three tau2-Bench subdomains, while Smolagent wins on AppWorld. Aggregate architecture rankings are not significant (range about 7pp, p&gt;0.1).<br><span class="scope">Holds for: 5 architectures x 6 benchmarks, best configuration per benchmark chosen across all 5 backbones; significance from paired t-tests on shared (benchmark, task) outcomes.</span></dd>
-<dt>Which agent and model combination scores highest across agentic benchmarks?</dt>
-<dt>What is the top configuration on the Open General Agent Leaderboard?</dt>
-<dt>Which backbone LLM leads for agentic tasks in a full agent-by-model factorial study?</dt>
+<dt>which combination of agent design and underlying model comes out on top across agent tasks?</dt>
+<dt>which architecture-backbone cell leads on bench-weighted success, and how wide is the spread within one backbone?</dt>
+<dt>which agent plus model pairing should I copy if I want the highest scores across agentic benchmarks?</dt>
+<dt>if I want the best-scoring setup today, which model do I pick and does the agent framework around it change the answer?</dt>
 <dd>Within a single backbone model, agent architecture choice swings bench-weighted success by up to 12 percentage points. Claude Opus 4.5 ranges from 0.73 with OpenAI Solo to 0.61 with vanilla ReAct.<br><span class="scope">Holds for: Closed-source backbones show 7-12pp architectural spread and open-weight backbones 14-18pp; paired t-tests on shared (benchmark, task) pairs, single run per cell.</span></dd>
 <dd>Backbone model choice explains 27.8% of cell success-rate variance while agent architecture explains only 0.5%, a 58x gap across the 15 closed-source configurations.<br><span class="scope">Holds for: Eta-squared over the 15 closed-source cells only; adding the 2 open-weight models makes the architecture main effect detectable (F(4,136)=3.82, p=0.006).</span></dd>
-<dt>Do open-weight models work as reliably as closed frontier models inside agent scaffolds?</dt>
-<dt>Why does the same open-weight model score 0.83 with one agent and 0.00 with another?</dt>
-<dt>What are generality sinks in agent evaluation?</dt>
+<dt>do open-weight models behave as dependably as the big commercial ones when you wrap them in an agent?</dt>
+<dt>do open-weight backbones exhibit architecture-dependent collapse to zero success that frontier closed models do not?</dt>
+<dt>can I substitute an open-weight model for a frontier API model in my agent without losing whole task categories?</dt>
+<dt>I want to cut costs with an open-weight backbone — what breaks, and does it depend on which agent framework I use?</dt>
 <dd>The 2 open-weight backbones tested show generality sinks absent from the frontier closed models: on tau2-Bench-Telecom Kimi-K2.5 scores 0.83 with ReAct and 0.00 with autonomous architectures. 94% of Kimi-K2.5 autonomous tau2-Bench sessions take zero steps after a first-turn protocol violation.<br><span class="scope">Holds for: DeepSeek-V3.2 and Kimi-K2.5 only, so an observation about 2 checkpoints rather than open-weight models generally; zero-step rates are 31% for DeepSeek-V3.2 and 1.7% for closed-source; SWE-Bench Verified and BrowseComp+ show no sink.</span></dd>
 <dd>Every open-weight-backed configuration collapses on AppWorld regardless of architecture, with the best (DeepSeek-V3.2+Smolagent) reaching only 0.13 against 0.70 for Claude Opus 4.5+Smolagent.<br><span class="scope">Holds for: AppWorld exposes about 468 actions; DeepSeek-V3.2 and Kimi-K2.5 only, single run per cell. GPT 5.2 collapses on the same benchmark for a different reason, its 128-tool API ceiling.</span></dd>
-<dt>Does tool shortlisting help agents in environments with hundreds of tools?</dt>
-<dt>Is filtering the tool list per turn worth it for a ReAct agent?</dt>
-<dt>How much does tool shortlisting improve success and reduce cost?</dt>
+<dt>when an environment offers hundreds of possible actions, does filtering the list down before each step help the agent?</dt>
+<dt>what is the effect of per-turn tool shortlisting on success rate and per-task cost across backbones in a ReAct loop?</dt>
+<dt>how do I stop my agent drowning in a huge tool catalogue, and what does trimming it cost or save?</dt>
+<dt>should I add a tool-retrieval step to my ReAct agent, and will it pay for itself in tokens?</dt>
 <dd>Adding tool shortlisting to a vanilla ReAct agent improves success for 4 of the 5 backbones tested, by +22pp on AppWorld and +5.5pp bench-weighted for GPT 5.2. DeepSeek-V3.2 is the lone regression at -5pp on AppWorld.<br><span class="scope">Holds for: AppWorld is the only tool-rich benchmark in the suite (about 468 actions), so bench-weighted deltas are one quarter of the AppWorld delta; shortlisting keeps the top k=30 tools per turn.</span></dd>
 <dd>Tool shortlisting cuts Claude Opus 4.5&#x27;s ReAct cost from $5.75 to $3.78 per task, a $1.97 saving, while leaving GPT 5.2 roughly flat ($0.17 to $0.26).<br><span class="scope">Holds for: Per-task costs from LiteLLM pricing data over the 6-benchmark suite, bench-weighted; ReAct versus ReAct Short at fixed model and benchmark.</span></dd>
-<dt>What happens when a benchmark exposes more tools than the model&#x27;s API allows?</dt>
-<dt>Why do GPT 5.2 agents score zero on AppWorld?</dt>
-<dt>Does a 128-tool API limit break agent evaluation on tool-rich environments?</dt>
+<dt>what happens to an AI agent when an app exposes more actions than the model&#x27;s interface will accept at once?</dt>
+<dt>how does a hard tool-count ceiling in a model API interact with tool-rich environments like AppWorld, and is the failure backbone-specific?</dt>
+<dt>my environment has hundreds of callable functions and the model API rejects the list — how do I keep the agent working?</dt>
+<dt>is a tool-count limit on my chosen model a reason to switch models before I benchmark my agent?</dt>
 <dd>GPT 5.2&#x27;s 128-tool API ceiling drives 3 of its 4 non-shortlisting configurations to 0.00 on AppWorld, which exposes about 468 actions. Claude Opus 4.5-backed configurations reach 0.61-0.70 on the same environment with no shortlisting.<br><span class="scope">Holds for: AppWorld only, 100 tasks; a model-API limitation rather than an integration artifact, and tool shortlisting recovers GPT 5.2 to only 0.22 on AppWorld.</span></dd>
 <dd>Every open-weight-backed configuration collapses on AppWorld regardless of architecture, with the best (DeepSeek-V3.2+Smolagent) reaching only 0.13 against 0.70 for Claude Opus 4.5+Smolagent.<br><span class="scope">Holds for: AppWorld exposes about 468 actions; DeepSeek-V3.2 and Kimi-K2.5 only, single run per cell. GPT 5.2 collapses on the same benchmark for a different reason, its 128-tool API ceiling.</span></dd>
-<dt>How much does it cost per task to run frontier agents on agentic benchmarks?</dt>
-<dt>Which agent configurations give the best success per dollar?</dt>
-<dt>Is the highest-scoring agent configuration also the most cost-efficient?</dt>
+<dt>how expensive is it to run an AI agent per task, and does spending more buy better results?</dt>
+<dt>how wide is the score-per-dollar spread across agent-backbone configurations, and is the top-scoring cell also efficient?</dt>
+<dt>how do I choose an agent setup on a budget rather than on raw score?</dt>
+<dt>I have a fixed API budget — is the best-performing agent configuration the one I should pay for?</dt>
 <dd>Cost-efficiency spans about 30x across the 25 configurations, from ReAct+GPT 5.2 and OpenAI Solo+DeepSeek-V3.2 at 2.43 score/$ down to Claude Code+Claude Opus 4.5 at 0.08 score/$. The highest-scoring configuration, OpenAI Solo+Claude Opus 4.5, runs at 0.09 score/$.<br><span class="scope">Holds for: Efficiency is bench-weighted success divided by bench-weighted inference cost per task, priced with LiteLLM data at the time of the runs; excludes human and infrastructure cost.</span></dd>
-<dt>Do failing agent runs burn more steps than successful ones?</dt>
-<dt>How much extra compute do failed agent trajectories consume?</dt>
-<dt>Do different agent architectures fail in different ways?</dt>
+<dt>when an AI agent fails a task, does it burn more effort than when it succeeds, and do different designs fail differently?</dt>
+<dt>what is the step overhead of failed versus successful trajectories per architecture, and do failure-mode distributions differ across scaffolds?</dt>
+<dt>how do I budget for the runs my agent will fail, and can I tell architectures apart by how they go wrong?</dt>
+<dt>should I add early-stopping to my agent, given how much a doomed run costs?</dt>
 <dd>Failed runs consume more steps than successful ones for every agent architecture tested. Bench-weighted overheads are +54% for ReAct, +45% for ReAct Short, +39% for Claude Code, +26% for Smolagent and +20% for OpenAI Solo, peaking at +111% for ReAct on AppWorld.<br><span class="scope">Holds for: Three closed-source backbones only, since open-weight autonomous failures terminate by protocol violation rather than resource exhaustion; zero-step sessions excluded and step counts capped at 50; a few tau2-Bench cells are near zero or negative.</span></dd>
 <dd>Agent architectures have distinct failure signatures even though architecture explains only 0.5% of success-rate variance. Claude Code and OpenAI Solo over-represent Premature Termination by +4.0pp and +7.3pp against an 8.7% mean, while ReAct and ReAct Short sit 5.0pp and 3.7pp below it.<br><span class="scope">Holds for: LLM-judge categorisation of failed sessions with full trajectories into 27 categories (ErrorMap adapted, gpt-5.5 judge); zero-step sessions have no trajectory and are excluded; descriptive, not powered for causal claims.</span></dd>
-<dt>What kinds of errors do agents actually make on long-horizon tasks?</dt>
-<dt>Can failure-mode analysis distinguish agent architectures that success rates cannot?</dt>
-<dt>What is Premature Termination in agent failure taxonomies?</dt>
+<dt>what kinds of mistakes do AI agents actually make on long multi-step tasks?</dt>
+<dt>can a failure-mode taxonomy separate agent scaffolds that aggregate success rates cannot distinguish?</dt>
+<dt>how do I diagnose whether my agent is giving up too early rather than reasoning badly?</dt>
 <dd>Agent architectures have distinct failure signatures even though architecture explains only 0.5% of success-rate variance. Claude Code and OpenAI Solo over-represent Premature Termination by +4.0pp and +7.3pp against an 8.7% mean, while ReAct and ReAct Short sit 5.0pp and 3.7pp below it.<br><span class="scope">Holds for: LLM-judge categorisation of failed sessions with full trajectories into 27 categories (ErrorMap adapted, gpt-5.5 judge); zero-step sessions have no trajectory and are excluded; descriptive, not powered for causal claims.</span></dd>
-<dt>How does the Unified Protocol let an unmodified agent run on an unmodified benchmark?</dt>
-<dt>What is the task/context/actions representation used by Exgentic?</dt>
-<dt>How can I evaluate my own agent on SWE-Bench, AppWorld and tau2-Bench without per-benchmark wiring?</dt>
+<dt>how can one agent be plugged into a benchmark it was never built for without editing either side?</dt>
+<dt>what minimal task representation lets CLI, tool-calling and MCP agents be served in their native protocols against unmodified benchmarks?</dt>
+<dt>how do I run my existing agent on a new agentic benchmark without writing an adapter for every harness?</dt>
+<dt>can I evaluate my own agent inside a shared harness without rewriting it for each benchmark?</dt>
 <dd>The Unified Protocol represents every agentic benchmark task as three fields, task, context and actions. CLI, tool-calling and MCP agents are each served in their native protocol without rewriting the agent or the benchmark.<br><span class="scope">Holds for: Derived by surveying existing agent and benchmark communication patterns; covers any agent protocol decomposable into discrete typed actions, and not continuous action spaces such as pixel-level computer use.</span></dd>
 <dd>General Agent Evaluation contributes the Open General Agent Leaderboard, a full factorial of 5 agent architectures x 5 backbone LLMs x 6 benchmarks. Each agent is run unmodified on benchmarks it was not customized for, at a total evaluation cost of about $20K.<br><span class="scope">Holds for: ReAct, ReAct Short, Smolagent, OpenAI Solo and Claude Code over Claude Opus 4.5, Gemini 3 Pro, GPT 5.2, DeepSeek-V3.2 and Kimi-K2.5; benchmarks are AppWorld, BrowseComp+, SWE-Bench Verified and tau2-Bench Airline/Retail/Telecom.</span></dd>
-<dt>Do agentic benchmarks measure the same underlying capability?</dt>
-<dt>How correlated are AppWorld, BrowseComp+, SWE-Bench and tau2-Bench scores across configurations?</dt>
-<dt>Which agentic benchmark captures the most distinct skills?</dt>
+<dt>do the various AI agent test suites end up measuring the same underlying ability?</dt>
+<dt>how strongly do per-configuration scores rank-correlate across AppWorld, BrowseComp+, SWE-Bench Verified and tau2-Bench subdomains?</dt>
+<dt>if I can only afford to run one agentic benchmark, which one tells me the least about the others?</dt>
+<dt>do I need to run all six agentic benchmarks, or will a couple predict the rest for my agent?</dt>
 <dd>Pairwise Spearman rank correlations between the six benchmarks are predominantly positive across the 15 closed-source configurations, with a median of +0.67 and a range of [+0.44, +0.81]; BrowseComp+ is the least correlated (0.44-0.75).<br><span class="scope">Holds for: Closed-source configurations only (Claude Opus 4.5, Gemini 3 Pro, GPT 5.2); correlations computed over configuration rankings, not over individual tasks.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

@@ -127,7 +127,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Can fine-tuning be made to behave like putting information in the prompt?",
+      "name": "Can training a model change how it learns, so that a short training run on a document has the same effect as pasting that document into the prompt?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -135,13 +135,14 @@
         "url": "https://borgr.github.io/papers/can-gradient-descent-simulate-prompting/"
       },
       "alternateName": [
-        "Is there a way to get a single gradient update to have the same effect as conditioning on a passage?",
-        "What work studies whether gradient descent can simulate prompting?"
+        "can a language model be meta-trained so that a single inner gradient step on a context reproduces the predictions of conditioning on that context?",
+        "how do I turn a long document into a weight update instead of keeping it in the prompt at inference time?",
+        "should I inject new documents into my model by fine-tuning on them rather than paying for the context window every request?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read on the relationship between in-context learning and gradient descent?",
+      "name": "Which research looks at the opposite direction of the claim that learning from examples in a prompt is really a hidden form of training?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -149,13 +150,14 @@
         "url": "https://borgr.github.io/papers/can-gradient-descent-simulate-prompting/"
       },
       "alternateName": [
-        "Which paper looks at the reverse of 'in-context learning is gradient descent'?",
-        "Where should I start reading about turning prompts into weight updates?"
+        "which work inverts the in-context-learning-implements-gradient-descent result and asks whether gradient descent can implement conditioning?",
+        "where do I start reading about converting prompt conditioning into weight updates?",
+        "what paper should I read first if I want to replace prompting with gradient updates on my own model?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do you need labelled answers to distil prompting into weight updates?",
+      "name": "Do you need human-written correct answers to teach a model to learn from a document by training on it, or can the model's own prompted answers do the job?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -163,13 +165,14 @@
         "url": "https://borgr.github.io/papers/can-gradient-descent-simulate-prompting/"
       },
       "alternateName": [
-        "How well does meta-learning from a model's own prompted outputs compare to using gold labels?",
-        "Is label-free context distillation via MAML as good as supervised meta-learning?"
+        "does meta-training on self-generated conditioning targets match oracle meta-training on gold labels for context distillation?",
+        "how do I build meta-training data for gradient-based context injection when I have raw text but no annotated question-answer pairs?",
+        "I only have unlabeled documents, can I still meta-train a model to absorb them through fine-tuning?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much of the prompting-versus-fine-tuning gap does meta-training close on question answering?",
+      "name": "If a model is trained to learn from documents by fine-tuning, how much of the accuracy it would have had with the document in the prompt does it get back?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -177,13 +180,14 @@
         "url": "https://borgr.github.io/papers/can-gradient-descent-simulate-prompting/"
       },
       "alternateName": [
-        "Does a single gradient step on a passage let a model answer questions about it?",
-        "What fraction of prompted performance is recovered on SQuAD and WikiText?"
+        "what proportion of the prompting-versus-fine-tuning performance gap does meta-training recover on SQuAD and on WikiText?",
+        "how close can a gradient step on a passage get me to prompting accuracy on reading-comprehension questions?",
+        "if I swap prompt context for a fine-tuning update on the passage, how much answer quality do I give up?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does meta-training help with the reversal curse?",
+      "name": "If a model is trained on the sentence \"A is B\", can it be made to answer the question the other way round, \"who is B\"?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -191,13 +195,14 @@
         "url": "https://borgr.github.io/papers/can-gradient-descent-simulate-prompting/"
       },
       "alternateName": [
-        "Can a model learn 'A is B' from a gradient update and answer 'B is A'?",
-        "How does the Reversal Curse task compare to the easier description-first task after meta-training?"
+        "does meta-learned initialization mitigate the reversal curse relative to base-model fine-tuning, and how does it compare with the description-first ordering?",
+        "how do I get facts learned by fine-tuning to be retrievable in both directions rather than only in the order they were written?",
+        "will meta-training fix reversal failures when I fine-tune my model on name-and-description facts?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What rank of parameter update is needed to make a model fine-tune better?",
+      "name": "How big a change to a model's weights is needed before training on a document actually helps it answer questions about that document?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -205,13 +210,14 @@
         "url": "https://borgr.github.io/papers/can-gradient-descent-simulate-prompting/"
       },
       "alternateName": [
-        "Is a low-rank change to the initialization enough to improve gradient-based knowledge injection?",
-        "Does rank-1 meta-training match full-rank meta-training?"
+        "does restricting the meta-learned outer update to rank 1 match full-rank meta-training on SQuAD and WikiText fine-tuning accuracy?",
+        "how few parameters do I need to meta-train to make a model absorb new text through fine-tuning?",
+        "can I get the benefit of meta-training with a rank-1 update instead of retraining all the weights?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can LoRA be used for both the meta-learned initialization and the adaptation step?",
+      "name": "Can a small add-on module be used both to store the training-time change and to take in the new document, instead of touching the whole model?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -219,13 +225,14 @@
         "url": "https://borgr.github.io/papers/can-gradient-descent-simulate-prompting/"
       },
       "alternateName": [
-        "Does restricting the inner fine-tuning step to a low-rank adapter help or hurt?",
-        "What is the best SQuAD accuracy reported for meta-learned LoRA initializations?"
+        "what happens when both the meta-learned initialization and the inner adaptation step are constrained to a LoRA adapter for context absorption?",
+        "how do I meta-train and adapt using only a LoRA adapter so absorbing new documents costs a few million parameters?",
+        "should I keep the inner fine-tuning step inside a LoRA adapter or let it update the full model?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is a meta-trained language model actually using the context, or just guessing better?",
+      "name": "How do you tell whether a model that answers better after training on a passage is really using the passage rather than just guessing more confidently?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -233,13 +240,14 @@
         "url": "https://borgr.github.io/papers/can-gradient-descent-simulate-prompting/"
       },
       "alternateName": [
-        "How can you tell whether the gradient step on a passage is what produces the correct SQuAD answer?",
-        "What happens if a meta-trained model is fine-tuned on an irrelevant passage?"
+        "what evidence shows the accuracy gain of a meta-trained model comes from the inner gradient step on the relevant context rather than a shifted prior?",
+        "how do I check that the gradient update on a document, and not a general prior shift, is what makes my model answer questions correctly?",
+        "what happens to my meta-trained model if I fine-tune it on the wrong passage by mistake?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can a meta-trained model absorb several passages at once?",
+      "name": "Can a model take in several different documents one after another by training on each, or does it only work for one?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -247,13 +255,14 @@
         "url": "https://borgr.github.io/papers/can-gradient-descent-simulate-prompting/"
       },
       "alternateName": [
-        "Does accuracy hold up over 4 or 16 successive gradient updates on different contexts?",
-        "How badly does multi-context updating degrade compared with a single update?"
+        "does meta-training for batched or sequential multi-context inner updates preserve accuracy across 4 and 16 updates compared with a single context?",
+        "how do I load many separate documents into a model through successive gradient updates without losing accuracy?",
+        "can I use gradient-based context absorption to ingest a whole corpus, or should I stick to one passage at a time?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does a model meta-trained on one dataset transfer to another?",
+      "name": "If a model is trained to learn from one kind of text, does that ability carry over to a completely different kind of text?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -261,13 +270,14 @@
         "url": "https://borgr.github.io/papers/can-gradient-descent-simulate-prompting/"
       },
       "alternateName": [
-        "Does WikiText meta-training help on SQuAD question answering?",
-        "Is meta-learning ability forgotten when a WikiText meta-trained model is later fine-tuned on SQuAD?"
+        "does a WikiText meta-trained initialization transfer to SQuAD, and is meta-learning ability forgotten under sequential or joint fine-tuning?",
+        "how do I get a model that absorbs documents through fine-tuning to work on a domain other than the one it was meta-trained on?",
+        "do I need to redo meta-training for every dataset, or will one meta-trained checkpoint work on my own data?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What model and compute were used in the gradient-descent-simulates-prompting experiments?",
+      "name": "Which language model was used in the experiments on making a training step behave like prompting, and what did the training setup look like?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -275,7 +285,8 @@
         "url": "https://borgr.github.io/papers/can-gradient-descent-simulate-prompting/"
       },
       "alternateName": [
-        "Which language model was meta-trained to emulate conditioning via fine-tuning?"
+        "what base model and meta-training configuration are used for the self-generated conditioning-target experiments?",
+        "what model do I need on hand to reproduce meta-training a model to emulate prompting through fine-tuning?"
       ]
     }
   ]
@@ -354,56 +365,67 @@
 <p>There are two primary ways of incorporating new information into a language model (LM): changing its prompt or changing its parameters, e.g. via fine-tuning. Parameter updates incur no long-term storage cost for model changes. However, for many model updates, prompting is significantly more effective: prompted models can generalize robustly from single examples and draw logical inferences that do not occur under standard fine-tuning. Can models be modified so that fine-tuning does emulate prompting? This paper describes a method for meta-training LMs such that gradient updates emulate the effects of conditioning on new information. Our approach uses tools from gradient-based meta-learning but uses an LM&#x27;s own prompted predictions as targets, eliminating the need for ground-truth labels. Subsequent gradient descent training recovers some (and occasionally all) of prompted model performance -- showing improvement on the ``reversal curse&#x27;&#x27;tasks, and answering questions about text passages after a single gradient update. These results suggest that, with appropriate initialization, gradient descent can be surprisingly expressive. Our results suggest new avenues for long-context modeling and offer insight into the generalization capabilities of gradient-based learning.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Can fine-tuning be made to behave like putting information in the prompt?</dt>
-<dt>Is there a way to get a single gradient update to have the same effect as conditioning on a passage?</dt>
-<dt>What work studies whether gradient descent can simulate prompting?</dt>
+<dt>Can training a model change how it learns, so that a short training run on a document has the same effect as pasting that document into the prompt?</dt>
+<dt>can a language model be meta-trained so that a single inner gradient step on a context reproduces the predictions of conditioning on that context?</dt>
+<dt>how do I turn a long document into a weight update instead of keeping it in the prompt at inference time?</dt>
+<dt>should I inject new documents into my model by fine-tuning on them rather than paying for the context window every request?</dt>
 <dd>&quot;Can Gradient Descent Simulate Prompting?&quot; asks whether a language model can be meta-trained so that a gradient step on new text behaves like putting that text in the prompt. The meta-training targets are the model&#x27;s own prompted predictions, so no ground-truth labels are needed.<br><span class="scope">Holds for: Framed for single-context knowledge updates on Llama 3.2 1B, with four tasks: Character Description, Reversal Curse, SQuAD and WikiText. No claim that the objective scales to large diverse meta-training corpora.</span></dd>
 <dd>&quot;Can Gradient Descent Simulate Prompting?&quot; takes up the inverse of the well-studied claim that in-context learning implements gradient descent. It asks instead whether gradient descent, given the right initialization, can reproduce the predictions that conditioning produces.<br><span class="scope">Holds for: As of the 2025 arXiv posting; cited prior work covers in-context learning as implicit gradient descent and context distillation separately, and no survey of contemporaneous work on the inverse direction is offered.</span></dd>
 <dd>On SQuAD, meta-training recovers about a quarter of the prompted model&#x27;s performance advantage over naive fine-tuning. On WikiText, it recovers about half of the prompting-versus-fine-tuning gap, which the paper attributes to the larger dataset.<br><span class="scope">Holds for: Llama 3.2 1B, a single gradient step on one context, one meta-training epoch; 82031 SQuAD and 343586 WikiText training records.</span></dd>
-<dt>What should I read on the relationship between in-context learning and gradient descent?</dt>
-<dt>Which paper looks at the reverse of &#x27;in-context learning is gradient descent&#x27;?</dt>
-<dt>Where should I start reading about turning prompts into weight updates?</dt>
+<dt>Which research looks at the opposite direction of the claim that learning from examples in a prompt is really a hidden form of training?</dt>
+<dt>which work inverts the in-context-learning-implements-gradient-descent result and asks whether gradient descent can implement conditioning?</dt>
+<dt>where do I start reading about converting prompt conditioning into weight updates?</dt>
+<dt>what paper should I read first if I want to replace prompting with gradient updates on my own model?</dt>
 <dd>&quot;Can Gradient Descent Simulate Prompting?&quot; takes up the inverse of the well-studied claim that in-context learning implements gradient descent. It asks instead whether gradient descent, given the right initialization, can reproduce the predictions that conditioning produces.<br><span class="scope">Holds for: As of the 2025 arXiv posting; cited prior work covers in-context learning as implicit gradient descent and context distillation separately, and no survey of contemporaneous work on the inverse direction is offered.</span></dd>
 <dd>&quot;Can Gradient Descent Simulate Prompting?&quot; asks whether a language model can be meta-trained so that a gradient step on new text behaves like putting that text in the prompt. The meta-training targets are the model&#x27;s own prompted predictions, so no ground-truth labels are needed.<br><span class="scope">Holds for: Framed for single-context knowledge updates on Llama 3.2 1B, with four tasks: Character Description, Reversal Curse, SQuAD and WikiText. No claim that the objective scales to large diverse meta-training corpora.</span></dd>
-<dt>Do you need labelled answers to distil prompting into weight updates?</dt>
-<dt>How well does meta-learning from a model&#x27;s own prompted outputs compare to using gold labels?</dt>
-<dt>Is label-free context distillation via MAML as good as supervised meta-learning?</dt>
+<dt>Do you need human-written correct answers to teach a model to learn from a document by training on it, or can the model&#x27;s own prompted answers do the job?</dt>
+<dt>does meta-training on self-generated conditioning targets match oracle meta-training on gold labels for context distillation?</dt>
+<dt>how do I build meta-training data for gradient-based context injection when I have raw text but no annotated question-answer pairs?</dt>
+<dt>I only have unlabeled documents, can I still meta-train a model to absorb them through fine-tuning?</dt>
 <dd>Meta-learning from the model&#x27;s own prompted (conditioning) predictions gives fine-tuning accuracies extremely close to oracle meta-learning from gold labels across the Character Description, Reversal Curse, SQuAD and WikiText tasks.<br><span class="scope">Holds for: Llama 3.2 1B, one meta-training epoch, inner learning rate 1e-3; standard error of all accuracies under ±2%. The gold-label variant is treated as an upper bound rather than a separately useful method.</span></dd>
 <dd>&quot;Can Gradient Descent Simulate Prompting?&quot; asks whether a language model can be meta-trained so that a gradient step on new text behaves like putting that text in the prompt. The meta-training targets are the model&#x27;s own prompted predictions, so no ground-truth labels are needed.<br><span class="scope">Holds for: Framed for single-context knowledge updates on Llama 3.2 1B, with four tasks: Character Description, Reversal Curse, SQuAD and WikiText. No claim that the objective scales to large diverse meta-training corpora.</span></dd>
-<dt>How much of the prompting-versus-fine-tuning gap does meta-training close on question answering?</dt>
-<dt>Does a single gradient step on a passage let a model answer questions about it?</dt>
-<dt>What fraction of prompted performance is recovered on SQuAD and WikiText?</dt>
+<dt>If a model is trained to learn from documents by fine-tuning, how much of the accuracy it would have had with the document in the prompt does it get back?</dt>
+<dt>what proportion of the prompting-versus-fine-tuning performance gap does meta-training recover on SQuAD and on WikiText?</dt>
+<dt>how close can a gradient step on a passage get me to prompting accuracy on reading-comprehension questions?</dt>
+<dt>if I swap prompt context for a fine-tuning update on the passage, how much answer quality do I give up?</dt>
 <dd>On SQuAD, meta-training recovers about a quarter of the prompted model&#x27;s performance advantage over naive fine-tuning. On WikiText, it recovers about half of the prompting-versus-fine-tuning gap, which the paper attributes to the larger dataset.<br><span class="scope">Holds for: Llama 3.2 1B, a single gradient step on one context, one meta-training epoch; 82031 SQuAD and 343586 WikiText training records.</span></dd>
 <dd>Meta-learning from the model&#x27;s own prompted (conditioning) predictions gives fine-tuning accuracies extremely close to oracle meta-learning from gold labels across the Character Description, Reversal Curse, SQuAD and WikiText tasks.<br><span class="scope">Holds for: Llama 3.2 1B, one meta-training epoch, inner learning rate 1e-3; standard error of all accuracies under ±2%. The gold-label variant is treated as an upper bound rather than a separately useful method.</span></dd>
-<dt>Does meta-training help with the reversal curse?</dt>
-<dt>Can a model learn &#x27;A is B&#x27; from a gradient update and answer &#x27;B is A&#x27;?</dt>
-<dt>How does the Reversal Curse task compare to the easier description-first task after meta-training?</dt>
+<dt>If a model is trained on the sentence &quot;A is B&quot;, can it be made to answer the question the other way round, &quot;who is B&quot;?</dt>
+<dt>does meta-learned initialization mitigate the reversal curse relative to base-model fine-tuning, and how does it compare with the description-first ordering?</dt>
+<dt>how do I get facts learned by fine-tuning to be retrievable in both directions rather than only in the order they were written?</dt>
+<dt>will meta-training fix reversal failures when I fine-tune my model on name-and-description facts?</dt>
 <dd>Meta-trained models improve substantially over base-model fine-tuning on the Reversal Curse task, but accuracy on Reversal Curse stays lower than on the Character Description task, where the description precedes the name.<br><span class="scope">Holds for: Synthetic datasets of 5000 training and 500 test examples generated in the style of Berglund et al.&#x27;s reversal-curse data, evaluated on Llama 3.2 1B.</span></dd>
-<dt>What rank of parameter update is needed to make a model fine-tune better?</dt>
-<dt>Is a low-rank change to the initialization enough to improve gradient-based knowledge injection?</dt>
-<dt>Does rank-1 meta-training match full-rank meta-training?</dt>
+<dt>How big a change to a model&#x27;s weights is needed before training on a document actually helps it answer questions about that document?</dt>
+<dt>does restricting the meta-learned outer update to rank 1 match full-rank meta-training on SQuAD and WikiText fine-tuning accuracy?</dt>
+<dt>how few parameters do I need to meta-train to make a model absorb new text through fine-tuning?</dt>
+<dt>can I get the benefit of meta-training with a rank-1 update instead of retraining all the weights?</dt>
 <dd>Meta-training only a rank-1 update to the model parameters raises SQuAD fine-tuning accuracy from 47.3 to 59.4 and WikiText from 29.1 to 37.5, matching full-rank meta-training (58.6 and 37.2).<br><span class="scope">Holds for: Llama 3.2 1B in the gold-label meta-learning setting, with a full-rank update in the inner step; standard error within ±2. Held-out data was used to tune the outer learning rate per task.</span></dd>
-<dt>Can LoRA be used for both the meta-learned initialization and the adaptation step?</dt>
-<dt>Does restricting the inner fine-tuning step to a low-rank adapter help or hurt?</dt>
-<dt>What is the best SQuAD accuracy reported for meta-learned LoRA initializations?</dt>
+<dt>Can a small add-on module be used both to store the training-time change and to take in the new document, instead of touching the whole model?</dt>
+<dt>what happens when both the meta-learned initialization and the inner adaptation step are constrained to a LoRA adapter for context absorption?</dt>
+<dt>how do I meta-train and adapt using only a LoRA adapter so absorbing new documents costs a few million parameters?</dt>
+<dt>should I keep the inner fine-tuning step inside a LoRA adapter or let it update the full model?</dt>
 <dd>Constraining both the meta-learned initialization and the inner adaptation step to a LoRA adapter reaches 72.0 accuracy on SQuAD fine-tuning, against 45.1 for an untrained LoRA adapter and 58.6 for full-rank meta-training. On WikiText the same configuration reaches 38.3 versus 32.2 untrained.<br><span class="scope">Holds for: Llama 3.2 1B, gold-label meta-learning, SQuAD and WikiText only; Character Description and Reversal Curse were excluded as too easy. Standard error within ±2.</span></dd>
 <dd>Meta-training only a rank-1 update to the model parameters raises SQuAD fine-tuning accuracy from 47.3 to 59.4 and WikiText from 29.1 to 37.5, matching full-rank meta-training (58.6 and 37.2).<br><span class="scope">Holds for: Llama 3.2 1B in the gold-label meta-learning setting, with a full-rank update in the inner step; standard error within ±2. Held-out data was used to tune the outer learning rate per task.</span></dd>
-<dt>Is a meta-trained language model actually using the context, or just guessing better?</dt>
-<dt>How can you tell whether the gradient step on a passage is what produces the correct SQuAD answer?</dt>
-<dt>What happens if a meta-trained model is fine-tuned on an irrelevant passage?</dt>
+<dt>How do you tell whether a model that answers better after training on a passage is really using the passage rather than just guessing more confidently?</dt>
+<dt>what evidence shows the accuracy gain of a meta-trained model comes from the inner gradient step on the relevant context rather than a shifted prior?</dt>
+<dt>how do I check that the gradient update on a document, and not a general prior shift, is what makes my model answer questions correctly?</dt>
+<dt>what happens to my meta-trained model if I fine-tune it on the wrong passage by mistake?</dt>
 <dd>On the SQuAD validation split, 12.8% of items are answered correctly by the meta-trained model only after the gradient step on the relevant context, against 3.6% that become correct without any context. Most of the gain therefore requires the inner update rather than better guessing.<br><span class="scope">Holds for: Llama 3.2 1B meta-trained on SQuAD; the corresponding training-split figures are 34.7% and 5.8%, and 55.6% of validation items are answered incorrectly in every condition.</span></dd>
 <dd>Fine-tuning the meta-trained model on an irrelevant context drawn from the same dataset drops SQuAD accuracy to 29.7 from 58.6 with the correct context, below the 35.2 no-context baseline. On WikiText the same substitution collapses accuracy to 0.010 from 37.2.<br><span class="scope">Holds for: Llama 3.2 1B meta-trained models, contexts randomly sampled from the same dataset distribution; standard error within ±2.</span></dd>
-<dt>Can a meta-trained model absorb several passages at once?</dt>
-<dt>Does accuracy hold up over 4 or 16 successive gradient updates on different contexts?</dt>
-<dt>How badly does multi-context updating degrade compared with a single update?</dt>
+<dt>Can a model take in several different documents one after another by training on each, or does it only work for one?</dt>
+<dt>does meta-training for batched or sequential multi-context inner updates preserve accuracy across 4 and 16 updates compared with a single context?</dt>
+<dt>how do I load many separate documents into a model through successive gradient updates without losing accuracy?</dt>
+<dt>can I use gradient-based context absorption to ingest a whole corpus, or should I stick to one passage at a time?</dt>
 <dd>Meta-training explicitly for batched multi-context inner updates keeps SQuAD accuracy above the base model at 4 and 16 sequential updates (51.5 and 46.6 versus 43.6 and 42.6). Every multi-update setting still falls well short of the 57.2 reached with a single context.<br><span class="scope">Holds for: SQuAD only, chosen because its contexts are non-contradictory; Llama 3.2 1B, gold-label setting, standard error under ±3 over resampled random groups of updates.</span></dd>
-<dt>Does a model meta-trained on one dataset transfer to another?</dt>
-<dt>Does WikiText meta-training help on SQuAD question answering?</dt>
-<dt>Is meta-learning ability forgotten when a WikiText meta-trained model is later fine-tuned on SQuAD?</dt>
+<dt>If a model is trained to learn from one kind of text, does that ability carry over to a completely different kind of text?</dt>
+<dt>does a WikiText meta-trained initialization transfer to SQuAD, and is meta-learning ability forgotten under sequential or joint fine-tuning?</dt>
+<dt>how do I get a model that absorbs documents through fine-tuning to work on a domain other than the one it was meta-trained on?</dt>
+<dt>do I need to redo meta-training for every dataset, or will one meta-trained checkpoint work on my own data?</dt>
 <dd>A WikiText meta-trained model transfers almost nothing to SQuAD: SQuAD fine-tuning accuracy reaches 47.8 sequentially and 48.0 jointly, against 47.3 with no meta-learning and 58.6 for in-domain SQuAD meta-training.<br><span class="scope">Holds for: Llama 3.2 1B, WikiText-to-SQuAD direction only, reusing the same SQuAD subset the model was originally fine-tuned on; standard error within ±2.</span></dd>
 <dd>WikiText meta-learning accuracy falls from 37.2 to 34.8 after sequential fine-tuning on SQuAD, and to the same 34.8 under joint SQuAD-plus-WikiText training. Joint optimization therefore costs about as much as forgetting from sequential fine-tuning.<br><span class="scope">Holds for: Llama 3.2 1B, WikiText meta-learning task with SQuAD as the fine-tuning task; standard error within ±2. Only this one task pair was tested.</span></dd>
-<dt>What model and compute were used in the gradient-descent-simulates-prompting experiments?</dt>
-<dt>Which language model was meta-trained to emulate conditioning via fine-tuning?</dt>
+<dt>Which language model was used in the experiments on making a training step behave like prompting, and what did the training setup look like?</dt>
+<dt>what base model and meta-training configuration are used for the self-generated conditioning-target experiments?</dt>
+<dt>what model do I need on hand to reproduce meta-training a model to emulate prompting through fine-tuning?</dt>
 <dd>&quot;Can Gradient Descent Simulate Prompting?&quot; asks whether a language model can be meta-trained so that a gradient step on new text behaves like putting that text in the prompt. The meta-training targets are the model&#x27;s own prompted predictions, so no ground-truth labels are needed.<br><span class="scope">Holds for: Framed for single-context knowledge updates on Llama 3.2 1B, with four tasks: Character Description, Reversal Curse, SQuAD and WikiText. No claim that the objective scales to large diverse meta-training corpora.</span></dd>
 <dd>Meta-learning from the model&#x27;s own prompted (conditioning) predictions gives fine-tuning accuracies extremely close to oracle meta-learning from gold labels across the Character Description, Reversal Curse, SQuAD and WikiText tasks.<br><span class="scope">Holds for: Llama 3.2 1B, one meta-training epoch, inner learning rate 1e-3; standard error of all accuracies under ±2%. The gold-label variant is treated as an upper bound rather than a separately useful method.</span></dd>
 </dl>

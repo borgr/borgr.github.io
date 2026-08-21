@@ -137,7 +137,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What happens to a model's skills when you average the weights of several fine-tuned models?",
+      "name": "if you average the weights of several fine-tuned models, does the combined model keep everything each one learned?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -145,13 +145,14 @@
         "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
       },
       "alternateName": [
-        "Does weight averaging keep all the knowledge of the fine-tuned models being merged?",
-        "Which knowledge survives model fusion and which is lost?"
+        "under linear weight-space interpolation between fine-tuned checkpoints, which capabilities are retained and which degrade?",
+        "how do I predict which abilities will survive when I merge two fine-tuned checkpoints of the same base model?",
+        "if I average my fine-tuned models, will I lose the behaviours only one of them learned?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can averaging model weights remove spurious shortcuts learned during fine-tuning?",
+      "name": "can averaging model weights get rid of a cheat rule a classifier picked up during training?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -159,13 +160,14 @@
         "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
       },
       "alternateName": [
-        "Does merging classifiers that learned different shortcuts get rid of those shortcuts?",
-        "How much shortcut accuracy is left after fusing 6 models with different shortcuts?"
+        "does weight averaging over classifiers fitted to distinct spurious features collapse shortcut accuracy to chance?",
+        "how do I remove a spurious feature a sentiment classifier latched onto without retraining it from scratch?",
+        "my sentiment models each learned a different spurious cue -- should I average them to kill the cues?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can model merging be used as a debiasing method for text classifiers?",
+      "name": "can averaging two text classifiers make the result less biased about gender or age?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -173,13 +175,14 @@
         "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
       },
       "alternateName": [
-        "How much does averaging a gender-biased and an age-biased model reduce bias?",
-        "Does weight averaging reduce demographic parity gaps without hurting accuracy?"
+        "does weight-space interpolation between differently biased classifiers reduce Demographic Parity and TPR-GAP at fixed accuracy?",
+        "how do I cut the demographic gaps in my tweet classifier without losing task accuracy?",
+        "should I merge two of my classifiers as a debiasing step, or will accuracy drop too much?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How does weight averaging compare to INLP and LEACE for debiasing?",
+      "name": "how does merging two biased classifiers stack up against dedicated bias-removal techniques?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -187,13 +190,14 @@
         "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
       },
       "alternateName": [
-        "Is model fusion better than nullspace projection for removing social bias?",
-        "Which debiasing method gives the lowest TPR-GAP on PAN16 tweet classification?"
+        "how does weight averaging compare with iterative nullspace projection and concept erasure on Demographic Parity and TPR-GAP for PAN16?",
+        "which debiasing route should I try first on a BERT tweet classifier -- weight averaging or a projection-based erasure method?",
+        "I already run nullspace projection for fairness -- is fusing two biased models worth switching to?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does debiasing by model fusion require demographic labels?",
+      "name": "do you need to know people's gender or age to debias a classifier by averaging weights?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -201,12 +205,14 @@
         "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
       },
       "alternateName": [
-        "Do I need protected-attribute annotations to remove bias by averaging weights?"
+        "does debiasing by weight averaging require protected-attribute annotations or trained probing classifiers?",
+        "how do I reduce social bias in a classifier when I have no demographic labels for the training data?",
+        "I have no protected-attribute annotations -- can I still debias my model by fusing checkpoints?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can model merging reduce memorization of training data in language models?",
+      "name": "can averaging language models make them stop reciting the text they were trained on?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -214,13 +220,14 @@
         "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
       },
       "alternateName": [
-        "Does averaging fine-tuned GPT-2 models make them forget their training examples?",
-        "How can weight averaging help with privacy and training-data leakage?"
+        "does weight averaging of separately fine-tuned GPT-2 checkpoints reduce memorization of their fine-tuning corpora?",
+        "how do I reduce training-data leakage from a fine-tuned language model without retraining on scrubbed data?",
+        "my fine-tuned GPT-2 regurgitates its training articles -- would averaging several such models help?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does fusing several fine-tuned models improve validation perplexity?",
+      "name": "is a model made by averaging several fine-tuned models better on held-out text than any of them alone?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -228,12 +235,14 @@
         "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
       },
       "alternateName": [
-        "Is a merged GPT-2 better at generalizing than the individual fine-tuned models it was averaged from?"
+        "how does the fused GPT-2 checkpoint's validation perplexity on CNN-DM compare to the individual fine-tuned models and to training on the pooled data?",
+        "how do I get better held-out perplexity from several small fine-tuning runs on different data subsets?",
+        "I fine-tuned GPT-2 on 3 separate article subsets -- does averaging them generalize better than picking one?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What happens as you increase the number of models being averaged?",
+      "name": "does adding more models to the average make the forgetting stronger?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -241,13 +250,14 @@
         "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
       },
       "alternateName": [
-        "Does forgetting get stronger with more merged models?",
-        "How many models should be fused to reduce memorization?"
+        "how does the number of fused checkpoints affect Average Likelihood Ratio on unshared fine-tuning data and validation perplexity?",
+        "how many fine-tuned checkpoints do I need to average before memorized training text stops coming back?",
+        "is fusing 2 models enough to suppress memorization, or should I train more seeds to average?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Why does simple weight averaging preserve some knowledge and destroy other knowledge?",
+      "name": "why does averaging weights wipe out some things a model learned but leave others intact?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -255,13 +265,13 @@
         "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
       },
       "alternateName": [
-        "Is there evidence that shared and unshared skills live in different weights?",
-        "What does Fisher information say about which weights encode shared knowledge?"
+        "is there Fisher information evidence that shared task knowledge occupies more overlapping parameters than unshared shortcut knowledge?",
+        "before I trust weight averaging to erase a behaviour, is there parameter-level evidence for why it erases some and not others?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is it better to merge separately trained models or just train on the combined data?",
+      "name": "is averaging separately trained models better than just training one model on all the data together?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -269,13 +279,14 @@
         "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
       },
       "alternateName": [
-        "When does training on the pooled dataset beat weight averaging?",
-        "Does a model trained on all the data also lose the shortcuts?"
+        "when does joint training on pooled datasets match weight averaging for shortcut removal, bias mitigation and memorization?",
+        "I can either pool my datasets and train once or train separately and average -- which removes unwanted behaviour?",
+        "should I bother fusing checkpoints if I can just retrain on the union of my datasets?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What paper should I read about the downsides or forgetting effects of model merging?",
+      "name": "what research treats combining models as a way to strip out unwanted behaviour rather than to add skills?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -283,13 +294,14 @@
         "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
       },
       "alternateName": [
-        "Which work studies model fusion as a way to remove unwanted knowledge rather than add capability?",
-        "Where can I start reading about using weight averaging for bias and privacy?"
+        "which work frames weight averaging as a knowledge-forgetting mechanism for debiasing and memorization mitigation?",
+        "where should I start reading if I want to use weight averaging for fairness and privacy rather than multi-task gains?",
+        "which paper should I read first before trying model fusion to remove bias or memorized data?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do the forgetting findings hold for both classification and generation models?",
+      "name": "does the finding that averaging erases unshared knowledge hold for both text classifiers and text generators?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -297,7 +309,8 @@
         "url": "https://borgr.github.io/papers/fuse-to-forget-bias-reduction-and-selective-memorization-thr/"
       },
       "alternateName": [
-        "Were the fusion results replicated on more than one architecture?"
+        "does the shared-versus-unshared forgetting pattern under weight averaging replicate across BERT-base and GPT-2?",
+        "I work with encoder classifiers, not GPT-style generators -- was fusion-driven forgetting shown on both?"
       ]
     }
   ]
@@ -383,57 +396,70 @@
 <p>Model fusion research aims to aggregate the knowledge of multiple individual models to enhance performance by combining their weights. In this work, we study the inverse problem: investigating whether model fusion can be used to reduce unwanted knowledge. We investigate the effects of model fusion in three scenarios: the learning of shortcuts, social biases, and memorization of training data in fine-tuned language models. Through experiments covering classification and generation tasks, our analysis highlights that shared knowledge among models is enhanced during model fusion, while unshared knowledge is usually forgotten. Based on this observation, we demonstrate the potential of model fusion as a debiasing tool and showcase its efficacy in addressing privacy concerns associated with language models.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>What happens to a model&#x27;s skills when you average the weights of several fine-tuned models?</dt>
-<dt>Does weight averaging keep all the knowledge of the fine-tuned models being merged?</dt>
-<dt>Which knowledge survives model fusion and which is lost?</dt>
+<dt>if you average the weights of several fine-tuned models, does the combined model keep everything each one learned?</dt>
+<dt>under linear weight-space interpolation between fine-tuned checkpoints, which capabilities are retained and which degrade?</dt>
+<dt>how do I predict which abilities will survive when I merge two fine-tuned checkpoints of the same base model?</dt>
+<dt>if I average my fine-tuned models, will I lose the behaviours only one of them learned?</dt>
 <dd>Fuse to Forget studies model fusion as a forgetting mechanism rather than an accumulation mechanism. Its claim is that weight averaging preserves knowledge shared across the fused models while unshared knowledge is degraded or lost.<br><span class="scope">Holds for: Simple weighted averaging of parameters, on fine-tuned BERT-base and GPT-2 in sentiment classification, tweet classification and language modeling; task arithmetic and TIES were not tested.</span></dd>
 <dd>Interpolating between two BERT-base sentiment classifiers that each learned a different synthetic shortcut drops shortcut accuracy on both synthetic validation sets midway along the path. Accuracy on the original SST2 task is preserved throughout.<br><span class="scope">Holds for: SST2 with synthetic shortcuts injected into roughly 20% of the training data; shown for the Ordered Pair vs Token-in-Context and Ordered Pair vs Single Token pairs, both trained until shortcut accuracy exceeded 0.95.</span></dd>
 <dd>When two BERT-base models share the Token-in-Context shortcut but differ in learning OR versus Ordered Pair, interpolation forgets the unshared shortcuts. The shared shortcut survives with only a small accuracy drop.<br><span class="scope">Holds for: SST2 with two shortcuts injected per instance in the synthetic split, one shared and one unshared; single model pair, BERT-base only.</span></dd>
-<dt>Can averaging model weights remove spurious shortcuts learned during fine-tuning?</dt>
-<dt>Does merging classifiers that learned different shortcuts get rid of those shortcuts?</dt>
-<dt>How much shortcut accuracy is left after fusing 6 models with different shortcuts?</dt>
+<dt>can averaging model weights get rid of a cheat rule a classifier picked up during training?</dt>
+<dt>does weight averaging over classifiers fitted to distinct spurious features collapse shortcut accuracy to chance?</dt>
+<dt>how do I remove a spurious feature a sentiment classifier latched onto without retraining it from scratch?</dt>
+<dt>my sentiment models each learned a different spurious cue -- should I average them to kill the cues?</dt>
 <dd>Averaging the weights of 6 BERT-base models, each trained with a different synthetic shortcut, drives shortcut accuracy on every shortcut validation set to around chance level. The fused model still beats the individual models on the original SST2 validation sets with statistical significance.<br><span class="scope">Holds for: SST2, 6 shortcut types, uniform weight averaging; original-task numbers are averages over each model&#x27;s corresponding validation set. The full model trained on the combined data instead learns all 6 shortcuts.</span></dd>
 <dd>Interpolating between two BERT-base sentiment classifiers that each learned a different synthetic shortcut drops shortcut accuracy on both synthetic validation sets midway along the path. Accuracy on the original SST2 task is preserved throughout.<br><span class="scope">Holds for: SST2 with synthetic shortcuts injected into roughly 20% of the training data; shown for the Ordered Pair vs Token-in-Context and Ordered Pair vs Single Token pairs, both trained until shortcut accuracy exceeded 0.95.</span></dd>
-<dt>Can model merging be used as a debiasing method for text classifiers?</dt>
-<dt>How much does averaging a gender-biased and an age-biased model reduce bias?</dt>
-<dt>Does weight averaging reduce demographic parity gaps without hurting accuracy?</dt>
+<dt>can averaging two text classifiers make the result less biased about gender or age?</dt>
+<dt>does weight-space interpolation between differently biased classifiers reduce Demographic Parity and TPR-GAP at fixed accuracy?</dt>
+<dt>how do I cut the demographic gaps in my tweet classifier without losing task accuracy?</dt>
+<dt>should I merge two of my classifiers as a debiasing step, or will accuracy drop too much?</dt>
 <dd>Interpolating from a gender-biased to an age-biased BERT-base tweet classifier reduces Demographic Parity and TPR-GAP by approximately 60% while keeping accuracy high, with the introduction reporting reductions of up to 68%.<br><span class="scope">Holds for: PAN16 tweet classification, each biased model trained on a subset skewed 80/20 on one protected attribute and balanced on the other; picking the interpolation coefficient uses demographic annotations at evaluation time.</span></dd>
 <dd>Fusing an age-biased and a gender-biased BERT-base classifier lowers Demographic Parity on the age-biased task from .185 to .063 and TPR-GAP from .088 to .028. That beats INLP (.076 DP, .041 TPR-GAP) and LEACE (.206 DP, .100 TPR-GAP) at comparable accuracy (.871 versus .877).<br><span class="scope">Holds for: PAN16, BERT-base fine-tuned 2 epochs, INLP with 200 logistic classifiers; fusion coefficients chosen as 0.3 for age and 0.4 for gender bias. On gender bias the full model trained on combined data reaches a lower DP (.033) than fusion (.047).</span></dd>
-<dt>How does weight averaging compare to INLP and LEACE for debiasing?</dt>
-<dt>Is model fusion better than nullspace projection for removing social bias?</dt>
-<dt>Which debiasing method gives the lowest TPR-GAP on PAN16 tweet classification?</dt>
+<dt>how does merging two biased classifiers stack up against dedicated bias-removal techniques?</dt>
+<dt>how does weight averaging compare with iterative nullspace projection and concept erasure on Demographic Parity and TPR-GAP for PAN16?</dt>
+<dt>which debiasing route should I try first on a BERT tweet classifier -- weight averaging or a projection-based erasure method?</dt>
+<dt>I already run nullspace projection for fairness -- is fusing two biased models worth switching to?</dt>
 <dd>Fusing an age-biased and a gender-biased BERT-base classifier lowers Demographic Parity on the age-biased task from .185 to .063 and TPR-GAP from .088 to .028. That beats INLP (.076 DP, .041 TPR-GAP) and LEACE (.206 DP, .100 TPR-GAP) at comparable accuracy (.871 versus .877).<br><span class="scope">Holds for: PAN16, BERT-base fine-tuned 2 epochs, INLP with 200 logistic classifiers; fusion coefficients chosen as 0.3 for age and 0.4 for gender bias. On gender bias the full model trained on combined data reaches a lower DP (.033) than fusion (.047).</span></dd>
 <dd>Weight-averaging two differently biased classifiers needs no demographic annotations during training and no series of trained probing classifiers, unlike INLP with its 200 logistic classifiers. Annotations are needed only to evaluate or to pick which models to fuse.<br><span class="scope">Holds for: PAN16 tweet classification with age and gender as protected attributes; the procedure does require access to two models whose biases differ, and it introduces a new mixed bias from combining them.</span></dd>
-<dt>Does debiasing by model fusion require demographic labels?</dt>
-<dt>Do I need protected-attribute annotations to remove bias by averaging weights?</dt>
+<dt>do you need to know people&#x27;s gender or age to debias a classifier by averaging weights?</dt>
+<dt>does debiasing by weight averaging require protected-attribute annotations or trained probing classifiers?</dt>
+<dt>how do I reduce social bias in a classifier when I have no demographic labels for the training data?</dt>
+<dt>I have no protected-attribute annotations -- can I still debias my model by fusing checkpoints?</dt>
 <dd>Weight-averaging two differently biased classifiers needs no demographic annotations during training and no series of trained probing classifiers, unlike INLP with its 200 logistic classifiers. Annotations are needed only to evaluate or to pick which models to fuse.<br><span class="scope">Holds for: PAN16 tweet classification with age and gender as protected attributes; the procedure does require access to two models whose biases differ, and it introduces a new mixed bias from combining them.</span></dd>
-<dt>Can model merging reduce memorization of training data in language models?</dt>
-<dt>Does averaging fine-tuned GPT-2 models make them forget their training examples?</dt>
-<dt>How can weight averaging help with privacy and training-data leakage?</dt>
+<dt>can averaging language models make them stop reciting the text they were trained on?</dt>
+<dt>does weight averaging of separately fine-tuned GPT-2 checkpoints reduce memorization of their fine-tuning corpora?</dt>
+<dt>how do I reduce training-data leakage from a fine-tuned language model without retraining on scrubbed data?</dt>
+<dt>my fine-tuned GPT-2 regurgitates its training articles -- would averaging several such models help?</dt>
 <dd>Averaging 3 GPT-2 models fine-tuned on different 3K-article CNN-DM subsets raises the Average Likelihood Ratio on each model&#x27;s own training data from 0.22 to about 0.66. The ALR on the 1K shared subset stays at 0.24, so only unshared memorized text is forgotten.<br><span class="scope">Holds for: GPT-2 fine-tuned 10 epochs, batch size 16, learning rate 0.001, on CNN-DM subsets of 3K articles with 1K shared; higher ALR means less memorization. The full model trained on the combined data keeps a much lower ALR of 0.32 on all subsets.</span></dd>
 <dd>The memorization pattern replicates on BERT-base: fusing 4 models raises ALR on unshared training data to 0.234 from 0.150 for the individual models, while the shared subset stays better memorized at 0.174.<br><span class="scope">Holds for: BERT-base fine-tuned 20 epochs, learning rate 3e-4, on CNN-DM subsets of 3000 articles with 1000 shared and no sequence packing; masked-language-model energy approximated over 10 sampled masking subsets.</span></dd>
-<dt>Does fusing several fine-tuned models improve validation perplexity?</dt>
-<dt>Is a merged GPT-2 better at generalizing than the individual fine-tuned models it was averaged from?</dt>
+<dt>is a model made by averaging several fine-tuned models better on held-out text than any of them alone?</dt>
+<dt>how does the fused GPT-2 checkpoint&#x27;s validation perplexity on CNN-DM compare to the individual fine-tuned models and to training on the pooled data?</dt>
+<dt>how do I get better held-out perplexity from several small fine-tuning runs on different data subsets?</dt>
+<dt>I fine-tuned GPT-2 on 3 separate article subsets -- does averaging them generalize better than picking one?</dt>
 <dd>The fused GPT-2 model reaches 30.63 validation perplexity on CNN-DM, better than each of the 3 individual fine-tuned models at 35.25-35.81. It remains worse than the base GPT-2 (23.50) and the full model trained on combined data (27.45).<br><span class="scope">Holds for: GPT-2 fine-tuned 10 epochs on 3K-article CNN-DM subsets; all fine-tuned and fused models are overfitted relative to the un-fine-tuned base model.</span></dd>
-<dt>What happens as you increase the number of models being averaged?</dt>
-<dt>Does forgetting get stronger with more merged models?</dt>
-<dt>How many models should be fused to reduce memorization?</dt>
+<dt>does adding more models to the average make the forgetting stronger?</dt>
+<dt>how does the number of fused checkpoints affect Average Likelihood Ratio on unshared fine-tuning data and validation perplexity?</dt>
+<dt>how many fine-tuned checkpoints do I need to average before memorized training text stops coming back?</dt>
+<dt>is fusing 2 models enough to suppress memorization, or should I train more seeds to average?</dt>
 <dd>Fusing more GPT-2 models weakens memorization of unshared training data: ALR on a seed model&#x27;s own data rises from 0.485 for 2 fused models to 0.656 for 3 and 0.758 for 4. Validation perplexity falls from 31.60 to 30.15 over the same range.<br><span class="scope">Holds for: GPT-2, CNN-DM subsets of 3K articles each with 1K shared, so total training data grows with the number of fused models; when total data is held fixed instead, perplexity worsens as more models are fused.</span></dd>
-<dt>Why does simple weight averaging preserve some knowledge and destroy other knowledge?</dt>
-<dt>Is there evidence that shared and unshared skills live in different weights?</dt>
-<dt>What does Fisher information say about which weights encode shared knowledge?</dt>
+<dt>why does averaging weights wipe out some things a model learned but leave others intact?</dt>
+<dt>is there Fisher information evidence that shared task knowledge occupies more overlapping parameters than unshared shortcut knowledge?</dt>
+<dt>before I trust weight averaging to erase a behaviour, is there parameter-level evidence for why it erases some and not others?</dt>
 <dd>Weights carrying shared task knowledge overlap more across differently-shortcut BERT-base models than weights carrying unshared shortcut knowledge. Fisher overlap is .8077 versus .6877 for the TiC-OP pair and .7746 versus .6819 for the TiC-ST pair.<br><span class="scope">Holds for: Empirical diagonal Fisher information computed over 200 SST2 validation examples, with label-reversed shortcut copies used to isolate shortcut knowledge; 2 model pairs chosen to minimize shortcut overlap.</span></dd>
-<dt>Is it better to merge separately trained models or just train on the combined data?</dt>
-<dt>When does training on the pooled dataset beat weight averaging?</dt>
-<dt>Does a model trained on all the data also lose the shortcuts?</dt>
+<dt>is averaging separately trained models better than just training one model on all the data together?</dt>
+<dt>when does joint training on pooled datasets match weight averaging for shortcut removal, bias mitigation and memorization?</dt>
+<dt>I can either pool my datasets and train once or train separately and average -- which removes unwanted behaviour?</dt>
+<dt>should I bother fusing checkpoints if I can just retrain on the union of my datasets?</dt>
 <dd>Training on the combined datasets is competitive with fusion for social biases, where pooling the data changes label-attribute ratios. It is not competitive for shortcuts or memorization, where the combined model learns every shortcut and memorizes every subset.<br><span class="scope">Holds for: SST2 with injected shortcuts, PAN16 age/gender bias, and CNN-DM memorization with GPT-2; combined training helps only when pooling the data changes label-feature correlations, and it requires access to all the raw training data.</span></dd>
 <dd>Averaging the weights of 6 BERT-base models, each trained with a different synthetic shortcut, drives shortcut accuracy on every shortcut validation set to around chance level. The fused model still beats the individual models on the original SST2 validation sets with statistical significance.<br><span class="scope">Holds for: SST2, 6 shortcut types, uniform weight averaging; original-task numbers are averages over each model&#x27;s corresponding validation set. The full model trained on the combined data instead learns all 6 shortcuts.</span></dd>
-<dt>What paper should I read about the downsides or forgetting effects of model merging?</dt>
-<dt>Which work studies model fusion as a way to remove unwanted knowledge rather than add capability?</dt>
-<dt>Where can I start reading about using weight averaging for bias and privacy?</dt>
+<dt>what research treats combining models as a way to strip out unwanted behaviour rather than to add skills?</dt>
+<dt>which work frames weight averaging as a knowledge-forgetting mechanism for debiasing and memorization mitigation?</dt>
+<dt>where should I start reading if I want to use weight averaging for fairness and privacy rather than multi-task gains?</dt>
+<dt>which paper should I read first before trying model fusion to remove bias or memorized data?</dt>
 <dd>Fuse to Forget studies model fusion as a forgetting mechanism rather than an accumulation mechanism. Its claim is that weight averaging preserves knowledge shared across the fused models while unshared knowledge is degraded or lost.<br><span class="scope">Holds for: Simple weighted averaging of parameters, on fine-tuned BERT-base and GPT-2 in sentiment classification, tweet classification and language modeling; task arithmetic and TIES were not tested.</span></dd>
-<dt>Do the forgetting findings hold for both classification and generation models?</dt>
-<dt>Were the fusion results replicated on more than one architecture?</dt>
+<dt>does the finding that averaging erases unshared knowledge hold for both text classifiers and text generators?</dt>
+<dt>does the shared-versus-unshared forgetting pattern under weight averaging replicate across BERT-base and GPT-2?</dt>
+<dt>I work with encoder classifiers, not GPT-style generators -- was fusion-driven forgetting shown on both?</dt>
 <dd>The memorization pattern replicates on BERT-base: fusing 4 models raises ALR on unshared training data to 0.234 from 0.150 for the individual models, while the shared subset stays better memorized at 0.174.<br><span class="scope">Holds for: BERT-base fine-tuned 20 epochs, learning rate 3e-4, on CNN-DM subsets of 3000 articles with 1000 shared and no sequence packing; masked-language-model energy approximated over 10 sampled masking subsets.</span></dd>
 <dd>Fuse to Forget studies model fusion as a forgetting mechanism rather than an accumulation mechanism. Its claim is that weight averaging preserves knowledge shared across the fused models while unshared knowledge is degraded or lost.<br><span class="scope">Holds for: Simple weighted averaging of parameters, on fine-tuned BERT-base and GPT-2 in sentiment classification, tweet classification and language modeling; task arithmetic and TIES were not tested.</span></dd>
 </dl>

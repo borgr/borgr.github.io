@@ -138,7 +138,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Do neural networks learn training examples in the same order across random seeds?",
+      "name": "If two neural networks with the same architecture are trained separately, do they get the same pictures right and the same pictures wrong?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -146,13 +146,14 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "Does the order in which examples are learned depend on initialization and mini-batch sampling?",
-        "Do independently trained networks of the same architecture agree on which examples they classify correctly?"
+        "Do independently initialized networks of identical architecture exhibit correlated per-example correctness over the course of training, and does the effect survive changes to learning rate, optimizer and batch size?",
+        "How do I tell whether the examples my model gets wrong are specific to my training run or common to any run of that architecture?",
+        "If I retrain my classifier with a different seed and different hyperparameters, should I expect the same examples to fail?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which datasets show the shared classification order phenomenon?",
+      "name": "Has the finding that separately trained networks learn examples in the same order been checked on more than one dataset?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -160,13 +161,14 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "Does shared learning order appear outside image classification, for example in text classification?",
-        "Was the learning-order effect tested on ImageNet and on NLP data?"
+        "On which benchmarks has consistent per-example learning order across networks been demonstrated, and does it extend beyond vision to text classification?",
+        "How do I know whether shared example learning order will show up on my dataset, whether it is images or text?",
+        "My data is text, not ImageNet photos — does the shared learning order result apply to me?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do different architectures learn a dataset in the same order?",
+      "name": "Do two very different network designs learn the images of a dataset in roughly the same order?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -174,13 +176,14 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "How similar is the learning order between ResNet-50, AlexNet and DenseNet on ImageNet?",
-        "Does a shared learning order survive across ResNet and AlexNet despite very different accuracies?"
+        "How strongly do per-example accessibility scores correlate across ResNet-50, AlexNet and DenseNet collections trained on ImageNet?",
+        "How do I check whether an ordering of examples by difficulty computed from one architecture transfers to another?",
+        "Can I reuse example-difficulty scores computed with ResNet-50 if my model is a different convolutional architecture?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does a more accurate network learn a superset of what a weaker network learns?",
+      "name": "When one network is more accurate than another, does the better one get right everything the weaker one gets right plus more?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -188,13 +191,14 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "What is the relationship between the examples learned by a strong and a weak architecture?",
-        "Do stronger models learn easy examples first and then continue past what weak models manage?"
+        "Is the set of examples classified correctly by a higher-capacity architecture approximately a superset of the set learned by a weaker or purely linear model?",
+        "How do I predict which extra examples I gain by moving from a weak model to a stronger one?",
+        "If I upgrade from a small or linear model to a deeper one, will the examples my old model already handled stay correct?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is the shared learning order just an artifact of SGD training?",
+      "name": "Are there datasets where separately trained networks pick up examples in completely different orders?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -202,13 +206,14 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "Are there datasets where neural networks learn examples in different orders?",
-        "What happens to per-example agreement on synthetic datasets like Gabor patches or overlapping Gaussians?"
+        "Does the bi-modal per-example agreement distribution vanish on synthetic data such as Gabor patches and overlapping Gaussians, or under label randomization?",
+        "How do I test whether the shared learning order I see is a property of my data rather than of stochastic gradient descent?",
+        "If my benchmark is synthetically generated, should I still expect networks to agree on which examples are easy?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What happens to learning order when labels are randomly shuffled?",
+      "name": "If the labels of a dataset are scrambled at random, do networks still memorize the examples in the same order?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -216,13 +221,14 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "Do networks memorize random labels in a consistent order?",
-        "Is agreement on learning order tied to generalization rather than memorization?"
+        "Under randomly permuted labels, does per-example agreement across a collection of networks remain bi-modal or become Gaussian?",
+        "How do I separate agreement that comes from genuine data structure from agreement that comes from mere memorization capacity?",
+        "My labels are very noisy — can I still trust example-difficulty scores derived from agreement across training runs?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do non-neural classifiers learn a dataset in the same order as neural networks?",
+      "name": "Do classifiers that are not neural networks find the same images easy and hard as neural networks do?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -230,13 +236,14 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "How does AdaBoost's learning order on CIFAR-10 compare with that of a CNN?",
-        "Is example difficulty a property of a benchmark dataset alone, or of the learner too?"
+        "How correlated are accessibility scores from boosted linear weak learners with those from convolutional networks on CIFAR-10, on raw pixels and on Inception-V3 features?",
+        "How do I find out whether an example-difficulty ranking is a property of the dataset or of the specific learning algorithm that produced it?",
+        "Can I use a difficulty ordering derived from a boosted-tree or boosted-linear model to curate data for a CNN?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does the shared learning order depend on the exact training set used?",
+      "name": "If two networks never see the same training examples, do they still agree on which unseen examples are easy?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -244,13 +251,14 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "If two models are trained on disjoint samples from the same distribution, do they learn a common test set in the same order?",
-        "How was the effect of the specific training split on learning order tested?"
+        "Does consistent test-set learning order persist when networks are trained on disjoint samples drawn from the same distribution?",
+        "How do I check that an example-difficulty score I computed is not an artifact of the particular training split I used?",
+        "I only have one training split — will difficulty scores estimated from it hold for models trained on other samples of the same data?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are examples ever forgotten after being learned by a network?",
+      "name": "Once a network starts getting a particular image right, does it later start getting it wrong again?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -258,13 +266,14 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "Once a CNN classifies an example correctly, does it keep classifying it correctly?",
-        "How stable is per-example correctness across training epochs?"
+        "Is per-example correctness stable across epochs once an example reaches high agreement across a collection of trained networks, or is forgetting common?",
+        "How do I know whether I can stop tracking an example once most of my training runs classify it correctly?",
+        "If I checkpoint mid-training, will the examples already classified correctly still be correct at the end?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do linear convolutional networks show the same learning-order behaviour as non-linear ones?",
+      "name": "Do convolutional networks with no nonlinearity pick up examples in the same order as ordinary ones?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -272,13 +281,14 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "Is the shared learning order caused by non-linearities in the network?",
-        "What did linear st-VGG reveal about learning order on the small-mammals dataset?"
+        "Does a purely linear convolutional network reproduce bi-modal per-example agreement, and is its learned subset nested inside that of the non-linear counterpart?",
+        "How do I test whether nonlinear activations are what causes networks to agree on example ordering?",
+        "Is the agreement in learning order something I would still see if I stripped the activations out of my convolutional model?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How can I measure whether two trained neural networks are similar without comparing their weights?",
+      "name": "Is there a way to compare two trained networks by looking at which examples they get right instead of at their internal features?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -286,13 +296,14 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "What is TP-agreement and what does it measure?",
-        "Is there a way to compare networks by their per-example predictions instead of their representations?"
+        "What measure quantifies per-example prediction agreement across a collection of networks as an alternative to representation-similarity analyses such as SVCCA?",
+        "How do I measure similarity between two trained models without probing or aligning their hidden representations?",
+        "Should I compare my two models with a representation-similarity method or just with their per-example predictions?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What paper should I read first about example difficulty and learning order in deep networks?",
+      "name": "What should I read first about neural networks learning examples in a consistent order?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -300,14 +311,14 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "Which work established that neural networks learn examples in a consistent order?",
-        "Where does the idea of a per-example learning order in deep learning come from?",
-        "What is a good starting paper on how neural networks discover structure in benchmark datasets?"
+        "Which work established consistent per-example learning order across independently trained networks as an empirical phenomenon on natural datasets?",
+        "Where do I start reading if I want to build example-difficulty or data-pruning scores from training dynamics?",
+        "Which paper should I cite as the origin of shared example learning order in deep networks?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are whole classes learned in a consistent order, not just individual images?",
+      "name": "Do networks learn whole categories in a consistent order, or only individual pictures?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -315,13 +326,14 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "Does classification order induce a hierarchy over classes?",
-        "Which classes does a CNN learn first on a 5-class CIFAR-100 super-class?"
+        "Does consistent classification order across networks extend from individual examples to class labels, inducing a hierarchy over classes?",
+        "How do I find out which classes in my dataset my models pick up first?",
+        "Can I use the order in which classes are learned to decide which categories need more data?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does knowing the order examples are learned help build a better curriculum?",
+      "name": "Can knowing which examples a network learns first be used to train faster or design a curriculum?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -329,7 +341,9 @@
         "url": "https://borgr.github.io/papers/let-s-agree-to-agree-neural-networks-share-classification-or/"
       },
       "alternateName": [
-        "Can learning order be used to speed up training?"
+        "Does consistent per-example learning order support downstream applications such as curriculum construction or dataset pruning?",
+        "How do I turn an ordering of examples by when networks learn them into a training curriculum or a pruned dataset?",
+        "Should I order or prune my training data by the order networks tend to learn examples?"
       ]
     }
   ]
@@ -415,69 +429,83 @@
 <p>We report a series of robust empirical observations, demonstrating that deep Neural Networks learn the examples in both the training and test sets in a similar order. This phenomenon is observed in all the commonly used benchmarks we evaluated, including many image classification benchmarks, and one text classification benchmark. While this phenomenon is strongest for models of the same architecture, it also crosses architectural boundaries -- models of different architectures start by learning the same examples, after which the more powerful model may continue to learn additional examples. We further show that this pattern of results reflects the interplay between the way neural networks learn benchmark datasets. Thus, when fixing the architecture, we show synthetic datasets where this pattern ceases to exist. When fixing the dataset, we show that other learning paradigms may learn the data in a different order. We hypothesize that our results reflect how neural networks discover structure in natural datasets.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Do neural networks learn training examples in the same order across random seeds?</dt>
-<dt>Does the order in which examples are learned depend on initialization and mini-batch sampling?</dt>
-<dt>Do independently trained networks of the same architecture agree on which examples they classify correctly?</dt>
+<dt>If two neural networks with the same architecture are trained separately, do they get the same pictures right and the same pictures wrong?</dt>
+<dt>Do independently initialized networks of identical architecture exhibit correlated per-example correctness over the course of training, and does the effect survive changes to learning rate, optimizer and batch size?</dt>
+<dt>How do I tell whether the examples my model gets wrong are specific to my training run or common to any run of that architecture?</dt>
+<dt>If I retrain my classifier with a different seed and different hyperparameters, should I expect the same examples to fail?</dt>
 <dd>Independently trained neural networks of the same architecture produce a bi-modal distribution of per-example TP-agreement throughout training on every natural benchmark tested, including ImageNet with 27 ResNet-50 models. Most examples are classified correctly by all the models or by none of them.<br><span class="scope">Holds for: 27 ResNet-50 models on ImageNet, train and validation sets, epochs 1 to 100; each epoch measured by training a fresh set of networks from scratch. Random classification vectors with matching accuracy give a uni-modal Gaussian instead.</span></dd>
 <dd>The shared classification order of same-architecture networks survives changes to learning rate (10^-4 to 1), optimizer (SGD, Adam, AdaDelta), batch size (1 to 2500) and dropout (0 to 0.5). It also survives changes of initialization (Xavier, He normal, LeCun normal, truncated normal) and activation (ReLU, ELU, tanh, linear).<br><span class="scope">Holds for: Direct hyper-parameter sweeps were run on st-VGG trained on the small-mammals dataset with 100 instances each; other ranges came indirectly from varying architectures. Qualitative bi-modality is what is preserved, not exact accuracies.</span></dd>
-<dt>Which datasets show the shared classification order phenomenon?</dt>
-<dt>Does shared learning order appear outside image classification, for example in text classification?</dt>
-<dt>Was the learning-order effect tested on ImageNet and on NLP data?</dt>
+<dt>Has the finding that separately trained networks learn examples in the same order been checked on more than one dataset?</dt>
+<dt>On which benchmarks has consistent per-example learning order across networks been demonstrated, and does it extend beyond vision to text classification?</dt>
+<dt>How do I know whether shared example learning order will show up on my dataset, whether it is images or text?</dt>
+<dt>My data is text, not ImageNet photos — does the shared learning order result apply to me?</dt>
 <dd>The shared learning order of neural networks holds across MNIST, Fashion-MNIST, CIFAR-10, CIFAR-100, tiny ImageNet, VGGFace2, ImageNet and a 20-class Stack Overflow text classification task, for both train and test sets.<br><span class="scope">Holds for: Small handcrafted CNNs, st-VGG, VGG-19, AlexNet, DenseNet, ResNet-50 and an attention-based BiLSTM with GloVe embeddings; 20 to 100 models per setting. The text case is one dataset of 39K train and 1K test questions.</span></dd>
 <dd>Independently trained neural networks of the same architecture produce a bi-modal distribution of per-example TP-agreement throughout training on every natural benchmark tested, including ImageNet with 27 ResNet-50 models. Most examples are classified correctly by all the models or by none of them.<br><span class="scope">Holds for: 27 ResNet-50 models on ImageNet, train and validation sets, epochs 1 to 100; each epoch measured by training a fresh set of networks from scratch. Random classification vectors with matching accuracy give a uni-modal Gaussian instead.</span></dd>
-<dt>Do different architectures learn a dataset in the same order?</dt>
-<dt>How similar is the learning order between ResNet-50, AlexNet and DenseNet on ImageNet?</dt>
-<dt>Does a shared learning order survive across ResNet and AlexNet despite very different accuracies?</dt>
+<dt>Do two very different network designs learn the images of a dataset in roughly the same order?</dt>
+<dt>How strongly do per-example accessibility scores correlate across ResNet-50, AlexNet and DenseNet collections trained on ImageNet?</dt>
+<dt>How do I check whether an ordering of examples by difficulty computed from one architecture transfers to another?</dt>
+<dt>Can I reuse example-difficulty scores computed with ResNet-50 if my model is a different convolutional architecture?</dt>
 <dd>Accessibility scores on the ImageNet train set correlate at r=0.87 between ResNet-50 and AlexNet collections and r=0.97 between ResNet-50 and DenseNet, against r=0.99 between two disjoint collections of ResNet-50.<br><span class="scope">Holds for: 27 ResNet-50, 22 AlexNet and 6 DenseNet models on ImageNet, all p ≤ 10^-50; Top-1 error differs widely (AlexNet 0.45, ResNet-50 0.24, DenseNet 0.27).</span></dd>
 <dd>ResNet-50 on ImageNet first learns the examples AlexNet gets right and only then learns examples AlexNet never learns. The count of examples that only one of the two architectures classifies correctly stays constant and low as accuracy improves.<br><span class="scope">Holds for: Majority-vote ensembles of 27 ResNet-50 and 22 AlexNet models on the ImageNet validation set, compared at epochs of matched accuracy (±1% tolerance); ResNet-50 reaches 80% and AlexNet 60%, so past 60% the comparison is against converged AlexNet.</span></dd>
-<dt>Does a more accurate network learn a superset of what a weaker network learns?</dt>
-<dt>What is the relationship between the examples learned by a strong and a weak architecture?</dt>
-<dt>Do stronger models learn easy examples first and then continue past what weak models manage?</dt>
+<dt>When one network is more accurate than another, does the better one get right everything the weaker one gets right plus more?</dt>
+<dt>Is the set of examples classified correctly by a higher-capacity architecture approximately a superset of the set learned by a weaker or purely linear model?</dt>
+<dt>How do I predict which extra examples I gain by moving from a weak model to a stronger one?</dt>
+<dt>If I upgrade from a small or linear model to a deeper one, will the examples my old model already handled stay correct?</dt>
 <dd>ResNet-50 on ImageNet first learns the examples AlexNet gets right and only then learns examples AlexNet never learns. The count of examples that only one of the two architectures classifies correctly stays constant and low as accuracy improves.<br><span class="scope">Holds for: Majority-vote ensembles of 27 ResNet-50 and 22 AlexNet models on the ImageNet validation set, compared at epochs of matched accuracy (±1% tolerance); ResNet-50 reaches 80% and AlexNet 60%, so past 60% the comparison is against converged AlexNet.</span></dd>
 <dd>Linear st-VGG networks on the small-mammals dataset reach 0.43 average accuracy versus 0.56 for non-linear st-VGG, yet still show bi-modal TP-agreement (maximum Pearson bi-modality 0.06 versus 0.22). The non-linear networks first learn the examples the linear ones learn.<br><span class="scope">Holds for: 100 linear st-VGG models on the small-mammals dataset (2500 train, 500 test images, 5 classes); linear networks converge in a few epochs, too fast for a meaningful accessibility score, so the nesting is read off matched-accuracy counts.</span></dd>
-<dt>Is the shared learning order just an artifact of SGD training?</dt>
-<dt>Are there datasets where neural networks learn examples in different orders?</dt>
-<dt>What happens to per-example agreement on synthetic datasets like Gabor patches or overlapping Gaussians?</dt>
+<dt>Are there datasets where separately trained networks pick up examples in completely different orders?</dt>
+<dt>Does the bi-modal per-example agreement distribution vanish on synthetic data such as Gabor patches and overlapping Gaussians, or under label randomization?</dt>
+<dt>How do I test whether the shared learning order I see is a property of my data rather than of stochastic gradient descent?</dt>
+<dt>If my benchmark is synthetically generated, should I still expect networks to agree on which examples are easy?</dt>
 <dd>The shared learning order disappears on synthetic data. 100 st-VGG models on a 12-class Gabor-patch dataset and 100 fully connected models on a 2-class overlapping-Gaussian task show approximately normal, not bi-modal, TP-agreement distributions.<br><span class="scope">Holds for: Both datasets are hand-crafted and are learned successfully by the networks; the Gabor case partially regains bi-modal character on the test set at convergence. Gaussian samples are 3072-dimensional, means 0 and 0.1, identity covariance.</span></dd>
 <dd>With randomly shuffled labels on the small-mammals dataset, 100 st-VGG models memorize the training set to 100% accuracy but do so in different orders. TP-agreement stays Gaussian, with minimum Pearson bi-modality 1.07 on train and 1.35 on test.<br><span class="scope">Holds for: 100 st-VGG instances with dropout layers removed to enable fitting random labels; test accuracy stays at chance. Shows association between bi-modality and generalization, not a causal mechanism.</span></dd>
-<dt>What happens to learning order when labels are randomly shuffled?</dt>
-<dt>Do networks memorize random labels in a consistent order?</dt>
-<dt>Is agreement on learning order tied to generalization rather than memorization?</dt>
+<dt>If the labels of a dataset are scrambled at random, do networks still memorize the examples in the same order?</dt>
+<dt>Under randomly permuted labels, does per-example agreement across a collection of networks remain bi-modal or become Gaussian?</dt>
+<dt>How do I separate agreement that comes from genuine data structure from agreement that comes from mere memorization capacity?</dt>
+<dt>My labels are very noisy — can I still trust example-difficulty scores derived from agreement across training runs?</dt>
 <dd>With randomly shuffled labels on the small-mammals dataset, 100 st-VGG models memorize the training set to 100% accuracy but do so in different orders. TP-agreement stays Gaussian, with minimum Pearson bi-modality 1.07 on train and 1.35 on test.<br><span class="scope">Holds for: 100 st-VGG instances with dropout layers removed to enable fitting random labels; test accuracy stays at chance. Shows association between bi-modality and generalization, not a causal mechanism.</span></dd>
-<dt>Do non-neural classifiers learn a dataset in the same order as neural networks?</dt>
-<dt>How does AdaBoost&#x27;s learning order on CIFAR-10 compare with that of a CNN?</dt>
-<dt>Is example difficulty a property of a benchmark dataset alone, or of the learner too?</dt>
+<dt>Do classifiers that are not neural networks find the same images easy and hard as neural networks do?</dt>
+<dt>How correlated are accessibility scores from boosted linear weak learners with those from convolutional networks on CIFAR-10, on raw pixels and on Inception-V3 features?</dt>
+<dt>How do I find out whether an example-difficulty ranking is a property of the dataset or of the specific learning algorithm that produced it?</dt>
+<dt>Can I use a difficulty ordering derived from a boosted-tree or boosted-linear model to curate data for a CNN?</dt>
 <dd>AdaBoost with up to 100 weak linear classifiers learns CIFAR-10 in an order only weakly related to that of neural networks. Accessibility scores correlate at r=0.35 on raw pixels and r=0.05 when AdaBoost uses Inception-V3 penultimate-layer features.<br><span class="scope">Holds for: AdaBoost versus 100 st-VGG models on CIFAR-10, both p ≤ 10^-20; replicated on small-mammals, fish, insect, cats-and-dogs and ImageNet-cats subsets. CIFAR-100 and full ImageNet excluded as AdaBoost accuracy is too low there.</span></dd>
 <dd>The shared learning order disappears on synthetic data. 100 st-VGG models on a 12-class Gabor-patch dataset and 100 fully connected models on a 2-class overlapping-Gaussian task show approximately normal, not bi-modal, TP-agreement distributions.<br><span class="scope">Holds for: Both datasets are hand-crafted and are learned successfully by the networks; the Gabor case partially regains bi-modal character on the test set at convergence. Gaussian samples are 3072-dimensional, means 0 and 0.1, identity covariance.</span></dd>
-<dt>Does the shared learning order depend on the exact training set used?</dt>
-<dt>If two models are trained on disjoint samples from the same distribution, do they learn a common test set in the same order?</dt>
-<dt>How was the effect of the specific training split on learning order tested?</dt>
+<dt>If two networks never see the same training examples, do they still agree on which unseen examples are easy?</dt>
+<dt>Does consistent test-set learning order persist when networks are trained on disjoint samples drawn from the same distribution?</dt>
+<dt>How do I check that an example-difficulty score I computed is not an artifact of the particular training split I used?</dt>
+<dt>I only have one training split — will difficulty scores estimated from it hold for models trained on other samples of the same data?</dt>
 <dd>Neural networks trained on disjoint partitions of the same training distribution learn a common test set in nearly the same order, with almost perfect correlation between accessibility scores computed from different partitions.<br><span class="scope">Holds for: Fashion-MNIST train set split into 60 parts of 1000 images, 100 st-VGG instances per part, epochs 0 to 40; the shared order concerns the common unmodified test set.</span></dd>
-<dt>Are examples ever forgotten after being learned by a network?</dt>
-<dt>Once a CNN classifies an example correctly, does it keep classifying it correctly?</dt>
-<dt>How stable is per-example correctness across training epochs?</dt>
+<dt>Once a network starts getting a particular image right, does it later start getting it wrong again?</dt>
+<dt>Is per-example correctness stable across epochs once an example reaches high agreement across a collection of trained networks, or is forgetting common?</dt>
+<dt>How do I know whether I can stop tracking an example once most of my training runs classify it correctly?</dt>
+<dt>If I checkpoint mid-training, will the examples already classified correctly still be correct at the end?</dt>
 <dd>Once an example is classified correctly by most networks of a collection it is rarely misclassified later, with per-example TP-agreement staying pinned at 0 or 1 for most of training. The number of examples that rise near 1 and then fall to 0 is negligible.<br><span class="scope">Holds for: 5 tracked example images from st-VGG trained on the small-mammals dataset, with the pattern reported for the majority of examples in that setting; this property is what licenses defining a per-example learning epoch.</span></dd>
-<dt>Do linear convolutional networks show the same learning-order behaviour as non-linear ones?</dt>
-<dt>Is the shared learning order caused by non-linearities in the network?</dt>
-<dt>What did linear st-VGG reveal about learning order on the small-mammals dataset?</dt>
+<dt>Do convolutional networks with no nonlinearity pick up examples in the same order as ordinary ones?</dt>
+<dt>Does a purely linear convolutional network reproduce bi-modal per-example agreement, and is its learned subset nested inside that of the non-linear counterpart?</dt>
+<dt>How do I test whether nonlinear activations are what causes networks to agree on example ordering?</dt>
+<dt>Is the agreement in learning order something I would still see if I stripped the activations out of my convolutional model?</dt>
 <dd>Linear st-VGG networks on the small-mammals dataset reach 0.43 average accuracy versus 0.56 for non-linear st-VGG, yet still show bi-modal TP-agreement (maximum Pearson bi-modality 0.06 versus 0.22). The non-linear networks first learn the examples the linear ones learn.<br><span class="scope">Holds for: 100 linear st-VGG models on the small-mammals dataset (2500 train, 500 test images, 5 classes); linear networks converge in a few epochs, too fast for a meaningful accessibility score, so the nesting is read off matched-accuracy counts.</span></dd>
-<dt>How can I measure whether two trained neural networks are similar without comparing their weights?</dt>
-<dt>What is TP-agreement and what does it measure?</dt>
-<dt>Is there a way to compare networks by their per-example predictions instead of their representations?</dt>
+<dt>Is there a way to compare two trained networks by looking at which examples they get right instead of at their internal features?</dt>
+<dt>What measure quantifies per-example prediction agreement across a collection of networks as an alternative to representation-similarity analyses such as SVCCA?</dt>
+<dt>How do I measure similarity between two trained models without probing or aligning their hidden representations?</dt>
+<dt>Should I compare my two models with a representation-similarity method or just with their per-example predictions?</dt>
 <dd>&quot;Let&#x27;s Agree to Agree&quot; compares trained neural networks by their per-example predictions rather than by their internal representations. It offers an alternative to representation-similarity methods such as SVCCA for asking whether two networks are alike.<br><span class="scope">Holds for: As of the ICML 2020 publication; the comparison is behavioural and needs a labelled dataset and multiple trained instances, and it says nothing about which internal features a network uses.</span></dd>
 <dd>Independently trained neural networks of the same architecture produce a bi-modal distribution of per-example TP-agreement throughout training on every natural benchmark tested, including ImageNet with 27 ResNet-50 models. Most examples are classified correctly by all the models or by none of them.<br><span class="scope">Holds for: 27 ResNet-50 models on ImageNet, train and validation sets, epochs 1 to 100; each epoch measured by training a fresh set of networks from scratch. Random classification vectors with matching accuracy give a uni-modal Gaussian instead.</span></dd>
-<dt>What paper should I read first about example difficulty and learning order in deep networks?</dt>
-<dt>Which work established that neural networks learn examples in a consistent order?</dt>
-<dt>Where does the idea of a per-example learning order in deep learning come from?</dt>
-<dt>What is a good starting paper on how neural networks discover structure in benchmark datasets?</dt>
+<dt>What should I read first about neural networks learning examples in a consistent order?</dt>
+<dt>Which work established consistent per-example learning order across independently trained networks as an empirical phenomenon on natural datasets?</dt>
+<dt>Where do I start reading if I want to build example-difficulty or data-pruning scores from training dynamics?</dt>
+<dt>Which paper should I cite as the origin of shared example learning order in deep networks?</dt>
 <dd>&quot;Let&#x27;s Agree to Agree&quot; established shared example learning order as an empirical phenomenon of neural networks on natural datasets, a starting point for later work on example difficulty, learning-order and data-pruning scores.<br><span class="scope">Holds for: Evidence is empirical across image benchmarks and one text benchmark, with no theoretical account of why particular examples are easy; the paper reports that using the discovered order as a curriculum did not improve learning.</span></dd>
 <dd>&quot;Let&#x27;s Agree to Agree&quot; compares trained neural networks by their per-example predictions rather than by their internal representations. It offers an alternative to representation-similarity methods such as SVCCA for asking whether two networks are alike.<br><span class="scope">Holds for: As of the ICML 2020 publication; the comparison is behavioural and needs a labelled dataset and multiple trained instances, and it says nothing about which internal features a network uses.</span></dd>
-<dt>Are whole classes learned in a consistent order, not just individual images?</dt>
-<dt>Does classification order induce a hierarchy over classes?</dt>
-<dt>Which classes does a CNN learn first on a 5-class CIFAR-100 super-class?</dt>
+<dt>Do networks learn whole categories in a consistent order, or only individual pictures?</dt>
+<dt>Does consistent classification order across networks extend from individual examples to class labels, inducing a hierarchy over classes?</dt>
+<dt>How do I find out which classes in my dataset my models pick up first?</dt>
+<dt>Can I use the order in which classes are learned to decide which categories need more data?</dt>
 <dd>Classes, not just examples, are learned in a consistent order. Early in training only images from 2 of the 5 small-mammals classes reach TP-agreement 1, and further class labels emerge gradually as learning proceeds.<br><span class="scope">Holds for: 100 st-VGG instances on the 5-class small-mammals dataset, epochs 1, 2, 30 and 140; each image coloured by its most frequent predicted label across the collection.</span></dd>
-<dt>Does knowing the order examples are learned help build a better curriculum?</dt>
-<dt>Can learning order be used to speed up training?</dt>
+<dt>Can knowing which examples a network learns first be used to train faster or design a curriculum?</dt>
+<dt>Does consistent per-example learning order support downstream applications such as curriculum construction or dataset pruning?</dt>
+<dt>How do I turn an ordering of examples by when networks learn them into a training curriculum or a pruned dataset?</dt>
+<dt>Should I order or prune my training data by the order networks tend to learn examples?</dt>
 <dd>&quot;Let&#x27;s Agree to Agree&quot; established shared example learning order as an empirical phenomenon of neural networks on natural datasets, a starting point for later work on example difficulty, learning-order and data-pruning scores.<br><span class="scope">Holds for: Evidence is empirical across image benchmarks and one text benchmark, with no theoretical account of why particular examples are easy; the paper reports that using the discovered order as a curriculum did not improve learning.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

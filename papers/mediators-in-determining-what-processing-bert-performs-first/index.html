@@ -62,7 +62,7 @@
   "about": [
     {
       "@type": "Thing",
-      "name": "Probing BERT-base with the 7 tasks used by Tenney et al. (2019a), 196 different rankings of those tasks by expected layer can be obtained by choosing different context length distributions for the probing datasets. One attainable order is Non-term. < Dep. < SRL < RC < NER < Co-ref. < SPR.",
+      "name": "With the 7 edge-probing tasks of Tenney et al. (2019a), 196 rankings of those tasks by expected layer in BERT-base are attainable by choosing the context length distribution of the probing datasets. One attainable order is Non-term. < Dep. < SRL < RC < NER < Co-ref. < SPR.",
       "description": "Holds for: BERT-base, edge probing with the Jiant defaults, 7 tasks (NER, non-terminals, SRL, co-reference, SPR, relation classification, Stanford dependencies); context length bins of width 3 up to a per-task maximal threshold."
     },
     {
@@ -118,21 +118,22 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Why can probing results about which BERT layer handles which task be misleading?",
+      "name": "Can results about which BERT layer handles which linguistic task be an artifact of the probing dataset?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Probing BERT-base with the 7 tasks used by Tenney et al. (2019a), 196 different rankings of those tasks by expected layer can be obtained by choosing different context length distributions for the probing datasets. One attainable order is Non-term. < Dep. < SRL < RC < NER < Co-ref. < SPR. Holds for: BERT-base, edge probing with the Jiant defaults, 7 tasks (NER, non-terminals, SRL, co-reference, SPR, relation classification, Stanford dependencies); context length bins of width 3 up to a per-task maximal threshold.\n\nRaising the maximum allowed context length in the probing set raises the expected layer of co-reference, SRL, dependency parsing and relation classification in BERT-base. For 4 of the 7 probed tasks, the localization estimate is therefore driven by context length and not by task identity alone. Holds for: BERT-base; expected layer recomputed for every integer context length threshold, with thresholds capped per task so at least 2000 instances remain in the final bin; the other 3 tasks show no such clear increase.\n\nTenney et al. (2019a)'s finding that BERT processes lexical tasks in lower layers and semantic tasks in higher layers is reaffirmed on BERT-base with the same 7 tasks. The layer ordering is nonetheless not identified by the probing data, since context length distributions can reverse parts of it. Holds for: BERT-base with the expected layer metric; the argument is about identifiability under an uncontrolled mediator, and does not show that a pipeline interpretation is false.",
+        "text": "With the 7 edge-probing tasks of Tenney et al. (2019a), 196 rankings of those tasks by expected layer in BERT-base are attainable by choosing the context length distribution of the probing datasets. One attainable order is Non-term. < Dep. < SRL < RC < NER < Co-ref. < SPR. Holds for: BERT-base, edge probing with the Jiant defaults, 7 tasks (NER, non-terminals, SRL, co-reference, SPR, relation classification, Stanford dependencies); context length bins of width 3 up to a per-task maximal threshold.\n\nRaising the maximum allowed context length in the probing set raises the expected layer of co-reference, SRL, dependency parsing and relation classification in BERT-base. For 4 of the 7 probed tasks, the localization estimate is therefore driven by context length and not by task identity alone. Holds for: BERT-base; expected layer recomputed for every integer context length threshold, with thresholds capped per task so at least 2000 instances remain in the final bin; the other 3 tasks show no such clear increase.\n\nTenney et al. (2019a)'s finding that BERT processes lexical tasks in lower layers and semantic tasks in higher layers is reaffirmed on BERT-base with the same 7 tasks. The layer ordering is nonetheless not identified by the probing data, since context length distributions can reverse parts of it. Holds for: BERT-base with the expected layer metric; the argument is about identifiability under an uncontrolled mediator, and does not show that a pipeline interpretation is false.",
         "url": "https://borgr.github.io/papers/mediators-in-determining-what-processing-bert-performs-first/"
       },
       "alternateName": [
-        "What confounds layer-localization probing of BERT?",
-        "Does the ranking of tasks by BERT layer depend on the probing dataset?"
+        "Is the layer-wise localization of edge-probing tasks in BERT identified by the probing data, or confounded by properties of the probed examples?",
+        "How do I check whether my layer-attribution probing result for a BERT task would survive a different probing set?",
+        "Should I trust a published per-layer ranking of BERT tasks when choosing which layer to read features from?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is it true that BERT rediscovers the classical NLP pipeline?",
+      "name": "Does BERT really handle word-level things before grammar and grammar before meaning?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -140,26 +141,29 @@
         "url": "https://borgr.github.io/papers/mediators-in-determining-what-processing-bert-performs-first/"
       },
       "alternateName": [
-        "Does BERT really do lexical processing before syntax before semantics?",
-        "Has the claim that BERT's layers mirror an NLP pipeline been challenged?"
+        "Is the claim that BERT's layers rediscover the classical NLP pipeline supported once probing-set confounds are accounted for?",
+        "How much can I rely on the lexical-to-syntactic-to-semantic layer story when picking BERT layers for a task?",
+        "Should I still cite the NLP-pipeline account of BERT layers, or has the layer ordering been shown to be unstable?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How many different task orderings by expected layer can be produced from the same probing data?",
+      "name": "How many different orderings of seven linguistic tasks by BERT layer can the same probing setup produce?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Probing BERT-base with the 7 tasks used by Tenney et al. (2019a), 196 different rankings of those tasks by expected layer can be obtained by choosing different context length distributions for the probing datasets. One attainable order is Non-term. < Dep. < SRL < RC < NER < Co-ref. < SPR. Holds for: BERT-base, edge probing with the Jiant defaults, 7 tasks (NER, non-terminals, SRL, co-reference, SPR, relation classification, Stanford dependencies); context length bins of width 3 up to a per-task maximal threshold.\n\nAmong the 7 tasks probed in BERT-base, some pairs keep a clear expected-layer separation across context length bins, such as SRL versus co-reference. Other pairs have overlapping attainable ranges whose ordering can be flipped, such as SPR versus relation classification. Holds for: BERT-base, expected layer plotted per context length range of width 3, the narrowest width retaining at least 1% of examples per bin; the ranges are the controlled effect, not the effect under any single dataset's distribution.",
+        "text": "With the 7 edge-probing tasks of Tenney et al. (2019a), 196 rankings of those tasks by expected layer in BERT-base are attainable by choosing the context length distribution of the probing datasets. One attainable order is Non-term. < Dep. < SRL < RC < NER < Co-ref. < SPR. Holds for: BERT-base, edge probing with the Jiant defaults, 7 tasks (NER, non-terminals, SRL, co-reference, SPR, relation classification, Stanford dependencies); context length bins of width 3 up to a per-task maximal threshold.\n\nAmong the 7 tasks probed in BERT-base, some pairs keep a clear expected-layer separation across context length bins, such as SRL versus co-reference. Other pairs have overlapping attainable ranges whose ordering can be flipped, such as SPR versus relation classification. Holds for: BERT-base, expected layer plotted per context length range of width 3, the narrowest width retaining at least 1% of examples per bin; the ranges are the controlled effect, not the effect under any single dataset's distribution.",
         "url": "https://borgr.github.io/papers/mediators-in-determining-what-processing-bert-performs-first/"
       },
       "alternateName": [
-        "How much can the ordering of seven probing tasks change with context length?"
+        "How many task orderings by expected layer over the 7 edge-probing tasks are attainable by varying the probing sets' span-length distributions?",
+        "How do I tell which pairs of probing tasks have a stable layer ordering in BERT and which can be swapped?",
+        "If I report a layer ranking over seven probing tasks in BERT, how much of it could a reviewer flip by rebuilding the datasets?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can dependency parsing look like it is computed in a higher BERT layer than NER even when it is not?",
+      "name": "Can one task look like BERT computes it in a higher layer than another even when it does not for any individual example?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -167,13 +171,14 @@
         "url": "https://borgr.github.io/papers/mediators-in-determining-what-processing-bert-performs-first/"
       },
       "alternateName": [
-        "Is there a Simpson's paradox in BERT probing results?",
-        "Can the aggregate expected layer of two tasks reverse the per-bin ordering?"
+        "Can aggregate expected layers of two edge-probing tasks reverse the per-bin ordering, i.e. a Simpson's paradox in layer attribution?",
+        "How do I avoid an aggregation artifact when I compare the average layer of dependency parsing and NER probes in BERT?",
+        "Is an aggregate expected-layer comparison between two probing tasks safe to report, or should I break it out by span length?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much does the expected-layer gap between two tasks change when their context length distributions are matched?",
+      "name": "How much does the layer gap between two linguistic tasks in BERT shrink once the probing examples are matched for span length?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -181,13 +186,14 @@
         "url": "https://borgr.github.io/papers/mediators-in-determining-what-processing-bert-performs-first/"
       },
       "alternateName": [
-        "What does the Natural Direct Effect show about pairs of probing tasks in BERT?",
-        "How big is the mediation effect of context length on expected layer differences?"
+        "What magnitude of natural direct effect on the expected-layer difference remains once span-length distributions are equalized across two probing tasks?",
+        "How do I quantify how much of the layer difference between two BERT probing tasks comes from span length rather than the task?",
+        "Is it worth matching span-length distributions across my probing datasets, or is the effect on expected layer too small to bother?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which probing tasks in BERT move to higher layers when longer spans are included?",
+      "name": "Do BERT probes move to higher layers when the two words being related are farther apart?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -195,12 +201,14 @@
         "url": "https://borgr.github.io/papers/mediators-in-determining-what-processing-bert-performs-first/"
       },
       "alternateName": [
-        "Does the expected layer for co-reference or SRL depend on span length?"
+        "Does raising the maximum span distance in an edge-probing set monotonically raise the expected layer for co-reference, SRL, dependency and relation classification in BERT?",
+        "How do I set the maximum span distance in a probing dataset if I do not want the layer estimate to move?",
+        "If I cap span distance in my co-reference or SRL probing set, will my layer estimate change?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about causal or mediation analysis in interpretability probing?",
+      "name": "What paper should I read first about hidden confounds in studies of which BERT layer does what?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -208,13 +216,14 @@
         "url": "https://borgr.github.io/papers/mediators-in-determining-what-processing-bert-performs-first/"
       },
       "alternateName": [
-        "What work introduced mediation analysis to layer-wise probing of language models?",
-        "Where should I start reading about confounds in BERT probing studies?"
+        "Which work brings causal mediation analysis to layer-wise probing of transformer representations?",
+        "Where do I start reading if I want to design a probing study of BERT layers that controls for example properties?",
+        "Is there a paper I can cite for why my reviewers should distrust a raw layer ranking from probing?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What are the recommended best practices for comparing layers across probing tasks?",
+      "name": "What is the right way to compare which BERT layer handles each task without being fooled by dataset differences?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -222,13 +231,14 @@
         "url": "https://borgr.github.io/papers/mediators-in-determining-what-processing-bert-performs-first/"
       },
       "alternateName": [
-        "When should I use the Natural Direct Effect versus the controlled effect in a probing study?",
-        "How can I control for span length when probing a transformer's layers?"
+        "What reporting practice is recommended for comparing expected layers across edge-probing tasks in the presence of a mediator such as span distance?",
+        "How do I control for span distance when I compare probes across BERT layers?",
+        "Should I report per-bin expected layers or a direct effect when I compare probing tasks across layers?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is meant by the context length of a prediction in probing?",
+      "name": "What does the distance between the two words in a probing example mean, and why does it matter for BERT layers?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -236,7 +246,8 @@
         "url": "https://borgr.github.io/papers/mediators-in-determining-what-processing-bert-performs-first/"
       },
       "alternateName": [
-        "How is span distance defined for edge probing tasks?"
+        "How is context length defined for an edge-probing instance, and how does it act as a mediator on expected layer?",
+        "How do I measure span distance in my edge-probing examples so I can bin results by it?"
       ]
     }
   ]
@@ -309,50 +320,61 @@
 <p>Probing neural models for the ability to perform downstream tasks using their activation patterns is often used to localize what parts of the network specialize in performing what tasks. However, little work addressed potential mediating factors in such comparisons. As a test-case mediating factor, we consider the prediction’s context length, namely the length of the span whose processing is minimally required to perform the prediction. We show that not controlling for context length may lead to contradictory conclusions as to the localization patterns of the network, depending on the distribution of the probing dataset. Indeed, when probing BERT with seven tasks, we find that it is possible to get 196 different rankings between them when manipulating the distribution of context lengths in the probing dataset. We conclude by presenting best practices for conducting such comparisons in the future.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Why can probing results about which BERT layer handles which task be misleading?</dt>
-<dt>What confounds layer-localization probing of BERT?</dt>
-<dt>Does the ranking of tasks by BERT layer depend on the probing dataset?</dt>
-<dd>Probing BERT-base with the 7 tasks used by Tenney et al. (2019a), 196 different rankings of those tasks by expected layer can be obtained by choosing different context length distributions for the probing datasets. One attainable order is Non-term. &lt; Dep. &lt; SRL &lt; RC &lt; NER &lt; Co-ref. &lt; SPR.<br><span class="scope">Holds for: BERT-base, edge probing with the Jiant defaults, 7 tasks (NER, non-terminals, SRL, co-reference, SPR, relation classification, Stanford dependencies); context length bins of width 3 up to a per-task maximal threshold.</span></dd>
+<dt>Can results about which BERT layer handles which linguistic task be an artifact of the probing dataset?</dt>
+<dt>Is the layer-wise localization of edge-probing tasks in BERT identified by the probing data, or confounded by properties of the probed examples?</dt>
+<dt>How do I check whether my layer-attribution probing result for a BERT task would survive a different probing set?</dt>
+<dt>Should I trust a published per-layer ranking of BERT tasks when choosing which layer to read features from?</dt>
+<dd>With the 7 edge-probing tasks of Tenney et al. (2019a), 196 rankings of those tasks by expected layer in BERT-base are attainable by choosing the context length distribution of the probing datasets. One attainable order is Non-term. &lt; Dep. &lt; SRL &lt; RC &lt; NER &lt; Co-ref. &lt; SPR.<br><span class="scope">Holds for: BERT-base, edge probing with the Jiant defaults, 7 tasks (NER, non-terminals, SRL, co-reference, SPR, relation classification, Stanford dependencies); context length bins of width 3 up to a per-task maximal threshold.</span></dd>
 <dd>Raising the maximum allowed context length in the probing set raises the expected layer of co-reference, SRL, dependency parsing and relation classification in BERT-base. For 4 of the 7 probed tasks, the localization estimate is therefore driven by context length and not by task identity alone.<br><span class="scope">Holds for: BERT-base; expected layer recomputed for every integer context length threshold, with thresholds capped per task so at least 2000 instances remain in the final bin; the other 3 tasks show no such clear increase.</span></dd>
 <dd>Tenney et al. (2019a)&#x27;s finding that BERT processes lexical tasks in lower layers and semantic tasks in higher layers is reaffirmed on BERT-base with the same 7 tasks. The layer ordering is nonetheless not identified by the probing data, since context length distributions can reverse parts of it.<br><span class="scope">Holds for: BERT-base with the expected layer metric; the argument is about identifiability under an uncontrolled mediator, and does not show that a pipeline interpretation is false.</span></dd>
-<dt>Is it true that BERT rediscovers the classical NLP pipeline?</dt>
-<dt>Does BERT really do lexical processing before syntax before semantics?</dt>
-<dt>Has the claim that BERT&#x27;s layers mirror an NLP pipeline been challenged?</dt>
+<dt>Does BERT really handle word-level things before grammar and grammar before meaning?</dt>
+<dt>Is the claim that BERT&#x27;s layers rediscover the classical NLP pipeline supported once probing-set confounds are accounted for?</dt>
+<dt>How much can I rely on the lexical-to-syntactic-to-semantic layer story when picking BERT layers for a task?</dt>
+<dt>Should I still cite the NLP-pipeline account of BERT layers, or has the layer ordering been shown to be unstable?</dt>
 <dd>Tenney et al. (2019a)&#x27;s finding that BERT processes lexical tasks in lower layers and semantic tasks in higher layers is reaffirmed on BERT-base with the same 7 tasks. The layer ordering is nonetheless not identified by the probing data, since context length distributions can reverse parts of it.<br><span class="scope">Holds for: BERT-base with the expected layer metric; the argument is about identifiability under an uncontrolled mediator, and does not show that a pipeline interpretation is false.</span></dd>
 <dd>Dependency parsing&#x27;s expected layer in BERT-base is lower than NER&#x27;s in all 4 measured context length ranges. The aggregate ordering nonetheless reverses when all dependency instances have context length 9 or more and all NER instances fall in the 3-5 range.<br><span class="scope">Holds for: BERT-base; dependency parsing probed on the English Web Treebank and NER on OntoNotes 5.0; the reversal is a constructed distribution over existing test bins, not a naturally occurring dataset.</span></dd>
-<dt>How many different task orderings by expected layer can be produced from the same probing data?</dt>
-<dt>How much can the ordering of seven probing tasks change with context length?</dt>
-<dd>Probing BERT-base with the 7 tasks used by Tenney et al. (2019a), 196 different rankings of those tasks by expected layer can be obtained by choosing different context length distributions for the probing datasets. One attainable order is Non-term. &lt; Dep. &lt; SRL &lt; RC &lt; NER &lt; Co-ref. &lt; SPR.<br><span class="scope">Holds for: BERT-base, edge probing with the Jiant defaults, 7 tasks (NER, non-terminals, SRL, co-reference, SPR, relation classification, Stanford dependencies); context length bins of width 3 up to a per-task maximal threshold.</span></dd>
+<dt>How many different orderings of seven linguistic tasks by BERT layer can the same probing setup produce?</dt>
+<dt>How many task orderings by expected layer over the 7 edge-probing tasks are attainable by varying the probing sets&#x27; span-length distributions?</dt>
+<dt>How do I tell which pairs of probing tasks have a stable layer ordering in BERT and which can be swapped?</dt>
+<dt>If I report a layer ranking over seven probing tasks in BERT, how much of it could a reviewer flip by rebuilding the datasets?</dt>
+<dd>With the 7 edge-probing tasks of Tenney et al. (2019a), 196 rankings of those tasks by expected layer in BERT-base are attainable by choosing the context length distribution of the probing datasets. One attainable order is Non-term. &lt; Dep. &lt; SRL &lt; RC &lt; NER &lt; Co-ref. &lt; SPR.<br><span class="scope">Holds for: BERT-base, edge probing with the Jiant defaults, 7 tasks (NER, non-terminals, SRL, co-reference, SPR, relation classification, Stanford dependencies); context length bins of width 3 up to a per-task maximal threshold.</span></dd>
 <dd>Among the 7 tasks probed in BERT-base, some pairs keep a clear expected-layer separation across context length bins, such as SRL versus co-reference. Other pairs have overlapping attainable ranges whose ordering can be flipped, such as SPR versus relation classification.<br><span class="scope">Holds for: BERT-base, expected layer plotted per context length range of width 3, the narrowest width retaining at least 1% of examples per bin; the ranges are the controlled effect, not the effect under any single dataset&#x27;s distribution.</span></dd>
-<dt>Can dependency parsing look like it is computed in a higher BERT layer than NER even when it is not?</dt>
-<dt>Is there a Simpson&#x27;s paradox in BERT probing results?</dt>
-<dt>Can the aggregate expected layer of two tasks reverse the per-bin ordering?</dt>
+<dt>Can one task look like BERT computes it in a higher layer than another even when it does not for any individual example?</dt>
+<dt>Can aggregate expected layers of two edge-probing tasks reverse the per-bin ordering, i.e. a Simpson&#x27;s paradox in layer attribution?</dt>
+<dt>How do I avoid an aggregation artifact when I compare the average layer of dependency parsing and NER probes in BERT?</dt>
+<dt>Is an aggregate expected-layer comparison between two probing tasks safe to report, or should I break it out by span length?</dt>
 <dd>Dependency parsing&#x27;s expected layer in BERT-base is lower than NER&#x27;s in all 4 measured context length ranges. The aggregate ordering nonetheless reverses when all dependency instances have context length 9 or more and all NER instances fall in the 3-5 range.<br><span class="scope">Holds for: BERT-base; dependency parsing probed on the English Web Treebank and NER on OntoNotes 5.0; the reversal is a constructed distribution over existing test bins, not a naturally occurring dataset.</span></dd>
 <dd>SRL&#x27;s expected layer in BERT-base exceeds that of the non-terminal (constituent) task in all 4 measured context length ranges. The order reverses when all SRL instances have context length 0-2 and all non-terminal instances have context length 9 or more.<br><span class="scope">Holds for: BERT-base, both tasks probed on OntoNotes 5.0; a constructed distribution over the existing test bins rather than an observed dataset; a second instance of the same edge case as dependency parsing versus NER.</span></dd>
-<dt>How much does the expected-layer gap between two tasks change when their context length distributions are matched?</dt>
-<dt>What does the Natural Direct Effect show about pairs of probing tasks in BERT?</dt>
-<dt>How big is the mediation effect of context length on expected layer differences?</dt>
+<dt>How much does the layer gap between two linguistic tasks in BERT shrink once the probing examples are matched for span length?</dt>
+<dt>What magnitude of natural direct effect on the expected-layer difference remains once span-length distributions are equalized across two probing tasks?</dt>
+<dt>How do I quantify how much of the layer difference between two BERT probing tasks comes from span length rather than the task?</dt>
+<dt>Is it worth matching span-length distributions across my probing datasets, or is the effect on expected layer too small to bother?</dt>
 <dd>Forcing the same context length distribution on two tasks changes the gap between their expected layers by up to 1.24 layers in absolute value, more than 50 times the unmediated difference. For another pair the gap shrinks by 86%, a change of 0.73 layers.<br><span class="scope">Holds for: Natural Direct Effect computed per task-pair on BERT-base by imposing one task&#x27;s empirical context length distribution on both; the pairs shown are NER/co-reference, NER/RC and SPR/RC, with every task-pair in the appendix.</span></dd>
-<dt>Which probing tasks in BERT move to higher layers when longer spans are included?</dt>
-<dt>Does the expected layer for co-reference or SRL depend on span length?</dt>
+<dt>Do BERT probes move to higher layers when the two words being related are farther apart?</dt>
+<dt>Does raising the maximum span distance in an edge-probing set monotonically raise the expected layer for co-reference, SRL, dependency and relation classification in BERT?</dt>
+<dt>How do I set the maximum span distance in a probing dataset if I do not want the layer estimate to move?</dt>
+<dt>If I cap span distance in my co-reference or SRL probing set, will my layer estimate change?</dt>
 <dd>Raising the maximum allowed context length in the probing set raises the expected layer of co-reference, SRL, dependency parsing and relation classification in BERT-base. For 4 of the 7 probed tasks, the localization estimate is therefore driven by context length and not by task identity alone.<br><span class="scope">Holds for: BERT-base; expected layer recomputed for every integer context length threshold, with thresholds capped per task so at least 2000 instances remain in the final bin; the other 3 tasks show no such clear increase.</span></dd>
-<dt>What should I read about causal or mediation analysis in interpretability probing?</dt>
-<dt>What work introduced mediation analysis to layer-wise probing of language models?</dt>
-<dt>Where should I start reading about confounds in BERT probing studies?</dt>
+<dt>What paper should I read first about hidden confounds in studies of which BERT layer does what?</dt>
+<dt>Which work brings causal mediation analysis to layer-wise probing of transformer representations?</dt>
+<dt>Where do I start reading if I want to design a probing study of BERT layers that controls for example properties?</dt>
+<dt>Is there a paper I can cite for why my reviewers should distrust a raw layer ranking from probing?</dt>
 <dd>&quot;Mediators in Determining what Processing BERT Performs First&quot; brings Pearl-style mediation analysis into probing-based interpretability. A property of the probing examples, its context length, is treated as a mediator between the task and the layer a probe attributes it to.<br><span class="scope">Holds for: As of publication in 2021; context length is the single mediator studied, on BERT-base with the expected layer metric, and other mediators are not claimed to be less important.</span></dd>
 <dd>&quot;Mediators in Determining what Processing BERT Performs First&quot; recommends reporting the controlled effect, the expected layer per context length bin, when comparing tasks against one mediator. It recommends the Natural Direct Effect when several effects or empirically given mediator distributions are involved.<br><span class="scope">Holds for: Recommendations stated for edge probing with the expected layer metric; demonstrated only for context length on BERT-base, and offered as advice rather than validated against alternative controls.</span></dd>
-<dt>What are the recommended best practices for comparing layers across probing tasks?</dt>
-<dt>When should I use the Natural Direct Effect versus the controlled effect in a probing study?</dt>
-<dt>How can I control for span length when probing a transformer&#x27;s layers?</dt>
+<dt>What is the right way to compare which BERT layer handles each task without being fooled by dataset differences?</dt>
+<dt>What reporting practice is recommended for comparing expected layers across edge-probing tasks in the presence of a mediator such as span distance?</dt>
+<dt>How do I control for span distance when I compare probes across BERT layers?</dt>
+<dt>Should I report per-bin expected layers or a direct effect when I compare probing tasks across layers?</dt>
 <dd>&quot;Mediators in Determining what Processing BERT Performs First&quot; recommends reporting the controlled effect, the expected layer per context length bin, when comparing tasks against one mediator. It recommends the Natural Direct Effect when several effects or empirically given mediator distributions are involved.<br><span class="scope">Holds for: Recommendations stated for edge probing with the expected layer metric; demonstrated only for context length on BERT-base, and offered as advice rather than validated against alternative controls.</span></dd>
 <dd>Among the 7 tasks probed in BERT-base, some pairs keep a clear expected-layer separation across context length bins, such as SRL versus co-reference. Other pairs have overlapping attainable ranges whose ordering can be flipped, such as SPR versus relation classification.<br><span class="scope">Holds for: BERT-base, expected layer plotted per context length range of width 3, the narrowest width retaining at least 1% of examples per bin; the ranges are the controlled effect, not the effect under any single dataset&#x27;s distribution.</span></dd>
-<dt>What is meant by the context length of a prediction in probing?</dt>
-<dt>How is span distance defined for edge probing tasks?</dt>
+<dt>What does the distance between the two words in a probing example mean, and why does it matter for BERT layers?</dt>
+<dt>How is context length defined for an edge-probing instance, and how does it act as a mediator on expected layer?</dt>
+<dt>How do I measure span distance in my edge-probing examples so I can bin results by it?</dt>
 <dd>&quot;Mediators in Determining what Processing BERT Performs First&quot; brings Pearl-style mediation analysis into probing-based interpretability. A property of the probing examples, its context length, is treated as a mediator between the task and the layer a probe attributes it to.<br><span class="scope">Holds for: As of publication in 2021; context length is the single mediator studied, on BERT-base with the expected layer metric, and other mediators are not claimed to be less important.</span></dd>
 <dd>Raising the maximum allowed context length in the probing set raises the expected layer of co-reference, SRL, dependency parsing and relation classification in BERT-base. For 4 of the 7 probed tasks, the localization estimate is therefore driven by context length and not by task identity alone.<br><span class="scope">Holds for: BERT-base; expected layer recomputed for every integer context length threshold, with thresholds capped per task so at least 2000 instances remain in the final bin; the other 3 tasks show no such clear increase.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>
-<li>Probing BERT-base with the 7 tasks used by Tenney et al. (2019a), 196 different rankings of those tasks by expected layer can be obtained by choosing different context length distributions for the probing datasets. One attainable order is Non-term. &lt; Dep. &lt; SRL &lt; RC &lt; NER &lt; Co-ref. &lt; SPR. <span class="meta">(Section 3.2.1 and Figure 6)</span><br><span class="scope">Scope: BERT-base, edge probing with the Jiant defaults, 7 tasks (NER, non-terminals, SRL, co-reference, SPR, relation classification, Stanford dependencies); context length bins of width 3 up to a per-task maximal threshold.</span></li>
+<li>With the 7 edge-probing tasks of Tenney et al. (2019a), 196 rankings of those tasks by expected layer in BERT-base are attainable by choosing the context length distribution of the probing datasets. One attainable order is Non-term. &lt; Dep. &lt; SRL &lt; RC &lt; NER &lt; Co-ref. &lt; SPR. <span class="meta">(Section 3.2.1 and Figure 6)</span><br><span class="scope">Scope: BERT-base, edge probing with the Jiant defaults, 7 tasks (NER, non-terminals, SRL, co-reference, SPR, relation classification, Stanford dependencies); context length bins of width 3 up to a per-task maximal threshold.</span></li>
 <li>Dependency parsing&#x27;s expected layer in BERT-base is lower than NER&#x27;s in all 4 measured context length ranges. The aggregate ordering nonetheless reverses when all dependency instances have context length 9 or more and all NER instances fall in the 3-5 range. <span class="meta">(Figure 3)</span><br><span class="scope">Scope: BERT-base; dependency parsing probed on the English Web Treebank and NER on OntoNotes 5.0; the reversal is a constructed distribution over existing test bins, not a naturally occurring dataset.</span></li>
 <li>SRL&#x27;s expected layer in BERT-base exceeds that of the non-terminal (constituent) task in all 4 measured context length ranges. The order reverses when all SRL instances have context length 0-2 and all non-terminal instances have context length 9 or more. <span class="meta">(Figure 7)</span><br><span class="scope">Scope: BERT-base, both tasks probed on OntoNotes 5.0; a constructed distribution over the existing test bins rather than an observed dataset; a second instance of the same edge case as dependency parsing versus NER.</span></li>
 <li>Forcing the same context length distribution on two tasks changes the gap between their expected layers by up to 1.24 layers in absolute value, more than 50 times the unmediated difference. For another pair the gap shrinks by 86%, a change of 0.73 layers. <span class="meta">(Figure 4 (all pairs in Figure 9))</span><br><span class="scope">Scope: Natural Direct Effect computed per task-pair on BERT-base by imposing one task&#x27;s empirical context length distribution on both; the pairs shown are NER/co-reference, NER/RC and SPR/RC, with every task-pair in the appendix.</span></li>

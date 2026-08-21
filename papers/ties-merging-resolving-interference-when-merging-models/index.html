@@ -156,7 +156,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What is TIES-Merging?",
+      "name": "what does it mean for two fine-tuned models to interfere when their weights are combined?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -164,12 +164,14 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "How does TIES-Merging resolve parameter interference?"
+        "what interference between task vectors does TIES-Merging resolve?",
+        "how do I combine several fine-tuned versions of one base model into a single model?",
+        "should I use TIES-Merging instead of averaging my fine-tuned checkpoints?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What are the main steps in TIES-Merging?",
+      "name": "what steps are involved in combining fine-tuned model weights without retraining?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -177,13 +179,14 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "What are the three steps of TIES-Merging?",
-        "What method does TIES-Merging use to merge models?"
+        "what are the three steps of TIES-Merging -- trim, elect sign, disjoint merge?",
+        "how do I merge task vectors so that conflicting parameter updates do not cancel out?",
+        "do I have to implement trimming and sign election myself to merge my checkpoints?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How does TIES-Merging perform compared to other methods?",
+      "name": "how much better is careful weight merging than simply averaging fine-tuned models?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -191,12 +194,14 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "What are the performance improvements of TIES-Merging over other merging methods?"
+        "how much absolute accuracy does TIES-Merging add over task arithmetic in NLP and vision?",
+        "how much accuracy would I gain switching from weight averaging to interference-aware merging?",
+        "is switching from averaging to TIES-Merging worth it for my multi-task model?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What are the sources of interference in model merging?",
+      "name": "why does a model built by combining fine-tuned models perform worse than each one alone?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -204,12 +209,13 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "What causes interference in merging models?"
+        "what are the sources of interference between task vectors during merging?",
+        "how do I diagnose why merging two fine-tuned checkpoints lost accuracy?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the importance of resolving sign conflicts in TIES-Merging?",
+      "name": "what happens when two fine-tuned models change the same weight in opposite directions?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -217,12 +223,13 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "Why is resolving sign conflicts important in TIES-Merging?"
+        "why does resolving sign conflicts between task vectors matter for merged accuracy?",
+        "how do I stop opposing parameter updates from cancelling when I merge models?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the impact of redundant parameters in TIES-Merging?",
+      "name": "does dropping most of the small weight changes hurt a merged model?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -230,12 +237,13 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "How does TIES-Merging handle redundant parameters?"
+        "what effect does trimming redundant task-vector values have on merged performance?",
+        "how do I decide which parameter changes to keep when merging fine-tuned models?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the performance of TIES-Merging on out-of-domain tasks?",
+      "name": "does a model built by merging others still work on tasks none of them were trained on?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -243,12 +251,14 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "How does TIES-Merging generalize to out-of-domain tasks?"
+        "how does TIES-Merging compare with the strongest baseline on out-of-domain generalization for T5-Base and T5-Large?",
+        "how do I merge fine-tuned models and keep performance on tasks outside their training sets?",
+        "will a merged model generalize to tasks I never fine-tuned on?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the performance of TIES-Merging when merging different numbers of tasks?",
+      "name": "how many fine-tuned models can be combined before the result gets noticeably worse?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -256,12 +266,14 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "How does TIES-Merging scale with the number of tasks?"
+        "how does merged accuracy degrade with the number of task vectors, for averaging versus task arithmetic versus TIES-Merging?",
+        "how do I merge more than a handful of fine-tuned models without accuracy collapsing?",
+        "how many checkpoints can I merge at once before I should stop adding more?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the performance of TIES-Merging when merging checkpoints of the same task?",
+      "name": "can several training runs of the same task be combined into one better model?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -269,12 +281,14 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "How does TIES-Merging perform when merging multiple checkpoints of the same task?"
+        "how does TIES-Merging compare with averaging, Fisher merging and ensembling over ten same-task checkpoints?",
+        "how do I combine multiple runs of one fine-tuning job instead of picking the best run?",
+        "I have ten fine-tuning runs of the same task -- should I merge them or ensemble them?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the performance of TIES-Merging when used as an initialization for fine-tuning?",
+      "name": "is a combined model a good starting point for further training?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -282,12 +296,14 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "How does TIES-Merging perform as an initialization for fine-tuning?"
+        "does a TIES-merged checkpoint initialize downstream fine-tuning better than other merging methods?",
+        "how do I build a better starting checkpoint for fine-tuning out of models I already have?",
+        "should I fine-tune from a merged checkpoint or from the original pretrained model?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the importance of the top-k% parameters in TIES-Merging?",
+      "name": "which weight changes actually carry what a fine-tuned model learned?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -295,12 +311,13 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "How does TIES-Merging handle the top-k% parameters?"
+        "what happens to task performance when the signs of the top 20% highest-magnitude parameters are flipped?",
+        "how do I tell which parameters matter before trimming a task vector?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the impact of hyperparameters in TIES-Merging?",
+      "name": "how much tuning does weight merging need before it works?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -308,12 +325,14 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "How sensitive is TIES-Merging to hyperparameters?"
+        "how sensitive is TIES-Merging to its scaling coefficient compared with task arithmetic?",
+        "how do I pick the scaling coefficient when merging fine-tuned models?",
+        "can I merge models without sweeping hyperparameters on a validation set?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the performance of TIES-Merging when merging PEFT models?",
+      "name": "can lightweight adapters trained separately be combined into one?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -321,12 +340,14 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "How does TIES-Merging perform with PEFT models?"
+        "how does TIES-Merging perform when merging PEFT modules across 11 tasks?",
+        "how do I merge several LoRA adapters into a single adapter?",
+        "should I merge my LoRA adapters or keep loading them one at a time?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the performance of TIES-Merging when merging fully fine-tuned vision models?",
+      "name": "does combining fine-tuned image models work as well as combining language models?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -334,12 +355,13 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "How does TIES-Merging perform with fully fine-tuned vision models?"
+        "what accuracy gain does TIES-Merging give on fully fine-tuned ViT-B/32 and ViT-L/14?",
+        "how do I merge several fine-tuned vision transformers into one multi-task model?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is the performance of TIES-Merging when merging fully fine-tuned NLP models?",
+      "name": "how much does careful merging help when combining fine-tuned text models?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -347,12 +369,13 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "How does TIES-Merging perform with fully fine-tuned NLP models?"
+        "what improvement does TIES-Merging give over baselines on fully fine-tuned T5-Base and T5-Large?",
+        "how do I merge fine-tuned T5 models across tasks?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is a good paper on merging models?",
+      "name": "what is a good paper to read about combining fine-tuned models into one model?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -360,7 +383,9 @@
         "url": "https://borgr.github.io/papers/ties-merging-resolving-interference-when-merging-models/"
       },
       "alternateName": [
-        "What work established the importance of resolving interference in model merging?"
+        "what work established interference between task vectors as the central problem in model merging?",
+        "where should I start reading if I want to merge models for multi-task use?",
+        "which paper should I cite for interference-aware model merging?"
       ]
     }
   ]
@@ -415,54 +440,79 @@
 <p>Transfer learning - i.e., further fine-tuning a pre-trained model on a downstream task - can confer significant advantages, including improved downstream performance, faster convergence, and better sample efficiency. These advantages have led to a proliferation of task-specific fine-tuned models, which typically can only perform a single task and do not benefit from one another. Recently, model merging techniques have emerged as a solution to combine multiple task-specific models into a single multitask model without performing additional training. However, existing merging methods often ignore the interference between parameters of different models, resulting in large performance drops when merging multiple models. In this paper, we demonstrate that prior merging techniques inadvertently lose valuable information due to two major sources of interference: (a) interference due to redundant parameter values and (b) disagreement on the sign of a given parameter&#x27;s values across models. To address this, we propose our method, TRIM, ELECT SIGN&amp;MERGE (TIES-Merging), which introduces three novel steps when merging models: (1) resetting parameters that only changed a small amount during fine-tuning, (2) resolving sign conflicts, and (3) merging only the parameters that are in alignment with the final agreed-upon sign. We find that TIES-Merging outperforms several existing methods in diverse settings covering a range of modalities, domains, number of tasks, model sizes, architectures, and fine-tuning settings. We further analyze the impact of different types of interference on model parameters, and highlight the importance of resolving sign interference. Our code is available at https://github.com/prateeky2806/ties-merging</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>What is TIES-Merging?</dt>
-<dt>How does TIES-Merging resolve parameter interference?</dt>
+<dt>what does it mean for two fine-tuned models to interfere when their weights are combined?</dt>
+<dt>what interference between task vectors does TIES-Merging resolve?</dt>
+<dt>how do I combine several fine-tuned versions of one base model into a single model?</dt>
+<dt>should I use TIES-Merging instead of averaging my fine-tuned checkpoints?</dt>
 <dd>TIES-Merging introduced interference between task vectors as the thing model merging has to resolve, and named trimming, sign election and disjoint merging as the way to resolve it.<br><span class="scope">Holds for: as of its 2023 publication, and before the later merging work that decomposes task vectors into subspaces rather than trimming them by magnitude</span></dd>
-<dt>What are the main steps in TIES-Merging?</dt>
-<dt>What are the three steps of TIES-Merging?</dt>
-<dt>What method does TIES-Merging use to merge models?</dt>
+<dt>what steps are involved in combining fine-tuned model weights without retraining?</dt>
+<dt>what are the three steps of TIES-Merging -- trim, elect sign, disjoint merge?</dt>
+<dt>how do I merge task vectors so that conflicting parameter updates do not cancel out?</dt>
+<dt>do I have to implement trimming and sign election myself to merge my checkpoints?</dt>
 <dd>TIES-Merging consists of three steps: trimming redundant parameters, resolving sign conflicts, and merging only the parameters that align with the final agreed-upon sign.<br><span class="scope">Holds for: the algorithm as published, where trimming keeps the top 20% of parameters by magnitude and the elected sign is whichever carries the larger total magnitude</span></dd>
-<dt>How does TIES-Merging perform compared to other methods?</dt>
-<dt>What are the performance improvements of TIES-Merging over other merging methods?</dt>
+<dt>how much better is careful weight merging than simply averaging fine-tuned models?</dt>
+<dt>how much absolute accuracy does TIES-Merging add over task arithmetic in NLP and vision?</dt>
+<dt>how much accuracy would I gain switching from weight averaging to interference-aware merging?</dt>
+<dt>is switching from averaging to TIES-Merging worth it for my multi-task model?</dt>
 <dd>TIES-Merging outperforms several existing methods in diverse settings, improving performance by 2.3% and 1.7% absolute in NLP and vision settings, respectively.<br><span class="scope">Holds for: in-domain evaluation with a validation set available to tune the trimming threshold and the scaling coefficient, over the NLP and vision settings of Table 1</span></dd>
-<dt>What are the sources of interference in model merging?</dt>
-<dt>What causes interference in merging models?</dt>
+<dt>why does a model built by combining fine-tuned models perform worse than each one alone?</dt>
+<dt>what are the sources of interference between task vectors during merging?</dt>
+<dt>how do I diagnose why merging two fine-tuned checkpoints lost accuracy?</dt>
 <dd>Interference in model merging can stem from redundant parameter values and sign disagreement between models.<br><span class="scope">Holds for: task vectors from checkpoints that share one pre-trained initialization, with sign conflicts counted after trimming each vector to its top 20% of parameters</span></dd>
-<dt>What is the importance of resolving sign conflicts in TIES-Merging?</dt>
-<dt>Why is resolving sign conflicts important in TIES-Merging?</dt>
+<dt>what happens when two fine-tuned models change the same weight in opposite directions?</dt>
+<dt>why does resolving sign conflicts between task vectors matter for merged accuracy?</dt>
+<dt>how do I stop opposing parameter updates from cancelling when I merge models?</dt>
 <dd>Resolving sign conflicts is crucial for maintaining parameter magnitudes and avoiding performance drops in merged models.<br><span class="scope">Holds for: (IA)3 models on eleven tasks, comparing merged parameter magnitudes when signs are elected against a plain mean over the same trimmed task vectors</span></dd>
-<dt>What is the impact of redundant parameters in TIES-Merging?</dt>
-<dt>How does TIES-Merging handle redundant parameters?</dt>
+<dt>does dropping most of the small weight changes hurt a merged model?</dt>
+<dt>what effect does trimming redundant task-vector values have on merged performance?</dt>
+<dt>how do I decide which parameter changes to keep when merging fine-tuned models?</dt>
 <dd>Trimming redundant parameters prevents interference and maintains the performance of merged models.<br><span class="scope">Holds for: eleven (IA)3 task vectors trimmed to the top 20% of parameters by magnitude, with the rest reset to zero</span></dd>
-<dt>What is the performance of TIES-Merging on out-of-domain tasks?</dt>
-<dt>How does TIES-Merging generalize to out-of-domain tasks?</dt>
+<dt>does a model built by merging others still work on tasks none of them were trained on?</dt>
+<dt>how does TIES-Merging compare with the strongest baseline on out-of-domain generalization for T5-Base and T5-Large?</dt>
+<dt>how do I merge fine-tuned models and keep performance on tasks outside their training sets?</dt>
+<dt>will a merged model generalize to tasks I never fine-tuned on?</dt>
 <dd>TIES-Merging outperforms the strongest baseline by 1.0% and 4.4% absolute for T5-Base and T5-Large models, respectively, in out-of-domain generalization.<br><span class="scope">Holds for: six tasks held out of the merge, for T5-base and T5-large checkpoints merged with a validation set available</span></dd>
-<dt>What is the performance of TIES-Merging when merging different numbers of tasks?</dt>
-<dt>How does TIES-Merging scale with the number of tasks?</dt>
+<dt>how many fine-tuned models can be combined before the result gets noticeably worse?</dt>
+<dt>how does merged accuracy degrade with the number of task vectors, for averaging versus task arithmetic versus TIES-Merging?</dt>
+<dt>how do I merge more than a handful of fine-tuned models without accuracy collapsing?</dt>
+<dt>how many checkpoints can I merge at once before I should stop adding more?</dt>
 <dd>TIES-Merging degrades more slowly than task arithmetic as the number of merged tasks grows. At two tasks simple averaging already loses 10% normalized accuracy, where both of the others lose almost none.<br><span class="scope">Holds for: T5-Large checkpoints merged over the seven in-domain tasks of Table 1, sampling at most 10 subsets for each task count, with accuracy normalized by each task&#x27;s own fine-tuned model</span></dd>
-<dt>What is the performance of TIES-Merging when merging checkpoints of the same task?</dt>
-<dt>How does TIES-Merging perform when merging multiple checkpoints of the same task?</dt>
+<dt>can several training runs of the same task be combined into one better model?</dt>
+<dt>how does TIES-Merging compare with averaging, Fisher merging and ensembling over ten same-task checkpoints?</dt>
+<dt>how do I combine multiple runs of one fine-tuning job instead of picking the best run?</dt>
+<dt>I have ten fine-tuning runs of the same task -- should I merge them or ensemble them?</dt>
 <dd>When the merged checkpoints are ten fine-tunings of the same task, TIES-Merging beats averaging, Fisher merging and ensembling on all three tasks, and beats task vectors on two of the three.<br><span class="scope">Holds for: ten BERT-base checkpoints per task taken from the Hugging Face hub for RTE, MRPC and WNLI, each evaluated on the one task it was trained on</span></dd>
-<dt>What is the performance of TIES-Merging when used as an initialization for fine-tuning?</dt>
-<dt>How does TIES-Merging perform as an initialization for fine-tuning?</dt>
+<dt>is a combined model a good starting point for further training?</dt>
+<dt>does a TIES-merged checkpoint initialize downstream fine-tuning better than other merging methods?</dt>
+<dt>how do I build a better starting checkpoint for fine-tuning out of models I already have?</dt>
+<dt>should I fine-tune from a merged checkpoint or from the original pretrained model?</dt>
 <dd>A TIES-merged model is a better initialization for fine-tuning than the models other merging methods produce, on two of the three downstream tasks tried; averaging wins on the third.<br><span class="scope">Holds for: BERT-base checkpoints for the seven GLUE tasks other than the target, merged before fine-tuning, with RTE, MRPC and WNLI each taken as the target in turn</span></dd>
-<dt>What is the importance of the top-k% parameters in TIES-Merging?</dt>
-<dt>How does TIES-Merging handle the top-k% parameters?</dt>
+<dt>which weight changes actually carry what a fine-tuned model learned?</dt>
+<dt>what happens to task performance when the signs of the top 20% highest-magnitude parameters are flipped?</dt>
+<dt>how do I tell which parameters matter before trimming a task vector?</dt>
 <dd>The direction of the highest-magnitude parameters is what carries task performance: flipping the signs of the top 20% degrades it monotonically, while flipping the bottom 80% barely moves it.<br><span class="scope">Holds for: (IA)3 models on eleven tasks, flipping each selected parameter with probability from 0 to 1 and averaging over three independent runs</span></dd>
-<dt>What is the impact of hyperparameters in TIES-Merging?</dt>
-<dt>How sensitive is TIES-Merging to hyperparameters?</dt>
+<dt>how much tuning does weight merging need before it works?</dt>
+<dt>how sensitive is TIES-Merging to its scaling coefficient compared with task arithmetic?</dt>
+<dt>how do I pick the scaling coefficient when merging fine-tuned models?</dt>
+<dt>can I merge models without sweeping hyperparameters on a validation set?</dt>
 <dd>TIES-Merging is less sensitive to its scaling coefficient than task arithmetic, holding accuracy in a 68-75% band across the values swept against 55-75% for task arithmetic.<br><span class="scope">Holds for: T5-base and T5-large models merged on GLUE, sweeping the scaling coefficient over 0.8-1.8 and incrementing the trimming threshold in steps of 10</span></dd>
-<dt>What is the performance of TIES-Merging when merging PEFT models?</dt>
-<dt>How does TIES-Merging perform with PEFT models?</dt>
+<dt>can lightweight adapters trained separately be combined into one?</dt>
+<dt>how does TIES-Merging perform when merging PEFT modules across 11 tasks?</dt>
+<dt>how do I merge several LoRA adapters into a single adapter?</dt>
+<dt>should I merge my LoRA adapters or keep loading them one at a time?</dt>
 <dd>TIES-Merging outperforms other methods when merging PEFT models, achieving an average enhancement of 2.5% across 11 tasks.<br><span class="scope">Holds for: (IA)3 modules on T0-3B merged over eleven tasks, with a validation set available to pick the trimming threshold and the scaling coefficient</span></dd>
-<dt>What is the performance of TIES-Merging when merging fully fine-tuned vision models?</dt>
-<dt>How does TIES-Merging perform with fully fine-tuned vision models?</dt>
+<dt>does combining fine-tuned image models work as well as combining language models?</dt>
+<dt>what accuracy gain does TIES-Merging give on fully fine-tuned ViT-B/32 and ViT-L/14?</dt>
+<dt>how do I merge several fine-tuned vision transformers into one multi-task model?</dt>
 <dd>TIES-Merging outperforms other methods when merging fully fine-tuned vision models, improving performance by 1.8% and 1.5% for ViT-B/32 and ViT-L/14, respectively.<br><span class="scope">Holds for: ViT-B/32 and ViT-L/14 image encoders fully fine-tuned on eight tasks, merged with a validation set available for tuning</span></dd>
-<dt>What is the performance of TIES-Merging when merging fully fine-tuned NLP models?</dt>
-<dt>How does TIES-Merging perform with fully fine-tuned NLP models?</dt>
+<dt>how much does careful merging help when combining fine-tuned text models?</dt>
+<dt>what improvement does TIES-Merging give over baselines on fully fine-tuned T5-Base and T5-Large?</dt>
+<dt>how do I merge fine-tuned T5 models across tasks?</dt>
 <dd>TIES-Merging outperforms other methods when merging fully fine-tuned NLP models, achieving an improvement of 0.7% and 3.6% for T5-Base and T5-Large, respectively.<br><span class="scope">Holds for: T5-base and T5-large models fully fine-tuned on seven tasks, merged with a validation set available for tuning</span></dd>
-<dt>What is a good paper on merging models?</dt>
-<dt>What work established the importance of resolving interference in model merging?</dt>
+<dt>what is a good paper to read about combining fine-tuned models into one model?</dt>
+<dt>what work established interference between task vectors as the central problem in model merging?</dt>
+<dt>where should I start reading if I want to merge models for multi-task use?</dt>
+<dt>which paper should I cite for interference-aware model merging?</dt>
 <dd>TIES-Merging introduced interference between task vectors as the thing model merging has to resolve, and named trimming, sign election and disjoint merging as the way to resolve it.<br><span class="scope">Holds for: as of its 2023 publication, and before the later merging work that decomposes task vectors into subspaces rather than trimming them by magnitude</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

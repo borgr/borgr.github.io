@@ -142,7 +142,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Can you predict machine translation quality before translating a sentence?",
+      "name": "can you tell how badly a sentence will be translated before you translate it?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -150,13 +150,14 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "Is it possible to estimate translation quality from the source sentence only?",
-        "What is PreQuEL?"
+        "can machine-translation quality be predicted from the source segment alone, with no hypothesis translation available?",
+        "how do I score which source sentences will translate poorly before running them through an MT engine?",
+        "should I trust a source-only translation difficulty score to flag risky sentences in my input file?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about quality estimation without access to the translation?",
+      "name": "which research first framed predicting translation quality from the source sentence only?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -164,13 +165,14 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "Which paper introduced source-only translation quality prediction?",
-        "Where should I start reading about deciding whether to machine translate or hire human translators?"
+        "what work introduced source-only quality prediction as a task distinct from quality estimation of MT output?",
+        "where do I start reading if I need to decide up front whether to machine translate a document or pay a human translator?",
+        "is there a paper I can cite for choosing between paid MT and human translation before any translation exists?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much worse is source-only prediction than a real quality estimation system?",
+      "name": "how much accuracy do you lose by predicting translation quality without seeing the translation?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -178,13 +180,14 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "Does seeing the translation help quality estimation much?",
-        "How close does PreQuEL get to TransQuest?"
+        "what is the Pearson gap between source-only quality prediction and a quality-estimation model that conditions on the MT hypothesis?",
+        "how do I know whether it is worth generating the translation first before estimating its quality?",
+        "if I skip running the MT system, how much worse will my quality estimate be?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How can I get more training data for translation quality prediction without human annotation?",
+      "name": "does labelling a parallel corpus with an automatic translation metric give useful extra training data for quality prediction?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -192,13 +195,14 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "Does labelling parallel corpora with COMET scores help train a quality predictor?",
-        "What does the PreQuEL augmentation method contribute?"
+        "does intertraining on COMET-scored parallel data improve source-only quality prediction and quality estimation?",
+        "how do I get more training data for a translation quality predictor when human quality scores are scarce?",
+        "should I build a synthetic training set with an automatic MT metric instead of paying for more human quality judgements?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can automatic-metric augmentation improve a normal quality estimation model?",
+      "name": "can training data labelled by an automatic translation metric make an existing quality-scoring model better?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -206,12 +210,14 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "Does COMET-based intertraining help TransQuest on WMT 2020 en-de?"
+        "does COMET-labelled intertraining raise TransQuest's Pearson correlation on WMT 2020 English-German?",
+        "how do I improve an off-the-shelf quality estimation model without collecting new human annotations?",
+        "is it worth intertraining my quality estimation system on automatically scored parallel data?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does a source-only quality predictor trained on one MT system transfer to another system?",
+      "name": "if a difficulty predictor is trained on one translation engine's output, does it still work for a different engine?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -219,13 +225,14 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "Is translation difficulty shared across state-of-the-art MT systems?",
-        "How much correlation is lost when testing PreQuEL on a different translation system?"
+        "how well does a source-only quality predictor supervised on one MT system's scores transfer to another system's outputs?",
+        "how do I reuse a translation difficulty model when I switch MT providers?",
+        "can I apply a difficulty predictor trained on one MT engine to the engine I actually use in production?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does source-only difficulty prediction depend on the target language?",
+      "name": "is a sentence that is hard to translate into German also hard to translate into Chinese?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -233,13 +240,14 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "Is a sentence that is hard to translate into German also hard to translate into Chinese?",
-        "Do en-de and en-zh PreQuEL models transfer to each other?"
+        "is source-side translation difficulty target-language-specific, or does it transfer across language pairs?",
+        "how do I predict translation difficulty for a new target language without training a separate model?",
+        "do I need a separate difficulty model per target language, or will one English-side model cover them all?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which features of a source sentence make it hard to machine translate?",
+      "name": "what makes a sentence hard for a machine to translate, and do simple things like length explain it?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -247,13 +255,14 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "Do sentence length and n-gram probability predict translation difficulty?",
-        "Does a source-only quality model rely too much on surface features?"
+        "do source-only quality predictions over-weight surface features such as sentence length and n-gram probability relative to human DA scores?",
+        "how do I tell whether my translation difficulty scores are just tracking sentence length?",
+        "should I worry that a source-only difficulty score is really just a length heuristic in disguise?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does adding a dependency parser improve source-only translation quality prediction?",
+      "name": "does giving a translation difficulty model an explicit grammar analysis of the sentence help?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -261,12 +270,14 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "How much does explicit syntactic knowledge help predicting MT difficulty?"
+        "does concatenating a UD dependency parser to the encoder improve source-only quality prediction over a same-size two-encoder control?",
+        "how do I add syntactic structure to a translation difficulty predictor, and does it pay off?",
+        "is it worth wiring a dependency parser into my source-side quality model?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is a source-only quality model sensitive to meaning or just to word order?",
+      "name": "does a translation difficulty score react to what a sentence means or just to the order of its words?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -274,12 +285,13 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "What do German word-ordering challenge sets reveal about PreQuEL predictions?"
+        "on German word-ordering challenge sets, do source-only quality predictions track meaning-preserving pairs or syntax-preserving pairs more closely?",
+        "how do I test whether my source-side difficulty model responds to meaning rather than surface word order?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can a translation-difficulty model be used to study which linguistic phenomena hurt MT?",
+      "name": "what changes to a sentence make a translation difficulty score go up or down?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -287,13 +299,14 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "What happens to predicted translation quality when person names or numbers are swapped in the source?",
-        "Which source-sentence perturbations change predicted MT quality most?"
+        "which controlled source-side transformations shift source-only quality predictions, and by how much?",
+        "how do I use a translation difficulty predictor to find out which linguistic phenomena hurt machine translation?",
+        "can I probe my MT pipeline's weaknesses by perturbing source sentences and watching a difficulty score?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is source-only quality estimation just an artifact of HTER labels?",
+      "name": "is predicting translation quality from the source only an artefact of how post-editing effort is measured?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -301,12 +314,14 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "Does using direct-assessment scores instead of HTER stop models from cheating with the source alone?"
+        "does source-only quality prediction hold for direct-assessment labels as well as for HTER?",
+        "which quality label should I train a source-only predictor on if I want human judgements rather than post-editing edits?",
+        "if I switch my target labels from HTER to human direct assessment, will a source-only model still work?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How well does source-only translation quality prediction hold up on a new domain?",
+      "name": "does a translation difficulty predictor still work on text from a different subject area than it was trained on?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -314,12 +329,14 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "Does the domain of the training corpus matter for predicting MT difficulty?"
+        "how much does source-only quality prediction degrade out of domain across corpora such as bible-uedin and Tatoeba?",
+        "how do I know whether a translation difficulty model trained on one corpus will hold up on my own text?",
+        "can I apply a published source-only quality predictor to my domain, or do I need in-domain training data?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What accuracy does the best en-de PreQuEL model reach?",
+      "name": "how well does predicting translation quality from the source sentence actually correlate with human judgements for English to German?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -327,7 +344,9 @@
         "url": "https://borgr.github.io/papers/prequel-quality-estimation-of-machine-translation-outputs-in/"
       },
       "alternateName": [
-        "What Pearson correlation does source-only MT quality prediction achieve on English-German?"
+        "what Pearson correlation with human DA scores does the best English-German source-only quality predictor reach?",
+        "how do I know whether source-only quality prediction is accurate enough to act on for English-German?",
+        "is source-only English-German quality prediction accurate enough for me to route sentences on it?"
       ]
     }
   ]
@@ -407,61 +426,80 @@
 <p>We present the task of PreQuEL, Pre-(Quality-Estimation) Learning. A PreQuEL system predicts how well a given sentence will be translated, without recourse to the actual translation, thus eschewing unnecessary resource allocation when translation quality is bound to be low. PreQuEL can be defined relative to a given MT system (e.g., some industry service) or generally relative to the state-of-the-art.From a theoretical perspective, PreQuEL places the focus on the source text, tracing properties, possibly linguistic features, that make a sentence harder to machine translate.We develop a baseline model for the task and analyze its performance. We also develop a data augmentation method (from parallel corpora), that improves results substantially. We show that this augmentation method can improve the performance of the Quality-Estimation task as well.We investigate the properties of the input text that our model is sensitive to, by testing it on challenge sets and different languages. We conclude that it is aware of syntactic and semantic distinctions, and correlates and even over-emphasizes the importance of standard NLP features.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Can you predict machine translation quality before translating a sentence?</dt>
-<dt>Is it possible to estimate translation quality from the source sentence only?</dt>
-<dt>What is PreQuEL?</dt>
+<dt>can you tell how badly a sentence will be translated before you translate it?</dt>
+<dt>can machine-translation quality be predicted from the source segment alone, with no hypothesis translation available?</dt>
+<dt>how do I score which source sentences will translate poorly before running them through an MT engine?</dt>
+<dt>should I trust a source-only translation difficulty score to flag risky sentences in my input file?</dt>
 <dd>PreQuEL introduces the task of predicting machine-translation quality from the source sentence alone, before any translation exists, shifting quality estimation&#x27;s focus from the output onto properties of the input text.<br><span class="scope">Holds for: Introduced at EMNLP 2022; earlier quality-estimation work required the translation, and Sun et al. (2020) had treated source-only prediction as a dataset artifact rather than a task.</span></dd>
 <dd>The best PreQuEL model reaches Pearson&#x27;s r of 0.336 with human direct-assessment scores on English-German, against 0.135 for a negated-sentence-length baseline.<br><span class="scope">Holds for: WMT 2020 sentence-level DA data, 7K training sentences, single fairseq MT system; Multitask model, RoBERTa-large, 3 seeds.</span></dd>
-<dt>What should I read about quality estimation without access to the translation?</dt>
-<dt>Which paper introduced source-only translation quality prediction?</dt>
-<dt>Where should I start reading about deciding whether to machine translate or hire human translators?</dt>
+<dt>which research first framed predicting translation quality from the source sentence only?</dt>
+<dt>what work introduced source-only quality prediction as a task distinct from quality estimation of MT output?</dt>
+<dt>where do I start reading if I need to decide up front whether to machine translate a document or pay a human translator?</dt>
+<dt>is there a paper I can cite for choosing between paid MT and human translation before any translation exists?</dt>
 <dd>PreQuEL introduces the task of predicting machine-translation quality from the source sentence alone, before any translation exists, shifting quality estimation&#x27;s focus from the output onto properties of the input text.<br><span class="scope">Holds for: Introduced at EMNLP 2022; earlier quality-estimation work required the translation, and Sun et al. (2020) had treated source-only prediction as a dataset artifact rather than a task.</span></dd>
 <dd>PreQuEL is a starting point for readers deciding between paid machine translation and human translation. A source-only quality predictor can be run before any translation cost is incurred.<br><span class="scope">Holds for: Motivational framing for the sentence-level setting studied; no cost or deployment study is reported, and absolute correlations remain modest.</span></dd>
-<dt>How much worse is source-only prediction than a real quality estimation system?</dt>
-<dt>Does seeing the translation help quality estimation much?</dt>
-<dt>How close does PreQuEL get to TransQuest?</dt>
+<dt>how much accuracy do you lose by predicting translation quality without seeing the translation?</dt>
+<dt>what is the Pearson gap between source-only quality prediction and a quality-estimation model that conditions on the MT hypothesis?</dt>
+<dt>how do I know whether it is worth generating the translation first before estimating its quality?</dt>
+<dt>if I skip running the MT system, how much worse will my quality estimate be?</dt>
 <dd>The best source-only PreQuEL model trails TransQuest, a quality-estimation system that sees the actual translation, by only 4.5 Pearson points on English-German (0.336 vs 0.381).<br><span class="scope">Holds for: WMT 2020 en-de DA data; TransQuest run with official code scored below its published numbers. On et-en the gap is far larger: 0.602 vs 0.767.</span></dd>
 <dd>The best PreQuEL model reaches Pearson&#x27;s r of 0.336 with human direct-assessment scores on English-German, against 0.135 for a negated-sentence-length baseline.<br><span class="scope">Holds for: WMT 2020 sentence-level DA data, 7K training sentences, single fairseq MT system; Multitask model, RoBERTa-large, 3 seeds.</span></dd>
-<dt>How can I get more training data for translation quality prediction without human annotation?</dt>
-<dt>Does labelling parallel corpora with COMET scores help train a quality predictor?</dt>
-<dt>What does the PreQuEL augmentation method contribute?</dt>
+<dt>does labelling a parallel corpus with an automatic translation metric give useful extra training data for quality prediction?</dt>
+<dt>does intertraining on COMET-scored parallel data improve source-only quality prediction and quality estimation?</dt>
+<dt>how do I get more training data for a translation quality predictor when human quality scores are scarce?</dt>
+<dt>should I build a synthetic training set with an automatic MT metric instead of paying for more human quality judgements?</dt>
 <dd>Intertraining on parallel-corpus data automatically labelled with COMET raises PreQuEL&#x27;s en-de correlation from 0.196 to 0.315, and the multi-task variant reaches 0.336.<br><span class="scope">Holds for: en-de WMT 2020 DA; augmentation from WMT-News, bible-uedin, Tatoeba and GlobalVoices re-translated with OPUS-MT/Marian, 3 seeds.</span></dd>
 <dd>The same COMET-labelled augmentation also improves ordinary quality estimation: TransQuest on en-de rises from 0.381 (std 0.043) to 0.429 (std 0.008) Pearson&#x27;s r when intertrained on the augmented data.<br><span class="scope">Holds for: en-de WMT 2020 DA, TransQuest architecture, 3 seeds; the gain is in both correlation and seed-to-seed stability.</span></dd>
-<dt>Can automatic-metric augmentation improve a normal quality estimation model?</dt>
-<dt>Does COMET-based intertraining help TransQuest on WMT 2020 en-de?</dt>
+<dt>can training data labelled by an automatic translation metric make an existing quality-scoring model better?</dt>
+<dt>does COMET-labelled intertraining raise TransQuest&#x27;s Pearson correlation on WMT 2020 English-German?</dt>
+<dt>how do I improve an off-the-shelf quality estimation model without collecting new human annotations?</dt>
+<dt>is it worth intertraining my quality estimation system on automatically scored parallel data?</dt>
 <dd>The same COMET-labelled augmentation also improves ordinary quality estimation: TransQuest on en-de rises from 0.381 (std 0.043) to 0.429 (std 0.008) Pearson&#x27;s r when intertrained on the augmented data.<br><span class="scope">Holds for: en-de WMT 2020 DA, TransQuest architecture, 3 seeds; the gain is in both correlation and seed-to-seed stability.</span></dd>
-<dt>Does a source-only quality predictor trained on one MT system transfer to another system?</dt>
-<dt>Is translation difficulty shared across state-of-the-art MT systems?</dt>
-<dt>How much correlation is lost when testing PreQuEL on a different translation system?</dt>
+<dt>if a difficulty predictor is trained on one translation engine&#x27;s output, does it still work for a different engine?</dt>
+<dt>how well does a source-only quality predictor supervised on one MT system&#x27;s scores transfer to another system&#x27;s outputs?</dt>
+<dt>how do I reuse a translation difficulty model when I switch MT providers?</dt>
+<dt>can I apply a difficulty predictor trained on one MT engine to the engine I actually use in production?</dt>
 <dd>A PreQuEL model supervised only with Marian outputs correlates 0.610 on Facebook FAIR outputs versus 0.652 on Marian&#x27;s own, a drop of 4.2 points. That exceeds the 0.535 bound implied by inter-system label similarity.<br><span class="scope">Holds for: COMET-labelled augmented data rather than human DA labels, en-de, two neural MT systems; the two systems&#x27; COMET labels correlate 0.60-0.82 across datasets.</span></dd>
-<dt>Does source-only difficulty prediction depend on the target language?</dt>
-<dt>Is a sentence that is hard to translate into German also hard to translate into Chinese?</dt>
-<dt>Do en-de and en-zh PreQuEL models transfer to each other?</dt>
+<dt>is a sentence that is hard to translate into German also hard to translate into Chinese?</dt>
+<dt>is source-side translation difficulty target-language-specific, or does it transfer across language pairs?</dt>
+<dt>how do I predict translation difficulty for a new target language without training a separate model?</dt>
+<dt>do I need a separate difficulty model per target language, or will one English-side model cover them all?</dt>
 <dd>PreQuEL learns target-language-specific difficulty: an en-de model correlates 0.377 with en-de gold scores but only 0.260 with en-zh, while the en-zh model scores 0.577 on en-zh and 0.140 on en-de.<br><span class="scope">Holds for: Simple Aug models, source sentences shared between the en-de and en-zh WMT 2020 development DA sets, augmentation from NewsTests and bible-uedin.</span></dd>
-<dt>Which features of a source sentence make it hard to machine translate?</dt>
-<dt>Do sentence length and n-gram probability predict translation difficulty?</dt>
-<dt>Does a source-only quality model rely too much on surface features?</dt>
+<dt>what makes a sentence hard for a machine to translate, and do simple things like length explain it?</dt>
+<dt>do source-only quality predictions over-weight surface features such as sentence length and n-gram probability relative to human DA scores?</dt>
+<dt>how do I tell whether my translation difficulty scores are just tracking sentence length?</dt>
+<dt>should I worry that a source-only difficulty score is really just a length heuristic in disguise?</dt>
 <dd>PreQuEL predictions correlate more strongly with standard NLP features than the human gold scores do, for example -0.2894 versus -0.1305 with sentence length. The model therefore over-estimates those features&#x27; importance.<br><span class="scope">Holds for: Simple Aug on the en-de DA development set; only statistically significant features reported, including UD parse depth, verb count, advcl and case edge counts and n-gram probabilities.</span></dd>
 <dd>Used as an analytic probe, PreQuEL scores are almost unchanged by swapping person names (-0.03) or numerical values (-0.03), but drop for Yoda-style reordering (-0.85) and random word deletion (-0.62). Back-translated English sentences score higher (+0.11).<br><span class="scope">Holds for: en-de Simple Aug on NL-Augmenter transformations of DA source sentences; means over the 127-996 sentences each transformation actually changed, and the automatic transformations add noise.</span></dd>
-<dt>Does adding a dependency parser improve source-only translation quality prediction?</dt>
-<dt>How much does explicit syntactic knowledge help predicting MT difficulty?</dt>
+<dt>does giving a translation difficulty model an explicit grammar analysis of the sentence help?</dt>
+<dt>does concatenating a UD dependency parser to the encoder improve source-only quality prediction over a same-size two-encoder control?</dt>
+<dt>how do I add syntactic structure to a translation difficulty predictor, and does it pay off?</dt>
+<dt>is it worth wiring a dependency parser into my source-side quality model?</dt>
 <dd>Concatenating a UD parser to the PreQuEL encoder raises en-de correlation to 0.326 against 0.265 for a same-size two-encoder control without a parser. The smaller Multitask model still beats both at 0.336.<br><span class="scope">Holds for: en-de WMT 2020 DA; Combined+ and Combined- both use augmentation intertraining and double the parameter count of the Simple model (355M x 3 x 2).</span></dd>
 <dd>On a German word-ordering challenge set, PreQuEL predictions correlate more highly between sentence pairs that share meaning (0.901 and 0.936) than between pairs that share syntax (0.687 and 0.641). Meaning matters more to the model than word order.<br><span class="scope">Holds for: Second German word-ordering challenge set of Choshen and Abend (2021), de-en Simple model trained on COMET-labelled augmented data rather than human DA labels.</span></dd>
-<dt>Is a source-only quality model sensitive to meaning or just to word order?</dt>
-<dt>What do German word-ordering challenge sets reveal about PreQuEL predictions?</dt>
+<dt>does a translation difficulty score react to what a sentence means or just to the order of its words?</dt>
+<dt>on German word-ordering challenge sets, do source-only quality predictions track meaning-preserving pairs or syntax-preserving pairs more closely?</dt>
+<dt>how do I test whether my source-side difficulty model responds to meaning rather than surface word order?</dt>
 <dd>On a German word-ordering challenge set, PreQuEL predictions correlate more highly between sentence pairs that share meaning (0.901 and 0.936) than between pairs that share syntax (0.687 and 0.641). Meaning matters more to the model than word order.<br><span class="scope">Holds for: Second German word-ordering challenge set of Choshen and Abend (2021), de-en Simple model trained on COMET-labelled augmented data rather than human DA labels.</span></dd>
-<dt>Can a translation-difficulty model be used to study which linguistic phenomena hurt MT?</dt>
-<dt>What happens to predicted translation quality when person names or numbers are swapped in the source?</dt>
-<dt>Which source-sentence perturbations change predicted MT quality most?</dt>
+<dt>what changes to a sentence make a translation difficulty score go up or down?</dt>
+<dt>which controlled source-side transformations shift source-only quality predictions, and by how much?</dt>
+<dt>how do I use a translation difficulty predictor to find out which linguistic phenomena hurt machine translation?</dt>
+<dt>can I probe my MT pipeline&#x27;s weaknesses by perturbing source sentences and watching a difficulty score?</dt>
 <dd>Used as an analytic probe, PreQuEL scores are almost unchanged by swapping person names (-0.03) or numerical values (-0.03), but drop for Yoda-style reordering (-0.85) and random word deletion (-0.62). Back-translated English sentences score higher (+0.11).<br><span class="scope">Holds for: en-de Simple Aug on NL-Augmenter transformations of DA source sentences; means over the 127-996 sentences each transformation actually changed, and the automatic transformations add noise.</span></dd>
-<dt>Is source-only quality estimation just an artifact of HTER labels?</dt>
-<dt>Does using direct-assessment scores instead of HTER stop models from cheating with the source alone?</dt>
+<dt>is predicting translation quality from the source only an artefact of how post-editing effort is measured?</dt>
+<dt>does source-only quality prediction hold for direct-assessment labels as well as for HTER?</dt>
+<dt>which quality label should I train a source-only predictor on if I want human judgements rather than post-editing edits?</dt>
+<dt>if I switch my target labels from HTER to human direct assessment, will a source-only model still work?</dt>
 <dd>Predicting translation quality from the source alone is harder for direct-assessment labels than for HTER: an en-de source-only model reaches 0.196 on DA versus 0.322 on HTER.<br><span class="scope">Holds for: en-de WMT 2020 DA and HTER data, Simple architecture, 3 seeds each; supports that switching the metric to DA does not remove source-only predictability.</span></dd>
-<dt>How well does source-only translation quality prediction hold up on a new domain?</dt>
-<dt>Does the domain of the training corpus matter for predicting MT difficulty?</dt>
+<dt>does a translation difficulty predictor still work on text from a different subject area than it was trained on?</dt>
+<dt>how much does source-only quality prediction degrade out of domain across corpora such as bible-uedin and Tatoeba?</dt>
+<dt>how do I know whether a translation difficulty model trained on one corpus will hold up on my own text?</dt>
+<dt>can I apply a published source-only quality predictor to my domain, or do I need in-domain training data?</dt>
 <dd>PreQuEL correlations vary widely by domain and degrade out of domain, from 0.72 in-domain and 0.36 out-of-domain on bible-uedin to 0.36 and 0.25 on Tatoeba.<br><span class="scope">Holds for: Single Simple instances without ensembling, trained on ChrF++ augmentations, evaluated on development sets of NewsTests, bible-uedin, GlobalVoices and Tatoeba.</span></dd>
-<dt>What accuracy does the best en-de PreQuEL model reach?</dt>
-<dt>What Pearson correlation does source-only MT quality prediction achieve on English-German?</dt>
+<dt>how well does predicting translation quality from the source sentence actually correlate with human judgements for English to German?</dt>
+<dt>what Pearson correlation with human DA scores does the best English-German source-only quality predictor reach?</dt>
+<dt>how do I know whether source-only quality prediction is accurate enough to act on for English-German?</dt>
+<dt>is source-only English-German quality prediction accurate enough for me to route sentences on it?</dt>
 <dd>The best PreQuEL model reaches Pearson&#x27;s r of 0.336 with human direct-assessment scores on English-German, against 0.135 for a negated-sentence-length baseline.<br><span class="scope">Holds for: WMT 2020 sentence-level DA data, 7K training sentences, single fairseq MT system; Multitask model, RoBERTa-large, 3 seeds.</span></dd>
 <dd>Intertraining on parallel-corpus data automatically labelled with COMET raises PreQuEL&#x27;s en-de correlation from 0.196 to 0.315, and the multi-task variant reaches 0.336.<br><span class="scope">Holds for: en-de WMT 2020 DA; augmentation from WMT-News, bible-uedin, Tatoeba and GlobalVoices re-translated with OPUS-MT/Marian, 3 seeds.</span></dd>
 </dl>

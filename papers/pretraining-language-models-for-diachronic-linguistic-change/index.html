@@ -141,7 +141,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Does finetuning a large model on historical text keep it from knowing later language?",
+      "name": "if a big language model is trained further on writing from one century, will it forget words invented after that century?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -149,13 +149,14 @@
         "url": "https://borgr.github.io/papers/pretraining-language-models-for-diachronic-linguistic-change/"
       },
       "alternateName": [
-        "Can LoRA or DoRA finetuning restrict a model to one time period?",
-        "Do period-finetuned Llama models leak future word senses?"
+        "does parameter-efficient finetuning of Llama3-8B on a period corpus prevent recall of post-period word senses?",
+        "how do I keep a language model from using vocabulary that did not exist in the period I am studying?",
+        "can I just DoRA-finetune Llama3-8B on my historical corpus, or do I need to pretrain from scratch to keep later language out?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How well do small models pretrained on one time slice stay inside their period?",
+      "name": "do small models trained only on books from one era actually prefer text from that era?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -163,13 +164,14 @@
         "url": "https://borgr.github.io/papers/pretraining-language-models-for-diachronic-linguistic-change/"
       },
       "alternateName": [
-        "Do time-sliced pretrained language models show period-specific perplexity?",
-        "Which respects historical corpus boundaries better, pretraining or finetuning?"
+        "do time-sliced pretrained models show period-specific perplexity minima, and does finetuning reproduce them?",
+        "how do I check whether a model I trained on one historical period really stays inside its period boundaries?",
+        "for period-restricted language modelling, should I pretrain a small model per era or finetune one large model?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much worse are 10M-token period models than a finetuned Llama3-8B on grammar benchmarks?",
+      "name": "is a model trained on only 10 million words of old books still good enough at English grammar to trust?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -177,13 +179,14 @@
         "url": "https://borgr.github.io/papers/pretraining-language-models-for-diachronic-linguistic-change/"
       },
       "alternateName": [
-        "What BLiMP accuracy do BabyLlama-2 models trained on 10 million tokens reach?",
-        "Are tiny domain-pretrained models still usable models of language?"
+        "what BLiMP aggregate accuracy do 345M-parameter BabyLlama-2 models trained on 10M-token period slices reach against a DoRA-finetuned Llama3-8B?",
+        "how do I tell whether my tiny period-specific pretrained model has learned enough syntax to use for linguistic analysis?",
+        "is a 10M-token period model grammatical enough for my study, or will I lose too much against a finetuned 8B model?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can a language model detect grammatical change over time, not just lexical change?",
+      "name": "can models trained on different centuries reveal changes in grammar rather than just changes in word meaning?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -191,13 +194,14 @@
         "url": "https://borgr.github.io/papers/pretraining-language-models-for-diachronic-linguistic-change/"
       },
       "alternateName": [
-        "How was diachronic change in negative polarity item licensing measured with language models?",
-        "Do period models show a shift in preference for \"only...ever\" over \"even...ever\"?"
+        "can minimal-pair acceptability judgements across period models detect diachronic change in NPI licensing?",
+        "how do I use language models to find grammatical or morphological change over time instead of lexical semantic change?",
+        "if I want to study syntactic change, will a battery of period-pretrained models show me anything a word-sense method cannot?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is pretraining a small model cheaper than parameter-efficient finetuning of an 8B model?",
+      "name": "how long does it take on one GPU to train a small language model for a single historical period?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -205,13 +209,14 @@
         "url": "https://borgr.github.io/papers/pretraining-language-models-for-diachronic-linguistic-change/"
       },
       "alternateName": [
-        "How long does it take to train one BabyLlama-2 period model on an A100?",
-        "What is the compute cost of the diachronic model battery?"
+        "what is the wall-clock cost of the BabyLlama-2 distillation recipe on a 10M-token slice versus DoRA finetuning of Llama3-8B?",
+        "how do I budget GPU time for training one language model per time period in my corpus?",
+        "with a single A100, is pretraining a small period model cheaper for me than parameter-efficient finetuning of an 8B model?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How can publication dates be assigned to Project Gutenberg works at scale?",
+      "name": "how accurate is a large language model at guessing the year a book was written?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -219,13 +224,14 @@
         "url": "https://borgr.github.io/papers/pretraining-language-models-for-diachronic-linguistic-change/"
       },
       "alternateName": [
-        "How accurate is an open-weight LLM at guessing when a book was written?",
-        "Can Llama3.3-70B replace GPT-4o for work-date attribution?"
+        "what within-1-year and within-10-year agreement does zero-shot work-date attribution by a 4-bit quantized Llama3.3-70B reach against hand-annotated dates?",
+        "how do I assign composition dates to thousands of Project Gutenberg texts so I can split them into periods?",
+        "can I use an open-weight 70B model instead of GPT-4o to date the works in my corpus?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How do you find candidate words for sense change using perplexity across periods?",
+      "name": "can models trained on different eras show when a word picked up a new meaning, like railway \"station\"?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -233,13 +239,14 @@
         "url": "https://borgr.github.io/papers/pretraining-language-models-for-diachronic-linguistic-change/"
       },
       "alternateName": [
-        "Can a battery of period language models separate two senses of the same word?",
-        "What does the \"station\" example show about tracking sense trajectories?"
+        "can normalized per-word perplexity trajectories across period models separate synchronically distinct senses of a single word?",
+        "how do I find candidate words whose senses shifted, and then tell the senses apart across periods?",
+        "if I want to date a specific sense of a word, will period-model perplexity curves give me a usable trajectory?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can a model trained only on old text anticipate a sense that appears later?",
+      "name": "can a model trained only on old books still rank a phrase that was not coined until much later?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -247,13 +254,14 @@
         "url": "https://borgr.github.io/papers/pretraining-language-models-for-diachronic-linguistic-change/"
       },
       "alternateName": [
-        "What is the \"end of the line\" example evidence for?",
-        "Do earlier usages of a word prefigure later constructions?"
+        "do period-pretrained models assign high completion probability to constructions first attested after their slice, absent from their training data?",
+        "how do I tell whether an early model's high ranking of a later idiom is data leakage or genuine prefiguration?",
+        "should I treat a period model's preference for a later-attested phrase as contamination or as evidence about earlier usage?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about using language models for historical linguistics?",
+      "name": "what should I read about training separate language models on different historical periods for humanities research?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -261,14 +269,14 @@
         "url": "https://borgr.github.io/papers/pretraining-language-models-for-diachronic-linguistic-change/"
       },
       "alternateName": [
-        "Which paper argues for domain-restricted pretraining instead of finetuning in the digital humanities?",
-        "Where do I start on language models for diachronic change discovery?",
-        "Is there work on training separate LMs per time period for humanities research?"
+        "which work argues for domain-restricted pretraining over finetuning or model editing to guarantee corpus-bounded weights?",
+        "where do I start if I want to build language models that only know one era of text for discovering language change?",
+        "is there a paper I can cite for using per-period pretrained models rather than a finetuned large model in a diachronic study?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is there released code for training time-sliced language models on my own corpus?",
+      "name": "where can I download the code and the word-meaning fill-in-the-blank test set for models trained on separate eras?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -276,8 +284,9 @@
         "url": "https://borgr.github.io/papers/pretraining-language-models-for-diachronic-linguistic-change/"
       },
       "alternateName": [
-        "Where can I get the OED-based word sense cloze evaluation set?",
-        "How do I reuse the diachronic pretraining pipeline on a different corpus division?"
+        "is the date-attribution, slicing, pretraining and OED-derived sense cloze evaluation pipeline released?",
+        "how do I reuse an existing diachronic pretraining pipeline on my own corpus split into different periods?",
+        "can I take the historical-perspectival-lm release and run it on my own period divisions?"
       ]
     }
   ]
@@ -351,51 +360,60 @@
 <p>Large language models (LLMs) have shown potential as tools for scientific discovery. This has engendered growing interest in their use in humanistic disciplines, such as historical linguistics and literary studies. These fields often construct arguments on the basis of delineations like genre, or more inflexibly, time period. Although efforts have been made to restrict inference to specific domains via fine-tuning or model editing, we posit that the only true guarantee is domain-restricted pretraining -- typically, a data- and compute-expensive proposition. We show that efficient pretraining techniques can produce useful models over corpora too large for easy manual inspection but too small for&quot;typical&quot;LLM approaches. We employ a novel date-attribution pipeline in order to obtain a temporally-segmented dataset of five 10-million-word slices. We train two corresponding five-model batteries over these corpus segments, efficient pretraining and Llama3-8B parameter efficiently finetuned. We find that the pretrained models are faster to train than the finetuned baselines and that they better respect the historical divisions of our corpus. Emphasizing speed and precision over a-historical comprehensiveness enables a number of novel approaches to hypothesis discovery and testing in our target fields. Taking up diachronic linguistics as a testbed, we show that our method enables the detection of a diverse set of phenomena, including en masse lexical change, non-lexical (grammatical and morphological) change, and word sense introduction/obsolescence. We provide a ready-to-use pipeline that allows extension of our approach to other target fields with only minimal adaptation.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Does finetuning a large model on historical text keep it from knowing later language?</dt>
-<dt>Can LoRA or DoRA finetuning restrict a model to one time period?</dt>
-<dt>Do period-finetuned Llama models leak future word senses?</dt>
+<dt>if a big language model is trained further on writing from one century, will it forget words invented after that century?</dt>
+<dt>does parameter-efficient finetuning of Llama3-8B on a period corpus prevent recall of post-period word senses?</dt>
+<dt>how do I keep a language model from using vocabulary that did not exist in the period I am studying?</dt>
+<dt>can I just DoRA-finetune Llama3-8B on my historical corpus, or do I need to pretrain from scratch to keep later language out?</dt>
 <dd>Llama3-8B DoRA models finetuned on early time slices recall word senses coined after their slice at consistently higher rates than the period-pretrained BabyLlama-2 models. The gap persists after correcting for each model&#x27;s overall recall, and the cloze task is built from Oxford English Dictionary sense-first-attestation dates.<br><span class="scope">Holds for: 14.6 thousand cloze examples remaining after filtering out words with fewer than 2 occurrences in any training set, scored as success if the target appears in the top 100 single-word completions.</span></dd>
 <dd>For the 1837 hog-disease sense of &quot;cholera&quot;, only the 1750-1820 pretrained model ranks the word inside the top-k completions, at rank 41. The DoRA-finetuned models rank it 11 to 19 in every slice, and off-the-shelf Llama3-8B ranks it 8.<br><span class="scope">Holds for: A single manually inspected cloze context; illustrative of the leakage pattern rather than an aggregate measurement.</span></dd>
 <dd>&quot;Pretraining Language Models for Diachronic Linguistic Change Discovery&quot; argues that domain-restricted pretraining, not finetuning or model editing, is the only way to guarantee a language model&#x27;s weights contain no out-of-domain information. The paper shows that argument is affordable at 10M tokens per model using BabyLM-community recipes.<br><span class="scope">Holds for: Argued and demonstrated for temporal division of an English literary corpus at academic compute scale; the paper does not test synchronic divisions such as genre, and lists that as future work.</span></dd>
-<dt>How well do small models pretrained on one time slice stay inside their period?</dt>
-<dt>Do time-sliced pretrained language models show period-specific perplexity?</dt>
-<dt>Which respects historical corpus boundaries better, pretraining or finetuning?</dt>
+<dt>do small models trained only on books from one era actually prefer text from that era?</dt>
+<dt>do time-sliced pretrained models show period-specific perplexity minima, and does finetuning reproduce them?</dt>
+<dt>how do I check whether a model I trained on one historical period really stays inside its period boundaries?</dt>
+<dt>for period-restricted language modelling, should I pretrain a small model per era or finetune one large model?</dt>
 <dd>BabyLlama-2 models pretrained on individual 1750-1940 time slices each reach their lowest perplexity on the test set from their own slice, with perplexity rising roughly linearly on both older and newer text. Llama3-8B DoRA models finetuned on the same slices show this preference only for the earlier slices.<br><span class="scope">Holds for: 5 slices (1750-1820, 1820-1850, 1850-1880, 1880-1910, 1910-1940) of 10M training tokens each drawn from Project Gutenberg English prose, with 5M reserved test and 1M validation tokens.</span></dd>
 <dd>Llama3-8B DoRA models finetuned on early time slices recall word senses coined after their slice at consistently higher rates than the period-pretrained BabyLlama-2 models. The gap persists after correcting for each model&#x27;s overall recall, and the cloze task is built from Oxford English Dictionary sense-first-attestation dates.<br><span class="scope">Holds for: 14.6 thousand cloze examples remaining after filtering out words with fewer than 2 occurrences in any training set, scored as success if the target appears in the top 100 single-word completions.</span></dd>
-<dt>How much worse are 10M-token period models than a finetuned Llama3-8B on grammar benchmarks?</dt>
-<dt>What BLiMP accuracy do BabyLlama-2 models trained on 10 million tokens reach?</dt>
-<dt>Are tiny domain-pretrained models still usable models of language?</dt>
+<dt>is a model trained on only 10 million words of old books still good enough at English grammar to trust?</dt>
+<dt>what BLiMP aggregate accuracy do 345M-parameter BabyLlama-2 models trained on 10M-token period slices reach against a DoRA-finetuned Llama3-8B?</dt>
+<dt>how do I tell whether my tiny period-specific pretrained model has learned enough syntax to use for linguistic analysis?</dt>
+<dt>is a 10M-token period model grammatical enough for my study, or will I lose too much against a finetuned 8B model?</dt>
 <dd>On maximally filtered BLiMP the period-pretrained BabyLlama-2 models score 0.67 to 0.72 aggregate accuracy across the 5 slices. The DoRA-finetuned models reach 0.80 to 0.84, off-the-shelf BabyLlama-2 scores 0.74 and Llama3-8B scores 0.82.<br><span class="scope">Holds for: &quot;Maximally filtered&quot; BLiMP: only minimal pairs whose every word occurs at least twice in all 5 training sets, evaluated through the BabyLM 2024 evaluation pipeline.</span></dd>
-<dt>Can a language model detect grammatical change over time, not just lexical change?</dt>
-<dt>How was diachronic change in negative polarity item licensing measured with language models?</dt>
-<dt>Do period models show a shift in preference for &quot;only...ever&quot; over &quot;even...ever&quot;?</dt>
+<dt>can models trained on different centuries reveal changes in grammar rather than just changes in word meaning?</dt>
+<dt>can minimal-pair acceptability judgements across period models detect diachronic change in NPI licensing?</dt>
+<dt>how do I use language models to find grammatical or morphological change over time instead of lexical semantic change?</dt>
+<dt>if I want to study syntactic change, will a battery of period-pretrained models show me anything a word-sense method cannot?</dt>
 <dd>On the BLiMP &quot;only NPI licenser present&quot; task the period-pretrained models rise monotonically from 0.00 accuracy in the 1750-1820 and 1820-1850 slices to 0.33, 0.82 and 0.91 in the later slices. The DoRA-finetuned models score 0.92 to 1.00 in every slice and register no diachronic change.<br><span class="scope">Holds for: Maximally filtered BLiMP subset testing preference for &quot;only...ever&quot; over &quot;even...ever&quot;; baseline BabyLlama-2 scores 0.76 and Llama3-8B 0.90. The corpus is Gutenberg English prose, so the trend may be corpus-specific rather than a fact about English.</span></dd>
 <dd>Time-sliced perspectival pretraining extends computational study of language change beyond lexical semantic change to grammatical and morphological phenomena. Its authors report knowing of no prior work using language models to automate discovery of such non-lexical change.<br><span class="scope">Holds for: As of publication in 2026; prior lexical semantic change work is surveyed as relying on non-causal embedding models and embedding alignment. The grammatical evidence is a single BLiMP phenomenon on one corpus.</span></dd>
-<dt>Is pretraining a small model cheaper than parameter-efficient finetuning of an 8B model?</dt>
-<dt>How long does it take to train one BabyLlama-2 period model on an A100?</dt>
-<dt>What is the compute cost of the diachronic model battery?</dt>
+<dt>how long does it take on one GPU to train a small language model for a single historical period?</dt>
+<dt>what is the wall-clock cost of the BabyLlama-2 distillation recipe on a 10M-token slice versus DoRA finetuning of Llama3-8B?</dt>
+<dt>how do I budget GPU time for training one language model per time period in my corpus?</dt>
+<dt>with a single A100, is pretraining a small period model cheaper for me than parameter-efficient finetuning of an 8B model?</dt>
 <dd>Training one period model with the BabyLlama-2 recipe takes about 32 minutes per teacher plus 3 hours 20 minutes for the distilled 345M-parameter student on a single A100. DoRA finetuning of Llama3-8B for 3 epochs on the same 10M-token slice takes around 8 hours.<br><span class="scope">Holds for: Single A100 GPU; DoRA rank 16 on Q, K, V, Up and Down projections; BabyLlama-2 uses 2 same-size teachers and 8 epochs with distillation alpha 0.5.</span></dd>
-<dt>How can publication dates be assigned to Project Gutenberg works at scale?</dt>
-<dt>How accurate is an open-weight LLM at guessing when a book was written?</dt>
-<dt>Can Llama3.3-70B replace GPT-4o for work-date attribution?</dt>
+<dt>how accurate is a large language model at guessing the year a book was written?</dt>
+<dt>what within-1-year and within-10-year agreement does zero-shot work-date attribution by a 4-bit quantized Llama3.3-70B reach against hand-annotated dates?</dt>
+<dt>how do I assign composition dates to thousands of Project Gutenberg texts so I can split them into periods?</dt>
+<dt>can I use an open-weight 70B model instead of GPT-4o to date the works in my corpus?</dt>
 <dd>Zero-shot work-date attribution by 4-bit quantized Llama3.3-70B matches hand-annotated dates at 0.63 within 1 year and 0.81 within 10 years. GPT-4o reaches 0.82 and 0.84 on the same set, which the authors judge close enough to justify the open-weight model for segmenting the corpus.<br><span class="scope">Holds for: 1054 manually annotated known-author works published 1550-1850, dated by prompting for a single year; the +/-1 tolerance accommodates copyright-year publication dates.</span></dd>
-<dt>How do you find candidate words for sense change using perplexity across periods?</dt>
-<dt>Can a battery of period language models separate two senses of the same word?</dt>
-<dt>What does the &quot;station&quot; example show about tracking sense trajectories?</dt>
+<dt>can models trained on different eras show when a word picked up a new meaning, like railway &quot;station&quot;?</dt>
+<dt>can normalized per-word perplexity trajectories across period models separate synchronically distinct senses of a single word?</dt>
+<dt>how do I find candidate words whose senses shifted, and then tell the senses apart across periods?</dt>
+<dt>if I want to date a specific sense of a word, will period-model perplexity curves give me a usable trajectory?</dt>
 <dd>Filtering words by a monotonic fall in normalized per-word perplexity across the 5 period models separates two synchronically distinct senses of &quot;station&quot;. The railway sense becomes sharply more acceptable in the 1820-1850 slice, while the camp/stopover sense rises smoothly from an already acceptable start.<br><span class="scope">Holds for: Natural occurrences of &quot;station&quot; in the corpus, filtered for descending probability trajectory and then hand-labelled for sense; a demonstration of the discovery procedure, not a quantified detection rate.</span></dd>
-<dt>Can a model trained only on old text anticipate a sense that appears later?</dt>
-<dt>What is the &quot;end of the line&quot; example evidence for?</dt>
-<dt>Do earlier usages of a word prefigure later constructions?</dt>
+<dt>can a model trained only on old books still rank a phrase that was not coined until much later?</dt>
+<dt>do period-pretrained models assign high completion probability to constructions first attested after their slice, absent from their training data?</dt>
+<dt>how do I tell whether an early model&#x27;s high ranking of a later idiom is data leakage or genuine prefiguration?</dt>
+<dt>should I treat a period model&#x27;s preference for a later-attested phrase as contamination or as evidence about earlier usage?</dt>
 <dd>The 1750-1820 pretrained model ranks &quot;line&quot; 14th as the completion of &quot;the end of the line&quot;, a sense first attested in 1948. A collocation search shows the construction never appears in that model&#x27;s training data, and hereditary and military uses of &quot;line&quot; appear to prefigure it.<br><span class="scope">Holds for: One hand-inspected cloze item; the finetuned model ranks the same completion 1st, which leakage from Llama3-8B pretraining can equally explain.</span></dd>
-<dt>What should I read about using language models for historical linguistics?</dt>
-<dt>Which paper argues for domain-restricted pretraining instead of finetuning in the digital humanities?</dt>
-<dt>Where do I start on language models for diachronic change discovery?</dt>
-<dt>Is there work on training separate LMs per time period for humanities research?</dt>
+<dt>what should I read about training separate language models on different historical periods for humanities research?</dt>
+<dt>which work argues for domain-restricted pretraining over finetuning or model editing to guarantee corpus-bounded weights?</dt>
+<dt>where do I start if I want to build language models that only know one era of text for discovering language change?</dt>
+<dt>is there a paper I can cite for using per-period pretrained models rather than a finetuned large model in a diachronic study?</dt>
 <dd>&quot;Pretraining Language Models for Diachronic Linguistic Change Discovery&quot; argues that domain-restricted pretraining, not finetuning or model editing, is the only way to guarantee a language model&#x27;s weights contain no out-of-domain information. The paper shows that argument is affordable at 10M tokens per model using BabyLM-community recipes.<br><span class="scope">Holds for: Argued and demonstrated for temporal division of an English literary corpus at academic compute scale; the paper does not test synchronic divisions such as genre, and lists that as future work.</span></dd>
 <dd>Time-sliced perspectival pretraining extends computational study of language change beyond lexical semantic change to grammatical and morphological phenomena. Its authors report knowing of no prior work using language models to automate discovery of such non-lexical change.<br><span class="scope">Holds for: As of publication in 2026; prior lexical semantic change work is surveyed as relying on non-causal embedding models and embedding alignment. The grammatical evidence is a single BLiMP phenomenon on one corpus.</span></dd>
-<dt>Is there released code for training time-sliced language models on my own corpus?</dt>
-<dt>Where can I get the OED-based word sense cloze evaluation set?</dt>
-<dt>How do I reuse the diachronic pretraining pipeline on a different corpus division?</dt>
+<dt>where can I download the code and the word-meaning fill-in-the-blank test set for models trained on separate eras?</dt>
+<dt>is the date-attribution, slicing, pretraining and OED-derived sense cloze evaluation pipeline released?</dt>
+<dt>how do I reuse an existing diachronic pretraining pipeline on my own corpus split into different periods?</dt>
+<dt>can I take the historical-perspectival-lm release and run it on my own period divisions?</dt>
 <dd>The historical-perspectival-lm codebase releases the full date-attribution, slicing, pretraining, finetuning and evaluation pipeline for time-sliced language models. It also releases a word-sense cloze evaluation set of 50.4 thousand OED-derived examples.<br><span class="scope">Holds for: Reuse on new corpora requires supplying train/dev/test text per category; the released historical data covers English Project Gutenberg works dated 1750-1940. Cloze set filtering to 14.6 thousand examples is specific to the paper&#x27;s vocabulary overlap.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

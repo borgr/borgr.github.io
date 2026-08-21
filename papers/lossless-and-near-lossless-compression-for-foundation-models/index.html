@@ -163,7 +163,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How much smaller can a model file get with ordinary lossless compression?",
+      "name": "how much smaller does a downloaded model file get if you just zip it?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -171,13 +171,14 @@
         "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
       },
       "alternateName": [
-        "Can zstd or gzip actually shrink neural network weights?",
-        "What compression ratio do Hugging Face models get with lossless compression?"
+        "what lossless compression ratios do FP32, FP16 and BF16 foundation model checkpoints reach with Zstd?",
+        "how do I shrink a Hugging Face checkpoint on disk without changing a single weight?",
+        "is it worth running zstd over my model weights before storing or shipping them?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Why do some checkpoints compress far better than others?",
+      "name": "why does one model file squeeze down a lot while another barely shrinks at all?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -185,13 +186,14 @@
         "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
       },
       "alternateName": [
-        "What makes a model file compressible or incompressible?",
-        "Which kinds of model checkpoints benefit most from compression?"
+        "which properties of a checkpoint's floating-point representation determine its entropy and therefore its compressibility?",
+        "how do I tell in advance whether a given checkpoint will compress well?",
+        "can I predict which of my checkpoints are worth compressing before I try?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is byte grouping and how much does it help compression?",
+      "name": "does reordering the bytes of the weights before zipping them make the file smaller?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -199,13 +201,14 @@
         "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
       },
       "alternateName": [
-        "Does rearranging bytes before compressing a model file improve the ratio?",
-        "How much extra compression comes from grouping same-position bytes of parameters?"
+        "how much does byte grouping of floating-point parameter bytes improve Zstd and LZ4 compression ratios on model weights?",
+        "how do I get a better compression ratio on model weights than a plain compressor gives?",
+        "should I add a byte-splitting step to my model storage pipeline, or is plain zstd enough?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does fine-tuning make a checkpoint harder to compress?",
+      "name": "does training a model further on my own data make its checkpoint harder to shrink?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -213,13 +216,14 @@
         "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
       },
       "alternateName": [
-        "Why is a fine-tuned model less compressible than the base model it came from?",
-        "What happens to compressibility after a few epochs of fine-tuning RoBERTa?"
+        "how does fine-tuning affect the compressibility of a base checkpoint's mantissa bytes?",
+        "how do I keep my fine-tuned checkpoints as compressible as the base model they came from?",
+        "my fine-tuned checkpoints compress much worse than the base model I started from, is that expected?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can I drop low-order weight bits to compress a checkpoint without losing accuracy?",
+      "name": "how much precision can you throw away in model weights before the model gets worse?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -227,13 +231,14 @@
         "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
       },
       "alternateName": [
-        "How far can precision be trimmed before model accuracy degrades?",
-        "What precision factor is safe for near-lossless model compression?"
+        "at what precision factor does near-lossless compression start to degrade exact match, Rouge-L or sacreBLEU?",
+        "how do I pick a safe truncation level for lossy compression of my checkpoints?",
+        "can I use lossy weight compression on a model I serve without hurting its scores?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much storage can I save by storing checkpoint diffs instead of full checkpoints?",
+      "name": "is it cheaper to store the difference between two training checkpoints than each one whole?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -241,13 +246,14 @@
         "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
       },
       "alternateName": [
-        "Is delta compression worth it for training checkpoints?",
-        "What compression ratio do deltas between consecutive fine-tuning epochs achieve?"
+        "what compression ratios do deltas between consecutive fine-tuning epochs reach, lossless and at reduced precision?",
+        "how do I store a long series of training checkpoints without paying full size for each one?",
+        "should I keep every epoch's checkpoint as a delta instead of a full copy?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can several models fine-tuned from the same base be stored more cheaply together?",
+      "name": "if several models were trained from the same starting point, can they be stored together more cheaply?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -255,13 +261,14 @@
         "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
       },
       "alternateName": [
-        "Does delta compression help for sibling fine-tunes of one base model?",
-        "How well do deltas between different task-specific RoBERTa variants compress?"
+        "how well do pairwise deltas between sibling fine-tunes of one base checkpoint compress?",
+        "how do I cut storage for a family of task-specific models that all started from one base model?",
+        "I host several fine-tunes of the same base model, can I store them as differences from each other?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does compressing a model actually make downloads faster, or does decompression eat the gain?",
+      "name": "does compressing a model file actually make downloading it faster, or does unpacking cancel it out?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -269,13 +276,14 @@
         "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
       },
       "alternateName": [
-        "What is the end-to-end upload and download time effect of compressing checkpoints?",
-        "Is model compression worth the CPU cost on a fast network?"
+        "what is the end-to-end effect of lossless and near-lossless weight compression on checkpoint transfer time at fixed network bandwidth?",
+        "how do I speed up pulling and pushing large checkpoints over a network?",
+        "on a fast connection, is compressing checkpoints worth the CPU time it costs me?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are quantized models already as small as they can get?",
+      "name": "is a quantized model already as small as it can possibly be?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -283,13 +291,14 @@
         "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
       },
       "alternateName": [
-        "Can a GPTQ or AWQ quantized checkpoint be compressed further?",
-        "Does lossless compression still help after quantization?"
+        "do GPTQ and AWQ quantized checkpoints retain residual redundancy that lossless compression can still remove?",
+        "how do I shrink an already-quantized checkpoint further without touching its accuracy?",
+        "I already quantized my 7B model, is there anything left to gain from compressing the file?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much network traffic could a model hub save by compressing downloads?",
+      "name": "how much bandwidth would a model-sharing site save if it compressed the files it serves?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -297,13 +306,14 @@
         "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
       },
       "alternateName": [
-        "What is the scale of bandwidth wasted serving uncompressed model weights?",
-        "How many petabytes would compressing popular Hugging Face models save?"
+        "what monthly traffic volume would lossless weight compression save across the most downloaded Hugging Face repositories?",
+        "how do I estimate the bandwidth a model hub would save by serving compressed weights?",
+        "would compressing downloads meaningfully cut my hosting bandwidth bill for model weights?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about reducing the storage and bandwidth cost of model checkpoints?",
+      "name": "what should I read about shrinking model files for storage and transfer rather than for faster inference?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -311,8 +321,8 @@
         "url": "https://borgr.github.io/papers/lossless-and-near-lossless-compression-for-foundation-models/"
       },
       "alternateName": [
-        "Which paper studies lossless compression of foundation model weights rather than pruning or distillation?",
-        "Where should I start reading on compression for model distribution as opposed to model compression for inference?"
+        "which work applies classical lossless and near-lossless compression to model distribution, as opposed to pruning, distillation or quantization?",
+        "where do I start reading on compression for moving checkpoints around instead of compressing models for deployment?"
       ]
     }
   ]
@@ -392,56 +402,66 @@
 <p>With the growth of model sizes and scale of their deployment, their sheer size burdens the infrastructure requiring more network and more storage to accommodate these. While there is a vast literature about reducing model sizes, we investigate a more traditional type of compression -- one that compresses the model to a smaller form and is coupled with a decompression algorithm that returns it to its original size -- namely lossless compression. Somewhat surprisingly, we show that such lossless compression can gain significant network and storage reduction on popular models, at times reducing over $50\%$ of the model size. We investigate the source of model compressibility, introduce compression variants tailored for models and categorize models to compressibility groups. We also introduce a tunable lossy compression technique that can further reduce size even on the less compressible models with little to no effect on the model accuracy. We estimate that these methods could save over an ExaByte per month of network traffic downloaded from a large model hub like HuggingFace.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>How much smaller can a model file get with ordinary lossless compression?</dt>
-<dt>Can zstd or gzip actually shrink neural network weights?</dt>
-<dt>What compression ratio do Hugging Face models get with lossless compression?</dt>
+<dt>how much smaller does a downloaded model file get if you just zip it?</dt>
+<dt>what lossless compression ratios do FP32, FP16 and BF16 foundation model checkpoints reach with Zstd?</dt>
+<dt>how do I shrink a Hugging Face checkpoint on disk without changing a single weight?</dt>
+<dt>is it worth running zstd over my model weights before storing or shipping them?</dt>
 <dd>Zstd with byte grouping compresses widely downloaded Hugging Face models to compression ratios of 35.7% for T5-base, 47.0% for RoBERTa, 50.1% for CLIP and 71% for Mistral. Decompression restores the weights exactly.<br><span class="scope">Holds for: Zstd at default level 3 with byte grouping, on FP32, FP16 and BF16 checkpoints downloaded from Hugging Face in August 2023 (Mistral and FP16 models in March 2024); compression run on CPU only.</span></dd>
 <dd>Foundation models fall into 3 compressibility groups: FP32/FP16 models compressible only in the exponent byte, &quot;clean&quot; base models compressible in the exponent and both lower mantissa bytes, and BF16 models. The three groups reach compression ratios of ~80-85%, 35-50% and ~70% respectively.<br><span class="scope">Holds for: Categories drawn from highly downloaded Hugging Face models spanning several modalities, architectures and float formats; based on Zstd level 3 with byte grouping.</span></dd>
-<dt>Why do some checkpoints compress far better than others?</dt>
-<dt>What makes a model file compressible or incompressible?</dt>
-<dt>Which kinds of model checkpoints benefit most from compression?</dt>
+<dt>why does one model file squeeze down a lot while another barely shrinks at all?</dt>
+<dt>which properties of a checkpoint&#x27;s floating-point representation determine its entropy and therefore its compressibility?</dt>
+<dt>how do I tell in advance whether a given checkpoint will compress well?</dt>
+<dt>can I predict which of my checkpoints are worth compressing before I try?</dt>
 <dd>Foundation models fall into 3 compressibility groups: FP32/FP16 models compressible only in the exponent byte, &quot;clean&quot; base models compressible in the exponent and both lower mantissa bytes, and BF16 models. The three groups reach compression ratios of ~80-85%, 35-50% and ~70% respectively.<br><span class="scope">Holds for: Categories drawn from highly downloaded Hugging Face models spanning several modalities, architectures and float formats; based on Zstd level 3 with byte grouping.</span></dd>
 <dd>Fine-tuning destroys the compressibility of clean base models: RoBERTa drops from the 47.0% compression ratio of the base checkpoint to 80.7% after 1 epoch and 82.5% after 9 epochs of fine-tuning.<br><span class="scope">Holds for: RoBERTa FP32 fine-tuned on the Rotten Tomatoes dataset; the mechanism is that minuscule weight updates fill the previously zeroed lower mantissa bytes with entropy.</span></dd>
-<dt>What is byte grouping and how much does it help compression?</dt>
-<dt>Does rearranging bytes before compressing a model file improve the ratio?</dt>
-<dt>How much extra compression comes from grouping same-position bytes of parameters?</dt>
+<dt>does reordering the bytes of the weights before zipping them make the file smaller?</dt>
+<dt>how much does byte grouping of floating-point parameter bytes improve Zstd and LZ4 compression ratios on model weights?</dt>
+<dt>how do I get a better compression ratio on model weights than a plain compressor gives?</dt>
+<dt>should I add a byte-splitting step to my model storage pipeline, or is plain zstd enough?</dt>
 <dd>Byte grouping before compression improves the compressed size of a model by 7-8.2% for exponent-only-compressible models, 19-27% for clean base models and 8.5-10% for BF16 models.<br><span class="scope">Holds for: Measured with Zstd; byte grouping requires knowing only the parameter type, not the model structure, so it works on a raw binary checkpoint.</span></dd>
 <dd>Without byte grouping LZ4 achieves almost no compression on models, reaching only a 95% compression ratio on RoBERTa. With byte grouping the same compressor reaches 56%, still behind Zstd&#x27;s 47.0%.<br><span class="scope">Holds for: RoBERTa FP32 checkpoint; LZ4 relies only on repetition removal, which fails on unstructured tensors, whereas Zstd and Zlib add entropy encoding.</span></dd>
-<dt>Does fine-tuning make a checkpoint harder to compress?</dt>
-<dt>Why is a fine-tuned model less compressible than the base model it came from?</dt>
-<dt>What happens to compressibility after a few epochs of fine-tuning RoBERTa?</dt>
+<dt>does training a model further on my own data make its checkpoint harder to shrink?</dt>
+<dt>how does fine-tuning affect the compressibility of a base checkpoint&#x27;s mantissa bytes?</dt>
+<dt>how do I keep my fine-tuned checkpoints as compressible as the base model they came from?</dt>
+<dt>my fine-tuned checkpoints compress much worse than the base model I started from, is that expected?</dt>
 <dd>Fine-tuning destroys the compressibility of clean base models: RoBERTa drops from the 47.0% compression ratio of the base checkpoint to 80.7% after 1 epoch and 82.5% after 9 epochs of fine-tuning.<br><span class="scope">Holds for: RoBERTa FP32 fine-tuned on the Rotten Tomatoes dataset; the mechanism is that minuscule weight updates fill the previously zeroed lower mantissa bytes with entropy.</span></dd>
-<dt>Can I drop low-order weight bits to compress a checkpoint without losing accuracy?</dt>
-<dt>How far can precision be trimmed before model accuracy degrades?</dt>
-<dt>What precision factor is safe for near-lossless model compression?</dt>
+<dt>how much precision can you throw away in model weights before the model gets worse?</dt>
+<dt>at what precision factor does near-lossless compression start to degrade exact match, Rouge-L or sacreBLEU?</dt>
+<dt>how do I pick a safe truncation level for lossy compression of my checkpoints?</dt>
+<dt>can I use lossy weight compression on a model I serve without hurting its scores?</dt>
 <dd>Tunable lossy compression at precision factor B=2^23 reduces the compressed size of FP32 models by a further 20%, taking wav2vec from a ~85% to a ~68% compression ratio. B=2^23 is the level at which FP32 arithmetic already introduces its own rounding error.<br><span class="scope">Holds for: FP32 models; B=2^23 is justified by FP32&#x27;s own 2^-23 rounding error and by Adam epsilon defaults of 1e-8/1e-7, not by an accuracy sweep on wav2vec itself. Layers with parameters outside [-1,1] are left uncompressed.</span></dd>
 <dd>Fine-tuned RoBERTa keeps accuracy near 90% down to a precision factor of B=2^6, with a slight rise just before the drop-off, while the compression ratio improves almost linearly to around 20%.<br><span class="scope">Holds for: RoBERTa fine-tuned on Rotten Tomatoes, single task and single fine-tuned model; on the clean base RoBERTa the same technique yields no benefit until B=2^18.</span></dd>
 <dd>T5 variants fine-tuned on CNN-DM, XSUM, SQuAD, ASQA, WikiAnswers and WMT22 En-Ru show no significant change in exact match, Rouge-L or sacreBLEU at precision factors B=2^24 and B=2^19. Compression ratios there are 70% and 56%, versus 85% with lossless compression alone.<br><span class="scope">Holds for: Only 2 precision values were evaluated because of the cost of fine-tuning; T5-base FP32 checkpoints.</span></dd>
-<dt>How much storage can I save by storing checkpoint diffs instead of full checkpoints?</dt>
-<dt>Is delta compression worth it for training checkpoints?</dt>
-<dt>What compression ratio do deltas between consecutive fine-tuning epochs achieve?</dt>
+<dt>is it cheaper to store the difference between two training checkpoints than each one whole?</dt>
+<dt>what compression ratios do deltas between consecutive fine-tuning epochs reach, lossless and at reduced precision?</dt>
+<dt>how do I store a long series of training checkpoints without paying full size for each one?</dt>
+<dt>should I keep every epoch&#x27;s checkpoint as a delta instead of a full copy?</dt>
 <dd>Compressing the delta between consecutive fine-tuning epochs of RoBERTa reaches a 55% lossless compression ratio, versus nearly 83% for the same checkpoint standalone. Taking the delta against the base model instead of the previous epoch gives 65%.<br><span class="scope">Holds for: RoBERTa fine-tuned on Rotten Tomatoes, lossless Zstd with byte grouping; delta against a base model avoids maintaining long chains of deltas but compresses less well.</span></dd>
 <dd>Delta compression at precision factor B=2^23 reaches a 37% compression ratio between consecutive RoBERTa checkpoints and 49% against the base model, without affecting accuracy, and aggressive precision factors go below 10%.<br><span class="scope">Holds for: RoBERTa fine-tuned on Rotten Tomatoes with lossless Zstd and byte grouping underneath; accuracy checked on that one task only.</span></dd>
-<dt>Can several models fine-tuned from the same base be stored more cheaply together?</dt>
-<dt>Does delta compression help for sibling fine-tunes of one base model?</dt>
-<dt>How well do deltas between different task-specific RoBERTa variants compress?</dt>
+<dt>if several models were trained from the same starting point, can they be stored together more cheaply?</dt>
+<dt>how well do pairwise deltas between sibling fine-tunes of one base checkpoint compress?</dt>
+<dt>how do I cut storage for a family of task-specific models that all started from one base model?</dt>
+<dt>I host several fine-tunes of the same base model, can I store them as differences from each other?</dt>
 <dd>Three RoBERTa variants fine-tuned on tweets for irony, offensive-language and abuse detection compress to 85.7% standalone on average but to 56% on average when stored as pairwise deltas.<br><span class="scope">Holds for: cardiffnlp twitter-roberta-base irony/offensive/hate models, lossless Zstd with byte grouping; delta benefit deteriorates as models drift further apart in time.</span></dd>
-<dt>Does compressing a model actually make downloads faster, or does decompression eat the gain?</dt>
-<dt>What is the end-to-end upload and download time effect of compressing checkpoints?</dt>
-<dt>Is model compression worth the CPU cost on a fast network?</dt>
+<dt>does compressing a model file actually make downloading it faster, or does unpacking cancel it out?</dt>
+<dt>what is the end-to-end effect of lossless and near-lossless weight compression on checkpoint transfer time at fixed network bandwidth?</dt>
+<dt>how do I speed up pulling and pushing large checkpoints over a network?</dt>
+<dt>on a fast connection, is compressing checkpoints worth the CPU time it costs me?</dt>
 <dd>Lossy compression at precision factor B=2^23 cuts wav2vec download time by almost 20% on a 30 MBps network and upload time by 16% on a 20 MBps link. Lossless compression saves only 1% of upload time on the same model.<br><span class="scope">Holds for: wav2vec, the least compressible category, via torch.save/torch.load on a cloud VM in the Milan region; the lossy implementation omitted the sign-bit optimization. On cached 120-130 MBps reads the edge is slight.</span></dd>
-<dt>Are quantized models already as small as they can get?</dt>
-<dt>Can a GPTQ or AWQ quantized checkpoint be compressed further?</dt>
-<dt>Does lossless compression still help after quantization?</dt>
+<dt>is a quantized model already as small as it can possibly be?</dt>
+<dt>do GPTQ and AWQ quantized checkpoints retain residual redundancy that lossless compression can still remove?</dt>
+<dt>how do I shrink an already-quantized checkpoint further without touching its accuracy?</dt>
+<dt>I already quantized my 7B model, is there anything left to gain from compressing the file?</dt>
 <dd>Off-the-shelf GPTQ and AWQ quantized versions of CapybaraHermes-2.5-Mistral-7B still compress losslessly to ratios between 85% and 91%, with byte grouping contributing 1-2%.<br><span class="scope">Holds for: 8-bit and 4-bit GPTQ and AWQ quantizations of one Mistral-7B derivative, compressed with Zstd at default level 3.</span></dd>
-<dt>How much network traffic could a model hub save by compressing downloads?</dt>
-<dt>What is the scale of bandwidth wasted serving uncompressed model weights?</dt>
-<dt>How many petabytes would compressing popular Hugging Face models save?</dt>
+<dt>how much bandwidth would a model-sharing site save if it compressed the files it serves?</dt>
+<dt>what monthly traffic volume would lossless weight compression save across the most downloaded Hugging Face repositories?</dt>
+<dt>how do I estimate the bandwidth a model hub would save by serving compressed weights?</dt>
+<dt>would compressing downloads meaningfully cut my hosting bandwidth bill for model weights?</dt>
 <dd>Lossless compression of the top downloaded Hugging Face models would save PetaBytes of traffic per model per month, including 11.7 PB for wav2vec and 26.1 PB for Bloom. Summed across the hub the estimate is over an ExaByte per month.<br><span class="scope">Holds for: Estimate from download counts as of August 2023 (Mistral March 2024) multiplied by measured compression ratios; assumes compression is applied at the hub and does not model cache hierarchies.</span></dd>
 <dd>&quot;Lossless and Near-Lossless Compression for Foundation Models&quot; brings classical storage-and-network compression to model distribution, and argues it should be the default in communication with hubs such as Hugging Face. That direction is distinct from pruning, distillation and quantization, which shrink models irreversibly for inference speed.<br><span class="scope">Holds for: Framing as of 2024, with only one prior work found proposing compression, applied after two other model-compression steps. Covers stored and transferred model files, checkpoints, gradients and optimizer state, not inference-time speedups. The PyTorch save/load integration is intended for upstream contribution rather than merged.</span></dd>
-<dt>What should I read about reducing the storage and bandwidth cost of model checkpoints?</dt>
-<dt>Which paper studies lossless compression of foundation model weights rather than pruning or distillation?</dt>
-<dt>Where should I start reading on compression for model distribution as opposed to model compression for inference?</dt>
+<dt>what should I read about shrinking model files for storage and transfer rather than for faster inference?</dt>
+<dt>which work applies classical lossless and near-lossless compression to model distribution, as opposed to pruning, distillation or quantization?</dt>
+<dt>where do I start reading on compression for moving checkpoints around instead of compressing models for deployment?</dt>
 <dd>&quot;Lossless and Near-Lossless Compression for Foundation Models&quot; brings classical storage-and-network compression to model distribution, and argues it should be the default in communication with hubs such as Hugging Face. That direction is distinct from pruning, distillation and quantization, which shrink models irreversibly for inference speed.<br><span class="scope">Holds for: Framing as of 2024, with only one prior work found proposing compression, applied after two other model-compression steps. Covers stored and transferred model files, checkpoints, gradients and optimizer state, not inference-time speedups. The PyTorch save/load integration is intended for upstream contribution rather than merged.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

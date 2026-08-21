@@ -156,7 +156,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Does the source dataset have to be similar to my target task for intertraining to help?",
+      "name": "does a fine-tuned model have to come from a related task to be a good starting point for training on my task?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -164,13 +164,14 @@
         "url": "https://borgr.github.io/papers/where-to-start-analyzing-the-potential-value-of-intermediate/"
       },
       "alternateName": [
-        "Is task alignment between source and target needed when picking a finetuned model as a starting point?",
-        "How much does source-target similarity matter for transfer gains?"
+        "how much of intermediate-task transfer gain is explained by source-target task or domain similarity rather than by the source checkpoint itself?",
+        "how do I pick an intermediate checkpoint to fine-tune from when nothing in the model zoo matches my task or domain?",
+        "my labelled data is in a niche domain, should I only consider checkpoints trained on similar data?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How can I cheaply tell which finetuned checkpoint is a good starting point for finetuning?",
+      "name": "is there a cheap way to find which of many fine-tuned checkpoints is the best starting point, short of training with all of them?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -178,13 +179,14 @@
         "url": "https://borgr.github.io/papers/where-to-start-analyzing-the-potential-value-of-intermediate/"
       },
       "alternateName": [
-        "Is there an efficient way to rank HuggingFace models as base models without finetuning all of them?",
-        "Can linear probing predict how useful a finetuned model is as a starting point?"
+        "can a linear probe on a fixed dataset rank candidate base models for intermediate-task transfer without full finetuning of each?",
+        "how do I shortlist base models from HuggingFace without finetuning all of them on my target task?",
+        "I have a small compute budget, can I rank candidate starting checkpoints before committing to full finetuning runs?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is starting from a finetuned model usually better than starting from the pretrained model?",
+      "name": "is starting from someone else's fine-tuned model usually better than starting from the plain pretrained one?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -192,13 +194,14 @@
         "url": "https://borgr.github.io/papers/where-to-start-analyzing-the-potential-value-of-intermediate/"
       },
       "alternateName": [
-        "What fraction of finetuned checkpoints actually help as starting points?",
-        "Does intertraining usually improve or hurt downstream accuracy?"
+        "what share of intermediate checkpoints yield positive intertraining gain over the vanilla pretrained model on a target dataset?",
+        "how likely is picking an arbitrary finetuned checkpoint as my starting point to hurt my target accuracy?",
+        "should I grab a random finetuned checkpoint off HuggingFace or just start from the base pretrained weights?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How do I know whether my target dataset will benefit from intertraining at all?",
+      "name": "how can I tell in advance whether my task will gain anything at all from starting on a fine-tuned model?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -206,13 +209,14 @@
         "url": "https://borgr.github.io/papers/where-to-start-analyzing-the-potential-value-of-intermediate/"
       },
       "alternateName": [
-        "Which datasets are sensitive to the choice of base model?",
-        "Can I predict the maximum available intertraining gain for a new task cheaply?"
+        "is a target dataset's sensitivity to the choice of base model predictable from the gain of a single MNLI intermediate model, and how does target train size affect it?",
+        "how do I decide whether intertraining is worth trying on a new target dataset before running many candidate sources?",
+        "I have a new dataset and limited budget, is one trial run enough to know if a better starting checkpoint will help me?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does the size of the source dataset affect how good a base model is?",
+      "name": "does the amount of data a checkpoint was trained on change how good a starting point it is?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -220,13 +224,14 @@
         "url": "https://borgr.github.io/papers/where-to-start-analyzing-the-potential-value-of-intermediate/"
       },
       "alternateName": [
-        "Does more finetuning data make a checkpoint a better starting point?",
-        "How do source and target training set sizes change intertraining gains?"
+        "how do source training set size and target training set size each modulate intertraining gain?",
+        "when choosing between candidate source checkpoints, how should I weigh how much data each was finetuned on and how much data I have?",
+        "I only have a few hundred labelled examples, does that make a large-source checkpoint more or less attractive as a starting point?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does a model's accuracy on its own finetuning task predict how useful it is as a base model?",
+      "name": "if a fine-tuned model scores well on the task it was trained on, does that make it a better starting point for another task?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -234,13 +239,14 @@
         "url": "https://borgr.github.io/papers/where-to-start-analyzing-the-potential-value-of-intermediate/"
       },
       "alternateName": [
-        "Can I pick a starting checkpoint by looking at its reported source-task score?",
-        "Do two checkpoints with the same source accuracy transfer equally well?"
+        "does source-task test accuracy correlate with a checkpoint's average intertraining gain, and do out-of-domain generalization basins separate good from bad base models?",
+        "what signal should I use to choose between several checkpoints finetuned on the same source dataset?",
+        "two MNLI checkpoints have almost identical MNLI scores, does it matter which one I finetune from?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do good base models for RoBERTa also work for BERT or T5?",
+      "name": "if a fine-tuned model works well as a starting point for one pretrained model family, will it work for another?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -248,13 +254,14 @@
         "url": "https://borgr.github.io/papers/where-to-start-analyzing-the-potential-value-of-intermediate/"
       },
       "alternateName": [
-        "Does the ranking of source datasets transfer between pretrained architectures?",
-        "Is MNLI a good intermediate task across architectures?"
+        "do average source gains and target sensitivity correlate across RoBERTa, BERT and T5 backbones?",
+        "can I reuse a source-dataset ranking found on RoBERTa when I switch to T5 or BERT?",
+        "I read that MNLI checkpoints make good starting points, does that carry over to the architecture I actually use?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Where can I find a ranked list of the best base models to finetune from?",
+      "name": "where can I find an up-to-date list of the best fine-tuned checkpoints to start training from?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -262,13 +269,14 @@
         "url": "https://borgr.github.io/papers/where-to-start-analyzing-the-potential-value-of-intermediate/"
       },
       "alternateName": [
-        "Is there a maintained leaderboard of HuggingFace checkpoints for model recycling?",
-        "Which off-the-shelf checkpoints are the strongest starting points?"
+        "is there a maintained per-architecture ranking of HuggingFace base models by intertraining gain, and which source datasets top it?",
+        "how do I choose a strong starting checkpoint for my architecture without running the ranking experiments myself?",
+        "should I trust a published leaderboard of starting checkpoints instead of benchmarking candidates on my own task?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about reusing finetuned models as starting points?",
+      "name": "what should I read to understand how reusing other people's fine-tuned models as starting points actually works?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -276,13 +284,13 @@
         "url": "https://borgr.github.io/papers/where-to-start-analyzing-the-potential-value-of-intermediate/"
       },
       "alternateName": [
-        "Which paper systematically studies intermediate task training at scale?",
-        "Where should I start reading about model recycling and intertraining?"
+        "which work systematically studies intermediate-task training and model recycling across many source-target pairs?",
+        "where do I start reading about choosing a finetuned checkpoint to continue training from?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much accuracy do I lose by only trying the top few ranked base models?",
+      "name": "is trying just the top few candidate checkpoints good enough, or do I lose much by not trying them all?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -290,13 +298,14 @@
         "url": "https://borgr.github.io/papers/where-to-start-analyzing-the-potential-value-of-intermediate/"
       },
       "alternateName": [
-        "Is checking 3 candidate checkpoints enough instead of all of them?",
-        "What is the cost of a target-independent base model ranking?"
+        "how much max-gain is forfeited by finetuning only the top 3 statically ranked base models instead of the full candidate pool?",
+        "how many candidate base models do I need to actually finetune before I can stop searching?",
+        "I can afford 3 finetuning runs rather than 66, how much accuracy am I giving up?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is MNLI still the best intermediate task for RoBERTa?",
+      "name": "is there a better dataset than MNLI to train on first before training on my own task?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -304,8 +313,9 @@
         "url": "https://borgr.github.io/papers/where-to-start-analyzing-the-potential-value-of-intermediate/"
       },
       "alternateName": [
-        "Are there better intermediate tasks than MNLI?",
-        "Did any dataset beat MNLI as a source for intertraining?"
+        "do any off-the-shelf source datasets outperform MNLI as an intermediate task, and does the best source differ by architecture?",
+        "which source datasets should I look for in a checkpoint name when picking a starting point for RoBERTa or T5?",
+        "everyone recommends starting from an MNLI model, should I be using something else?"
       ]
     }
   ]
@@ -396,58 +406,68 @@
 <p>Previous studies observed that finetuned models may be better base models than the vanilla pretrained model. Such a model, finetuned on some source dataset, may provide a better starting point for a new finetuning process on a desired target dataset. Here, we perform a systematic analysis of this intertraining scheme, over a wide range of English classification tasks. Surprisingly, our analysis suggests that the potential intertraining gain can be analyzed independently for the target dataset under consideration, and for a base model being considered as a starting point. This is in contrast to current perception that the alignment between the target dataset and the source dataset used to generate the base model is a major factor in determining intertraining success. We analyze different aspects that contribute to each. Furthermore, we leverage our analysis to propose a practical and efficient approach to determine if and how to select a base model in real-world settings. Last, we release an updating ranking of best models in the HuggingFace hub per architecture https://ibm.github.io/model-recycling/.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Does the source dataset have to be similar to my target task for intertraining to help?</dt>
-<dt>Is task alignment between source and target needed when picking a finetuned model as a starting point?</dt>
-<dt>How much does source-target similarity matter for transfer gains?</dt>
+<dt>does a fine-tuned model have to come from a related task to be a good starting point for training on my task?</dt>
+<dt>how much of intermediate-task transfer gain is explained by source-target task or domain similarity rather than by the source checkpoint itself?</dt>
+<dt>how do I pick an intermediate checkpoint to fine-tune from when nothing in the model zoo matches my task or domain?</dt>
+<dt>my labelled data is in a niche domain, should I only consider checkpoints trained on similar data?</dt>
 <dd>Intertraining gain can be analyzed as a per-base-model effect plus a per-target effect, so a base model can be chosen without knowing the target dataset. This reverses the common assumption that source-target task alignment is the main determinant of intertraining success.<br><span class="scope">Holds for: 22 English classification datasets used both as sources and targets with RoBERTa-base, replicated with BERT and T5; source-target interaction is secondary rather than zero.</span></dd>
 <dd>Sources sharing the target&#x27;s task or domain give higher average gain than unrelated sources, but the effect is small. Average gain is 0.63 for NLI sources on NLI targets and 0.53 for Twitter sources on Twitter targets, while NLI sources give a larger 1.26 on the diverse General targets.<br><span class="scope">Holds for: RoBERTa-base in-house intermediate models, averages over the General, NLI and Twitter dataset groups; General sources give negative average gain on all 3 target groups.</span></dd>
 <dd>Intertraining gains are far from symmetric. A source A that helps target B does not imply source B helps target A, which bounds how much of the gain any symmetric source-target similarity measure can explain.<br><span class="scope">Holds for: 22-by-22 in-house RoBERTa gain matrix, decomposed into symmetric and skew-symmetric parts; dataset sizes differ, so full symmetry would not be expected even under strong similarity effects.</span></dd>
 <dd>A regressor with one coefficient per base model and two per target predicts intertraining gain with MSE 4.2 on the 22-source-by-22-target in-house experiment, versus 9.6 (sigma 0.9) with randomly shuffled gains. It has too few parameters to model any source-target interaction explicitly.<br><span class="scope">Holds for: RoBERTa-base in-house sources and targets, gains averaged over 5 seeds, fit by SGD minimising MSE. Base-model-only and target-only regressors reach MSE 10.4 and 8.2 against a shuffled baseline of 10.8.</span></dd>
-<dt>How can I cheaply tell which finetuned checkpoint is a good starting point for finetuning?</dt>
-<dt>Is there an efficient way to rank HuggingFace models as base models without finetuning all of them?</dt>
-<dt>Can linear probing predict how useful a finetuned model is as a starting point?</dt>
+<dt>is there a cheap way to find which of many fine-tuned checkpoints is the best starting point, short of training with all of them?</dt>
+<dt>can a linear probe on a fixed dataset rank candidate base models for intermediate-task transfer without full finetuning of each?</dt>
+<dt>how do I shortlist base models from HuggingFace without finetuning all of them on my target task?</dt>
+<dt>I have a small compute budget, can I rank candidate starting checkpoints before committing to full finetuning runs?</dt>
 <dd>Ranking base models by the gain of a linear probe trained on MNLI predicts their average finetuning gain over target datasets. Correlation is Spearman 0.46 and Pearson 0.78 in the in-house experiment, and Figure 2 shows the same relation for off-the-shelf models on 14 General targets.<br><span class="scope">Holds for: RoBERTa-base in-house sources and 66 off-the-shelf HuggingFace models; only the classification head is trained during probing. MNLI is not unique as probing dataset.</span></dd>
 <dd>Finetuning only the top 3 statically ranked base models instead of all 66 off-the-shelf models costs at most 1.62 accuracy points of the available max-gain. That worst case is over 14 General targets, where the average loss is 0.34 points.<br><span class="scope">Holds for: RoBERTa-base off-the-shelf models ranked target-independently by MNLI linear probing; the single top-ranked model loses 2.33 points on average and 12.0 at worst. In-house: 0.2 average, 1.15 max for top 3.</span></dd>
-<dt>Is starting from a finetuned model usually better than starting from the pretrained model?</dt>
-<dt>What fraction of finetuned checkpoints actually help as starting points?</dt>
-<dt>Does intertraining usually improve or hurt downstream accuracy?</dt>
+<dt>is starting from someone else&#x27;s fine-tuned model usually better than starting from the plain pretrained one?</dt>
+<dt>what share of intermediate checkpoints yield positive intertraining gain over the vanilla pretrained model on a target dataset?</dt>
+<dt>how likely is picking an arbitrary finetuned checkpoint as my starting point to hurt my target accuracy?</dt>
+<dt>should I grab a random finetuned checkpoint off HuggingFace or just start from the base pretrained weights?</dt>
 <dd>Most finetuned models are worse starting points than the vanilla pretrained model: only about 1 in 6 intermediate models yields a positive intertraining gain on a target dataset.<br><span class="scope">Holds for: RoBERTa-base models finetuned on 22 English classification sources, used as starting points on the same 22 targets, 5 seeds each.</span></dd>
-<dt>How do I know whether my target dataset will benefit from intertraining at all?</dt>
-<dt>Which datasets are sensitive to the choice of base model?</dt>
-<dt>Can I predict the maximum available intertraining gain for a new task cheaply?</dt>
+<dt>how can I tell in advance whether my task will gain anything at all from starting on a fine-tuned model?</dt>
+<dt>is a target dataset&#x27;s sensitivity to the choice of base model predictable from the gain of a single MNLI intermediate model, and how does target train size affect it?</dt>
+<dt>how do I decide whether intertraining is worth trying on a new target dataset before running many candidate sources?</dt>
+<dt>I have a new dataset and limited budget, is one trial run enough to know if a better starting checkpoint will help me?</dt>
 <dd>Whether a target dataset can benefit from intertraining at all is predictable from the gain of a single MNLI-based intermediate model. That single gain correlates with the max-gain over all models at Spearman 0.90 and Pearson 0.94 on 14 General targets.<br><span class="scope">Holds for: RoBERTa-base off-the-shelf models on 14 General targets; in-house models on 22 targets give Spearman 0.89 and Pearson 0.99. Requires finetuning one model on the target.</span></dd>
 <dd>Intertraining gain shrinks as the target&#x27;s own training set grows, making intertraining most valuable in few-shot target settings; for 3 targets the gain follows a U-shape, turning negative before rising back toward zero.<br><span class="scope">Holds for: RoBERTa-base, General sources and General targets subsampled to between 50 and 1600 training examples. No significant correlation between target size and target average gain across the full in-house experiment.</span></dd>
-<dt>Does the size of the source dataset affect how good a base model is?</dt>
-<dt>Does more finetuning data make a checkpoint a better starting point?</dt>
-<dt>How do source and target training set sizes change intertraining gains?</dt>
+<dt>does the amount of data a checkpoint was trained on change how good a starting point it is?</dt>
+<dt>how do source training set size and target training set size each modulate intertraining gain?</dt>
+<dt>when choosing between candidate source checkpoints, how should I weigh how much data each was finetuned on and how much data I have?</dt>
+<dt>I only have a few hundred labelled examples, does that make a large-source checkpoint more or less attractive as a starting point?</dt>
 <dd>More source training data amplifies whatever direction the source pushes in: gains grow with source size for good sources (ANLI, MNLI) and shrink for bad ones (MultiRC, QQP). Source size correlates with average source gain at Pearson 0.75.<br><span class="scope">Holds for: RoBERTa-base, 4 in-house sources with source training limited to 50-3200 samples, evaluated on the General targets; the 0.75 correlation is across the 22 in-house sources.</span></dd>
 <dd>Intertraining gain shrinks as the target&#x27;s own training set grows, making intertraining most valuable in few-shot target settings; for 3 targets the gain follows a U-shape, turning negative before rising back toward zero.<br><span class="scope">Holds for: RoBERTa-base, General sources and General targets subsampled to between 50 and 1600 training examples. No significant correlation between target size and target average gain across the full in-house experiment.</span></dd>
-<dt>Does a model&#x27;s accuracy on its own finetuning task predict how useful it is as a base model?</dt>
-<dt>Can I pick a starting checkpoint by looking at its reported source-task score?</dt>
-<dt>Do two checkpoints with the same source accuracy transfer equally well?</dt>
+<dt>if a fine-tuned model scores well on the task it was trained on, does that make it a better starting point for another task?</dt>
+<dt>does source-task test accuracy correlate with a checkpoint&#x27;s average intertraining gain, and do out-of-domain generalization basins separate good from bad base models?</dt>
+<dt>what signal should I use to choose between several checkpoints finetuned on the same source dataset?</dt>
+<dt>two MNLI checkpoints have almost identical MNLI scores, does it matter which one I finetune from?</dt>
 <dd>Source-task accuracy does not predict intertraining quality. 20 RoBERTa models finetuned on MNLI with different seeds score between 86.5 and 87.5 on MNLI test yet range from 74.5 to 79 in average General target score, with no correlation.<br><span class="scope">Holds for: RoBERTa-base, MNLI as source, General datasets as targets, differences arising from random seeds alone; hyperparameter choices such as weight decay produce similar disconnects.</span></dd>
 <dd>BERT models that generalize better out-of-domain also make better base models: 12 &#x27;good&#x27;-basin MNLI models give 3.65 average gain on General targets versus 2.16 for 12 &#x27;bad&#x27;-basin models.<br><span class="scope">Holds for: BERT models finetuned on MNLI taken from Juneja et al. (2022); good/bad labels come from that prior work&#x27;s loss-basin analysis, not from new clustering.</span></dd>
-<dt>Do good base models for RoBERTa also work for BERT or T5?</dt>
-<dt>Does the ranking of source datasets transfer between pretrained architectures?</dt>
-<dt>Is MNLI a good intermediate task across architectures?</dt>
+<dt>if a fine-tuned model works well as a starting point for one pretrained model family, will it work for another?</dt>
+<dt>do average source gains and target sensitivity correlate across RoBERTa, BERT and T5 backbones?</dt>
+<dt>can I reuse a source-dataset ranking found on RoBERTa when I switch to T5 or BERT?</dt>
+<dt>I read that MNLI checkpoints make good starting points, does that carry over to the architecture I actually use?</dt>
 <dd>Which source dataset makes a good base model does not transfer across architectures, as average source gains do not correlate between RoBERTa, BERT and T5. Target sensitivity does transfer, with pairwise Pearson 0.6-0.94 across architectures.<br><span class="scope">Holds for: In-house models/targets experiment repeated with RoBERTa, BERT-base-uncased and T5 on English classification datasets; MNLI is the exception, giving the highest gain in all 3 architectures.</span></dd>
-<dt>Where can I find a ranked list of the best base models to finetune from?</dt>
-<dt>Is there a maintained leaderboard of HuggingFace checkpoints for model recycling?</dt>
-<dt>Which off-the-shelf checkpoints are the strongest starting points?</dt>
+<dt>where can I find an up-to-date list of the best fine-tuned checkpoints to start training from?</dt>
+<dt>is there a maintained per-architecture ranking of HuggingFace base models by intertraining gain, and which source datasets top it?</dt>
+<dt>how do I choose a strong starting checkpoint for my architecture without running the ranking experiments myself?</dt>
+<dt>should I trust a published leaderboard of starting checkpoints instead of benchmarking candidates on my own task?</dt>
 <dd>The model-recycling site at ibm.github.io/model-recycling publishes a continuously updated ranking of the best HuggingFace base models per architecture for intertraining, so practitioners can pick a starting point without rerunning the ranking.<br><span class="scope">Holds for: Static target-independent rankings by average intertraining gain on English classification targets; RoBERTa-base and T5-small lists also appear in the paper, and site contents change over time.</span></dd>
 <dd>Among off-the-shelf HuggingFace models, several outperform the well-known MNLI source: STS-B-based RoBERTa models and Quora-based T5 models rank at the top. A RoBERTa finetuned only on STS-B matches the massively multitask MUPPET model.<br><span class="scope">Holds for: 66 off-the-shelf RoBERTa-base models and 25 T5-small models as base models on the General targets; top RoBERTa gains are 2.8-3.0 points. No in-house source among the 22 beat MNLI.</span></dd>
-<dt>What should I read about reusing finetuned models as starting points?</dt>
-<dt>Which paper systematically studies intermediate task training at scale?</dt>
-<dt>Where should I start reading about model recycling and intertraining?</dt>
+<dt>what should I read to understand how reusing other people&#x27;s fine-tuned models as starting points actually works?</dt>
+<dt>which work systematically studies intermediate-task training and model recycling across many source-target pairs?</dt>
+<dt>where do I start reading about choosing a finetuned checkpoint to continue training from?</dt>
 <dd>Intertraining gain can be analyzed as a per-base-model effect plus a per-target effect, so a base model can be chosen without knowing the target dataset. This reverses the common assumption that source-target task alignment is the main determinant of intertraining success.<br><span class="scope">Holds for: 22 English classification datasets used both as sources and targets with RoBERTa-base, replicated with BERT and T5; source-target interaction is secondary rather than zero.</span></dd>
 <dd>The model-recycling site at ibm.github.io/model-recycling publishes a continuously updated ranking of the best HuggingFace base models per architecture for intertraining, so practitioners can pick a starting point without rerunning the ranking.<br><span class="scope">Holds for: Static target-independent rankings by average intertraining gain on English classification targets; RoBERTa-base and T5-small lists also appear in the paper, and site contents change over time.</span></dd>
-<dt>How much accuracy do I lose by only trying the top few ranked base models?</dt>
-<dt>Is checking 3 candidate checkpoints enough instead of all of them?</dt>
-<dt>What is the cost of a target-independent base model ranking?</dt>
+<dt>is trying just the top few candidate checkpoints good enough, or do I lose much by not trying them all?</dt>
+<dt>how much max-gain is forfeited by finetuning only the top 3 statically ranked base models instead of the full candidate pool?</dt>
+<dt>how many candidate base models do I need to actually finetune before I can stop searching?</dt>
+<dt>I can afford 3 finetuning runs rather than 66, how much accuracy am I giving up?</dt>
 <dd>Finetuning only the top 3 statically ranked base models instead of all 66 off-the-shelf models costs at most 1.62 accuracy points of the available max-gain. That worst case is over 14 General targets, where the average loss is 0.34 points.<br><span class="scope">Holds for: RoBERTa-base off-the-shelf models ranked target-independently by MNLI linear probing; the single top-ranked model loses 2.33 points on average and 12.0 at worst. In-house: 0.2 average, 1.15 max for top 3.</span></dd>
-<dt>Is MNLI still the best intermediate task for RoBERTa?</dt>
-<dt>Are there better intermediate tasks than MNLI?</dt>
-<dt>Did any dataset beat MNLI as a source for intertraining?</dt>
+<dt>is there a better dataset than MNLI to train on first before training on my own task?</dt>
+<dt>do any off-the-shelf source datasets outperform MNLI as an intermediate task, and does the best source differ by architecture?</dt>
+<dt>which source datasets should I look for in a checkpoint name when picking a starting point for RoBERTa or T5?</dt>
+<dt>everyone recommends starting from an MNLI model, should I be using something else?</dt>
 <dd>Among off-the-shelf HuggingFace models, several outperform the well-known MNLI source: STS-B-based RoBERTa models and Quora-based T5 models rank at the top. A RoBERTa finetuned only on STS-B matches the massively multitask MUPPET model.<br><span class="scope">Holds for: 66 off-the-shelf RoBERTa-base models and 25 T5-small models as base models on the General targets; top RoBERTa gains are 2.8-3.0 points. No in-house source among the 22 beat MNLI.</span></dd>
 <dd>Which source dataset makes a good base model does not transfer across architectures, as average source gains do not correlate between RoBERTa, BERT and T5. Target sensitivity does transfer, with pairwise Pearson 0.6-0.94 across architectures.<br><span class="scope">Holds for: In-house models/targets experiment repeated with RoBERTa, BERT-base-uncased and T5 on English classification datasets; MNLI is the exception, giving the highest gain in all 3 architectures.</span></dd>
 </dl>

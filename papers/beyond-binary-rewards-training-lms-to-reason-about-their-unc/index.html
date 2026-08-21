@@ -162,7 +162,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Does adding a confidence-calibration reward to RL training hurt task accuracy?",
+      "name": "if a model is trained to say how sure it is, does it get worse at getting answers right?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -170,13 +170,14 @@
         "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
       },
       "alternateName": [
-        "Can a reasoning model be trained for accuracy and calibrated confidence at the same time?",
-        "Is there a tradeoff between correctness and calibration in RLCR?"
+        "does adding a proper-scoring-rule calibration term to a binary correctness reward trade off task accuracy against calibration error?",
+        "how do I train a reasoning model to output a confidence score without losing accuracy on the task itself?",
+        "should I worry about losing accuracy if I add a confidence reward to my RL fine-tuning run?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Why use the Brier score instead of log loss as a calibration reward?",
+      "name": "which formula for scoring a stated confidence is safe to use as a training reward, and which one breaks?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -184,13 +185,14 @@
         "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
       },
       "alternateName": [
-        "What goes wrong if you reward verbalized confidence with the logarithmic scoring rule?",
-        "Which proper scoring rules are safe to combine with a correctness reward?"
+        "why is a bounded Brier term preferred over the logarithmic scoring rule when combined with a correctness reward in RL?",
+        "which scoring rule should I pick for the confidence part of my reward so training does not degenerate?",
+        "can I just use log loss on the verbalized confidence as my calibration reward, or will that blow up?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does standard RL with verifiable rewards make language models overconfident?",
+      "name": "does reinforcement learning on right-or-wrong answers make a model more overconfident?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -198,13 +200,14 @@
         "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
       },
       "alternateName": [
-        "What happens to calibration when a model is trained with binary correctness rewards?",
-        "Does RLVR degrade calibration on tasks it was not trained on?"
+        "how does RLVR with binary verifiable rewards affect Brier score and AUROC, including on datasets outside the training distribution?",
+        "how do I tell whether my RL-tuned reasoning model became less reliable at judging its own answers on new tasks?",
+        "my model was RL-trained on correctness only, should I expect its confidence estimates to be trustworthy off-distribution?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is training a separate confidence classifier as good as training a reasoning LM to verbalize its own confidence?",
+      "name": "is it better to have the model itself state how sure it is, or to bolt a separate confidence predictor on top?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -212,13 +215,14 @@
         "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
       },
       "alternateName": [
-        "How does RLCR compare to post-hoc confidence heads and linear probes?",
-        "Do I need a second model to get calibrated confidence from a reasoning LM?"
+        "how does verbalized confidence trained with a calibration-augmented RL reward compare with post-hoc confidence heads, linear probes on hidden states, and answer-token likelihood?",
+        "how do I get calibrated uncertainty for a reasoning model without training and serving a second scoring model?",
+        "should I train a separate confidence classifier for my reasoning model or train the model to report confidence itself?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can a model's own stated confidence be used for best-of-N or majority voting?",
+      "name": "can a model's own stated confidence be used to pick among several sampled answers?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -226,13 +230,14 @@
         "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
       },
       "alternateName": [
-        "Does confidence-weighted majority voting beat plain majority voting?",
-        "Is verbalized confidence useful for test-time scaling without a reward model?"
+        "does weighting majority voting by verbalized confidence outperform unweighted self-consistency and generation-likelihood weighting as sample count grows?",
+        "how do I aggregate multiple sampled answers at inference time without running a reward model or verifier?",
+        "is my model's stated confidence good enough to weight best-of-N or voting at test time?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is it enough to just prompt a model to reason about its uncertainty?",
+      "name": "is asking a model to think about how unsure it is enough, or does the training reward have to change?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -240,13 +245,14 @@
         "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
       },
       "alternateName": [
-        "Does the calibration gain come from the reward or from the uncertainty-reasoning prompt?",
-        "How much of RLCR's calibration improvement survives if the uncertainty analysis is removed?"
+        "is the calibration improvement attributable to the calibration-augmented reward or to uncertainty reasoning in the chain of thought?",
+        "how do I improve my model's confidence estimates - change the prompt to reason about uncertainty, or change the training objective?",
+        "can I skip retraining and just prompt my reasoning model to assess its own uncertainty?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does RLCR add many extra tokens to each response?",
+      "name": "does making a model report calibrated confidence make its answers much longer?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -254,12 +260,14 @@
         "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
       },
       "alternateName": [
-        "Is there a cheap version of calibrated-confidence RL with RLVR-like token cost?"
+        "what is the token overhead of calibration-trained verbalized confidence relative to a correctness-only RL baseline, and does dropping the uncertainty analysis retain the calibration gain?",
+        "how do I add calibrated confidence output without increasing inference cost per response?",
+        "will adding confidence training blow up my generation length and serving cost?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Are verbalized confidence scores from an RLCR model stable across samples?",
+      "name": "if you ask a model the same question twice, does it give the same confidence number?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -267,13 +275,14 @@
         "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
       },
       "alternateName": [
-        "Does an RLCR-trained model give consistent confidence when the same answer is re-analysed?",
-        "Do confidences over competing answers to one question sum to 1?"
+        "how stable are verbalized confidence scores across resampled uncertainty-reasoning chains, and do mean confidences over distinct sampled answers sum to 1?",
+        "how do I check whether the confidence numbers my model emits are reproducible enough to threshold on?",
+        "can I rely on a single sampled confidence score from my model, or do I need to average several?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does the calibration reward work on model families other than Qwen2.5?",
+      "name": "do the confidence gains show up on more than one base model, or just the one it was developed on?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -281,13 +290,14 @@
         "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
       },
       "alternateName": [
-        "Has RLCR been tested on OlMo-2 or Qwen3?",
-        "Do the calibration gains transfer across base models?"
+        "does the accuracy-neutral calibration improvement from a Brier-augmented RL reward replicate across base model families such as OlMo-2-7B-Instruct and Qwen-3-8B?",
+        "how do I know whether calibration-augmented RL will work on the base model I actually use?",
+        "my base model is not Qwen2.5, will calibration training still help me?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about training language models to express calibrated uncertainty?",
+      "name": "what should I read first about getting reinforcement-learned reasoning models to know when they are wrong?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -295,14 +305,13 @@
         "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
       },
       "alternateName": [
-        "Which paper introduced proper scoring rules as an RL reward for reasoning models?",
-        "Where should I start reading on hallucination and calibration in RL-trained reasoning models?",
-        "What work established that calibration can be optimized jointly with correctness in RLVR?"
+        "what work established that calibration can be optimized jointly with correctness in RL with verifiable rewards using a proper scoring rule?",
+        "where do I start reading about training reasoning models to report reliable confidence instead of fitting confidence after the fact?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What happens if you optimize only a calibration reward without any correctness term?",
+      "name": "what happens if a model is rewarded only for accurate confidence and not for being right?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -310,13 +319,14 @@
         "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
       },
       "alternateName": [
-        "Do calibration-only RL methods reward hack?",
-        "How does RLCR compare to abstention-style ternary rewards?"
+        "does optimizing a calibration reward alone over the whole generation induce reward hacking such as degenerate answers at confidence 0?",
+        "how do I set up a confidence reward so the model cannot game it by giving up on the answer?",
+        "can I drop the correctness term and train on the calibration reward alone?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is out-of-domain calibration actually solved by adding a Brier reward?",
+      "name": "after training a model to report confidence, how much overconfidence is left on tasks it never saw?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -324,7 +334,9 @@
         "url": "https://borgr.github.io/papers/beyond-binary-rewards-training-lms-to-reason-about-their-unc/"
       },
       "alternateName": [
-        "How large is the remaining calibration error after RLCR on unseen tasks?"
+        "how much residual calibration error and cross-answer confidence mass remains out of distribution after Brier-augmented RL training?",
+        "how do I estimate how far I can trust confidence scores on domains outside the training distribution?",
+        "is out-of-domain calibration good enough after this kind of training that I can act on the confidence numbers?"
       ]
     }
   ]
@@ -404,60 +416,72 @@
 <p>When language models (LMs) are trained via reinforcement learning (RL) to generate natural language&quot;reasoning chains&quot;, their performance improves on a variety of difficult question answering tasks. Today, almost all successful applications of RL for reasoning use binary reward functions that evaluate the correctness of LM outputs. Because such reward functions do not penalize guessing or low-confidence outputs, they often have the unintended side-effect of degrading calibration and increasing the rate at which LMs generate incorrect responses (or&quot;hallucinate&quot;) in other problem domains. This paper describes RLCR (Reinforcement Learning with Calibration Rewards), an approach to training reasoning models that jointly improves accuracy and calibrated confidence estimation. During RLCR, LMs generate both predictions and numerical confidence estimates after reasoning. They are trained to optimize a reward function that augments a binary correctness score with a Brier score -- a scoring rule for confidence estimates that incentivizes calibrated prediction. We first prove that this reward function (or any reward function that uses a bounded, proper scoring rule) yields models whose predictions are both accurate and well-calibrated. We next show that across diverse datasets, RLCR substantially improves calibration with no loss in accuracy, on both in-domain and out-of-domain evaluations -- outperforming both ordinary RL training and classifiers trained to assign post-hoc confidence scores. While ordinary RL hurts calibration, RLCR improves it. Finally, we demonstrate that verbalized confidence can be leveraged at test time to improve accuracy and calibration via confidence-weighted scaling methods. Our results show that explicitly optimizing for calibration can produce more generally reliable reasoning models. Code, models, and further info is available at https://rl-calibration.github.io/.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Does adding a confidence-calibration reward to RL training hurt task accuracy?</dt>
-<dt>Can a reasoning model be trained for accuracy and calibrated confidence at the same time?</dt>
-<dt>Is there a tradeoff between correctness and calibration in RLCR?</dt>
+<dt>if a model is trained to say how sure it is, does it get worse at getting answers right?</dt>
+<dt>does adding a proper-scoring-rule calibration term to a binary correctness reward trade off task accuracy against calibration error?</dt>
+<dt>how do I train a reasoning model to output a confidence score without losing accuracy on the task itself?</dt>
+<dt>should I worry about losing accuracy if I add a confidence reward to my RL fine-tuning run?</dt>
 <dd>A reward equal to a scaled correctness indicator minus a proper scoring rule provably incentivizes a calibrated confidence and the answer with the highest success probability. The guarantee requires the scoring rule&#x27;s S(p,1)-S(p,0) to be bounded by the correctness weight lambda.<br><span class="scope">Holds for: Assumes the correctness indicator for a fixed prediction is Bernoulli and that confidence can be chosen freely. Brier satisfies the bound at lambda=1; the log score does not, since S(p,1)-S(p,0) diverges as p approaches 0.</span></dd>
 <dd>On in-distribution HotpotQA, RLCR cuts expected calibration error from 0.37 to 0.03 and Brier score from 0.37 to 0.21 relative to RLVR, at 62.1% versus 63.0% accuracy.<br><span class="scope">Holds for: Qwen2.5-7B base, GRPO with no KL regularization, trained on 20,000 HotpotQA-Modified examples; evaluated at temperature 0 with exact-match correctness.</span></dd>
 <dd>Trained on Big-Math, RLCR reduces in-domain expected calibration error from 0.26 to 0.10 versus RLVR while matching accuracy (72.7% vs 72.9%) averaged over MATH-500, GSM8K and Big-Math.<br><span class="scope">Holds for: Qwen2.5-7B base; Big-Math subset of 15,000 numerical-answer problems with LLaMA-8B solve rate between 0 and 70%; correctness scored by math-verify.</span></dd>
-<dt>Why use the Brier score instead of log loss as a calibration reward?</dt>
-<dt>What goes wrong if you reward verbalized confidence with the logarithmic scoring rule?</dt>
-<dt>Which proper scoring rules are safe to combine with a correctness reward?</dt>
+<dt>which formula for scoring a stated confidence is safe to use as a training reward, and which one breaks?</dt>
+<dt>why is a bounded Brier term preferred over the logarithmic scoring rule when combined with a correctness reward in RL?</dt>
+<dt>which scoring rule should I pick for the confidence part of my reward so training does not degenerate?</dt>
+<dt>can I just use log loss on the verbalized confidence as my calibration reward, or will that blow up?</dt>
 <dd>A reward equal to a scaled correctness indicator minus a proper scoring rule provably incentivizes a calibrated confidence and the answer with the highest success probability. The guarantee requires the scoring rule&#x27;s S(p,1)-S(p,0) to be bounded by the correctness weight lambda.<br><span class="scope">Holds for: Assumes the correctness indicator for a fixed prediction is Bernoulli and that confidence can be chosen freely. Brier satisfies the bound at lambda=1; the log score does not, since S(p,1)-S(p,0) diverges as p approaches 0.</span></dd>
 <dd>Replacing the Brier term with the unbounded log score collapses training on a 5-arm next-draw prediction task: RLCR-Log outputs the invalid arm at confidence 0 and reaches 0 accuracy. RLCR-Brier on the same task reaches 34.4% accuracy at ECE 0.02.<br><span class="scope">Holds for: Qwen2.5-7B trained on 10,000 synthetic toy-arm examples with high aleatoric uncertainty and no uncertainty reasoning. On HotpotQA the same substitution does not collapse: RLCR-Log reaches 59.5% accuracy and ECE 0.07 (Table 3).</span></dd>
-<dt>Does standard RL with verifiable rewards make language models overconfident?</dt>
-<dt>What happens to calibration when a model is trained with binary correctness rewards?</dt>
-<dt>Does RLVR degrade calibration on tasks it was not trained on?</dt>
+<dt>does reinforcement learning on right-or-wrong answers make a model more overconfident?</dt>
+<dt>how does RLVR with binary verifiable rewards affect Brier score and AUROC, including on datasets outside the training distribution?</dt>
+<dt>how do I tell whether my RL-tuned reasoning model became less reliable at judging its own answers on new tasks?</dt>
+<dt>my model was RL-trained on correctness only, should I expect its confidence estimates to be trustworthy off-distribution?</dt>
 <dd>Averaged over 6 out-of-distribution datasets, RLVR training on HotpotQA worsens Brier score from the base model&#x27;s 0.41 to 0.46, whereas RLCR improves it to 0.21 and raises AUROC from 0.50 to 0.68.<br><span class="scope">Holds for: Qwen2.5-7B trained only on HotpotQA-Modified; OOD set is TriviaQA, SimpleQA, MATH-500, GSM8K, CommonsenseQA and GPQA. OOD accuracy is roughly flat for all RL methods.</span></dd>
 <dd>Prompting an RLVR model to reason about uncertainty at test time lowers HotpotQA ECE only from 0.37 to 0.34, whereas training with the calibration reward reaches 0.03. Calibration-aware reward matters far more than the uncertainty-reasoning prompt.<br><span class="scope">Holds for: HotpotQA-trained Qwen2.5-7B models; RLVR w/ Analysis uses the identical analysis prompt RLCR was trained with. Both components help: OOD Brier is 0.41 for RLVR w/ Analysis versus 0.46 for plain RLVR.</span></dd>
-<dt>Is training a separate confidence classifier as good as training a reasoning LM to verbalize its own confidence?</dt>
-<dt>How does RLCR compare to post-hoc confidence heads and linear probes?</dt>
-<dt>Do I need a second model to get calibrated confidence from a reasoning LM?</dt>
+<dt>is it better to have the model itself state how sure it is, or to bolt a separate confidence predictor on top?</dt>
+<dt>how does verbalized confidence trained with a calibration-augmented RL reward compare with post-hoc confidence heads, linear probes on hidden states, and answer-token likelihood?</dt>
+<dt>how do I get calibrated uncertainty for a reasoning model without training and serving a second scoring model?</dt>
+<dt>should I train a separate confidence classifier for my reasoning model or train the model to report confidence itself?</dt>
 <dd>RLCR reaches out-of-distribution Brier score 0.21 with a single model, against 0.27 for a same-size BCE confidence classifier and 0.32 for a Brier-loss classifier. A linear probe on RLVR embeddings reaches 0.38 and answer-token probability 0.42.<br><span class="scope">Holds for: Classifiers and probe are trained on RLVR outputs from Qwen2.5-7B on HotpotQA-Modified and share the RLVR generator, so their accuracies equal RLVR&#x27;s. In-distribution the BCE classifier is close (ECE 0.07 versus RLCR&#x27;s 0.03).</span></dd>
 <dd>Optimizing a Brier reward alone over the whole generation collapses a HotpotQA reasoning model to 0.00 accuracy, with empty or trivial answers at confidence 0. Restricting that reward to the analysis and confidence spans preserves 62.0% accuracy but leaves OOD Brier at 0.27 versus RLCR&#x27;s 0.21.<br><span class="scope">Holds for: Calibration-only baselines are initialized from the RLVR model, not the base model, and use no KL regularization. An abstention-RL baseline with reward 0.5 for abstaining reaches OOD Brier 0.35.</span></dd>
-<dt>Can a model&#x27;s own stated confidence be used for best-of-N or majority voting?</dt>
-<dt>Does confidence-weighted majority voting beat plain majority voting?</dt>
-<dt>Is verbalized confidence useful for test-time scaling without a reward model?</dt>
+<dt>can a model&#x27;s own stated confidence be used to pick among several sampled answers?</dt>
+<dt>does weighting majority voting by verbalized confidence outperform unweighted self-consistency and generation-likelihood weighting as sample count grows?</dt>
+<dt>how do I aggregate multiple sampled answers at inference time without running a reward model or verifier?</dt>
+<dt>is my model&#x27;s stated confidence good enough to weight best-of-N or voting at test time?</dt>
 <dd>Weighting majority votes by an RLCR model&#x27;s own verbalized confidence yields higher accuracy than plain majority vote, max-confidence selection, and two generation-likelihood baselines as the number of samples grows.<br><span class="scope">Holds for: RLCR trained on HotpotQA, accuracy averaged over the 7 evaluation datasets of Table 1; needs no external reward model or extra supervision.</span></dd>
-<dt>Is it enough to just prompt a model to reason about its uncertainty?</dt>
-<dt>Does the calibration gain come from the reward or from the uncertainty-reasoning prompt?</dt>
-<dt>How much of RLCR&#x27;s calibration improvement survives if the uncertainty analysis is removed?</dt>
+<dt>is asking a model to think about how unsure it is enough, or does the training reward have to change?</dt>
+<dt>is the calibration improvement attributable to the calibration-augmented reward or to uncertainty reasoning in the chain of thought?</dt>
+<dt>how do I improve my model&#x27;s confidence estimates - change the prompt to reason about uncertainty, or change the training objective?</dt>
+<dt>can I skip retraining and just prompt my reasoning model to assess its own uncertainty?</dt>
 <dd>Prompting an RLVR model to reason about uncertainty at test time lowers HotpotQA ECE only from 0.37 to 0.34, whereas training with the calibration reward reaches 0.03. Calibration-aware reward matters far more than the uncertainty-reasoning prompt.<br><span class="scope">Holds for: HotpotQA-trained Qwen2.5-7B models; RLVR w/ Analysis uses the identical analysis prompt RLCR was trained with. Both components help: OOD Brier is 0.41 for RLVR w/ Analysis versus 0.46 for plain RLVR.</span></dd>
 <dd>RLCR without any uncertainty analysis in the chain-of-thought matches RLVR&#x27;s accuracy (61.7% vs 63.0%) and token cost (113 vs 92 tokens) on HotpotQA while cutting ECE from 0.37 to 0.09.<br><span class="scope">Holds for: Qwen2.5-7B trained on HotpotQA-Modified, evaluated with the analysis section removed at inference. Full RLCR with analysis is still better calibrated (ECE 0.03) at 249 tokens.</span></dd>
-<dt>Does RLCR add many extra tokens to each response?</dt>
-<dt>Is there a cheap version of calibrated-confidence RL with RLVR-like token cost?</dt>
+<dt>does making a model report calibrated confidence make its answers much longer?</dt>
+<dt>what is the token overhead of calibration-trained verbalized confidence relative to a correctness-only RL baseline, and does dropping the uncertainty analysis retain the calibration gain?</dt>
+<dt>how do I add calibrated confidence output without increasing inference cost per response?</dt>
+<dt>will adding confidence training blow up my generation length and serving cost?</dt>
 <dd>RLCR without any uncertainty analysis in the chain-of-thought matches RLVR&#x27;s accuracy (61.7% vs 63.0%) and token cost (113 vs 92 tokens) on HotpotQA while cutting ECE from 0.37 to 0.09.<br><span class="scope">Holds for: Qwen2.5-7B trained on HotpotQA-Modified, evaluated with the analysis section removed at inference. Full RLCR with analysis is still better calibrated (ECE 0.03) at 249 tokens.</span></dd>
-<dt>Are verbalized confidence scores from an RLCR model stable across samples?</dt>
-<dt>Does an RLCR-trained model give consistent confidence when the same answer is re-analysed?</dt>
-<dt>Do confidences over competing answers to one question sum to 1?</dt>
+<dt>if you ask a model the same question twice, does it give the same confidence number?</dt>
+<dt>how stable are verbalized confidence scores across resampled uncertainty-reasoning chains, and do mean confidences over distinct sampled answers sum to 1?</dt>
+<dt>how do I check whether the confidence numbers my model emits are reproducible enough to threshold on?</dt>
+<dt>can I rely on a single sampled confidence score from my model, or do I need to average several?</dt>
 <dd>Resampling multiple uncertainty-reasoning chains for the same answer from an RLCR model gives confidence scores with mostly low standard deviation, so the model has little &#x27;uncertainty about its uncertainty&#x27;.<br><span class="scope">Holds for: RLCR trained on HotpotQA, standard deviations over analysis chains for a fixed solution across 7 datasets. Variability is higher when full chains, and hence answers, are resampled.</span></dd>
 <dd>RLCR&#x27;s mean confidences over distinct sampled answers sum to close to the ideal 1 on in-distribution HotpotQA, but exceed 1 out of distribution, so overconfidence on contradictory answers persists.<br><span class="scope">Holds for: Three representative datasets, HotpotQA-trained Qwen2.5-7B; questions with mutually exclusive answers only. RLCR&#x27;s sums are closer to 1 than RLVR&#x27;s in every case shown.</span></dd>
-<dt>Does the calibration reward work on model families other than Qwen2.5?</dt>
-<dt>Has RLCR been tested on OlMo-2 or Qwen3?</dt>
-<dt>Do the calibration gains transfer across base models?</dt>
+<dt>do the confidence gains show up on more than one base model, or just the one it was developed on?</dt>
+<dt>does the accuracy-neutral calibration improvement from a Brier-augmented RL reward replicate across base model families such as OlMo-2-7B-Instruct and Qwen-3-8B?</dt>
+<dt>how do I know whether calibration-augmented RL will work on the base model I actually use?</dt>
+<dt>my base model is not Qwen2.5, will calibration training still help me?</dt>
 <dd>The accuracy-neutral calibration gain of RLCR reproduces on OlMo-2-7B-Instruct (HotpotQA ECE 0.38 for RLVR versus 0.09 for RLCR) and on Qwen-3-8B (OOD Brier 0.28 versus 0.17).<br><span class="scope">Holds for: Both trained on HotpotQA-Modified with the main GRPO setup; accuracy within about 1 point of RLVR in each case.</span></dd>
-<dt>What should I read about training language models to express calibrated uncertainty?</dt>
-<dt>Which paper introduced proper scoring rules as an RL reward for reasoning models?</dt>
-<dt>Where should I start reading on hallucination and calibration in RL-trained reasoning models?</dt>
-<dt>What work established that calibration can be optimized jointly with correctness in RLVR?</dt>
+<dt>what should I read first about getting reinforcement-learned reasoning models to know when they are wrong?</dt>
+<dt>what work established that calibration can be optimized jointly with correctness in RL with verifiable rewards using a proper scoring rule?</dt>
+<dt>where do I start reading about training reasoning models to report reliable confidence instead of fitting confidence after the fact?</dt>
 <dd>RLCR shows that RL for reasoning can optimize calibration alongside correctness by adding a proper-scoring-rule term to the binary correctness reward. Confidence is learned by the reasoning model itself rather than fitted post hoc by a separate model.<br><span class="scope">Holds for: As of the 2026 publication; earlier RL-for-calibration work optimized calibration alone and was evaluated on non-reasoning tasks. Demonstrated on 7B-8B open models.</span></dd>
-<dt>What happens if you optimize only a calibration reward without any correctness term?</dt>
-<dt>Do calibration-only RL methods reward hack?</dt>
-<dt>How does RLCR compare to abstention-style ternary rewards?</dt>
+<dt>what happens if a model is rewarded only for accurate confidence and not for being right?</dt>
+<dt>does optimizing a calibration reward alone over the whole generation induce reward hacking such as degenerate answers at confidence 0?</dt>
+<dt>how do I set up a confidence reward so the model cannot game it by giving up on the answer?</dt>
+<dt>can I drop the correctness term and train on the calibration reward alone?</dt>
 <dd>Optimizing a Brier reward alone over the whole generation collapses a HotpotQA reasoning model to 0.00 accuracy, with empty or trivial answers at confidence 0. Restricting that reward to the analysis and confidence spans preserves 62.0% accuracy but leaves OOD Brier at 0.27 versus RLCR&#x27;s 0.21.<br><span class="scope">Holds for: Calibration-only baselines are initialized from the RLVR model, not the base model, and use no KL regularization. An abstention-RL baseline with reward 0.5 for abstaining reaches OOD Brier 0.35.</span></dd>
 <dd>Replacing the Brier term with the unbounded log score collapses training on a 5-arm next-draw prediction task: RLCR-Log outputs the invalid arm at confidence 0 and reaches 0 accuracy. RLCR-Brier on the same task reaches 34.4% accuracy at ECE 0.02.<br><span class="scope">Holds for: Qwen2.5-7B trained on 10,000 synthetic toy-arm examples with high aleatoric uncertainty and no uncertainty reasoning. On HotpotQA the same substitution does not collapse: RLCR-Log reaches 59.5% accuracy and ECE 0.07 (Table 3).</span></dd>
-<dt>Is out-of-domain calibration actually solved by adding a Brier reward?</dt>
-<dt>How large is the remaining calibration error after RLCR on unseen tasks?</dt>
+<dt>after training a model to report confidence, how much overconfidence is left on tasks it never saw?</dt>
+<dt>how much residual calibration error and cross-answer confidence mass remains out of distribution after Brier-augmented RL training?</dt>
+<dt>how do I estimate how far I can trust confidence scores on domains outside the training distribution?</dt>
+<dt>is out-of-domain calibration good enough after this kind of training that I can act on the confidence numbers?</dt>
 <dd>Averaged over 6 out-of-distribution datasets, RLVR training on HotpotQA worsens Brier score from the base model&#x27;s 0.41 to 0.46, whereas RLCR improves it to 0.21 and raises AUROC from 0.50 to 0.68.<br><span class="scope">Holds for: Qwen2.5-7B trained only on HotpotQA-Modified; OOD set is TriviaQA, SimpleQA, MATH-500, GSM8K, CommonsenseQA and GPQA. OOD accuracy is roughly flat for all RL methods.</span></dd>
 <dd>RLCR&#x27;s mean confidences over distinct sampled answers sum to close to the ideal 1 on in-distribution HotpotQA, but exceed 1 out of distribution, so overconfidence on contradictory answers persists.<br><span class="scope">Holds for: Three representative datasets, HotpotQA-trained Qwen2.5-7B; questions with mutually exclusive answers only. RLCR&#x27;s sums are closer to 1 than RLVR&#x27;s in every case shown.</span></dd>
 </dl>

@@ -7,16 +7,16 @@ Venue: CoRR (2021)
 Manually aligning the content words of 1000 English-Arabic sentences in the Parallel Universal Dependencies corpus yields POS and dependency divergences for building translation challenge sets, but Google Translate scores higher on the extracted divergence sentences than on the corpus as a whole.
 
 ## Claims, with scope
-- Google Translate's mean sentence-level BLEU on English-Arabic sentences selected for POS/dependency divergences is about 0.70, below its 0.7495 mean over all 1000 Parallel Universal Dependencies sentences, so the divergence-based selection did not produce a harder-than-average challenge set.
+- Google Translate's mean sentence-level BLEU on English-Arabic sentences selected for POS/dependency divergences is about 0.70, below its 0.7495 mean over all 1000 Parallel Universal Dependencies sentences. The divergence-based selection did not produce a harder-than-average challenge set.
   Scope: English-to-Arabic Google Translate output scored with NLTK smoothed sentence_bleu against the corpus's professional Arabic translation as the single reference; 1000 PUD sentences from news and Wikipedia.
   Evidence: Mid-level results, BLEU score table and the accompanying 0.7495161015312339 whole-corpus figure
-- The six divergence types tested give near-identical Google Translate BLEU means, from 0.6938 for amod -> nmod (113 sentences) to 0.7036 for xcomp -> obl (74 sentences), with Verb -> Noun the largest set at 307 sentences.
+- The six divergence types tested give near-identical Google Translate BLEU means, from 0.6938 for amod -> nmod (113 sentences) to 0.7036 for xcomp -> obl (74 sentences). Verb -> Noun is the largest set, at 307 sentences.
   Scope: One reference translation per sentence, BLEU-4 with uniform weights; sentence counts are subsets of the 1000-sentence PUD corpus and overlap where a sentence contains several divergences.
   Evidence: Mid-level results, the phenomena/BLEU score mean/number of sentences table
 - Recomputing the English-Arabic divergence-set BLEU scores with n = 3, 5 and 6 instead of the default BLEU-4 did not greatly alter the results under uniform weights.
   Scope: Same 1000-sentence PUD material and single-reference smoothed NLTK sentence_bleu; no numeric table of the alternative-n scores is reported.
   Evidence: Mid-level results, paragraph on default BLEU-4 and n=5, n=6, n=3
-- Six English-to-Arabic divergences were selected as candidate challenge-set rules from the manual alignment — obl -> nmod, amod -> nmod, Aux -> verb, obj -> nmod, Verb -> Noun and xcomp -> obl — using a threshold of over 8% of English words with a tag taking the divergent Arabic tag and over 50 occurrences.
+- Six English-to-Arabic divergences were selected as candidate challenge-set rules from the manual alignment: obl -> nmod, amod -> nmod, Aux -> verb, obj -> nmod, Verb -> Noun and xcomp -> obl. The threshold was over 8% of English words with a given tag taking the divergent Arabic tag, and over 50 occurrences.
   Scope: Thresholds applied to the POS percentage matrix and UD count matrix built from one annotator's content-word alignment of the English-Arabic PUD corpus; not validated against a second annotator.
   Evidence: Table 1 (POS correlation matrix percentages) and Table 2 (UD correlation matrix counts), with the orange-cell criterion described under Table 1
 - Manual content-word matching between English and Arabic covered all but 2 of the 1000 Parallel Universal Dependencies sentences. Sentences 454 and 491 could not be fully tagged, because the Arabic rendering diverges in meaning from the English.
@@ -25,22 +25,22 @@ Manually aligning the content words of 1000 English-Arabic sentences in the Para
 - In the English-Arabic AUX -> VERB divergences, English inflections of "be" align with كان and its inflections, while English "can", "could" and "have" align with يمكن.
   Scope: Word pairs aligned more than 3 times in the manually tagged PUD corpus; a lexical regularity in this corpus, not a claim about Arabic generally.
   Evidence: Noteworthy divergent constructions, AUX -> VERB subsection
-- Four Arabic constructions with no fixed English parallel — passive participle, dual form, maf'ul mutlaq (cognate accusative) and verb-preposition distance — each yield a hand-made Arabic sentence that Google Translate renders wrongly, for example ‫ ظفرت الجائزة بتصفيق‬translated as "The award won applause" instead of "The award was received with applause".
+- Four Arabic constructions with no fixed English parallel, namely passive participle, dual form, maf'ul mutlaq and verb-preposition distance, each yield a hand-made Arabic sentence that Google Translate renders wrongly. One such example, ظفرت الجائزة بتصفيق, comes back as "The award won applause" instead of "The award was received with applause".
   Scope: Single hand-constructed example per phenomenon, Arabic-to-English direction, Google Translate at time of writing in 2021; no BLEU scores or automatic extraction for these cases.
   Evidence: Other ideas section, Passive Particle, Dual form, Maf'ul mutlaq and Verb and preposition distance subsections
-- Two Arabic phenomena resist automatic extraction from Universal Dependencies annotation: dual number is absent from the UD data examined, and maf'ul mutlaq needs word roots that the Arabic UD parser leaves unfilled on the advmod, with off-the-shelf Arabic root extractors reaching only around 75% accuracy.
+- Two Arabic phenomena resist automatic extraction from Universal Dependencies: dual number is absent from the UD data, and maf'ul mutlaq needs word roots the Arabic UD parser leaves unfilled on the advmod. Off-the-shelf Arabic root extractors reach only around 75% accuracy.
   Scope: UD v2 annotation of the Arabic PUD treebank and publicly available Arabic root-extraction tools as of 2021; the 75% figure is quoted from those tools' reported accuracy, not measured in this work.
   Evidence: Other ideas section, Dual form and Maf'ul mutlaq subsections
-- Checking whether a translated Arabic sentence contains the expected divergent tag is an unreliable substitute for BLEU, because the divergences occur well below 100% of the time and such a check would penalise correct translations that keep the English construction.
+- Checking whether a translated Arabic sentence contains the expected divergent tag is an unreliable substitute for BLEU. The divergences occur well below 100% of the time, so such a check would penalise correct translations that keep the English construction.
   Scope: Argument grounded in the divergence rates of the POS and UD correlation matrices for English-Arabic; the alternative check was reasoned about, not implemented or measured.
   Evidence: Mid-level results, the two numbered objections following the BLEU discussion
-- The paper's aim is a reusable rule for automatically extracting English-Arabic challenge sets from a parallel treebank, rather than a fixed challenge set, so that others can generate their own diverse test sentences with little human labour.
+- A reusable rule for automatically extracting English-Arabic challenge sets from a parallel treebank is the target, rather than a fixed challenge set. Others could then generate their own diverse test sentences with little human labour.
   Scope: As stated by the author for the English-Arabic pair in 2021; the reported experiment tested the rule and did not confirm that it isolates hard sentences.
   Evidence: Summary section
-- The study is an undergraduate-level case study in building syntax-divergence challenge sets for machine translation, applying the challenge-set methodology of Choshen and Abend (2019) to the English-Arabic pair via manual annotation of the Parallel Universal Dependencies corpus.
+- The work is an undergraduate-level case study in building syntax-divergence challenge sets for machine translation. It applies the challenge-set methodology of Choshen and Abend (2019) to English-Arabic, via manual annotation of the Parallel Universal Dependencies corpus.
   Scope: One language pair, one 1000-sentence parallel corpus and one MT system (Google Translate) as of 2021; arXiv preprint, not peer-reviewed.
   Evidence: Introduction and Syntactic pattern arise sections; Verb and preposition distance subsection citing Choshen and Abend (2019)
-- Replicating this style of manual cross-lingual content-word alignment requires reading a newspaper or Wikipedia sentence in the target language without consulting a dictionary for more than half the words, plus formal grammatical study of both languages.
+- Replicating this style of manual cross-lingual content-word alignment requires reading a newspaper or Wikipedia sentence in the target language without a dictionary for more than half the words. Formal grammatical study of both languages is also needed.
   Scope: The author's own recommendation based on the English-Arabic annotation experience; a suggested minimum, not an empirically validated annotator qualification.
   Evidence: Comments on the work process section
 

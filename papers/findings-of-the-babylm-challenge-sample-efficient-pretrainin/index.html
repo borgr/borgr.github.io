@@ -185,7 +185,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What should I read first about training language models on small, child-scale amounts of data?",
+      "name": "Is there an open competition for training language models on the amount of language a child hears?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -193,13 +193,14 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "Is there a shared task for sample-efficient language model pretraining?",
-        "Where did the BabyLM Challenge come from and what did it set up?"
+        "What shared task benchmarks sample-efficient pretraining on developmentally plausible corpora of 10M or 100M words?",
+        "Where can I find a fixed small-scale pretraining corpus and evaluation pipeline to test my own language model?",
+        "If I want to compare my small-data pretraining run against others, is there an existing leaderboard I can enter?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can a language model trained on 100 million words beat one trained on trillions?",
+      "name": "Can a language model trained on 100 million words of text score better than one trained on trillions?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -207,13 +208,14 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "Did any BabyLM submission outperform Llama 2?",
-        "Which model won the BabyLM Strict track and what did it score?"
+        "Did any BabyLM Strict-track submission exceed the Llama 2 and RoBERTa-base skylines on the aggregate evaluation score?",
+        "How do I find out what the strongest 100M-word pretrained encoder achieved and what it was compared against?",
+        "Should I expect a model I pretrain on 100M words to be competitive with off-the-shelf large models on grammar and understanding benchmarks?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does curriculum learning help when pretraining data is limited?",
+      "name": "Does feeding a language model simple text before hard text help when there is very little training data?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -221,13 +223,14 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "How well did curriculum learning work in the BabyLM Challenge?",
-        "Is ordering training sentences from easy to hard worth trying for small-data language models?"
+        "Did curriculum learning yield consistent gains for BabyLM 2023 submissions across the evaluation suite?",
+        "How do I decide whether to order my pretraining data from easy to hard when data is capped at 100M words?",
+        "I only have 10M words to pretrain on, is curriculum learning worth my engineering time?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which architecture works best for pretraining on 10M-100M words?",
+      "name": "Which model design worked best for training on only 10 to 100 million words of text?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -235,13 +238,14 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "Was LTG-BERT effective on developmentally plausible data budgets?",
-        "What backbone did the winning BabyLM models use?"
+        "Was the LTG-BERT encoder backbone responsible for the top aggregate scores on developmentally plausible data budgets?",
+        "Which architecture should I start from if I am pretraining on a 100M-word corpus?",
+        "Do I get more from picking a stronger encoder backbone or from adding my own training modifications at small data scale?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much does going from 10 million to 100 million words of pretraining data actually buy you?",
+      "name": "How much better does a language model get when its training text goes from 10 million to 100 million words?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -249,13 +253,14 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "Did BabyLM Strict-track models beat Strict-Small models by much?",
-        "Is a 10x increase in pretraining data worth it at this scale?"
+        "Did BabyLM Strict-track models trained on 100M words outperform Strict-Small models trained on 10M words on GLUE and aggregate scores?",
+        "How do I decide whether collecting 10x more pretraining text will actually raise my scores at this scale?",
+        "Is it worth spending effort to get 100M words of clean text if I already have 10M?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Did adding images or audio help language models trained on small data in BabyLM?",
+      "name": "Did giving language models images or other non-text input help when their text data was limited?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -263,13 +268,14 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "How did multimodal submissions to the BabyLM Loose track perform?",
-        "Does multimodal input improve sample efficiency for language modelling?"
+        "How did BabyLM Loose-track submissions with unlimited non-linguistic data compare in aggregate to 10M-word Strict-Small models?",
+        "Should I add visual or audio data to a small text corpus to improve my model's language scores?",
+        "I have image-caption data available on top of 100M words of text, will using it beat a text-only model trained on far less?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How close are small-data language models to human grammar performance?",
+      "name": "How close to human accuracy on grammar tests can a model trained on a child-sized amount of text get?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -277,13 +283,13 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "What BLiMP accuracy did the best BabyLM model reach relative to humans?",
-        "Can models trained on child-scale data pass minimal-pair grammar tests?"
+        "What BLiMP minimal-pair accuracy did the best BabyLM 2023 submission reach relative to reported human performance?",
+        "If I pretrain on at most 100M words, how much grammatical acceptability performance am I giving up compared with humans?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do language models trained on small corpora prefer syntactic or surface generalizations?",
+      "name": "When a sentence can be read two ways, do models trained on small amounts of text go by word patterns or by grammar?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -291,13 +297,14 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "What did MSGS reveal about the inductive bias of BabyLM models?",
-        "Does linguistic inductive bias require billions of words of pretraining?"
+        "What did MSGS Matthews correlations reveal about linguistic versus surface inductive bias in models trained on 10M-100M words?",
+        "How do I tell whether my small-data pretrained model generalizes on syntactic features rather than surface cues?",
+        "Do I need billions of words of pretraining before my model prefers linguistic generalizations over surface ones?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do language models understand hypernym and lexical entailment relations?",
+      "name": "Can language models tell that a robin is a bird and not the other way round?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -305,13 +312,13 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "How did BabyLM models do on the Hypernym test suite?",
-        "Which BLiMP Supplement task defeated every model including the skylines?"
+        "How did BabyLM 2023 submissions and the skylines score on the Hypernym suite of the BLiMP Supplement?",
+        "Should I trust a small pretrained model to handle lexical entailment between general and specific words?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What new evaluation tasks did the BabyLM Challenge add beyond BLiMP and GLUE?",
+      "name": "What extra language tests did the BabyLM Challenge add beyond standard grammar and understanding benchmarks?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -319,13 +326,14 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "Which BLiMP Supplement suite best separates strong from weak small-data models?",
-        "Can language models track pronoun shifts across a change of speaker?"
+        "Which BLiMP Supplement suites, such as Turn-Taking and Hypernym, discriminate between BabyLM systems and which saturate at chance?",
+        "Which evaluation suites should I use if I want to separate strong from weak models pretrained on 10M-100M words?",
+        "If I run the BabyLM Supplement suites on my model, which of them will actually tell me something about it?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can small language models predict the age at which children acquire words?",
+      "name": "Can a language model predict the age at which children learn particular words?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -333,13 +341,14 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "Did any BabyLM submission beat the baseline on age-of-acquisition prediction?",
-        "How well do BabyLM models align with children's word learning?"
+        "Did any BabyLM 2023 Strict-Small submission beat the OPT-125M baseline on age-of-acquisition prediction measured by mean average deviation?",
+        "How do I check whether a small pretrained model's word learning lines up with children's acquisition order?",
+        "Is a BabyLM-style model a better fit than a plain 125M-parameter baseline if I want to model children's word acquisition?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What practical tricks improved sample efficiency in the BabyLM Challenge?",
+      "name": "Which training tweaks actually helped models learn more from a small amount of text?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -347,13 +356,14 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "Does shortening context length or sentence-level batching help low-resource pretraining?",
-        "Did knowledge distillation help models trained on 10 million words?"
+        "Which modifications, such as reduced context length, sentence-level examples or same-corpus distillation, consistently improved BabyLM scores?",
+        "What changes should I make to my pretraining recipe to squeeze more out of a 10M-100M word corpus?",
+        "I am pretraining on 10 million words, should I shorten sequences or distill from a teacher trained on the same data?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Did the BabyLM Challenge limit compute as well as data?",
+      "name": "Was the amount of computation limited in the child-scale language model competition, or only the amount of text?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -361,13 +371,14 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "How many epochs did the winning BabyLM model train for?",
-        "Were data-limited pretraining winners actually cheap to train?"
+        "Did the BabyLM 2023 rules constrain compute alongside the data budget, and how many training samples did the winning Strict submission consume?",
+        "How do I estimate the training cost of reproducing a winning 100M-word pretrained model?",
+        "If I train on only 100M words, can I expect the run to be cheap, or will I need as many training steps as BERT?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do better BLiMP and GLUE scores mean a model is a better cognitive model of reading?",
+      "name": "If a model scores higher on grammar and language understanding tests, does it also match how hard humans find text to read?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -375,8 +386,9 @@
         "url": "https://borgr.github.io/papers/findings-of-the-babylm-challenge-sample-efficient-pretrainin/"
       },
       "alternateName": [
-        "Does BabyLM benchmark performance correlate with predicting human reading times?",
-        "Which BabyLM paper won the award for outstanding evaluation and what did it find?"
+        "Does BabyLM aggregate benchmark performance correlate with predicting human reading times as a psycholinguistic measure?",
+        "How do I choose a small pretrained model if what I need is a predictor of human reading difficulty?",
+        "Can I pick the top-scoring BabyLM model as my cognitive model of reading, or is benchmark rank the wrong signal?"
       ]
     }
   ]
@@ -468,65 +480,77 @@
 <p>Children can acquire language from less than 100 million words of input. Large language models are far less data-efficient: they typically require 3 or 4 orders of magnitude more data and still do not perform as well as humans on many evaluations. These intensive resource demands limit the ability of researchers to train new models and use existing models as developmentally plausible cognitive models. The BabyLM Challenge is a communal effort in which participants compete to optimize language model training on a fixed data budget. Submissions are compared on various evaluation tasks targeting grammatical ability, downstream task performance, and generalization. Participants can submit to up to three tracks with progressively looser data restrictions. From over 30 submissions, we extract concrete recommendations on how best to train data-efficient language models, and on where future efforts should (and perhaps should not) focus. The winning submissions using the LTG-BERT architecture (Samuel et al., 2023) outperformed models trained on trillions of words. Other submissions achieved strong results through training on shorter input sequences or training a student model on a pretrained teacher. Curriculum learning attempts, which accounted for a large number of submissions, were largely unsuccessful, though some showed modest improvements.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>What should I read first about training language models on small, child-scale amounts of data?</dt>
-<dt>Is there a shared task for sample-efficient language model pretraining?</dt>
-<dt>Where did the BabyLM Challenge come from and what did it set up?</dt>
+<dt>Is there an open competition for training language models on the amount of language a child hears?</dt>
+<dt>What shared task benchmarks sample-efficient pretraining on developmentally plausible corpora of 10M or 100M words?</dt>
+<dt>Where can I find a fixed small-scale pretraining corpus and evaluation pipeline to test my own language model?</dt>
+<dt>If I want to compare my small-data pretraining run against others, is there an existing leaderboard I can enter?</dt>
 <dd>The BabyLM Challenge established a shared task and public leaderboard for pretraining language models on developmentally plausible budgets of 10M or 100M words. It supplied a fixed corpus of child-directed speech, dialogue and children&#x27;s literature plus a common evaluation pipeline.<br><span class="scope">Holds for: First iteration, 2023, English only, 31 papers and 162 models across the Strict, Strict-Small and Loose tracks; earlier data-limited work existed (LTG-BERT, BabyBERTa, MiniPile) but not as a community shared task with a common corpus and leaderboard.</span></dd>
-<dt>Can a language model trained on 100 million words beat one trained on trillions?</dt>
-<dt>Did any BabyLM submission outperform Llama 2?</dt>
-<dt>Which model won the BabyLM Strict track and what did it score?</dt>
+<dt>Can a language model trained on 100 million words of text score better than one trained on trillions?</dt>
+<dt>Did any BabyLM Strict-track submission exceed the Llama 2 and RoBERTa-base skylines on the aggregate evaluation score?</dt>
+<dt>How do I find out what the strongest 100M-word pretrained encoder achieved and what it was compared against?</dt>
+<dt>Should I expect a model I pretrain on 100M words to be competitive with off-the-shelf large models on grammar and understanding benchmarks?</dt>
 <dd>ELC-BERT, trained on 100M words in the BabyLM Strict track, reached an aggregate score of 0.74. That is above the Llama 2 skyline at 0.71, trained on 2T tokens, and above RoBERTa-base at 0.70 trained on its full corpus.<br><span class="scope">Holds for: (Super)GLUE was the one task where ELC-BERT did not beat the skylines, at 0.78 against Llama 2&#x27;s 0.84; Llama 2 was evaluated on (Super)GLUE by in-context learning.</span></dd>
 <dd>The two top BabyLM Strict-track systems, ELC-BERT at 0.74 aggregate and Boot-BERT at 0.70, both build on the LTG-BERT encoder architecture. The participants&#x27; own baselines indicate the backbone rather than their added modifications drove most of the gain.<br><span class="scope">Holds for: Encoder-only masked language models on 100M-word and 10M-word English BabyLM corpora, trained for hundreds to thousands of epochs; ELC-BERT used over 450 epochs in Strict and over 2000 in Strict-Small.</span></dd>
-<dt>Does curriculum learning help when pretraining data is limited?</dt>
-<dt>How well did curriculum learning work in the BabyLM Challenge?</dt>
-<dt>Is ordering training sentences from easy to hard worth trying for small-data language models?</dt>
+<dt>Does feeding a language model simple text before hard text help when there is very little training data?</dt>
+<dt>Did curriculum learning yield consistent gains for BabyLM 2023 submissions across the evaluation suite?</dt>
+<dt>How do I decide whether to order my pretraining data from easy to hard when data is capped at 100M words?</dt>
+<dt>I only have 10M words to pretrain on, is curriculum learning worth my engineering time?</dt>
 <dd>Curriculum learning was the most popular BabyLM 2023 approach, attempted by 13 of 31 teams (41.9%), and the majority of those attempts produced no consistent improvement across the BabyLM evaluation tasks.<br><span class="scope">Holds for: Curricula ranking by surprisal, lexical frequency, length, syntactic complexity, dataset difficulty, vocabulary size and objective difficulty, on the 10M-word and 100M-word English BabyLM corpora.</span></dd>
-<dt>Which architecture works best for pretraining on 10M-100M words?</dt>
-<dt>Was LTG-BERT effective on developmentally plausible data budgets?</dt>
-<dt>What backbone did the winning BabyLM models use?</dt>
+<dt>Which model design worked best for training on only 10 to 100 million words of text?</dt>
+<dt>Was the LTG-BERT encoder backbone responsible for the top aggregate scores on developmentally plausible data budgets?</dt>
+<dt>Which architecture should I start from if I am pretraining on a 100M-word corpus?</dt>
+<dt>Do I get more from picking a stronger encoder backbone or from adding my own training modifications at small data scale?</dt>
 <dd>The two top BabyLM Strict-track systems, ELC-BERT at 0.74 aggregate and Boot-BERT at 0.70, both build on the LTG-BERT encoder architecture. The participants&#x27; own baselines indicate the backbone rather than their added modifications drove most of the gain.<br><span class="scope">Holds for: Encoder-only masked language models on 100M-word and 10M-word English BabyLM corpora, trained for hundreds to thousands of epochs; ELC-BERT used over 450 epochs in Strict and over 2000 in Strict-Small.</span></dd>
 <dd>ELC-BERT, trained on 100M words in the BabyLM Strict track, reached an aggregate score of 0.74. That is above the Llama 2 skyline at 0.71, trained on 2T tokens, and above RoBERTa-base at 0.70 trained on its full corpus.<br><span class="scope">Holds for: (Super)GLUE was the one task where ELC-BERT did not beat the skylines, at 0.78 against Llama 2&#x27;s 0.84; Llama 2 was evaluated on (Super)GLUE by in-context learning.</span></dd>
-<dt>How much does going from 10 million to 100 million words of pretraining data actually buy you?</dt>
-<dt>Did BabyLM Strict-track models beat Strict-Small models by much?</dt>
-<dt>Is a 10x increase in pretraining data worth it at this scale?</dt>
+<dt>How much better does a language model get when its training text goes from 10 million to 100 million words?</dt>
+<dt>Did BabyLM Strict-track models trained on 100M words outperform Strict-Small models trained on 10M words on GLUE and aggregate scores?</dt>
+<dt>How do I decide whether collecting 10x more pretraining text will actually raise my scores at this scale?</dt>
+<dt>Is it worth spending effort to get 100M words of clean text if I already have 10M?</dt>
 <dd>BabyLM Strict-track models trained on 100M words did not outperform Strict-Small models trained on 10M words by a large margin. Only 2 Strict-track models achieved higher GLUE scores than the best Strict-Small model.<br><span class="scope">Holds for: 162 submitted models across the three 2023 tracks, evaluated on the vocabulary-filtered BabyLM versions of BLiMP, BLiMP Supplement, (Super)GLUE and MSGS; the Strict corpus is 98.04M words and Strict-Small 9.96M.</span></dd>
-<dt>Did adding images or audio help language models trained on small data in BabyLM?</dt>
-<dt>How did multimodal submissions to the BabyLM Loose track perform?</dt>
-<dt>Does multimodal input improve sample efficiency for language modelling?</dt>
+<dt>Did giving language models images or other non-text input help when their text data was limited?</dt>
+<dt>How did BabyLM Loose-track submissions with unlimited non-linguistic data compare in aggregate to 10M-word Strict-Small models?</dt>
+<dt>Should I add visual or audio data to a small text corpus to improve my model&#x27;s language scores?</dt>
+<dt>I have image-caption data available on top of 100M words of text, will using it beat a text-only model trained on far less?</dt>
 <dd>BabyLM Loose-track models, which could add unlimited non-linguistic data to a 100M-word text budget, tended to score lower in aggregate than Strict-Small models limited to 10M words of text.<br><span class="scope">Holds for: 20 Loose-track models from 8 participants in 2023; few multimodal submissions were received, and one text-and-audio system (WhisBERT) was reported undertrained.</span></dd>
-<dt>How close are small-data language models to human grammar performance?</dt>
-<dt>What BLiMP accuracy did the best BabyLM model reach relative to humans?</dt>
-<dt>Can models trained on child-scale data pass minimal-pair grammar tests?</dt>
+<dt>How close to human accuracy on grammar tests can a model trained on a child-sized amount of text get?</dt>
+<dt>What BLiMP minimal-pair accuracy did the best BabyLM 2023 submission reach relative to reported human performance?</dt>
+<dt>If I pretrain on at most 100M words, how much grammatical acceptability performance am I giving up compared with humans?</dt>
 <dd>The best BabyLM 2023 submission came within about 3% of reported human performance on BLiMP, despite training on at most 100M words.<br><span class="scope">Holds for: Zero-shot minimal-pair accuracy on the vocabulary-filtered BLiMP used in the challenge; human performance is the figure reported by Warstadt et al. (2020a).</span></dd>
-<dt>Do language models trained on small corpora prefer syntactic or surface generalizations?</dt>
-<dt>What did MSGS reveal about the inductive bias of BabyLM models?</dt>
-<dt>Does linguistic inductive bias require billions of words of pretraining?</dt>
+<dt>When a sentence can be read two ways, do models trained on small amounts of text go by word patterns or by grammar?</dt>
+<dt>What did MSGS Matthews correlations reveal about linguistic versus surface inductive bias in models trained on 10M-100M words?</dt>
+<dt>How do I tell whether my small-data pretrained model generalizes on syntactic features rather than surface cues?</dt>
+<dt>Do I need billions of words of pretraining before my model prefers linguistic generalizations over surface ones?</dt>
 <dd>MSGS Matthews correlations for BabyLM 2023 systems were largely negative, showing that models trained on 10M-100M words prefer surface features over linguistic ones in ambiguous contexts. ELC-BERT was the exception, at -0.01 in Strict-Small and -0.10 in Strict against Llama 2&#x27;s -0.24.<br><span class="scope">Holds for: Six ambiguous MSGS subtasks under finetuned evaluation; macro-average MCC for the top systems per track plus baselines and skylines. Llama 2 was fully finetuned on MSGS.</span></dd>
-<dt>Do language models understand hypernym and lexical entailment relations?</dt>
-<dt>How did BabyLM models do on the Hypernym test suite?</dt>
-<dt>Which BLiMP Supplement task defeated every model including the skylines?</dt>
+<dt>Can language models tell that a robin is a bird and not the other way round?</dt>
+<dt>How did BabyLM 2023 submissions and the skylines score on the Hypernym suite of the BLiMP Supplement?</dt>
+<dt>Should I trust a small pretrained model to handle lexical entailment between general and specific words?</dt>
 <dd>On the Hypernym test suite of the BLiMP Supplement, every BabyLM 2023 system and both skylines scored near chance, between 0.45 and 0.50 accuracy.<br><span class="scope">Holds for: Zero-shot minimal-pair scoring on 860 semi-automatically templated lexical-entailment items phrased as logical statements.</span></dd>
-<dt>What new evaluation tasks did the BabyLM Challenge add beyond BLiMP and GLUE?</dt>
-<dt>Which BLiMP Supplement suite best separates strong from weak small-data models?</dt>
-<dt>Can language models track pronoun shifts across a change of speaker?</dt>
+<dt>What extra language tests did the BabyLM Challenge add beyond standard grammar and understanding benchmarks?</dt>
+<dt>Which BLiMP Supplement suites, such as Turn-Taking and Hypernym, discriminate between BabyLM systems and which saturate at chance?</dt>
+<dt>Which evaluation suites should I use if I want to separate strong from weak models pretrained on 10M-100M words?</dt>
+<dt>If I run the BabyLM Supplement suites on my model, which of them will actually tell me something about it?</dt>
 <dd>The Turn-Taking suite of the BLiMP Supplement separated BabyLM 2023 systems sharply, with ELC-BERT (Strict) reaching 0.92 against RoBERTa&#x27;s 0.73 and Llama 2&#x27;s 0.83, while some systems scored near chance.<br><span class="scope">Holds for: 280 templated dialogue minimal pairs on indexical pronoun choice across a speaker change, scored zero-shot; transcribed dialogue is a large share of the BabyLM corpus.</span></dd>
 <dd>On the Hypernym test suite of the BLiMP Supplement, every BabyLM 2023 system and both skylines scored near chance, between 0.45 and 0.50 accuracy.<br><span class="scope">Holds for: Zero-shot minimal-pair scoring on 860 semi-automatically templated lexical-entailment items phrased as logical statements.</span></dd>
-<dt>Can small language models predict the age at which children acquire words?</dt>
-<dt>Did any BabyLM submission beat the baseline on age-of-acquisition prediction?</dt>
-<dt>How well do BabyLM models align with children&#x27;s word learning?</dt>
+<dt>Can a language model predict the age at which children learn particular words?</dt>
+<dt>Did any BabyLM 2023 Strict-Small submission beat the OPT-125M baseline on age-of-acquisition prediction measured by mean average deviation?</dt>
+<dt>How do I check whether a small pretrained model&#x27;s word learning lines up with children&#x27;s acquisition order?</dt>
+<dt>Is a BabyLM-style model a better fit than a plain 125M-parameter baseline if I want to model children&#x27;s word acquisition?</dt>
 <dd>On the optional age-of-acquisition prediction task, no BabyLM 2023 Strict-Small submission beat the OPT-125M baseline&#x27;s mean average deviation of 2.03 months, with the best submissions at 2.05.<br><span class="scope">Holds for: 7 of 31 teams (22.6%) evaluated on AoA prediction, almost all in Strict-Small; MAD in months across cross-validation folds.</span></dd>
-<dt>What practical tricks improved sample efficiency in the BabyLM Challenge?</dt>
-<dt>Does shortening context length or sentence-level batching help low-resource pretraining?</dt>
-<dt>Did knowledge distillation help models trained on 10 million words?</dt>
+<dt>Which training tweaks actually helped models learn more from a small amount of text?</dt>
+<dt>Which modifications, such as reduced context length, sentence-level examples or same-corpus distillation, consistently improved BabyLM scores?</dt>
+<dt>What changes should I make to my pretraining recipe to squeeze more out of a 10M-100M word corpus?</dt>
+<dt>I am pretraining on 10 million words, should I shorten sequences or distill from a teacher trained on the same data?</dt>
 <dd>Reducing context length or using single sentences as training examples, and distilling a student from a teacher trained on the same corpus, were the BabyLM 2023 modifications that most consistently improved scores.<br><span class="scope">Holds for: Based on hand-coding 162 submitted models into 9 approach categories and on participants&#x27; own controlled comparisons, not on organizer-run ablations; English BabyLM corpora of 10M and 100M words.</span></dd>
-<dt>Did the BabyLM Challenge limit compute as well as data?</dt>
-<dt>How many epochs did the winning BabyLM model train for?</dt>
-<dt>Were data-limited pretraining winners actually cheap to train?</dt>
+<dt>Was the amount of computation limited in the child-scale language model competition, or only the amount of text?</dt>
+<dt>Did the BabyLM 2023 rules constrain compute alongside the data budget, and how many training samples did the winning Strict submission consume?</dt>
+<dt>How do I estimate the training cost of reproducing a winning 100M-word pretrained model?</dt>
+<dt>If I train on only 100M words, can I expect the run to be cheap, or will I need as many training steps as BERT?</dt>
 <dd>The BabyLM 2023 rules capped training data but not compute, and the winning Strict submission consumed roughly as many training samples as BERT despite a training set only about 3% as large.<br><span class="scope">Holds for: The 2023 iteration&#x27;s rules, under which repeated epochs did not count against the word budget; the organizers flag compute efficiency as a target for future iterations.</span></dd>
 <dd>The two top BabyLM Strict-track systems, ELC-BERT at 0.74 aggregate and Boot-BERT at 0.70, both build on the LTG-BERT encoder architecture. The participants&#x27; own baselines indicate the backbone rather than their added modifications drove most of the gain.<br><span class="scope">Holds for: Encoder-only masked language models on 100M-word and 10M-word English BabyLM corpora, trained for hundreds to thousands of epochs; ELC-BERT used over 450 epochs in Strict and over 2000 in Strict-Small.</span></dd>
-<dt>Do better BLiMP and GLUE scores mean a model is a better cognitive model of reading?</dt>
-<dt>Does BabyLM benchmark performance correlate with predicting human reading times?</dt>
-<dt>Which BabyLM paper won the award for outstanding evaluation and what did it find?</dt>
+<dt>If a model scores higher on grammar and language understanding tests, does it also match how hard humans find text to read?</dt>
+<dt>Does BabyLM aggregate benchmark performance correlate with predicting human reading times as a psycholinguistic measure?</dt>
+<dt>How do I choose a small pretrained model if what I need is a predictor of human reading difficulty?</dt>
+<dt>Can I pick the top-scoring BabyLM model as my cognitive model of reading, or is benchmark rank the wrong signal?</dt>
 <dd>A BabyLM 2023 submission awarded for outstanding evaluation found that models scoring better on the BabyLM benchmark tasks were not better at predicting human reading difficulty.<br><span class="scope">Holds for: Decoder-only GPT-style models trained by Steuer et al. (2023) on BabyLM data; a single submission&#x27;s finding, not an organizer-run meta-analysis across all 162 models.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

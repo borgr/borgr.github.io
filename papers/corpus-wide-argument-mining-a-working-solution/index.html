@@ -179,7 +179,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How precise can an automatic argument retrieval system be over a very large news corpus?",
+      "name": "how accurate are the top results when a computer searches a huge news archive for arguments about a debate topic?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -187,13 +187,14 @@
         "url": "https://borgr.github.io/papers/corpus-wide-argument-mining-a-working-solution/"
       },
       "alternateName": [
-        "What top-k precision does corpus-wide evidence retrieval achieve?",
-        "Can argument mining reach usable precision for the first few retrieved arguments?"
+        "what top-k precision does an end-to-end evidence retrieval pipeline achieve over a 400-million-article newspaper corpus?",
+        "how do I get a shortlist of usable supporting evidence sentences for a controversial motion out of a large news archive?",
+        "if I run corpus-wide argument retrieval for a motion, can I trust the first few dozen sentences it hands me without reading everything below them?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does retrieving argumentative sentences directly just return sentences from a handful of documents?",
+      "name": "when a system pulls single sentences about a topic out of millions of articles, do they all come from the same few articles?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -201,13 +202,14 @@
         "url": "https://borgr.github.io/papers/corpus-wide-argument-mining-a-working-solution/"
       },
       "alternateName": [
-        "How diverse are the sources of top-ranked evidence sentences in sentence-level retrieval?",
-        "Is sentence-level argument retrieval different in practice from document-level retrieval?"
+        "does sentence-level evidence retrieval over a newspaper corpus degenerate into document-level retrieval in the top-ranked candidates?",
+        "how do I check that the evidence sentences I retrieve for one motion span many different source articles?",
+        "should I bother with sentence-level argument retrieval, or will document retrieval plus a sentence picker give me the same spread of sources?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How do I build a balanced training set when relevant arguments are extremely rare in a massive newspaper corpus?",
+      "name": "how do you build a labeled training set when the sentences you actually want are a tiny fraction of a huge collection?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -215,13 +217,14 @@
         "url": "https://borgr.github.io/papers/corpus-wide-argument-mining-a-working-solution/"
       },
       "alternateName": [
-        "What is Retrospective Labeling in argument mining?",
-        "How can class imbalance be handled when labeling data for a precision-oriented retrieval system?"
+        "how is retrospective labeling used as a precision-oriented active-learning strategy for class-imbalanced sentence retrieval?",
+        "how do I collect enough positive examples to train an evidence detector when positives are rare in the corpus?",
+        "is it worth hand-labeling my current classifier's top-ranked predictions instead of labeling a random sample of sentences?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is a bigger out-of-domain training set better than a smaller in-domain one for evidence detection?",
+      "name": "for finding evidence sentences, is a large training set from newspapers better than a smaller one from the same source as the test data?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -229,13 +232,14 @@
         "url": "https://borgr.github.io/papers/corpus-wide-argument-mining-a-working-solution/"
       },
       "alternateName": [
-        "Does training on newspaper sentences help when testing on Wikipedia sentences?",
-        "Why do evidence detection models trained on Wikipedia underperform?"
+        "does a 154K-pair newspaper-corpus training set beat a smaller Wikipedia training set on a Wikipedia evidence benchmark?",
+        "which labeled corpus should I train an evidence-detection classifier on if I plan to run it on Wikipedia sentences?",
+        "I already have a small in-domain evidence set for Wikipedia -- should I switch to a much larger newspaper-sourced one instead?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does masking the topic token in a sentence help transformer models detect evidence?",
+      "name": "when a model looks for sentences relevant to a debate topic, does hiding the topic word from the input help or hurt?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -243,13 +247,14 @@
         "url": "https://borgr.github.io/papers/corpus-wide-argument-mining-a-working-solution/"
       },
       "alternateName": [
-        "Is topic masking useful for BERT-based argument classification?",
-        "How much does adding the motion text as input improve evidence detection accuracy?"
+        "does masking the topic token improve BERT-based evidence classification, or only BiLSTM-with-attention architectures?",
+        "should I replace the motion's topic term with a mask token when feeding sentence-motion pairs to an evidence classifier?",
+        "I am fine-tuning BERT on sentence-plus-motion input for evidence detection -- do I mask the topic or leave it in?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What labeled datasets exist for context-dependent evidence detection?",
+      "name": "where can I find labeled sentences marked as evidence for and against debate topics?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -257,13 +262,14 @@
         "url": "https://borgr.github.io/papers/corpus-wide-argument-mining-a-working-solution/"
       },
       "alternateName": [
-        "Where can I download an IBM Debater evidence detection dataset?",
-        "How large are the annotated evidence datasets from corpus-wide argument mining?"
+        "which annotated context-dependent evidence datasets are released for sentence-level argument mining, and at what scale?",
+        "how do I get labeled sentence-motion pairs to train and evaluate an evidence detector without annotating my own?",
+        "are the labeled evidence sets from corpus-wide argument mining big enough and balanced enough to train on?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does a model trained to find study and expert evidence generalize to general argument detection?",
+      "name": "does a model trained to spot study and expert evidence also recognise argumentative sentences in general?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -271,13 +277,14 @@
         "url": "https://borgr.github.io/papers/corpus-wide-argument-mining-a-working-solution/"
       },
       "alternateName": [
-        "How well does an evidence classifier transfer to the UKP-TUDA argumentative sentence benchmark?",
-        "Why does an evidence-trained classifier get low recall on argumentativeness benchmarks?"
+        "how does an evidence-trained BERT S+M classifier transfer to the UKP-TUDA argumentativeness benchmark across decision thresholds?",
+        "can I reuse an evidence-detection classifier to score general argumentativeness instead of training a new one for that label?",
+        "my task is finding argumentative sentences, not just study or expert evidence -- will an evidence-trained classifier be enough, and what threshold do I set?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read first about corpus-wide argument retrieval?",
+      "name": "which paper should I read first about automatically finding arguments on a topic across a massive text collection?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -285,13 +292,13 @@
         "url": "https://borgr.github.io/papers/corpus-wide-argument-mining-a-working-solution/"
       },
       "alternateName": [
-        "Which paper established end-to-end argument mining over a massive corpus?",
-        "What is a good paper on retrieving arguments for a controversial topic at scale?"
+        "what work established end-to-end corpus-wide sentence-level argument retrieval beyond Wikipedia-scale corpora?",
+        "I need a starting reference for building topic-relevant argument retrieval at scale -- which paper covers it end to end?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What are the limits of query-based sentence retrieval for arguments?",
+      "name": "is keyword search enough to find arguments about a topic, or do you need a trained classifier on top?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -299,8 +306,9 @@
         "url": "https://borgr.github.io/papers/corpus-wide-argument-mining-a-working-solution/"
       },
       "alternateName": [
-        "What kinds of arguments does a query-driven evidence retrieval pipeline miss?",
-        "Is supervised learning or weak supervision better for sentence-level argument mining?"
+        "for topic-relevant sentence-level argument mining, is fully supervised learning preferable to weak supervision over query-retrieved candidates?",
+        "how do I go beyond query-based sentence retrieval when collecting arguments for a controversial motion?",
+        "should I train a fully supervised evidence classifier, or rely on weak supervision and query heuristics for argument retrieval?"
       ]
     }
   ]
@@ -398,47 +406,55 @@
 <p>One of the main tasks in argument mining is the retrieval of argumentative content pertaining to a given topic. Most previous work addressed this task by retrieving a relatively small number of relevant documents as the initial source for such content. This line of research yielded moderate success, which is of limited use in a real-world system. Furthermore, for such a system to yield a comprehensive set of relevant arguments, over a wide range of topics, it requires leveraging a large and diverse corpus in an appropriate manner. Here we present a first end-to-end high-precision, corpus-wide argument mining system. This is made possible by combining sentence-level queries over an appropriate indexing of a very large corpus of newspaper articles, with an iterative annotation scheme. This scheme addresses the inherent label bias in the data and pinpoints the regions of the sample space whose manual labeling is required to obtain high-precision among top-ranked candidates.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>How precise can an automatic argument retrieval system be over a very large news corpus?</dt>
-<dt>What top-k precision does corpus-wide evidence retrieval achieve?</dt>
-<dt>Can argument mining reach usable precision for the first few retrieved arguments?</dt>
+<dt>how accurate are the top results when a computer searches a huge news archive for arguments about a debate topic?</dt>
+<dt>what top-k precision does an end-to-end evidence retrieval pipeline achieve over a 400-million-article newspaper corpus?</dt>
+<dt>how do I get a shortlist of usable supporting evidence sentences for a controversial motion out of a large news archive?</dt>
+<dt>if I run corpus-wide argument retrieval for a motion, can I trust the first few dozen sentences it hands me without reading everything below them?</dt>
 <dd>An end-to-end evidence retrieval system over a 400-million-article newspaper corpus reaches over 90% precision on the top 20 candidates per motion. The best model, BERT S+M, reaches 95% precision on the top 40.<br><span class="scope">Holds for: 100 held-out motions; retrieval limited to sentences matching the Study/Expert Evidence queries and near-duplicate sentences removed; estimated positive prior among query-retrieved sentences is 0.3.</span></dd>
-<dt>Does retrieving argumentative sentences directly just return sentences from a handful of documents?</dt>
-<dt>How diverse are the sources of top-ranked evidence sentences in sentence-level retrieval?</dt>
-<dt>Is sentence-level argument retrieval different in practice from document-level retrieval?</dt>
+<dt>when a system pulls single sentences about a topic out of millions of articles, do they all come from the same few articles?</dt>
+<dt>does sentence-level evidence retrieval over a newspaper corpus degenerate into document-level retrieval in the top-ranked candidates?</dt>
+<dt>how do I check that the evidence sentences I retrieve for one motion span many different source articles?</dt>
+<dt>should I bother with sentence-level argument retrieval, or will document retrieval plus a sentence picker give me the same spread of sources?</dt>
 <dd>Sentence-level retrieval over the newspaper corpus does not collapse into document retrieval. The top 20 and top 40 ranked candidates per motion come from an average of 18.03 and 36.07 different documents respectively.<br><span class="scope">Holds for: Measured on the very large newspaper corpus, where near-duplicates were filtered; the diversity figures come from the BA MaskS ranking, and Figure 3 reports document and journal counts for BERT S+M.</span></dd>
-<dt>How do I build a balanced training set when relevant arguments are extremely rare in a massive newspaper corpus?</dt>
-<dt>What is Retrospective Labeling in argument mining?</dt>
-<dt>How can class imbalance be handled when labeling data for a precision-oriented retrieval system?</dt>
+<dt>how do you build a labeled training set when the sentences you actually want are a tiny fraction of a huge collection?</dt>
+<dt>how is retrospective labeling used as a precision-oriented active-learning strategy for class-imbalanced sentence retrieval?</dt>
+<dt>how do I collect enough positive examples to train an evidence detector when positives are rare in the corpus?</dt>
+<dt>is it worth hand-labeling my current classifier&#x27;s top-ranked predictions instead of labeling a random sample of sentences?</dt>
 <dd>Retrospective Labeling, introduced in Corpus Wide Argument Mining - A Working Solution, is a precision-oriented active-learning strategy for class-imbalanced retrieval. Repeatedly hand-labeling a classifier&#x27;s top-ranked predictions both enriches positives and surfaces the hard negatives that limit top-k precision.<br><span class="scope">Holds for: Demonstrated only for evidence retrieval from newspaper and Wikipedia corpora; intended for retrieval tasks where precision is the metric and positive examples are scarce, and it requires substantial ongoing annotation effort.</span></dd>
 <dd>Iterative retrospective labeling produced a dataset of 198,457 manually labeled sentence-motion pairs over the 400-million-article newspaper corpus, of which 33.5% are positive evidence examples.<br><span class="scope">Holds for: 192 train and 47 development motions; top 40 predictions per motion and evidence type annotated per iteration by 10 crowd annotators, gold label by majority; Cohen&#x27;s Kappa 0.47.</span></dd>
-<dt>Is a bigger out-of-domain training set better than a smaller in-domain one for evidence detection?</dt>
-<dt>Does training on newspaper sentences help when testing on Wikipedia sentences?</dt>
-<dt>Why do evidence detection models trained on Wikipedia underperform?</dt>
+<dt>for finding evidence sentences, is a large training set from newspapers better than a smaller one from the same source as the test data?</dt>
+<dt>does a 154K-pair newspaper-corpus training set beat a smaller Wikipedia training set on a Wikipedia evidence benchmark?</dt>
+<dt>which labeled corpus should I train an evidence-detection classifier on if I plan to run it on Wikipedia sentences?</dt>
+<dt>I already have a small in-domain evidence set for Wikipedia -- should I switch to a much larger newspaper-sourced one instead?</dt>
 <dd>Models trained on the 154K-pair newspaper-corpus training set outperform models trained on the 22K-pair Wikipedia training set even when tested on the Wikipedia benchmark. Top-k precision on Wikipedia is nonetheless well below that on the newspaper corpus.<br><span class="scope">Holds for: 100 test motions, precision of top k candidates; the model ranking order is identical across both benchmarks, and scores on Wikipedia top-k predictions are lower (t-test p=3.19e-9 at k=20). Precisions are not comparable across the two benchmarks.</span></dd>
 <dd>On the BlendNet sentence-classification benchmark, retraining the same BiLSTM-plus-attention architecture on the newspaper-corpus dataset raises accuracy from 0.74 to 0.78, and BERT S+M reaches 0.84.<br><span class="scope">Holds for: Wikipedia-sentence benchmark of a prior evidence-detection work; motions overlapping the training and development sets were excluded and models retrained for this evaluation.</span></dd>
-<dt>Does masking the topic token in a sentence help transformer models detect evidence?</dt>
-<dt>Is topic masking useful for BERT-based argument classification?</dt>
-<dt>How much does adding the motion text as input improve evidence detection accuracy?</dt>
+<dt>when a model looks for sentences relevant to a debate topic, does hiding the topic word from the input help or hurt?</dt>
+<dt>does masking the topic token improve BERT-based evidence classification, or only BiLSTM-with-attention architectures?</dt>
+<dt>should I replace the motion&#x27;s topic term with a mask token when feeding sentence-motion pairs to an evidence classifier?</dt>
+<dt>I am fine-tuning BERT on sentence-plus-motion input for evidence detection -- do I mask the topic or leave it in?</dt>
 <dd>Masking the topic token helps the BiLSTM architecture but hurts BERT: BERT MaskS+M reaches 0.82 accuracy on BlendNet while unmasked BERT S+M reaches 0.84.<br><span class="scope">Holds for: BlendNet accuracy at a 0.5 decision threshold; masking replaces Wikified topic mentions with a single token.</span></dd>
 <dd>On the BlendNet sentence-classification benchmark, retraining the same BiLSTM-plus-attention architecture on the newspaper-corpus dataset raises accuracy from 0.74 to 0.78, and BERT S+M reaches 0.84.<br><span class="scope">Holds for: Wikipedia-sentence benchmark of a prior evidence-detection work; motions overlapping the training and development sets were excluded and models retrained for this evaluation.</span></dd>
-<dt>What labeled datasets exist for context-dependent evidence detection?</dt>
-<dt>Where can I download an IBM Debater evidence detection dataset?</dt>
-<dt>How large are the annotated evidence datasets from corpus-wide argument mining?</dt>
+<dt>where can I find labeled sentences marked as evidence for and against debate topics?</dt>
+<dt>which annotated context-dependent evidence datasets are released for sentence-level argument mining, and at what scale?</dt>
+<dt>how do I get labeled sentence-motion pairs to train and evaluate an evidence detector without annotating my own?</dt>
+<dt>are the labeled evidence sets from corpus-wide argument mining big enough and balanced enough to train on?</dt>
 <dd>Iterative retrospective labeling produced a dataset of 198,457 manually labeled sentence-motion pairs over the 400-million-article newspaper corpus, of which 33.5% are positive evidence examples.<br><span class="scope">Holds for: 192 train and 47 development motions; top 40 predictions per motion and evidence type annotated per iteration by 10 crowd annotators, gold label by majority; Cohen&#x27;s Kappa 0.47.</span></dd>
 <dd>A matching Wikipedia evidence dataset of 29,429 labeled sentences, 23% of them positive, was released at http://ibm.biz/debater-datasets.<br><span class="scope">Holds for: Same train and development motions as the newspaper dataset; top 20 ranked predictions per motion annotated.</span></dd>
-<dt>Does a model trained to find study and expert evidence generalize to general argument detection?</dt>
-<dt>How well does an evidence classifier transfer to the UKP-TUDA argumentative sentence benchmark?</dt>
-<dt>Why does an evidence-trained classifier get low recall on argumentativeness benchmarks?</dt>
+<dt>does a model trained to spot study and expert evidence also recognise argumentative sentences in general?</dt>
+<dt>how does an evidence-trained BERT S+M classifier transfer to the UKP-TUDA argumentativeness benchmark across decision thresholds?</dt>
+<dt>can I reuse an evidence-detection classifier to score general argumentativeness instead of training a new one for that label?</dt>
+<dt>my task is finding argumentative sentences, not just study or expert evidence -- will an evidence-trained classifier be enough, and what threshold do I set?</dt>
 <dd>An evidence-trained BERT S+M classifier on the UKP-TUDA argumentativeness benchmark gives precision 0.88 at recall 0.16 with a 0.5 threshold. At a threshold of 0.002 it gives precision 0.66 and recall 0.75 (F1 0.70), against 0.65/0.67/0.67 for a classifier trained directly for that task.<br><span class="scope">Holds for: Zero-adaptation transfer: the model was trained only on query-retrieved Study and Expert Evidence, whereas UKP-TUDA labels any sentence with a clear stance as positive, which is why recall at the default threshold is low.</span></dd>
 <dd>Among UKP-TUDA sentences scored below the 0.5 threshold, argumentative sentences receive a mean score of 7.3e-2 versus 1.5e-2 for non-argumentative ones, showing that an evidence-trained ranker still prefers argumentative text.<br><span class="scope">Holds for: UKP-TUDA benchmark sentences below the decision threshold, with the difference significant by t-test; a manual check of 20 sentences above and 20 below the threshold found 14 versus 2 to be Study or Expert Evidence.</span></dd>
-<dt>What should I read first about corpus-wide argument retrieval?</dt>
-<dt>Which paper established end-to-end argument mining over a massive corpus?</dt>
-<dt>What is a good paper on retrieving arguments for a controversial topic at scale?</dt>
+<dt>which paper should I read first about automatically finding arguments on a topic across a massive text collection?</dt>
+<dt>what work established end-to-end corpus-wide sentence-level argument retrieval beyond Wikipedia-scale corpora?</dt>
+<dt>I need a starting reference for building topic-relevant argument retrieval at scale -- which paper covers it end to end?</dt>
 <dd>Corpus Wide Argument Mining - A Working Solution presents an end-to-end, high-precision argument retrieval system over a corpus of roughly 400 million newspaper and journal articles. That corpus is about 50 times larger than the Wikipedia corpora used by earlier sentence-level argument mining work.<br><span class="scope">Holds for: As of AAAI 2020; retrieval targets Study Evidence and Expert Evidence for motions whose topic is a Wikipedia title, and precision is measured on top-ranked candidates rather than over the full corpus.</span></dd>
 <dd>Corpus Wide Argument Mining - A Working Solution argues that sentence-level topic-relevant argument retrieval can be tackled with fully supervised learning rather than weak supervision. The large balanced labeled set this needs is bootstrapped from query-retrieved sentences.<br><span class="scope">Holds for: The queries used to restrict the search space play a role similar to weak-supervision rules; arguments in sentences that do not match any query, or that do not mention the topic explicitly, are missed by design.</span></dd>
-<dt>What are the limits of query-based sentence retrieval for arguments?</dt>
-<dt>What kinds of arguments does a query-driven evidence retrieval pipeline miss?</dt>
-<dt>Is supervised learning or weak supervision better for sentence-level argument mining?</dt>
+<dt>is keyword search enough to find arguments about a topic, or do you need a trained classifier on top?</dt>
+<dt>for topic-relevant sentence-level argument mining, is fully supervised learning preferable to weak supervision over query-retrieved candidates?</dt>
+<dt>how do I go beyond query-based sentence retrieval when collecting arguments for a controversial motion?</dt>
+<dt>should I train a fully supervised evidence classifier, or rely on weak supervision and query heuristics for argument retrieval?</dt>
 <dd>Corpus Wide Argument Mining - A Working Solution argues that sentence-level topic-relevant argument retrieval can be tackled with fully supervised learning rather than weak supervision. The large balanced labeled set this needs is bootstrapped from query-retrieved sentences.<br><span class="scope">Holds for: The queries used to restrict the search space play a role similar to weak-supervision rules; arguments in sentences that do not match any query, or that do not mention the topic explicitly, are missed by design.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

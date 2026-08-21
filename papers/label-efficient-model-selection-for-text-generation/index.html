@@ -149,7 +149,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How can I cut the cost of human annotation when deciding which of two language models is better?",
+      "name": "how can I tell which of two text generators is better without paying someone to read every test output?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -157,13 +157,14 @@
         "url": "https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/"
       },
       "alternateName": [
-        "How do I choose between two text generation models without labeling the whole test set?",
-        "What method reduces preference annotations needed for model selection in text generation?"
+        "what approach gives label-efficient pairwise model selection for generation tasks under a fixed preference-annotation budget?",
+        "how do I pick between two summarization or QA systems while annotating only a small subset of the test set?",
+        "I have two candidate generation models and a small annotation budget — can I still trust which one I pick?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How many annotations does DiffUse actually save compared to random sampling?",
+      "name": "how many judged examples does difference-based selection save compared with picking test examples at random?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -171,13 +172,14 @@
         "url": "https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/"
       },
       "alternateName": [
-        "What is the measured reduction in labeling effort from clustering output differences?",
-        "Does selecting examples by output-difference clustering need fewer oracle judgments than random selection?"
+        "what annotation-budget reduction does DiffUse achieve over random sampling at matched model-preference success rates?",
+        "how few preference judgments do I need to reliably rank two generation models against each other?",
+        "is selecting examples by output-difference clustering actually cheaper than random sampling for my comparison?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How does DiffUse decide when it has enough annotations to stop?",
+      "name": "how do I know when I have annotated enough examples to call a winner between two models?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -185,13 +187,14 @@
         "url": "https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/"
       },
       "alternateName": [
-        "Is there a stopping rule for how many examples to annotate during a two-model comparison?",
-        "How reliable is the iterative DiffUse selection algorithm at a 0.2 risk threshold?"
+        "how does the iterative DiffUse stopping rule at risk threshold p=0.2 trade off annotation count, decision accuracy and inconclusive verdicts?",
+        "how do I decide when to stop labeling and declare one of two generation models the winner?",
+        "if I use a 0.2 risk threshold stopping rule for a two-model comparison, how often will the verdict be wrong or inconclusive?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does clustering output difference vectors give an unbiased estimate of how much better one model is?",
+      "name": "can a small hand-picked sample tell me how much better one model is, not just which one is better?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -199,13 +202,14 @@
         "url": "https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/"
       },
       "alternateName": [
-        "Can DiffUse be used to measure the size of the performance gap between two models?",
-        "Why does difference-vector clustering beat random sampling at picking the winner?"
+        "is the winning-distance estimate from difference-vector clustering unbiased, and why does the selection favour the test winner?",
+        "how do I estimate the size of the quality gap between two generation models from a small annotated subset?",
+        "should I report the performance gap between two models from a DiffUse-selected sample, or only the winner?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which examples turn out to be most informative for preference comparisons between generation models?",
+      "name": "which test examples tell you the most when comparing two models that write different answers?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -213,13 +217,14 @@
         "url": "https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/"
       },
       "alternateName": [
-        "Do large semantic differences between two models' outputs predict which model wins overall?",
-        "Why does the norm of an output difference vector matter for model selection?"
+        "does the norm of the output difference vector predict agreement with the overall test-set preference?",
+        "how do I find the handful of examples worth annotating when comparing two generation models?",
+        "should I spend my annotation budget on the examples where two models' outputs diverge most?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is it enough to just annotate the examples where two models' outputs differ the most?",
+      "name": "is it enough to label only the examples where two models' answers differ the most?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -227,13 +232,14 @@
         "url": "https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/"
       },
       "alternateName": [
-        "Does a max-norm baseline work as well as clustering difference vectors?",
-        "Can clustering be skipped in favor of ranking examples by difference magnitude?"
+        "does a max-norm difference-vector baseline match clustering-based selection across HELM generation scenarios?",
+        "can I skip clustering and just rank test examples by how far apart the two models' outputs are?",
+        "should I use a simple largest-difference heuristic instead of clustering output differences?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Would clustering embeddings of the summarization or QA inputs work as well as clustering differences between two models' outputs?",
+      "name": "would grouping the questions themselves work as well as grouping the ways two models' answers differ?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -241,13 +247,14 @@
         "url": "https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/"
       },
       "alternateName": [
-        "Do active-learning style input-space selection methods transfer to evaluating text generation models?",
-        "Why represent evaluation examples by output differences rather than by their inputs?"
+        "does clustering task-input embeddings match clustering output difference vectors for pairwise generation model selection?",
+        "should I select evaluation examples from input-space embeddings or from differences between the two models' outputs?",
+        "I already have input embeddings for my test set — can I just cluster those to choose which examples to annotate?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How sensitive is DiffUse to the choice of clustering algorithm?",
+      "name": "does the choice of clustering algorithm change how well the example selection works?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -255,13 +262,14 @@
         "url": "https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/"
       },
       "alternateName": [
-        "Does k-means or hierarchical clustering matter when picking evaluation examples by output difference?",
-        "Which components of a difference-vector selection pipeline for model comparison actually matter?"
+        "how sensitive is DiffUse's model-preference success rate to hierarchical Euclidean, hierarchical cosine and k-means clustering, and to representative selection?",
+        "which parts of a difference-vector selection pipeline do I have to tune before comparing two models?",
+        "do I need to tune the clustering algorithm and representative rule, or will any reasonable choice do?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can label-efficient selection be used to compare prompts rather than models?",
+      "name": "can the same cheap-labeling trick pick the better of two prompts for one model?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -269,13 +277,14 @@
         "url": "https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/"
       },
       "alternateName": [
-        "Does DiffUse work for choosing between few-shot prompt variants of the same model?",
-        "How do I pick the better prompt with few annotations?"
+        "does difference-vector selection extend from model pairs to few-shot prompt variants of a fixed model?",
+        "how do I choose between two few-shot prompt templates with as few preference annotations as possible?",
+        "I am comparing two prompt variants of one model — can I use DiffUse instead of annotating a full test set?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Were the DiffUse experiments run with real human preference annotations?",
+      "name": "were the reported savings measured with real human judgments or with automatic scores?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -283,13 +292,13 @@
         "url": "https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/"
       },
       "alternateName": [
-        "What oracle was used to validate label-efficient model selection for text generation?",
-        "What are the limitations of the DiffUse evaluation setup?"
+        "what preference oracle backed the DiffUse experiments, and does it cover LLM-as-judge or human annotation?",
+        "before I rely on DiffUse for human-annotated preference comparisons, what was it actually validated against?"
       ]
     },
     {
       "@type": "Question",
-      "name": "When is label-efficient example selection for model comparison not worth using?",
+      "name": "when is it not worth trying to cut annotation costs for comparing two models?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -297,13 +306,14 @@
         "url": "https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/"
       },
       "alternateName": [
-        "Does DiffUse require existing labeled evaluation data?",
-        "What does DiffUse assume about the models being compared?"
+        "what does DiffUse assume about the compared models and available labels, and in which scenarios does it fail to reach a verdict?",
+        "how do I know whether cheap difference-based selection will work for the two models I want to compare?",
+        "do I need any existing labeled evaluation data or model assumptions to use DiffUse, and when will it not pay off?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read on efficient evaluation and benchmark subset selection for generative models?",
+      "name": "what should I read first about cutting the cost of comparing two language models?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -311,8 +321,9 @@
         "url": "https://borgr.github.io/papers/label-efficient-model-selection-for-text-generation/"
       },
       "alternateName": [
-        "Which paper tackled label-efficient model selection specifically for text generation?",
-        "Where should I start reading about reducing evaluation cost for LLM comparisons?"
+        "which work introduced label-efficient example selection for pairwise evaluation of text generation rather than classification?",
+        "where do I start if I want to reduce the annotation cost of my LLM comparisons?",
+        "is there a paper I can point my team to on cheap pairwise evaluation of generation models?"
       ]
     }
   ]
@@ -392,64 +403,75 @@
 <p>Model selection for a given target task can be costly, as it may entail extensive annotation of the quality of outputs of different models. We introduce DiffUse, an efficient method to make an informed decision between candidate text generation models based on preference annotations. DiffUse reduces the required amount of annotations, thus saving valuable time and resources in performing evaluation. DiffUse intelligently selects instances by clustering embeddings that represent the semantic differences between model outputs. Thus, it is able to identify a subset of examples that are more informative for preference decisions. Our method is model-agnostic, and can be applied to any text generation model for selecting between models, prompts and configurations. Moreover, we propose a practical iterative approach for dynamically determining how many instances to annotate. In a series of experiments over hundreds of model pairs, we demonstrate that DiffUse can dramatically reduce the required number of annotations -- by up to 75% -- while maintaining high evaluation reliability.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>How can I cut the cost of human annotation when deciding which of two language models is better?</dt>
-<dt>How do I choose between two text generation models without labeling the whole test set?</dt>
-<dt>What method reduces preference annotations needed for model selection in text generation?</dt>
+<dt>how can I tell which of two text generators is better without paying someone to read every test output?</dt>
+<dt>what approach gives label-efficient pairwise model selection for generation tasks under a fixed preference-annotation budget?</dt>
+<dt>how do I pick between two summarization or QA systems while annotating only a small subset of the test set?</dt>
+<dt>I have two candidate generation models and a small annotation budget — can I still trust which one I pick?</dt>
 <dd>DiffUse addresses label-efficient model selection for text generation: choosing between two generation models or prompts under a fixed preference-annotation budget. Earlier example-selection work had treated classification and question answering rather than generation.<br><span class="scope">Holds for: Pairwise comparison only, with no theoretical guarantee for a single comparison; picking from more than 2 candidates is left to future work. As of the ACL 2024 publication.</span></dd>
 <dd>With the iterative stopping rule at risk threshold p=0.2, DiffUse reaches a decision after 28.77 annotations on NarrativeQA versus 118.69 for random sampling, and 85.25 versus 160.97 on open-book NaturalQuestions.<br><span class="scope">Holds for: HELM v0.2.2 data, 666 model pairs per scenario, Algorithm 1 with n=5 and maximum budget N=200; reference-based metrics stand in for the preference oracle.</span></dd>
 <dd>DiffUse requires no existing annotations and no assumptions about the models, tasks, prompts or hyper-parameters, needing only the two models&#x27; generated outputs on unlabeled test inputs. Item-response-theory selection methods instead need fully annotated data for a set of existing models.<br><span class="scope">Holds for: Requires running inference with both models over the pool of examples to be clustered, in the range of hundreds; only worthwhile when the oracle&#x27;s cost far exceeds that inference cost, as with paid APIs or human annotators.</span></dd>
-<dt>How many annotations does DiffUse actually save compared to random sampling?</dt>
-<dt>What is the measured reduction in labeling effort from clustering output differences?</dt>
-<dt>Does selecting examples by output-difference clustering need fewer oracle judgments than random selection?</dt>
+<dt>how many judged examples does difference-based selection save compared with picking test examples at random?</dt>
+<dt>what annotation-budget reduction does DiffUse achieve over random sampling at matched model-preference success rates?</dt>
+<dt>how few preference judgments do I need to reliably rank two generation models against each other?</dt>
+<dt>is selecting examples by output-difference clustering actually cheaper than random sampling for my comparison?</dt>
 <dd>With the iterative stopping rule at risk threshold p=0.2, DiffUse reaches a decision after 28.77 annotations on NarrativeQA versus 118.69 for random sampling, and 85.25 versus 160.97 on open-book NaturalQuestions.<br><span class="scope">Holds for: HELM v0.2.2 data, 666 model pairs per scenario, Algorithm 1 with n=5 and maximum budget N=200; reference-based metrics stand in for the preference oracle.</span></dd>
 <dd>At risk threshold p=0.2 the iterative DiffUse procedure returns the correct winner on 89.64% of NarrativeQA model pairs against 43.03% for random sampling, and on 86.50% versus 80.32% for CNN/DailyMail.<br><span class="scope">Holds for: 666 HELM model pairs per scenario, Algorithm 1 with n=5, N=200; gains are much smaller on closed-book NaturalQuestions, where winning distances are tiny.</span></dd>
-<dt>How does DiffUse decide when it has enough annotations to stop?</dt>
-<dt>Is there a stopping rule for how many examples to annotate during a two-model comparison?</dt>
-<dt>How reliable is the iterative DiffUse selection algorithm at a 0.2 risk threshold?</dt>
+<dt>how do I know when I have annotated enough examples to call a winner between two models?</dt>
+<dt>how does the iterative DiffUse stopping rule at risk threshold p=0.2 trade off annotation count, decision accuracy and inconclusive verdicts?</dt>
+<dt>how do I decide when to stop labeling and declare one of two generation models the winner?</dt>
+<dt>if I use a 0.2 risk threshold stopping rule for a two-model comparison, how often will the verdict be wrong or inconclusive?</dt>
 <dd>At risk threshold p=0.2 the iterative DiffUse procedure returns the correct winner on 89.64% of NarrativeQA model pairs against 43.03% for random sampling, and on 86.50% versus 80.32% for CNN/DailyMail.<br><span class="scope">Holds for: 666 HELM model pairs per scenario, Algorithm 1 with n=5, N=200; gains are much smaller on closed-book NaturalQuestions, where winning distances are tiny.</span></dd>
 <dd>When iterative DiffUse picks the wrong model at p=0.2, the pair&#x27;s average winning distance is 0.06 on both CNN/DailyMail and NarrativeQA. Correctly decided pairs have far larger gaps, 0.30 and 0.34, so the cost of an error is limited.<br><span class="scope">Holds for: 666 HELM model pairs per scenario, Algorithm 1 with p=0.2, n=5, N=200; winning distance is defined over reference-based metric scores, not human preferences.</span></dd>
 <dd>On closed-book NaturalQuestions, iterative DiffUse at p=0.2 annotates 189.05 examples and still returns an inconclusive verdict for 93.41% of model pairs, because the test winning distances in that scenario are very small.<br><span class="scope">Holds for: HELM closed-book NaturalQuestions, 666 model pairs, Algorithm 1 with n=5 and maximum budget N=200; random sampling is no better, at 191.74 annotations and 95.53% inconclusive.</span></dd>
-<dt>Does clustering output difference vectors give an unbiased estimate of how much better one model is?</dt>
-<dt>Can DiffUse be used to measure the size of the performance gap between two models?</dt>
-<dt>Why does difference-vector clustering beat random sampling at picking the winner?</dt>
+<dt>can a small hand-picked sample tell me how much better one model is, not just which one is better?</dt>
+<dt>is the winning-distance estimate from difference-vector clustering unbiased, and why does the selection favour the test winner?</dt>
+<dt>how do I estimate the size of the quality gap between two generation models from a small annotated subset?</dt>
+<dt>should I report the performance gap between two models from a DiffUse-selected sample, or only the winner?</dt>
 <dd>DiffUse produces a winning-distance estimate biased in favour of the true test winner, largest at small annotation budgets and dissipating as more examples are labeled. Random selection, by contrast, deviates from the test winning distance by 0 on average.<br><span class="scope">Holds for: Aggregated across all 666 model pairs on XSum, budgets from 5 to 200 examples; the bias means DiffUse should not be used to report the size of the performance gap.</span></dd>
 <dd>Output pairs whose difference vector has a larger norm are more likely to carry the preference label matching the overall test winner. Hierarchical clustering exploits this: often over half the vectors fall into a single low-norm cluster that contributes just 1 annotated example.<br><span class="scope">Holds for: Difference vectors from Sentence-BERT all-MiniLM-L6-v2 embeddings, binned into 50 equal-count bins per model pair, aggregated over NarrativeQA model pairs.</span></dd>
-<dt>Which examples turn out to be most informative for preference comparisons between generation models?</dt>
-<dt>Do large semantic differences between two models&#x27; outputs predict which model wins overall?</dt>
-<dt>Why does the norm of an output difference vector matter for model selection?</dt>
+<dt>which test examples tell you the most when comparing two models that write different answers?</dt>
+<dt>does the norm of the output difference vector predict agreement with the overall test-set preference?</dt>
+<dt>how do I find the handful of examples worth annotating when comparing two generation models?</dt>
+<dt>should I spend my annotation budget on the examples where two models&#x27; outputs diverge most?</dt>
 <dd>Output pairs whose difference vector has a larger norm are more likely to carry the preference label matching the overall test winner. Hierarchical clustering exploits this: often over half the vectors fall into a single low-norm cluster that contributes just 1 annotated example.<br><span class="scope">Holds for: Difference vectors from Sentence-BERT all-MiniLM-L6-v2 embeddings, binned into 50 equal-count bins per model pair, aggregated over NarrativeQA model pairs.</span></dd>
 <dd>Annotating the examples with the highest difference-vector norm, without clustering, is inconsistent across the 6 HELM generation scenarios and does not match DiffUse. Norm alone selects outliers that do not represent the space of output differences.<br><span class="scope">Holds for: Max-norm baseline across the 6 HELM generation scenarios and 666 model pairs, budgets 5-200; norm ranking still carries useful signal, it is the loss of diversity that hurts.</span></dd>
-<dt>Is it enough to just annotate the examples where two models&#x27; outputs differ the most?</dt>
-<dt>Does a max-norm baseline work as well as clustering difference vectors?</dt>
-<dt>Can clustering be skipped in favor of ranking examples by difference magnitude?</dt>
+<dt>is it enough to label only the examples where two models&#x27; answers differ the most?</dt>
+<dt>does a max-norm difference-vector baseline match clustering-based selection across HELM generation scenarios?</dt>
+<dt>can I skip clustering and just rank test examples by how far apart the two models&#x27; outputs are?</dt>
+<dt>should I use a simple largest-difference heuristic instead of clustering output differences?</dt>
 <dd>Annotating the examples with the highest difference-vector norm, without clustering, is inconsistent across the 6 HELM generation scenarios and does not match DiffUse. Norm alone selects outliers that do not represent the space of output differences.<br><span class="scope">Holds for: Max-norm baseline across the 6 HELM generation scenarios and 666 model pairs, budgets 5-200; norm ranking still carries useful signal, it is the loss of diversity that hurts.</span></dd>
-<dt>Would clustering embeddings of the summarization or QA inputs work as well as clustering differences between two models&#x27; outputs?</dt>
-<dt>Do active-learning style input-space selection methods transfer to evaluating text generation models?</dt>
-<dt>Why represent evaluation examples by output differences rather than by their inputs?</dt>
+<dt>would grouping the questions themselves work as well as grouping the ways two models&#x27; answers differ?</dt>
+<dt>does clustering task-input embeddings match clustering output difference vectors for pairwise generation model selection?</dt>
+<dt>should I select evaluation examples from input-space embeddings or from differences between the two models&#x27; outputs?</dt>
+<dt>I already have input embeddings for my test set — can I just cluster those to choose which examples to annotate?</dt>
 <dd>Clustering the embeddings of task inputs instead of output difference vectors does not consistently beat random sampling across the 6 HELM scenarios and 666 model pairs. The gains of DiffUse therefore come specifically from representing differences between model outputs.<br><span class="scope">Holds for: 6 HELM generation scenarios, 666 model pairs, budgets 5-200; contrasts with active-learning style input-space selection.</span></dd>
 <dd>Output pairs whose difference vector has a larger norm are more likely to carry the preference label matching the overall test winner. Hierarchical clustering exploits this: often over half the vectors fall into a single low-norm cluster that contributes just 1 annotated example.<br><span class="scope">Holds for: Difference vectors from Sentence-BERT all-MiniLM-L6-v2 embeddings, binned into 50 equal-count bins per model pair, aggregated over NarrativeQA model pairs.</span></dd>
-<dt>How sensitive is DiffUse to the choice of clustering algorithm?</dt>
-<dt>Does k-means or hierarchical clustering matter when picking evaluation examples by output difference?</dt>
-<dt>Which components of a difference-vector selection pipeline for model comparison actually matter?</dt>
+<dt>does the choice of clustering algorithm change how well the example selection works?</dt>
+<dt>how sensitive is DiffUse&#x27;s model-preference success rate to hierarchical Euclidean, hierarchical cosine and k-means clustering, and to representative selection?</dt>
+<dt>which parts of a difference-vector selection pipeline do I have to tune before comparing two models?</dt>
+<dt>do I need to tune the clustering algorithm and representative rule, or will any reasonable choice do?</dt>
 <dd>Swapping DiffUse&#x27;s clustering algorithm among 3 options (hierarchical with Euclidean or cosine distance, or k-means) changes model-preference success rates only slightly, and all configurations beat random selection. The rule for picking a cluster representative matters as little.<br><span class="scope">Holds for: 6 HELM generation scenarios, 666 model pairs, budgets 5-200; representative rules compared are random, nearest centroid by Euclidean or cosine distance, and maximum norm.</span></dd>
 <dd>Clustering the embeddings of task inputs instead of output difference vectors does not consistently beat random sampling across the 6 HELM scenarios and 666 model pairs. The gains of DiffUse therefore come specifically from representing differences between model outputs.<br><span class="scope">Holds for: 6 HELM generation scenarios, 666 model pairs, budgets 5-200; contrasts with active-learning style input-space selection.</span></dd>
-<dt>Can label-efficient selection be used to compare prompts rather than models?</dt>
-<dt>Does DiffUse work for choosing between few-shot prompt variants of the same model?</dt>
-<dt>How do I pick the better prompt with few annotations?</dt>
+<dt>can the same cheap-labeling trick pick the better of two prompts for one model?</dt>
+<dt>does difference-vector selection extend from model pairs to few-shot prompt variants of a fixed model?</dt>
+<dt>how do I choose between two few-shot prompt templates with as few preference annotations as possible?</dt>
+<dt>I am comparing two prompt variants of one model — can I use DiffUse instead of annotating a full test set?</dt>
 <dd>DiffUse also identifies the better of two few-shot prompt variants for a single fixed model using far fewer annotations than random selection, consistently across 111 unique prompt pairs per scenario.<br><span class="scope">Holds for: 3 prompt variants for each of 37 HELM models, over the 6 generation scenarios with 3 reference-based metrics each; variants differ only in the few-shot exemplars before the input.</span></dd>
-<dt>Were the DiffUse experiments run with real human preference annotations?</dt>
-<dt>What oracle was used to validate label-efficient model selection for text generation?</dt>
-<dt>What are the limitations of the DiffUse evaluation setup?</dt>
+<dt>were the reported savings measured with real human judgments or with automatic scores?</dt>
+<dt>what preference oracle backed the DiffUse experiments, and does it cover LLM-as-judge or human annotation?</dt>
+<dt>before I rely on DiffUse for human-annotated preference comparisons, what was it actually validated against?</dt>
 <dd>All DiffUse results use HELM reference-based automatic metrics as the preference oracle, with 3 metrics per each of 6 scenarios simulating different oracle types. The method is therefore not demonstrated on real human or LLM preference judgments.<br><span class="scope">Holds for: HELM v0.2.2 core scenarios, 6 generation tasks, 37 models, 666 model pairs, 800 of 1000 examples sampled per run, 10 seeds, budgets 5-200; a stated limitation of the work.</span></dd>
 <dd>DiffUse addresses label-efficient model selection for text generation: choosing between two generation models or prompts under a fixed preference-annotation budget. Earlier example-selection work had treated classification and question answering rather than generation.<br><span class="scope">Holds for: Pairwise comparison only, with no theoretical guarantee for a single comparison; picking from more than 2 candidates is left to future work. As of the ACL 2024 publication.</span></dd>
-<dt>When is label-efficient example selection for model comparison not worth using?</dt>
-<dt>Does DiffUse require existing labeled evaluation data?</dt>
-<dt>What does DiffUse assume about the models being compared?</dt>
+<dt>when is it not worth trying to cut annotation costs for comparing two models?</dt>
+<dt>what does DiffUse assume about the compared models and available labels, and in which scenarios does it fail to reach a verdict?</dt>
+<dt>how do I know whether cheap difference-based selection will work for the two models I want to compare?</dt>
+<dt>do I need any existing labeled evaluation data or model assumptions to use DiffUse, and when will it not pay off?</dt>
 <dd>DiffUse requires no existing annotations and no assumptions about the models, tasks, prompts or hyper-parameters, needing only the two models&#x27; generated outputs on unlabeled test inputs. Item-response-theory selection methods instead need fully annotated data for a set of existing models.<br><span class="scope">Holds for: Requires running inference with both models over the pool of examples to be clustered, in the range of hundreds; only worthwhile when the oracle&#x27;s cost far exceeds that inference cost, as with paid APIs or human annotators.</span></dd>
 <dd>On closed-book NaturalQuestions, iterative DiffUse at p=0.2 annotates 189.05 examples and still returns an inconclusive verdict for 93.41% of model pairs, because the test winning distances in that scenario are very small.<br><span class="scope">Holds for: HELM closed-book NaturalQuestions, 666 model pairs, Algorithm 1 with n=5 and maximum budget N=200; random sampling is no better, at 191.74 annotations and 95.53% inconclusive.</span></dd>
-<dt>What should I read on efficient evaluation and benchmark subset selection for generative models?</dt>
-<dt>Which paper tackled label-efficient model selection specifically for text generation?</dt>
-<dt>Where should I start reading about reducing evaluation cost for LLM comparisons?</dt>
+<dt>what should I read first about cutting the cost of comparing two language models?</dt>
+<dt>which work introduced label-efficient example selection for pairwise evaluation of text generation rather than classification?</dt>
+<dt>where do I start if I want to reduce the annotation cost of my LLM comparisons?</dt>
+<dt>is there a paper I can point my team to on cheap pairwise evaluation of generation models?</dt>
 <dd>DiffUse addresses label-efficient model selection for text generation: choosing between two generation models or prompts under a fixed preference-annotation budget. Earlier example-selection work had treated classification and question answering rather than generation.<br><span class="scope">Holds for: Pairwise comparison only, with no theoretical guarantee for a single comparison; picking from more than 2 candidates is left to future work. As of the ACL 2024 publication.</span></dd>
 <dd>DiffUse requires no existing annotations and no assumptions about the models, tasks, prompts or hyper-parameters, needing only the two models&#x27; generated outputs on unlabeled test inputs. Item-response-theory selection methods instead need fully annotated data for a set of existing models.<br><span class="scope">Holds for: Requires running inference with both models over the pool of examples to be clustered, in the range of hundreds; only worthwhile when the oracle&#x27;s cost far exceeds that inference cost, as with paid APIs or human annotators.</span></dd>
 </dl>

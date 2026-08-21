@@ -144,7 +144,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Does a language model answering the same fact correctly in two languages mean it stores the fact once?",
+      "name": "if a chatbot gives the same right answer in two languages, does that mean it learned the fact once?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -152,13 +152,14 @@
         "url": "https://borgr.github.io/papers/beneath-the-surface-of-consistency-exploring-cross-lingual-k/"
       },
       "alternateName": [
-        "Is cross-lingual consistency evidence of shared knowledge representation in LLMs?",
-        "Do consistent answers across languages imply a shared internal fact representation?"
+        "is cross-lingual answer consistency a valid proxy for shared factual knowledge representation in multilingual LLMs?",
+        "how do I tell whether a multilingual model stores a fact once or separately per language rather than just checking that its answers agree?",
+        "can I trust matching answers across languages as evidence that my model has one shared copy of a fact?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What determines whether an LLM shares a fact representation between two languages?",
+      "name": "which pairs of languages does a language model actually share facts between?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -166,13 +167,14 @@
         "url": "https://borgr.github.io/papers/beneath-the-surface-of-consistency-exploring-cross-lingual-k/"
       },
       "alternateName": [
-        "How much does writing script matter for cross-lingual knowledge sharing in LLMs?",
-        "Which language pairs share factual knowledge inside multilingual models?"
+        "does script family predict cross-lingual knowledge representation sharing between languages in 7B LLMs?",
+        "how do I predict which target languages will benefit when a fact is learned in one language?",
+        "my target languages use different alphabets — should I expect factual knowledge to carry over between them?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How can you measure whether an LLM stores a fact once for many languages?",
+      "name": "how can someone test whether a language model keeps one copy of a fact for many languages?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -180,14 +182,14 @@
         "url": "https://borgr.github.io/papers/beneath-the-surface-of-consistency-exploring-cross-lingual-k/"
       },
       "alternateName": [
-        "Can knowledge editing be used to test cross-lingual representation sharing?",
-        "What method probes shared multilingual knowledge causally rather than by activation similarity?",
-        "How does editing-based probing of cross-lingual knowledge work?"
+        "how does model editing serve as a causal probe of cross-lingual factual representation sharing, instead of activation similarity or neuron overlap?",
+        "how do I measure cross-lingual knowledge sharing in a multilingual model without relying on hidden-state similarity metrics?",
+        "is editing a fact in one language and querying the others a measurement I can rely on for my own models?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much factual knowledge do 7B LLMs know in some language but not in their best language?",
+      "name": "how many facts does a 7B model know in some language but get wrong in the language it is best at?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -195,13 +197,14 @@
         "url": "https://borgr.github.io/papers/beneath-the-surface-of-consistency-exploring-cross-lingual-k/"
       },
       "alternateName": [
-        "What is the accuracy gap between 'any language' and 'best language' factual retrieval?",
-        "How much could multilingual LLM factual accuracy improve if knowledge were fully shared across languages?"
+        "what is the gap between union-over-languages accuracy and best-single-language accuracy on multilingual factual probing?",
+        "how much accuracy could I recover by getting a model to reuse facts it already knows in other languages?",
+        "is there enough headroom in cross-lingual knowledge transfer to be worth chasing for my multilingual QA system?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is knowledge transfer between scripts symmetric in multilingual LLMs?",
+      "name": "does knowing a fact in Russian make a model more likely to know it in English than the other way round?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -209,13 +212,14 @@
         "url": "https://borgr.github.io/papers/beneath-the-surface-of-consistency-exploring-cross-lingual-k/"
       },
       "alternateName": [
-        "Does knowing a fact in Russian predict knowing it in English more than the reverse?",
-        "Is cross-lingual factual consistency direction-dependent?"
+        "is cross-lingual factual knowledge transfer between Cyrillic and Latin scripts directionally asymmetric?",
+        "which direction should I probe or edit in when I want a fact to hold in both a Cyrillic and a Latin-script language?",
+        "if my model answers correctly in Ukrainian, can I assume it will answer correctly in English too?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do English-only models like Mistral and Llama-2 share factual knowledge across languages at all?",
+      "name": "do English-only 7B models share any factual knowledge with other languages, and do multilingual ones do better?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -223,13 +227,14 @@
         "url": "https://borgr.github.io/papers/beneath-the-surface-of-consistency-exploring-cross-lingual-k/"
       },
       "alternateName": [
-        "Do monolingual English LLMs show cross-lingual knowledge sharing?",
-        "How do monolingual, bilingual and multilingual 7B models differ in cross-lingual knowledge sharing?"
+        "how do monolingual English and multilingual 7B pretraining regimes differ in within-script and cross-script representation sharing?",
+        "which base model should I start from if I need facts to be shared across languages written in different scripts?",
+        "should I pick a multilingual base model over an English-centric one for cross-lingual factual coverage?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does continued pretraining on a new language fix cross-lingual knowledge sharing?",
+      "name": "what happens to a model's English facts when it is further trained on Chinese or Hebrew?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -237,13 +242,14 @@
         "url": "https://borgr.github.io/papers/beneath-the-surface-of-consistency-exploring-cross-lingual-k/"
       },
       "alternateName": [
-        "What happens to English knowledge when a model is extended to Chinese or Hebrew?",
-        "Do language-extended LLMs bridge knowledge across different writing systems?"
+        "does continued pretraining for language extension produce cross-script factual representation sharing, and at what cost to source-language accuracy?",
+        "how do I add a new language to a 7B model without losing the facts it already answers in English?",
+        "if I continue pretraining my model on Hebrew, will its English factual accuracy suffer?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which kinds of facts transfer best across languages in LLMs?",
+      "name": "which kinds of facts travel best between languages — dates, countries, or people's names?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -251,13 +257,14 @@
         "url": "https://borgr.github.io/papers/beneath-the-surface-of-consistency-exploring-cross-lingual-k/"
       },
       "alternateName": [
-        "Do relation types affect cross-lingual factual knowledge sharing?",
-        "Are dates shared across languages more than person names in LLM factual knowledge?"
+        "how does relation type affect cross-lingual factual representation sharing for closed-category and numeric versus name-valued objects?",
+        "which relation types should I expect to need language-specific data for, and which will transfer?",
+        "my knowledge base is mostly person names — should I expect those facts to transfer across languages?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is there a multilingual dataset for factual knowledge editing across languages?",
+      "name": "is there a ready-made dataset of facts in many languages for testing and editing what a model knows?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -265,13 +272,14 @@
         "url": "https://borgr.github.io/papers/beneath-the-surface-of-consistency-exploring-cross-lingual-k/"
       },
       "alternateName": [
-        "What benchmark covers factual probing in 13 languages with multiple paraphrases?",
-        "Where can I find a cross-lingual fill-in-the-blank factual knowledge dataset with several scripts?"
+        "which multilingual cloze-style factual probing and editing benchmark covers 13 languages across multiple scripts with paraphrased templates?",
+        "where do I get parallel fill-in-the-blank fact templates in many languages to run editing experiments?",
+        "can I use an existing multilingual fact-editing benchmark instead of translating my own probes?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What should I read about how multilingual LLMs represent factual knowledge?",
+      "name": "where should someone start reading about how language models store facts in more than one language?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -279,13 +287,13 @@
         "url": "https://borgr.github.io/papers/beneath-the-surface-of-consistency-exploring-cross-lingual-k/"
       },
       "alternateName": [
-        "What work established that cross-lingual consistency and representation sharing are distinct in LLMs?",
-        "Where should I start reading about multilingual factual knowledge in language models?"
+        "what work distinguishes cross-lingual consistency from cross-lingual knowledge representation sharing in multilingual LLMs?",
+        "what should I read first to understand multilingual factual knowledge and editing in LLMs?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Do ROME, MEMIT and finetuning give the same picture of cross-lingual knowledge transfer?",
+      "name": "do different fact-editing techniques agree about how much knowledge crosses between languages?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -293,8 +301,9 @@
         "url": "https://borgr.github.io/papers/beneath-the-surface-of-consistency-exploring-cross-lingual-k/"
       },
       "alternateName": [
-        "Are editing-based measurements of multilingual knowledge sharing method-dependent?",
-        "Did the multilingual edits damage unrelated knowledge?"
+        "are cross-lingual representation-sharing estimates stable across ROME, MEMIT and finetuning edits, and do locality scores show the edits stayed specific?",
+        "how do I check that my cross-lingual editing measurements are not an artefact of the editing algorithm or of collateral damage?",
+        "does my choice of editing method change the conclusions I draw about multilingual knowledge sharing?"
       ]
     }
   ]
@@ -333,57 +342,66 @@
 <p>The veracity of a factoid is largely independent of the language it is written in. However, language models are inconsistent in their ability to answer the same factual question across languages. This raises questions about how LLMs represent a given fact across languages. We explore multilingual factual knowledge through two aspects: the model&#x27;s ability to answer a query consistently across languages, and the ability to &#x27;&#x27;store&#x27;&#x27; answers in a shared representation for several languages. We propose a methodology to measure the extent of representation sharing across languages by repurposing knowledge editing methods. We examine LLMs with various multilingual configurations using a new multilingual dataset. We reveal that high consistency does not necessarily imply shared representation, particularly for languages with different scripts. Moreover, we find that script similarity is a dominant factor in representation sharing. Finally, we observe that if LLMs could fully share knowledge across languages, their accuracy in their best-performing language could benefit an increase of up to 150\% on average. These findings highlight the need for improved multilingual knowledge representation in LLMs and suggest a path for the development of more robust and consistent multilingual LLMs.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Does a language model answering the same fact correctly in two languages mean it stores the fact once?</dt>
-<dt>Is cross-lingual consistency evidence of shared knowledge representation in LLMs?</dt>
-<dt>Do consistent answers across languages imply a shared internal fact representation?</dt>
+<dt>if a chatbot gives the same right answer in two languages, does that mean it learned the fact once?</dt>
+<dt>is cross-lingual answer consistency a valid proxy for shared factual knowledge representation in multilingual LLMs?</dt>
+<dt>how do I tell whether a multilingual model stores a fact once or separately per language rather than just checking that its answers agree?</dt>
+<dt>can I trust matching answers across languages as evidence that my model has one shared copy of a fact?</dt>
 <dd>In four 7B LLMs, the expected number of languages in which a fact is answered consistently exceeds the number of languages an edit to that fact propagates to. Cross-lingual answer agreement therefore does not imply a shared internal representation.<br><span class="scope">Holds for: BLOOM-7B, Qwen-7B, Llama-2-7B and Mistral-7B-v0.1 on CLIKE&#x27;s 13 languages, with sharing measured via MEMIT edits on 500 known facts per language; the gap is largest for language pairs using different scripts.</span></dd>
 <dd>Chinese, Japanese, Hebrew and Arabic show high cross-lingual answer consistency with each other in all models except Qwen. Edits made in one of them nevertheless show limited propagation to the others.<br><span class="scope">Holds for: Pairwise MEMIT-based generalization scores on CLIKE; measured on base pretrained 7B decoder-only models, not instruction-tuned ones.</span></dd>
 <dd>Cyrillic languages (Russian, Ukrainian, Bulgarian) share more representation with each other than with Latin-script languages. Answer consistency runs the opposite way, being higher between Cyrillic and Latin than within Cyrillic.<br><span class="scope">Holds for: CLIKE facts, pairwise C and SR matrices computed with MEMIT on the four base 7B models; a within-versus-across-script comparison, not a claim about any single language pair.</span></dd>
-<dt>What determines whether an LLM shares a fact representation between two languages?</dt>
-<dt>How much does writing script matter for cross-lingual knowledge sharing in LLMs?</dt>
-<dt>Which language pairs share factual knowledge inside multilingual models?</dt>
+<dt>which pairs of languages does a language model actually share facts between?</dt>
+<dt>does script family predict cross-lingual knowledge representation sharing between languages in 7B LLMs?</dt>
+<dt>how do I predict which target languages will benefit when a fact is learned in one language?</dt>
+<dt>my target languages use different alphabets — should I expect factual knowledge to carry over between them?</dt>
 <dd>Languages within the same script family exhibit the highest degree of cross-lingual knowledge representation sharing in every model examined, including Latin (English, French, Italian, Spanish) and Cyrillic (Russian, Ukrainian, Bulgarian) groups.<br><span class="scope">Holds for: Multilingual BLOOM-7B, bilingual Qwen-7B and English monolingual Llama-2-7B and Mistral-7B-v0.1 on CLIKE; Devanagari-script sharing (Hindi, Bengali) is high only for models that perform well on those languages (BLOOM, Mistral).</span></dd>
 <dd>Cyrillic languages (Russian, Ukrainian, Bulgarian) share more representation with each other than with Latin-script languages. Answer consistency runs the opposite way, being higher between Cyrillic and Latin than within Cyrillic.<br><span class="scope">Holds for: CLIKE facts, pairwise C and SR matrices computed with MEMIT on the four base 7B models; a within-versus-across-script comparison, not a claim about any single language pair.</span></dd>
-<dt>How can you measure whether an LLM stores a fact once for many languages?</dt>
-<dt>Can knowledge editing be used to test cross-lingual representation sharing?</dt>
-<dt>What method probes shared multilingual knowledge causally rather than by activation similarity?</dt>
-<dt>How does editing-based probing of cross-lingual knowledge work?</dt>
+<dt>how can someone test whether a language model keeps one copy of a fact for many languages?</dt>
+<dt>how does model editing serve as a causal probe of cross-lingual factual representation sharing, instead of activation similarity or neuron overlap?</dt>
+<dt>how do I measure cross-lingual knowledge sharing in a multilingual model without relying on hidden-state similarity metrics?</dt>
+<dt>is editing a fact in one language and querying the others a measurement I can rely on for my own models?</dt>
 <dd>Editing-based probing measures cross-lingual knowledge representation sharing by editing a fact in one language and testing whether the false target propagates to the same fact queried in other languages. It gives a causal alternative to activation-similarity and neuron-overlap analyses.<br><span class="scope">Holds for: Earlier cross-lingual representation work used passive analyses that indicate connection but do not quantify how much knowledge is shared; as of publication in 2025, and demonstrated only on 7B decoder-only models with middle-layer editing methods.</span></dd>
 <dd>Representation-sharing measurements agree across the three editing methods used as probes, with a 0.87 correlation between methods and locality scores averaging above 70%, indicating edits were specific rather than broadly destructive.<br><span class="scope">Holds for: ROME, MEMIT and a finetuning baseline applied through EasyEdit to 500 known facts per language; custom hyperparameters were tuned for BLOOM, defaults used elsewhere. Main results are reported with MEMIT.</span></dd>
-<dt>How much factual knowledge do 7B LLMs know in some language but not in their best language?</dt>
-<dt>What is the accuracy gap between &#x27;any language&#x27; and &#x27;best language&#x27; factual retrieval?</dt>
-<dt>How much could multilingual LLM factual accuracy improve if knowledge were fully shared across languages?</dt>
+<dt>how many facts does a 7B model know in some language but get wrong in the language it is best at?</dt>
+<dt>what is the gap between union-over-languages accuracy and best-single-language accuracy on multilingual factual probing?</dt>
+<dt>how much accuracy could I recover by getting a model to reuse facts it already knows in other languages?</dt>
+<dt>is there enough headroom in cross-lingual knowledge transfer to be worth chasing for my multilingual QA system?</dt>
 <dd>Four 7B LLMs answer 42.5% of CLIKE facts correctly in at least one language, but only 27.6% in their best-performing language and 11.8% averaged over all 13 languages. Fully shared knowledge would raise the best language by up to 53%.<br><span class="scope">Holds for: Exact-match accuracy with 3-shot demonstrations and greedy decoding, counting a fact as known if any of 3 paraphrases is answered correctly; the headroom is an upper bound assuming perfect sharing, not an achieved improvement.</span></dd>
-<dt>Is knowledge transfer between scripts symmetric in multilingual LLMs?</dt>
-<dt>Does knowing a fact in Russian predict knowing it in English more than the reverse?</dt>
-<dt>Is cross-lingual factual consistency direction-dependent?</dt>
+<dt>does knowing a fact in Russian make a model more likely to know it in English than the other way round?</dt>
+<dt>is cross-lingual factual knowledge transfer between Cyrillic and Latin scripts directionally asymmetric?</dt>
+<dt>which direction should I probe or edit in when I want a fact to hold in both a Cyrillic and a Latin-script language?</dt>
+<dt>if my model answers correctly in Ukrainian, can I assume it will answer correctly in English too?</dt>
 <dd>Knowing a fact in a Cyrillic-script language implies roughly 40-60% probability of knowing it in a Latin-script language, while the reverse direction holds only about 10-20% of the time.<br><span class="scope">Holds for: Pairwise consistency by exact match on CLIKE across the four base 7B models; the attribution to Latin-script pretraining dominance is a hypothesis, not a tested mechanism.</span></dd>
-<dt>Do English-only models like Mistral and Llama-2 share factual knowledge across languages at all?</dt>
-<dt>Do monolingual English LLMs show cross-lingual knowledge sharing?</dt>
-<dt>How do monolingual, bilingual and multilingual 7B models differ in cross-lingual knowledge sharing?</dt>
+<dt>do English-only 7B models share any factual knowledge with other languages, and do multilingual ones do better?</dt>
+<dt>how do monolingual English and multilingual 7B pretraining regimes differ in within-script and cross-script representation sharing?</dt>
+<dt>which base model should I start from if I need facts to be shared across languages written in different scripts?</dt>
+<dt>should I pick a multilingual base model over an English-centric one for cross-lingual factual coverage?</dt>
 <dd>English monolingual Mistral-7B shows the highest within-script-family pairwise consistency (54.7%) and representation sharing (37.6%) of any model tested. Its facts peak anomalously at being known and represented in exactly 4 languages, the 4 Latin-script ones.<br><span class="scope">Holds for: Mistral-7B-v0.1 and Llama-2-7B evaluated on CLIKE&#x27;s 13 languages; within-script-family averages, which are not comparable to the cross-script averages reported for BLOOM.</span></dd>
 <dd>Multilingual BLOOM-7B attains the highest cross-script pairwise averages of the models tested, at 36% consistency and 8.4% representation sharing, including 28% sharing from Italian to Hindi.<br><span class="scope">Holds for: Averages over language pairs from different script families on CLIKE, compared against Qwen-7B, Llama-2-7B and Mistral-7B-v0.1; BLOOM&#x27;s overall retrieval accuracy is low.</span></dd>
-<dt>Does continued pretraining on a new language fix cross-lingual knowledge sharing?</dt>
-<dt>What happens to English knowledge when a model is extended to Chinese or Hebrew?</dt>
-<dt>Do language-extended LLMs bridge knowledge across different writing systems?</dt>
+<dt>what happens to a model&#x27;s English facts when it is further trained on Chinese or Hebrew?</dt>
+<dt>does continued pretraining for language extension produce cross-script factual representation sharing, and at what cost to source-language accuracy?</dt>
+<dt>how do I add a new language to a 7B model without losing the facts it already answers in English?</dt>
+<dt>if I continue pretraining my model on Hebrew, will its English factual accuracy suffer?</dt>
 <dd>Chinese-Llama-2-7B and Hebrew-Mistral-7B gain large accuracy in their extended language, 142% and 600% relative increases, while losing English accuracy by 29% and 32% relative. English-to-extended-language representation sharing stays in the single digits, at 4% and 6%.<br><span class="scope">Holds for: Two language-extended 7B models compared to their Llama-2-7B and Mistral-7B-v0.1 bases, with expanded tokenizer vocabularies and continued pretraining in English plus the extended language.</span></dd>
-<dt>Which kinds of facts transfer best across languages in LLMs?</dt>
-<dt>Do relation types affect cross-lingual factual knowledge sharing?</dt>
-<dt>Are dates shared across languages more than person names in LLM factual knowledge?</dt>
+<dt>which kinds of facts travel best between languages — dates, countries, or people&#x27;s names?</dt>
+<dt>how does relation type affect cross-lingual factual representation sharing for closed-category and numeric versus name-valued objects?</dt>
+<dt>which relation types should I expect to need language-specific data for, and which will transfer?</dt>
+<dt>my knowledge base is mostly person names — should I expect those facts to transfer across languages?</dt>
 <dd>Relations with few possible answer categories (countries, instruments, continents, company developers) and numerical relations such as birth year and death year show the higher cross-lingual representation sharing. Name-valued relations such as book authors, movie directors and discoverers transfer less.<br><span class="scope">Holds for: CLIKE&#x27;s relation types under MEMIT editing; sports type and religion are exceptions to the low-cardinality trend, and high-cardinality relations such as cities also transfer poorly.</span></dd>
-<dt>Is there a multilingual dataset for factual knowledge editing across languages?</dt>
-<dt>What benchmark covers factual probing in 13 languages with multiple paraphrases?</dt>
-<dt>Where can I find a cross-lingual fill-in-the-blank factual knowledge dataset with several scripts?</dt>
+<dt>is there a ready-made dataset of facts in many languages for testing and editing what a model knows?</dt>
+<dt>which multilingual cloze-style factual probing and editing benchmark covers 13 languages across multiple scripts with paraphrased templates?</dt>
+<dt>where do I get parallel fill-in-the-blank fact templates in many languages to run editing experiments?</dt>
+<dt>can I use an existing multilingual fact-editing benchmark instead of translating my own probes?</dt>
 <dd>CLIKE is a multilingual fill-in-the-blank factual probing and editing dataset of about 35k facts in 13 languages spanning 7 scripts. Each (subject, relation, object) triplet has 3 paraphrased templates per language, verified by professional translators or native speakers.<br><span class="scope">Holds for: English, French, Italian, Spanish, Russian, Ukrainian, Bulgarian, Hindi, Bengali, Chinese, Japanese, Hebrew and Arabic; Wikidata triplets from 14 SPARQL queries, keeping only triplets labelled in at least 8 of these languages.</span></dd>
-<dt>What should I read about how multilingual LLMs represent factual knowledge?</dt>
-<dt>What work established that cross-lingual consistency and representation sharing are distinct in LLMs?</dt>
-<dt>Where should I start reading about multilingual factual knowledge in language models?</dt>
+<dt>where should someone start reading about how language models store facts in more than one language?</dt>
+<dt>what work distinguishes cross-lingual consistency from cross-lingual knowledge representation sharing in multilingual LLMs?</dt>
+<dt>what should I read first to understand multilingual factual knowledge and editing in LLMs?</dt>
 <dd>Editing-based probing measures cross-lingual knowledge representation sharing by editing a fact in one language and testing whether the false target propagates to the same fact queried in other languages. It gives a causal alternative to activation-similarity and neuron-overlap analyses.<br><span class="scope">Holds for: Earlier cross-lingual representation work used passive analyses that indicate connection but do not quantify how much knowledge is shared; as of publication in 2025, and demonstrated only on 7B decoder-only models with middle-layer editing methods.</span></dd>
 <dd>In four 7B LLMs, the expected number of languages in which a fact is answered consistently exceeds the number of languages an edit to that fact propagates to. Cross-lingual answer agreement therefore does not imply a shared internal representation.<br><span class="scope">Holds for: BLOOM-7B, Qwen-7B, Llama-2-7B and Mistral-7B-v0.1 on CLIKE&#x27;s 13 languages, with sharing measured via MEMIT edits on 500 known facts per language; the gap is largest for language pairs using different scripts.</span></dd>
 <dd>CLIKE is a multilingual fill-in-the-blank factual probing and editing dataset of about 35k facts in 13 languages spanning 7 scripts. Each (subject, relation, object) triplet has 3 paraphrased templates per language, verified by professional translators or native speakers.<br><span class="scope">Holds for: English, French, Italian, Spanish, Russian, Ukrainian, Bulgarian, Hindi, Bengali, Chinese, Japanese, Hebrew and Arabic; Wikidata triplets from 14 SPARQL queries, keeping only triplets labelled in at least 8 of these languages.</span></dd>
-<dt>Do ROME, MEMIT and finetuning give the same picture of cross-lingual knowledge transfer?</dt>
-<dt>Are editing-based measurements of multilingual knowledge sharing method-dependent?</dt>
-<dt>Did the multilingual edits damage unrelated knowledge?</dt>
+<dt>do different fact-editing techniques agree about how much knowledge crosses between languages?</dt>
+<dt>are cross-lingual representation-sharing estimates stable across ROME, MEMIT and finetuning edits, and do locality scores show the edits stayed specific?</dt>
+<dt>how do I check that my cross-lingual editing measurements are not an artefact of the editing algorithm or of collateral damage?</dt>
+<dt>does my choice of editing method change the conclusions I draw about multilingual knowledge sharing?</dt>
 <dd>Representation-sharing measurements agree across the three editing methods used as probes, with a 0.87 correlation between methods and locality scores averaging above 70%, indicating edits were specific rather than broadly destructive.<br><span class="scope">Holds for: ROME, MEMIT and a finetuning baseline applied through EasyEdit to 500 known facts per language; custom hyperparameters were tuned for BLOOM, defaults used elsewhere. Main results are reported with MEMIT.</span></dd>
 </dl>
 <h2>Claims and scope</h2><ul>

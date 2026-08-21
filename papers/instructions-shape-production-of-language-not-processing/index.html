@@ -137,7 +137,7 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Does prompt phrasing change how a language model encodes its input, or only how it answers?",
+      "name": "when I reword a prompt, does the model understand the input differently or just answer differently?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -145,13 +145,14 @@
         "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
       },
       "alternateName": [
-        "Why are LLMs so sensitive to prompt paraphrases if their internal representations are stable?",
-        "Where do instructions actually take effect inside a transformer?"
+        "do instruction phrasing variants shift task-relevant information in sample-token representations, or only at output-token positions?",
+        "how do I tell whether prompt sensitivity in a language model comes from input encoding or from answer generation?",
+        "my model's accuracy swings with prompt wording — is it worth rewriting my prompts to fix comprehension, or is the problem in how answers get produced?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is there causal evidence that instructions matter mainly at output positions?",
+      "name": "what happens to a model's answers if the instruction is prevented from influencing the rest of the prompt?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -159,13 +160,14 @@
         "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
       },
       "alternateName": [
-        "What happens if you block attention from instruction tokens to the rest of the prompt?",
-        "How much accuracy is lost when instruction attention is cut off?"
+        "what does attention masking from instruction tokens reveal about where instructions causally act, sample positions or output positions?",
+        "how can I test causally whether an instruction affects input encoding or only answer selection?",
+        "if I block instruction attention to the examples but not to the answer position, how much accuracy do I lose?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does scaling a model up improve what it encodes or how it expresses it?",
+      "name": "as models get bigger, do they take in more from the input or mainly get better at saying the answer?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -173,13 +175,14 @@
         "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
       },
       "alternateName": [
-        "What changes internally between a 0.5B and a 32B model on judgment tasks?",
-        "Do larger models encode more task information or just verbalize it better?"
+        "how does task-specific decodable information at sample versus output token positions scale with parameter count in Qwen-2.5 and OLMo-2?",
+        "how do I work out whether scaling up a model buys better input representations or better answer expression on judgment tasks?",
+        "should I expect a bigger model in the same family to encode more task information, or just verbalize it better?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Is there mechanistic evidence for the Superficial Alignment Hypothesis?",
+      "name": "what actually changes inside a model when it is trained to follow instructions?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -187,13 +190,14 @@
         "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
       },
       "alternateName": [
-        "What does instruction tuning change inside a model's representations?",
-        "Do base and instruction-tuned models encode the input differently?"
+        "do instruction-tuned checkpoints differ from base checkpoints in layer-wise probing profiles at sample tokens or only at output tokens?",
+        "how do I find out whether instruction tuning taught a model new task knowledge or just how to deliver an answer?",
+        "is switching from a base model to its instruction-tuned version going to change what it knows about my task, or only how it responds?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Does the processing–production asymmetry depend on which judgment task is being evaluated?",
+      "name": "does the split between understanding and answering look the same on grammar judgments as on world-knowledge or mind-reading questions?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -201,13 +205,14 @@
         "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
       },
       "alternateName": [
-        "Which of BLiMP, StereoSet, oLMpics, EWOK and ToM show internal information that predicts behavior best?",
-        "Are grammaticality judgments different from world-knowledge judgments inside a language model?"
+        "how does the coupling between output-token probing accuracy and exact-match behavior vary across BLiMP, oLMpics, EWOK, StereoSet and theory-of-mind judgments?",
+        "how do I know which judgment benchmarks have internal signals that actually predict what a model answers?",
+        "for the benchmark I care about, will probing internal representations tell me anything about the model's answers?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Can removing instruction influence ever help accuracy?",
+      "name": "can a model get more questions right when the instruction is stopped from touching the examples?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -215,13 +220,14 @@
         "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
       },
       "alternateName": [
-        "Are there tasks where instructions interfere with input encoding?",
-        "Which judgment task improves when instruction attention is blocked?"
+        "on which judgment task does masking instruction-to-sample attention raise exact-match accuracy rather than lower it?",
+        "how do I check whether the instruction in my prompt is interfering with how the model reads the examples?",
+        "could dropping or isolating the instruction actually improve my model's accuracy on a theory-of-mind style task?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What is a good paper on the gap between what language models encode and what they output?",
+      "name": "what should I read about the gap between what a language model knows internally and what it actually says?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -229,13 +235,13 @@
         "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
       },
       "alternateName": [
-        "Where should I start reading about interpreting instruction following inside LLMs?",
-        "What work frames prompt sensitivity as an output-generation phenomenon rather than an encoding one?"
+        "which work frames prompt sensitivity as a production-side rather than encoding-side phenomenon in transformer language models?",
+        "where do I start reading if I want to separate a model's task knowledge from its answer generation?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Why are behavioral benchmark scores insufficient for diagnosing model failures?",
+      "name": "how can I tell whether a model got a question wrong because it did not know the answer or because it failed to give it?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -243,13 +249,14 @@
         "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
       },
       "alternateName": [
-        "How can you tell whether a model lacked the knowledge or failed to express it?",
-        "What does joint probing and behavioral evaluation add over accuracy alone?"
+        "why do exact-match benchmark scores conflate absent task encoding with failed output selection, and what does joint probing add?",
+        "how do I diagnose the source of a model's benchmark failures beyond the accuracy number?",
+        "my model scores badly on a judgment benchmark — how do I find out whether to fix its knowledge or its answer format?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How reliable are the linear probes used to measure task-specific information layer-wise?",
+      "name": "how much can you trust a layer-by-layer probe that claims to find task information in a model?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -257,13 +264,14 @@
         "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
       },
       "alternateName": [
-        "How many labeled examples are needed for layer-wise probing patterns to stabilize?",
-        "Would non-linear probes change the layer-wise information findings?"
+        "do control-task selectivity, MDL-style probing and non-linear probes preserve the reported layer-wise task-information patterns?",
+        "how many labeled examples and what probe checks do I need before believing a layer-wise probing result?",
+        "if I run linear probes on my own model's layers, will the pattern survive switching to an MLP probe or shrinking the training set?"
       ]
     },
     {
       "@type": "Question",
-      "name": "How much do model predictions change between instruction-first, sample-first and few-shot prompting?",
+      "name": "do a model's answers actually change if I put the instruction first, put the examples first, or give no instruction at all?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -271,13 +279,14 @@
         "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
       },
       "alternateName": [
-        "Do different prompting formats agree on individual instances?",
-        "Is in-context learning without instructions equivalent to giving an explicit instruction?"
+        "what is instance-level agreement between instruction-based prompt orderings and a 4-shot no-instruction baseline on judgment tasks?",
+        "how do I measure whether two prompt formats are really equivalent rather than just scoring the same?",
+        "can I treat few-shot examples without an instruction as interchangeable with an explicit instruction for my evaluation?"
       ]
     },
     {
       "@type": "Question",
-      "name": "What happens internally when a prompt instruction is irrelevant to the judgment being made?",
+      "name": "what happens inside a model if the instruction in the prompt has nothing to do with the question being asked?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -285,12 +294,14 @@
         "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
       },
       "alternateName": [
-        "Do nonsense or off-task instructions damage input encoding in language models?"
+        "how much decodable task information is lost at sample versus output positions when the instruction is replaced with a semantically unrelated one?",
+        "how do I test whether a wrong or off-task instruction corrupts a model's reading of the input?",
+        "if my prompt template carries a leftover irrelevant instruction, is the model's input representation damaged or just its answer?"
       ]
     },
     {
       "@type": "Question",
-      "name": "Which models and tasks were used to test whether instructions shape encoding or generation?",
+      "name": "which models and which tasks were tested to see whether instructions change comprehension or only answers?",
       "answerCount": 1,
       "acceptedAnswer": {
         "@type": "Answer",
@@ -298,7 +309,8 @@
         "url": "https://borgr.github.io/papers/instructions-shape-production-of-language-not-processing/"
       },
       "alternateName": [
-        "Does the production-centered finding hold across model families?"
+        "across which model families, sizes and binary judgment benchmarks does the processing–production asymmetry replicate?",
+        "is the finding that instructions act at output positions backed by more than one model family, or should I retest on mine?"
       ]
     }
   ]
@@ -337,61 +349,73 @@
 <p>Instructions trigger a production-centered mechanism in language models. Through a cognitively inspired lens that separates language processing and production, we reveal this mechanism as an asymmetry between the two stages by probing task-specific information layer-wise across five binary judgment tasks. Specifically, we measure how instruction tokens shape information both when sample tokens, the input under evaluation, are processed and when output tokens are produced. Across prompting variations, task-specific information in sample tokens remains largely stable and correlates only weakly with behavior, whereas the same information in output tokens varies substantially and correlates strongly with behavior. Attention-based interventions confirm this pattern causally: blocking instruction flow to all subsequent tokens reduces both behavior and information in output tokens, whereas blocking it only to sample tokens has minimal effect on either. The asymmetry generalizes across model families and tasks, and becomes sharper with model scale and instruction-tuning, both of which disproportionately affect the production stage. Our findings suggest that understanding model capabilities requires jointly assessing internals and behavior, while decomposing the internal perspective by token position to distinguish the processing of input tokens from the production of output tokens.</p>
 <h2>Questions this paper answers</h2>
 <dl class="qa">
-<dt>Does prompt phrasing change how a language model encodes its input, or only how it answers?</dt>
-<dt>Why are LLMs so sensitive to prompt paraphrases if their internal representations are stable?</dt>
-<dt>Where do instructions actually take effect inside a transformer?</dt>
+<dt>when I reword a prompt, does the model understand the input differently or just answer differently?</dt>
+<dt>do instruction phrasing variants shift task-relevant information in sample-token representations, or only at output-token positions?</dt>
+<dt>how do I tell whether prompt sensitivity in a language model comes from input encoding or from answer generation?</dt>
+<dt>my model&#x27;s accuracy swings with prompt wording — is it worth rewriting my prompts to fix comprehension, or is the problem in how answers get produced?</dt>
 <dd>Task-specific probing accuracy in sample tokens varies by at most ±0.7 percentage points across 3 prompting variations, versus ±2.2 pp for output tokens, over the same layers.<br><span class="scope">Holds for: Averaged across 5 binary judgment tasks and 3 model families; variations are instruction-first, sample-first, and 4-shot in-context learning without an explicit instruction.</span></dd>
 <dd>Task-specific information in output tokens correlates strongly with exact-match behavior (Kendall τ=0.62), whereas information in sample tokens correlates weakly and negatively (τ=-0.15) and is essentially uncorrelated with output-token information (τ=0.02).<br><span class="scope">Holds for: Kendall τ computed across 3 model families, 5 binary judgment tasks and 3 prompting variations; linear probes, so a lower bound on decodable information.</span></dd>
 <dd>&quot;Instructions shape Production of Language, not Processing&quot; introduces a cognitively inspired processing–production lens for language models, operationalized by probing representations at sample-token versus output-token positions. The paper&#x27;s central argument is that instruction effects concentrate at output-token positions.<br><span class="scope">Holds for: Decoder-only LMs (Llama-3.1, OLMo-2, Qwen-2.5) on 5 binary judgment tasks with single-token outputs; token position is an approximation, not a claim of strict computational separation.</span></dd>
-<dt>Is there causal evidence that instructions matter mainly at output positions?</dt>
-<dt>What happens if you block attention from instruction tokens to the rest of the prompt?</dt>
-<dt>How much accuracy is lost when instruction attention is cut off?</dt>
+<dt>what happens to a model&#x27;s answers if the instruction is prevented from influencing the rest of the prompt?</dt>
+<dt>what does attention masking from instruction tokens reveal about where instructions causally act, sample positions or output positions?</dt>
+<dt>how can I test causally whether an instruction affects input encoding or only answer selection?</dt>
+<dt>if I block instruction attention to the examples but not to the answer position, how much accuracy do I lose?</dt>
 <dd>Blocking attention from instruction tokens to all subsequent tokens cuts exact-match accuracy by 58.0 pp while probing accuracy falls only 0.8 pp in sample tokens and 3.0 pp in output tokens.<br><span class="scope">Holds for: Instruction-first prompting, averaged across 3 model families and 5 binary judgment tasks with single-token answers.</span></dd>
 <dd>Blocking attention only from instruction tokens to sample tokens costs 4.0 pp exact-match accuracy and 0.8 pp probing accuracy in sample tokens, far less than blocking instruction flow to all subsequent tokens.<br><span class="scope">Holds for: Instruction-first prompting, averaged across models and tasks; per-model behavioral drops range from -2.0 to -4.0 pp.</span></dd>
-<dt>Does scaling a model up improve what it encodes or how it expresses it?</dt>
-<dt>What changes internally between a 0.5B and a 32B model on judgment tasks?</dt>
-<dt>Do larger models encode more task information or just verbalize it better?</dt>
+<dt>as models get bigger, do they take in more from the input or mainly get better at saying the answer?</dt>
+<dt>how does task-specific decodable information at sample versus output token positions scale with parameter count in Qwen-2.5 and OLMo-2?</dt>
+<dt>how do I work out whether scaling up a model buys better input representations or better answer expression on judgment tasks?</dt>
+<dt>should I expect a bigger model in the same family to encode more task information, or just verbalize it better?</dt>
 <dd>From the smallest to the largest model, output-token task-specific information grows by 46% in Qwen-2.5 and 30% in OLMo-2, compared with 30% and 20% in sample tokens.<br><span class="scope">Holds for: 6 Qwen-2.5 sizes (0.5B–32B) and 4 OLMo-2 sizes (1B–32B), instruction-first prompting, relative layer positions.</span></dd>
 <dd>Instruction-tuned models carry substantially more task-specific information at output-token positions than their base counterparts, while layer-wise sample-token profiles stay nearly identical and the information peak layer does not shift.<br><span class="scope">Holds for: Base/instruct pairs of Llama-3.1-8B, OLMo-2-7B and Qwen-2.5-7B under instruction-first prompting; the paper reports the gap qualitatively rather than as a single number.</span></dd>
-<dt>Is there mechanistic evidence for the Superficial Alignment Hypothesis?</dt>
-<dt>What does instruction tuning change inside a model&#x27;s representations?</dt>
-<dt>Do base and instruction-tuned models encode the input differently?</dt>
+<dt>what actually changes inside a model when it is trained to follow instructions?</dt>
+<dt>do instruction-tuned checkpoints differ from base checkpoints in layer-wise probing profiles at sample tokens or only at output tokens?</dt>
+<dt>how do I find out whether instruction tuning taught a model new task knowledge or just how to deliver an answer?</dt>
+<dt>is switching from a base model to its instruction-tuned version going to change what it knows about my task, or only how it responds?</dt>
 <dd>Instruction-tuned models carry substantially more task-specific information at output-token positions than their base counterparts, while layer-wise sample-token profiles stay nearly identical and the information peak layer does not shift.<br><span class="scope">Holds for: Base/instruct pairs of Llama-3.1-8B, OLMo-2-7B and Qwen-2.5-7B under instruction-first prompting; the paper reports the gap qualitatively rather than as a single number.</span></dd>
 <dd>From the smallest to the largest model, output-token task-specific information grows by 46% in Qwen-2.5 and 30% in OLMo-2, compared with 30% and 20% in sample tokens.<br><span class="scope">Holds for: 6 Qwen-2.5 sizes (0.5B–32B) and 4 OLMo-2 sizes (1B–32B), instruction-first prompting, relative layer positions.</span></dd>
-<dt>Does the processing–production asymmetry depend on which judgment task is being evaluated?</dt>
-<dt>Which of BLiMP, StereoSet, oLMpics, EWOK and ToM show internal information that predicts behavior best?</dt>
-<dt>Are grammaticality judgments different from world-knowledge judgments inside a language model?</dt>
+<dt>does the split between understanding and answering look the same on grammar judgments as on world-knowledge or mind-reading questions?</dt>
+<dt>how does the coupling between output-token probing accuracy and exact-match behavior vary across BLiMP, oLMpics, EWOK, StereoSet and theory-of-mind judgments?</dt>
+<dt>how do I know which judgment benchmarks have internal signals that actually predict what a model answers?</dt>
+<dt>for the benchmark I care about, will probing internal representations tell me anything about the model&#x27;s answers?</dt>
 <dd>Output-token probing predicts behavior better than sample-token probing on all 5 binary judgment tasks. The gap is largest for EWOK (τ=0.70 vs 0.29) and oLMpics (0.53 vs 0.21), and smallest for BLiMP (0.56 vs 0.37) and ToM (0.22 vs 0.15).<br><span class="scope">Holds for: Instance-level Kendall τ averaged across models and prompting variations; ToM is weak on both stages, so its small gap reflects weak coupling overall rather than tight coupling.</span></dd>
 <dd>On the theory-of-mind task, cutting attention from instruction to sample tokens improves exact-match accuracy by 6.0 pp, while BLiMP loses 13.0 pp under the same intervention.<br><span class="scope">Holds for: Prompt-only intervention relative to instruction-first prompting, averaged across models; oLMpics and EWOK show minimal behavioral change in either direction.</span></dd>
-<dt>Can removing instruction influence ever help accuracy?</dt>
-<dt>Are there tasks where instructions interfere with input encoding?</dt>
-<dt>Which judgment task improves when instruction attention is blocked?</dt>
+<dt>can a model get more questions right when the instruction is stopped from touching the examples?</dt>
+<dt>on which judgment task does masking instruction-to-sample attention raise exact-match accuracy rather than lower it?</dt>
+<dt>how do I check whether the instruction in my prompt is interfering with how the model reads the examples?</dt>
+<dt>could dropping or isolating the instruction actually improve my model&#x27;s accuracy on a theory-of-mind style task?</dt>
 <dd>On the theory-of-mind task, cutting attention from instruction to sample tokens improves exact-match accuracy by 6.0 pp, while BLiMP loses 13.0 pp under the same intervention.<br><span class="scope">Holds for: Prompt-only intervention relative to instruction-first prompting, averaged across models; oLMpics and EWOK show minimal behavioral change in either direction.</span></dd>
-<dt>What is a good paper on the gap between what language models encode and what they output?</dt>
-<dt>Where should I start reading about interpreting instruction following inside LLMs?</dt>
-<dt>What work frames prompt sensitivity as an output-generation phenomenon rather than an encoding one?</dt>
+<dt>what should I read about the gap between what a language model knows internally and what it actually says?</dt>
+<dt>which work frames prompt sensitivity as a production-side rather than encoding-side phenomenon in transformer language models?</dt>
+<dt>where do I start reading if I want to separate a model&#x27;s task knowledge from its answer generation?</dt>
 <dd>&quot;Instructions shape Production of Language, not Processing&quot; introduces a cognitively inspired processing–production lens for language models, operationalized by probing representations at sample-token versus output-token positions. The paper&#x27;s central argument is that instruction effects concentrate at output-token positions.<br><span class="scope">Holds for: Decoder-only LMs (Llama-3.1, OLMo-2, Qwen-2.5) on 5 binary judgment tasks with single-token outputs; token position is an approximation, not a claim of strict computational separation.</span></dd>
 <dd>The processing–production decomposition separates two failure modes that behavioral scores conflate: task information never encoded from the input, versus information encoded but not selected during output production.<br><span class="scope">Holds for: Argued from binary judgment tasks with single-token answers; whether the same decomposition localizes failures in open-ended generation or multi-step reasoning is untested.</span></dd>
-<dt>Why are behavioral benchmark scores insufficient for diagnosing model failures?</dt>
-<dt>How can you tell whether a model lacked the knowledge or failed to express it?</dt>
-<dt>What does joint probing and behavioral evaluation add over accuracy alone?</dt>
+<dt>how can I tell whether a model got a question wrong because it did not know the answer or because it failed to give it?</dt>
+<dt>why do exact-match benchmark scores conflate absent task encoding with failed output selection, and what does joint probing add?</dt>
+<dt>how do I diagnose the source of a model&#x27;s benchmark failures beyond the accuracy number?</dt>
+<dt>my model scores badly on a judgment benchmark — how do I find out whether to fix its knowledge or its answer format?</dt>
 <dd>The processing–production decomposition separates two failure modes that behavioral scores conflate: task information never encoded from the input, versus information encoded but not selected during output production.<br><span class="scope">Holds for: Argued from binary judgment tasks with single-token answers; whether the same decomposition localizes failures in open-ended generation or multi-step reasoning is untested.</span></dd>
 <dd>Task-specific information in output tokens correlates strongly with exact-match behavior (Kendall τ=0.62), whereas information in sample tokens correlates weakly and negatively (τ=-0.15) and is essentially uncorrelated with output-token information (τ=0.02).<br><span class="scope">Holds for: Kendall τ computed across 3 model families, 5 binary judgment tasks and 3 prompting variations; linear probes, so a lower bound on decodable information.</span></dd>
 <dd>The two instruction-based prompting variations agree behaviorally on 77% of instances, agreement with the no-instruction 4-shot baseline drops to 60% and 58%, and all 3 variations agree on only 48%.<br><span class="scope">Holds for: Instance-level exact-match agreement across 5 binary judgment tasks and 3 model families, single-token yes/no answers.</span></dd>
-<dt>How reliable are the linear probes used to measure task-specific information layer-wise?</dt>
-<dt>How many labeled examples are needed for layer-wise probing patterns to stabilize?</dt>
-<dt>Would non-linear probes change the layer-wise information findings?</dt>
+<dt>how much can you trust a layer-by-layer probe that claims to find task information in a model?</dt>
+<dt>do control-task selectivity, MDL-style probing and non-linear probes preserve the reported layer-wise task-information patterns?</dt>
+<dt>how many labeled examples and what probe checks do I need before believing a layer-wise probing result?</dt>
+<dt>if I run linear probes on my own model&#x27;s layers, will the pattern survive switching to an MLP probe or shrinking the training set?</dt>
 <dd>The layer-wise information patterns hold under control-task selectivity checks, an information-theoretic (MDL-style) assessment and probes with 1 or 2 hidden layers, and emerge with as few as 100 to 200 training samples.<br><span class="scope">Holds for: Validation across all model families, sizes and tasks; linear probes still only bound linearly accessible information, and non-linear probes shift information levels slightly without changing the layer-wise pattern.</span></dd>
-<dt>How much do model predictions change between instruction-first, sample-first and few-shot prompting?</dt>
-<dt>Do different prompting formats agree on individual instances?</dt>
-<dt>Is in-context learning without instructions equivalent to giving an explicit instruction?</dt>
+<dt>do a model&#x27;s answers actually change if I put the instruction first, put the examples first, or give no instruction at all?</dt>
+<dt>what is instance-level agreement between instruction-based prompt orderings and a 4-shot no-instruction baseline on judgment tasks?</dt>
+<dt>how do I measure whether two prompt formats are really equivalent rather than just scoring the same?</dt>
+<dt>can I treat few-shot examples without an instruction as interchangeable with an explicit instruction for my evaluation?</dt>
 <dd>The two instruction-based prompting variations agree behaviorally on 77% of instances, agreement with the no-instruction 4-shot baseline drops to 60% and 58%, and all 3 variations agree on only 48%.<br><span class="scope">Holds for: Instance-level exact-match agreement across 5 binary judgment tasks and 3 model families, single-token yes/no answers.</span></dd>
 <dd>Task-specific probing accuracy in sample tokens varies by at most ±0.7 percentage points across 3 prompting variations, versus ±2.2 pp for output tokens, over the same layers.<br><span class="scope">Holds for: Averaged across 5 binary judgment tasks and 3 model families; variations are instruction-first, sample-first, and 4-shot in-context learning without an explicit instruction.</span></dd>
-<dt>What happens internally when a prompt instruction is irrelevant to the judgment being made?</dt>
-<dt>Do nonsense or off-task instructions damage input encoding in language models?</dt>
+<dt>what happens inside a model if the instruction in the prompt has nothing to do with the question being asked?</dt>
+<dt>how much decodable task information is lost at sample versus output positions when the instruction is replaced with a semantically unrelated one?</dt>
+<dt>how do I test whether a wrong or off-task instruction corrupts a model&#x27;s reading of the input?</dt>
+<dt>if my prompt template carries a leftover irrelevant instruction, is the model&#x27;s input representation damaged or just its answer?</dt>
 <dd>Replacing the task instruction with a semantically unrelated one (counting occurrences of the letter &quot;a&quot;) costs 10.0 points of probing accuracy in output tokens but only 2.0 in sample tokens.<br><span class="scope">Holds for: Sanity check relative to instruction-first prompting, averaged across 5 tasks and 3 model families.</span></dd>
-<dt>Which models and tasks were used to test whether instructions shape encoding or generation?</dt>
-<dt>Does the production-centered finding hold across model families?</dt>
+<dt>which models and which tasks were tested to see whether instructions change comprehension or only answers?</dt>
+<dt>across which model families, sizes and binary judgment benchmarks does the processing–production asymmetry replicate?</dt>
+<dt>is the finding that instructions act at output positions backed by more than one model family, or should I retest on mine?</dt>
 <dd>&quot;Instructions shape Production of Language, not Processing&quot; introduces a cognitively inspired processing–production lens for language models, operationalized by probing representations at sample-token versus output-token positions. The paper&#x27;s central argument is that instruction effects concentrate at output-token positions.<br><span class="scope">Holds for: Decoder-only LMs (Llama-3.1, OLMo-2, Qwen-2.5) on 5 binary judgment tasks with single-token outputs; token position is an approximation, not a claim of strict computational separation.</span></dd>
 <dd>Task-specific probing accuracy in sample tokens varies by at most ±0.7 percentage points across 3 prompting variations, versus ±2.2 pp for output tokens, over the same layers.<br><span class="scope">Holds for: Averaged across 5 binary judgment tasks and 3 model families; variations are instruction-first, sample-first, and 4-shot in-context learning without an explicit instruction.</span></dd>
 <dd>Output-token probing predicts behavior better than sample-token probing on all 5 binary judgment tasks. The gap is largest for EWOK (τ=0.70 vs 0.29) and oLMpics (0.53 vs 0.21), and smallest for BLiMP (0.56 vs 0.37) and ToM (0.22 vs 0.15).<br><span class="scope">Holds for: Instance-level Kendall τ averaged across models and prompting variations; ToM is weak on both stages, so its small gap reflects weak coupling overall rather than tight coupling.</span></dd>

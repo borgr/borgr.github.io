@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why Pretraining Fails to Share Cross-Lingual Knowledge — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/">
+  <meta name="citation_title" content="Why Pretraining Fails to Share Cross-Lingual Knowledge">
+  <meta name="citation_author" content="Adam Gaber">
+  <meta name="citation_author" content="Uriel Dolev">
+  <meta name="citation_author" content="Elisabeth Fittschen">
+  <meta name="citation_author" content="Bobby Cheng">
+  <meta name="citation_author" content="Yuval Marton">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_doi" content="10.48550/arXiv.2609.19291">
+  <meta name="citation_arxiv_id" content="2609.19291">
+  <meta name="citation_abstract" content="Large Language Models (LLMs) have made remarkable progress in the processing and modeling of many languages. Yet, unlike human multilinguals, they exhibit surprisingly limited cross-lingual knowledge transfer. While this limitation is well documented, its origins during multilingual training remain unclear. We pretrain 360M- and 7B-parameter LLMs and show that poor cross-lingual knowledge generalization emerges during pretraining and persists under standard interventions. To isolate its cause, we employ a controlled bilingual pretraining setting using two copies of the same language, sharing identical text and token segmentation, but mapped to disjoint token spaces. We find that disjoint tokens alone are enough to induce knowledge compartmentalization, even between identical copies of the same language, establishing disjoint token spaces as a fundamental barrier to cross-lingual knowledge generalization. Guided by this understanding, we suggest mapping languages into a shared token space by simple word-wise translation and find it substantially improves cross-lingual knowledge generalization, recovering up to 12.6\% of native-language learning efficiency --- 14$\times$ the baseline.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/#article",
+  "name": "Why Pretraining Fails to Share Cross-Lingual Knowledge",
+  "headline": "Why Pretraining Fails to Share Cross-Lingual Knowledge",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Adam Gaber"
+    },
+    {
+      "@type": "Person",
+      "name": "Uriel Dolev"
+    },
+    {
+      "@type": "Person",
+      "name": "Elisabeth Fittschen"
+    },
+    {
+      "@type": "Person",
+      "name": "Bobby Cheng"
+    },
+    {
+      "@type": "Person",
+      "name": "Yuval Marton"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2026",
+  "identifier": "https://doi.org/10.48550/arXiv.2609.19291",
+  "abstract": "Large Language Models (LLMs) have made remarkable progress in the processing and modeling of many languages. Yet, unlike human multilinguals, they exhibit surprisingly limited cross-lingual knowledge transfer. While this limitation is well documented, its origins during multilingual training remain unclear. We pretrain 360M- and 7B-parameter LLMs and show that poor cross-lingual knowledge generalization emerges during pretraining and persists under standard interventions. To isolate its cause, we employ a controlled bilingual pretraining setting using two copies of the same language, sharing identical text and token segmentation, but mapped to disjoint token spaces. We find that disjoint tokens alone are enough to induce knowledge compartmentalization, even between identical copies of the same language, establishing disjoint token spaces as a fundamental barrier to cross-lingual knowledge generalization. Guided by this understanding, we suggest mapping languages into a shared token space by simple word-wise translation and find it substantially improves cross-lingual knowledge generalization, recovering up to 12.6\\% of native-language learning efficiency --- 14$\\times$ the baseline.",
+  "description": "Pretraining 360M and 7B LLMs with injected fictive facts shows that disjoint token spaces alone, even between two identical copies of English, block cross-lingual knowledge sharing, and that word-wise translation into a shared token space raises English-Arabic knowledge transfer 14x at 360M.",
+  "sameAs": [
+    "https://arxiv.org/abs/2609.19291",
+    "https://arxiv.org/html/2609.19291",
+    "https://arxiv.org/pdf/2609.19291",
+    "https://huggingface.co/papers/2609.19291",
+    "https://www.alphaxiv.org/abs/2609.19291",
+    "https://www.semanticscholar.org/paper/292059375"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Bilingual LLMs pretrained from scratch barely transfer facts between languages. CLeq is 0.9% for English-Arabic and 1.9% for English-Russian at 360M parameters, and 5.9% for English-Arabic at 7B.",
+      "description": "Holds for: SmolLM2-architecture 360M and Llama-3-derived 7B models, 50/50 token splits, near Chinchilla-optimal budgets, 2,048 injected fictive facts; one pretraining run per condition."
+    },
+    {
+      "@type": "Thing",
+      "name": "Pretraining code-switching and activation-alignment losses do not fix English-Arabic knowledge compartmentalization at 360M. The best CLeq is 2.2% for code-switching and 2.5% for alignment, against a 0.9% baseline.",
+      "description": "Holds for: Code-switching swept over mixing ratios 0.6, 0.1 and 0.01 and substitution probabilities 0.5, 0.1 and 0.01; InfoNCE and L2 losses over chunk sizes of 4 to 250 words; injected fact documents excluded from both."
+    },
+    {
+      "@type": "Thing",
+      "name": "Two identical copies of English mapped to disjoint token spaces share essentially no injected knowledge, with CLeq of -2.6% at 360M and -1.5% at 7B. Training both copies on the same corpus still gives -0.1%.",
+      "description": "Holds for: English1-English2 setup, identical text and segmentation with the 65,536-token vocabulary doubled to 131,072; small negative values are noise around zero, not negative transfer."
+    },
+    {
+      "@type": "Thing",
+      "name": "In the disjoint English1-English2 model, the two embedding copies are structurally similar yet matching tokens are unaligned. Matched cosine is 0.012, while a held-out linear map reaches 0.560 at 360M.",
+      "description": "Holds for: Null-calibrated measures over 36,170 tokens with at least 1,000 expected exposures; the 7B baseline repeats the pattern with 0.013 and 0.506."
+    },
+    {
+      "@type": "Thing",
+      "name": "Tying part of each English1-English2 token pair's embedding reveals a sharp threshold for knowledge sharing. CLeq is 8.6% at 20% tying, 82.7% at 50%, and 95.8% at 90%.",
+      "description": "Holds for: 360M models with 960-dimensional tied embeddings, trained on the paper's fictive-fact pretraining setup."
+    },
+    {
+      "@type": "Thing",
+      "name": "Initializing each English1-English2 token pair to identical embeddings, without tying them, yields CLeq of 78.6%, or 84.6% on identical data. Pretraining does not preserve the supplied alignment, and 99.9% tying beats it by 20.4 points.",
+      "description": "Holds for: 360M models; the 20.4-point paired-bootstrap gap has 95% CI [12.8, 28.6] and covers evaluation-side variance only."
+    },
+    {
+      "@type": "Thing",
+      "name": "Word-wise translation of Arabic into English tokens (WWT-Ar) raises English-Arabic CLeq from 0.9% to 12.6% at 360M, a 14x improvement. The paired-bootstrap gain is 11.7 points with 95% CI [7.5, 16.1].",
+      "description": "Holds for: 360M, machine-translated FineWeb-edu Arabic; fixed token budget, so the WWT-Ar model sees about 23% fewer Arabic documents; dictionary covers 99.7% of word occurrences."
+    },
+    {
+      "@type": "Thing",
+      "name": "Word-wise translation gains hold across scale and language pair. English-Arabic CLeq rises from 5.9% to 12.5% at 7B, and English-Russian CLeq rises from 1.9% to 23.3% at 360M.",
+      "description": "Holds for: Russian from native FineWeb2-HQ web text; paired-bootstrap gains of 6.6 points [1.8, 11.4] at 7B and 21.3 [16.8, 25.9] for Russian."
+    },
+    {
+      "@type": "Thing",
+      "name": "Unifying token spaces with word-wise translation also lowers English perplexity, from 19.53 to 18.74 for English-Arabic at 360M, 8.45 to 8.39 at 7B, and 18.99 to 18.36 for English-Russian.",
+      "description": "Holds for: Perplexity under one shared tokenizer per language pair; fixed token budget despite roughly 30% more tokens per WWT-Ar document."
+    },
+    {
+      "@type": "Thing",
+      "name": "Knowledge transfer under WWT-Ar is asymmetric at 360M. CLeq is 17.9% from WWT-Ar to English but 7.3% from English to WWT-Ar.",
+      "description": "Holds for: Directional scores for 360M English-Arabic; the same asymmetry appears at 7B and for English-Russian."
+    },
+    {
+      "@type": "Thing",
+      "name": "Sharing a token inventory without shared meanings does not transfer knowledge. A shuffled WWT-Ar dictionary drops CLeq from 12.6% to 3.0%, and transliterating all Arabic into English script gives -0.3%.",
+      "description": "Holds for: 360M; shuffled WWT-Ru falls from 23.3% to 3.6%, and permuting token identities between English copies gives -2.6%."
+    },
+    {
+      "@type": "Thing",
+      "name": "Partial token overlap between English and Arabic fails to transfer knowledge. Anchored Arabic, sharing 8% of vocabulary, reaches CLeq of 1.6% against 12.6% for full WWT-Ar.",
+      "description": "Holds for: 360M; anchors cover 47% of English and 34.6% of Arabic running text. In English1-English2, benefit tracks the shared tokens' text coverage, not their vocabulary share."
+    },
+    {
+      "@type": "Thing",
+      "name": "Soft-mapped WWT-Ar keeps separate Arabic token identities while sharing a fraction p of embedding dimensions with English. It retains most transfer, with CLeq of 9.60% at p=90% and 10.47% at p=99%.",
+      "description": "Holds for: 360M; full mapping gives 12.6%. Code-switched generation enabled by distinct token identities was not evaluated."
+    },
+    {
+      "@type": "Thing",
+      "name": "\"Why Pretraining Fails to Share Cross-Lingual Knowledge\" (Gaber et al., 2026) locates LLMs' poor cross-lingual knowledge transfer in pretraining and identifies disjoint token spaces as a sufficient cause.",
+      "description": "Holds for: As of the September 2026 preprint; bilingual pretraining from scratch at 360M and 7B, English paired with Arabic, Russian or a cloned English; post-trained models not studied."
+    },
+    {
+      "@type": "Thing",
+      "name": "Gaber et al. (2026) contribute a controlled testbed for cross-lingual knowledge transfer during pretraining. Fictive facts are injected at known per-language exposure counts and scored with the Cross-Lingual equivalence (CLeq) score.",
+      "description": "Holds for: 2,048 simple entity-attribute facts in English, Arabic and Russian; CLeq is a linear ratio estimate; one pretraining run per condition, so run-to-run variance is not measured."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/#faq",
+  "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/",
+  "name": "Questions answered by Why Pretraining Fails to Share Cross-Lingual Knowledge",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do language models trained on two languages actually share facts they learned in one language with the other?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bilingual LLMs pretrained from scratch barely transfer facts between languages. CLeq is 0.9% for English-Arabic and 1.9% for English-Russian at 360M parameters, and 5.9% for English-Arabic at 7B. Holds for: SmolLM2-architecture 360M and Llama-3-derived 7B models, 50/50 token splits, near Chinchilla-optimal budgets, 2,048 injected fictive facts; one pretraining run per condition.\n\nGaber et al. (2026) contribute a controlled testbed for cross-lingual knowledge transfer during pretraining. Fictive facts are injected at known per-language exposure counts and scored with the Cross-Lingual equivalence (CLeq) score. Holds for: 2,048 simple entity-attribute facts in English, Arabic and Russian; CLeq is a linear ratio estimate; one pretraining run per condition, so run-to-run variance is not measured.",
+        "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/"
+      },
+      "alternateName": [
+        "How much cross-lingual knowledge transfer emerges during bilingual LLM pretraining when fact exposure is controlled?",
+        "How do I measure whether a fact seen only in English during pretraining can be recalled in Arabic?",
+        "If I pretrain a bilingual model, can I expect facts from my English data to show up in the other language?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do code-switching or alignment losses during pretraining help a multilingual model share knowledge across languages?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pretraining code-switching and activation-alignment losses do not fix English-Arabic knowledge compartmentalization at 360M. The best CLeq is 2.2% for code-switching and 2.5% for alignment, against a 0.9% baseline. Holds for: Code-switching swept over mixing ratios 0.6, 0.1 and 0.01 and substitution probabilities 0.5, 0.1 and 0.01; InfoNCE and L2 losses over chunk sizes of 4 to 250 words; injected fact documents excluded from both.",
+        "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/"
+      },
+      "alternateName": [
+        "Do pretraining code-switching and InfoNCE or L2 activation alignment improve cross-lingual fact transfer?",
+        "Should I add code-switched documents or a contrastive alignment loss to my multilingual pretraining to get knowledge transfer?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why don't multilingual language models transfer knowledge between languages?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Two identical copies of English mapped to disjoint token spaces share essentially no injected knowledge, with CLeq of -2.6% at 360M and -1.5% at 7B. Training both copies on the same corpus still gives -0.1%. Holds for: English1-English2 setup, identical text and segmentation with the 65,536-token vocabulary doubled to 131,072; small negative values are noise around zero, not negative transfer.\n\n\"Why Pretraining Fails to Share Cross-Lingual Knowledge\" (Gaber et al., 2026) locates LLMs' poor cross-lingual knowledge transfer in pretraining and identifies disjoint token spaces as a sufficient cause. Holds for: As of the September 2026 preprint; bilingual pretraining from scratch at 360M and 7B, English paired with Arabic, Russian or a cloned English; post-trained models not studied.",
+        "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/"
+      },
+      "alternateName": [
+        "Is disjoint tokenization, rather than syntax or data differences, the cause of cross-lingual knowledge compartmentalization in LLMs?",
+        "How do I isolate the effect of separate token vocabularies from linguistic differences in multilingual pretraining?",
+        "Is my tokenizer the reason my multilingual model knows a fact in one language but not another?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does making a language model bigger fix its failure to share knowledge between languages?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bilingual LLMs pretrained from scratch barely transfer facts between languages. CLeq is 0.9% for English-Arabic and 1.9% for English-Russian at 360M parameters, and 5.9% for English-Arabic at 7B. Holds for: SmolLM2-architecture 360M and Llama-3-derived 7B models, 50/50 token splits, near Chinchilla-optimal budgets, 2,048 injected fictive facts; one pretraining run per condition.\n\nTwo identical copies of English mapped to disjoint token spaces share essentially no injected knowledge, with CLeq of -2.6% at 360M and -1.5% at 7B. Training both copies on the same corpus still gives -0.1%. Holds for: English1-English2 setup, identical text and segmentation with the 65,536-token vocabulary doubled to 131,072; small negative values are noise around zero, not negative transfer.",
+        "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/"
+      },
+      "alternateName": [
+        "Does scaling from 360M to 7B parameters resolve cross-lingual knowledge compartmentalization in pretraining?",
+        "Will training a larger multilingual model on its own solve cross-lingual fact recall for me?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "If two languages have similar word embeddings in a language model, does that mean knowledge flows between them?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In the disjoint English1-English2 model, the two embedding copies are structurally similar yet matching tokens are unaligned. Matched cosine is 0.012, while a held-out linear map reaches 0.560 at 360M. Holds for: Null-calibrated measures over 36,170 tokens with at least 1,000 expected exposures; the 7B baseline repeats the pattern with 0.013 and 0.506.",
+        "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/"
+      },
+      "alternateName": [
+        "Does linear alignability or high CKA between language-specific embedding spaces imply cross-lingual knowledge transfer?",
+        "How do I check whether a multilingual model has actually bridged its two token vocabularies?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How much do two languages' token embeddings need to be shared before a language model transfers facts between them?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tying part of each English1-English2 token pair's embedding reveals a sharp threshold for knowledge sharing. CLeq is 8.6% at 20% tying, 82.7% at 50%, and 95.8% at 90%. Holds for: 360M models with 960-dimensional tied embeddings, trained on the paper's fictive-fact pretraining setup.\n\nInitializing each English1-English2 token pair to identical embeddings, without tying them, yields CLeq of 78.6%, or 84.6% on identical data. Pretraining does not preserve the supplied alignment, and 99.9% tying beats it by 20.4 points. Holds for: 360M models; the 20.4-point paired-bootstrap gap has 95% CI [12.8, 28.6] and covers evaluation-side variance only.",
+        "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/"
+      },
+      "alternateName": [
+        "What fraction of tied embedding dimensions is needed for cross-lingual knowledge generalization between duplicated vocabularies?",
+        "Is it enough for me to initialize translation-equivalent tokens with the same embeddings, or do I need to tie them?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How can you get a language model to share knowledge between English and Arabic during pretraining?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Word-wise translation of Arabic into English tokens (WWT-Ar) raises English-Arabic CLeq from 0.9% to 12.6% at 360M, a 14x improvement. The paired-bootstrap gain is 11.7 points with 95% CI [7.5, 16.1]. Holds for: 360M, machine-translated FineWeb-edu Arabic; fixed token budget, so the WWT-Ar model sees about 23% fewer Arabic documents; dictionary covers 99.7% of word occurrences.\n\nWord-wise translation gains hold across scale and language pair. English-Arabic CLeq rises from 5.9% to 12.5% at 7B, and English-Russian CLeq rises from 1.9% to 23.3% at 360M. Holds for: Russian from native FineWeb2-HQ web text; paired-bootstrap gains of 6.6 points [1.8, 11.4] at 7B and 21.3 [16.8, 25.9] for Russian.",
+        "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/"
+      },
+      "alternateName": [
+        "Does mapping a non-Latin-script language into the English token space via word-wise translation improve cross-lingual knowledge generalization?",
+        "How do I put Arabic and English into a shared token space without parallel corpora or architectural changes?",
+        "Should I rewrite my non-English pretraining data word by word into English tokens to improve knowledge transfer?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does rewriting Arabic word by word into English tokens hurt the language model's English or Arabic?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Unifying token spaces with word-wise translation also lowers English perplexity, from 19.53 to 18.74 for English-Arabic at 360M, 8.45 to 8.39 at 7B, and 18.99 to 18.36 for English-Russian. Holds for: Perplexity under one shared tokenizer per language pair; fixed token budget despite roughly 30% more tokens per WWT-Ar document.",
+        "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/"
+      },
+      "alternateName": [
+        "What is the perplexity and bits-per-byte cost of word-wise translation to a shared token space in bilingual pretraining?",
+        "Will merging token spaces with word-wise translation cost me English language-modeling quality?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does knowledge flow equally in both directions when Arabic is written with English tokens?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Knowledge transfer under WWT-Ar is asymmetric at 360M. CLeq is 17.9% from WWT-Ar to English but 7.3% from English to WWT-Ar. Holds for: Directional scores for 360M English-Arabic; the same asymmetry appears at 7B and for English-Russian.",
+        "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/"
+      },
+      "alternateName": [
+        "Is cross-lingual knowledge transfer under WWT-Ar symmetric between English-to-Arabic and Arabic-to-English?",
+        "If I map my language into English tokens, will English facts reach my language as well as the reverse?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is writing Arabic in Latin letters enough for a language model to share knowledge with English?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sharing a token inventory without shared meanings does not transfer knowledge. A shuffled WWT-Ar dictionary drops CLeq from 12.6% to 3.0%, and transliterating all Arabic into English script gives -0.3%. Holds for: 360M; shuffled WWT-Ru falls from 23.3% to 3.6%, and permuting token identities between English copies gives -2.6%.",
+        "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/"
+      },
+      "alternateName": [
+        "Does transliteration or a shuffled shared token inventory transfer knowledge without semantic correspondence between tokens?",
+        "How do I tell whether a shared vocabulary helps cross-lingual transfer because of shared tokens or shared meanings?",
+        "Should I romanize my non-Latin-script training data to get cross-lingual transfer with English?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Is sharing only some tokens between two languages enough for a language model to transfer facts?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Partial token overlap between English and Arabic fails to transfer knowledge. Anchored Arabic, sharing 8% of vocabulary, reaches CLeq of 1.6% against 12.6% for full WWT-Ar. Holds for: 360M; anchors cover 47% of English and 34.6% of Arabic running text. In English1-English2, benefit tracks the shared tokens' text coverage, not their vocabulary share.",
+        "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/"
+      },
+      "alternateName": [
+        "How does partial vocabulary overlap and its text coverage affect cross-lingual knowledge generalization in pretraining?",
+        "Can I replace only the easy dictionary-matched Arabic words with English tokens instead of mapping every word?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can a language model share token embeddings between languages and still know which language it is writing in?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Soft-mapped WWT-Ar keeps separate Arabic token identities while sharing a fraction p of embedding dimensions with English. It retains most transfer, with CLeq of 9.60% at p=90% and 10.47% at p=99%. Holds for: 360M; full mapping gives 12.6%. Code-switched generation enabled by distinct token identities was not evaluated.",
+        "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/"
+      },
+      "alternateName": [
+        "Does partial embedding-dimension sharing between WWT-Ar and English tokens preserve cross-lingual transfer while restoring language identity?",
+        "How do I keep separate language token identities while still sharing most of their embeddings?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is a good paper on why multilingual language models fail to transfer knowledge across languages?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "\"Why Pretraining Fails to Share Cross-Lingual Knowledge\" (Gaber et al., 2026) locates LLMs' poor cross-lingual knowledge transfer in pretraining and identifies disjoint token spaces as a sufficient cause. Holds for: As of the September 2026 preprint; bilingual pretraining from scratch at 360M and 7B, English paired with Arabic, Russian or a cloned English; post-trained models not studied.\n\nGaber et al. (2026) contribute a controlled testbed for cross-lingual knowledge transfer during pretraining. Fictive facts are injected at known per-language exposure counts and scored with the Cross-Lingual equivalence (CLeq) score. Holds for: 2,048 simple entity-attribute facts in English, Arabic and Russian; CLeq is a linear ratio estimate; one pretraining run per condition, so run-to-run variance is not measured.",
+        "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/"
+      },
+      "alternateName": [
+        "What work establishes the pretraining origin and tokenization cause of cross-lingual knowledge compartmentalization?",
+        "What should I read before designing tokenization for a multilingual pretraining run?",
+        "Which paper should I cite for disjoint token spaces blocking cross-lingual knowledge transfer?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/#terms",
+  "url": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/",
+  "name": "Terminology in Why Pretraining Fails to Share Cross-Lingual Knowledge",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "knowledge compartmentalization",
+      "description": "A language model's failure to generalize a fact learned in one language to recall of that fact in another language.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "CLeq (Cross-Lingual equivalence score)",
+      "description": "The value of one exposure to a fact in language B for recalling it in language A, as a percentage of one native exposure in A, estimated as 100 times the ratio of fitted per-exposure accuracy slopes and averaged over both directions.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "English1-English2 setup",
+      "description": "A controlled bilingual pretraining setting with two copies of English that share identical text and segmentation but are mapped to disjoint halves of a doubled token vocabulary.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "WWT-Ar",
+      "description": "Arabic rewritten by replacing each word with its English counterpart from an invertible dictionary, with Buckwalter transliteration for out-of-dictionary words, keeping Arabic word order and grammar.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "soft mapping",
+      "description": "Tying the first fraction p of embedding dimensions between each pair of corresponding tokens while leaving the remaining dimensions language-specific.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Fictional Knowledge Dataset (FKD)",
+      "description": "2,048 facts about synthetic entities, each expanded into paraphrased injection documents and held-out four-choice questions in English, Arabic and Russian.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Anchored Arabic (AnAr)",
+      "description": "A partial mapping that replaces only Arabic tokens with a direct token-to-token dictionary match by English tokens, leaving other words in Arabic script.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/why-pretraining-fails-to-share-cross-lingual-knowledge/#terms"
+    }
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+    .human { background: #fbf7e8; border: 1px solid #e4d9b0; border-radius: 4px;
+              padding: .7rem .9rem; margin: 1rem 0; font-size: 1.02rem; }
+    .human b { font-family: -apple-system, system-ui, sans-serif; }
+  </style>
+</head>
+<body>
+<h1>Why Pretraining Fails to Share Cross-Lingual Knowledge</h1>
+<p class="sub">rewriting a language word by word into another language&#x27;s tokens while keeping its own word order and grammar</p>
+<p class="meta">Adam Gaber, Uriel Dolev, Elisabeth Fittschen, Bobby Cheng, Yuval Marton, Leshem Choshen · 2026</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2609.19291">arXiv</a></li><li><a href="https://arxiv.org/pdf/2609.19291">PDF</a></li><li><a href="https://arxiv.org/html/2609.19291">HTML</a></li><li><a href="https://huggingface.co/papers/2609.19291">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2609.19291">alphaXiv</a></li><li><a href="https://www.semanticscholar.org/paper/292059375">Semantic Scholar</a></li></ul>
+<h2>In one sentence</h2>
+<p>Pretraining 360M and 7B LLMs with injected fictive facts shows that disjoint token spaces alone, even between two identical copies of English, block cross-lingual knowledge sharing, and that word-wise translation into a shared token space raises English-Arabic knowledge transfer 14x at 360M.</p>
+<h2>Abstract</h2>
+<p>Large Language Models (LLMs) have made remarkable progress in the processing and modeling of many languages. Yet, unlike human multilinguals, they exhibit surprisingly limited cross-lingual knowledge transfer. While this limitation is well documented, its origins during multilingual training remain unclear. We pretrain 360M- and 7B-parameter LLMs and show that poor cross-lingual knowledge generalization emerges during pretraining and persists under standard interventions. To isolate its cause, we employ a controlled bilingual pretraining setting using two copies of the same language, sharing identical text and token segmentation, but mapped to disjoint token spaces. We find that disjoint tokens alone are enough to induce knowledge compartmentalization, even between identical copies of the same language, establishing disjoint token spaces as a fundamental barrier to cross-lingual knowledge generalization. Guided by this understanding, we suggest mapping languages into a shared token space by simple word-wise translation and find it substantially improves cross-lingual knowledge generalization, recovering up to 12.6\% of native-language learning efficiency --- 14$\times$ the baseline.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Do language models trained on two languages actually share facts they learned in one language with the other?</dt>
+<dt>How much cross-lingual knowledge transfer emerges during bilingual LLM pretraining when fact exposure is controlled?</dt>
+<dt>How do I measure whether a fact seen only in English during pretraining can be recalled in Arabic?</dt>
+<dt>If I pretrain a bilingual model, can I expect facts from my English data to show up in the other language?</dt>
+<dd>Bilingual LLMs pretrained from scratch barely transfer facts between languages. CLeq is 0.9% for English-Arabic and 1.9% for English-Russian at 360M parameters, and 5.9% for English-Arabic at 7B.<br><span class="scope">Holds for: SmolLM2-architecture 360M and Llama-3-derived 7B models, 50/50 token splits, near Chinchilla-optimal budgets, 2,048 injected fictive facts; one pretraining run per condition.</span></dd>
+<dd>Gaber et al. (2026) contribute a controlled testbed for cross-lingual knowledge transfer during pretraining. Fictive facts are injected at known per-language exposure counts and scored with the Cross-Lingual equivalence (CLeq) score.<br><span class="scope">Holds for: 2,048 simple entity-attribute facts in English, Arabic and Russian; CLeq is a linear ratio estimate; one pretraining run per condition, so run-to-run variance is not measured.</span></dd>
+<dt>Do code-switching or alignment losses during pretraining help a multilingual model share knowledge across languages?</dt>
+<dt>Do pretraining code-switching and InfoNCE or L2 activation alignment improve cross-lingual fact transfer?</dt>
+<dt>Should I add code-switched documents or a contrastive alignment loss to my multilingual pretraining to get knowledge transfer?</dt>
+<dd>Pretraining code-switching and activation-alignment losses do not fix English-Arabic knowledge compartmentalization at 360M. The best CLeq is 2.2% for code-switching and 2.5% for alignment, against a 0.9% baseline.<br><span class="scope">Holds for: Code-switching swept over mixing ratios 0.6, 0.1 and 0.01 and substitution probabilities 0.5, 0.1 and 0.01; InfoNCE and L2 losses over chunk sizes of 4 to 250 words; injected fact documents excluded from both.</span></dd>
+<dt>Why don&#x27;t multilingual language models transfer knowledge between languages?</dt>
+<dt>Is disjoint tokenization, rather than syntax or data differences, the cause of cross-lingual knowledge compartmentalization in LLMs?</dt>
+<dt>How do I isolate the effect of separate token vocabularies from linguistic differences in multilingual pretraining?</dt>
+<dt>Is my tokenizer the reason my multilingual model knows a fact in one language but not another?</dt>
+<dd>Two identical copies of English mapped to disjoint token spaces share essentially no injected knowledge, with CLeq of -2.6% at 360M and -1.5% at 7B. Training both copies on the same corpus still gives -0.1%.<br><span class="scope">Holds for: English1-English2 setup, identical text and segmentation with the 65,536-token vocabulary doubled to 131,072; small negative values are noise around zero, not negative transfer.</span></dd>
+<dd>&quot;Why Pretraining Fails to Share Cross-Lingual Knowledge&quot; (Gaber et al., 2026) locates LLMs&#x27; poor cross-lingual knowledge transfer in pretraining and identifies disjoint token spaces as a sufficient cause.<br><span class="scope">Holds for: As of the September 2026 preprint; bilingual pretraining from scratch at 360M and 7B, English paired with Arabic, Russian or a cloned English; post-trained models not studied.</span></dd>
+<dt>Does making a language model bigger fix its failure to share knowledge between languages?</dt>
+<dt>Does scaling from 360M to 7B parameters resolve cross-lingual knowledge compartmentalization in pretraining?</dt>
+<dt>Will training a larger multilingual model on its own solve cross-lingual fact recall for me?</dt>
+<dd>Bilingual LLMs pretrained from scratch barely transfer facts between languages. CLeq is 0.9% for English-Arabic and 1.9% for English-Russian at 360M parameters, and 5.9% for English-Arabic at 7B.<br><span class="scope">Holds for: SmolLM2-architecture 360M and Llama-3-derived 7B models, 50/50 token splits, near Chinchilla-optimal budgets, 2,048 injected fictive facts; one pretraining run per condition.</span></dd>
+<dd>Two identical copies of English mapped to disjoint token spaces share essentially no injected knowledge, with CLeq of -2.6% at 360M and -1.5% at 7B. Training both copies on the same corpus still gives -0.1%.<br><span class="scope">Holds for: English1-English2 setup, identical text and segmentation with the 65,536-token vocabulary doubled to 131,072; small negative values are noise around zero, not negative transfer.</span></dd>
+<dt>If two languages have similar word embeddings in a language model, does that mean knowledge flows between them?</dt>
+<dt>Does linear alignability or high CKA between language-specific embedding spaces imply cross-lingual knowledge transfer?</dt>
+<dt>How do I check whether a multilingual model has actually bridged its two token vocabularies?</dt>
+<dd>In the disjoint English1-English2 model, the two embedding copies are structurally similar yet matching tokens are unaligned. Matched cosine is 0.012, while a held-out linear map reaches 0.560 at 360M.<br><span class="scope">Holds for: Null-calibrated measures over 36,170 tokens with at least 1,000 expected exposures; the 7B baseline repeats the pattern with 0.013 and 0.506.</span></dd>
+<dt>How much do two languages&#x27; token embeddings need to be shared before a language model transfers facts between them?</dt>
+<dt>What fraction of tied embedding dimensions is needed for cross-lingual knowledge generalization between duplicated vocabularies?</dt>
+<dt>Is it enough for me to initialize translation-equivalent tokens with the same embeddings, or do I need to tie them?</dt>
+<dd>Tying part of each English1-English2 token pair&#x27;s embedding reveals a sharp threshold for knowledge sharing. CLeq is 8.6% at 20% tying, 82.7% at 50%, and 95.8% at 90%.<br><span class="scope">Holds for: 360M models with 960-dimensional tied embeddings, trained on the paper&#x27;s fictive-fact pretraining setup.</span></dd>
+<dd>Initializing each English1-English2 token pair to identical embeddings, without tying them, yields CLeq of 78.6%, or 84.6% on identical data. Pretraining does not preserve the supplied alignment, and 99.9% tying beats it by 20.4 points.<br><span class="scope">Holds for: 360M models; the 20.4-point paired-bootstrap gap has 95% CI [12.8, 28.6] and covers evaluation-side variance only.</span></dd>
+<dt>How can you get a language model to share knowledge between English and Arabic during pretraining?</dt>
+<dt>Does mapping a non-Latin-script language into the English token space via word-wise translation improve cross-lingual knowledge generalization?</dt>
+<dt>How do I put Arabic and English into a shared token space without parallel corpora or architectural changes?</dt>
+<dt>Should I rewrite my non-English pretraining data word by word into English tokens to improve knowledge transfer?</dt>
+<dd>Word-wise translation of Arabic into English tokens (WWT-Ar) raises English-Arabic CLeq from 0.9% to 12.6% at 360M, a 14x improvement. The paired-bootstrap gain is 11.7 points with 95% CI [7.5, 16.1].<br><span class="scope">Holds for: 360M, machine-translated FineWeb-edu Arabic; fixed token budget, so the WWT-Ar model sees about 23% fewer Arabic documents; dictionary covers 99.7% of word occurrences.</span></dd>
+<dd>Word-wise translation gains hold across scale and language pair. English-Arabic CLeq rises from 5.9% to 12.5% at 7B, and English-Russian CLeq rises from 1.9% to 23.3% at 360M.<br><span class="scope">Holds for: Russian from native FineWeb2-HQ web text; paired-bootstrap gains of 6.6 points [1.8, 11.4] at 7B and 21.3 [16.8, 25.9] for Russian.</span></dd>
+<dt>Does rewriting Arabic word by word into English tokens hurt the language model&#x27;s English or Arabic?</dt>
+<dt>What is the perplexity and bits-per-byte cost of word-wise translation to a shared token space in bilingual pretraining?</dt>
+<dt>Will merging token spaces with word-wise translation cost me English language-modeling quality?</dt>
+<dd>Unifying token spaces with word-wise translation also lowers English perplexity, from 19.53 to 18.74 for English-Arabic at 360M, 8.45 to 8.39 at 7B, and 18.99 to 18.36 for English-Russian.<br><span class="scope">Holds for: Perplexity under one shared tokenizer per language pair; fixed token budget despite roughly 30% more tokens per WWT-Ar document.</span></dd>
+<dt>Does knowledge flow equally in both directions when Arabic is written with English tokens?</dt>
+<dt>Is cross-lingual knowledge transfer under WWT-Ar symmetric between English-to-Arabic and Arabic-to-English?</dt>
+<dt>If I map my language into English tokens, will English facts reach my language as well as the reverse?</dt>
+<dd>Knowledge transfer under WWT-Ar is asymmetric at 360M. CLeq is 17.9% from WWT-Ar to English but 7.3% from English to WWT-Ar.<br><span class="scope">Holds for: Directional scores for 360M English-Arabic; the same asymmetry appears at 7B and for English-Russian.</span></dd>
+<dt>Is writing Arabic in Latin letters enough for a language model to share knowledge with English?</dt>
+<dt>Does transliteration or a shuffled shared token inventory transfer knowledge without semantic correspondence between tokens?</dt>
+<dt>How do I tell whether a shared vocabulary helps cross-lingual transfer because of shared tokens or shared meanings?</dt>
+<dt>Should I romanize my non-Latin-script training data to get cross-lingual transfer with English?</dt>
+<dd>Sharing a token inventory without shared meanings does not transfer knowledge. A shuffled WWT-Ar dictionary drops CLeq from 12.6% to 3.0%, and transliterating all Arabic into English script gives -0.3%.<br><span class="scope">Holds for: 360M; shuffled WWT-Ru falls from 23.3% to 3.6%, and permuting token identities between English copies gives -2.6%.</span></dd>
+<dt>Is sharing only some tokens between two languages enough for a language model to transfer facts?</dt>
+<dt>How does partial vocabulary overlap and its text coverage affect cross-lingual knowledge generalization in pretraining?</dt>
+<dt>Can I replace only the easy dictionary-matched Arabic words with English tokens instead of mapping every word?</dt>
+<dd>Partial token overlap between English and Arabic fails to transfer knowledge. Anchored Arabic, sharing 8% of vocabulary, reaches CLeq of 1.6% against 12.6% for full WWT-Ar.<br><span class="scope">Holds for: 360M; anchors cover 47% of English and 34.6% of Arabic running text. In English1-English2, benefit tracks the shared tokens&#x27; text coverage, not their vocabulary share.</span></dd>
+<dt>Can a language model share token embeddings between languages and still know which language it is writing in?</dt>
+<dt>Does partial embedding-dimension sharing between WWT-Ar and English tokens preserve cross-lingual transfer while restoring language identity?</dt>
+<dt>How do I keep separate language token identities while still sharing most of their embeddings?</dt>
+<dd>Soft-mapped WWT-Ar keeps separate Arabic token identities while sharing a fraction p of embedding dimensions with English. It retains most transfer, with CLeq of 9.60% at p=90% and 10.47% at p=99%.<br><span class="scope">Holds for: 360M; full mapping gives 12.6%. Code-switched generation enabled by distinct token identities was not evaluated.</span></dd>
+<dt>What is a good paper on why multilingual language models fail to transfer knowledge across languages?</dt>
+<dt>What work establishes the pretraining origin and tokenization cause of cross-lingual knowledge compartmentalization?</dt>
+<dt>What should I read before designing tokenization for a multilingual pretraining run?</dt>
+<dt>Which paper should I cite for disjoint token spaces blocking cross-lingual knowledge transfer?</dt>
+<dd>&quot;Why Pretraining Fails to Share Cross-Lingual Knowledge&quot; (Gaber et al., 2026) locates LLMs&#x27; poor cross-lingual knowledge transfer in pretraining and identifies disjoint token spaces as a sufficient cause.<br><span class="scope">Holds for: As of the September 2026 preprint; bilingual pretraining from scratch at 360M and 7B, English paired with Arabic, Russian or a cloned English; post-trained models not studied.</span></dd>
+<dd>Gaber et al. (2026) contribute a controlled testbed for cross-lingual knowledge transfer during pretraining. Fictive facts are injected at known per-language exposure counts and scored with the Cross-Lingual equivalence (CLeq) score.<br><span class="scope">Holds for: 2,048 simple entity-attribute facts in English, Arabic and Russian; CLeq is a linear ratio estimate; one pretraining run per condition, so run-to-run variance is not measured.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Bilingual LLMs pretrained from scratch barely transfer facts between languages. CLeq is 0.9% for English-Arabic and 1.9% for English-Russian at 360M parameters, and 5.9% for English-Arabic at 7B. <span class="meta">(Section 4.1, Table 2)</span><br><span class="scope">Scope: SmolLM2-architecture 360M and Llama-3-derived 7B models, 50/50 token splits, near Chinchilla-optimal budgets, 2,048 injected fictive facts; one pretraining run per condition.</span></li>
+<li>Pretraining code-switching and activation-alignment losses do not fix English-Arabic knowledge compartmentalization at 360M. The best CLeq is 2.2% for code-switching and 2.5% for alignment, against a 0.9% baseline. <span class="meta">(Section 4.2, Appendix E)</span><br><span class="scope">Scope: Code-switching swept over mixing ratios 0.6, 0.1 and 0.01 and substitution probabilities 0.5, 0.1 and 0.01; InfoNCE and L2 losses over chunk sizes of 4 to 250 words; injected fact documents excluded from both.</span></li>
+<li>Two identical copies of English mapped to disjoint token spaces share essentially no injected knowledge, with CLeq of -2.6% at 360M and -1.5% at 7B. Training both copies on the same corpus still gives -0.1%. <span class="meta">(Section 5.2, Figure 2)</span><br><span class="scope">Scope: English1-English2 setup, identical text and segmentation with the 65,536-token vocabulary doubled to 131,072; small negative values are noise around zero, not negative transfer.</span></li>
+<li>In the disjoint English1-English2 model, the two embedding copies are structurally similar yet matching tokens are unaligned. Matched cosine is 0.012, while a held-out linear map reaches 0.560 at 360M. <span class="meta">(Appendix H, Section 5.2)</span><br><span class="scope">Scope: Null-calibrated measures over 36,170 tokens with at least 1,000 expected exposures; the 7B baseline repeats the pattern with 0.013 and 0.506.</span></li>
+<li>Tying part of each English1-English2 token pair&#x27;s embedding reveals a sharp threshold for knowledge sharing. CLeq is 8.6% at 20% tying, 82.7% at 50%, and 95.8% at 90%. <span class="meta">(Section 5.3, Figure 2, Appendix F)</span><br><span class="scope">Scope: 360M models with 960-dimensional tied embeddings, trained on the paper&#x27;s fictive-fact pretraining setup.</span></li>
+<li>Initializing each English1-English2 token pair to identical embeddings, without tying them, yields CLeq of 78.6%, or 84.6% on identical data. Pretraining does not preserve the supplied alignment, and 99.9% tying beats it by 20.4 points. <span class="meta">(Section 5.4, Figure 2, Appendix D)</span><br><span class="scope">Scope: 360M models; the 20.4-point paired-bootstrap gap has 95% CI [12.8, 28.6] and covers evaluation-side variance only.</span></li>
+<li>Word-wise translation of Arabic into English tokens (WWT-Ar) raises English-Arabic CLeq from 0.9% to 12.6% at 360M, a 14x improvement. The paired-bootstrap gain is 11.7 points with 95% CI [7.5, 16.1]. <span class="meta">(Section 6.2, Table 2, Appendix D)</span><br><span class="scope">Scope: 360M, machine-translated FineWeb-edu Arabic; fixed token budget, so the WWT-Ar model sees about 23% fewer Arabic documents; dictionary covers 99.7% of word occurrences.</span></li>
+<li>Word-wise translation gains hold across scale and language pair. English-Arabic CLeq rises from 5.9% to 12.5% at 7B, and English-Russian CLeq rises from 1.9% to 23.3% at 360M. <span class="meta">(Table 2, Appendix D)</span><br><span class="scope">Scope: Russian from native FineWeb2-HQ web text; paired-bootstrap gains of 6.6 points [1.8, 11.4] at 7B and 21.3 [16.8, 25.9] for Russian.</span></li>
+<li>Unifying token spaces with word-wise translation also lowers English perplexity, from 19.53 to 18.74 for English-Arabic at 360M, 8.45 to 8.39 at 7B, and 18.99 to 18.36 for English-Russian. <span class="meta">(Table 2, Section 6.2)</span><br><span class="scope">Scope: Perplexity under one shared tokenizer per language pair; fixed token budget despite roughly 30% more tokens per WWT-Ar document.</span></li>
+<li>Knowledge transfer under WWT-Ar is asymmetric at 360M. CLeq is 17.9% from WWT-Ar to English but 7.3% from English to WWT-Ar. <span class="meta">(Section 6.2)</span><br><span class="scope">Scope: Directional scores for 360M English-Arabic; the same asymmetry appears at 7B and for English-Russian.</span></li>
+<li>Sharing a token inventory without shared meanings does not transfer knowledge. A shuffled WWT-Ar dictionary drops CLeq from 12.6% to 3.0%, and transliterating all Arabic into English script gives -0.3%. <span class="meta">(Section 6.4, Appendix K)</span><br><span class="scope">Scope: 360M; shuffled WWT-Ru falls from 23.3% to 3.6%, and permuting token identities between English copies gives -2.6%.</span></li>
+<li>Partial token overlap between English and Arabic fails to transfer knowledge. Anchored Arabic, sharing 8% of vocabulary, reaches CLeq of 1.6% against 12.6% for full WWT-Ar. <span class="meta">(Appendix I)</span><br><span class="scope">Scope: 360M; anchors cover 47% of English and 34.6% of Arabic running text. In English1-English2, benefit tracks the shared tokens&#x27; text coverage, not their vocabulary share.</span></li>
+<li>Soft-mapped WWT-Ar keeps separate Arabic token identities while sharing a fraction p of embedding dimensions with English. It retains most transfer, with CLeq of 9.60% at p=90% and 10.47% at p=99%. <span class="meta">(Section 6.3, Appendix F)</span><br><span class="scope">Scope: 360M; full mapping gives 12.6%. Code-switched generation enabled by distinct token identities was not evaluated.</span></li>
+<li>&quot;Why Pretraining Fails to Share Cross-Lingual Knowledge&quot; (Gaber et al., 2026) locates LLMs&#x27; poor cross-lingual knowledge transfer in pretraining and identifies disjoint token spaces as a sufficient cause.<br><span class="scope">Scope: As of the September 2026 preprint; bilingual pretraining from scratch at 360M and 7B, English paired with Arabic, Russian or a cloned English; post-trained models not studied.</span></li>
+<li>Gaber et al. (2026) contribute a controlled testbed for cross-lingual knowledge transfer during pretraining. Fictive facts are injected at known per-language exposure counts and scored with the Cross-Lingual equivalence (CLeq) score.<br><span class="scope">Scope: 2,048 simple entity-attribute facts in English, Arabic and Russian; CLeq is a linear ratio estimate; one pretraining run per condition, so run-to-run variance is not measured.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>Word-wise translation reduces cross-lingual knowledge compartmentalization but does not resolve it: the best CLeq values are 12.6% for English-Arabic and 23.3% for English-Russian, far below the 100% of perfect equivalence.</li>
+<li>WWT-Ar is not a translation into English. It keeps every Arabic word choice, word order and grammatical structure, so its gains cannot be explained by the text becoming linguistically closer to English.</li>
+<li>Negative CLeq values such as -2.6% are sampling noise around zero and indicate complete compartmentalization, not negative transfer between languages.</li>
+<li>Scale attenuates but does not remove compartmentalization: English-Arabic CLeq is 5.9% at 7B versus 0.9% at 360M, and two disjoint copies of English still give -1.5% at 7B.</li>
+<li>Transliterating a non-Latin-script language into English script does not by itself transfer knowledge between Arabic and English: CLeq is -0.3%, because shared tokens need shared meanings.</li>
+<li>Better perplexity from bilingual pretraining is not evidence of knowledge sharing: a bilingual English-Arabic 360M model reaches English perplexity 19.53 versus 20.51 for English alone, while its CLeq is 0.9%.</li>
+<li>Word-wise translation is not free at inference: WWT-Ar needs about 30% more tokens than native-script Arabic for the same text, mostly from indices appended to resolve dictionary conflicts.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>knowledge compartmentalization</em></dt><dd>A language model&#x27;s failure to generalize a fact learned in one language to recall of that fact in another language.</dd>
+<dt><em>CLeq (Cross-Lingual equivalence score)</em></dt><dd>The value of one exposure to a fact in language B for recalling it in language A, as a percentage of one native exposure in A, estimated as 100 times the ratio of fitted per-exposure accuracy slopes and averaged over both directions.</dd>
+<dt><em>English1-English2 setup</em></dt><dd>A controlled bilingual pretraining setting with two copies of English that share identical text and segmentation but are mapped to disjoint halves of a doubled token vocabulary.</dd>
+<dt><em>WWT-Ar</em></dt><dd>Arabic rewritten by replacing each word with its English counterpart from an invertible dictionary, with Buckwalter transliteration for out-of-dictionary words, keeping Arabic word order and grammar.</dd>
+<dt><em>soft mapping</em></dt><dd>Tying the first fraction p of embedding dimensions between each pair of corresponding tokens while leaving the remaining dimensions language-specific.</dd>
+<dt><em>Fictional Knowledge Dataset (FKD)</em></dt><dd>2,048 facts about synthetic entities, each expanded into paraphrased injection documents and held-out four-choice questions in English, Arabic and Russian.</dd>
+<dt><em>Anchored Arabic (AnAr)</em></dt><dd>A partial mapping that replaces only Arabic tokens with a direct token-to-token dictionary match by English tokens, leaving other words in Arabic script.</dd>
+</dl>
+<h2>How to cite</h2>
+<pre>@misc{gaber2026why,
+  title = {Why Pretraining Fails to Share Cross-Lingual Knowledge},
+  year = {2026},
+  eprint = {2609.19291},
+  archivePrefix = {arXiv},
+  url = {https://arxiv.org/abs/2609.19291}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2609.19291">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a><br><span class="meta">Human? You probably wanted <a rel="me" href="https://ktilana.wixsite.com/leshem-choshen">ktilana.wixsite.com/leshem-choshen</a></span></footer>
+</body>
+</html>

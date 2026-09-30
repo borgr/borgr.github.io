@@ -1,0 +1,86 @@
+# Last Translation Benchmark
+
+a crowdsourced, peer-reviewed set of hard-to-translate texts, images, audio and video, each graded by pass/fail verification rules
+
+Authors: Vilém Zouhar, Niyati Bafna, Mukund Choudhary, Maike Züfle, Sara Rajaee, Pinzhen Chen, Jannis Vamvas, Sara Papi, Ona de Gibert, Bhavitvya Malik, Eliya Habba, Orfeas Menis Mastromichalakis, Patrícia Schmidtová, Michelle Wastl, Sheriff Issaka, Leshem Choshen, Stella Biderman, Antonis Anastasopoulos, Jan Niehues, Rico Sennrich, Mrinmaya Sachan, Ondřej Bojar, Kenton Murray, Jörg Tiedemann, Alham Fikri Aji, Philipp Koehn, Christof Monz, Alexandra Birch, Sowmya Vajjala, Chalamalasetti Kranti, Cristina España-Bonet, Nobin Sarwar, David Kaczér, Shunta Asano, Malik Marmonier, Daban Q. Jaff, Vaisakhi Mishra, Hend Al- Khalifa, Gabriele Sarti, Sourajit Saha, Nils Rehlinger, Juan Daniel Cuervo Villa, Jonathan Tonglet, Saugata Purkayastha, Dominik Macháček, J. Ramanujam, Heejin Do, Zuzana Nadova, Fred Philippy, Fabian Retkowski, Maria Lymperaiou, Silvia Casola, Hanna Yukhymenko, Shubhashis Roy Dipta, Sangwon Ryu, Andrés Jerez, Ron Keinan, Shuaib Shuaib Yusuf, Avantica Vempati, Maria Carmen Staiano, Sukannya Purkayastha, Adrian Cosma, Vitalii Babenko, Erivan Inan, Aviral Nigam, Wafa Aissa, Fatima Haouari, VENKATA PRASANTH KUMAR GUMMADI, Mehdi Jafarzadeh, Valentin Scourneau, Lukas Edman, Kaiser Sun, Shaomu Tan, Mohammad Gholizadeh, Johannes-Rudolf David, Dipankar Srirag, Javier García Gilabert, Ruta Binkyte, Manar Ali, Ana-Maria Bucur, Sabry E. Farrag, Youssef Saber, Yihong Liu, Jean Maillard, Cojocaru Nicoleta, Xiaochuang Yuan, Sina Ahmadi, Philipp Mondorf, Kaustubh Dhole, Roman Wixinger, Shenbin Qian, Manuel Tuor, Sergey Troshin, Jonathan Yahav, Fida Mohammad Thoker, Amir Rezapour, Lance Calvin Lim Gamboa, Manon Reusens, Kätriin Kukk, Koel Dutta Chowdhury
+Venue: preprint (2026)
+
+## What this paper shows
+The Last Translation Benchmark is a live, crowdsourced collection of peer-reviewed examples that break leading machine translation models, each paired with handwritten pass/fail verification rules that an LLM checks, giving a reproducible, interpretable score instead of an opaque quality metric.
+
+## Claims, with scope
+- The Last Translation Benchmark (LTB) is a live machine translation challenge set of human-authored examples that most leading translation models fail on. Contributors keep adding examples, with tagged releases such as LTBv1.
+  Scope: As of LTBv1, the release of contributions accepted before September 1st 2026; one of several community-driven efforts to collect model-breaking examples, applied here to translation.
+- The Last Translation Benchmark scores translations with example-specific verification rules, where a translation succeeds only if an LLM verifier finds it passes every rule. The rules give the evaluator privileged knowledge of the failure the generator lacks.
+  Scope: Rules are written by the contributor of each example and describe its targeted failure, not every aspect of translation quality; LTBv1 averages 1.8 rules per example.
+- On LTBv1-eval, the best model, Gemini 3.1 Pro, passes all verification rules on only 37.4% to 43.8% of examples depending on the verifier LLM. GPT-5.6 Sol is second at 28.1% to 36.1%.
+  Scope: 911 text-only LTBv1-eval examples in blind mode, scored by 6 verifier LLMs; examples a model cannot translate for lack of language support are excluded.
+  Evidence: Section 3.2
+- The difficulty of the Last Translation Benchmark is not limited to the models examples were filtered against. 19 of the 29 evaluated models were never shown to contributors, and GPT-5.6 Luna among them passes only 15.4% to 22.9% of LTBv1-eval.
+  Scope: Up to 10 models were shown on the contributor platform; the 29-model evaluation uses the same 6 verifiers on LTBv1-eval.
+  Evidence: Section 3.2
+- Generic LLM judges score Gemini 3.1 Pro translations on LTBv1-eval at 72.1 to 95.4 out of 100, the rubric's good or very good bands. Rule-based verifiers pass at most 43.8% of them.
+  Scope: Judges are the same 6 LLMs prompted with a cESA-style 0 to 100 rubric in which 65 to 80 means good; the 95.4 comes from Gemini 3.1 Pro judging its own output.
+  Evidence: Section 3.2
+- Showing LLM translators the human-written verification rules raises the verifier pass rate on the Last Translation Benchmark from 7.2% to 89.8%. Rules the LLMs generate for themselves raise it only to 12.9%.
+  Scope: Averaged over LLM translators on LTBv1-eval, in the oracle setting where the rules are privileged information not available to a real translation system.
+  Evidence: Table 3
+- Standard translation metrics do not register the gain from giving LLM translators the verification rules. 2 of the 5 automatic metrics score the rule-informed translations lower, while the verifier pass rate rises from 7.2% to 89.8%.
+  Scope: MetricX 24, MetricX QE 24, Comet 22, Comet QE 22 and ChrF, averaged over LLM translators on LTBv1-eval with the human translation as reference where needed.
+  Evidence: Table 3
+- Model rankings from verification rules are stable across the choice of verifier LLM, with an average Kendall tau of 86.9, against 72.0 for generic LLM judges and 35.1 for automatic metrics.
+  Scope: Pairwise ranking similarity within each evaluation approach over the models on LTBv1-eval, using the 6 verifier or judge LLMs and 5 metrics.
+  Evidence: Table 4
+- Rankings of translation models by verifier pass rate agree with human judgments at an average Kendall tau of 90.5, versus 34.9 for generic LLM judges and 16.2 for automatic metrics.
+  Scope: Human rankings from the cESA study on a subset of models and examples; the same agreement values are reported whether annotators saw the rules or not.
+  Evidence: Table 4
+- LLMs used as generic translation judges favour their own translations far more than when they act as rule verifiers. Gemma 4 shows 27.6% self-bias as a judge but 8.9% as a verifier.
+  Scope: 6 LLMs, self-bias being self-ranking minus the average ranking by other models; Gemini 3.1 Pro instead shows negative self-bias in both roles (-8.3% judge, -8.9% verifier).
+  Evidence: Table 5
+- In a human evaluation, annotators rate the contributors' reference translations above every model they scored, 90.8 versus 68.1 for Gemini 3.1 Pro once shown the rules. Without the rules the gap is smaller, 81.4 versus 77.0.
+  Scope: 22 bilingual annotators, 317 examples across 19 language pairs, a subset of models; cESA protocol, rating each translation first without and then with the rules.
+  Evidence: Section 3.2
+- LTBv1 contains 3456 accepted examples spanning 109 languages, contributed by 260 people from 177 institutions. 94% of examples are text, and 13% involve neither English source nor English target.
+  Scope: Contributions collected May to September 1st 2026; 73% translate into English and 14% out of English; the evaluation subset LTBv1-eval has 911 text-only examples.
+  Evidence: Section 3; Table 1
+- The most frequent difficulty labels in LTBv1 are metaphor (1086 examples), cultural artifact (986) and polysemy (948). Less-benchmarked challenges also appear, including internet cultural artifacts (152) and meta-reasoning (83).
+  Scope: Multi-label tags on all LTBv1 examples, assigned by an LLM after 2 linguists built the taxonomy inductively on a subset; tags are not exhaustive.
+  Evidence: Table 6; Section 3.4
+- Collecting one accepted Last Translation Benchmark example costs about $0.12 in model calls. A contributor makes on average 10 translation attempts before submitting a valid example.
+  Scope: Model-call costs only, for up to 10 platform translations plus Gemini 3.1 Pro verification of each rule; LTBv1 averages 1.8 rules per example.
+  Evidence: Section 2
+
+## Common misreadings
+- A low pass rate on the Last Translation Benchmark does not estimate typical translation quality: examples are selected to break leading models and rules target one failure each, so the benchmark is a stress test, not a measure of average user experience.
+- The verifier pass rate is an LLM checking human-written rules, not a human judgment of every translation; its agreement with humans is shown on a 317-example human study, not on the full benchmark.
+- The human reference translations pass the verification rules by construction, because a submission is accepted only if its reference passes; the separate human evaluation is what supports their superiority.
+- The 89.8% pass rate with human rules in the prompt is an oracle result using privileged information, not a translation setup a deployed system can use; realistic comparisons use the blind mode.
+- The name "Last Translation Benchmark" is hyperbole, according to its own contributor FAQ, and not a claim that machine translation evaluation is finished; the benchmark is live and gets new releases.
+- The Last Translation Benchmark is intended for evaluation, not training, except for controlled research studies.
+
+## Terminology
+- verification rule: A short, English, pass/fail criterion written for one translation example that states the specific failure a correct translation must avoid, such as a required word sense or gender.
+- verifier pass rate: The percentage of examples for which a translation passes all of that example's verification rules, as judged by an LLM verifier.
+- LTBv1: The first tagged release of the Last Translation Benchmark, containing the 3456 examples accepted before September 1st 2026.
+- LTBv1-eval: A 911-example, text-only subset of LTBv1 selected for evaluation by difficulty, output diversity and balance across language pairs.
+- blind mode: A Last Translation Benchmark leaderboard setting in which the translation model sees only the input, used to compare realistic translation systems.
+- oracle mode: A Last Translation Benchmark leaderboard setting in which the translation model also sees privileged information such as the verification rules or the human translation.
+- model blockers: Taxonomy labels for target-side failures, such as refusals, irrelevant output, incomplete output, instruction injection and tokenization errors, that hide the source-side difficulty of an example.
+
+## Links
+- arXiv: https://arxiv.org/abs/2609.04173
+- PDF: https://arxiv.org/pdf/2609.04173
+- HTML: https://ar5iv.labs.arxiv.org/html/2609.04173
+- Hugging Face: https://huggingface.co/papers/2609.04173
+- alphaXiv: https://www.alphaxiv.org/abs/2609.04173
+- DOI: https://doi.org/10.48550/arxiv.2609.04173
+- Semantic Scholar: https://www.semanticscholar.org/paper/291683029
+- Code: https://github.com/zouharvi/last-translation-benchmark
+
+## How to cite
+@misc{zouhar2026last,
+  title = {Last Translation Benchmark},
+  author = {Vilém Zouhar and Niyati Bafna and Mukund Choudhary and Maike Züfle and Sara Rajaee and Pinzhen Chen and Jannis Vamvas and Sara Papi and Ona de Gibert and Bhavitvya Malik and Eliya Habba and Orfeas Menis Mastromichalakis and Patrícia Schmidtová and Michelle Wastl and Sheriff Issaka and Leshem Choshen and Stella Biderman and Antonis Anastasopoulos and Jan Niehues and Rico Sennrich and Mrinmaya Sachan and Ondřej Bojar and Kenton Murray and Jörg Tiedemann and Alham Fikri Aji and Philipp Koehn and Christof Monz and Alexandra Birch and Sowmya Vajjala and Chalamalasetti Kranti and Cristina España-Bonet and Nobin Sarwar and David Kaczér and Shunta Asano and Malik Marmonier and Daban Q. Jaff and Vaisakhi Mishra and Hend Al- Khalifa and Gabriele Sarti and Sourajit Saha and Nils Rehlinger and Juan Daniel Cuervo Villa and Jonathan Tonglet and Saugata Purkayastha and Dominik Macháček and J. Ramanujam and Heejin Do and Zuzana Nadova and Fred Philippy and Fabian Retkowski and Maria Lymperaiou and Silvia Casola and Hanna Yukhymenko and Shubhashis Roy Dipta and Sangwon Ryu and Andrés Jerez and Ron Keinan and Shuaib Shuaib Yusuf and Avantica Vempati and Maria Carmen Staiano and Sukannya Purkayastha and Adrian Cosma and Vitalii Babenko and Erivan Inan and Aviral Nigam and Wafa Aissa and Fatima Haouari and VENKATA PRASANTH KUMAR GUMMADI and Mehdi Jafarzadeh and Valentin Scourneau and Lukas Edman and Kaiser Sun and Shaomu Tan and Mohammad Gholizadeh and Johannes-Rudolf David and Dipankar Srirag and Javier García Gilabert and Ruta Binkyte and Manar Ali and Ana-Maria Bucur and Sabry E. Farrag and Youssef Saber and Yihong Liu and Jean Maillard and Cojocaru Nicoleta and Xiaochuang Yuan and Sina Ahmadi and Philipp Mondorf and Kaustubh Dhole and Roman Wixinger and Shenbin Qian and Manuel Tuor and Sergey Troshin and Jonathan Yahav and Fida Mohammad Thoker and Amir Rezapour and Lance Calvin Lim Gamboa and Manon Reusens and Kätriin Kukk and Koel Dutta Chowdhury},
+  year = {2026},
+  doi = {10.48550/arxiv.2609.04173},
+}

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Feedback Provides a Unique Signal that LLMs Can not Detect — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/">
+  <meta name="citation_title" content="User Feedback Provides a Unique Signal that LLMs Can not Detect">
+  <meta name="citation_author" content="Shachar Don-Yehiya">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Omri Abend">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_doi" content="10.48550/arXiv.2609.02859">
+  <meta name="citation_arxiv_id" content="2609.02859">
+  <meta name="citation_abstract" content="Harnessing naturally occurring feedback from user interactions offers a promising learning signal for Large Language Models (LLMs). However, recent studies suggest this feedback is inherently noisy and difficult to leverage effectively. We challenge this conception by demonstrating that user feedback is a highly actionable signal for improvement, and that its perceived ineffectiveness stems from a systematic bias in current evaluation paradigms. To isolate the usefulness of feedback, we construct synthetic data with a definitive ground truth, alongside naturalistic data to validate that our findings hold in real-world scenarios. By comparing model revisions generated with and without access to feedback across both settings, we show that feedback-informed revisions resolve targeted issues at significantly higher rates than baseline revisions. Finally, we expose the root of the evaluation bias: when a model successfully fixes an issue exclusively due to feedback, LLM judges frequently fail to identify the genuinely corrected response, systematically preferring inferior baseline outputs instead.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/#article",
+  "name": "User Feedback Provides a Unique Signal that LLMs Can not Detect",
+  "headline": "User Feedback Provides a Unique Signal that LLMs Can not Detect",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Shachar Don-Yehiya"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Omri Abend"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2026",
+  "identifier": "https://doi.org/10.48550/arXiv.2609.02859",
+  "abstract": "Harnessing naturally occurring feedback from user interactions offers a promising learning signal for Large Language Models (LLMs). However, recent studies suggest this feedback is inherently noisy and difficult to leverage effectively. We challenge this conception by demonstrating that user feedback is a highly actionable signal for improvement, and that its perceived ineffectiveness stems from a systematic bias in current evaluation paradigms. To isolate the usefulness of feedback, we construct synthetic data with a definitive ground truth, alongside naturalistic data to validate that our findings hold in real-world scenarios. By comparing model revisions generated with and without access to feedback across both settings, we show that feedback-informed revisions resolve targeted issues at significantly higher rates than baseline revisions. Finally, we expose the root of the evaluation bias: when a model successfully fixes an issue exclusively due to feedback, LLM judges frequently fail to identify the genuinely corrected response, systematically preferring inferior baseline outputs instead.",
+  "description": "Revising an LLM answer with the user's feedback fixes far more errors than revising it without, yet LLM judges often prefer the unfixed revision, most of all on errors the judging model cannot fix alone, so standard pairwise evaluation makes useful feedback look useless.",
+  "sameAs": [
+    "https://arxiv.org/abs/2609.02859",
+    "https://arxiv.org/html/2609.02859",
+    "https://arxiv.org/pdf/2609.02859",
+    "https://huggingface.co/papers/2609.02859",
+    "https://www.alphaxiv.org/abs/2609.02859",
+    "https://www.semanticscholar.org/paper/291615425"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "With user feedback that says how to fix a corrupted answer, Gemini-3-Flash resolves the error in 95.6% of cases versus 86.3% without it. Qwen3-8B rises from 49.2% to 80.8%.",
+      "description": "Holds for: 500 Arena-Hard-v2.0 hard-prompt queries with o3 responses, each corrupted 4 ways; resolution scored by a Gemini-3.1-Pro-preview evaluator."
+    },
+    {
+      "@type": "Thing",
+      "name": "On real user feedback from ShareLM conversations, feedback-informed revisions resolve the issue in 89% of cases for Gemini-3-Flash versus 70% without, and in 53% versus 26% for Qwen3-8B.",
+      "description": "Holds for: 1000 English ShareLM feedback instances kept as generally applicable; the LLM resolution evaluator agreed with a human at Cohen's kappa of only 0.24 here."
+    },
+    {
+      "@type": "Thing",
+      "name": "A pairwise LLM judge prefers Gemini-3-Flash's without-feedback revision 37.8% of the time and its with-feedback revision only 27.2%, although the with-feedback revision fixes more corruptions. For Qwen3-8B revisions the preference reverses, 51.2% versus 34.3%.",
+      "description": "Holds for: Gemini-3.1-Pro-preview judge, random response order, averaged over 4 corruption types on Arena-Hard-v2.0 hard prompts; 35.0% of Gemini-3-Flash comparisons were ties."
+    },
+    {
+      "@type": "Thing",
+      "name": "On real ShareLM user feedback, a Gemini-3.1-Pro judge prefers the without-feedback revision for both improvers, 55.4% versus 32.5% for Gemini-3-Flash and 51.8% versus 35.0% for Qwen3-8B.",
+      "description": "Holds for: 1000 English ShareLM samples; ties were 12.1% and 13.2%, and no known ground truth exists for these real conversations."
+    },
+    {
+      "@type": "Thing",
+      "name": "When only the with-feedback revision fixed a corrupted answer, a Gemini-3.1-Pro judge still picks it in only 54.6% of Gemini-3-Flash cases, against 80.8% for Qwen3-8B revisions.",
+      "description": "Holds for: WFShouldWin subsets of 205 (Gemini-3-Flash) and 574 (Qwen3-8B) Arena-Hard-v2.0 hard-prompt samples, where the with-feedback revision is the only valid one."
+    },
+    {
+      "@type": "Thing",
+      "name": "On real user feedback where only the with-feedback revision resolved the issue, a Gemini-3.1-Pro judge prefers it in only 34.0% of Gemini-3-Flash cases and 54.0% of Qwen3-8B cases.",
+      "description": "Holds for: 215 (Gemini-3-Flash) and 274 (Qwen3-8B) English ShareLM samples; resolution labels come from an LLM evaluator."
+    },
+    {
+      "@type": "Thing",
+      "name": "Gemini-3-Flash as a judge picks the correct feedback-fixed response 87.7% of the time on queries it could fix alone, but 72.2% on queries it fixed only with feedback, 15.5 points lower.",
+      "description": "Holds for: Qwen3-8B revisions on its synthetic WFShouldWin subset, so the correct answer is known; queries split by whether Gemini-3-Flash resolved them without feedback."
+    },
+    {
+      "@type": "Thing",
+      "name": "Qwen3-8B judging its own revisions picks the correct with-feedback response in 67.6% of cases, 13 points below the 80.8% of a Gemini-3.1-Pro judge. For Gemini-3-Flash, self-judge and Gemini-3.1-Pro agree at 54.4% and 54.6%.",
+      "description": "Holds for: Synthetic hard-prompt WFShouldWin subsets of each improver; the self-judge is the same model that wrote both revisions."
+    },
+    {
+      "@type": "Thing",
+      "name": "Revisions made with feedback contain a larger share of content fixes (factuality, completeness, logic) relative to style edits, and fewer no-improvement cases, than revisions made without feedback.",
+      "description": "Holds for: Gemini-3-Flash revisions on its WFShouldWin subset of the full synthetic data including creative writing; one primary type per response, assigned by an LLM classifier."
+    },
+    {
+      "@type": "Thing",
+      "name": "Feedback that only names the problem still raises issue resolution by 6.3 points for Gemini-3-Flash and 16.7 for Qwen3-8B, and feedback saying only that something is wrong adds 3.4 and 10.3.",
+      "description": "Holds for: 100 queries per corruption type from Arena-Hard-v2.0 hard prompts; the one exception is causality inversion, where the bare-wrong signal lowered Gemini-3-Flash resolution by 5.2 points."
+    },
+    {
+      "@type": "Thing",
+      "name": "When a second, feedback-based revision fixes a response that a second feedback-free revision leaves broken, a Gemini-3.1-Pro judge prefers the fixed one in only 34.2% of cases.",
+      "description": "Holds for: Gemini-3-Flash improver on its synthetic WFShouldWin subset, n=123 such cases; across all pairs the judge favours the twice-without-feedback revision 57.3% to 28.9%."
+    },
+    {
+      "@type": "Thing",
+      "name": "With GPT-OSS-20B as the improver, feedback raises issue resolution from 48.5% to 54.7%, and the pairwise judge picks the with-feedback revision in 95.2% of cases where only it fixed the error.",
+      "description": "Holds for: Initial results on about 400 synthetic hard-prompt samples, averaged across the 4 corruption types."
+    },
+    {
+      "@type": "Thing",
+      "name": "Shown an original o3 response beside its minimally corrupted version, a Gemini-3.1-Pro judge prefers the original in 96.6% to 99.4% of cases across the 4 corruption types.",
+      "description": "Holds for: Arena-Hard-v2.0 synthetic data; a direct original-versus-corrupted comparison, not a comparison between two revisions."
+    },
+    {
+      "@type": "Thing",
+      "name": "\"User Feedback Provides a Unique Signal that LLMs Can not Detect\" argues that naturally occurring user feedback is a strong improvement signal whose value is masked by LLM-judge evaluation. It tests this with ground-truth corruptions and real user feedback.",
+      "description": "Holds for: As of the September 2026 arXiv preprint; test-time revision only, with Gemini-3-Flash and Qwen3-8B improvers and a Gemini-3.1-Pro judge, set against prior findings that such feedback is noisy."
+    },
+    {
+      "@type": "Thing",
+      "name": "Don-Yehiya, Choshen and Abend propose that because LLM judges fail to credit feedback-driven fixes, user feedback carries information not encoded in model weights, which distillation or self-improvement could not supply.",
+      "description": "Holds for: Argued from inference-only revision experiments; no distillation, self-improvement or training on feedback was run."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/#faq",
+  "url": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/",
+  "name": "Questions answered by User Feedback Provides a Unique Signal that LLMs Can not Detect",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does telling a chatbot what it got wrong actually help it fix its answer?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "With user feedback that says how to fix a corrupted answer, Gemini-3-Flash resolves the error in 95.6% of cases versus 86.3% without it. Qwen3-8B rises from 49.2% to 80.8%. Holds for: 500 Arena-Hard-v2.0 hard-prompt queries with o3 responses, each corrupted 4 ways; resolution scored by a Gemini-3.1-Pro-preview evaluator.\n\nOn real user feedback from ShareLM conversations, feedback-informed revisions resolve the issue in 89% of cases for Gemini-3-Flash versus 70% without, and in 53% versus 26% for Qwen3-8B. Holds for: 1000 English ShareLM feedback instances kept as generally applicable; the LLM resolution evaluator agreed with a human at Cohen's kappa of only 0.24 here.",
+        "url": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/"
+      },
+      "alternateName": [
+        "Does naturally occurring user feedback improve issue resolution in LLM response revision compared with feedback-free revision?",
+        "How do I use user corrections to get an LLM to repair a wrong answer?",
+        "Is it worth feeding my users' complaints back to the model when it revises a response?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Why do some studies find that user feedback in chatbot conversations is useless for improving answers?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A pairwise LLM judge prefers Gemini-3-Flash's without-feedback revision 37.8% of the time and its with-feedback revision only 27.2%, although the with-feedback revision fixes more corruptions. For Qwen3-8B revisions the preference reverses, 51.2% versus 34.3%. Holds for: Gemini-3.1-Pro-preview judge, random response order, averaged over 4 corruption types on Arena-Hard-v2.0 hard prompts; 35.0% of Gemini-3-Flash comparisons were ties.\n\nOn real ShareLM user feedback, a Gemini-3.1-Pro judge prefers the without-feedback revision for both improvers, 55.4% versus 32.5% for Gemini-3-Flash and 51.8% versus 35.0% for Qwen3-8B. Holds for: 1000 English ShareLM samples; ties were 12.1% and 13.2%, and no known ground truth exists for these real conversations.\n\nWhen only the with-feedback revision fixed a corrupted answer, a Gemini-3.1-Pro judge still picks it in only 54.6% of Gemini-3-Flash cases, against 80.8% for Qwen3-8B revisions. Holds for: WFShouldWin subsets of 205 (Gemini-3-Flash) and 574 (Qwen3-8B) Arena-Hard-v2.0 hard-prompt samples, where the with-feedback revision is the only valid one.",
+        "url": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/"
+      },
+      "alternateName": [
+        "Why does LLM-as-a-judge pairwise evaluation prefer feedback-free revisions over feedback-informed ones?",
+        "How do I evaluate whether user feedback improved an LLM's revised responses without the evaluation hiding the gain?",
+        "Can I trust a pairwise LLM judge to tell me whether learning from user feedback helps my model?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "When one chatbot answer is fixed and the other is still wrong, can an AI grader reliably pick the fixed one?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "When only the with-feedback revision fixed a corrupted answer, a Gemini-3.1-Pro judge still picks it in only 54.6% of Gemini-3-Flash cases, against 80.8% for Qwen3-8B revisions. Holds for: WFShouldWin subsets of 205 (Gemini-3-Flash) and 574 (Qwen3-8B) Arena-Hard-v2.0 hard-prompt samples, where the with-feedback revision is the only valid one.\n\nOn real user feedback where only the with-feedback revision resolved the issue, a Gemini-3.1-Pro judge prefers it in only 34.0% of Gemini-3-Flash cases and 54.0% of Qwen3-8B cases. Holds for: 215 (Gemini-3-Flash) and 274 (Qwen3-8B) English ShareLM samples; resolution labels come from an LLM evaluator.\n\nWhen a second, feedback-based revision fixes a response that a second feedback-free revision leaves broken, a Gemini-3.1-Pro judge prefers the fixed one in only 34.2% of cases. Holds for: Gemini-3-Flash improver on its synthetic WFShouldWin subset, n=123 such cases; across all pairs the judge favours the twice-without-feedback revision 57.3% to 28.9%.",
+        "url": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/"
+      },
+      "alternateName": [
+        "How accurate is an LLM judge on pairs where only the feedback-informed revision resolves the error?",
+        "If I use an LLM judge on real chat logs, how often will it reject a genuinely corrected response?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can an AI model judge answers to questions it could not have answered correctly itself?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gemini-3-Flash as a judge picks the correct feedback-fixed response 87.7% of the time on queries it could fix alone, but 72.2% on queries it fixed only with feedback, 15.5 points lower. Holds for: Qwen3-8B revisions on its synthetic WFShouldWin subset, so the correct answer is known; queries split by whether Gemini-3-Flash resolved them without feedback.\n\nQwen3-8B judging its own revisions picks the correct with-feedback response in 67.6% of cases, 13 points below the 80.8% of a Gemini-3.1-Pro judge. For Gemini-3-Flash, self-judge and Gemini-3.1-Pro agree at 54.4% and 54.6%. Holds for: Synthetic hard-prompt WFShouldWin subsets of each improver; the self-judge is the same model that wrote both revisions.",
+        "url": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/"
+      },
+      "alternateName": [
+        "Are an LLM's failures as a self-improver correlated with its failures as an evaluator of the same queries?",
+        "How do I choose a judge model so it is not blind to the same errors as the model being evaluated?",
+        "Should I use the same model as both my generator and my LLM judge?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How do chatbot answers revised with user feedback differ from answers the chatbot polishes on its own?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Revisions made with feedback contain a larger share of content fixes (factuality, completeness, logic) relative to style edits, and fewer no-improvement cases, than revisions made without feedback. Holds for: Gemini-3-Flash revisions on its WFShouldWin subset of the full synthetic data including creative writing; one primary type per response, assigned by an LLM classifier.\n\nWhen a second, feedback-based revision fixes a response that a second feedback-free revision leaves broken, a Gemini-3.1-Pro judge prefers the fixed one in only 34.2% of cases. Holds for: Gemini-3-Flash improver on its synthetic WFShouldWin subset, n=123 such cases; across all pairs the judge favours the twice-without-feedback revision 57.3% to 28.9%.",
+        "url": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/"
+      },
+      "alternateName": [
+        "Do feedback-informed revisions shift the distribution of edits from stylistic to content-level improvements?",
+        "Is my LLM judge rewarding stylistic polish over actual corrections when comparing revised answers?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Does vague feedback like just saying an answer is wrong still help a chatbot fix it?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Feedback that only names the problem still raises issue resolution by 6.3 points for Gemini-3-Flash and 16.7 for Qwen3-8B, and feedback saying only that something is wrong adds 3.4 and 10.3. Holds for: 100 queries per corruption type from Arena-Hard-v2.0 hard prompts; the one exception is causality inversion, where the bare-wrong signal lowered Gemini-3-Flash resolution by 5.2 points.",
+        "url": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/"
+      },
+      "alternateName": [
+        "How does feedback specificity (solution, problem location, binary signal) affect LLM issue resolution rates?",
+        "How do I get useful corrections out of users who only say an answer is wrong?",
+        "Is a bare thumbs-down style complaint from my users enough signal to improve responses?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Do smaller language models gain more from user feedback than large ones?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "With user feedback that says how to fix a corrupted answer, Gemini-3-Flash resolves the error in 95.6% of cases versus 86.3% without it. Qwen3-8B rises from 49.2% to 80.8%. Holds for: 500 Arena-Hard-v2.0 hard-prompt queries with o3 responses, each corrupted 4 ways; resolution scored by a Gemini-3.1-Pro-preview evaluator.\n\nOn real user feedback from ShareLM conversations, feedback-informed revisions resolve the issue in 89% of cases for Gemini-3-Flash versus 70% without, and in 53% versus 26% for Qwen3-8B. Holds for: 1000 English ShareLM feedback instances kept as generally applicable; the LLM resolution evaluator agreed with a human at Cohen's kappa of only 0.24 here.\n\nWith GPT-OSS-20B as the improver, feedback raises issue resolution from 48.5% to 54.7%, and the pairwise judge picks the with-feedback revision in 95.2% of cases where only it fixed the error. Holds for: Initial results on about 400 synthetic hard-prompt samples, averaged across the 4 corruption types.",
+        "url": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/"
+      },
+      "alternateName": [
+        "How does the benefit of feedback on issue resolution vary with improver model size, from Qwen3-8B to Gemini-3-Flash and GPT-OSS-20B?",
+        "If I run a small open model, will user feedback help it more than it helps a frontier model?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can an AI grader tell a correct answer from one with a planted error?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Shown an original o3 response beside its minimally corrupted version, a Gemini-3.1-Pro judge prefers the original in 96.6% to 99.4% of cases across the 4 corruption types. Holds for: Arena-Hard-v2.0 synthetic data; a direct original-versus-corrupted comparison, not a comparison between two revisions.\n\nWhen only the with-feedback revision fixed a corrupted answer, a Gemini-3.1-Pro judge still picks it in only 54.6% of Gemini-3-Flash cases, against 80.8% for Qwen3-8B revisions. Holds for: WFShouldWin subsets of 205 (Gemini-3-Flash) and 574 (Qwen3-8B) Arena-Hard-v2.0 hard-prompt samples, where the with-feedback revision is the only valid one.",
+        "url": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/"
+      },
+      "alternateName": [
+        "Does an LLM judge prefer original responses over minimally corrupted ones in direct pairwise comparison?",
+        "Does an LLM judge failing on revision pairs mean it cannot spot factual errors at all?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "What is a good paper on whether chatbots can learn from the feedback people give them in conversation?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "\"User Feedback Provides a Unique Signal that LLMs Can not Detect\" argues that naturally occurring user feedback is a strong improvement signal whose value is masked by LLM-judge evaluation. It tests this with ground-truth corruptions and real user feedback. Holds for: As of the September 2026 arXiv preprint; test-time revision only, with Gemini-3-Flash and Qwen3-8B improvers and a Gemini-3.1-Pro judge, set against prior findings that such feedback is noisy.\n\nDon-Yehiya, Choshen and Abend propose that because LLM judges fail to credit feedback-driven fixes, user feedback carries information not encoded in model weights, which distillation or self-improvement could not supply. Holds for: Argued from inference-only revision experiments; no distillation, self-improvement or training on feedback was run.",
+        "url": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/"
+      },
+      "alternateName": [
+        "What work re-examines the finding that naturally occurring user feedback is too noisy to improve LLMs?",
+        "What should I read before building a pipeline that learns from implicit user feedback in chat logs?",
+        "Which paper should I cite to argue that LLM-judge evaluation undervalues user feedback?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "Can a chatbot learn everything that user corrections teach it just by training on its own outputs?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Don-Yehiya, Choshen and Abend propose that because LLM judges fail to credit feedback-driven fixes, user feedback carries information not encoded in model weights, which distillation or self-improvement could not supply. Holds for: Argued from inference-only revision experiments; no distillation, self-improvement or training on feedback was run.\n\nGemini-3-Flash as a judge picks the correct feedback-fixed response 87.7% of the time on queries it could fix alone, but 72.2% on queries it fixed only with feedback, 15.5 points lower. Holds for: Qwen3-8B revisions on its synthetic WFShouldWin subset, so the correct answer is known; queries split by whether Gemini-3-Flash resolved them without feedback.",
+        "url": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/"
+      },
+      "alternateName": [
+        "Does user feedback carry information that distillation or iterative self-improvement cannot recover?",
+        "Can I replace collecting real user feedback with self-improvement or distillation from a stronger model?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/#terms",
+  "url": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/",
+  "name": "Terminology in User Feedback Provides a Unique Signal that LLMs Can not Detect",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "WFShouldWin",
+      "description": "The subset of queries on which the revision made with feedback resolves the issue while the revision made without feedback does not, so a correct pairwise judge must prefer the with-feedback revision.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "self-improvable subset",
+      "description": "Queries on which an improver model resolves a corrupted response both with and without feedback.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "feedback-improvable subset",
+      "description": "Queries on which an improver model resolves a corrupted response only when given feedback, equivalent to that model's WFShouldWin set.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "issue resolution evaluation",
+      "description": "An LLM evaluator's binary verdict on whether a revised response addresses the fix-it feedback for a known error, given the query, the corrupted response and the feedback.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "response corruption",
+      "description": "Deliberately inserting one minimal error into a valid model response, by causality inversion, crucial omission, entity or subject swap, or logic operator reversal, so a ground-truth fix exists.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/user-feedback-provides-a-unique-signal-that-llms-can-not-det/#terms"
+    }
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+    .human { background: #fbf7e8; border: 1px solid #e4d9b0; border-radius: 4px;
+              padding: .7rem .9rem; margin: 1rem 0; font-size: 1.02rem; }
+    .human b { font-family: -apple-system, system-ui, sans-serif; }
+  </style>
+</head>
+<body>
+<h1>User Feedback Provides a Unique Signal that LLMs Can not Detect</h1>
+<p class="meta">Shachar Don-Yehiya, Leshem Choshen, Omri Abend · 2026</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2609.02859">arXiv</a></li><li><a href="https://arxiv.org/pdf/2609.02859">PDF</a></li><li><a href="https://arxiv.org/html/2609.02859">HTML</a></li><li><a href="https://huggingface.co/papers/2609.02859">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2609.02859">alphaXiv</a></li><li><a href="https://www.semanticscholar.org/paper/291615425">Semantic Scholar</a></li></ul>
+<h2>In one sentence</h2>
+<p>Revising an LLM answer with the user&#x27;s feedback fixes far more errors than revising it without, yet LLM judges often prefer the unfixed revision, most of all on errors the judging model cannot fix alone, so standard pairwise evaluation makes useful feedback look useless.</p>
+<h2>Abstract</h2>
+<p>Harnessing naturally occurring feedback from user interactions offers a promising learning signal for Large Language Models (LLMs). However, recent studies suggest this feedback is inherently noisy and difficult to leverage effectively. We challenge this conception by demonstrating that user feedback is a highly actionable signal for improvement, and that its perceived ineffectiveness stems from a systematic bias in current evaluation paradigms. To isolate the usefulness of feedback, we construct synthetic data with a definitive ground truth, alongside naturalistic data to validate that our findings hold in real-world scenarios. By comparing model revisions generated with and without access to feedback across both settings, we show that feedback-informed revisions resolve targeted issues at significantly higher rates than baseline revisions. Finally, we expose the root of the evaluation bias: when a model successfully fixes an issue exclusively due to feedback, LLM judges frequently fail to identify the genuinely corrected response, systematically preferring inferior baseline outputs instead.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>Does telling a chatbot what it got wrong actually help it fix its answer?</dt>
+<dt>Does naturally occurring user feedback improve issue resolution in LLM response revision compared with feedback-free revision?</dt>
+<dt>How do I use user corrections to get an LLM to repair a wrong answer?</dt>
+<dt>Is it worth feeding my users&#x27; complaints back to the model when it revises a response?</dt>
+<dd>With user feedback that says how to fix a corrupted answer, Gemini-3-Flash resolves the error in 95.6% of cases versus 86.3% without it. Qwen3-8B rises from 49.2% to 80.8%.<br><span class="scope">Holds for: 500 Arena-Hard-v2.0 hard-prompt queries with o3 responses, each corrupted 4 ways; resolution scored by a Gemini-3.1-Pro-preview evaluator.</span></dd>
+<dd>On real user feedback from ShareLM conversations, feedback-informed revisions resolve the issue in 89% of cases for Gemini-3-Flash versus 70% without, and in 53% versus 26% for Qwen3-8B.<br><span class="scope">Holds for: 1000 English ShareLM feedback instances kept as generally applicable; the LLM resolution evaluator agreed with a human at Cohen&#x27;s kappa of only 0.24 here.</span></dd>
+<dt>Why do some studies find that user feedback in chatbot conversations is useless for improving answers?</dt>
+<dt>Why does LLM-as-a-judge pairwise evaluation prefer feedback-free revisions over feedback-informed ones?</dt>
+<dt>How do I evaluate whether user feedback improved an LLM&#x27;s revised responses without the evaluation hiding the gain?</dt>
+<dt>Can I trust a pairwise LLM judge to tell me whether learning from user feedback helps my model?</dt>
+<dd>A pairwise LLM judge prefers Gemini-3-Flash&#x27;s without-feedback revision 37.8% of the time and its with-feedback revision only 27.2%, although the with-feedback revision fixes more corruptions. For Qwen3-8B revisions the preference reverses, 51.2% versus 34.3%.<br><span class="scope">Holds for: Gemini-3.1-Pro-preview judge, random response order, averaged over 4 corruption types on Arena-Hard-v2.0 hard prompts; 35.0% of Gemini-3-Flash comparisons were ties.</span></dd>
+<dd>On real ShareLM user feedback, a Gemini-3.1-Pro judge prefers the without-feedback revision for both improvers, 55.4% versus 32.5% for Gemini-3-Flash and 51.8% versus 35.0% for Qwen3-8B.<br><span class="scope">Holds for: 1000 English ShareLM samples; ties were 12.1% and 13.2%, and no known ground truth exists for these real conversations.</span></dd>
+<dd>When only the with-feedback revision fixed a corrupted answer, a Gemini-3.1-Pro judge still picks it in only 54.6% of Gemini-3-Flash cases, against 80.8% for Qwen3-8B revisions.<br><span class="scope">Holds for: WFShouldWin subsets of 205 (Gemini-3-Flash) and 574 (Qwen3-8B) Arena-Hard-v2.0 hard-prompt samples, where the with-feedback revision is the only valid one.</span></dd>
+<dt>When one chatbot answer is fixed and the other is still wrong, can an AI grader reliably pick the fixed one?</dt>
+<dt>How accurate is an LLM judge on pairs where only the feedback-informed revision resolves the error?</dt>
+<dt>If I use an LLM judge on real chat logs, how often will it reject a genuinely corrected response?</dt>
+<dd>When only the with-feedback revision fixed a corrupted answer, a Gemini-3.1-Pro judge still picks it in only 54.6% of Gemini-3-Flash cases, against 80.8% for Qwen3-8B revisions.<br><span class="scope">Holds for: WFShouldWin subsets of 205 (Gemini-3-Flash) and 574 (Qwen3-8B) Arena-Hard-v2.0 hard-prompt samples, where the with-feedback revision is the only valid one.</span></dd>
+<dd>On real user feedback where only the with-feedback revision resolved the issue, a Gemini-3.1-Pro judge prefers it in only 34.0% of Gemini-3-Flash cases and 54.0% of Qwen3-8B cases.<br><span class="scope">Holds for: 215 (Gemini-3-Flash) and 274 (Qwen3-8B) English ShareLM samples; resolution labels come from an LLM evaluator.</span></dd>
+<dd>When a second, feedback-based revision fixes a response that a second feedback-free revision leaves broken, a Gemini-3.1-Pro judge prefers the fixed one in only 34.2% of cases.<br><span class="scope">Holds for: Gemini-3-Flash improver on its synthetic WFShouldWin subset, n=123 such cases; across all pairs the judge favours the twice-without-feedback revision 57.3% to 28.9%.</span></dd>
+<dt>Can an AI model judge answers to questions it could not have answered correctly itself?</dt>
+<dt>Are an LLM&#x27;s failures as a self-improver correlated with its failures as an evaluator of the same queries?</dt>
+<dt>How do I choose a judge model so it is not blind to the same errors as the model being evaluated?</dt>
+<dt>Should I use the same model as both my generator and my LLM judge?</dt>
+<dd>Gemini-3-Flash as a judge picks the correct feedback-fixed response 87.7% of the time on queries it could fix alone, but 72.2% on queries it fixed only with feedback, 15.5 points lower.<br><span class="scope">Holds for: Qwen3-8B revisions on its synthetic WFShouldWin subset, so the correct answer is known; queries split by whether Gemini-3-Flash resolved them without feedback.</span></dd>
+<dd>Qwen3-8B judging its own revisions picks the correct with-feedback response in 67.6% of cases, 13 points below the 80.8% of a Gemini-3.1-Pro judge. For Gemini-3-Flash, self-judge and Gemini-3.1-Pro agree at 54.4% and 54.6%.<br><span class="scope">Holds for: Synthetic hard-prompt WFShouldWin subsets of each improver; the self-judge is the same model that wrote both revisions.</span></dd>
+<dt>How do chatbot answers revised with user feedback differ from answers the chatbot polishes on its own?</dt>
+<dt>Do feedback-informed revisions shift the distribution of edits from stylistic to content-level improvements?</dt>
+<dt>Is my LLM judge rewarding stylistic polish over actual corrections when comparing revised answers?</dt>
+<dd>Revisions made with feedback contain a larger share of content fixes (factuality, completeness, logic) relative to style edits, and fewer no-improvement cases, than revisions made without feedback.<br><span class="scope">Holds for: Gemini-3-Flash revisions on its WFShouldWin subset of the full synthetic data including creative writing; one primary type per response, assigned by an LLM classifier.</span></dd>
+<dd>When a second, feedback-based revision fixes a response that a second feedback-free revision leaves broken, a Gemini-3.1-Pro judge prefers the fixed one in only 34.2% of cases.<br><span class="scope">Holds for: Gemini-3-Flash improver on its synthetic WFShouldWin subset, n=123 such cases; across all pairs the judge favours the twice-without-feedback revision 57.3% to 28.9%.</span></dd>
+<dt>Does vague feedback like just saying an answer is wrong still help a chatbot fix it?</dt>
+<dt>How does feedback specificity (solution, problem location, binary signal) affect LLM issue resolution rates?</dt>
+<dt>How do I get useful corrections out of users who only say an answer is wrong?</dt>
+<dt>Is a bare thumbs-down style complaint from my users enough signal to improve responses?</dt>
+<dd>Feedback that only names the problem still raises issue resolution by 6.3 points for Gemini-3-Flash and 16.7 for Qwen3-8B, and feedback saying only that something is wrong adds 3.4 and 10.3.<br><span class="scope">Holds for: 100 queries per corruption type from Arena-Hard-v2.0 hard prompts; the one exception is causality inversion, where the bare-wrong signal lowered Gemini-3-Flash resolution by 5.2 points.</span></dd>
+<dt>Do smaller language models gain more from user feedback than large ones?</dt>
+<dt>How does the benefit of feedback on issue resolution vary with improver model size, from Qwen3-8B to Gemini-3-Flash and GPT-OSS-20B?</dt>
+<dt>If I run a small open model, will user feedback help it more than it helps a frontier model?</dt>
+<dd>With user feedback that says how to fix a corrupted answer, Gemini-3-Flash resolves the error in 95.6% of cases versus 86.3% without it. Qwen3-8B rises from 49.2% to 80.8%.<br><span class="scope">Holds for: 500 Arena-Hard-v2.0 hard-prompt queries with o3 responses, each corrupted 4 ways; resolution scored by a Gemini-3.1-Pro-preview evaluator.</span></dd>
+<dd>On real user feedback from ShareLM conversations, feedback-informed revisions resolve the issue in 89% of cases for Gemini-3-Flash versus 70% without, and in 53% versus 26% for Qwen3-8B.<br><span class="scope">Holds for: 1000 English ShareLM feedback instances kept as generally applicable; the LLM resolution evaluator agreed with a human at Cohen&#x27;s kappa of only 0.24 here.</span></dd>
+<dd>With GPT-OSS-20B as the improver, feedback raises issue resolution from 48.5% to 54.7%, and the pairwise judge picks the with-feedback revision in 95.2% of cases where only it fixed the error.<br><span class="scope">Holds for: Initial results on about 400 synthetic hard-prompt samples, averaged across the 4 corruption types.</span></dd>
+<dt>Can an AI grader tell a correct answer from one with a planted error?</dt>
+<dt>Does an LLM judge prefer original responses over minimally corrupted ones in direct pairwise comparison?</dt>
+<dt>Does an LLM judge failing on revision pairs mean it cannot spot factual errors at all?</dt>
+<dd>Shown an original o3 response beside its minimally corrupted version, a Gemini-3.1-Pro judge prefers the original in 96.6% to 99.4% of cases across the 4 corruption types.<br><span class="scope">Holds for: Arena-Hard-v2.0 synthetic data; a direct original-versus-corrupted comparison, not a comparison between two revisions.</span></dd>
+<dd>When only the with-feedback revision fixed a corrupted answer, a Gemini-3.1-Pro judge still picks it in only 54.6% of Gemini-3-Flash cases, against 80.8% for Qwen3-8B revisions.<br><span class="scope">Holds for: WFShouldWin subsets of 205 (Gemini-3-Flash) and 574 (Qwen3-8B) Arena-Hard-v2.0 hard-prompt samples, where the with-feedback revision is the only valid one.</span></dd>
+<dt>What is a good paper on whether chatbots can learn from the feedback people give them in conversation?</dt>
+<dt>What work re-examines the finding that naturally occurring user feedback is too noisy to improve LLMs?</dt>
+<dt>What should I read before building a pipeline that learns from implicit user feedback in chat logs?</dt>
+<dt>Which paper should I cite to argue that LLM-judge evaluation undervalues user feedback?</dt>
+<dd>&quot;User Feedback Provides a Unique Signal that LLMs Can not Detect&quot; argues that naturally occurring user feedback is a strong improvement signal whose value is masked by LLM-judge evaluation. It tests this with ground-truth corruptions and real user feedback.<br><span class="scope">Holds for: As of the September 2026 arXiv preprint; test-time revision only, with Gemini-3-Flash and Qwen3-8B improvers and a Gemini-3.1-Pro judge, set against prior findings that such feedback is noisy.</span></dd>
+<dd>Don-Yehiya, Choshen and Abend propose that because LLM judges fail to credit feedback-driven fixes, user feedback carries information not encoded in model weights, which distillation or self-improvement could not supply.<br><span class="scope">Holds for: Argued from inference-only revision experiments; no distillation, self-improvement or training on feedback was run.</span></dd>
+<dt>Can a chatbot learn everything that user corrections teach it just by training on its own outputs?</dt>
+<dt>Does user feedback carry information that distillation or iterative self-improvement cannot recover?</dt>
+<dt>Can I replace collecting real user feedback with self-improvement or distillation from a stronger model?</dt>
+<dd>Don-Yehiya, Choshen and Abend propose that because LLM judges fail to credit feedback-driven fixes, user feedback carries information not encoded in model weights, which distillation or self-improvement could not supply.<br><span class="scope">Holds for: Argued from inference-only revision experiments; no distillation, self-improvement or training on feedback was run.</span></dd>
+<dd>Gemini-3-Flash as a judge picks the correct feedback-fixed response 87.7% of the time on queries it could fix alone, but 72.2% on queries it fixed only with feedback, 15.5 points lower.<br><span class="scope">Holds for: Qwen3-8B revisions on its synthetic WFShouldWin subset, so the correct answer is known; queries split by whether Gemini-3-Flash resolved them without feedback.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>With user feedback that says how to fix a corrupted answer, Gemini-3-Flash resolves the error in 95.6% of cases versus 86.3% without it. Qwen3-8B rises from 49.2% to 80.8%. <span class="meta">(Table 4)</span><br><span class="scope">Scope: 500 Arena-Hard-v2.0 hard-prompt queries with o3 responses, each corrupted 4 ways; resolution scored by a Gemini-3.1-Pro-preview evaluator.</span></li>
+<li>On real user feedback from ShareLM conversations, feedback-informed revisions resolve the issue in 89% of cases for Gemini-3-Flash versus 70% without, and in 53% versus 26% for Qwen3-8B. <span class="meta">(Section 5.1, Figure 1)</span><br><span class="scope">Scope: 1000 English ShareLM feedback instances kept as generally applicable; the LLM resolution evaluator agreed with a human at Cohen&#x27;s kappa of only 0.24 here.</span></li>
+<li>A pairwise LLM judge prefers Gemini-3-Flash&#x27;s without-feedback revision 37.8% of the time and its with-feedback revision only 27.2%, although the with-feedback revision fixes more corruptions. For Qwen3-8B revisions the preference reverses, 51.2% versus 34.3%. <span class="meta">(Table 1)</span><br><span class="scope">Scope: Gemini-3.1-Pro-preview judge, random response order, averaged over 4 corruption types on Arena-Hard-v2.0 hard prompts; 35.0% of Gemini-3-Flash comparisons were ties.</span></li>
+<li>On real ShareLM user feedback, a Gemini-3.1-Pro judge prefers the without-feedback revision for both improvers, 55.4% versus 32.5% for Gemini-3-Flash and 51.8% versus 35.0% for Qwen3-8B. <span class="meta">(Table 7)</span><br><span class="scope">Scope: 1000 English ShareLM samples; ties were 12.1% and 13.2%, and no known ground truth exists for these real conversations.</span></li>
+<li>When only the with-feedback revision fixed a corrupted answer, a Gemini-3.1-Pro judge still picks it in only 54.6% of Gemini-3-Flash cases, against 80.8% for Qwen3-8B revisions. <span class="meta">(Table 11 (Section 5.3))</span><br><span class="scope">Scope: WFShouldWin subsets of 205 (Gemini-3-Flash) and 574 (Qwen3-8B) Arena-Hard-v2.0 hard-prompt samples, where the with-feedback revision is the only valid one.</span></li>
+<li>On real user feedback where only the with-feedback revision resolved the issue, a Gemini-3.1-Pro judge prefers it in only 34.0% of Gemini-3-Flash cases and 54.0% of Qwen3-8B cases. <span class="meta">(Table 8 (Section 5.3))</span><br><span class="scope">Scope: 215 (Gemini-3-Flash) and 274 (Qwen3-8B) English ShareLM samples; resolution labels come from an LLM evaluator.</span></li>
+<li>Gemini-3-Flash as a judge picks the correct feedback-fixed response 87.7% of the time on queries it could fix alone, but 72.2% on queries it fixed only with feedback, 15.5 points lower. <span class="meta">(Table 12 (Section 5.4))</span><br><span class="scope">Scope: Qwen3-8B revisions on its synthetic WFShouldWin subset, so the correct answer is known; queries split by whether Gemini-3-Flash resolved them without feedback.</span></li>
+<li>Qwen3-8B judging its own revisions picks the correct with-feedback response in 67.6% of cases, 13 points below the 80.8% of a Gemini-3.1-Pro judge. For Gemini-3-Flash, self-judge and Gemini-3.1-Pro agree at 54.4% and 54.6%. <span class="meta">(Figure 3 (Section 6.1))</span><br><span class="scope">Scope: Synthetic hard-prompt WFShouldWin subsets of each improver; the self-judge is the same model that wrote both revisions.</span></li>
+<li>Revisions made with feedback contain a larger share of content fixes (factuality, completeness, logic) relative to style edits, and fewer no-improvement cases, than revisions made without feedback. <span class="meta">(Figure 4 (Section 6.2))</span><br><span class="scope">Scope: Gemini-3-Flash revisions on its WFShouldWin subset of the full synthetic data including creative writing; one primary type per response, assigned by an LLM classifier.</span></li>
+<li>Feedback that only names the problem still raises issue resolution by 6.3 points for Gemini-3-Flash and 16.7 for Qwen3-8B, and feedback saying only that something is wrong adds 3.4 and 10.3. <span class="meta">(Table 2 (Section 6.3), Table 10)</span><br><span class="scope">Scope: 100 queries per corruption type from Arena-Hard-v2.0 hard prompts; the one exception is causality inversion, where the bare-wrong signal lowered Gemini-3-Flash resolution by 5.2 points.</span></li>
+<li>When a second, feedback-based revision fixes a response that a second feedback-free revision leaves broken, a Gemini-3.1-Pro judge prefers the fixed one in only 34.2% of cases. <span class="meta">(Appendix F, Table 13)</span><br><span class="scope">Scope: Gemini-3-Flash improver on its synthetic WFShouldWin subset, n=123 such cases; across all pairs the judge favours the twice-without-feedback revision 57.3% to 28.9%.</span></li>
+<li>With GPT-OSS-20B as the improver, feedback raises issue resolution from 48.5% to 54.7%, and the pairwise judge picks the with-feedback revision in 95.2% of cases where only it fixed the error. <span class="meta">(Tables 14 and 15 (Appendix G))</span><br><span class="scope">Scope: Initial results on about 400 synthetic hard-prompt samples, averaged across the 4 corruption types.</span></li>
+<li>Shown an original o3 response beside its minimally corrupted version, a Gemini-3.1-Pro judge prefers the original in 96.6% to 99.4% of cases across the 4 corruption types. <span class="meta">(Table 3 (Appendix A))</span><br><span class="scope">Scope: Arena-Hard-v2.0 synthetic data; a direct original-versus-corrupted comparison, not a comparison between two revisions.</span></li>
+<li>&quot;User Feedback Provides a Unique Signal that LLMs Can not Detect&quot; argues that naturally occurring user feedback is a strong improvement signal whose value is masked by LLM-judge evaluation. It tests this with ground-truth corruptions and real user feedback.<br><span class="scope">Scope: As of the September 2026 arXiv preprint; test-time revision only, with Gemini-3-Flash and Qwen3-8B improvers and a Gemini-3.1-Pro judge, set against prior findings that such feedback is noisy.</span></li>
+<li>Don-Yehiya, Choshen and Abend propose that because LLM judges fail to credit feedback-driven fixes, user feedback carries information not encoded in model weights, which distillation or self-improvement could not supply.<br><span class="scope">Scope: Argued from inference-only revision experiments; no distillation, self-improvement or training on feedback was run.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>LLM judges do not always prefer the feedback-free revision: for Qwen3-8B revisions on synthetic data the Gemini-3.1-Pro judge prefers the with-feedback revision 51.2% to 34.3%, and for GPT-OSS-20B it picks the only correct revision 95.2% of the time.</li>
+<li>The judge failure is not an inability to spot errors at all. Comparing an original o3 response with its corrupted version, the Gemini-3.1-Pro judge prefers the original in 96.6% to 99.4% of cases.</li>
+<li>The naturalistic issue-resolution rates are an approximation: the LLM evaluator agreed with a human annotator at Cohen&#x27;s kappa of 0.24 on real user data, against 0.81 on the synthetic data.</li>
+<li>The main synthetic results cover Arena-Hard-v2.0 hard prompts only, because corruptions were valid in just 59.4% of sampled creative-writing items versus 92.2% of hard-prompt items.</li>
+<li>All experiments revise responses at test time. No model was trained on user feedback, and the idea that feedback carries information absent from model weights is argued, not measured.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>WFShouldWin</em></dt><dd>The subset of queries on which the revision made with feedback resolves the issue while the revision made without feedback does not, so a correct pairwise judge must prefer the with-feedback revision.</dd>
+<dt><em>self-improvable subset</em></dt><dd>Queries on which an improver model resolves a corrupted response both with and without feedback.</dd>
+<dt><em>feedback-improvable subset</em></dt><dd>Queries on which an improver model resolves a corrupted response only when given feedback, equivalent to that model&#x27;s WFShouldWin set.</dd>
+<dt><em>issue resolution evaluation</em></dt><dd>An LLM evaluator&#x27;s binary verdict on whether a revised response addresses the fix-it feedback for a known error, given the query, the corrupted response and the feedback.</dd>
+<dt><em>response corruption</em></dt><dd>Deliberately inserting one minimal error into a valid model response, by causality inversion, crucial omission, entity or subject swap, or logic operator reversal, so a ground-truth fix exists.</dd>
+</dl>
+<h2>How to cite</h2>
+<pre>@misc{donyehiya2026user,
+  title = {User Feedback Provides a Unique Signal that LLMs Can not Detect},
+  author = {Shachar Don-Yehiya and Leshem Choshen and Omri Abend},
+  year = {2026},
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2609.02859">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a><br><span class="meta">Human? You probably wanted <a rel="me" href="https://ktilana.wixsite.com/leshem-choshen">ktilana.wixsite.com/leshem-choshen</a></span></footer>
+</body>
+</html>

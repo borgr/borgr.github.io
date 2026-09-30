@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skill Issue: Are Skills Language-Invariant in LLMs? — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/">
+  <meta name="citation_title" content="Skill Issue: Are Skills Language-Invariant in LLMs?">
+  <meta name="citation_author" content="Bobby Cheng">
+  <meta name="citation_author" content="Adam Gaber">
+  <meta name="citation_author" content="Zhengzhe Liu">
+  <meta name="citation_author" content="Catherine Arnett">
+  <meta name="citation_author" content="Omer Goldman">
+  <meta name="citation_author" content="Cheston Tan">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_doi" content="10.48550/arXiv.2608.25832">
+  <meta name="citation_arxiv_id" content="2608.25832">
+  <meta name="citation_abstract" content="Large language models access knowledge inconsistently across languages, but to what extent do they differ in their skill sets when interacting with different languages? This work quantifies cross-lingual skill inconsistency orthogonally from knowledge and general benchmark performance. We do this via multilingual self-play: two instances of the same model compete in a text-based game, each interacting through a different language interface. Since the model, opponent, rules, state space, and available actions remain fixed, this setting isolates the effect of language on the model&#x27;s realized behavior. We build a multilingual extension to TextArena and evaluate three open-weight models across eight languages and six games covering spatial reasoning, imperfect information, resource allocation, and repeated interaction. We find that the same model can exhibit markedly different playing strength across languages, with systematic variation in win--loss margins, invalid actions, and strategic tendencies. Detailed analyses reveal language-specific failures in spatial reasoning, card-conditioned decisions, and optimal move selection. In some settings, changing only the intermediate reasoning language recovers much of the lost performance, suggesting that language can affect different stages of the decision process. These results show that skill discrepancies are a measurable major roadblock in the development of truly multilingual models. Better understanding these discrepancies can help us design models that perform more equitably across languages.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/#article",
+  "name": "Skill Issue: Are Skills Language-Invariant in LLMs?",
+  "headline": "Skill Issue: Are Skills Language-Invariant in LLMs?",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Bobby Cheng"
+    },
+    {
+      "@type": "Person",
+      "name": "Adam Gaber"
+    },
+    {
+      "@type": "Person",
+      "name": "Zhengzhe Liu"
+    },
+    {
+      "@type": "Person",
+      "name": "Catherine Arnett"
+    },
+    {
+      "@type": "Person",
+      "name": "Omer Goldman"
+    },
+    {
+      "@type": "Person",
+      "name": "Cheston Tan"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2026",
+  "identifier": "https://doi.org/10.48550/arXiv.2608.25832",
+  "abstract": "Large language models access knowledge inconsistently across languages, but to what extent do they differ in their skill sets when interacting with different languages? This work quantifies cross-lingual skill inconsistency orthogonally from knowledge and general benchmark performance. We do this via multilingual self-play: two instances of the same model compete in a text-based game, each interacting through a different language interface. Since the model, opponent, rules, state space, and available actions remain fixed, this setting isolates the effect of language on the model's realized behavior. We build a multilingual extension to TextArena and evaluate three open-weight models across eight languages and six games covering spatial reasoning, imperfect information, resource allocation, and repeated interaction. We find that the same model can exhibit markedly different playing strength across languages, with systematic variation in win--loss margins, invalid actions, and strategic tendencies. Detailed analyses reveal language-specific failures in spatial reasoning, card-conditioned decisions, and optimal move selection. In some settings, changing only the intermediate reasoning language recovers much of the lost performance, suggesting that language can affect different stages of the decision process. These results show that skill discrepancies are a measurable major roadblock in the development of truly multilingual models. Better understanding these discrepancies can help us design models that perform more equitably across languages.",
+  "description": "Two instances of the same LLM playing each other through different language interfaces win at markedly different rates, so the skills a model has in one language are not the skills it applies in another.",
+  "codeRepository": "https://github.com/TextArena/TextArena",
+  "sameAs": [
+    "https://arxiv.org/abs/2608.25832",
+    "https://arxiv.org/html/2608.25832",
+    "https://arxiv.org/pdf/2608.25832",
+    "https://github.com/TextArena/TextArena",
+    "https://huggingface.co/papers/2608.25832",
+    "https://www.alphaxiv.org/abs/2608.25832",
+    "https://www.semanticscholar.org/paper/291371154"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Multilingual TextArena covers 65 TextArena games in 193 languages, rendering each player's instructions and board in a different language. The rules, legal actions, rewards and transition dynamics are unchanged across languages.",
+      "description": "Holds for: Verification is tiered. 8 Tier-A languages were checked by native speakers, 42 Tier-B by closed-model back-translation judging, and 142 more by NLLB-200 round-trip agreement."
+    },
+    {
+      "@type": "Thing",
+      "name": "Multilingual self-play measures whether an LLM's skills, as distinct from its stored knowledge, transfer across languages by having 2 instances of one model compete through different language interfaces.",
+      "description": "Holds for: As of the 2026 preprint, framed against earlier cross-lingual work on knowledge retrieval and on static benchmarks. Evidence comes from 3 models of 3B to 4B parameters, 8 languages and 6 games."
+    },
+    {
+      "@type": "Thing",
+      "name": "English is the strongest interface language and Hebrew among the weakest for all 3 models tested, aggregated over 6 games of self-play. Qwen3-4B shows the sharpest language hierarchy and Gemma-4-E4B-it the flattest.",
+      "description": "Holds for: Self-play between 2 instances of one model, so margins compare languages within a model and never across models. Gemma-4-E4B-it, Qwen3-4B and Ministral3-3B-Instruct on 8 languages."
+    },
+    {
+      "@type": "Thing",
+      "name": "Colonel Blotto is the most language-sensitive of the 6 games for all 3 models, with a mean gap of 1.07 between a model's strongest and weakest language. Kuhn Poker is the least sensitive at 0.13.",
+      "description": "Holds for: Gap is the spread of mean language margins within one model and game, averaged over the 3 models. 8 languages, 400 self-play games per direction."
+    },
+    {
+      "@type": "Thing",
+      "name": "Switching only Gemma-4-E4B-it's reasoning language to English, with the TicTacToe interface still in German, moves the mean language margin from -0.22 to +0.20. That recovers 89.4% of the gap to the English-interface ceiling of +0.25.",
+      "description": "Holds for: Gemma-4-E4B-it only, with German as the weak interface. SimpleTak recovers 60.5% the same way, and Kuhn Poker recovery is small and non-monotonic across reasoning languages."
+    },
+    {
+      "@type": "Thing",
+      "name": "Gemma-4-E4B-it's TicTacToe losses split fairly evenly in English across rows at 28.5%, columns at 34.8% and diagonals at 36.7%. Under an Arabic interface the same model loses to rows only 20.3% of the time and to diagonals 45.3%.",
+      "description": "Holds for: Gemma-4-E4B-it in TicTacToe. Hebrew skews the same way as Arabic, while Qwen3-4B's defeat distribution stays stable across languages apart from Hebrew."
+    },
+    {
+      "@type": "Thing",
+      "name": "In SimpleTak, Gemma-4-E4B-it loses to a completed column in 46.8% of English-interface defeats but 57.2% of Arabic and Hebrew ones, against 53.2% row losses in English.",
+      "description": "Holds for: Gemma-4-E4B-it in SimpleTak, where over 90% of its wins come from straight lines, which is what lets row and column losses stand for separate spatial axes."
+    },
+    {
+      "@type": "Thing",
+      "name": "Qwen3-4B plays Nim's optimal first move 80.8% of the time under an English interface but only 24.6% under French. Both languages produce a similar number of optimal-strategy mentions in the game logs.",
+      "description": "Holds for: Qwen3-4B in Nim with a board where the first player has exactly 1 optimal move. Hebrew and Arabic fall to 4.0% and 10.5%, while Gemma-4-E4B-it stays at 99.2% or above in every language."
+    },
+    {
+      "@type": "Thing",
+      "name": "70% of Ministral3-3B-Instruct's Arabic and 50% of its Hebrew optimal-strategy mentions in Nim come from logs where the model switched into a Latin script mid-reasoning. Such switching occurs in only 3.7% of Arabic and 1% of Hebrew logs.",
+      "description": "Holds for: Ministral3-3B-Instruct in Nim only, counted over game-log mentions rather than over model internals, and the gap between languages may therefore be wider than the mention counts suggest."
+    },
+    {
+      "@type": "Thing",
+      "name": "Gemma-4-E4B-it bets the middle card Q in Kuhn Poker 41.6% of the time under a Malay interface and 63.3% under Hebrew. Its play of clearly weak and clearly strong cards varies far less across languages.",
+      "description": "Holds for: Gemma-4-E4B-it in Kuhn Poker across 8 languages. Ministral3-3B-Instruct instead folds the strongest card K when facing a bet between 10.4% and 23.7% of the time."
+    },
+    {
+      "@type": "Thing",
+      "name": "Mean language margin correlates with 5-shot Global MMLU accuracy at Pearson r between 0.73 and 0.92 depending on the model, and with Belebele at 0.71 to 0.79. Static benchmark accuracy does not predict a model's spread across languages.",
+      "description": "Holds for: 8 languages per model, so each correlation has n=8. Gemma-4-E4B-it has the lowest Global MMLU mean at 49.9% yet the smallest cross-language spread, and Qwen3-4B the highest mean with the largest spread."
+    },
+    {
+      "@type": "Thing",
+      "name": "Language strength correlates with available web text at an average Pearson r of 0.79 against log FineWeb-2 word counts, and the residuals are large. Malay beats Hebrew for every model despite the smaller FineWeb-2 corpus.",
+      "description": "Holds for: Web text is a proxy for training data, which is undisclosed for all 3 models. Chinese has roughly 20 times less web text than English yet reaches near-English margins for Qwen3-4B and Ministral3-3B-Instruct."
+    },
+    {
+      "@type": "Thing",
+      "name": "The multilingual self-play evaluation runs 518,400 games in total, 28,800 per model and game pair, with 400 games for every ordered language pair and player role assignment.",
+      "description": "Holds for: 3 models by 6 games by all 8 languages, inference only. Each primary run used 2 NVIDIA H200 GPUs and about 6 H200 GPU-hours, excluding Iterated Prisoner's Dilemma."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/#faq",
+  "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/",
+  "name": "Questions answered by Skill Issue: Are Skills Language-Invariant in LLMs?",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "is there research on whether a language model is better at playing games in some languages than in others?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Multilingual self-play measures whether an LLM's skills, as distinct from its stored knowledge, transfer across languages by having 2 instances of one model compete through different language interfaces. Holds for: As of the 2026 preprint, framed against earlier cross-lingual work on knowledge retrieval and on static benchmarks. Evidence comes from 3 models of 3B to 4B parameters, 8 languages and 6 games.\n\nEnglish is the strongest interface language and Hebrew among the weakest for all 3 models tested, aggregated over 6 games of self-play. Qwen3-4B shows the sharpest language hierarchy and Gemma-4-E4B-it the flattest. Holds for: Self-play between 2 instances of one model, so margins compare languages within a model and never across models. Gemma-4-E4B-it, Qwen3-4B and Ministral3-3B-Instruct on 8 languages.",
+        "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/"
+      },
+      "alternateName": [
+        "how is cross-lingual skill inconsistency measured separately from cross-lingual knowledge transfer?",
+        "how do I test whether a model's reasoning skills survive being asked in a different language?",
+        "should I expect the same agent behaviour from one model across the languages my users write in?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "what should I read first about language models performing unequally across languages for reasons other than missing facts?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Multilingual self-play measures whether an LLM's skills, as distinct from its stored knowledge, transfer across languages by having 2 instances of one model compete through different language interfaces. Holds for: As of the 2026 preprint, framed against earlier cross-lingual work on knowledge retrieval and on static benchmarks. Evidence comes from 3 models of 3B to 4B parameters, 8 languages and 6 games.\n\nMultilingual TextArena covers 65 TextArena games in 193 languages, rendering each player's instructions and board in a different language. The rules, legal actions, rewards and transition dynamics are unchanged across languages. Holds for: Verification is tiered. 8 Tier-A languages were checked by native speakers, 42 Tier-B by closed-model back-translation judging, and 142 more by NLLB-200 round-trip agreement.",
+        "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/"
+      },
+      "alternateName": [
+        "what work established that an LLM's interactive skills, not just its factual recall, are language-dependent?",
+        "is there a paper I can cite for skill gaps across languages inside one model?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "is there a set of text games translated into many languages for testing language models?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Multilingual TextArena covers 65 TextArena games in 193 languages, rendering each player's instructions and board in a different language. The rules, legal actions, rewards and transition dynamics are unchanged across languages. Holds for: Verification is tiered. 8 Tier-A languages were checked by native speakers, 42 Tier-B by closed-model back-translation judging, and 142 more by NLLB-200 round-trip agreement.",
+        "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/"
+      },
+      "alternateName": [
+        "what multilingual extension of TextArena renders observations in a target language without changing rules or legal actions?",
+        "where do I get game environments in many languages so I can run the same game in 2 languages at once?",
+        "can I reuse an existing multilingual game suite instead of translating environments myself?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "which language is a language model strongest at when it plays games against itself?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "English is the strongest interface language and Hebrew among the weakest for all 3 models tested, aggregated over 6 games of self-play. Qwen3-4B shows the sharpest language hierarchy and Gemma-4-E4B-it the flattest. Holds for: Self-play between 2 instances of one model, so margins compare languages within a model and never across models. Gemma-4-E4B-it, Qwen3-4B and Ministral3-3B-Instruct on 8 languages.",
+        "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/"
+      },
+      "alternateName": [
+        "which interface language gives the highest role-pooled win-loss margin in multilingual self-play?",
+        "if I run an agent in Hebrew instead of English, how much playing strength am I giving up?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "does the choice of game change how much language matters?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Colonel Blotto is the most language-sensitive of the 6 games for all 3 models, with a mean gap of 1.07 between a model's strongest and weakest language. Kuhn Poker is the least sensitive at 0.13. Holds for: Gap is the spread of mean language margins within one model and game, averaged over the 3 models. 8 languages, 400 self-play games per direction.",
+        "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/"
+      },
+      "alternateName": [
+        "which game environments show the largest max-minus-min language gap in mean language margin?",
+        "how do I pick a game that will expose language effects rather than hide them?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "can a model do better in a weak language if it thinks in a stronger one?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Switching only Gemma-4-E4B-it's reasoning language to English, with the TicTacToe interface still in German, moves the mean language margin from -0.22 to +0.20. That recovers 89.4% of the gap to the English-interface ceiling of +0.25. Holds for: Gemma-4-E4B-it only, with German as the weak interface. SimpleTak recovers 60.5% the same way, and Kuhn Poker recovery is small and non-monotonic across reasoning languages.",
+        "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/"
+      },
+      "alternateName": [
+        "does decoupling the reasoning language from the environment interface language recover the margin lost under a weak interface?",
+        "how do I recover accuracy when my prompts have to stay in a low-performing language?",
+        "should I make my agent reason in English while keeping the user-facing language unchanged?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "do language models misread game boards differently depending on the language of the instructions?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gemma-4-E4B-it's TicTacToe losses split fairly evenly in English across rows at 28.5%, columns at 34.8% and diagonals at 36.7%. Under an Arabic interface the same model loses to rows only 20.3% of the time and to diagonals 45.3%. Holds for: Gemma-4-E4B-it in TicTacToe. Hebrew skews the same way as Arabic, while Qwen3-4B's defeat distribution stays stable across languages apart from Hebrew.\n\nIn SimpleTak, Gemma-4-E4B-it loses to a completed column in 46.8% of English-interface defeats but 57.2% of Arabic and Hebrew ones, against 53.2% row losses in English. Holds for: Gemma-4-E4B-it in SimpleTak, where over 90% of its wins come from straight lines, which is what lets row and column losses stand for separate spatial axes.",
+        "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/"
+      },
+      "alternateName": [
+        "how does the distribution of TicTacToe defeats over rows, columns and diagonals shift with the interface language?",
+        "will an Arabic or Hebrew interface make my agent miss board threats that it catches in English?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "can a model know the right strategy for a game and still fail to use it in one language?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Qwen3-4B plays Nim's optimal first move 80.8% of the time under an English interface but only 24.6% under French. Both languages produce a similar number of optimal-strategy mentions in the game logs. Holds for: Qwen3-4B in Nim with a board where the first player has exactly 1 optimal move. Hebrew and Arabic fall to 4.0% and 10.5%, while Gemma-4-E4B-it stays at 99.2% or above in every language.",
+        "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/"
+      },
+      "alternateName": [
+        "does optimal-move execution in Nim track optimal-strategy mention counts across interface languages?",
+        "how do I tell whether a language gap is missing knowledge or failed execution?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "why does a model sometimes start writing in English in the middle of an Arabic answer?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "70% of Ministral3-3B-Instruct's Arabic and 50% of its Hebrew optimal-strategy mentions in Nim come from logs where the model switched into a Latin script mid-reasoning. Such switching occurs in only 3.7% of Arabic and 1% of Hebrew logs. Holds for: Ministral3-3B-Instruct in Nim only, counted over game-log mentions rather than over model internals, and the gap between languages may therefore be wider than the mention counts suggest.",
+        "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/"
+      },
+      "alternateName": [
+        "what share of optimal-strategy mentions under Arabic and Hebrew interfaces come from mid-reasoning script switching?",
+        "if my model switches script mid-answer, is that a bug or is it reaching knowledge it otherwise cannot?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "does a model take different risks when the same card game is presented in a different language?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gemma-4-E4B-it bets the middle card Q in Kuhn Poker 41.6% of the time under a Malay interface and 63.3% under Hebrew. Its play of clearly weak and clearly strong cards varies far less across languages. Holds for: Gemma-4-E4B-it in Kuhn Poker across 8 languages. Ministral3-3B-Instruct instead folds the strongest card K when facing a bet between 10.4% and 23.7% of the time.",
+        "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/"
+      },
+      "alternateName": [
+        "how do card-conditioned bet, call and fold probabilities in Kuhn Poker vary with interface language?",
+        "can I assume my model's decision policy is the same across the languages it is deployed in?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "can multilingual benchmark scores tell me how a model will behave in each language?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mean language margin correlates with 5-shot Global MMLU accuracy at Pearson r between 0.73 and 0.92 depending on the model, and with Belebele at 0.71 to 0.79. Static benchmark accuracy does not predict a model's spread across languages. Holds for: 8 languages per model, so each correlation has n=8. Gemma-4-E4B-it has the lowest Global MMLU mean at 49.9% yet the smallest cross-language spread, and Qwen3-4B the highest mean with the largest spread.",
+        "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/"
+      },
+      "alternateName": [
+        "how strongly does mean language margin correlate with Global MMLU and Belebele accuracy, and does either predict cross-language spread?",
+        "how do I predict which languages my agent will be weak in without running the agent?",
+        "is a high multilingual benchmark average enough to tell me a model is consistent across languages?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "is a language weak in a model just because there is little text in it on the web?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Language strength correlates with available web text at an average Pearson r of 0.79 against log FineWeb-2 word counts, and the residuals are large. Malay beats Hebrew for every model despite the smaller FineWeb-2 corpus. Holds for: Web text is a proxy for training data, which is undisclosed for all 3 models. Chinese has roughly 20 times less web text than English yet reaches near-English margins for Qwen3-4B and Ministral3-3B-Instruct.",
+        "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/"
+      },
+      "alternateName": [
+        "how much of the language hierarchy in self-play is explained by FineWeb-2 per-language word counts, and which languages deviate?",
+        "should I assume a low-resource language will be my model's weakest interface?"
+      ]
+    },
+    {
+      "@type": "Question",
+      "name": "how many games were played to measure the language differences?",
+      "answerCount": 1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The multilingual self-play evaluation runs 518,400 games in total, 28,800 per model and game pair, with 400 games for every ordered language pair and player role assignment. Holds for: 3 models by 6 games by all 8 languages, inference only. Each primary run used 2 NVIDIA H200 GPUs and about 6 H200 GPU-hours, excluding Iterated Prisoner's Dilemma.",
+        "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/"
+      },
+      "alternateName": [
+        "what is the self-play sample size per language pair, model and game environment?",
+        "how many matches do I need per language pair before a win-loss margin is worth reading?"
+      ]
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/#terms",
+  "url": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/",
+  "name": "Terminology in Skill Issue: Are Skills Language-Invariant in LLMs?",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "language interface",
+      "description": "the language in which a game's instructions, board and observations are presented to a player, holding the rules, legal actions and rewards fixed.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "role-pooled win-loss margin",
+      "description": "wins minus losses divided by total games for one language against another, pooled over both player-role assignments so first-move advantage cancels.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "mean language margin",
+      "description": "one language's average role-pooled win-loss margin against every other language evaluated, for a fixed model and game.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/#terms"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Tier A",
+      "description": "the 8 languages whose game translations were verified by native speakers, as opposed to tiers verified by automatic back-translation judging.",
+      "inDefinedTermSet": "https://borgr.github.io/papers/skill-issue-are-skills-language-invariant-in-llms/#terms"
+    }
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+    .human { background: #fbf7e8; border: 1px solid #e4d9b0; border-radius: 4px;
+              padding: .7rem .9rem; margin: 1rem 0; font-size: 1.02rem; }
+    .human b { font-family: -apple-system, system-ui, sans-serif; }
+  </style>
+</head>
+<body>
+<h1>Skill Issue: Are Skills Language-Invariant in LLMs?</h1>
+<p class="sub">a version of the TextArena game suite where each player&#x27;s instructions and board are rendered in a different language while the rules stay fixed</p>
+<p class="meta">Bobby Cheng, Adam Gaber, Zhengzhe Liu, Catherine Arnett, Omer Goldman, Cheston Tan, Leshem Choshen · 2026</p>
+<ul class="links"><li><a href="https://arxiv.org/abs/2608.25832">arXiv</a></li><li><a href="https://arxiv.org/pdf/2608.25832">PDF</a></li><li><a href="https://arxiv.org/html/2608.25832">HTML</a></li><li><a href="https://huggingface.co/papers/2608.25832">Hugging Face</a></li><li><a href="https://www.alphaxiv.org/abs/2608.25832">alphaXiv</a></li><li><a href="https://www.semanticscholar.org/paper/291371154">Semantic Scholar</a></li><li><a href="https://github.com/TextArena/TextArena">Code</a></li></ul>
+<h2>In one sentence</h2>
+<p>Two instances of the same LLM playing each other through different language interfaces win at markedly different rates, so the skills a model has in one language are not the skills it applies in another.</p>
+<h2>Abstract</h2>
+<p>Large language models access knowledge inconsistently across languages, but to what extent do they differ in their skill sets when interacting with different languages? This work quantifies cross-lingual skill inconsistency orthogonally from knowledge and general benchmark performance. We do this via multilingual self-play: two instances of the same model compete in a text-based game, each interacting through a different language interface. Since the model, opponent, rules, state space, and available actions remain fixed, this setting isolates the effect of language on the model&#x27;s realized behavior. We build a multilingual extension to TextArena and evaluate three open-weight models across eight languages and six games covering spatial reasoning, imperfect information, resource allocation, and repeated interaction. We find that the same model can exhibit markedly different playing strength across languages, with systematic variation in win--loss margins, invalid actions, and strategic tendencies. Detailed analyses reveal language-specific failures in spatial reasoning, card-conditioned decisions, and optimal move selection. In some settings, changing only the intermediate reasoning language recovers much of the lost performance, suggesting that language can affect different stages of the decision process. These results show that skill discrepancies are a measurable major roadblock in the development of truly multilingual models. Better understanding these discrepancies can help us design models that perform more equitably across languages.</p>
+<h2>Questions this paper answers</h2>
+<dl class="qa">
+<dt>is there research on whether a language model is better at playing games in some languages than in others?</dt>
+<dt>how is cross-lingual skill inconsistency measured separately from cross-lingual knowledge transfer?</dt>
+<dt>how do I test whether a model&#x27;s reasoning skills survive being asked in a different language?</dt>
+<dt>should I expect the same agent behaviour from one model across the languages my users write in?</dt>
+<dd>Multilingual self-play measures whether an LLM&#x27;s skills, as distinct from its stored knowledge, transfer across languages by having 2 instances of one model compete through different language interfaces.<br><span class="scope">Holds for: As of the 2026 preprint, framed against earlier cross-lingual work on knowledge retrieval and on static benchmarks. Evidence comes from 3 models of 3B to 4B parameters, 8 languages and 6 games.</span></dd>
+<dd>English is the strongest interface language and Hebrew among the weakest for all 3 models tested, aggregated over 6 games of self-play. Qwen3-4B shows the sharpest language hierarchy and Gemma-4-E4B-it the flattest.<br><span class="scope">Holds for: Self-play between 2 instances of one model, so margins compare languages within a model and never across models. Gemma-4-E4B-it, Qwen3-4B and Ministral3-3B-Instruct on 8 languages.</span></dd>
+<dt>what should I read first about language models performing unequally across languages for reasons other than missing facts?</dt>
+<dt>what work established that an LLM&#x27;s interactive skills, not just its factual recall, are language-dependent?</dt>
+<dt>is there a paper I can cite for skill gaps across languages inside one model?</dt>
+<dd>Multilingual self-play measures whether an LLM&#x27;s skills, as distinct from its stored knowledge, transfer across languages by having 2 instances of one model compete through different language interfaces.<br><span class="scope">Holds for: As of the 2026 preprint, framed against earlier cross-lingual work on knowledge retrieval and on static benchmarks. Evidence comes from 3 models of 3B to 4B parameters, 8 languages and 6 games.</span></dd>
+<dd>Multilingual TextArena covers 65 TextArena games in 193 languages, rendering each player&#x27;s instructions and board in a different language. The rules, legal actions, rewards and transition dynamics are unchanged across languages.<br><span class="scope">Holds for: Verification is tiered. 8 Tier-A languages were checked by native speakers, 42 Tier-B by closed-model back-translation judging, and 142 more by NLLB-200 round-trip agreement.</span></dd>
+<dt>is there a set of text games translated into many languages for testing language models?</dt>
+<dt>what multilingual extension of TextArena renders observations in a target language without changing rules or legal actions?</dt>
+<dt>where do I get game environments in many languages so I can run the same game in 2 languages at once?</dt>
+<dt>can I reuse an existing multilingual game suite instead of translating environments myself?</dt>
+<dd>Multilingual TextArena covers 65 TextArena games in 193 languages, rendering each player&#x27;s instructions and board in a different language. The rules, legal actions, rewards and transition dynamics are unchanged across languages.<br><span class="scope">Holds for: Verification is tiered. 8 Tier-A languages were checked by native speakers, 42 Tier-B by closed-model back-translation judging, and 142 more by NLLB-200 round-trip agreement.</span></dd>
+<dt>which language is a language model strongest at when it plays games against itself?</dt>
+<dt>which interface language gives the highest role-pooled win-loss margin in multilingual self-play?</dt>
+<dt>if I run an agent in Hebrew instead of English, how much playing strength am I giving up?</dt>
+<dd>English is the strongest interface language and Hebrew among the weakest for all 3 models tested, aggregated over 6 games of self-play. Qwen3-4B shows the sharpest language hierarchy and Gemma-4-E4B-it the flattest.<br><span class="scope">Holds for: Self-play between 2 instances of one model, so margins compare languages within a model and never across models. Gemma-4-E4B-it, Qwen3-4B and Ministral3-3B-Instruct on 8 languages.</span></dd>
+<dt>does the choice of game change how much language matters?</dt>
+<dt>which game environments show the largest max-minus-min language gap in mean language margin?</dt>
+<dt>how do I pick a game that will expose language effects rather than hide them?</dt>
+<dd>Colonel Blotto is the most language-sensitive of the 6 games for all 3 models, with a mean gap of 1.07 between a model&#x27;s strongest and weakest language. Kuhn Poker is the least sensitive at 0.13.<br><span class="scope">Holds for: Gap is the spread of mean language margins within one model and game, averaged over the 3 models. 8 languages, 400 self-play games per direction.</span></dd>
+<dt>can a model do better in a weak language if it thinks in a stronger one?</dt>
+<dt>does decoupling the reasoning language from the environment interface language recover the margin lost under a weak interface?</dt>
+<dt>how do I recover accuracy when my prompts have to stay in a low-performing language?</dt>
+<dt>should I make my agent reason in English while keeping the user-facing language unchanged?</dt>
+<dd>Switching only Gemma-4-E4B-it&#x27;s reasoning language to English, with the TicTacToe interface still in German, moves the mean language margin from -0.22 to +0.20. That recovers 89.4% of the gap to the English-interface ceiling of +0.25.<br><span class="scope">Holds for: Gemma-4-E4B-it only, with German as the weak interface. SimpleTak recovers 60.5% the same way, and Kuhn Poker recovery is small and non-monotonic across reasoning languages.</span></dd>
+<dt>do language models misread game boards differently depending on the language of the instructions?</dt>
+<dt>how does the distribution of TicTacToe defeats over rows, columns and diagonals shift with the interface language?</dt>
+<dt>will an Arabic or Hebrew interface make my agent miss board threats that it catches in English?</dt>
+<dd>Gemma-4-E4B-it&#x27;s TicTacToe losses split fairly evenly in English across rows at 28.5%, columns at 34.8% and diagonals at 36.7%. Under an Arabic interface the same model loses to rows only 20.3% of the time and to diagonals 45.3%.<br><span class="scope">Holds for: Gemma-4-E4B-it in TicTacToe. Hebrew skews the same way as Arabic, while Qwen3-4B&#x27;s defeat distribution stays stable across languages apart from Hebrew.</span></dd>
+<dd>In SimpleTak, Gemma-4-E4B-it loses to a completed column in 46.8% of English-interface defeats but 57.2% of Arabic and Hebrew ones, against 53.2% row losses in English.<br><span class="scope">Holds for: Gemma-4-E4B-it in SimpleTak, where over 90% of its wins come from straight lines, which is what lets row and column losses stand for separate spatial axes.</span></dd>
+<dt>can a model know the right strategy for a game and still fail to use it in one language?</dt>
+<dt>does optimal-move execution in Nim track optimal-strategy mention counts across interface languages?</dt>
+<dt>how do I tell whether a language gap is missing knowledge or failed execution?</dt>
+<dd>Qwen3-4B plays Nim&#x27;s optimal first move 80.8% of the time under an English interface but only 24.6% under French. Both languages produce a similar number of optimal-strategy mentions in the game logs.<br><span class="scope">Holds for: Qwen3-4B in Nim with a board where the first player has exactly 1 optimal move. Hebrew and Arabic fall to 4.0% and 10.5%, while Gemma-4-E4B-it stays at 99.2% or above in every language.</span></dd>
+<dt>why does a model sometimes start writing in English in the middle of an Arabic answer?</dt>
+<dt>what share of optimal-strategy mentions under Arabic and Hebrew interfaces come from mid-reasoning script switching?</dt>
+<dt>if my model switches script mid-answer, is that a bug or is it reaching knowledge it otherwise cannot?</dt>
+<dd>70% of Ministral3-3B-Instruct&#x27;s Arabic and 50% of its Hebrew optimal-strategy mentions in Nim come from logs where the model switched into a Latin script mid-reasoning. Such switching occurs in only 3.7% of Arabic and 1% of Hebrew logs.<br><span class="scope">Holds for: Ministral3-3B-Instruct in Nim only, counted over game-log mentions rather than over model internals, and the gap between languages may therefore be wider than the mention counts suggest.</span></dd>
+<dt>does a model take different risks when the same card game is presented in a different language?</dt>
+<dt>how do card-conditioned bet, call and fold probabilities in Kuhn Poker vary with interface language?</dt>
+<dt>can I assume my model&#x27;s decision policy is the same across the languages it is deployed in?</dt>
+<dd>Gemma-4-E4B-it bets the middle card Q in Kuhn Poker 41.6% of the time under a Malay interface and 63.3% under Hebrew. Its play of clearly weak and clearly strong cards varies far less across languages.<br><span class="scope">Holds for: Gemma-4-E4B-it in Kuhn Poker across 8 languages. Ministral3-3B-Instruct instead folds the strongest card K when facing a bet between 10.4% and 23.7% of the time.</span></dd>
+<dt>can multilingual benchmark scores tell me how a model will behave in each language?</dt>
+<dt>how strongly does mean language margin correlate with Global MMLU and Belebele accuracy, and does either predict cross-language spread?</dt>
+<dt>how do I predict which languages my agent will be weak in without running the agent?</dt>
+<dt>is a high multilingual benchmark average enough to tell me a model is consistent across languages?</dt>
+<dd>Mean language margin correlates with 5-shot Global MMLU accuracy at Pearson r between 0.73 and 0.92 depending on the model, and with Belebele at 0.71 to 0.79. Static benchmark accuracy does not predict a model&#x27;s spread across languages.<br><span class="scope">Holds for: 8 languages per model, so each correlation has n=8. Gemma-4-E4B-it has the lowest Global MMLU mean at 49.9% yet the smallest cross-language spread, and Qwen3-4B the highest mean with the largest spread.</span></dd>
+<dt>is a language weak in a model just because there is little text in it on the web?</dt>
+<dt>how much of the language hierarchy in self-play is explained by FineWeb-2 per-language word counts, and which languages deviate?</dt>
+<dt>should I assume a low-resource language will be my model&#x27;s weakest interface?</dt>
+<dd>Language strength correlates with available web text at an average Pearson r of 0.79 against log FineWeb-2 word counts, and the residuals are large. Malay beats Hebrew for every model despite the smaller FineWeb-2 corpus.<br><span class="scope">Holds for: Web text is a proxy for training data, which is undisclosed for all 3 models. Chinese has roughly 20 times less web text than English yet reaches near-English margins for Qwen3-4B and Ministral3-3B-Instruct.</span></dd>
+<dt>how many games were played to measure the language differences?</dt>
+<dt>what is the self-play sample size per language pair, model and game environment?</dt>
+<dt>how many matches do I need per language pair before a win-loss margin is worth reading?</dt>
+<dd>The multilingual self-play evaluation runs 518,400 games in total, 28,800 per model and game pair, with 400 games for every ordered language pair and player role assignment.<br><span class="scope">Holds for: 3 models by 6 games by all 8 languages, inference only. Each primary run used 2 NVIDIA H200 GPUs and about 6 H200 GPU-hours, excluding Iterated Prisoner&#x27;s Dilemma.</span></dd>
+</dl>
+<h2>Claims and scope</h2><ul>
+<li>Multilingual TextArena covers 65 TextArena games in 193 languages, rendering each player&#x27;s instructions and board in a different language. The rules, legal actions, rewards and transition dynamics are unchanged across languages.<br><span class="scope">Scope: Verification is tiered. 8 Tier-A languages were checked by native speakers, 42 Tier-B by closed-model back-translation judging, and 142 more by NLLB-200 round-trip agreement.</span></li>
+<li>Multilingual self-play measures whether an LLM&#x27;s skills, as distinct from its stored knowledge, transfer across languages by having 2 instances of one model compete through different language interfaces.<br><span class="scope">Scope: As of the 2026 preprint, framed against earlier cross-lingual work on knowledge retrieval and on static benchmarks. Evidence comes from 3 models of 3B to 4B parameters, 8 languages and 6 games.</span></li>
+<li>English is the strongest interface language and Hebrew among the weakest for all 3 models tested, aggregated over 6 games of self-play. Qwen3-4B shows the sharpest language hierarchy and Gemma-4-E4B-it the flattest. <span class="meta">(Figure 2)</span><br><span class="scope">Scope: Self-play between 2 instances of one model, so margins compare languages within a model and never across models. Gemma-4-E4B-it, Qwen3-4B and Ministral3-3B-Instruct on 8 languages.</span></li>
+<li>Colonel Blotto is the most language-sensitive of the 6 games for all 3 models, with a mean gap of 1.07 between a model&#x27;s strongest and weakest language. Kuhn Poker is the least sensitive at 0.13. <span class="meta">(Table 2)</span><br><span class="scope">Scope: Gap is the spread of mean language margins within one model and game, averaged over the 3 models. 8 languages, 400 self-play games per direction.</span></li>
+<li>Switching only Gemma-4-E4B-it&#x27;s reasoning language to English, with the TicTacToe interface still in German, moves the mean language margin from -0.22 to +0.20. That recovers 89.4% of the gap to the English-interface ceiling of +0.25. <span class="meta">(Table 3)</span><br><span class="scope">Scope: Gemma-4-E4B-it only, with German as the weak interface. SimpleTak recovers 60.5% the same way, and Kuhn Poker recovery is small and non-monotonic across reasoning languages.</span></li>
+<li>Gemma-4-E4B-it&#x27;s TicTacToe losses split fairly evenly in English across rows at 28.5%, columns at 34.8% and diagonals at 36.7%. Under an Arabic interface the same model loses to rows only 20.3% of the time and to diagonals 45.3%. <span class="meta">(Appendix G)</span><br><span class="scope">Scope: Gemma-4-E4B-it in TicTacToe. Hebrew skews the same way as Arabic, while Qwen3-4B&#x27;s defeat distribution stays stable across languages apart from Hebrew.</span></li>
+<li>In SimpleTak, Gemma-4-E4B-it loses to a completed column in 46.8% of English-interface defeats but 57.2% of Arabic and Hebrew ones, against 53.2% row losses in English. <span class="meta">(Appendix G)</span><br><span class="scope">Scope: Gemma-4-E4B-it in SimpleTak, where over 90% of its wins come from straight lines, which is what lets row and column losses stand for separate spatial axes.</span></li>
+<li>Qwen3-4B plays Nim&#x27;s optimal first move 80.8% of the time under an English interface but only 24.6% under French. Both languages produce a similar number of optimal-strategy mentions in the game logs. <span class="meta">(Appendix G)</span><br><span class="scope">Scope: Qwen3-4B in Nim with a board where the first player has exactly 1 optimal move. Hebrew and Arabic fall to 4.0% and 10.5%, while Gemma-4-E4B-it stays at 99.2% or above in every language.</span></li>
+<li>70% of Ministral3-3B-Instruct&#x27;s Arabic and 50% of its Hebrew optimal-strategy mentions in Nim come from logs where the model switched into a Latin script mid-reasoning. Such switching occurs in only 3.7% of Arabic and 1% of Hebrew logs. <span class="meta">(Appendix G)</span><br><span class="scope">Scope: Ministral3-3B-Instruct in Nim only, counted over game-log mentions rather than over model internals, and the gap between languages may therefore be wider than the mention counts suggest.</span></li>
+<li>Gemma-4-E4B-it bets the middle card Q in Kuhn Poker 41.6% of the time under a Malay interface and 63.3% under Hebrew. Its play of clearly weak and clearly strong cards varies far less across languages. <span class="meta">(Appendix G)</span><br><span class="scope">Scope: Gemma-4-E4B-it in Kuhn Poker across 8 languages. Ministral3-3B-Instruct instead folds the strongest card K when facing a bet between 10.4% and 23.7% of the time.</span></li>
+<li>Mean language margin correlates with 5-shot Global MMLU accuracy at Pearson r between 0.73 and 0.92 depending on the model, and with Belebele at 0.71 to 0.79. Static benchmark accuracy does not predict a model&#x27;s spread across languages. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: 8 languages per model, so each correlation has n=8. Gemma-4-E4B-it has the lowest Global MMLU mean at 49.9% yet the smallest cross-language spread, and Qwen3-4B the highest mean with the largest spread.</span></li>
+<li>Language strength correlates with available web text at an average Pearson r of 0.79 against log FineWeb-2 word counts, and the residuals are large. Malay beats Hebrew for every model despite the smaller FineWeb-2 corpus. <span class="meta">(Figure 4)</span><br><span class="scope">Scope: Web text is a proxy for training data, which is undisclosed for all 3 models. Chinese has roughly 20 times less web text than English yet reaches near-English margins for Qwen3-4B and Ministral3-3B-Instruct.</span></li>
+<li>The multilingual self-play evaluation runs 518,400 games in total, 28,800 per model and game pair, with 400 games for every ordered language pair and player role assignment. <span class="meta">(Section 3)</span><br><span class="scope">Scope: 3 models by 6 games by all 8 languages, inference only. Each primary run used 2 NVIDIA H200 GPUs and about 6 H200 GPU-hours, excluding Iterated Prisoner&#x27;s Dilemma.</span></li>
+</ul>
+<h2>Common misreadings</h2><ul>
+<li>A 193-language release is not 193 verified languages. 8 languages were verified by native speakers and the rest by automatic back-translation judging, which is why the experiments use the 8.</li>
+<li>Reasoning in a stronger language is not a general repair. Recovery is large in TicTacToe and SimpleTak and small and non-monotonic in Kuhn Poker.</li>
+<li>The language a model wins with is not simply the language it has most training data in. Malay outperforms Hebrew for every model despite a smaller web corpus, and Chinese reaches near-English margins with far less web text.</li>
+<li>A high multilingual benchmark average does not mean uniform behaviour across languages. Benchmark level and cross-language spread move independently in these models.</li>
+<li>The results are measured on models of 3B to 4B parameters and do not establish that language effects hold at larger scale.</li>
+</ul>
+<h2>Terminology in this paper</h2><dl>
+<dt><em>language interface</em></dt><dd>the language in which a game&#x27;s instructions, board and observations are presented to a player, holding the rules, legal actions and rewards fixed.</dd>
+<dt><em>role-pooled win-loss margin</em></dt><dd>wins minus losses divided by total games for one language against another, pooled over both player-role assignments so first-move advantage cancels.</dd>
+<dt><em>mean language margin</em></dt><dd>one language&#x27;s average role-pooled win-loss margin against every other language evaluated, for a fixed model and game.</dd>
+<dt><em>Tier A</em></dt><dd>the 8 languages whose game translations were verified by native speakers, as opposed to tiers verified by automatic back-translation judging.</dd>
+</dl>
+<h2>How to cite</h2>
+<pre>@misc{cheng2026skill,
+  title = {Skill Issue: Are Skills Language-Invariant in LLMs?},
+  year = {2026},
+  eprint = {2608.25832},
+  archivePrefix = {arXiv},
+  url = {https://arxiv.org/abs/2608.25832}
+}</pre>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://arxiv.org/html/2608.25832">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a><br><span class="meta">Human? You probably wanted <a rel="me" href="https://ktilana.wixsite.com/leshem-choshen">ktilana.wixsite.com/leshem-choshen</a></span></footer>
+</body>
+</html>

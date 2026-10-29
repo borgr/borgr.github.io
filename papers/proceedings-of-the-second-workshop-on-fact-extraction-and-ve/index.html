@@ -1,0 +1,2274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proceedings of the Second Workshop on Fact Extraction and VERification (FEVER) — Leshem Choshen</title>
+  <link rel="canonical" href="https://borgr.github.io/papers/proceedings-of-the-second-workshop-on-fact-extraction-and-ve/">
+  <meta name="citation_title" content="Proceedings of the Second Workshop on Fact Extraction and VERification (FEVER)">
+  <meta name="citation_author" content="James Thorne">
+  <meta name="citation_author" content="Andreas Vlachos">
+  <meta name="citation_author" content="Oana Cocarascu">
+  <meta name="citation_author" content="Christos Christodoulopoulos">
+  <meta name="citation_author" content="Arpit Mittal">
+  <meta name="citation_author" content="A. Wawer">
+  <meta name="citation_author" content="Grzegorz Wojdyga">
+  <meta name="citation_author" content="Justyna Sarzy ska-Wawer">
+  <meta name="citation_author" content="Andreas Hanselowski">
+  <meta name="citation_author" content="Hao Zhang">
+  <meta name="citation_author" content="Zi-Le Li">
+  <meta name="citation_author" content="Daniil Sorokin">
+  <meta name="citation_author" content="Wei Fang">
+  <meta name="citation_author" content="Moin Nadeem">
+  <meta name="citation_author" content="M. Mohtarami">
+  <meta name="citation_author" content="James R. Glass">
+  <meta name="citation_author" content="Piotr Niewi">
+  <meta name="citation_author" content="M. Pszona">
+  <meta name="citation_author" content="M. Janicka">
+  <meta name="citation_author" content="Alireza Mohammadshahi">
+  <meta name="citation_author" content="R. Lebret">
+  <meta name="citation_author" content="K. Aberer">
+  <meta name="citation_author" content="R. Samuel">
+  <meta name="citation_author" content="G. Bowman">
+  <meta name="citation_author" content="Christopher Angeli">
+  <meta name="citation_author" content="Christopher Potts">
+  <meta name="citation_author" content="Manning">
+  <meta name="citation_author" content="Rich Caruana">
+  <meta name="citation_author" content="Kevin Clark">
+  <meta name="citation_author" content="Minh-Thang Luong">
+  <meta name="citation_author" content="Christopher D. Manning">
+  <meta name="citation_author" content="Q. Le">
+  <meta name="citation_author" content="R. Collobert">
+  <meta name="citation_author" content="Jason Weston">
+  <meta name="citation_author" content="A. Conneau">
+  <meta name="citation_author" content="Douwe Kiela">
+  <meta name="citation_author" content="H. Schwenk">
+  <meta name="citation_author" content="L. Barrault">
+  <meta name="citation_author" content="A. Bordes">
+  <meta name="citation_author" content="Zi-Hang Dai">
+  <meta name="citation_author" content="Zhi-Lin Yang">
+  <meta name="citation_author" content="Yi-Ming Yang">
+  <meta name="citation_author" content="Jaime G. Carbonell">
+  <meta name="citation_author" content="R. Salakhutdinov">
+  <meta name="citation_author" content="J. Devlin">
+  <meta name="citation_author" content="M. Chang">
+  <meta name="citation_author" content="Kenton Lee">
+  <meta name="citation_author" content="Kristina Toutanova">
+  <meta name="citation_author" content="Bill Dolan">
+  <meta name="citation_author" content="Chris Brockett">
+  <meta name="citation_author" content="Avinesh P.V.S">
+  <meta name="citation_author" content="B. Schiller">
+  <meta name="citation_author" content="Felix Caspelherr">
+  <meta name="citation_author" content="Debanjan Chaudhuri">
+  <meta name="citation_author" content="Christian M. Meyer">
+  <meta name="citation_author" content="Iryna Gurevych">
+  <meta name="citation_author" content="Kazuma Hashimoto">
+  <meta name="citation_author" content="Cai-Ming Xiong">
+  <meta name="citation_author" content="Y. Tsuruoka">
+  <meta name="citation_author" content="R. Socher">
+  <meta name="citation_author" content="Xiao-Dong Liu">
+  <meta name="citation_author" content="Peng He">
+  <meta name="citation_author" content="Wei-Zhu Chen">
+  <meta name="citation_author" content="Jian Gao">
+  <meta name="citation_author" content="Ye-Long Shen">
+  <meta name="citation_author" content="Kevin Duh">
+  <meta name="citation_author" content="Andrew L. Maas">
+  <meta name="citation_author" content="Raymond E. Daly">
+  <meta name="citation_author" content="Peter T. Pham">
+  <meta name="citation_author" content="Dan-Cheng Huang">
+  <meta name="citation_author" content="Andrew Ng">
+  <meta name="citation_author" content="Bryan McCann">
+  <meta name="citation_author" content="James Bradbury">
+  <meta name="citation_author" content="R. Baly">
+  <meta name="citation_author" content="Preslav Nakov">
+  <meta name="citation_author" content="Llus Mrquez">
+  <meta name="citation_author" content="Alessandro Moschitti">
+  <meta name="citation_author" content="Jialin Sinno">
+  <meta name="citation_author" content="Qiang Pan">
+  <meta name="citation_author" content="Yang">
+  <meta name="citation_author" content="M. Peters">
+  <meta name="citation_author" content="Mark Neumann">
+  <meta name="citation_author" content="M. Iyyer">
+  <meta name="citation_author" content="Matt Gardner">
+  <meta name="citation_author" content="C. Clark">
+  <meta name="citation_author" content="Luke S. Zettlemoyer">
+  <meta name="citation_author" content="Pranav Rajpurkar">
+  <meta name="citation_author" content="Jian Zhang">
+  <meta name="citation_author" content="Konstantin Lopyrev">
+  <meta name="citation_author" content="P. Liang">
+  <meta name="citation_author" content="A. Perelygin">
+  <meta name="citation_author" content="Jean Y. Wu">
+  <meta name="citation_author" content="J. Chuang">
+  <meta name="citation_author" content="Anders Sgaard">
+  <meta name="citation_author" content="Yoav Goldberg">
+  <meta name="citation_author" content="A. Vaswani">
+  <meta name="citation_author" content="Noam Shazeer">
+  <meta name="citation_author" content="N. Parmar">
+  <meta name="citation_author" content="J. Uszkoreit">
+  <meta name="citation_author" content="L. Jones">
+  <meta name="citation_author" content="A. Gomez">
+  <meta name="citation_author" content="Ukasz Kaiser">
+  <meta name="citation_author" content="I. Polosukhin">
+  <meta name="citation_author" content="Alex Wang">
+  <meta name="citation_author" content="Amanpreet Singh">
+  <meta name="citation_author" content="J. Michael">
+  <meta name="citation_author" content="F. Hill">
+  <meta name="citation_author" content="Omer Levy">
+  <meta name="citation_author" content="Samuel Bowman">
+  <meta name="citation_author" content="Adina Williams">
+  <meta name="citation_author" content="Nikita Nangia">
+  <meta name="citation_author" content="Brian Xu">
+  <meta name="citation_author" content="Yu-Kun Zhu">
+  <meta name="citation_author" content="R. Kiros">
+  <meta name="citation_author" content="R. Zemel">
+  <meta name="citation_author" content="R. Urtasun">
+  <meta name="citation_author" content="A. Torralba">
+  <meta name="citation_author" content="S. Fidler">
+  <meta name="citation_author" content="V. Levenshtein">
+  <meta name="citation_author" content="George Doddington">
+  <meta name="citation_author" content="W. Liggett">
+  <meta name="citation_author" content="Alvin Martin">
+  <meta name="citation_author" content="Mark A. Przybocki">
+  <meta name="citation_author" content="Douglas Reynolds">
+  <meta name="citation_author" content="Takashi Miyazaki">
+  <meta name="citation_author" content="N. Shimizu">
+  <meta name="citation_author" content="A. Karpathy">
+  <meta name="citation_author" content="Chris Manning">
+  <meta name="citation_author" content="Peter Young">
+  <meta name="citation_author" content="Alice Lai">
+  <meta name="citation_author" content="M. Hodosh">
+  <meta name="citation_author" content="J. Hockenmaier">
+  <meta name="citation_author" content="Sanjeev Arora">
+  <meta name="citation_author" content="Ying-Yu Liang">
+  <meta name="citation_author" content="Teng-Yu Ma">
+  <meta name="citation_author" content="Ankur Bapna">
+  <meta name="citation_author" content="Orhan Firat">
+  <meta name="citation_author" content="Daniel Cer">
+  <meta name="citation_author" content="Yin-Fei Yang">
+  <meta name="citation_author" content="Sheng-Yi Kong">
+  <meta name="citation_author" content="Nan Hua">
+  <meta name="citation_author" content="Nicole Limtiaco">
+  <meta name="citation_author" content="Rhomni St">
+  <meta name="citation_author" content="Noah John">
+  <meta name="citation_author" content="Mario Constant">
+  <meta name="citation_author" content="Steve Guajardo-Cespedes">
+  <meta name="citation_author" content="C. Yuan">
+  <meta name="citation_author" content="Yun-hsuan Tar">
+  <meta name="citation_author" content="B. Sung">
+  <meta name="citation_author" content="Ray Strope">
+  <meta name="citation_author" content="Kurzweil">
+  <meta name="citation_author" content="G. Paul">
+  <meta name="citation_author" content="T. Kwiatkowski">
+  <meta name="citation_author" content="J. Palomaki">
+  <meta name="citation_author" content="Olivia Redfield">
+  <meta name="citation_author" content="Michael Collins">
+  <meta name="citation_author" content="Ankur Parikh">
+  <meta name="citation_author" content="Chris Alberti">
+  <meta name="citation_author" content="D. Epstein">
+  <meta name="citation_author" content="Matthew Kelcey">
+  <meta name="citation_author" content="Andrew M. Dai">
+  <meta name="citation_author" content="Slav Petrov">
+  <meta name="citation_author" content="Gabor Angeli">
+  <meta name="citation_author" content="M. Premkumar">
+  <meta name="citation_author" content="Husam Ali">
+  <meta name="citation_author" content="Yllias Chali">
+  <meta name="citation_author" content="Sadid A. Hasan">
+  <meta name="citation_author" content="Yanghoon Kim">
+  <meta name="citation_author" content="Hwanhee Lee">
+  <meta name="citation_author" content="Joongbo Shin">
+  <meta name="citation_author" content="Kyomin Jung">
+  <meta name="citation_author" content="M. Surdeanu">
+  <meta name="citation_author" content="John Bauer">
+  <meta name="citation_author" content="J. Finkel">
+  <meta name="citation_author" content="Steven Bethard">
+  <meta name="citation_author" content="D. Mcclosky">
+  <meta name="citation_author" content="Yixin Nie">
+  <meta name="citation_author" content="Hao-Nan Chen">
+  <meta name="citation_author" content="Mohit Bansal">
+  <meta name="citation_author" content="Takuma Yoneda">
+  <meta name="citation_author" content="Jeff Mitchell">
+  <meta name="citation_author" content="Johannes Welbl">
+  <meta name="citation_author" content="Pontus Stenetorp">
+  <meta name="citation_author" content="Sebastian Riedel">
+  <meta name="citation_author" content="Filip Boltui">
+  <meta name="citation_author" content="Joanna Najder">
+  <meta name="citation_author" content="Sheng-Yi Kong">
+  <meta name="citation_author" content="B. Tar">
+  <meta name="citation_author" content="John C. Duchi">
+  <meta name="citation_author" content="Elad Hazan">
+  <meta name="citation_author" content="Y. Singer">
+  <meta name="citation_author" content="Steffen Eger">
+  <meta name="citation_author" content="Johannes Daxenberger">
+  <meta name="citation_author" content="Martin Gleize">
+  <meta name="citation_author" content="E. Shnarch">
+  <meta name="citation_author" content="Leshem Choshen">
+  <meta name="citation_author" content="Lena Dankin">
+  <meta name="citation_author" content="Guy Moshkowich">
+  <meta name="citation_author" content="R. Aharonov">
+  <meta name="citation_author" content="N. Slonim">
+  <meta name="citation_author" content="Ivan Habernal">
+  <meta name="citation_author" content="Henning Wachsmuth">
+  <meta name="citation_author" content="Benno Stein">
+  <meta name="citation_author" content="S. Hochreiter">
+  <meta name="citation_author" content="J. Schmidhuber">
+  <meta name="citation_author" content="Xinyu Hua">
+  <meta name="citation_author" content="Lu Wang">
+  <meta name="citation_author" content="Yan-Kai Lin">
+  <meta name="citation_author" content="S. Shen">
+  <meta name="citation_author" content="Zhi-Yuan Liu">
+  <meta name="citation_author" content="Huan-Bo Luan">
+  <meta name="citation_author" content="Mao-Song Sun">
+  <meta name="citation_author" content="S. Baccianella">
+  <meta name="citation_author" content="Andrea Esuli">
+  <meta name="citation_author" content="F. Sebastiani">
+  <meta name="citation_author" content="A. Blei">
+  <meta name="citation_author" content="Michael Ng">
+  <meta name="citation_author" content="Jordan">
+  <meta name="citation_author" content="Ge-Li Fei">
+  <meta name="citation_author" content="Bing Liu">
+  <meta name="citation_author" content="M. Hsu">
+  <meta name="citation_author" content="M. Castellanos">
+  <meta name="citation_author" content="Riddhiman Ghosh">
+  <meta name="citation_author" content="Min-Qing Hu">
+  <meta name="citation_author" content="Niklas Jakob">
+  <meta name="citation_author" content="Wei-Qiang Jin">
+  <meta name="citation_author" content="H. Hồ">
+  <meta name="citation_author" content="R. Srihari">
+  <meta name="citation_author" content="Kang Liu">
+  <meta name="citation_author" content="Liam Heng">
+  <meta name="citation_author" content="Yang Xu">
+  <meta name="citation_author" content="Jun Liu">
+  <meta name="citation_author" content="Zhao">
+  <meta name="citation_author" content="Li-Heng Xu">
+  <meta name="citation_author" content="Jun Zhao">
+  <meta name="citation_author" content="T. Mikolov">
+  <meta name="citation_author" content="I. Sutskever">
+  <meta name="citation_author" content="Kai Chen">
+  <meta name="citation_author" content="G. Corrado">
+  <meta name="citation_author" content="J. Dean">
+  <meta name="citation_author" content="S. Moghaddam">
+  <meta name="citation_author" content="M. Ester">
+  <meta name="citation_author" content="Aitor Garca Pablos">
+  <meta name="citation_author" content="Montse Cuadros">
+  <meta name="citation_author" content="German Rigau">
+  <meta name="citation_author" content="Maria Pontiki">
+  <meta name="citation_author" content="D. Galanis">
+  <meta name="citation_author" content="Haris Papageorgiou">
+  <meta name="citation_author" content="S. Manandhar">
+  <meta name="citation_author" content="Ion Androutsopoulos">
+  <meta name="citation_author" content="Ravikanth Repaka">
+  <meta name="citation_author" content="Ranga Reddy Pallelra">
+  <meta name="citation_author" content="Akshay Reddy Koppula">
+  <meta name="citation_author" content="Venkata Subhash">
+  <meta name="citation_author" content="Movva">
+  <meta name="citation_author" content="Z. Toh">
+  <meta name="citation_author" content="Jian Su">
+  <meta name="citation_author" content="Wei Wang">
+  <meta name="citation_author" content="Huan Xu">
+  <meta name="citation_author" content="Xiao-Qiu Huang">
+  <meta name="citation_author" content="Fan Zhang">
+  <meta name="citation_author" content="Tuhin Chakrabarty">
+  <meta name="citation_author" content="Tariq Alhindi">
+  <meta name="citation_author" content="S. Muresan">
+  <meta name="citation_author" content="Claudia Schulz">
+  <meta name="citation_author" content="Christopher Hidey">
+  <meta name="citation_author" content="Mona T. Diab">
+  <meta name="citation_author" content="Jackson Luken">
+  <meta name="citation_author" content="Nan-Jiang Jiang">
+  <meta name="citation_author" content="Marie-Catherine de Marneffe">
+  <meta name="citation_author" content="Wolfgang Otto">
+  <meta name="citation_author" content="P. Ankur">
+  <meta name="citation_author" content="Oscar Parikh">
+  <meta name="citation_author" content="Dipanjan Tckstrm">
+  <meta name="citation_author" content="Jakob Das">
+  <meta name="citation_author" content="Uszkoreit">
+  <meta name="citation_author" content="A. Trotman">
+  <meta name="citation_author" content="Antti Puurula">
+  <meta name="citation_author" content="Blake Burgess">
+  <meta name="citation_author" content="Qiang Zhang">
+  <meta name="citation_author" content="E. Yilmaz">
+  <meta name="citation_author" content="Shang-Song Liang">
+  <meta name="citation_author" content="Ehud Aharoni">
+  <meta name="citation_author" content="Anatoly Polnarov">
+  <meta name="citation_author" content="Tamar Lavee">
+  <meta name="citation_author" content="Daniel Hershcovich">
+  <meta name="citation_author" content="Ran Levy">
+  <meta name="citation_author" content="Ruty Rinott">
+  <meta name="citation_author" content="D. Gutfreund">
+  <meta name="citation_author" content="Khalid Al-Khatib">
+  <meta name="citation_author" content="Matthias Hagen">
+  <meta name="citation_author" content="J. Khler">
+  <meta name="citation_author" content="Martine Hanne">
+  <meta name="citation_author" content="Aleksandrs Eckhoff">
+  <meta name="citation_author" content="Berdicevskis">
+  <meta name="citation_author" content="Karn Fort">
+  <meta name="citation_author" content="Benot Sagot">
+  <meta name="citation_author" content="Jungo Kasai">
+  <meta name="citation_author" content="Sa-Sa Qian">
+  <meta name="citation_author" content="Yunyao Gurajada">
+  <meta name="citation_author" content="Lu-Lu Li">
+  <meta name="citation_author" content="Popa">
+  <meta name="citation_author" content="Gary King">
+  <meta name="citation_author" content="Lang-Che Zeng">
+  <meta name="citation_author" content="Jan-Christoph Klie">
+  <meta name="citation_author" content="Michael Bugert">
+  <meta name="citation_author" content="Beto Boullosa">
+  <meta name="citation_author" content="Richard Eckart de Castilho">
+  <meta name="citation_author" content="Ben Bogin">
+  <meta name="citation_author" content="S. Gretz">
+  <meta name="citation_author" content="Dong Lin">
+  <meta name="citation_author" content="Frank Lee">
+  <meta name="citation_author" content="Ou-Yu Xu">
+  <meta name="citation_author" content="Xiang-Yong Lan">
+  <meta name="citation_author" content="Ren">
+  <meta name="citation_author" content="Jing Ma">
+  <meta name="citation_author" content="Wei Gao">
+  <meta name="citation_author" content="Shafiq R. Joty">
+  <meta name="citation_author" content="Kam-Fai Wong">
+  <meta name="citation_author" content="Tobias Mayer">
+  <meta name="citation_author" content="Elena Cabrio">
+  <meta name="citation_author" content="S. Villata">
+  <meta name="citation_author" content="J. Pennington">
+  <meta name="citation_author" content="Kashyap Popat">
+  <meta name="citation_author" content="Subhabrata Mukherjee">
+  <meta name="citation_author" content="Andrew Yates">
+  <meta name="citation_author" content="G. Weikum">
+  <meta name="citation_author" content="Avinesh P.V.S">
+  <meta name="citation_author" content="Benjamin Httasch">
+  <meta name="citation_author" content="Orkan Zyurt">
+  <meta name="citation_author" content="Carsten Binnig">
+  <meta name="citation_author" content="Nils Reimers">
+  <meta name="citation_author" content="T. Beck">
+  <meta name="citation_author" content="C. Perez">
+  <meta name="citation_author" content="Mitesh M. Khapra">
+  <meta name="citation_author" content="Tobias Kahse">
+  <meta name="citation_author" content="Matthew Shardlow">
+  <meta name="citation_author" content="R. Batista-Navarro">
+  <meta name="citation_author" content="Paul Thompson">
+  <meta name="citation_author" content="R. Nawaz">
+  <meta name="citation_author" content="J. McNaught">
+  <meta name="citation_author" content="Sophia Ananiadou">
+  <meta name="citation_author" content="Carlos Alzate">
+  <meta name="citation_author" content="Yu-Fang Hou">
+  <meta name="citation_author" content="C. Stab">
+  <meta name="citation_author" content="Tristan Miller">
+  <meta name="citation_author" content="Pranav Rai">
+  <meta name="citation_author" content="C. Stahlhut">
+  <meta name="citation_author" content="Bill Adair">
+  <meta name="citation_author" content="Cheng-Kai Li">
+  <meta name="citation_author" content="Yang Jun">
+  <meta name="citation_author" content="Cong Yu">
+  <meta name="citation_author" content="C. F. Bond">
+  <meta name="citation_author" content="Bella Depaulo">
+  <meta name="citation_author" content="Leon Derczynski">
+  <meta name="citation_author" content="Kalina Bontcheva">
+  <meta name="citation_author" content="William Ferreira">
+  <meta name="citation_author" content="J. George">
+  <meta name="citation_author" content="Keane">
+  <meta name="citation_author" content="Jennifer Hancock">
+  <meta name="citation_author" content="Thompson Thom-Santelli">
+  <meta name="citation_author" content="Ritchie">
+  <meta name="citation_author" content="D. Benjamin">
+  <meta name="citation_author" content="S. Horne">
+  <meta name="citation_author" content="Adali">
+  <meta name="citation_author" content="Sara Horne">
+  <meta name="citation_author" content="Sibel Khedr">
+  <meta name="citation_author" content="Pei-yun Hsueh">
+  <meta name="citation_author" content="Prem Melville">
+  <meta name="citation_author" content="Vikas Sindhwani">
+  <meta name="citation_author" content="Tanushree Mitra">
+  <meta name="citation_author" content="Eric Gilbert">
+  <meta name="citation_author" content="Ndapandula Nakashole">
+  <meta name="citation_author" content="Tom M. Mitchell">
+  <meta name="citation_author" content="Jannik Strtgen">
+  <meta name="citation_author" content="Martin Potthast">
+  <meta name="citation_author" content="Johannes Kiesel">
+  <meta name="citation_author" content="Kevin Reinartz">
+  <meta name="citation_author" content="J. Bevendorff">
+  <meta name="citation_author" content="Georg Rehm">
+  <meta name="citation_author" content="J. Moreno-Schneider">
+  <meta name="citation_author" content="Peter Bourgonje">
+  <meta name="citation_author" content="M. Hany">
+  <meta name="citation_author" content="Salaheldeen">
+  <meta name="citation_author" content="Micah Nelson">
+  <meta name="citation_author" content="Kai Shu">
+  <meta name="citation_author" content="A. Sliva">
+  <meta name="citation_author" content="Su Wang">
+  <meta name="citation_author" content="Ji-Liang Tang">
+  <meta name="citation_author" content="Huan Liu">
+  <meta name="citation_author" content="M. Waldrop">
+  <meta name="citation_author" content="William Yang">
+  <meta name="citation_author" content="Wang">
+  <meta name="citation_author" content="Xue-Zhi Wang">
+  <meta name="citation_author" content="S. Baumgartner">
+  <meta name="citation_author" content="F. Korn">
+  <meta name="citation_author" content="X. Wang">
+  <meta name="citation_author" content="C. Yu">
+  <meta name="citation_author" content="S. Baumgartner">
+  <meta name="citation_author" content="F. Korn">
+  <meta name="citation_author" content="Christopher Malon">
+  <meta name="citation_author" content="D. Rao">
+  <meta name="citation_author" content="Paul McNamee">
+  <meta name="citation_author" content="Mark Dredze">
+  <meta name="citation_author" content="P. Bojanowski">
+  <meta name="citation_author" content="E. Grave">
+  <meta name="citation_author" content="A. Joulin">
+  <meta name="citation_author" content="T. Mikolov">
+  <meta name="citation_author" content="Alessandro Bondielli">
+  <meta name="citation_author" content="F. Marcelloni">
+  <meta name="citation_author" content="Giovanni Luca Ciampaglia">
+  <meta name="citation_author" content="Prashant Shiralkar">
+  <meta name="citation_author" content="L. Rocha">
+  <meta name="citation_author" content="J. Bollen">
+  <meta name="citation_author" content="F. Menczer">
+  <meta name="citation_author" content="A. Flammini">
+  <meta name="citation_author" content="N. Conroy">
+  <meta name="citation_author" content="V. Rubin">
+  <meta name="citation_author" content="Y. Chen">
+  <meta name="citation_author" content="S. Estévez-Velarde">
+  <meta name="citation_author" content="Y. Gutiérrez">
+  <meta name="citation_author" content="A. Montoyo">
+  <meta name="citation_author" content="Alejandro Piad-Morffis">
+  <meta name="citation_author" content="R. Munoz">
+  <meta name="citation_author" content="Yudivián Almeida-Cruz">
+  <meta name="citation_author" content="M. Honnibal">
+  <meta name="citation_author" content="I. Montani">
+  <meta name="citation_author" content="D. Korman">
+  <meta name="citation_author" content="E. Mack">
+  <meta name="citation_author" content="J. Jett">
+  <meta name="citation_author" content="Allen H. Renear">
+  <meta name="citation_author" content="S. Pad">
+  <meta name="citation_author" content="Taeil Noh">
+  <meta name="citation_author" content="A. Stern">
+  <meta name="citation_author" content="R. Wang">
+  <meta name="citation_author" content="R. Zanoli">
+  <meta name="citation_author" content="T. Lukoianova">
+  <meta name="citation_author" content="K. Shu">
+  <meta name="citation_author" content="A. Sliva">
+  <meta name="citation_author" content="S. Wang">
+  <meta name="citation_author" content="J. Tang">
+  <meta name="citation_author" content="H. Liu">
+  <meta name="citation_publication_date" content="2019">
+  <meta name="citation_doi" content="10.18653/v1/d19-66">
+  <meta name="citation_abstract" content="We present the results of the second Fact Extraction and VERification (FEVER2.0) Shared Task. The task challenged participants to both build systems to verify factoid claims using evidence retrieved from Wikipedia and to generate adversarial attacks against other participant&#x27;s systems. The shared task had three phases: building, breaking and fixing. There were 8 systems in the builder&#x27;s round, three of which were new qualifying submissions for this shared task, and 5 adversaries generated instances designed to induce classification errors and one builder submitted a fixed system which had higher FEVER score and resilience than their first submission. All but one newly submitted systems attained FEVER scores higher than the best performing system from the first shared task and under adversarial evaluation, all systems exhibited losses in FEVER score. There was a great variety in adversarial attack types as well as the techniques used to generate the attacks, In this paper, we present the results of the shared task and a summary of the systems, highlighting commonalities and innovations among participating systems.">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "@id": "https://borgr.github.io/papers/proceedings-of-the-second-workshop-on-fact-extraction-and-ve/#article",
+  "name": "Proceedings of the Second Workshop on Fact Extraction and VERification (FEVER)",
+  "headline": "Proceedings of the Second Workshop on Fact Extraction and VERification (FEVER)",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "James Thorne"
+    },
+    {
+      "@type": "Person",
+      "name": "Andreas Vlachos"
+    },
+    {
+      "@type": "Person",
+      "name": "Oana Cocarascu"
+    },
+    {
+      "@type": "Person",
+      "name": "Christos Christodoulopoulos"
+    },
+    {
+      "@type": "Person",
+      "name": "Arpit Mittal"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Wawer"
+    },
+    {
+      "@type": "Person",
+      "name": "Grzegorz Wojdyga"
+    },
+    {
+      "@type": "Person",
+      "name": "Justyna Sarzy ska-Wawer"
+    },
+    {
+      "@type": "Person",
+      "name": "Andreas Hanselowski"
+    },
+    {
+      "@type": "Person",
+      "name": "Hao Zhang"
+    },
+    {
+      "@type": "Person",
+      "name": "Zi-Le Li"
+    },
+    {
+      "@type": "Person",
+      "name": "Daniil Sorokin"
+    },
+    {
+      "@type": "Person",
+      "name": "Wei Fang"
+    },
+    {
+      "@type": "Person",
+      "name": "Moin Nadeem"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Mohtarami"
+    },
+    {
+      "@type": "Person",
+      "name": "James R. Glass"
+    },
+    {
+      "@type": "Person",
+      "name": "Piotr Niewi"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Pszona"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Janicka"
+    },
+    {
+      "@type": "Person",
+      "name": "Alireza Mohammadshahi"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Lebret"
+    },
+    {
+      "@type": "Person",
+      "name": "K. Aberer"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Samuel"
+    },
+    {
+      "@type": "Person",
+      "name": "G. Bowman"
+    },
+    {
+      "@type": "Person",
+      "name": "Christopher Angeli"
+    },
+    {
+      "@type": "Person",
+      "name": "Christopher Potts"
+    },
+    {
+      "@type": "Person",
+      "name": "Manning"
+    },
+    {
+      "@type": "Person",
+      "name": "Rich Caruana"
+    },
+    {
+      "@type": "Person",
+      "name": "Kevin Clark"
+    },
+    {
+      "@type": "Person",
+      "name": "Minh-Thang Luong"
+    },
+    {
+      "@type": "Person",
+      "name": "Christopher D. Manning"
+    },
+    {
+      "@type": "Person",
+      "name": "Q. Le"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Collobert"
+    },
+    {
+      "@type": "Person",
+      "name": "Jason Weston"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Conneau"
+    },
+    {
+      "@type": "Person",
+      "name": "Douwe Kiela"
+    },
+    {
+      "@type": "Person",
+      "name": "H. Schwenk"
+    },
+    {
+      "@type": "Person",
+      "name": "L. Barrault"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Bordes"
+    },
+    {
+      "@type": "Person",
+      "name": "Zi-Hang Dai"
+    },
+    {
+      "@type": "Person",
+      "name": "Zhi-Lin Yang"
+    },
+    {
+      "@type": "Person",
+      "name": "Yi-Ming Yang"
+    },
+    {
+      "@type": "Person",
+      "name": "Jaime G. Carbonell"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Salakhutdinov"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Devlin"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Chang"
+    },
+    {
+      "@type": "Person",
+      "name": "Kenton Lee"
+    },
+    {
+      "@type": "Person",
+      "name": "Kristina Toutanova"
+    },
+    {
+      "@type": "Person",
+      "name": "Bill Dolan"
+    },
+    {
+      "@type": "Person",
+      "name": "Chris Brockett"
+    },
+    {
+      "@type": "Person",
+      "name": "Avinesh P.V.S"
+    },
+    {
+      "@type": "Person",
+      "name": "B. Schiller"
+    },
+    {
+      "@type": "Person",
+      "name": "Felix Caspelherr"
+    },
+    {
+      "@type": "Person",
+      "name": "Debanjan Chaudhuri"
+    },
+    {
+      "@type": "Person",
+      "name": "Christian M. Meyer"
+    },
+    {
+      "@type": "Person",
+      "name": "Iryna Gurevych"
+    },
+    {
+      "@type": "Person",
+      "name": "Kazuma Hashimoto"
+    },
+    {
+      "@type": "Person",
+      "name": "Cai-Ming Xiong"
+    },
+    {
+      "@type": "Person",
+      "name": "Y. Tsuruoka"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Socher"
+    },
+    {
+      "@type": "Person",
+      "name": "Xiao-Dong Liu"
+    },
+    {
+      "@type": "Person",
+      "name": "Peng He"
+    },
+    {
+      "@type": "Person",
+      "name": "Wei-Zhu Chen"
+    },
+    {
+      "@type": "Person",
+      "name": "Jian Gao"
+    },
+    {
+      "@type": "Person",
+      "name": "Ye-Long Shen"
+    },
+    {
+      "@type": "Person",
+      "name": "Kevin Duh"
+    },
+    {
+      "@type": "Person",
+      "name": "Andrew L. Maas"
+    },
+    {
+      "@type": "Person",
+      "name": "Raymond E. Daly"
+    },
+    {
+      "@type": "Person",
+      "name": "Peter T. Pham"
+    },
+    {
+      "@type": "Person",
+      "name": "Dan-Cheng Huang"
+    },
+    {
+      "@type": "Person",
+      "name": "Andrew Ng"
+    },
+    {
+      "@type": "Person",
+      "name": "Bryan McCann"
+    },
+    {
+      "@type": "Person",
+      "name": "James Bradbury"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Baly"
+    },
+    {
+      "@type": "Person",
+      "name": "Preslav Nakov"
+    },
+    {
+      "@type": "Person",
+      "name": "Llus Mrquez"
+    },
+    {
+      "@type": "Person",
+      "name": "Alessandro Moschitti"
+    },
+    {
+      "@type": "Person",
+      "name": "Jialin Sinno"
+    },
+    {
+      "@type": "Person",
+      "name": "Qiang Pan"
+    },
+    {
+      "@type": "Person",
+      "name": "Yang"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Peters"
+    },
+    {
+      "@type": "Person",
+      "name": "Mark Neumann"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Iyyer"
+    },
+    {
+      "@type": "Person",
+      "name": "Matt Gardner"
+    },
+    {
+      "@type": "Person",
+      "name": "C. Clark"
+    },
+    {
+      "@type": "Person",
+      "name": "Luke S. Zettlemoyer"
+    },
+    {
+      "@type": "Person",
+      "name": "Pranav Rajpurkar"
+    },
+    {
+      "@type": "Person",
+      "name": "Jian Zhang"
+    },
+    {
+      "@type": "Person",
+      "name": "Konstantin Lopyrev"
+    },
+    {
+      "@type": "Person",
+      "name": "P. Liang"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Perelygin"
+    },
+    {
+      "@type": "Person",
+      "name": "Jean Y. Wu"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Chuang"
+    },
+    {
+      "@type": "Person",
+      "name": "Anders Sgaard"
+    },
+    {
+      "@type": "Person",
+      "name": "Yoav Goldberg"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Vaswani"
+    },
+    {
+      "@type": "Person",
+      "name": "Noam Shazeer"
+    },
+    {
+      "@type": "Person",
+      "name": "N. Parmar"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Uszkoreit"
+    },
+    {
+      "@type": "Person",
+      "name": "L. Jones"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Gomez"
+    },
+    {
+      "@type": "Person",
+      "name": "Ukasz Kaiser"
+    },
+    {
+      "@type": "Person",
+      "name": "I. Polosukhin"
+    },
+    {
+      "@type": "Person",
+      "name": "Alex Wang"
+    },
+    {
+      "@type": "Person",
+      "name": "Amanpreet Singh"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Michael"
+    },
+    {
+      "@type": "Person",
+      "name": "F. Hill"
+    },
+    {
+      "@type": "Person",
+      "name": "Omer Levy"
+    },
+    {
+      "@type": "Person",
+      "name": "Samuel Bowman"
+    },
+    {
+      "@type": "Person",
+      "name": "Adina Williams"
+    },
+    {
+      "@type": "Person",
+      "name": "Nikita Nangia"
+    },
+    {
+      "@type": "Person",
+      "name": "Brian Xu"
+    },
+    {
+      "@type": "Person",
+      "name": "Yu-Kun Zhu"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Kiros"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Zemel"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Urtasun"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Torralba"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Fidler"
+    },
+    {
+      "@type": "Person",
+      "name": "V. Levenshtein"
+    },
+    {
+      "@type": "Person",
+      "name": "George Doddington"
+    },
+    {
+      "@type": "Person",
+      "name": "W. Liggett"
+    },
+    {
+      "@type": "Person",
+      "name": "Alvin Martin"
+    },
+    {
+      "@type": "Person",
+      "name": "Mark A. Przybocki"
+    },
+    {
+      "@type": "Person",
+      "name": "Douglas Reynolds"
+    },
+    {
+      "@type": "Person",
+      "name": "Takashi Miyazaki"
+    },
+    {
+      "@type": "Person",
+      "name": "N. Shimizu"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Karpathy"
+    },
+    {
+      "@type": "Person",
+      "name": "Chris Manning"
+    },
+    {
+      "@type": "Person",
+      "name": "Peter Young"
+    },
+    {
+      "@type": "Person",
+      "name": "Alice Lai"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Hodosh"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Hockenmaier"
+    },
+    {
+      "@type": "Person",
+      "name": "Sanjeev Arora"
+    },
+    {
+      "@type": "Person",
+      "name": "Ying-Yu Liang"
+    },
+    {
+      "@type": "Person",
+      "name": "Teng-Yu Ma"
+    },
+    {
+      "@type": "Person",
+      "name": "Ankur Bapna"
+    },
+    {
+      "@type": "Person",
+      "name": "Orhan Firat"
+    },
+    {
+      "@type": "Person",
+      "name": "Daniel Cer"
+    },
+    {
+      "@type": "Person",
+      "name": "Yin-Fei Yang"
+    },
+    {
+      "@type": "Person",
+      "name": "Sheng-Yi Kong"
+    },
+    {
+      "@type": "Person",
+      "name": "Nan Hua"
+    },
+    {
+      "@type": "Person",
+      "name": "Nicole Limtiaco"
+    },
+    {
+      "@type": "Person",
+      "name": "Rhomni St"
+    },
+    {
+      "@type": "Person",
+      "name": "Noah John"
+    },
+    {
+      "@type": "Person",
+      "name": "Mario Constant"
+    },
+    {
+      "@type": "Person",
+      "name": "Steve Guajardo-Cespedes"
+    },
+    {
+      "@type": "Person",
+      "name": "C. Yuan"
+    },
+    {
+      "@type": "Person",
+      "name": "Yun-hsuan Tar"
+    },
+    {
+      "@type": "Person",
+      "name": "B. Sung"
+    },
+    {
+      "@type": "Person",
+      "name": "Ray Strope"
+    },
+    {
+      "@type": "Person",
+      "name": "Kurzweil"
+    },
+    {
+      "@type": "Person",
+      "name": "G. Paul"
+    },
+    {
+      "@type": "Person",
+      "name": "T. Kwiatkowski"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Palomaki"
+    },
+    {
+      "@type": "Person",
+      "name": "Olivia Redfield"
+    },
+    {
+      "@type": "Person",
+      "name": "Michael Collins"
+    },
+    {
+      "@type": "Person",
+      "name": "Ankur Parikh"
+    },
+    {
+      "@type": "Person",
+      "name": "Chris Alberti"
+    },
+    {
+      "@type": "Person",
+      "name": "D. Epstein"
+    },
+    {
+      "@type": "Person",
+      "name": "Matthew Kelcey"
+    },
+    {
+      "@type": "Person",
+      "name": "Andrew M. Dai"
+    },
+    {
+      "@type": "Person",
+      "name": "Slav Petrov"
+    },
+    {
+      "@type": "Person",
+      "name": "Gabor Angeli"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Premkumar"
+    },
+    {
+      "@type": "Person",
+      "name": "Husam Ali"
+    },
+    {
+      "@type": "Person",
+      "name": "Yllias Chali"
+    },
+    {
+      "@type": "Person",
+      "name": "Sadid A. Hasan"
+    },
+    {
+      "@type": "Person",
+      "name": "Yanghoon Kim"
+    },
+    {
+      "@type": "Person",
+      "name": "Hwanhee Lee"
+    },
+    {
+      "@type": "Person",
+      "name": "Joongbo Shin"
+    },
+    {
+      "@type": "Person",
+      "name": "Kyomin Jung"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Surdeanu"
+    },
+    {
+      "@type": "Person",
+      "name": "John Bauer"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Finkel"
+    },
+    {
+      "@type": "Person",
+      "name": "Steven Bethard"
+    },
+    {
+      "@type": "Person",
+      "name": "D. Mcclosky"
+    },
+    {
+      "@type": "Person",
+      "name": "Yixin Nie"
+    },
+    {
+      "@type": "Person",
+      "name": "Hao-Nan Chen"
+    },
+    {
+      "@type": "Person",
+      "name": "Mohit Bansal"
+    },
+    {
+      "@type": "Person",
+      "name": "Takuma Yoneda"
+    },
+    {
+      "@type": "Person",
+      "name": "Jeff Mitchell"
+    },
+    {
+      "@type": "Person",
+      "name": "Johannes Welbl"
+    },
+    {
+      "@type": "Person",
+      "name": "Pontus Stenetorp"
+    },
+    {
+      "@type": "Person",
+      "name": "Sebastian Riedel"
+    },
+    {
+      "@type": "Person",
+      "name": "Filip Boltui"
+    },
+    {
+      "@type": "Person",
+      "name": "Joanna Najder"
+    },
+    {
+      "@type": "Person",
+      "name": "Sheng-Yi Kong"
+    },
+    {
+      "@type": "Person",
+      "name": "B. Tar"
+    },
+    {
+      "@type": "Person",
+      "name": "John C. Duchi"
+    },
+    {
+      "@type": "Person",
+      "name": "Elad Hazan"
+    },
+    {
+      "@type": "Person",
+      "name": "Y. Singer"
+    },
+    {
+      "@type": "Person",
+      "name": "Steffen Eger"
+    },
+    {
+      "@type": "Person",
+      "name": "Johannes Daxenberger"
+    },
+    {
+      "@type": "Person",
+      "name": "Martin Gleize"
+    },
+    {
+      "@type": "Person",
+      "name": "E. Shnarch"
+    },
+    {
+      "@type": "Person",
+      "name": "Leshem Choshen",
+      "@id": "https://orcid.org/0000-0002-0085-6496"
+    },
+    {
+      "@type": "Person",
+      "name": "Lena Dankin"
+    },
+    {
+      "@type": "Person",
+      "name": "Guy Moshkowich"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Aharonov"
+    },
+    {
+      "@type": "Person",
+      "name": "N. Slonim"
+    },
+    {
+      "@type": "Person",
+      "name": "Ivan Habernal"
+    },
+    {
+      "@type": "Person",
+      "name": "Henning Wachsmuth"
+    },
+    {
+      "@type": "Person",
+      "name": "Benno Stein"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Hochreiter"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Schmidhuber"
+    },
+    {
+      "@type": "Person",
+      "name": "Xinyu Hua"
+    },
+    {
+      "@type": "Person",
+      "name": "Lu Wang"
+    },
+    {
+      "@type": "Person",
+      "name": "Yan-Kai Lin"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Shen"
+    },
+    {
+      "@type": "Person",
+      "name": "Zhi-Yuan Liu"
+    },
+    {
+      "@type": "Person",
+      "name": "Huan-Bo Luan"
+    },
+    {
+      "@type": "Person",
+      "name": "Mao-Song Sun"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Baccianella"
+    },
+    {
+      "@type": "Person",
+      "name": "Andrea Esuli"
+    },
+    {
+      "@type": "Person",
+      "name": "F. Sebastiani"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Blei"
+    },
+    {
+      "@type": "Person",
+      "name": "Michael Ng"
+    },
+    {
+      "@type": "Person",
+      "name": "Jordan"
+    },
+    {
+      "@type": "Person",
+      "name": "Ge-Li Fei"
+    },
+    {
+      "@type": "Person",
+      "name": "Bing Liu"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Hsu"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Castellanos"
+    },
+    {
+      "@type": "Person",
+      "name": "Riddhiman Ghosh"
+    },
+    {
+      "@type": "Person",
+      "name": "Min-Qing Hu"
+    },
+    {
+      "@type": "Person",
+      "name": "Niklas Jakob"
+    },
+    {
+      "@type": "Person",
+      "name": "Wei-Qiang Jin"
+    },
+    {
+      "@type": "Person",
+      "name": "H. Hồ"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Srihari"
+    },
+    {
+      "@type": "Person",
+      "name": "Kang Liu"
+    },
+    {
+      "@type": "Person",
+      "name": "Liam Heng"
+    },
+    {
+      "@type": "Person",
+      "name": "Yang Xu"
+    },
+    {
+      "@type": "Person",
+      "name": "Jun Liu"
+    },
+    {
+      "@type": "Person",
+      "name": "Zhao"
+    },
+    {
+      "@type": "Person",
+      "name": "Li-Heng Xu"
+    },
+    {
+      "@type": "Person",
+      "name": "Jun Zhao"
+    },
+    {
+      "@type": "Person",
+      "name": "T. Mikolov"
+    },
+    {
+      "@type": "Person",
+      "name": "I. Sutskever"
+    },
+    {
+      "@type": "Person",
+      "name": "Kai Chen"
+    },
+    {
+      "@type": "Person",
+      "name": "G. Corrado"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Dean"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Moghaddam"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Ester"
+    },
+    {
+      "@type": "Person",
+      "name": "Aitor Garca Pablos"
+    },
+    {
+      "@type": "Person",
+      "name": "Montse Cuadros"
+    },
+    {
+      "@type": "Person",
+      "name": "German Rigau"
+    },
+    {
+      "@type": "Person",
+      "name": "Maria Pontiki"
+    },
+    {
+      "@type": "Person",
+      "name": "D. Galanis"
+    },
+    {
+      "@type": "Person",
+      "name": "Haris Papageorgiou"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Manandhar"
+    },
+    {
+      "@type": "Person",
+      "name": "Ion Androutsopoulos"
+    },
+    {
+      "@type": "Person",
+      "name": "Ravikanth Repaka"
+    },
+    {
+      "@type": "Person",
+      "name": "Ranga Reddy Pallelra"
+    },
+    {
+      "@type": "Person",
+      "name": "Akshay Reddy Koppula"
+    },
+    {
+      "@type": "Person",
+      "name": "Venkata Subhash"
+    },
+    {
+      "@type": "Person",
+      "name": "Movva"
+    },
+    {
+      "@type": "Person",
+      "name": "Z. Toh"
+    },
+    {
+      "@type": "Person",
+      "name": "Jian Su"
+    },
+    {
+      "@type": "Person",
+      "name": "Wei Wang"
+    },
+    {
+      "@type": "Person",
+      "name": "Huan Xu"
+    },
+    {
+      "@type": "Person",
+      "name": "Xiao-Qiu Huang"
+    },
+    {
+      "@type": "Person",
+      "name": "Fan Zhang"
+    },
+    {
+      "@type": "Person",
+      "name": "Tuhin Chakrabarty"
+    },
+    {
+      "@type": "Person",
+      "name": "Tariq Alhindi"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Muresan"
+    },
+    {
+      "@type": "Person",
+      "name": "Claudia Schulz"
+    },
+    {
+      "@type": "Person",
+      "name": "Christopher Hidey"
+    },
+    {
+      "@type": "Person",
+      "name": "Mona T. Diab"
+    },
+    {
+      "@type": "Person",
+      "name": "Jackson Luken"
+    },
+    {
+      "@type": "Person",
+      "name": "Nan-Jiang Jiang"
+    },
+    {
+      "@type": "Person",
+      "name": "Marie-Catherine de Marneffe"
+    },
+    {
+      "@type": "Person",
+      "name": "Wolfgang Otto"
+    },
+    {
+      "@type": "Person",
+      "name": "P. Ankur"
+    },
+    {
+      "@type": "Person",
+      "name": "Oscar Parikh"
+    },
+    {
+      "@type": "Person",
+      "name": "Dipanjan Tckstrm"
+    },
+    {
+      "@type": "Person",
+      "name": "Jakob Das"
+    },
+    {
+      "@type": "Person",
+      "name": "Uszkoreit"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Trotman"
+    },
+    {
+      "@type": "Person",
+      "name": "Antti Puurula"
+    },
+    {
+      "@type": "Person",
+      "name": "Blake Burgess"
+    },
+    {
+      "@type": "Person",
+      "name": "Qiang Zhang"
+    },
+    {
+      "@type": "Person",
+      "name": "E. Yilmaz"
+    },
+    {
+      "@type": "Person",
+      "name": "Shang-Song Liang"
+    },
+    {
+      "@type": "Person",
+      "name": "Ehud Aharoni"
+    },
+    {
+      "@type": "Person",
+      "name": "Anatoly Polnarov"
+    },
+    {
+      "@type": "Person",
+      "name": "Tamar Lavee"
+    },
+    {
+      "@type": "Person",
+      "name": "Daniel Hershcovich"
+    },
+    {
+      "@type": "Person",
+      "name": "Ran Levy"
+    },
+    {
+      "@type": "Person",
+      "name": "Ruty Rinott"
+    },
+    {
+      "@type": "Person",
+      "name": "D. Gutfreund"
+    },
+    {
+      "@type": "Person",
+      "name": "Khalid Al-Khatib"
+    },
+    {
+      "@type": "Person",
+      "name": "Matthias Hagen"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Khler"
+    },
+    {
+      "@type": "Person",
+      "name": "Martine Hanne"
+    },
+    {
+      "@type": "Person",
+      "name": "Aleksandrs Eckhoff"
+    },
+    {
+      "@type": "Person",
+      "name": "Berdicevskis"
+    },
+    {
+      "@type": "Person",
+      "name": "Karn Fort"
+    },
+    {
+      "@type": "Person",
+      "name": "Benot Sagot"
+    },
+    {
+      "@type": "Person",
+      "name": "Jungo Kasai"
+    },
+    {
+      "@type": "Person",
+      "name": "Sa-Sa Qian"
+    },
+    {
+      "@type": "Person",
+      "name": "Yunyao Gurajada"
+    },
+    {
+      "@type": "Person",
+      "name": "Lu-Lu Li"
+    },
+    {
+      "@type": "Person",
+      "name": "Popa"
+    },
+    {
+      "@type": "Person",
+      "name": "Gary King"
+    },
+    {
+      "@type": "Person",
+      "name": "Lang-Che Zeng"
+    },
+    {
+      "@type": "Person",
+      "name": "Jan-Christoph Klie"
+    },
+    {
+      "@type": "Person",
+      "name": "Michael Bugert"
+    },
+    {
+      "@type": "Person",
+      "name": "Beto Boullosa"
+    },
+    {
+      "@type": "Person",
+      "name": "Richard Eckart de Castilho"
+    },
+    {
+      "@type": "Person",
+      "name": "Ben Bogin"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Gretz"
+    },
+    {
+      "@type": "Person",
+      "name": "Dong Lin"
+    },
+    {
+      "@type": "Person",
+      "name": "Frank Lee"
+    },
+    {
+      "@type": "Person",
+      "name": "Ou-Yu Xu"
+    },
+    {
+      "@type": "Person",
+      "name": "Xiang-Yong Lan"
+    },
+    {
+      "@type": "Person",
+      "name": "Ren"
+    },
+    {
+      "@type": "Person",
+      "name": "Jing Ma"
+    },
+    {
+      "@type": "Person",
+      "name": "Wei Gao"
+    },
+    {
+      "@type": "Person",
+      "name": "Shafiq R. Joty"
+    },
+    {
+      "@type": "Person",
+      "name": "Kam-Fai Wong"
+    },
+    {
+      "@type": "Person",
+      "name": "Tobias Mayer"
+    },
+    {
+      "@type": "Person",
+      "name": "Elena Cabrio"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Villata"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Pennington"
+    },
+    {
+      "@type": "Person",
+      "name": "Kashyap Popat"
+    },
+    {
+      "@type": "Person",
+      "name": "Subhabrata Mukherjee"
+    },
+    {
+      "@type": "Person",
+      "name": "Andrew Yates"
+    },
+    {
+      "@type": "Person",
+      "name": "G. Weikum"
+    },
+    {
+      "@type": "Person",
+      "name": "Avinesh P.V.S"
+    },
+    {
+      "@type": "Person",
+      "name": "Benjamin Httasch"
+    },
+    {
+      "@type": "Person",
+      "name": "Orkan Zyurt"
+    },
+    {
+      "@type": "Person",
+      "name": "Carsten Binnig"
+    },
+    {
+      "@type": "Person",
+      "name": "Nils Reimers"
+    },
+    {
+      "@type": "Person",
+      "name": "T. Beck"
+    },
+    {
+      "@type": "Person",
+      "name": "C. Perez"
+    },
+    {
+      "@type": "Person",
+      "name": "Mitesh M. Khapra"
+    },
+    {
+      "@type": "Person",
+      "name": "Tobias Kahse"
+    },
+    {
+      "@type": "Person",
+      "name": "Matthew Shardlow"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Batista-Navarro"
+    },
+    {
+      "@type": "Person",
+      "name": "Paul Thompson"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Nawaz"
+    },
+    {
+      "@type": "Person",
+      "name": "J. McNaught"
+    },
+    {
+      "@type": "Person",
+      "name": "Sophia Ananiadou"
+    },
+    {
+      "@type": "Person",
+      "name": "Carlos Alzate"
+    },
+    {
+      "@type": "Person",
+      "name": "Yu-Fang Hou"
+    },
+    {
+      "@type": "Person",
+      "name": "C. Stab"
+    },
+    {
+      "@type": "Person",
+      "name": "Tristan Miller"
+    },
+    {
+      "@type": "Person",
+      "name": "Pranav Rai"
+    },
+    {
+      "@type": "Person",
+      "name": "C. Stahlhut"
+    },
+    {
+      "@type": "Person",
+      "name": "Bill Adair"
+    },
+    {
+      "@type": "Person",
+      "name": "Cheng-Kai Li"
+    },
+    {
+      "@type": "Person",
+      "name": "Yang Jun"
+    },
+    {
+      "@type": "Person",
+      "name": "Cong Yu"
+    },
+    {
+      "@type": "Person",
+      "name": "C. F. Bond"
+    },
+    {
+      "@type": "Person",
+      "name": "Bella Depaulo"
+    },
+    {
+      "@type": "Person",
+      "name": "Leon Derczynski"
+    },
+    {
+      "@type": "Person",
+      "name": "Kalina Bontcheva"
+    },
+    {
+      "@type": "Person",
+      "name": "William Ferreira"
+    },
+    {
+      "@type": "Person",
+      "name": "J. George"
+    },
+    {
+      "@type": "Person",
+      "name": "Keane"
+    },
+    {
+      "@type": "Person",
+      "name": "Jennifer Hancock"
+    },
+    {
+      "@type": "Person",
+      "name": "Thompson Thom-Santelli"
+    },
+    {
+      "@type": "Person",
+      "name": "Ritchie"
+    },
+    {
+      "@type": "Person",
+      "name": "D. Benjamin"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Horne"
+    },
+    {
+      "@type": "Person",
+      "name": "Adali"
+    },
+    {
+      "@type": "Person",
+      "name": "Sara Horne"
+    },
+    {
+      "@type": "Person",
+      "name": "Sibel Khedr"
+    },
+    {
+      "@type": "Person",
+      "name": "Pei-yun Hsueh"
+    },
+    {
+      "@type": "Person",
+      "name": "Prem Melville"
+    },
+    {
+      "@type": "Person",
+      "name": "Vikas Sindhwani"
+    },
+    {
+      "@type": "Person",
+      "name": "Tanushree Mitra"
+    },
+    {
+      "@type": "Person",
+      "name": "Eric Gilbert"
+    },
+    {
+      "@type": "Person",
+      "name": "Ndapandula Nakashole"
+    },
+    {
+      "@type": "Person",
+      "name": "Tom M. Mitchell"
+    },
+    {
+      "@type": "Person",
+      "name": "Jannik Strtgen"
+    },
+    {
+      "@type": "Person",
+      "name": "Martin Potthast"
+    },
+    {
+      "@type": "Person",
+      "name": "Johannes Kiesel"
+    },
+    {
+      "@type": "Person",
+      "name": "Kevin Reinartz"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Bevendorff"
+    },
+    {
+      "@type": "Person",
+      "name": "Georg Rehm"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Moreno-Schneider"
+    },
+    {
+      "@type": "Person",
+      "name": "Peter Bourgonje"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Hany"
+    },
+    {
+      "@type": "Person",
+      "name": "Salaheldeen"
+    },
+    {
+      "@type": "Person",
+      "name": "Micah Nelson"
+    },
+    {
+      "@type": "Person",
+      "name": "Kai Shu"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Sliva"
+    },
+    {
+      "@type": "Person",
+      "name": "Su Wang"
+    },
+    {
+      "@type": "Person",
+      "name": "Ji-Liang Tang"
+    },
+    {
+      "@type": "Person",
+      "name": "Huan Liu"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Waldrop"
+    },
+    {
+      "@type": "Person",
+      "name": "William Yang"
+    },
+    {
+      "@type": "Person",
+      "name": "Wang"
+    },
+    {
+      "@type": "Person",
+      "name": "Xue-Zhi Wang"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Baumgartner"
+    },
+    {
+      "@type": "Person",
+      "name": "F. Korn"
+    },
+    {
+      "@type": "Person",
+      "name": "X. Wang"
+    },
+    {
+      "@type": "Person",
+      "name": "C. Yu"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Baumgartner"
+    },
+    {
+      "@type": "Person",
+      "name": "F. Korn"
+    },
+    {
+      "@type": "Person",
+      "name": "Christopher Malon"
+    },
+    {
+      "@type": "Person",
+      "name": "D. Rao"
+    },
+    {
+      "@type": "Person",
+      "name": "Paul McNamee"
+    },
+    {
+      "@type": "Person",
+      "name": "Mark Dredze"
+    },
+    {
+      "@type": "Person",
+      "name": "P. Bojanowski"
+    },
+    {
+      "@type": "Person",
+      "name": "E. Grave"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Joulin"
+    },
+    {
+      "@type": "Person",
+      "name": "T. Mikolov"
+    },
+    {
+      "@type": "Person",
+      "name": "Alessandro Bondielli"
+    },
+    {
+      "@type": "Person",
+      "name": "F. Marcelloni"
+    },
+    {
+      "@type": "Person",
+      "name": "Giovanni Luca Ciampaglia"
+    },
+    {
+      "@type": "Person",
+      "name": "Prashant Shiralkar"
+    },
+    {
+      "@type": "Person",
+      "name": "L. Rocha"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Bollen"
+    },
+    {
+      "@type": "Person",
+      "name": "F. Menczer"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Flammini"
+    },
+    {
+      "@type": "Person",
+      "name": "N. Conroy"
+    },
+    {
+      "@type": "Person",
+      "name": "V. Rubin"
+    },
+    {
+      "@type": "Person",
+      "name": "Y. Chen"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Estévez-Velarde"
+    },
+    {
+      "@type": "Person",
+      "name": "Y. Gutiérrez"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Montoyo"
+    },
+    {
+      "@type": "Person",
+      "name": "Alejandro Piad-Morffis"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Munoz"
+    },
+    {
+      "@type": "Person",
+      "name": "Yudivián Almeida-Cruz"
+    },
+    {
+      "@type": "Person",
+      "name": "M. Honnibal"
+    },
+    {
+      "@type": "Person",
+      "name": "I. Montani"
+    },
+    {
+      "@type": "Person",
+      "name": "D. Korman"
+    },
+    {
+      "@type": "Person",
+      "name": "E. Mack"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Jett"
+    },
+    {
+      "@type": "Person",
+      "name": "Allen H. Renear"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Pad"
+    },
+    {
+      "@type": "Person",
+      "name": "Taeil Noh"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Stern"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Wang"
+    },
+    {
+      "@type": "Person",
+      "name": "R. Zanoli"
+    },
+    {
+      "@type": "Person",
+      "name": "T. Lukoianova"
+    },
+    {
+      "@type": "Person",
+      "name": "K. Shu"
+    },
+    {
+      "@type": "Person",
+      "name": "A. Sliva"
+    },
+    {
+      "@type": "Person",
+      "name": "S. Wang"
+    },
+    {
+      "@type": "Person",
+      "name": "J. Tang"
+    },
+    {
+      "@type": "Person",
+      "name": "H. Liu"
+    }
+  ],
+  "isAccessibleForFree": true,
+  "datePublished": "2019",
+  "identifier": "https://doi.org/10.18653/v1/d19-66",
+  "abstract": "We present the results of the second Fact Extraction and VERification (FEVER2.0) Shared Task. The task challenged participants to both build systems to verify factoid claims using evidence retrieved from Wikipedia and to generate adversarial attacks against other participant's systems. The shared task had three phases: building, breaking and fixing. There were 8 systems in the builder's round, three of which were new qualifying submissions for this shared task, and 5 adversaries generated instances designed to induce classification errors and one builder submitted a fixed system which had higher FEVER score and resilience than their first submission. All but one newly submitted systems attained FEVER scores higher than the best performing system from the first shared task and under adversarial evaluation, all systems exhibited losses in FEVER score. There was a great variety in adversarial attack types as well as the techniques used to generate the attacks, In this paper, we present the results of the shared task and a summary of the systems, highlighting commonalities and innovations among participating systems.",
+  "sameAs": [
+    "https://doi.org/10.18653/v1/d19-66",
+    "https://www.semanticscholar.org/paper/239191069"
+  ]
+}
+  </script>
+  <style>
+    body { max-width: 46rem; margin: 2rem auto; padding: 0 1rem;
+            font: 16px/1.6 Georgia, "Times New Roman", serif; color: #1a1a1a; }
+    h1, h2, h3 { font-family: -apple-system, system-ui, sans-serif; line-height: 1.25; }
+    h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+    .sub { color: #555; font-size: 1.05rem; margin-top: 0; }
+    .meta { color: #555; font-size: .92rem; }
+    .lead { font-size: 1.05rem; margin: .6rem 0; }
+    a { color: #06c; }
+    dl.qa dt { font-weight: 600; margin-top: 1rem; font-family: -apple-system, sans-serif; }
+    dl.qa dd { margin: .3rem 0 0 0; }
+    .scope { color: #444; font-size: .94rem; }
+    pre { background: #f6f6f4; padding: .8rem; overflow-x: auto; font-size: .84rem; }
+    ul.links { list-style: none; padding: 0; }
+    ul.links li { display: inline-block; margin: 0 .8rem .3rem 0; }
+    footer { margin-top: 3rem; border-top: 1px solid #ddd; padding-top: .8rem;
+              font-size: .85rem; color: #666; }
+    .human { background: #fbf7e8; border: 1px solid #e4d9b0; border-radius: 4px;
+              padding: .7rem .9rem; margin: 1rem 0; font-size: 1.02rem; }
+    .human b { font-family: -apple-system, system-ui, sans-serif; }
+  </style>
+</head>
+<body>
+<h1>Proceedings of the Second Workshop on Fact Extraction and VERification (FEVER)</h1>
+<p class="meta">James Thorne, Andreas Vlachos, Oana Cocarascu, Christos Christodoulopoulos, Arpit Mittal, A. Wawer, Grzegorz Wojdyga, Justyna Sarzy ska-Wawer, Andreas Hanselowski, Hao Zhang, Zi-Le Li, Daniil Sorokin, Wei Fang, Moin Nadeem, M. Mohtarami, James R. Glass, Piotr Niewi, M. Pszona, M. Janicka, Alireza Mohammadshahi, R. Lebret, K. Aberer, R. Samuel, G. Bowman, Christopher Angeli, Christopher Potts, Manning, Rich Caruana, Kevin Clark, Minh-Thang Luong, Christopher D. Manning, Q. Le, R. Collobert, Jason Weston, A. Conneau, Douwe Kiela, H. Schwenk, L. Barrault, A. Bordes, Zi-Hang Dai, Zhi-Lin Yang, Yi-Ming Yang, Jaime G. Carbonell, R. Salakhutdinov, J. Devlin, M. Chang, Kenton Lee, Kristina Toutanova, Bill Dolan, Chris Brockett, Avinesh P.V.S, B. Schiller, Felix Caspelherr, Debanjan Chaudhuri, Christian M. Meyer, Iryna Gurevych, Kazuma Hashimoto, Cai-Ming Xiong, Y. Tsuruoka, R. Socher, Xiao-Dong Liu, Peng He, Wei-Zhu Chen, Jian Gao, Ye-Long Shen, Kevin Duh, Andrew L. Maas, Raymond E. Daly, Peter T. Pham, Dan-Cheng Huang, Andrew Ng, Bryan McCann, James Bradbury, R. Baly, Preslav Nakov, Llus Mrquez, Alessandro Moschitti, Jialin Sinno, Qiang Pan, Yang, M. Peters, Mark Neumann, M. Iyyer, Matt Gardner, C. Clark, Luke S. Zettlemoyer, Pranav Rajpurkar, Jian Zhang, Konstantin Lopyrev, P. Liang, A. Perelygin, Jean Y. Wu, J. Chuang, Anders Sgaard, Yoav Goldberg, A. Vaswani, Noam Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. Gomez, Ukasz Kaiser, I. Polosukhin, Alex Wang, Amanpreet Singh, J. Michael, F. Hill, Omer Levy, Samuel Bowman, Adina Williams, Nikita Nangia, Brian Xu, Yu-Kun Zhu, R. Kiros, R. Zemel, R. Urtasun, A. Torralba, S. Fidler, V. Levenshtein, George Doddington, W. Liggett, Alvin Martin, Mark A. Przybocki, Douglas Reynolds, Takashi Miyazaki, N. Shimizu, A. Karpathy, Chris Manning, Peter Young, Alice Lai, M. Hodosh, J. Hockenmaier, Sanjeev Arora, Ying-Yu Liang, Teng-Yu Ma, Ankur Bapna, Orhan Firat, Daniel Cer, Yin-Fei Yang, Sheng-Yi Kong, Nan Hua, Nicole Limtiaco, Rhomni St, Noah John, Mario Constant, Steve Guajardo-Cespedes, C. Yuan, Yun-hsuan Tar, B. Sung, Ray Strope, Kurzweil, G. Paul, T. Kwiatkowski, J. Palomaki, Olivia Redfield, Michael Collins, Ankur Parikh, Chris Alberti, D. Epstein, Matthew Kelcey, Andrew M. Dai, Slav Petrov, Gabor Angeli, M. Premkumar, Husam Ali, Yllias Chali, Sadid A. Hasan, Yanghoon Kim, Hwanhee Lee, Joongbo Shin, Kyomin Jung, M. Surdeanu, John Bauer, J. Finkel, Steven Bethard, D. Mcclosky, Yixin Nie, Hao-Nan Chen, Mohit Bansal, Takuma Yoneda, Jeff Mitchell, Johannes Welbl, Pontus Stenetorp, Sebastian Riedel, Filip Boltui, Joanna Najder, Sheng-Yi Kong, B. Tar, John C. Duchi, Elad Hazan, Y. Singer, Steffen Eger, Johannes Daxenberger, Martin Gleize, E. Shnarch, Leshem Choshen, Lena Dankin, Guy Moshkowich, R. Aharonov, N. Slonim, Ivan Habernal, Henning Wachsmuth, Benno Stein, S. Hochreiter, J. Schmidhuber, Xinyu Hua, Lu Wang, Yan-Kai Lin, S. Shen, Zhi-Yuan Liu, Huan-Bo Luan, Mao-Song Sun, S. Baccianella, Andrea Esuli, F. Sebastiani, A. Blei, Michael Ng, Jordan, Ge-Li Fei, Bing Liu, M. Hsu, M. Castellanos, Riddhiman Ghosh, Min-Qing Hu, Niklas Jakob, Wei-Qiang Jin, H. Hồ, R. Srihari, Kang Liu, Liam Heng, Yang Xu, Jun Liu, Zhao, Li-Heng Xu, Jun Zhao, T. Mikolov, I. Sutskever, Kai Chen, G. Corrado, J. Dean, S. Moghaddam, M. Ester, Aitor Garca Pablos, Montse Cuadros, German Rigau, Maria Pontiki, D. Galanis, Haris Papageorgiou, S. Manandhar, Ion Androutsopoulos, Ravikanth Repaka, Ranga Reddy Pallelra, Akshay Reddy Koppula, Venkata Subhash, Movva, Z. Toh, Jian Su, Wei Wang, Huan Xu, Xiao-Qiu Huang, Fan Zhang, Tuhin Chakrabarty, Tariq Alhindi, S. Muresan, Claudia Schulz, Christopher Hidey, Mona T. Diab, Jackson Luken, Nan-Jiang Jiang, Marie-Catherine de Marneffe, Wolfgang Otto, P. Ankur, Oscar Parikh, Dipanjan Tckstrm, Jakob Das, Uszkoreit, A. Trotman, Antti Puurula, Blake Burgess, Qiang Zhang, E. Yilmaz, Shang-Song Liang, Ehud Aharoni, Anatoly Polnarov, Tamar Lavee, Daniel Hershcovich, Ran Levy, Ruty Rinott, D. Gutfreund, Khalid Al-Khatib, Matthias Hagen, J. Khler, Martine Hanne, Aleksandrs Eckhoff, Berdicevskis, Karn Fort, Benot Sagot, Jungo Kasai, Sa-Sa Qian, Yunyao Gurajada, Lu-Lu Li, Popa, Gary King, Lang-Che Zeng, Jan-Christoph Klie, Michael Bugert, Beto Boullosa, Richard Eckart de Castilho, Ben Bogin, S. Gretz, Dong Lin, Frank Lee, Ou-Yu Xu, Xiang-Yong Lan, Ren, Jing Ma, Wei Gao, Shafiq R. Joty, Kam-Fai Wong, Tobias Mayer, Elena Cabrio, S. Villata, J. Pennington, Kashyap Popat, Subhabrata Mukherjee, Andrew Yates, G. Weikum, Avinesh P.V.S, Benjamin Httasch, Orkan Zyurt, Carsten Binnig, Nils Reimers, T. Beck, C. Perez, Mitesh M. Khapra, Tobias Kahse, Matthew Shardlow, R. Batista-Navarro, Paul Thompson, R. Nawaz, J. McNaught, Sophia Ananiadou, Carlos Alzate, Yu-Fang Hou, C. Stab, Tristan Miller, Pranav Rai, C. Stahlhut, Bill Adair, Cheng-Kai Li, Yang Jun, Cong Yu, C. F. Bond, Bella Depaulo, Leon Derczynski, Kalina Bontcheva, William Ferreira, J. George, Keane, Jennifer Hancock, Thompson Thom-Santelli, Ritchie, D. Benjamin, S. Horne, Adali, Sara Horne, Sibel Khedr, Pei-yun Hsueh, Prem Melville, Vikas Sindhwani, Tanushree Mitra, Eric Gilbert, Ndapandula Nakashole, Tom M. Mitchell, Jannik Strtgen, Martin Potthast, Johannes Kiesel, Kevin Reinartz, J. Bevendorff, Georg Rehm, J. Moreno-Schneider, Peter Bourgonje, M. Hany, Salaheldeen, Micah Nelson, Kai Shu, A. Sliva, Su Wang, Ji-Liang Tang, Huan Liu, M. Waldrop, William Yang, Wang, Xue-Zhi Wang, S. Baumgartner, F. Korn, X. Wang, C. Yu, S. Baumgartner, F. Korn, Christopher Malon, D. Rao, Paul McNamee, Mark Dredze, P. Bojanowski, E. Grave, A. Joulin, T. Mikolov, Alessandro Bondielli, F. Marcelloni, Giovanni Luca Ciampaglia, Prashant Shiralkar, L. Rocha, J. Bollen, F. Menczer, A. Flammini, N. Conroy, V. Rubin, Y. Chen, S. Estévez-Velarde, Y. Gutiérrez, A. Montoyo, Alejandro Piad-Morffis, R. Munoz, Yudivián Almeida-Cruz, M. Honnibal, I. Montani, D. Korman, E. Mack, J. Jett, Allen H. Renear, S. Pad, Taeil Noh, A. Stern, R. Wang, R. Zanoli, T. Lukoianova, K. Shu, A. Sliva, S. Wang, J. Tang, H. Liu · 2019</p>
+<ul class="links"><li><a href="https://doi.org/10.18653/v1/d19-66">DOI</a></li><li><a href="https://www.semanticscholar.org/paper/239191069">Semantic Scholar</a></li></ul>
+<h2>Abstract</h2>
+<p>We present the results of the second Fact Extraction and VERification (FEVER2.0) Shared Task. The task challenged participants to both build systems to verify factoid claims using evidence retrieved from Wikipedia and to generate adversarial attacks against other participant&#x27;s systems. The shared task had three phases: building, breaking and fixing. There were 8 systems in the builder&#x27;s round, three of which were new qualifying submissions for this shared task, and 5 adversaries generated instances designed to induce classification errors and one builder submitted a fixed system which had higher FEVER score and resilience than their first submission. All but one newly submitted systems attained FEVER scores higher than the best performing system from the first shared task and under adversarial evaluation, all systems exhibited losses in FEVER score. There was a great variety in adversarial attack types as well as the techniques used to generate the attacks, In this paper, we present the results of the shared task and a summary of the systems, highlighting commonalities and innovations among participating systems.</p>
+<h2>References</h2>
+<p>See the full reference list in the <a href="https://borgr.github.io/papers/proceedings-of-the-second-workshop-on-fact-extraction-and-ve/">paper</a>.</p>
+<footer><a href="https://borgr.github.io">Leshem Choshen</a> · <a href="llms.txt">llms.txt</a><br><span class="meta">Human? You probably wanted <a rel="me" href="https://ktilana.wixsite.com/leshem-choshen">ktilana.wixsite.com/leshem-choshen</a></span></footer>
+</body>
+</html>
